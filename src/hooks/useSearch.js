@@ -32,7 +32,7 @@ export default function useSearch() {
 
 const checkType = input => {
 	if (!_.isString(input)) return null;
-	if (input.substring(0, 3).toLowerCase() === "bnb" && input.length >= 16) return "address";
+	if (input.substring(0, 4).toLowerCase() === "orai" && input.length >= 16) return "address";
 	else if (stringNumCheck(input)) return "block";
 	else if (input.length < 20) return "asset";
 	else if (stringNumCheck(input.split("-")[1])) return "orderId";
