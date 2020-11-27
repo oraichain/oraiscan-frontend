@@ -43,7 +43,8 @@ export const TableRowThin = ({blockData}) => {
 				<ul className={cx("row")}>
 					<li key={1}>Node</li>
 					<li key={2}>
-						{blockData.moniker ? <NavLink to={`/account/${validators[blockData.moniker].accountAddr}`}>{blockData.moniker}</NavLink> : <Skeleton />}
+						{/* {blockData.moniker ? <NavLink to={`/account/${validators[blockData.moniker].accountAddr}`}>{blockData.moniker}</NavLink> : <Skeleton />} */}
+						{blockData.moniker}
 					</li>
 				</ul>
 				<ul className={cx("row")}>
@@ -82,7 +83,8 @@ export default function({blockData}) {
 				)}
 			</TableCell>
 			<TableCell className={cx("tablePointerCell", "text")} align='left'>
-				{blockData.moniker ? <NavLink to={`/account/${validators[blockData.moniker].accountAddr}`}>{blockData.moniker}</NavLink> : <Skeleton />}
+				{/* {blockData.moniker ? <NavLink to={`/account/${validators[blockData.moniker].accountAddr}`}>{blockData.moniker}</NavLink> : <Skeleton />} */}
+				{blockData.moniker}
 			</TableCell>
 			<TableCell className={cx("tableCell")} align='right'>
 				{blockData.height ? blockData.num_txs ? blockData.num_txs : "0" : <Skeleton />}
