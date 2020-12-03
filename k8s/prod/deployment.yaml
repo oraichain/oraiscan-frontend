@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oraiscan-frontend
+  labels:
+    app: oraiscan-frontend
+spec:
+  selector:
+    matchLabels:
+      app: oraiscan-frontend
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: oraiscan-frontend
+    spec:
+      containers:
+      - name: oraiscan-frontend
+        image: thao1996/oraiscan-frontend:1a6e0ee05470cee610872c9d9c32be6c3cc5f167
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always

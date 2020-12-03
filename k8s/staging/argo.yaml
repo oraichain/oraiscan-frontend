@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oraiscan-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:oraichain/oraiscan-frontend.git
+    targetRevision: HEAD
+    path: k8s/staging
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
