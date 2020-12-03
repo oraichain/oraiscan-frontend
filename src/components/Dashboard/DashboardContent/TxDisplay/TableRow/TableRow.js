@@ -7,7 +7,7 @@ import {TableCell, TableRow} from "@material-ui/core";
 import Skeleton from "react-skeleton-loader";
 import {setAgoTime} from "src/lib/scripts";
 
-import pickData, {CELL_TYPES} from "src/components/TxList/TableRow/pickData";
+import pickData, {cellTypes} from "src/components/TxList/TableRow/pickData";
 
 const cx = cn.bind(styles);
 
@@ -15,10 +15,10 @@ export default function({blockData}) {
 	return (
 		<TableRow className={cx("txDisplay-tableRow")} hover={true} key={blockData.id}>
 			<TableCell className={cx("tablePointerCell", "text", "txHash")} component='th' scope='row'>
-				{pickData(blockData, cx, CELL_TYPES[0])}
+				{pickData(blockData, cx, cellTypes.TX_HASH)}
 			</TableCell>
 			<TableCell className={cx("tablePointerCell", "text", "typeWidth")} align='left'>
-				{pickData(blockData, cx, CELL_TYPES[1])}
+				{pickData(blockData, cx, cellTypes.TYPE)}
 			</TableCell>
 			<TableCell className={cx("tableCell", "height")} align='right'>
 				{blockData.height ? (

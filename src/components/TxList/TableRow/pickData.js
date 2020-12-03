@@ -1,6 +1,6 @@
 import React from "react";
-import {_, empty, formatNumber, reduceString, refineAddress} from "src/lib/scripts";
-import {NavLink} from "react-router-dom";
+import { _, empty, formatNumber, reduceString, refineAddress, setAgoTime } from "src/lib/scripts";
+import { NavLink } from "react-router-dom";
 
 import txTypes from "src/constants/txTypes";
 import * as Big from "src/lib/Big";
@@ -10,15 +10,31 @@ import Skeleton from "react-skeleton-loader";
 import SvgDisplay from "src/components/common/SvgDisplay";
 //  assets
 import greenArrowSVG from "src/assets/common/transferarrow_gr.svg";
-import {txCheckHTLT} from "src/components/Tx/TxData/TxCase";
+import successIcon from "src/assets/transactions/success_ic.svg";
+import failureIcon from "src/assets/transactions/fail_ic.svg";
+import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import { txCheckHTLT } from "src/components/Tx/TxData/TxCase";
 
-export const CELL_TYPES = Object.freeze(["Tx Hash", "Type", "From", "To", "Value", "Denom", "Time"]);
+export const cellTypes = {
+	TX_HASH: "Tx Hash",
+	TYPE: "Type",
+	FROM: "From",
+	TO: "To",
+	VALUE: "Value",
+	DENOM: "Denom",
+	TIME: "Time",
+	RESULT: "Result",
+	AMOUNT: "Amount",
+	FEE: "Fee",
+	HEIGHT: "Height",
+};
 
 const BASE_MULT = Math.pow(10, 8);
 
-export default function(blockData, cx, cell) {
+export default function (blockData, cx, cell) {
+	console.log("blockData", blockData);
 	switch (cell) {
-		case "Tx Hash":
+		case cellTypes.TX_HASH:
 			if (!_.isNil(blockData.tx_hash))
 				return (
 					<NavLink className={cx("blueColor")} to={`/txs/${blockData.tx_hash}`}>
@@ -26,10 +42,10 @@ export default function(blockData, cx, cell) {
 					</NavLink>
 				);
 			return <Skeleton />;
-		case "Type":
+		case cellTypes.TYPE:
 			if (!_.isNil(blockData?.messages?.[0]?.type)) return <span className={cx("type")}>{getTxType(blockData?.messages?.[0]?.type)}</span>;
 			return <Skeleton />;
-		case "From": {
+		case cellTypes.FROM: {
 			// TODO
 			//  pretty much divide all the cases
 			if (_.isNil(blockData?.messages)) return <Skeleton />;
@@ -50,7 +66,7 @@ export default function(blockData, cx, cell) {
 				);
 			return <Skeleton />;
 		}
-		case "To": {
+		case cellTypes.TO: {
 			// TODO
 			//  pretty much divide all the cases
 			if (blockData?.messages?.[0]?.type !== txTypes.COSMOS.SEND) return "";
@@ -67,7 +83,7 @@ export default function(blockData, cx, cell) {
 				</>
 			);
 		}
-		case "Value": {
+		case cellTypes.VALUE: {
 			let amount;
 			if (!_.isNil(blockData?.messages?.[0].type)) {
 				const type = blockData?.messages?.[0].type;
@@ -87,7 +103,7 @@ export default function(blockData, cx, cell) {
 			}
 			return "-";
 		}
-		case "Denom": {
+		case cellTypes.DENOM: {
 			let ret = "";
 			const type = blockData?.messages?.[0].type;
 			if (!_.isNil(type)) {
@@ -103,6 +119,79 @@ export default function(blockData, cx, cell) {
 				return <span className={cx("currency")}>{ret}</span>;
 			}
 			return "-";
+		}
+		case cellTypes.RESULT: {
+			if (!_.isNil(blockData?.result)) {
+				if (blockData.result) {
+					return (
+						<div className={cx("flexCenterStart")}>
+							<img src={successIcon} alt='success' />
+							<p>Success</p>
+						</div>
+					);
+				} else {
+					return (
+						<div className={cx("flexCenterStart")}>
+							<img src={failureIcon} alt='failure' />
+							<p>Failure</p>
+						</div>
+					);
+				}
+			}
+			return "-";
+		}
+		case cellTypes.AMOUNT: {
+			if (!_.isNil(blockData?.messages?.[0]?.value?.transaction_fee)) {
+				if (blockData.messages[0].value.transaction_fee === "") {
+					return (
+						<NavLink to="/" className={cx("flexCenterEnd")}>
+							<p>More</p>
+							<img src={moreIcon} alt='more' />
+						</NavLink>
+					)
+				} else {
+					const transactionFee = blockData.messages[0].value.transaction_fee;
+					const transactionFeeValue = parseInt(transactionFee).toString();
+					const transactionFeeDenom = transactionFee.substring(transactionFee.indexOf(transactionFeeValue) + transactionFeeValue.length);
+					return (
+						<div className={cx("flexCenterEnd")}>
+							<span>{transactionFeeValue}</span>
+							<span className={cx("blueColor")}>{transactionFeeDenom}</span>
+						</div>
+					)
+				}
+			}
+			return "-";
+		}
+		case cellTypes.FEE: {
+			if (!_.isNil(blockData?.fee?.amount?.[0]?.amount) && !_.isNil(blockData?.fee?.amount?.[0]?.denom)) {
+				const amount = blockData.fee.amount[0].amount;
+				const denom = blockData.fee.amount[0].denom;
+				return (
+					<div className={cx("flexCenterEnd")}>
+						<span>{amount}</span>
+						<span className={cx("blueColor")}>{denom}</span>
+					</div>
+				)
+			}
+			return "-";
+		}
+		case cellTypes.HEIGHT: {
+			if (!_.isNil(blockData?.height)) {
+				return (
+					<NavLink className={cx("blueColor")} to={`/blocks/${blockData.height}`}>
+						{blockData.height}{" "}
+					</NavLink>
+				);
+			}
+
+			return <Skeleton />;
+		}
+		case cellTypes.TIME: {
+			if (!_.isNil(blockData?.timestamp)) {
+				return setAgoTime(blockData.timestamp)
+			}
+			return <Skeleton />;
 		}
 		default:
 			return "DEFAULT";
