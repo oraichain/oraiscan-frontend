@@ -111,3 +111,28 @@
 
 	padding: 4px 15px;
 }
+
+.flexCenterStart {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	img:first-child {
+		margin-right: 5px;
+	}
+}
+
+.flexCenterEnd {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	p:first-child,
+	span:first-child {
+		margin-right: 5px;
+	}
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
