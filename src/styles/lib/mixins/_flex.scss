@@ -1,0 +1,18 @@
+@mixin Flex_LeftRight {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin Flex_center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin Flex-UpDown {
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+}

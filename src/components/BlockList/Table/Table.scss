@@ -1,0 +1,44 @@
+@import "src/styles/utils";
+
+.blockListtableWrapper {
+	overflow-x: auto;
+	overflow-y: hidden;
+	min-height: 1160px;
+
+	.table {
+		@include media("<table_limit") {
+			display: none;
+		}
+		min-width: 600px;
+
+		.tableHeaderCell {
+			@include tableHeaderCellWidth300;
+			color: var(--colorMainText);
+		}
+
+		.txsWidth {
+			width: 100px;
+		}
+	}
+	.thinTable {
+		@include media(">table_limit") {
+			display: none;
+		}
+		.thinTableRows-wrapper {
+			> :nth-child(odd) {
+				background-color: #fbfbfc;
+			}
+			> :first-child {
+				border-top: solid 1px #e6e6e6;
+			}
+			> li {
+				border-bottom: solid 1px #e6e6e6;
+			}
+		}
+
+		margin: 20px 0;
+		width: 100%;
+		height: fit-content;
+		padding: 16px 0;
+	}
+}

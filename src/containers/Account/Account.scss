@@ -1,0 +1,5 @@
+@import "src/styles/utils";
+
+.Account-wrapper {
+	@include page-wrapper;
+}

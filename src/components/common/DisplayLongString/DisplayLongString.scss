@@ -1,0 +1,37 @@
+@import "src/styles/utils";
+
+.DisplayLongString-wrapper {
+	overflow-x: visible;
+	@include media("<510px") {
+		.front:after {
+			content: "..."
+		}
+		.middle {
+			display: none;
+		}
+	}
+}
+
+.DisplayExtraLongString-wrapper {
+	overflow-x: visible;
+	@include media("<650px") {
+		.front:after {
+			content: "..."
+		}
+		.middle {
+			display: none;
+		}
+	}
+}
+
+.DisplayMedium-wrapper {
+	overflow-x: visible;
+	@include media("<medium") {
+		.front:after {
+			content: "..."
+		}
+		.middle {
+			display: none;
+		}
+	}
+}

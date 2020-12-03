@@ -1,0 +1,121 @@
+@import "src/styles/utils";
+
+$tablePadding: 11px 20px 10px 19px;
+.AssetList-tableRow {
+	@include tableRow;
+	width: map_get($breakpoints, asset_table_limit);
+
+	.tablePointerCell {
+		@include tablePointerCell;
+		padding: $tablePadding;
+	}
+
+	.tablePointerMiniCell {
+		@include tablePointerCellWidth140;
+		padding: $tablePadding;
+	}
+
+	.tableCell {
+		@include tableCellWidth300;
+		padding: $tablePadding;
+	}
+
+	.nameCell {
+		max-width: 250px;
+	}
+}
+
+.nameImg-wrapper {
+	width: fit-content;
+	cursor: pointer;
+
+	display: flex;
+	flex-flow: row;
+	> :first-child {
+		margin-right: 10.5px;
+	}
+
+	.name-wrapper {
+		font-family: "Open Sans", serif;
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.31;
+		letter-spacing: normal;
+		text-align: left;
+		color: #4472de;
+
+		.name {
+			font-size: 11px;
+			line-height: 1.45;
+			color: #89909b;
+		}
+	}
+}
+
+.section-wrapper {
+	padding: 15.5px 15px 14.5px;
+	background-color: #fbfbfc;
+}
+
+.number-wrapper {
+	font-family: "Open Sans", serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	text-align: right;
+	color: #4b525d;
+	span {
+		font-size: 11px;
+	}
+}
+.owner {
+	min-width: 150px;
+
+	cursor: pointer;
+	font-family: "Open Sans", serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.38;
+	letter-spacing: normal;
+	text-align: right;
+	color: #4472de;
+}
+
+.AssetList-thinTableRow {
+	.row {
+		width: 100%;
+		height: fit-content;
+		@include Flex_LeftRight;
+
+		font-family: "Open Sans", serif;
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.38;
+		letter-spacing: normal;
+		text-align: left;
+		color: #222222;
+		padding: 5.5px 15px;
+	}
+}
+.blueColor {
+	color: #4472de;
+}
+
+.divider {
+	width: 100%;
+	height: 0;
+	border-bottom: solid 1px #e6e6e6;
+}
+
+.invisible {
+	display: none !important;
+}

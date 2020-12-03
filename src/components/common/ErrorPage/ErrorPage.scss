@@ -1,0 +1,15 @@
+@import "src/styles/utils";
+
+.ErrorPage-wrapper {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	div {
+		font-family: "Open Sans", serif;
+		font-size: 13px;
+		text-align: center;
+		font-weight: 500;
+	}
+}

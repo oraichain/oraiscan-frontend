@@ -1,0 +1,67 @@
+@import "src/styles/utils";
+
+.BlockList-tableRow {
+	@include tableRow;
+
+	.tablePointerCell {
+		@include tablePointerCell;
+		@include tableElemPadding;
+	}
+
+	.tablePointerMiniCell {
+		@include tablePointerCellWidth140;
+		@include tableElemPadding;
+	}
+
+	.tableCell {
+		@include tableCellWidth300;
+		@include tableElemPadding;
+	}
+	.parentHashWidth {
+		min-width: 200px;
+	}
+}
+
+.text {
+	font-family: "Open Sans", serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	color: #4b525d;
+
+	.decimal {
+		font-size: 11px;
+	}
+
+	.BNB {
+		font-size: 13px;
+		color: #f0b90b;
+	}
+}
+
+.BlockList-thinTableRow {
+	.row {
+		width: 100%;
+		height: fit-content;
+		@include Flex_LeftRight;
+
+		font-family: "Open Sans", serif;
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.38;
+		letter-spacing: normal;
+		text-align: left;
+		color: #222222;
+		padding: 5.5px 0;
+	}
+
+	padding: 4px 15px;
+}
+.blueColor {
+	color: #4472de;
+}

@@ -1,0 +1,9 @@
+.DecimalDisplay {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	.decimal {
+		vertical-align: bottom;
+		position: relative;
+	}
+}

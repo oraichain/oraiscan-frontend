@@ -1,0 +1,256 @@
+@import url("//cdn.jsdelivr.net/gh/velopert/font-d2coding@1.2.1/d2coding.css");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+
+:root {
+	//  colors
+	--colorWhite: #ffffff;
+	--colorMainText: #222222;
+	--colorPageTitle: #333333;
+	--colorPageBg: #f5f5f5;
+	--colorStatusBar: #e3e3e3;
+	--colorBNB: #f0b90b;
+
+	--colorSearchInput: #575c64;
+	--colorDashStatusTitle: #4b525d;
+
+	--colorHeaderBg: #222222;
+	--colorTypeBg: #f6f2ff;
+	--colorMissedBlock: #b997ff;
+	--colorAppBarInputBg: #ffffff;
+	--colorAppBarInputText: #222222;
+	--colorAppBarInputPh: #4b525d;
+	--colorNetSelectBg: #ffffff;
+	--colorNetSelectBorder: transparent;
+	--colorFooterBG: #222222;
+	--colorTableBg: #fbfbfc;
+
+	//  height
+	--heightTableRow: 45px;
+	--heightHeader: 65px;
+	--heightHeaderInMedium: 65px;
+	--heightHeaderInSmall: 56px;
+	--heightSubHeader: 50px;
+	--heightSubHeaderInMedium: 64px;
+	--heightSubHeaderInSmall: 56px;
+	--heightFooter: 200px;
+	--mainDefaultPaddingTop: 25px;
+	--mainDefaultPaddingBottom: 70px;
+
+	// border
+	--border: 1px solid #e6e6e6;
+	--btnBorder: 1px solid #bebebe;
+
+	// fontSize
+	--fontSizeDecimal: 11px;
+	--fontSizeDassSearchPh: 14px;
+	--fontSizeCardValue: 18px;
+	--fontSizeCardValueInMedium: 16px;
+	--fontSizeAppBar: 15px;
+	--fontSizeAppBarMedium: 13px;
+	--fontSizeAppBarSmall: 9px;
+	--fontSizeMain: 13px;
+	--fontSizeMedium: 14px;
+	--fontSizeMainInMedium: 12px;
+	--fontSizeDashTitle: 50px;
+	--fontSizeTabTitle: 15px;
+
+	//width
+	--widthNetSelectBox: 160px;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+body {
+	font-family: Montserrat, "Open Sans", sans-serif;
+	color: #222222;
+	font-size: 14px;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	margin: 0;
+	box-sizing: border-box;
+	overflow-y: scroll;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.font-alt {
+	font-family: "Montserrat", arial, sans-serif;
+}
+
+header {
+	box-shadow: none !important;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+tbody {
+	color: #767f8d;
+}
+
+button {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+	outline: none;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+}

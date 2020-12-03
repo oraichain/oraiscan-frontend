@@ -1,0 +1,36 @@
+@import "src/styles/utils";
+
+$customPadding: 11.5px 15px 11.5px 10px;
+.TxDisplay-table {
+	overflow-x: auto;
+	overflow-y: hidden;
+	min-width: 300px;
+
+	.tableHeaderCell {
+		@include tableHeaderCellWidth300;
+		@include tableHeaderPadding;
+		padding: $customPadding;
+		color: var(--colorMainText);
+	}
+
+	.txHashWidth {
+		overflow-x: visible;
+		min-width: 90px;
+		padding: 11.5px 5px 11.5px 10px;
+	}
+	.height {
+		@include media("<dash_table_limit") {
+			display: none;
+		}
+	}
+
+	.typeWidth {
+		padding: 11.5px 10px 11.5px 5px;
+		min-width: 100px;
+	}
+
+	.timeWidth {
+		min-width: 50px;
+		padding: 11.5px 20px 11.5px 0;
+	}
+}

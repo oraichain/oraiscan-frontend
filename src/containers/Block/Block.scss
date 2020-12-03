@@ -1,0 +1,9 @@
+@import "src/styles/utils";
+
+.Block {
+	@include page-wrapper;
+
+	.Card {
+		@include card-wrapper(15px);
+	}
+}

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2016",
+        "jsx": "preserve",
+        "checkJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "*",
+                "assets/*"
+            ]
+        }
+    },
+    "exclude": ["node_modules", "**/node_modules/*"]
+}

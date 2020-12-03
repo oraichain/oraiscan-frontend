@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="arrow_down_btn" transform="translate(24) rotate(90)">
+    <path id="패스_1041" data-name="패스 1041" d="M0,0H24V24H0Z" fill="none"/>
+    <path id="패스_1042" data-name="패스 1042" d="M9.31,6.71a1,1,0,0,0,0,1.41L13.19,12,9.31,15.88a1,1,0,0,0,1.41,1.41l4.59-4.59a1,1,0,0,0,0-1.41L10.72,6.7A1,1,0,0,0,9.31,6.71Z" fill="#222"/>
+  </g>
+</svg>

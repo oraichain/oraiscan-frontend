@@ -1,0 +1,13 @@
+@import "src/styles/utils";
+
+.MsgList-wrapper {
+	@include card-nopadding-wrapper;
+	margin-bottom: 64px;
+	@include media("<large") {
+		margin-bottom: 40px;
+	}
+	.title {
+		@include Card-title;
+		padding: 18px 0 0 20px;
+	}
+}

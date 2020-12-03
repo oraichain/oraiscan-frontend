@@ -1,0 +1,137 @@
+@import "src/styles/utils";
+
+.table-footer {
+	height: 50px;
+	width: 100%;
+
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+
+	@include media("<table_limit") {
+		position: relative;
+		top: 15px;
+		height: 20px;
+	}
+
+	.paginationWrapper {
+		width: 496px;
+		height: 24px;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+
+		@include media("<small") {
+			width: fit-content;
+		}
+
+		.realtime {
+			width: 91px;
+			height: 24px;
+
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			@include media("<small") {
+				margin-right: 20px;
+			}
+
+			.checkBox {
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+
+				img {
+					object-fit: fill;
+					content: url("../../../assets/common/check_box_blank.svg");
+
+					&:hover {
+						content: url("../../../assets/common/check_box_blank_hover.svg");
+					}
+
+					&.clicked {
+						content: url("../../../assets/common/check_box.svg");
+					}
+				}
+			}
+
+			&.inactive {
+				opacity: 0.5;
+				cursor: auto;
+			}
+
+			.text {
+				font-family: "Open Sans", serif;
+				font-size: 13px;
+				font-weight: 600;
+				font-stretch: normal;
+				font-style: normal;
+				line-height: 1.38;
+				letter-spacing: normal;
+				text-align: left;
+				color: #4b525d;
+			}
+		}
+
+		.heightWrapper {
+			width: 190px;
+			height: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			@include media("<small") {
+				display: none;
+			}
+
+			& > p {
+				height: 18px;
+				width: fit-content;
+				font-family: "Open Sans", serif;
+				font-size: 13px;
+				font-weight: bold;
+				font-stretch: normal;
+				font-style: normal;
+				line-height: 1.38;
+				letter-spacing: normal;
+				text-align: left;
+				color: #4b525d;
+
+				span {
+					font-weight: normal;
+				}
+			}
+		}
+
+		.buttonsWrapper {
+			width: 156px;
+			height: 100%;
+			display: flex;
+			justify-content: space-between;
+
+			img {
+				cursor: pointer;
+				&.flip {
+					transform: rotate(180deg);
+				}
+
+				&.right {
+					content: url("../../../assets/common/to-next-page.svg");
+					&.inactive {
+						content: url("../../../assets/common/to-next-page_inactive.svg");
+						cursor: auto;
+					}
+				}
+
+				&.last {
+					content: url("../../../assets/common/to-last-page.svg");
+					&.inactive {
+						content: url("../../../assets/common/to-last-page_inactive.svg");
+						cursor: auto;
+					}
+				}
+			}
+		}
+	}
+}
