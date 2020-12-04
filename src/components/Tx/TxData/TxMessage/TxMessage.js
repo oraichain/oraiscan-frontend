@@ -19,6 +19,7 @@ import {txCheckFUBM, txCheckOrder, txCheckSend, txGetSide, txGetTimeInforce, txC
 import {Fade, Tooltip} from "@material-ui/core";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
 import TxGetFrom from "src/components/Tx/TxData/TxGetFrom/TxGetFrom";
+import TxGetTo from "src/components/Tx/TxData/TxGetTo/TxGetTo";
 import tooltips from "src/constants/tooltips";
 import Decimal from "src/components/common/Decimal";
 import DisplayIcon from "src/components/common/DisplayIcon";
@@ -58,6 +59,7 @@ export default function({msg, txData}) {
 			const split = value.symbol.split("_");
 			return split[0].split("-")[0] + "_" + split[1].split("-")[0];
 		};
+		console.log("thinh", value);
 		return (
 			<div className={cx("grid")}>
 				{txCheckSend(type) ? (
@@ -88,7 +90,8 @@ export default function({msg, txData}) {
 									</ul>
 								</div>
 							</div>
-						</div>
+						</div>{" "}
+						*/}
 					</>
 				) : (
 					undefined
@@ -252,9 +255,14 @@ export default function({msg, txData}) {
 						</InfoRow>
 					</>
 				) : (
-					<InfoRow label='From'>
-						<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
-					</InfoRow>
+					<>
+						<InfoRow label='From Address'>
+							<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
+						</InfoRow>
+						<InfoRow label='To Address'>
+							<TxGetTo txData={txData} type={type} value={value} cx={cx} />
+						</InfoRow>
+					</>
 				)}
 				{type === txTypes.TOKENS.HTLT_CLAIM ? (
 					<>
@@ -291,8 +299,19 @@ export default function({msg, txData}) {
 				) : (
 					undefined
 				)}
-				<InfoRow label='Memo'>
+				{/* <InfoRow label='Memo'>
 					<span>{txData.memo === "" ? "-" : txData.memo}</span>
+				</InfoRow> */}
+
+				<InfoRow label='Amount'>
+					{_.isNil(value?.amount?.[0]?.denom) || _.isNil(value?.amount?.[0]?.amount) ? (
+						<span>-</span>
+					) : (
+						<>
+							<span>{value.amount[0].amount}</span>
+							<span className={cx("blueColor", "uppercase")}>{value.amount[0].denom}</span>
+						</>
+					)}
 				</InfoRow>
 			</div>
 		);

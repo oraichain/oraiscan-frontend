@@ -31,11 +31,11 @@ export default function({type, txData, value, cx}) {
 	// 	);
 
 	if (type == txTypes.COSMOS.MSG_SEND) {
-		if (!_.isNil(value?.from_address)) {
-			const from = refineAddress(value.from_address);
+		if (!_.isNil(value?.to_address)) {
+			const to = refineAddress(value.to_address);
 			return (
-				<NavLink className={cx("blueColor")} to={`/account/${from}`}>
-					<DisplayLongString inputString={from} />
+				<NavLink className={cx("blueColor")} to={`/account/${to}`}>
+					<DisplayLongString inputString={to} />
 				</NavLink>
 			);
 		}
