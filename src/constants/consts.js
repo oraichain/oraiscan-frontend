@@ -15,6 +15,7 @@ export default Object.freeze({
 	// 	BASE: "https://api.coingecko.com/api/v3",
 	// 	GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
 	// },
+	COIN_ID: "oraichain-token",
 	NUM: {
 		BASE_MULT: 100000000,
 		DEFAULT_DECIMALS: 8,

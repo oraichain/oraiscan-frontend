@@ -31,8 +31,8 @@ export default function(props) {
 			<div className={cx("PriceDisplay")}>
 				<div className={cx("iconBlockTime-wrapper")}>
 					<div className={cx("icon")}>
-						<img alt='BNB_icon' />
-						<div className={cx("text")}>BNB</div>
+						<img alt='ORAI_icon' />
+						<div className={cx("text")}>ORAI</div>
 					</div>
 					<div className={cx("BlockTime")}>
 						<img src={blocktimeSVG} alt={"BT"} />

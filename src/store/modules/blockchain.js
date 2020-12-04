@@ -23,7 +23,7 @@ export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => a
 
 const initState = {
 	status: {
-		id: "binancecoin",
+		id: consts.COIN_ID,
 		currency: "",
 		price: null,
 		market_cap: null,
