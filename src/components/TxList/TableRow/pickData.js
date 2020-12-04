@@ -144,11 +144,11 @@ export default function (blockData, cx, cell) {
 			if (!_.isNil(blockData?.messages?.[0]?.value?.transaction_fee)) {
 				if (blockData.messages[0].value.transaction_fee === "") {
 					return (
-						<NavLink to="/" className={cx("flexCenterEnd")}>
+						<NavLink to={`/txs/${blockData.tx_hash}`} className={cx("flexCenterEnd")}>
 							<p>More</p>
 							<img src={moreIcon} alt='more' />
 						</NavLink>
-					)
+					);
 				} else {
 					const transactionFee = blockData.messages[0].value.transaction_fee;
 					const transactionFeeValue = parseInt(transactionFee).toString();
@@ -156,9 +156,9 @@ export default function (blockData, cx, cell) {
 					return (
 						<div className={cx("flexCenterEnd")}>
 							<span>{transactionFeeValue}</span>
-							<span className={cx("blueColor")}>{transactionFeeDenom}</span>
+							<span className={cx("blueColor", "uppercase")}>{transactionFeeDenom}</span>
 						</div>
-					)
+					);
 				}
 			}
 			return "-";
@@ -170,9 +170,9 @@ export default function (blockData, cx, cell) {
 				return (
 					<div className={cx("flexCenterEnd")}>
 						<span>{amount}</span>
-						<span className={cx("blueColor")}>{denom}</span>
+						<span className={cx("blueColor", "uppercase")}>{denom}</span>
 					</div>
-				)
+				);
 			}
 			return "-";
 		}
@@ -189,7 +189,7 @@ export default function (blockData, cx, cell) {
 		}
 		case cellTypes.TIME: {
 			if (!_.isNil(blockData?.timestamp)) {
-				return setAgoTime(blockData.timestamp)
+				return setAgoTime(blockData.timestamp);
 			}
 			return <Skeleton />;
 		}

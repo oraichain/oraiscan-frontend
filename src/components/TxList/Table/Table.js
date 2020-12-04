@@ -134,10 +134,10 @@ export const txTableHeader = (
 			<TableCell className={cx("tableHeaderCell", "addrWidth")} align='left'>
 				Result
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "padding-right10")} align='right'>
+			<TableCell className={cx("tableHeaderCell", "padding-left10")} align='right'>
 				Amount
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "padding-left10", "currencyWidth")} align='left'>
+			<TableCell className={cx("tableHeaderCell", "padding-left10", "currencyWidth")} align='right'>
 				Fee
 			</TableCell>
 			<TableCell className={cx("tableHeaderCell", "heightWidth")} align='right'>
