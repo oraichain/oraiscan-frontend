@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: oraiscan-frontend
+spec:
+  rules:
+  - host: staging-scan.orai.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: oraiscan-frontend
+          servicePort: 5000

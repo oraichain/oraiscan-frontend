@@ -1,11 +1,14 @@
-FROM node:12
+FROM node:10.20.1-alpine3.9
 
 WORKDIR /app/src
 
-COPY ./package.json ./
+COPY package*.json ./
 RUN yarn install
 
-COPY ./ /app/src/
-RUN yarn build:dev
+COPY . .
+RUN npm run build:prod
+RUN npm install -g serve
 
-CMD [ "yarn", "dev" ]
+EXPOSE 5000
+
+CMD [ "serve", "-s","-l","tcp://0.0.0.0", "build" ]

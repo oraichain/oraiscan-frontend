@@ -1,6 +1,6 @@
 import React from "react";
-import {_, empty, formatNumber, reduceString, refineAddress, setAgoTime} from "src/lib/scripts";
-import {NavLink} from "react-router-dom";
+import { _, empty, formatNumber, reduceString, refineAddress, setAgoTime } from "src/lib/scripts";
+import { NavLink } from "react-router-dom";
 
 import txTypes from "src/constants/txTypes";
 import * as Big from "src/lib/Big";
@@ -13,7 +13,7 @@ import greenArrowSVG from "src/assets/common/transferarrow_gr.svg";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import {txCheckHTLT} from "src/components/Tx/TxData/TxCase";
+import { txCheckHTLT } from "src/components/Tx/TxData/TxCase";
 
 export const cellTypes = {
 	TX_HASH: "Tx Hash",
@@ -31,7 +31,8 @@ export const cellTypes = {
 
 const BASE_MULT = Math.pow(10, 8);
 
-export default function(blockData, cx, cell) {
+export default function (blockData, cx, cell) {
+	console.log("blockData", blockData);
 	switch (cell) {
 		case cellTypes.TX_HASH:
 			if (!_.isNil(blockData.tx_hash))
