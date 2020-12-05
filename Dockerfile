@@ -3,7 +3,7 @@ FROM node:10.20.1-alpine3.9
 WORKDIR /app/src
 
 COPY package*.json ./
-RUN yarn install
+RUN npm install
 
 COPY . .
 RUN npm run build:prod
