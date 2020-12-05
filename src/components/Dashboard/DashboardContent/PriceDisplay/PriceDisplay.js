@@ -31,8 +31,8 @@ export default function(props) {
 			<div className={cx("PriceDisplay")}>
 				<div className={cx("iconBlockTime-wrapper")}>
 					<div className={cx("icon")}>
-						<img alt='BNB_icon' />
-						<div className={cx("text")}>BNB</div>
+						<img alt='ORAI_icon' />
+						<div className={cx("text")}>ORAI</div>
 					</div>
 					<div className={cx("BlockTime")}>
 						<img src={blocktimeSVG} alt={"BT"} />
@@ -43,7 +43,7 @@ export default function(props) {
 				</div>
 				<div className={cx("price")}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</div>
 				<div className={cx("volume24h-wrapper")}>
-					<button onClick={e => window.open(consts.LINK.COINGECKO_BINANCE, "_blank")}>
+					<button onClick={e => window.open(consts.LINK.COINGECKO_ORAI, "_blank")}>
 						{/*<div className={cx("text")}>coingecko</div>*/}
 						coingecko
 					</button>
