@@ -4,6 +4,13 @@ metadata:
   name: oraiscan-frontend
 spec:
   rules:
+  - host: staging-oraiscan.orai.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: oraiscan-frontend
+          servicePort: 5000
   - host: staging-scan.orai.io
     http:
       paths:
