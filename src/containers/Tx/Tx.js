@@ -14,6 +14,7 @@ import PageTitle from "src/components/common/PageTitle";
 import NotFound from "src/components/common/NotFound";
 
 const cx = cn.bind(styles);
+
 export default function(props) {
 	const txHash = props.match.params?.tx;
 	const prevTxHash = usePrevious(txHash);

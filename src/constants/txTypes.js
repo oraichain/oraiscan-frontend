@@ -8,6 +8,8 @@ export default Object.freeze({
 		VALIDATOR_CREATE: "cosmos-sdk/MsgCreateValidator",
 		VALIDATOR_REMOVE: "cosmos-sdk/MsgRemoveValidator",
 		VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
+
+		MSG_SEND: "cosmos-sdk/MsgSend",
 	},
 
 	//  DEX
@@ -36,5 +38,12 @@ export default Object.freeze({
 	//  MISC
 	MISC: {
 		ACCOUNTFLAG_SET: "scripts/SetAccountFlagsMsg",
+	},
+
+	// PROVIDER
+	PROVIDER: {
+		CREATE_AI_DATA_SOURCE: "provider/CreateAIDataSource",
+		CREATE_ORACLE_SCRIPT: "provider/CreateOracleScript",
+		SET_TESTCASE: "provider/SetTestCase",
 	},
 });

@@ -15,10 +15,20 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 //  components
-import {txCheckFUBM, txCheckOrder, txCheckSend, txGetSide, txGetTimeInforce, txCheckHTLT} from "src/components/Tx/TxData/TxCase";
+import {
+	txCheckFUBM,
+	txCheckOrder,
+	txCheckSend,
+	txGetSide,
+	txGetTimeInforce,
+	txCheckHTLT,
+	txCheckMsgSend,
+	txCheckProvider,
+} from "src/components/Tx/TxData/TxCase";
 import {Fade, Tooltip} from "@material-ui/core";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
 import TxGetFrom from "src/components/Tx/TxData/TxGetFrom/TxGetFrom";
+import TxGetTo from "src/components/Tx/TxData/TxGetTo/TxGetTo";
 import tooltips from "src/constants/tooltips";
 import Decimal from "src/components/common/Decimal";
 import DisplayIcon from "src/components/common/DisplayIcon";
@@ -31,6 +41,7 @@ import detailSVG from "src/assets/transactions/symbol_detail_btn.svg";
 import bnbSVG from "src/assets/common/binance_token.svg";
 import DisplayLongString from "src/components/common/DisplayLongString";
 import TxAddressOther from "src/components/Tx/TxData/TxAddressOther";
+import {extractValueAndUnit} from "src/helpers/helper";
 
 // const bnbSVG = "https://static.binance.org/icon/8fedcd202fb549d28b2f313b2bf97033";
 
@@ -58,242 +69,304 @@ export default function({msg, txData}) {
 			const split = value.symbol.split("_");
 			return split[0].split("-")[0] + "_" + split[1].split("-")[0];
 		};
+
+		// return (
+		// 	<div className={cx("grid")}>
+		// 		{txCheckSend(type) ? (
+		// 			<>
+		// 				<div className={cx("toValue-row")}>
+		// 					<div className={cx("row-label")}>To / Value</div>
+		// 					<div className={cx("row-content-wrapper")}>
+		// 						<div className={cx("row-content")}>
+		// 							<ul className={cx("To-wrapper")}>
+		// 								<li className={cx("label")}>To</li>
+		// 								<li className={cx("value")}>
+		// 									{_.map(value.outputs, v => (
+		// 										<NavLink key={v.address} className={cx("blueColor")} to={`/account/${refineAddress(v.address)}`}>
+		// 											<DisplayLongString inputString={refineAddress(v.address)} />
+		// 										</NavLink>
+		// 									))}
+		// 								</li>
+		// 							</ul>
+		// 							<ul className={cx("value-wrapper")}>
+		// 								<li className={cx("label")}>Value</li>
+		// 								<li className={cx("value")}>
+		// 									{_.map(value.outputs, v => (
+		// 										<span key={v.address}>
+		// 											{divide(v?.coins?.[0]?.amount, consts.NUM.BASE_MULT)} {v?.coins?.[0]?.denom}
+		// 										</span>
+		// 									))}
+		// 								</li>
+		// 							</ul>
+		// 						</div>
+		// 					</div>
+		// 				</div>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{txCheckFUBM(type) ? (
+		// 			<>
+		// 				<InfoRow label='Value'>
+		// 					<span className={cx("flexIt")}>
+		// 						<Decimal fontSizeBase={15} value={divide(value?.amount, consts.NUM.BASE_MULT)} />
+		// 						<span className={cx("currency", {BNB: value.symbol === "BNB"})}>{value?.symbol?.split("-")[0]}</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{txCheckOrder(type) ? (
+		// 			<>
+		// 				{txTypes.DEX.ORDER_NEW === type ? (
+		// 					<>
+		// 						<InfoRow label='Side'>
+		// 							<span className={cx({"color-red": value?.side === 2, "color-blue": value?.side === 1})}>{txGetSide[value?.side]} </span>
+		// 							{value?.symbol.split("-")[0]}
+		// 						</InfoRow>
+		// 						<InfoRow label='Status'>{txData?.status ? <span className={cx(txData?.status)}>{OrderStatus[txData?.status]}</span> : <Skeleton />}</InfoRow>
+		// 					</>
+		// 				) : (
+		// 					undefined
+		// 				)}
+		// 				<InfoRow label='Fee'>
+		// 					{!_.isNil(txData?.fee) ? (
+		// 						txData.fee === "" ? (
+		// 							"None"
+		// 						) : (
+		// 							<span className={cx("flexIt")}>
+		// 								<Decimal value={`${refineFee(txData?.fee)[1]}`} fontSizeBase={15} />
+		// 								<span className={cx("currency", {BNB: refineFee(txData?.fee)[0].split("-")[0] === "BNB"})}>{refineFee(txData?.fee)[0].split("-")[0]}</span>
+		// 							</span>
+		// 						)
+		// 					) : (
+		// 						<Skeleton />
+		// 					)}
+		// 				</InfoRow>
+		// 				<InfoRow label='Symbol'>
+		// 					<div className={cx("symbol-link")} onClick={() => clickSymbol(value?.symbol)}>
+		// 						<p>{displaySymbol()}</p>
+		// 						<img src={detailSVG} alt='detail' />
+		// 					</div>
+		// 				</InfoRow>
+		// 				{txTypes.DEX.ORDER_NEW === type ? (
+		// 					<>
+		// 						<TradeDisplay value={value} />
+		// 						<InfoRow label='Price'>
+		// 							{/*{(() => console.log(value))()}*/}
+		// 							<span className={cx("flexIt")}>
+		// 								<Decimal fontSizeBase={15} value={divide(value?.price, consts.NUM.BASE_MULT, 8)} /> {_.split(_.split(value?.symbol, "_")[1], "-")[0]} / 1{" "}
+		// 								{_.split(_.split(value?.symbol, "_")[0], "-")[0]}
+		// 							</span>
+		// 						</InfoRow>
+		// 						{/*Removed because only one type is possible ATM*/}
+		// 						{/*<InfoRow label='Order Type'>*/}
+		// 						{/*	<span>{txGetOrderType[value?.ordertype]}</span>*/}
+		// 						{/*</InfoRow>*/}
+		// 						<InfoRow label='Time Inforce'>
+		// 							<Tooltip
+		// 								placement={"right-end"}
+		// 								TransitionComponent={Fade}
+		// 								TransitionProps={{timeout: 300}}
+		// 								title={value?.timeinforce === 1 ? tooltips.tx_timeInforce_GTE : tooltips.tx_timeInforce_IOC}
+		// 								disableFocusListener
+		// 								disableTouchListener>
+		// 								<span>{txGetTimeInforce[value?.timeinforce]}</span>
+		// 							</Tooltip>
+		// 						</InfoRow>
+		// 						<InfoRow label='Order ID'>
+		// 							<span>{value?.id}</span>
+		// 						</InfoRow>
+		// 					</>
+		// 				) : (
+		// 					undefined
+		// 				)}
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{type === txTypes.TOKENS.TIME_UNLOCK ? <InfoRow label={"Lock ID"}>{value.time_lock_id}</InfoRow> : undefined}
+		// 		{type === txTypes.TOKENS.TIME_LOCK ? (
+		// 			<>
+		// 				<InfoRow label={"Value"}>
+		// 					<span className={cx("flexIt")}>
+		// 						<Decimal fontSizeBase={15} value={divide(value?.amount?.[0]?.amount, consts.NUM.BASE_MULT)} />
+		// 						<span className={cx("currency", {BNB: value?.amount?.[0]?.denom === "BNB"})}>{value?.amount?.[0]?.denom?.split("-")[0]}</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 				<InfoRow label={"Description"}>{value?.description}</InfoRow>
+		// 				<InfoRow label={"Locked until"}>{getTotalTime(Number(value?.lock_time) * 1000)}</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{type === txTypes.DEX.LIST ? (
+		// 			<>
+		// 				<InfoRow label='fee'>
+		// 					<span className={cx("flexIt")}>
+		// 						<Decimal fontSizeBase={15} value={"1000.000000"} />
+		// 						<span className={cx("currency", "BNB")}>BNB</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 				<InfoRow label={"Initial Price"}>
+		// 					<span className={cx("flexIt")}>
+		// 						<Decimal fontSizeBase={15} value={divide(value?.init_price, consts.NUM.BASE_MULT)} />
+		// 						<span className={cx("currency", "BNB")}>BNB</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 				<InfoRow label={"Symbol"}>
+		// 					<span>{value?.base_asset_symbol?.split("-")[0]}</span>
+		// 				</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{type === txTypes.COSMOS.PROPOSAL_SUBMIT ? <TxSubmitProposal txData={txData} value={value} /> : undefined}
+		// 		{txData.origTxhash && txTypes.DEX.ORDER_CANCEL === type ? (
+		// 			<InfoRow label='Order Tx'>
+		// 				<NavLink className={cx("blueColor")} to={`/txs/${txData.origTxhash}`}>
+		// 					<DisplayLongString inputString={txData.origTxhash} />
+		// 				</NavLink>
+		// 			</InfoRow>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{txCheckHTLT(type) ? (
+		// 			<>
+		// 				<InfoRow label={"Value"}>
+		// 					<span className={cx("flexIt")}>
+		// 						<Decimal fontSizeBase={15} value={divide(value?.amount?.[0]?.amount, consts.NUM.BASE_MULT)} />
+		// 						<span className={cx("currency", {BNB: value?.amount?.[0]?.denom === "BNB"})}>{value?.amount?.[0]?.denom?.split("-")[0]}</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 				<InfoRow label={"To"}>
+		// 					<NavLink className={cx("blueColor")} to={`/account/${value?.to}`}>
+		// 						<DisplayLongString inputString={value?.to} />
+		// 					</NavLink>
+		// 				</InfoRow>
+		// 				<InfoRow label={"From"}>
+		// 					<NavLink className={cx("blueColor")} to={`/account/${value?.from}`}>
+		// 						<DisplayLongString inputString={value?.from} />
+		// 					</NavLink>
+		// 				</InfoRow>
+		// 				<InfoRow label={"Timestamp"}>
+		// 					<span className={cx("flexIt")}>
+		// 						<span>{getTotalTime(_.toNumber(value?.timestamp) * 1000)}</span>
+		// 					</span>
+		// 				</InfoRow>
+		// 				<TxAddressOther label={"Sender Other Chain"} addr={value?.sender_other_chain} cx={cx} />
+		// 				<TxAddressOther label={"Recipient Other Chain"} addr={value?.recipient_other_chain} cx={cx} />
+		// 				<InfoRow label={"Random Number Hash"}>
+		// 					<span className={cx("flexIt")}>
+		// 						<DisplayLongString inputString={value?.random_number_hash} />
+		// 					</span>
+		// 				</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			<InfoRow label='From'>
+		// 				<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
+		// 			</InfoRow>
+		// 		)}
+		// 		{type === txTypes.TOKENS.HTLT_CLAIM ? (
+		// 			<>
+		// 				<InfoRow label='Swap Id'>
+		// 					<span className={cx("flexIt")}>
+		// 						<DisplayLongString inputString={value?.swap_id} />
+		// 					</span>
+		// 				</InfoRow>
+		// 				<InfoRow label='Random number'>
+		// 					<span className={cx("flexIt")}>
+		// 						<DisplayLongString inputString={value?.random_number} />
+		// 					</span>
+		// 				</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{type === txTypes.TOKENS.HTLT_REFUND ? (
+		// 			<>
+		// 				<InfoRow label='Swap Id'>
+		// 					<span className={cx("flexIt")}>
+		// 						<DisplayLongString inputString={value?.swap_id} />
+		// 					</span>
+		// 				</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		{type === txTypes.COSMOS.VOTE ? (
+		// 			<>
+		// 				<InfoRow label={"proposal ID"}>{value?.proposal_id}</InfoRow>
+		// 				<InfoRow label={"option"}>{value?.option}</InfoRow>
+		// 			</>
+		// 		) : (
+		// 			undefined
+		// 		)}
+		// 		<InfoRow label='Memo'>
+		// 			<span>{txData.memo === "" ? "-" : txData.memo}</span>
+		// 		</InfoRow>
+		// 	</div>
+		// );
+
 		return (
 			<div className={cx("grid")}>
-				{txCheckSend(type) ? (
+				{txCheckMsgSend(type) && (
 					<>
-						<div className={cx("toValue-row")}>
-							<div className={cx("row-label")}>To / Value</div>
-							<div className={cx("row-content-wrapper")}>
-								<div className={cx("row-content")}>
-									<ul className={cx("To-wrapper")}>
-										<li className={cx("label")}>To</li>
-										<li className={cx("value")}>
-											{_.map(value.outputs, v => (
-												<NavLink key={v.address} className={cx("blueColor")} to={`/account/${refineAddress(v.address)}`}>
-													<DisplayLongString inputString={refineAddress(v.address)} />
-												</NavLink>
-											))}
-										</li>
-									</ul>
-									<ul className={cx("value-wrapper")}>
-										<li className={cx("label")}>Value</li>
-										<li className={cx("value")}>
-											{_.map(value.outputs, v => (
-												<span key={v.address}>
-													{divide(v?.coins?.[0]?.amount, consts.NUM.BASE_MULT)} {v?.coins?.[0]?.denom}
-												</span>
-											))}
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</>
-				) : (
-					undefined
-				)}
-				{txCheckFUBM(type) ? (
-					<>
-						<InfoRow label='Value'>
-							<span className={cx("flexIt")}>
-								<Decimal fontSizeBase={15} value={divide(value?.amount, consts.NUM.BASE_MULT)} />
-								<span className={cx("currency", {BNB: value.symbol === "BNB"})}>{value?.symbol?.split("-")[0]}</span>
-							</span>
+						<InfoRow label='From Address'>
+							<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
+						</InfoRow>
+						<InfoRow label='To Address'>
+							<TxGetTo txData={txData} type={type} value={value} cx={cx} />
 						</InfoRow>
 					</>
-				) : (
-					undefined
 				)}
-				{txCheckOrder(type) ? (
+				{txCheckProvider(type) && (
 					<>
-						{txTypes.DEX.ORDER_NEW === type ? (
-							<>
-								<InfoRow label='Side'>
-									<span className={cx({"color-red": value?.side === 2, "color-blue": value?.side === 1})}>{txGetSide[value?.side]} </span>
-									{value?.symbol.split("-")[0]}
-								</InfoRow>
-								<InfoRow label='Status'>{txData?.status ? <span className={cx(txData?.status)}>{OrderStatus[txData?.status]}</span> : <Skeleton />}</InfoRow>
-							</>
-						) : (
-							undefined
+						{!_.isNil(value?.code) && (
+							<InfoRow label='Code'>
+								<span className={cx("longText")}>{value.code}</span>
+								{/* <span className={cx("flexIt")}>
+									<DisplayLongString inputString={value.code} medium={true}/>
+								</span> */}
+							</InfoRow>
 						)}
-						<InfoRow label='Fee'>
-							{!_.isNil(txData?.fee) ? (
-								txData.fee === "" ? (
-									"None"
-								) : (
-									<span className={cx("flexIt")}>
-										<Decimal value={`${refineFee(txData?.fee)[1]}`} fontSizeBase={15} />
-										<span className={cx("currency", {BNB: refineFee(txData?.fee)[0].split("-")[0] === "BNB"})}>{refineFee(txData?.fee)[0].split("-")[0]}</span>
-									</span>
-								)
-							) : (
-								<Skeleton />
-							)}
-						</InfoRow>
-						<InfoRow label='Symbol'>
-							<div className={cx("symbol-link")} onClick={() => clickSymbol(value?.symbol)}>
-								<p>{displaySymbol()}</p>
-								<img src={detailSVG} alt='detail' />
-							</div>
-						</InfoRow>
-						{txTypes.DEX.ORDER_NEW === type ? (
-							<>
-								<TradeDisplay value={value} />
-								<InfoRow label='Price'>
-									{/*{(() => console.log(value))()}*/}
-									<span className={cx("flexIt")}>
-										<Decimal fontSizeBase={15} value={divide(value?.price, consts.NUM.BASE_MULT, 8)} /> {_.split(_.split(value?.symbol, "_")[1], "-")[0]} / 1{" "}
-										{_.split(_.split(value?.symbol, "_")[0], "-")[0]}
-									</span>
-								</InfoRow>
-								{/*Removed because only one type is possible ATM*/}
-								{/*<InfoRow label='Order Type'>*/}
-								{/*	<span>{txGetOrderType[value?.ordertype]}</span>*/}
-								{/*</InfoRow>*/}
-								<InfoRow label='Time Inforce'>
-									<Tooltip
-										placement={"right-end"}
-										TransitionComponent={Fade}
-										TransitionProps={{timeout: 300}}
-										title={value?.timeinforce === 1 ? tooltips.tx_timeInforce_GTE : tooltips.tx_timeInforce_IOC}
-										disableFocusListener
-										disableTouchListener>
-										<span>{txGetTimeInforce[value?.timeinforce]}</span>
-									</Tooltip>
-								</InfoRow>
-								<InfoRow label='Order ID'>
-									<span>{value?.id}</span>
-								</InfoRow>
-							</>
-						) : (
-							undefined
+						{!_.isNil(value?.name) && (
+							<InfoRow label='Name'>
+								<span>{value.name}</span>
+							</InfoRow>
+						)}
+						{!_.isNil(value?.owner) && (
+							<InfoRow label='Owner'>
+								<span>{value.owner}</span>
+							</InfoRow>
+						)}
+						{!_.isNil(value?.description) && (
+							<InfoRow label='Description'>
+								<span>{value.description}</span>
+							</InfoRow>
+						)}
+						{!_.isNil(value?.test_case_name) && (
+							<InfoRow label='Test case name'>
+								<span>{value.test_case_name}</span>
+							</InfoRow>
+						)}
+						{!_.isNil(value?.transaction_fee) && (
+							<InfoRow label='Transaction Fee'>
+								<span>
+									<span>{extractValueAndUnit(value.transaction_fee).valueString} </span>
+									<span className={cx("blueColor", "uppercase")}>{extractValueAndUnit(value.transaction_fee).unitString}</span>
+								</span>
+							</InfoRow>
 						)}
 					</>
-				) : (
-					undefined
 				)}
-				{type === txTypes.TOKENS.TIME_UNLOCK ? <InfoRow label={"Lock ID"}>{value.time_lock_id}</InfoRow> : undefined}
-				{type === txTypes.TOKENS.TIME_LOCK ? (
-					<>
-						<InfoRow label={"Value"}>
-							<span className={cx("flexIt")}>
-								<Decimal fontSizeBase={15} value={divide(value?.amount?.[0]?.amount, consts.NUM.BASE_MULT)} />
-								<span className={cx("currency", {BNB: value?.amount?.[0]?.denom === "BNB"})}>{value?.amount?.[0]?.denom?.split("-")[0]}</span>
-							</span>
-						</InfoRow>
-						<InfoRow label={"Description"}>{value?.description}</InfoRow>
-						<InfoRow label={"Locked until"}>{getTotalTime(Number(value?.lock_time) * 1000)}</InfoRow>
-					</>
-				) : (
-					undefined
-				)}
-				{type === txTypes.DEX.LIST ? (
-					<>
-						<InfoRow label='fee'>
-							<span className={cx("flexIt")}>
-								<Decimal fontSizeBase={15} value={"1000.000000"} />
-								<span className={cx("currency", "BNB")}>BNB</span>
-							</span>
-						</InfoRow>
-						<InfoRow label={"Initial Price"}>
-							<span className={cx("flexIt")}>
-								<Decimal fontSizeBase={15} value={divide(value?.init_price, consts.NUM.BASE_MULT)} />
-								<span className={cx("currency", "BNB")}>BNB</span>
-							</span>
-						</InfoRow>
-						<InfoRow label={"Symbol"}>
-							<span>{value?.base_asset_symbol?.split("-")[0]}</span>
-						</InfoRow>
-					</>
-				) : (
-					undefined
-				)}
-				{type === txTypes.COSMOS.PROPOSAL_SUBMIT ? <TxSubmitProposal txData={txData} value={value} /> : undefined}
-				{txData.origTxhash && txTypes.DEX.ORDER_CANCEL === type ? (
-					<InfoRow label='Order Tx'>
-						<NavLink className={cx("blueColor")} to={`/txs/${txData.origTxhash}`}>
-							<DisplayLongString inputString={txData.origTxhash} />
-						</NavLink>
-					</InfoRow>
-				) : (
-					undefined
-				)}
-				{txCheckHTLT(type) ? (
-					<>
-						<InfoRow label={"Value"}>
-							<span className={cx("flexIt")}>
-								<Decimal fontSizeBase={15} value={divide(value?.amount?.[0]?.amount, consts.NUM.BASE_MULT)} />
-								<span className={cx("currency", {BNB: value?.amount?.[0]?.denom === "BNB"})}>{value?.amount?.[0]?.denom?.split("-")[0]}</span>
-							</span>
-						</InfoRow>
-						<InfoRow label={"To"}>
-							<NavLink className={cx("blueColor")} to={`/account/${value?.to}`}>
-								<DisplayLongString inputString={value?.to} />
-							</NavLink>
-						</InfoRow>
-						<InfoRow label={"From"}>
-							<NavLink className={cx("blueColor")} to={`/account/${value?.from}`}>
-								<DisplayLongString inputString={value?.from} />
-							</NavLink>
-						</InfoRow>
-						<InfoRow label={"Timestamp"}>
-							<span className={cx("flexIt")}>
-								<span>{getTotalTime(_.toNumber(value?.timestamp) * 1000)}</span>
-							</span>
-						</InfoRow>
-						<TxAddressOther label={"Sender Other Chain"} addr={value?.sender_other_chain} cx={cx} />
-						<TxAddressOther label={"Recipient Other Chain"} addr={value?.recipient_other_chain} cx={cx} />
-						<InfoRow label={"Random Number Hash"}>
-							<span className={cx("flexIt")}>
-								<DisplayLongString inputString={value?.random_number_hash} />
-							</span>
-						</InfoRow>
-					</>
-				) : (
-					<InfoRow label='From'>
-						<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
+				{!_.isNil(value?.amount?.[0]?.denom) && !_.isNil(value?.amount?.[0]?.amount) && (
+					<InfoRow label='Amount'>
+						<span>{value.amount[0].amount} </span>
+						<span className={cx("blueColor", "uppercase")}>{value.amount[0].denom}</span>
 					</InfoRow>
 				)}
-				{type === txTypes.TOKENS.HTLT_CLAIM ? (
-					<>
-						<InfoRow label='Swap Id'>
-							<span className={cx("flexIt")}>
-								<DisplayLongString inputString={value?.swap_id} />
-							</span>
-						</InfoRow>
-						<InfoRow label='Random number'>
-							<span className={cx("flexIt")}>
-								<DisplayLongString inputString={value?.random_number} />
-							</span>
-						</InfoRow>
-					</>
-				) : (
-					undefined
-				)}
-				{type === txTypes.TOKENS.HTLT_REFUND ? (
-					<>
-						<InfoRow label='Swap Id'>
-							<span className={cx("flexIt")}>
-								<DisplayLongString inputString={value?.swap_id} />
-							</span>
-						</InfoRow>
-					</>
-				) : (
-					undefined
-				)}
-				{type === txTypes.COSMOS.VOTE ? (
-					<>
-						<InfoRow label={"proposal ID"}>{value?.proposal_id}</InfoRow>
-						<InfoRow label={"option"}>{value?.option}</InfoRow>
-					</>
-				) : (
-					undefined
-				)}
-				<InfoRow label='Memo'>
-					<span>{txData.memo === "" ? "-" : txData.memo}</span>
-				</InfoRow>
 			</div>
 		);
 	}, [txData, type, value]);
