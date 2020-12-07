@@ -25,13 +25,6 @@ export default function() {
 					<div className={cx("search-wrapper")}>
 						<SearchArea propCx={cx} dropdownStyle={{position: "fixed", zIndex: 15}} interactiveWidth={true} />
 					</div>
-					<div className={cx("link-wrapper")}>
-						{/* google, appstore, web wallet */}
-						<div className={cx("link-btn-wrapper")}>
-							<LinkCard link={consts.LINK.GOOGLE} icon={googleIcon} />
-							<LinkCard link={consts.LINK.IOS} icon={iosIcon} />
-						</div>
-					</div>
 				</div>
 			</div>
 		),

@@ -51,7 +51,6 @@ export default function(props) {
 					<GraphDisplay />
 					<LinkCardInside />
 				</div>
-				<LinkCard />
 			</div>
 			<div className={cx("BlockTx-wrapper")}>
 				<BlocksDisplay />
@@ -71,14 +70,6 @@ const DashboardCard = ({svg, title, content, link}) => (
 			<p className={cx("content")}>{content}</p>
 		</div>
 	</li>
-);
-
-const LinkCard = () => (
-	<ul className={cx("LinkWrapper")}>
-		{_.map(cardData, (data, i) => (
-			<DashboardCard key={i} {...data} />
-		))}
-	</ul>
 );
 
 const LinkCardInside = () => (

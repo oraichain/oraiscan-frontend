@@ -100,13 +100,5 @@ export default Object.freeze({
 			display: "TRANSACTIONS",
 			route: "/txs",
 		},
-		{
-			display: "ASSETS",
-			route: "/assets",
-		},
-		{
-			display: "BINANCE DEX",
-			route: "/dex",
-		},
 	],
 });
