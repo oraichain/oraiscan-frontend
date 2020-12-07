@@ -75,7 +75,7 @@
 			width: map_get($breakpoints, small) - 60px;
 		}
 		@include media(">=medium") {
-			width: 487px;
+			width: 100%;
 		}
 	}
 }
