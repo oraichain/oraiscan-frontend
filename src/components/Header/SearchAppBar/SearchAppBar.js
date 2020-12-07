@@ -8,7 +8,7 @@ import {NavLink} from "react-router-dom";
 import SearchArea from "src/components/common/SearchArea";
 import {Toolbar} from "@material-ui/core";
 
-import logo from "src/assets/header/mintscan_logo.svg";
+import logo from "src/assets/header/logo.svg";
 
 const cx = cn.bind(styles);
 
