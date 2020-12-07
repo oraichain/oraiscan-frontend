@@ -9,7 +9,7 @@ import {usePrevious} from "src/hooks";
 //  components
 import TxTable from "./TxTable";
 import AssetsTable from "src/components/Account/AssetTxs/AssetsTable";
-import consts from "src/constants/consts";
+// import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
 

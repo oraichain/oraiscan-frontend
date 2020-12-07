@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {NavLink} from "react-router-dom";
 import {reduceString, setAgoTime} from "src/lib/scripts";
 //  redux
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
 //  components
 import {TableCell, TableRow} from "@material-ui/core";
 import Skeleton from "react-skeleton-loader";
@@ -12,7 +12,7 @@ import Skeleton from "react-skeleton-loader";
 const cx = classNames.bind(customStyle);
 
 export const TableRowThin = ({blockData}) => {
-	const validators = useSelector(state => state.blockchain.validators);
+	// const validators = useSelector(state => state.blockchain.validators);
 	return (
 		<>
 			<div key={blockData.height} className={cx("BlockList-thinTableRow")}>
@@ -61,7 +61,7 @@ export const TableRowThin = ({blockData}) => {
 };
 
 export default function({blockData}) {
-	const validators = useSelector(state => state.blockchain.validators);
+	// const validators = useSelector(state => state.blockchain.validators);
 	return (
 		<TableRow className={cx("BlockList-tableRow")} hover={true} key={blockData.height}>
 			<TableCell className={cx("tablePointerCell", "text")} component='th' scope='row'>

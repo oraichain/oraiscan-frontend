@@ -1,7 +1,7 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React from "react";
 import cn from "classnames/bind";
 import styles from "./SearchAppBar.scss";
-import _ from "lodash";
+// import _ from "lodash";
 import {NavLink} from "react-router-dom";
 
 //  components
