@@ -18,9 +18,8 @@ export default function() {
 				<div className={cx("wrapper")}>
 					<div className={cx("title-wrapper")}>
 						<h1 className={cx("title")}>
-							BINANCE CHAIN <span>EXPLORER</span>
+							ORAI CHAIN <span>EXPLORER</span>
 						</h1>
-						<p className={cx("byCosmostation")}>By Cosmostation</p>
 					</div>
 					<div className={cx("search-wrapper")}>
 						<SearchArea propCx={cx} dropdownStyle={{position: "fixed", zIndex: 15}} interactiveWidth={true} />
