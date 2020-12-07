@@ -1,20 +1,10 @@
 import * as React from "react";
 
 import {_, refineAddress} from "src/lib/scripts";
-import {txCheckFUBM, txCheckHTLT, txCheckOrder, txCheckSend} from "../TxCase";
 import {NavLink} from "react-router-dom";
 
 import txTypes from "src/constants/txTypes";
 import DisplayLongString from "src/components/common/DisplayLongString";
-
-const aBunch = [
-	txTypes.DEX.LIST,
-	txTypes.TOKENS.TIME_LOCK,
-	txTypes.TOKENS.TIME_UNLOCK,
-	txTypes.TOKENS.TIME_RELOCK,
-	txTypes.TOKENS.HTLT_CLAIM,
-	txTypes.TOKENS.HTLT_REFUND,
-];
 
 export default function({type, txData, value, cx}) {
 	// let from = null;
@@ -30,7 +20,7 @@ export default function({type, txData, value, cx}) {
 	// 		</NavLink>
 	// 	);
 
-	if (type == txTypes.COSMOS.MSG_SEND) {
+	if (type === txTypes.COSMOS.MSG_SEND) {
 		if (!_.isNil(value?.to_address)) {
 			const to = refineAddress(value.to_address);
 			return (

@@ -3,11 +3,11 @@ import cn from "classnames/bind";
 import styles from "./SearchArea.scss";
 //  components
 import SearchArea from "src/components/common/SearchArea";
-import consts from "src/constants/consts";
-import LinkCard from "src/components/Dashboard/LinkCard";
+// import consts from "src/constants/consts";
+// import LinkCard from "src/components/Dashboard/LinkCard";
 //  assets
-import iosIcon from "src/assets/dashboard/appstore_img.svg";
-import googleIcon from "src/assets/dashboard/playstore.svg";
+// import iosIcon from "src/assets/dashboard/appstore_img.svg";
+// import googleIcon from "src/assets/dashboard/playstore.svg";
 
 const cx = cn.bind(styles);
 
