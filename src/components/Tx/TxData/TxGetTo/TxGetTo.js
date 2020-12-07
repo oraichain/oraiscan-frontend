@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {_, refineAddress} from "src/lib/scripts";
-import {txCheckFUBM, txCheckHTLT, txCheckOrder, txCheckSend, txCheckMsgSend} from "../TxCase";
+import {txCheckFUBM, txCheckHTLT, txCheckOrder, txCheckSend} from "../TxCase";
 import {NavLink} from "react-router-dom";
 
 import txTypes from "src/constants/txTypes";
@@ -30,12 +30,12 @@ export default function({type, txData, value, cx}) {
 	// 		</NavLink>
 	// 	);
 
-	if (txCheckMsgSend(type)) {
-		if (!_.isNil(value?.from_address)) {
-			const from = refineAddress(value.from_address);
+	if (type == txTypes.COSMOS.MSG_SEND) {
+		if (!_.isNil(value?.to_address)) {
+			const to = refineAddress(value.to_address);
 			return (
-				<NavLink className={cx("blueColor")} to={`/account/${from}`}>
-					<DisplayLongString inputString={from} />
+				<NavLink className={cx("blueColor")} to={`/account/${to}`}>
+					<DisplayLongString inputString={to} />
 				</NavLink>
 			);
 		}
