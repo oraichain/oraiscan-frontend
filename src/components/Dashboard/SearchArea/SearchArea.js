@@ -18,7 +18,7 @@ export default function() {
 				<div className={cx("wrapper")}>
 					<div className={cx("title-wrapper")}>
 						<h1 className={cx("title")}>
-							ORAI CHAIN <span>EXPLORER</span>
+							ORAICHAIN <span>EXPLORER</span>
 						</h1>
 					</div>
 					<div className={cx("search-wrapper")}>
