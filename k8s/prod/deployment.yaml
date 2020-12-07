@@ -22,6 +22,21 @@ spec:
       containers:
       - name: oraiscan-frontend
         image: thao1996/oraiscan-frontend:3a9c08eabfdf5ea7635b9b032bfce5c8c26873b2
+        env:
+        - name: "REACT_APP_SITE_TITLE"
+          value: "Oraiscan - Oraichain explorer"
+        - name: "REACT_APP_SITE_DESC"
+          value: "AI-Powered Data Oracle"
+        - name: "REACT_APP_SITE_KEYWORDS"
+          value: "Oraichain, Oraiscan, AI Oracle"
+        - name: "REACT_APP_SITE_URL"
+          value: "https://scan.orai.io"
+        - name: "REACT_APP_SITE_TITLE_FOR_SHARE"
+          value: "Oraiscan - Oraichain explorer "
+        - name: "REACT_APP_API_DEV"
+          value: "https://api.scan.orai.io/v1"
+        - name: "REACT_APP_API_PROD"
+          value: "https://api.scan.orai.io/v1"
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

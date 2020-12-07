@@ -21,7 +21,7 @@ export default function(props) {
 	const [tab, setTab] = React.useState("BEP2");
 	const assets = useSelector(state => state.assets.assets);
 	const bep8Assets = useSelector(state => state.assets.bep8);
-	const [incrementalAssets, filledAssets, setAssets] = useIncrementalListLoader();
+	const [incrementalAssets, setAssets] = useIncrementalListLoader();
 
 	React.useEffect(() => {
 		if (empty(assets)) dispatch(getCryptoAssets());
