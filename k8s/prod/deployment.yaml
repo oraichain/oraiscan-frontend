@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:0896a76a6b42d21df7c94561d88ba08beaa2e749
+        image: thao1996/oraiscan-frontend:6222b2b0fdbe6d5a35dbbeba673f71e9b3d9adff
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
