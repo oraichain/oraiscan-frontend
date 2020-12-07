@@ -9,7 +9,7 @@
 
 	background-size: cover;
 
-	background: linear-gradient(rgba(0,0,0, 0.1), rgba(0,0,0, 0.1)), url("../../../assets/dashboard/main_img.png") no-repeat fixed center center;
+	background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../../../assets/dashboard/main_img.png") no-repeat fixed center center;
 	background-position-y: inherit;
 
 	@include media(">1880px") {
@@ -22,7 +22,7 @@
 
 	@include media("<medium") {
 		margin-top: 0;
-		background: #0A0E11;
+		background: #0a0e11;
 		width: calc(100% + 20px);
 		margin-left: -10px;
 	}
@@ -126,14 +126,14 @@
 		}
 
 		.search-wrapper {
-			margin: 30px 0 0 0;
+			margin: 30px 0;
 			width: 100%;
 			height: fit-content;
 			@include media("<medium") {
 				margin: 15px 0 0 0;
 				width: 80%;
 			}
-			
+
 			@include media("<=small") {
 				width: 100%;
 				padding: 0 5px;
