@@ -8,7 +8,7 @@
 	.PriceGraphClickable-wrapper {
 		display: grid;
 
-		grid-template-columns: 864px 320px;
+		grid-template-columns: auto;
 		grid-template-rows: 1fr;
 		grid-column-gap: 15px;
 		grid-row-gap: 15px;
@@ -31,7 +31,7 @@
 		margin-bottom: 15px;
 		.PriceGraph-wrapper {
 			display: grid;
-			grid-template-columns: 340px 504px;
+			grid-template-columns: 340px auto;
 			grid-row-gap: 15px;
 			grid-column-gap: 20px;
 			height: 288px;
@@ -103,8 +103,7 @@
 		@include card-nopadding-wrapper;
 	}
 }
-x
-.CardFixed {
+x .CardFixed {
 	@include card-nopadding-wrapper;
 }
 
