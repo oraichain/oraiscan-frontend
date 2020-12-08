@@ -17,7 +17,7 @@
 		// 832.7 31.3px 964
 		@include media("<large") {
 			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 150px;
+			grid-template-rows: 1fr;
 		}
 
 		@include media("<medium") {
@@ -25,7 +25,7 @@
 		}
 
 		@include media("<small") {
-			grid-template-rows: 1fr $linkWrapperHeight;
+			grid-template-rows: 1fr;
 		}
 
 		margin-bottom: 15px;
@@ -44,7 +44,7 @@
 				@include card-nopadding-wrapper;
 				height: 278px;
 				grid-column-gap: 0;
-				grid-template-columns: 1fr 1fr;
+				grid-template-columns: 1fr;
 			}
 			@include media("<small") {
 				grid-template-columns: 1fr;

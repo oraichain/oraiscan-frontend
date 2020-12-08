@@ -43,7 +43,21 @@ export default Object.freeze({
 	// PROVIDER
 	PROVIDER: {
 		CREATE_AI_DATA_SOURCE: "provider/CreateAIDataSource",
+		EDIT_AI_DATA_SOURCE: "provider/EditAIDataSource",
+
 		CREATE_ORACLE_SCRIPT: "provider/CreateOracleScript",
+		EDIT_ORACLE_SCRIPT: "provider/EditOracleScript",
+
 		SET_TESTCASE: "provider/SetTestCase",
+	},
+
+	// WEBSOCKET
+	WEBSOCKET: {
+		ADD_REPORT: "websocket/AddReport",
+	},
+
+	// AIREQUEST
+	AIREQUEST: {
+		SET_CLASSIFICATION_REQUEST: "airequest/SetClassificationRequest",
 	},
 });

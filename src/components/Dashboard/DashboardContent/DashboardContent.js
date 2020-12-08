@@ -49,7 +49,6 @@ export default function(props) {
 				<div className={cx("Card", "PriceGraph-wrapper")}>
 					<PriceDisplay />
 					<GraphDisplay />
-					<LinkCardInside />
 				</div>
 			</div>
 			<div className={cx("BlockTx-wrapper")}>
@@ -70,12 +69,4 @@ const DashboardCard = ({svg, title, content, link}) => (
 			<p className={cx("content")}>{content}</p>
 		</div>
 	</li>
-);
-
-const LinkCardInside = () => (
-	<ul className={cx("LinkWrapperInside")}>
-		{_.map(cardData, (data, i) => (
-			<DashboardCard key={i} {...data} />
-		))}
-	</ul>
 );
