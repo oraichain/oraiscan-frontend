@@ -13,7 +13,7 @@ import getTxTypeIcon from "src/constants/getTxTypeIcon";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 //  components
-import {txCheckMsgSend, txCheckProvider} from "src/components/Tx/TxData/TxCase";
+import {txCheckFUBM, txCheckOrder, txCheckSend, txGetSide, txGetTimeInforce, txCheckHTLT} from "src/components/Tx/TxData/TxCase";
 import {Fade, Tooltip} from "@material-ui/core";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
 import TxGetFrom from "src/components/Tx/TxData/TxGetFrom/TxGetFrom";
@@ -25,6 +25,7 @@ import TxGetTo from "src/components/Tx/TxData/TxGetTo/TxGetTo";
 // import bnbSVG from "src/assets/common/binance_token.svg";
 
 import {extractValueAndUnit} from "src/helpers/helper";
+import txTypes from "src/constants/txTypes";
 
 // const OrderStatus = Object.freeze({
 // 	Ack: "Pending",
@@ -290,9 +291,38 @@ export default function({msg, txData}) {
 		// 	</div>
 		// );
 
+		const getInfoRow = (label, value, classNames) => (
+			<InfoRow label={label}>{_.isNil(value) ? <span>-</span> : <span className={cx(classNames)}>{value}</span>}</InfoRow>
+		);
+
+		const getCurrencyRow = (label, inputString, unitClassNames) => {
+			if (_.isNil(value)) {
+				return (
+					<InfoRow label={label}>
+						<span>-</span>
+					</InfoRow>
+				);
+			}
+
+			const {valueString, unitString} = extractValueAndUnit(inputString);
+
+			return (
+				<InfoRow label={label}>
+					<span>{valueString} </span>
+					<span className={cx(unitClassNames)}>{unitString}</span>
+				</InfoRow>
+			);
+		};
+
+		const getImageRow = (label, src, imgClassNames = "responsiveImage") => (
+			<InfoRow label={label}>
+				<img src={src} className={cx(imgClassNames)} />
+			</InfoRow>
+		);
+
 		return (
 			<div className={cx("grid")}>
-				{txCheckMsgSend(type) && (
+				{type === txTypes.COSMOS.MSG_SEND && (
 					<>
 						<InfoRow label='From Address'>
 							<TxGetFrom txData={txData} type={type} value={value} cx={cx} />
@@ -300,53 +330,66 @@ export default function({msg, txData}) {
 						<InfoRow label='To Address'>
 							<TxGetTo txData={txData} type={type} value={value} cx={cx} />
 						</InfoRow>
+						<InfoRow label='Amount'>
+							{!_.isNil(value?.amount?.[0]?.denom) && !_.isNil(value?.amount?.[0]?.amount) ? (
+								<>
+									<span>{value.amount[0].amount} </span>
+									<span className={cx("blueColor", "uppercase")}>{value.amount[0].denom}</span>
+								</>
+							) : (
+								<span>-</span>
+							)}
+						</InfoRow>
 					</>
 				)}
-				{txCheckProvider(type) && (
+
+				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
 					<>
-						{!_.isNil(value?.code) && (
-							<InfoRow label='Code'>
-								<span className={cx("longText")}>{value.code}</span>
-								{/* <span className={cx("flexIt")}>
-									<DisplayLongString inputString={value.code} medium={true}/>
-								</span> */}
-							</InfoRow>
-						)}
-						{!_.isNil(value?.name) && (
-							<InfoRow label='Name'>
-								<span>{value.name}</span>
-							</InfoRow>
-						)}
-						{!_.isNil(value?.owner) && (
-							<InfoRow label='Owner'>
-								<span>{value.owner}</span>
-							</InfoRow>
-						)}
-						{!_.isNil(value?.description) && (
-							<InfoRow label='Description'>
-								<span>{value.description}</span>
-							</InfoRow>
-						)}
-						{!_.isNil(value?.test_case_name) && (
-							<InfoRow label='Test case name'>
-								<span>{value.test_case_name}</span>
-							</InfoRow>
-						)}
-						{!_.isNil(value?.transaction_fee) && (
-							<InfoRow label='Transaction Fee'>
-								<span>
-									<span>{extractValueAndUnit(value.transaction_fee).valueString} </span>
-									<span className={cx("blueColor", "uppercase")}>{extractValueAndUnit(value.transaction_fee).unitString}</span>
-								</span>
-							</InfoRow>
-						)}
+						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Description", value?.description)}
+						{getInfoRow("Name", value?.name)}
+						{getInfoRow("Owner", value?.owner)}
+						{getCurrencyRow("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
 					</>
 				)}
-				{!_.isNil(value?.amount?.[0]?.denom) && !_.isNil(value?.amount?.[0]?.amount) && (
-					<InfoRow label='Amount'>
-						<span>{value.amount[0].amount} </span>
-						<span className={cx("blueColor", "uppercase")}>{value.amount[0].denom}</span>
-					</InfoRow>
+
+				{type === txTypes.PROVIDER.EDIT_AI_DATA_SOURCE && (
+					<>
+						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Description", value?.description)}
+						{getInfoRow("New Name", value?.new_name)}
+						{getInfoRow("Old Name", value?.old_name)}
+						{getCurrencyRow("New Transaction Fee", value?.new_transaction_fee, ["blueColor", "uppercase"])}
+						{getInfoRow("Owner", value?.owner)}
+					</>
+				)}
+
+				{type === txTypes.PROVIDER.CREATE_ORACLE_SCRIPT && (
+					<>
+						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Description", value?.description, "longText")}
+						{getInfoRow("Name", value?.name)}
+						{getInfoRow("Owner", value?.owner)}
+					</>
+				)}
+
+				{type === txTypes.PROVIDER.EDIT_ORACLE_SCRIPT && (
+					<>
+						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Description", value?.description, "longText")}
+						{getInfoRow("New Name", value?.new_name)}
+						{getInfoRow("Old Name", value?.old_name)}
+						{getInfoRow("Owner", value?.owner)}
+					</>
+				)}
+
+				{type === txTypes.WEBSOCKET.ADD_REPORT && <>{getInfoRow("Aggregated Result", value?.aggregated_result, "longText")}</>}
+
+				{type === txTypes.AIREQUEST.SET_CLASSIFICATION_REQUEST && (
+					<>
+						{getInfoRow("Image Hash", value?.image_hash, "longText")}
+						{getInfoRow("Image Name", value?.image_name, "longText")}
+					</>
 				)}
 			</div>
 		);

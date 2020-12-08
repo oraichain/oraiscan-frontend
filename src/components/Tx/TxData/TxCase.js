@@ -174,7 +174,3 @@ export const txCheckHTLT = txType => _.find([TOKENS.HTLT], v => v === txType) !=
 // 	code: 0,
 // 	timestamp: "2020-03-23T03:45:48.800476Z",
 // };
-
-export const txCheckMsgSend = txType => _.find([COSMOS.MSG_SEND], v => v === txType) !== undefined;
-export const txCheckProvider = txType =>
-	_.find([PROVIDER.CREATE_AI_DATA_SOURCE, PROVIDER.CREATE_ORACLE_SCRIPT, PROVIDER.SET_TESTCASE], v => v === txType) !== undefined;
