@@ -141,26 +141,21 @@ export default function(blockData, cx, cell) {
 			return "-";
 		}
 		case cellTypes.AMOUNT: {
-			if (!_.isNil(blockData?.messages?.[0]?.value?.transaction_fee)) {
-				if (blockData.messages[0].value.transaction_fee === "") {
-					return (
-						<NavLink to={`/txs/${blockData.tx_hash}`} className={cx("flexCenterEnd")}>
-							<p>More</p>
-							<img src={moreIcon} alt='more' />
-						</NavLink>
-					);
-				} else {
-					const transactionFee = blockData.messages[0].value.transaction_fee;
-					const {valueString: transactionFeeValue, unitString: transactionFeeDenom} = extractValueAndUnit(transactionFee);
-					return (
-						<div className={cx("flexCenterEnd")}>
-							<span>{transactionFeeValue}</span>
-							<span className={cx("blueColor", "uppercase")}>{transactionFeeDenom}</span>
-						</div>
-					);
-				}
+			if (!_.isNil(blockData?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(blockData?.messages?.[0]?.value?.amount?.[0]?.amount)) {
+				return (
+					<div className={cx("flexCenterEnd")}>
+						<span>{blockData.messages[0].value.amount[0].amount} </span>
+						<span className={cx("blueColor", "uppercase")}>{blockData.messages[0].value.amount[0].denom}</span>
+					</div>
+				);
+			} else {
+				return (
+					<NavLink to={`/txs/${blockData.tx_hash}`} className={cx("flexCenterEnd")}>
+						<p>More</p>
+						<img src={moreIcon} alt='more' />
+					</NavLink>
+				);
 			}
-			return "-";
 		}
 		case cellTypes.FEE: {
 			if (!_.isNil(blockData?.fee?.amount?.[0]?.amount) && !_.isNil(blockData?.fee?.amount?.[0]?.denom)) {

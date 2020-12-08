@@ -1,34 +1,16 @@
 import * as React from "react";
-
 import {_, refineAddress} from "src/lib/scripts";
 import {NavLink} from "react-router-dom";
-
-import txTypes from "src/constants/txTypes";
 import DisplayLongString from "src/components/common/DisplayLongString";
 
 export default function({type, txData, value, cx}) {
-	// let from = null;
-	// if (txCheckSend(type)) from = refineAddress(value?.inputs?.[0]?.address);
-	// else if (txCheckOrder(type)) from = refineAddress(value.sender);
-	// else if (txCheckFUBM(type) || _.find(aBunch, v => v === type)) from = refineAddress(value.from);
-	// else if (txTypes.COSMOS.VOTE === type) from = refineAddress(value.voter);
-	// else if (txTypes.COSMOS.PROPOSAL_SUBMIT) from = refineAddress(value.proposer);
-	// if (_.isString(from))
-	// 	return (
-	// 		<NavLink className={cx("blueColor")} to={`/account/${from}`}>
-	// 			<DisplayLongString inputString={from} />
-	// 		</NavLink>
-	// 	);
-
-	if (type === txTypes.COSMOS.MSG_SEND) {
-		if (!_.isNil(value?.to_address)) {
-			const to = refineAddress(value.to_address);
-			return (
-				<NavLink className={cx("blueColor")} to={`/account/${to}`}>
-					<DisplayLongString inputString={to} />
-				</NavLink>
-			);
-		}
+	if (!_.isNil(value?.to_address)) {
+		const to = refineAddress(value.to_address);
+		return (
+			<NavLink className={cx("blueColor")} to={`/account/${to}`}>
+				<DisplayLongString inputString={to} />
+			</NavLink>
+		);
 	}
 
 	return <>-</>;
