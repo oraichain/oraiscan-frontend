@@ -29,11 +29,11 @@ export const TableRowThin = ({blockData}) => {
 					</li>
 				</ul>
 				<ul className={cx("row")}>
-					<li key={1}>Parent Hash</li>
+					<li key={1}>Hash</li>
 					<li key={2}>
-						{blockData.parent_hash ? (
+						{blockData.block_hash ? (
 							<NavLink className={cx("blueColor")} to={`/blocks/${blockData.height}`}>
-								{reduceString(blockData.parent_hash, 6, 6)}
+								{reduceString(blockData.block_hash, 20, 20)}
 							</NavLink>
 						) : (
 							<Skeleton />
@@ -73,10 +73,10 @@ export default function({blockData}) {
 					<Skeleton />
 				)}
 			</TableCell>
-			<TableCell className={cx("tablePointerCell", "text", "parentHashWidth")}>
-				{blockData.parent_hash ? (
+			<TableCell className={cx("tablePointerCell", "text", "blockHashWidth")}>
+				{blockData.block_hash ? (
 					<NavLink className={cx("blueColor")} to={`/blocks/${blockData.height}`}>
-						{reduceString(blockData.parent_hash, 6, 6)}
+						{reduceString(blockData.block_hash, 20, 20)}
 					</NavLink>
 				) : (
 					<Skeleton />
