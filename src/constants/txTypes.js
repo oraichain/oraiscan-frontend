@@ -59,5 +59,8 @@ export default Object.freeze({
 	// AIREQUEST
 	AIREQUEST: {
 		SET_CLASSIFICATION_REQUEST: "airequest/SetClassificationRequest",
+		SET_PRICE_REQUEST: "airequest/SetPriceRequest",
+		SET_OCR_REQUEST: "airequest/SetOCRRequest",
+		SET_KYC_REQUEST: "airequest/SetKYCRequest",
 	},
 });

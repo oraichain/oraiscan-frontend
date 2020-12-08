@@ -132,7 +132,7 @@ export const blocksHeaderRender = (
 	<TableHead>
 		<TableRow>
 			<TableCell className={cx("tableHeaderCell")}>Height</TableCell>
-			<TableCell className={cx("tableHeaderCell")}>Parent Hash</TableCell>
+			<TableCell className={cx("tableHeaderCell")}>Hash</TableCell>
 			<TableCell className={cx("tableHeaderCell")} align='left'>
 				<Tooltip TransitionComponent={Fade} TransitionProps={{timeout: 300}} title={tooltips.proposer} disableFocusListener disableTouchListener>
 					<span>Node</span>
