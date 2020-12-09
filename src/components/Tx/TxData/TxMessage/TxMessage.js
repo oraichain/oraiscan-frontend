@@ -87,7 +87,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Code", value?.code)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getInfoRow("Owner", value?.owner)}
@@ -97,7 +97,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code, "longText")}
+						{getInfoRow("Code", value?.code)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
@@ -108,8 +108,8 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.CREATE_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code, "longText")}
-						{getInfoRow("Description", value?.description, "longText")}
+						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getInfoRow("Owner", value?.owner)}
 					</>
@@ -117,8 +117,8 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code, "longText")}
-						{getInfoRow("Description", value?.description, "longText")}
+						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
 						{getInfoRow("Owner", value?.owner)}
@@ -127,7 +127,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.WEBSOCKET.ADD_REPORT && (
 					<>
-						{getInfoRow("Aggregated Result", atob(value?.aggregated_result), "longText")}
+						{getInfoRow("Aggregated Result", atob(value?.aggregated_result))}
 						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0], ["blueColor", "uppercase"])}
 						{getAddressRow("Report Address", value?.reporter?.reporter_address)}
 
@@ -143,9 +143,9 @@ export default function({msg, txData}) {
 									</div>
 								</div>
 							))}
-						{getInfoRow("Reporter Address", value?.reporter?.reporter_address, "longText")}
-						{getInfoRow("Reporter Name", value?.reporter?.reporter_name, "longText")}
-						{getInfoRow("Reporter Validator", value?.reporter?.reporter_validator, "longText")}
+						{getInfoRow("Reporter Address", value?.reporter?.reporter_address)}
+						{getInfoRow("Reporter Name", value?.reporter?.reporter_name)}
+						{getInfoRow("Reporter Validator", value?.reporter?.reporter_validator)}
 						{getInfoRow("Request Id", value?.request_id)}
 					</>
 				)}
@@ -154,12 +154,12 @@ export default function({msg, txData}) {
 					type === txTypes.AIREQUEST.SET_OCR_REQUEST ||
 					type === txTypes.AIREQUEST.SET_KYC_REQUEST) && (
 					<>
-						{getInfoRow("Image Hash", value?.image_hash, "longText")}
-						{getInfoRow("Image Name", value?.image_name, "longText")}
-						{getInfoRow("Creator", value?.msg_set_ai_request?.creator, "longText")}
-						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output), "longText")}
-						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name, "longText")}
-						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id, "longText")}
+						{getInfoRow("Image Hash", value?.image_hash)}
+						{getInfoRow("Image Name", value?.image_name)}
+						{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
+						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
+						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
+						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
@@ -167,10 +167,10 @@ export default function({msg, txData}) {
 
 				{type === txTypes.AIREQUEST.SET_PRICE_REQUEST && (
 					<>
-						{getInfoRow("Creator", value?.msg_set_ai_request?.creator, "longText")}
-						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output), "longText")}
-						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name, "longText")}
-						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id, "longText")}
+						{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
+						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
+						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
+						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
@@ -178,7 +178,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.WEBSOCKET.TEST_CASE_RESULT && (
 					<>
-						{getInfoRow("Test Case", value?.test_case, "longText")}
+						{getInfoRow("Test Case", value?.test_case)}
 
 						{getTitleRow("Data Source Results")}
 						{Array.isArray(value?.data_source_results) &&
