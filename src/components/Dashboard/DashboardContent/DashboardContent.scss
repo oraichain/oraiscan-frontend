@@ -1,8 +1,9 @@
 @import "src/styles/utils";
 
 .DashboardContent-wrapper {
+	@include page-wrapper;
+
 	height: fit-content;
-	margin: 15px auto 70px;
 	$linkWrapperHeight: 288px;
 
 	.PriceGraphClickable-wrapper {
