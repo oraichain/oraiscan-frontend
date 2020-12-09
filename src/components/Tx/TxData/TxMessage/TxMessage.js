@@ -73,6 +73,8 @@ export default function({msg, txData}) {
 			</InfoRow>
 		);
 
+		const getTitleRow = label => <InfoRow label={label}></InfoRow>;
+
 		return (
 			<div className={cx("grid")}>
 				{type === txTypes.COSMOS.MSG_SEND && (
@@ -128,6 +130,23 @@ export default function({msg, txData}) {
 						{getInfoRow("Aggregated Result", atob(value?.aggregated_result), "longText")}
 						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0], ["blueColor", "uppercase"])}
 						{getAddressRow("Report Address", value?.reporter?.reporter_address)}
+
+						{getTitleRow("Data Source Results")}
+						{Array.isArray(value?.data_source_results) &&
+							value.data_source_results.map((item, index) => (
+								<div className={cx("grid-wrapper")}>
+									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
+									<div className={cx("grid")}>
+										{getInfoRow("Data Source", item?.value?.data_source)}
+										{getInfoRow("Result", item?.value?.result)}
+										{getInfoRow("Result Status", item?.value?.result_status)}
+									</div>
+								</div>
+							))}
+						{getInfoRow("Reporter Address", value?.reporter?.reporter_address, "longText")}
+						{getInfoRow("Reporter Name", value?.reporter?.reporter_name, "longText")}
+						{getInfoRow("Reporter Validator", value?.reporter?.reporter_validator, "longText")}
+						{getInfoRow("Request Id", value?.request_id)}
 					</>
 				)}
 
@@ -154,6 +173,25 @@ export default function({msg, txData}) {
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id, "longText")}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
+					</>
+				)}
+
+				{type === txTypes.WEBSOCKET.TEST_CASE_RESULT && (
+					<>
+						{getInfoRow("Test Case", value?.test_case, "longText")}
+
+						{getTitleRow("Data Source Results")}
+						{Array.isArray(value?.data_source_results) &&
+							value.data_source_results.map((item, index) => (
+								<div className={cx("grid-wrapper")}>
+									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
+									<div className={cx("grid")}>
+										{getInfoRow("Result", item?.value?.result)}
+										{getInfoRow("Data Source", item?.value?.data_source)}
+										{getInfoRow("Result Status", item?.value?.result_status)}
+									</div>
+								</div>
+							))}
 					</>
 				)}
 			</div>

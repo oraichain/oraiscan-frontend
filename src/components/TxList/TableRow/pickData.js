@@ -1,20 +1,16 @@
 import React from "react";
 import {_, empty, formatNumber, reduceString, refineAddress, setAgoTime} from "src/lib/scripts";
 import {NavLink} from "react-router-dom";
-
+import Skeleton from "react-skeleton-loader";
 import txTypes from "src/constants/txTypes";
 import * as Big from "src/lib/Big";
 import getTxType from "src/constants/getTxType";
-//  components
-import Skeleton from "react-skeleton-loader";
 import SvgDisplay from "src/components/common/SvgDisplay";
-//  assets
 import greenArrowSVG from "src/assets/common/transferarrow_gr.svg";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 import {txCheckHTLT} from "src/components/Tx/TxData/TxCase";
-import {extractValueAndUnit} from "src/helpers/helper";
 
 export const cellTypes = {
 	TX_HASH: "Tx Hash",
@@ -38,7 +34,7 @@ export default function(blockData, cx, cell) {
 			if (!_.isNil(blockData.tx_hash))
 				return (
 					<NavLink className={cx("blueColor")} to={`/txs/${blockData.tx_hash}`}>
-						{reduceString(blockData.tx_hash, 6, 6)}
+						{reduceString(blockData.tx_hash, 15, 15)}
 					</NavLink>
 				);
 			return <Skeleton />;

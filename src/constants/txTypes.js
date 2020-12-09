@@ -54,6 +54,7 @@ export default Object.freeze({
 	// WEBSOCKET
 	WEBSOCKET: {
 		ADD_REPORT: "websocket/AddReport",
+		TEST_CASE_RESULT: "websocket/TestCaseResult",
 	},
 
 	// AIREQUEST
