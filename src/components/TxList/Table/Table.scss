@@ -37,6 +37,34 @@
 		.txsWidth {
 			width: 100px;
 		}
+
+		.txHashColumn {
+			min-width: 300px;
+		}
+
+		.typeColumn {
+			width: 280px;
+		}
+
+		.resultColumn {
+			width: 110px;
+		}
+
+		.amountColumn {
+			min-width: 100px;
+		}
+
+		.feeColumn {
+			min-width: 135px;
+		}
+
+		.heightColumn {
+			width: 90px;
+		}
+
+		.timeColumn {
+			width: 120px;
+		}
 	}
 	.thinTable {
 		@include media(">table_limit") {
