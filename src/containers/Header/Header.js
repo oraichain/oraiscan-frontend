@@ -7,6 +7,7 @@ import SubHeader from "src/components/Header/SubHeader/SubHeader";
 
 export default function(props) {
 	const [navBarOpen, setNavBarOpen] = useState(false);
+	const [currentRoute, setCurrentRoute] = useState("");
 
 	const hamburgerClick = () => setNavBarOpen(v => !v);
 
@@ -17,7 +18,7 @@ export default function(props) {
 	return (
 		<AppBar position={"fixed"}>
 			<SearchAppBar hamburgerClick={hamburgerClick} />
-			<SubHeader navBarOpen={navBarOpen} setNavBarOpen={setNavBarOpen} />
+			<SubHeader navBarOpen={navBarOpen} setNavBarOpen={setNavBarOpen} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} />
 		</AppBar>
 	);
 }

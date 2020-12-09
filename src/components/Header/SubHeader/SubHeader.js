@@ -20,8 +20,7 @@ const checkCurrentRoute = (route, pathname) => {
 	return false;
 };
 
-export default function(props) {
-	const {navBarOpen, setNavBarOpen} = props;
+export default function({navBarOpen, setNavBarOpen, currentRoute, setCurrentRoute}) {
 	const history = useHistory();
 
 	const handleClick = useCallback(
@@ -32,6 +31,9 @@ export default function(props) {
 				window.open(consts.LINK.BINANCEDEX, "_blank");
 			}
 			setNavBarOpen(false);
+			if (currentRoute !== route) {
+				setCurrentRoute(route);
+			}
 		},
 		[setNavBarOpen]
 	);
