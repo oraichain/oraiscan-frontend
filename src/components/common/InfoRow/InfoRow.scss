@@ -2,7 +2,6 @@
 
 .infoRow-grid {
 	display: grid;
-	grid-template-rows: 20px;
 	grid-template-columns: 203px 1fr;
 	margin-bottom: 10px;
 	@include media("<medium") {
@@ -18,7 +17,7 @@
 		display: flex;
 		flex-flow: column;
 		height: fit-content;
-		>:first-child {
+		> :first-child {
 			margin-bottom: 5px;
 		}
 		margin-bottom: 10px;
