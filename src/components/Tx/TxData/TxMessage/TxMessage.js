@@ -140,7 +140,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Creator", value?.msg_set_ai_request?.creator, "longText")}
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output), "longText")}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name, "longText")}
-						{getInfoRow("Request Id", atob(value?.msg_set_ai_request?.request_id), "longText")}
+						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id, "longText")}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
@@ -151,7 +151,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Creator", value?.msg_set_ai_request?.creator, "longText")}
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output), "longText")}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name, "longText")}
-						{getInfoRow("Request Id", atob(value?.msg_set_ai_request?.request_id), "longText")}
+						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id, "longText")}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
