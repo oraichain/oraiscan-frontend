@@ -5,17 +5,15 @@
  * You have been warned
  */
 import React, {useCallback, useEffect, useMemo} from "react";
-import styles from "./Table.scss";
 import classNames from "classnames/bind";
-//  utils
+import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 import consts from "src/constants/consts";
 import useIndexedPagination from "src/hooks/useIndexedPagination";
 import {usePrevious} from "src/hooks";
 import {_, empty, formatNumber} from "src/lib/scripts";
-// components
-import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
-import TxListTableRow, {TableRowThin} from "../TableRow";
 import {footerRender} from "src/components/common/IndexedPagination/IndexedPagination";
+import TxListTableRow, {TableRowThin} from "../TableRow";
+import styles from "./Table.scss";
 
 const cx = classNames.bind(styles);
 
@@ -129,21 +127,21 @@ export default function(props) {
 export const txTableHeader = (
 	<TableHead>
 		<TableRow>
-			<TableCell className={cx("tableHeaderCell", "txHashWidth")}>Tx Hash</TableCell>
-			<TableCell className={cx("tableHeaderCell")}>Type</TableCell>
-			<TableCell className={cx("tableHeaderCell", "addrWidth")} align='left'>
+			<TableCell className={cx("tableHeaderCell", "txHashColumn")}>Tx Hash</TableCell>
+			<TableCell className={cx("tableHeaderCell", "typeColumn")}>Type</TableCell>
+			<TableCell className={cx("tableHeaderCell", "resultColumn")} align='left'>
 				Result
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "padding-left10")} align='right'>
+			<TableCell className={cx("tableHeaderCell", "padding-left10", "amountColumn")} align='right'>
 				Amount
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "padding-left10", "currencyWidth")} align='right'>
+			<TableCell className={cx("tableHeaderCell", "padding-left10", "feeColumn")} align='right'>
 				Fee
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "heightWidth")} align='right'>
+			<TableCell className={cx("tableHeaderCell", "heightColumn")} align='right'>
 				<span>Height</span>
 			</TableCell>
-			<TableCell className={cx("tableHeaderCell", "txsWidth")} align='right'>
+			<TableCell className={cx("tableHeaderCell", "timeColumn")} align='right'>
 				<span>Time</span>
 			</TableCell>
 		</TableRow>
