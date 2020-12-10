@@ -138,7 +138,7 @@ export default function({msg, txData}) {
 									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
 									<div className={cx("grid")}>
 										{getInfoRow("Data Source", item?.value?.data_source)}
-										{getInfoRow("Result", item?.value?.result)}
+										{getInfoRow("Result", atob(item?.value?.result))}
 										{getInfoRow("Result Status", item?.value?.result_status)}
 									</div>
 								</div>
@@ -186,7 +186,7 @@ export default function({msg, txData}) {
 								<div className={cx("grid-wrapper")}>
 									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
 									<div className={cx("grid")}>
-										{getInfoRow("Result", item?.value?.result)}
+										{getInfoRow("Result", atob(item?.value?.result))}
 										{getInfoRow("Data Source", item?.value?.data_source)}
 										{getInfoRow("Result Status", item?.value?.result_status)}
 									</div>
