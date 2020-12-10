@@ -125,6 +125,16 @@ export default function({msg, txData}) {
 					</>
 				)}
 
+				{type === txTypes.PROVIDER.SET_TESTCASE && (
+					<>
+						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Description", value?.description)}
+						{getInfoRow("Owner", value?.owner)}
+						{getInfoRow("Test Case Name", value?.test_case_name)}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
+					</>
+				)}
+
 				{type === txTypes.WEBSOCKET.ADD_REPORT && (
 					<>
 						{getInfoRow("Aggregated Result", atob(value?.aggregated_result))}
