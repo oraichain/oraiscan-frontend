@@ -49,7 +49,7 @@ export default function({path, pageSize = 20, pagingProperty = "height", limit =
 	});
 
 	//  Only use refetch when retrieving cutting-edge data
-	const [recentData, , setUrl] = useFetch("", "get");
+	const [recentData, , fetch, setFetch, setUrl] = useFetch("", "get");
 
 	const [watch, setWatch] = useTimer(realTime, consts.NUM.REAL_TIME_DELAY_MS);
 
@@ -63,6 +63,12 @@ export default function({path, pageSize = 20, pagingProperty = "height", limit =
 		if (recentData.loading === false && recentData.error === false) {
 			if (loading) return;
 			setUrl(`${consts.API_BASE}${path}` + getQueryParams(state.allData, true, pagingProperty, "", limit));
+		} else if (recentData.loading === false && recentData.error === true) {
+			if (fetch > 0) {
+				setFetch(fetch - 1);
+			} else {
+				setFetch(fetch + 1);
+			}
 		}
 		// eslint-disable-next-line
 	}, [watch]);

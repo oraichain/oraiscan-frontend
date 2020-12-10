@@ -43,5 +43,5 @@ export default function useFetch(inputUrl, method = "get", refineFunction = res 
 	const requestRefetch = useCallback(() => {
 		setFetch(v => v + 1);
 	}, [setFetch]);
-	return [{...state}, requestRefetch, setUrl];
+	return [{...state}, requestRefetch, fetch, setFetch, setUrl];
 }
