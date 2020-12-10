@@ -1,51 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat&display=option"
-      rel="stylesheet"
-      async
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=option"
-      rel="stylesheet"
-      async
-    />
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
-    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5" />
-    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="theme-color" content="#000000" />
-    <title>%REACT_APP_SITE_TITLE%</title>
-    <meta name="description" content="%REACT_APP_SITE_DESC%" />
-    <meta name="keywords" content="%REACT_APP_SITE_KEYWORDS%" />
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=option" rel="stylesheet" async />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=option" rel="stylesheet"
+    async />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+  <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5" />
+  <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- 페이스북 (링크 미리보기)-->
-    <meta property="og:url" content="%REACT_APP_SITE_URL%" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="%REACT_APP_SITE_TITLE_FOR_SHARE%" />
-    <meta property="og:description" content="%REACT_APP_SITE_DESC%" />
-    <meta property="og:image" content="%PUBLIC_URL%/orai.png" />
+  <meta name="theme-color" content="#000000" />
+  <title>%REACT_APP_SITE_TITLE%</title>
+  <meta name="description" content="%REACT_APP_SITE_DESC%" />
+  <meta name="keywords" content="%REACT_APP_SITE_KEYWORDS%" />
 
-    <!-- 트위터 미리보기 -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:url" content="%REACT_APP_SITE_URL%" />
-    <meta name="twitter:title" content="%REACT_APP_SITE_TITLE_FOR_SHARE%" />
-    <meta name="twitter:description" content="%REACT_APP_SITE_DESC%" />
-    <meta name="twitter:image" content="%PUBLIC_URL%/orai.png" />
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <meta property="og:url" content="%REACT_APP_SITE_URL%" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="%REACT_APP_SITE_TITLE_FOR_SHARE%" />
+  <meta property="og:description" content="%REACT_APP_SITE_DESC%" />
+  <meta property="og:image" content="%PUBLIC_URL%/orai.png" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:url" content="%REACT_APP_SITE_URL%" />
+  <meta name="twitter:title" content="%REACT_APP_SITE_TITLE_FOR_SHARE%" />
+  <meta name="twitter:description" content="%REACT_APP_SITE_DESC%" />
+  <meta name="twitter:image" content="%PUBLIC_URL%/orai.png" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4MJXJPXQK7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-4MJXJPXQK7');
+  </script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -55,5 +60,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>
