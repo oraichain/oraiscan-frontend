@@ -54,6 +54,7 @@ export default Object.freeze({
 	// WEBSOCKET
 	WEBSOCKET: {
 		ADD_REPORT: "websocket/AddReport",
+		ADD_REPORTER: "websocket/AddReporter",
 		TEST_CASE_RESULT: "websocket/TestCaseResult",
 	},
 

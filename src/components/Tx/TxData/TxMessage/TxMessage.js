@@ -160,6 +160,14 @@ export default function({msg, txData}) {
 					</>
 				)}
 
+				{type === txTypes.WEBSOCKET.ADD_REPORTER && (
+					<>
+						{getInfoRow("Adder", value?.adder)}
+						{getInfoRow("Reporter", value?.reporter)}
+						{getInfoRow("Validator", value?.validator)}
+					</>
+				)}
+
 				{(type === txTypes.AIREQUEST.SET_CLASSIFICATION_REQUEST ||
 					type === txTypes.AIREQUEST.SET_OCR_REQUEST ||
 					type === txTypes.AIREQUEST.SET_KYC_REQUEST) && (
