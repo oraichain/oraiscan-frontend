@@ -5,18 +5,17 @@
  * You have been warned
  */
 import React, {useCallback, useEffect, useMemo} from "react";
-import styles from "./Table.scss";
+import {Fade, Table, TableBody, TableCell, TableHead, TableRow, Tooltip} from "@material-ui/core";
 import classNames from "classnames/bind";
-//  utils
 import consts from "src/constants/consts";
+import updateQueries from "src/constants/updateQueries";
 import useIndexedPagination from "src/hooks/useIndexedPagination";
 import {usePrevious} from "src/hooks";
 import {_, empty, formatNumber} from "src/lib/scripts";
-// components
-import {Fade, Table, TableBody, TableCell, TableHead, TableRow, Tooltip} from "@material-ui/core";
-import BlockListTableRow, {TableRowThin} from "../TableRow";
 import tooltips from "src/constants/tooltips";
 import {footerRender} from "src/components/common/IndexedPagination/IndexedPagination";
+import BlockListTableRow, {TableRowThin} from "../TableRow";
+import styles from "./Table.scss";
 
 const cx = classNames.bind(styles);
 
@@ -31,7 +30,7 @@ export default function(props) {
 		pagingProperty: BASE_PROPERTY,
 		limit: 60,
 		resolve: v => v,
-		updateQuery: "blockHeight",
+		updateQuery: updateQueries.BLOCK_LIST,
 	});
 	const previousIsFront = usePrevious(state.isFront);
 

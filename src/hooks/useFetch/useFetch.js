@@ -40,8 +40,12 @@ export default function useFetch(inputUrl, method = "get", refineFunction = res 
 		// eslint-disable-next-line
 	}, [fetch, url, method]);
 
+	const dispatchError = (message = "") => {
+		dispatch({type: ERROR, payload: {errorMessage: message}});
+	};
+
 	const requestRefetch = useCallback(() => {
 		setFetch(v => v + 1);
 	}, [setFetch]);
-	return [{...state}, requestRefetch, fetch, setFetch, setUrl];
+	return [{...state}, requestRefetch, fetch, setFetch, setUrl, dispatchError];
 }
