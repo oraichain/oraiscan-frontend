@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:fc937595d581c0742a5be98fcdbb09befc1208ab
+        image: thao1996/oraiscan-frontend:d0b82b985754132e781d648d482c4de48d29f940
         env:
           - name: "REACT_APP_SITE_TITLE"
             value: "Oraiscan - Oraichain explorer"
