@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - master
+      - develop
   # pull_request:
   #   branches: [ master ]
 
@@ -24,7 +25,7 @@ jobs:
         repository: ${{ secrets.DOCKER_USERNAME }}/oraiscan-frontend
         tags: ${{ github.sha }}, latest
 
-  deploy:
+  deploy-to-staging:
     name: Deploy
     runs-on: ubuntu-latest
     needs: build
@@ -33,10 +34,39 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Setup Kustomize
-      uses: imranismail/setup-kustomize@v1
+    - name: Update Kubernetes resources for staging
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      run: |
+       sed -i -z -E "s/oraiscan-frontend:[^\\n]+\\n/oraiscan-frontend:${GITHUB_SHA}\\n/g" k8s/staging/deployment.yaml 
+     
+    # - name: Update Kubernetes resources for prod
+    #   env:
+    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #   run: |
+    #    sed -i -z -E "s/oraiscan-frontend:[^\\n]+\\n/oraiscan-frontend:${GITHUB_SHA}\\n/g" k8s/prod/deployment.yaml 
+    - name: Commit files
+      run: |
+        git config --local user.email "nguyentienthao96@gmail.com"
+        git config --local user.name "Thao Nguyen Tien"
+        git commit -am 'chore: Delivery to prod ${{ github.event.head_commit.message }} '
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-        kustomize-version: "3.6.1"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+
+    
+
+  deploy-to-prod:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
 
     - name: Update Kubernetes resources for staging
       env:
