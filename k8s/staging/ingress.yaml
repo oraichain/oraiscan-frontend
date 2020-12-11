@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: oraiscan-frontend
   annotations:
-    - nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
   - host: staging-oraiscan.orai.io
