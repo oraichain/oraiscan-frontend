@@ -11,13 +11,11 @@ import {useCallback, useEffect, useMemo, useReducer, useState} from "react";
 //  or just remove it completely and use useFetch
 //  (honestly personally customized custom hooks seem much easier to use)
 import {useGet} from "restful-react";
-import {useFetch, useHistory, useTimer} from "src/hooks";
-
 import queryString from "query-string";
-
-import {_, empty} from "src/lib/scripts";
 import consts from "src/constants/consts";
-
+import updateQueries from "src/constants/updateQueries";
+import {useFetch, useHistory, useTimer} from "src/hooks";
+import {_, empty} from "src/lib/scripts";
 import reducer, {
 	EXTRA_LOAD,
 	EXTRA_LOAD_FAIL,
@@ -49,9 +47,17 @@ export default function({path, pageSize = 20, pagingProperty = "height", limit =
 	});
 
 	//  Only use refetch when retrieving cutting-edge data
-	const [recentData, , fetch, setFetch, setUrl] = useFetch("", "get");
+	const [recentData, , fetch, setFetch, setUrl, dispatchError] = useFetch("", "get");
 
 	const [watch, setWatch] = useTimer(realTime, consts.NUM.REAL_TIME_DELAY_MS);
+
+	const updateUseFetch = () => {
+		if (fetch > 0) {
+			setFetch(fetch - 1);
+		} else {
+			setFetch(fetch + 1);
+		}
+	};
 
 	//  for real time data
 	useEffect(() => {
@@ -62,13 +68,12 @@ export default function({path, pageSize = 20, pagingProperty = "height", limit =
 		if (error || empty(state.allData) || realTime === false) return;
 		if (recentData.loading === false && recentData.error === false) {
 			if (loading) return;
+			if (updateQuery == updateQueries.TX_LIST && recentData?.data?.paging?.total != undefined && recentData.data.paging.total == 0) {
+				dispatchError();
+			}
 			setUrl(`${consts.API_BASE}${path}` + getQueryParams(state.allData, true, pagingProperty, "", limit));
 		} else if (recentData.loading === false && recentData.error === true) {
-			if (fetch > 0) {
-				setFetch(fetch - 1);
-			} else {
-				setFetch(fetch + 1);
-			}
+			updateUseFetch();
 		}
 		// eslint-disable-next-line
 	}, [watch]);
