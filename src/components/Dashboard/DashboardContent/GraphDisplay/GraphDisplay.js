@@ -26,6 +26,16 @@ export default function(props) {
 	const [data, setData] = React.useState(null);
 	const [showPrice, setShowPrice] = React.useState(true);
 
+	const transformData = data => {
+		if (Array.isArray(data)) {
+			return data
+				.filter((item, index, arr) => index % DATA_COUNT_DENOM === 0 || index === 0 || index === arr.length - 1)
+				.map((item, index) => [item[0], Math.round(item[1] * 100) / 100]);
+		}
+
+		return [];
+	};
+
 	React.useEffect(() => {
 		const times = getUnixTimes(TWO_HOURS_IN_MINUTES, "minute", "hour");
 		const cancelToken = axios.CancelToken;
@@ -33,8 +43,10 @@ export default function(props) {
 		getMarketChartRange(consts.COIN_ID, "usd", times[0], times[1], source.token)
 			.then(res => {
 				if (_.isObject(res.data)) {
-					const mapped = _.map(_.initial(_.keys(res.data)), key => _.map(res.data[key], v => [v[0], Math.round(v[1] * 100) / 100]));
-					setData(_.map(mapped, arr => _.filter(arr, (v, idx) => idx % DATA_COUNT_DENOM === 0 || idx === 0 || idx === mapped.length - 1)));
+					// const mapped = _.map(_.initial(_.keys(res.data)), key => _.map(res.data[key], v => [v[0], Math.round(v[1] * 100) / 100]));
+					// setData(_.map(mapped, arr => _.filter(arr, (v, idx) => idx % DATA_COUNT_DENOM === 0 || idx === 0 || idx === mapped.length - 1)));
+
+					setData([transformData(res?.data?.prices), transformData(res?.data?.total_volumes)]);
 				}
 			})
 			.catch(ex => {
