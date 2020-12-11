@@ -21,7 +21,7 @@ export default function(props) {
 	const isOrderId = !isNaN(_.toNumber(txHash.split("-")[1]));
 	const [txData, setTxData] = React.useState({});
 
-	const [state, , setUrl] = useFetch(txHash === "test" ? "" : `${consts.API_BASE}${isOrderId ? consts.API.ORDERS : consts.API.TX}/${txHash}`);
+	const [state, , , setUrl] = useFetch(txHash === "test" ? "" : `${consts.API_BASE}${isOrderId ? consts.API.ORDERS : consts.API.TX}/${txHash}`);
 	// script that will query data when data is here
 
 	React.useEffect(() => {
