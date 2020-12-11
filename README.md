@@ -1,27 +1,32 @@
-
-<h2 align="center">    
-  Oraiscan Explorer's Frontend     
+<h2 align="center">
+  Oraiscan Explorer's Frontend
 </h2>
 
 *:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)*
 
-## Overview 
+## Overview
+
 This repository provides frontend code for Oraiscan Block Explorer for Oraichain.    
 
-## Prerequisite    
+## Prerequisite
+
 - A working backend described [here](https://github.com/oraichain/oraiscan-backend)
 - NodeJS 10+
 
-## Install 
-1. Git clone this repo to desired directory  
-```shell    
+## Install
+
+1. Git clone this repo to desired directory
+
+```shell
 git clone https://github.com/oraichain/oraiscan-frontend.git    
-```    
+```
+
 2. Install required packages
-```shell    
+
+```shell
 yarn install    
 ```
-3. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
+1. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
 ``` js
 import "./firebase"
 ```
