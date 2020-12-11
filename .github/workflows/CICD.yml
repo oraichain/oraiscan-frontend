@@ -26,8 +26,9 @@ jobs:
         tags: ${{ github.sha }}, latest
 
   deploy-to-staging:
-    name: Deploy
+    name: Deploy to Staging
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
     needs: build
 
     steps:
@@ -60,7 +61,7 @@ jobs:
     
 
   deploy-to-prod:
-    name: Deploy
+    name: Deploy to Prod
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/master'
@@ -89,7 +90,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        # branch: ${{ github.ref }}
+        branch: ${{ github.ref }}
 
     
 
