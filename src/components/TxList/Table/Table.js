@@ -5,9 +5,10 @@
  * You have been warned
  */
 import React, {useCallback, useEffect, useMemo} from "react";
-import classNames from "classnames/bind";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
+import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import updateQueries from "src/constants/updateQueries";
 import useIndexedPagination from "src/hooks/useIndexedPagination";
 import {usePrevious} from "src/hooks";
 import {_, empty, formatNumber} from "src/lib/scripts";
@@ -28,7 +29,7 @@ export default function(props) {
 		pagingProperty: BASE_PROPERTY,
 		limit: 60,
 		resolve: v => v,
-		updateQuery: "txID",
+		updateQuery: updateQueries.TX_LIST,
 	});
 	const previousIsFront = usePrevious(state.isFront);
 	//  copied from BlockList
