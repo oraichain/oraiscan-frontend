@@ -1,0 +1,37 @@
+@import "src/styles/utils";
+
+nav {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.pagination {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	display: flex;
+
+	&-item {
+		padding: 20px 10px;
+	}
+
+	.page-button {
+		cursor: pointer;
+
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&.active {
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 150%;
+			color: #5f51ff;
+		}
+	}
+}

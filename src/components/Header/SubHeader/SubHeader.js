@@ -1,14 +1,12 @@
 import React, {useCallback, useMemo} from "react";
-import cn from "classnames/bind";
-import styles from "./SubHeader.scss";
 import {NavLink} from "react-router-dom";
+import {Grid} from "@material-ui/core";
+import cn from "classnames/bind";
 import {useHistory} from "src/hooks";
 import consts from "src/constants/consts";
-import svg from "./SubHeaderAssets";
-//  utils
 import {_} from "src/lib/scripts";
-//  material ui
-import {Grid} from "@material-ui/core";
+import svg from "./SubHeaderAssets";
+import styles from "./SubHeader.scss";
 
 const cx = cn.bind(styles);
 const routes = Object.freeze(_.map(consts.MENU, v => v.route));

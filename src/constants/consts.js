@@ -93,6 +93,10 @@ export default Object.freeze({
 			primary: true,
 		},
 		{
+			display: "VALIDATOR",
+			route: "/validators",
+		},
+		{
 			display: "BLOCKS",
 			route: "/blocks",
 		},

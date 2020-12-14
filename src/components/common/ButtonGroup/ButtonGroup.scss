@@ -1,0 +1,28 @@
+@import "src/styles/utils";
+
+.button-group {
+	display: inline-block;
+	border: 1px solid #1b57f0;
+	box-sizing: border-box;
+	border-radius: 8px;
+	overflow: hidden;
+
+	.button {
+		display: inline-block;
+		padding: 11px 20px;
+		color: #1b57f0;
+		background: #ffffff;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 13px;
+		line-height: 150%;
+		text-align: center;
+		cursor: pointer;
+
+		&.active {
+			background: #1b57f0;
+			color: #ffffff;
+		}
+	}
+}

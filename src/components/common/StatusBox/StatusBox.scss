@@ -1,0 +1,46 @@
+@import "src/styles/utils";
+
+.status-box {
+	display: flex;
+	flex-direction: row;
+	background: #ffffff;
+	border: 1px solid #e7e7e7;
+	box-sizing: border-box;
+	border-radius: 8px;
+
+	@include media("<medium") {
+		margin-bottom: 20px;
+	}
+
+	&-item {
+		margin: 10px 10px;
+
+		&:first-child {
+			margin-left: 20px;
+		}
+
+		&:last-child {
+			margin-right: 20px;
+		}
+
+		.status-label {
+			display: inline-block;
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+
+		.status-value {
+			display: inline-block;
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
