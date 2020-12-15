@@ -5,12 +5,19 @@ $customPadding: 11.5px 15px 11.5px 10px;
 	overflow-x: auto;
 	overflow-y: hidden;
 	min-width: 300px;
+	background: #f9f9f9;
+	border: 1px solid #e7e7e7;
+	margin-top: 20px;
 
 	.tableHeaderCell {
 		@include tableHeaderCellWidth300;
 		@include tableHeaderPadding;
 		padding: $customPadding;
-		color: var(--colorMainText);
+		color: #1b57f0;
+		font-weight: bold;
+		font-size: 14px;
+		line-height: 150%;
+		background: #e8eeff;
 	}
 
 	.txHashWidth {

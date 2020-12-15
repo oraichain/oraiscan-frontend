@@ -18,7 +18,7 @@ export default function(props) {
 	return (
 		<AppBar position={"fixed"}>
 			<SearchAppBar hamburgerClick={hamburgerClick} />
-			<SubHeader navBarOpen={navBarOpen} setNavBarOpen={setNavBarOpen} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} />
+			{/* <SubHeader navBarOpen={navBarOpen} setNavBarOpen={setNavBarOpen} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} /> */}
 		</AppBar>
 	);
 }

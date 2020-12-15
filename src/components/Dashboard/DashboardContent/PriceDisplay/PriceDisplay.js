@@ -43,14 +43,10 @@ export default function(props) {
 				</div>
 				<div className={cx("price")}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</div>
 				<div className={cx("volume24h-wrapper")}>
-					<button onClick={e => window.open(consts.LINK.COINGECKO_ORAI, "_blank")}>
-						{/*<div className={cx("text")}>coingecko</div>*/}
-						coingecko
-					</button>
-					<div className={cx("content")}>
+					<div>Coingecko:&nbsp;</div>
+					<div className={status.change_24h >= 0 ? cx("content", "green") : cx("content", "red")}>
 						{status.change_24h ? (
 							<>
-								<img src={status.change_24h >= 0 ? up_gr : down_rd} alt='none' />
 								{status.change_24h >= 0 ? "+" : ""}
 								{status.change_24h}% (24h)
 							</>
