@@ -3,15 +3,15 @@
 .routerContainer {
 	width: 100%;
 	//margin: 0 auto;
-	padding: calc(var(--heightHeader) + var(--heightSubHeader)) 0 0 0;
+	// padding: var(--heightHeader) 0 0 0;
 	min-height: calc(100vh - var(--heightFooter));
 	min-width: 360px;
 
 	@include media("<large") {
-		padding: calc(var(--heightHeaderInMedium) + var(--heightSubHeader)) 15px 1.8rem;
+		padding: var(--heightHeader) 15px 1.8rem;
 	}
 
 	@include media("<medium") {
-		padding: calc(var(--heightHeaderInSmall) + var(--heightSubHeaderInSmall)) 10px 10px 10px;
+		padding: var(--heightHeader) 10px 10px 10px;
 	}
 }

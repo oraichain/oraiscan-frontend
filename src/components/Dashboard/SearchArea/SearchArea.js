@@ -16,11 +16,7 @@ export default function() {
 		() => (
 			<div className={cx("SearchArea")}>
 				<div className={cx("wrapper")}>
-					<div className={cx("title-wrapper")}>
-						<h1 className={cx("title")}>
-							ORAICHAIN <span>EXPLORER</span>
-						</h1>
-					</div>
+					<div className={cx("title")}>Oraichain Explorer</div>
 					<div className={cx("search-wrapper")}>
 						<SearchArea propCx={cx} dropdownStyle={{position: "fixed", zIndex: 15}} interactiveWidth={true} />
 					</div>

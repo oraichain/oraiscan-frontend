@@ -1,0 +1,42 @@
+@import "src/styles/utils";
+
+.DetailDisplay {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: 50% 50%;
+	grid-row-gap: 5px;
+	grid-column-gap: 5px;
+	padding: 16px 16px 16px 0;
+	height: 330px;
+
+	.card {
+		text-align: center;
+		padding: 20px 12px;
+
+		.title {
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+			text-align: center;
+			color: #181818;
+		}
+
+		.content {
+			font-weight: 500;
+			font-size: 24px;
+			line-height: 150%;
+			color: #181818;
+			margin-bottom: 10px;
+		}
+
+		.footer {
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 150%;
+			text-align: center;
+			color: #5c5959;
+			width: 89px;
+			margin: 0 auto;
+		}
+	}
+}

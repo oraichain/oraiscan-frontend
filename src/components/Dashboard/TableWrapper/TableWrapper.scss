@@ -41,18 +41,18 @@
 				cursor: pointer;
 				line-height: 1.19;
 
-				border: 1px solid var(--colorMainText);
-				background-color: var(--colorMainText);
-				color: var(--colorWhite);
+				border: 1px solid #1b57f0;
+				background-color: white;
+				color: #1b57f0;
 
 				@include media("<medium") {
 					padding: 6px 12px;
 				}
 
 				&:hover {
-					border: 1px solid var(--colorMainText);
-					background-color: var(--colorWhite);
-					color: var(--colorMainText);
+					border: 1px solid #1b57f0;
+					background-color: #1b57f0;
+					color: white;
 					@include transition-linear;
 				}
 			}
