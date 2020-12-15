@@ -4,7 +4,39 @@
 	@include page-wrapper;
 
 	height: fit-content;
-	$linkWrapperHeight: 288px;
+	$linkWrapperHeight: 330px;
+
+	.header {
+		margin-bottom: 30px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.title {
+			font-style: normal;
+			font-weight: 500;
+			font-size: 32px;
+			line-height: 150%;
+			color: #000000;
+		}
+		.info {
+			border: 1px solid #e7e7e7;
+			box-sizing: border-box;
+			border-radius: 8px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			padding: 10px 20px;
+			background-color: white;
+
+			.detail {
+				padding-left: 20px;
+			}
+
+			.detail:last-child {
+				padding-right: 20px;
+			}
+		}
+	}
 
 	.PriceGraphClickable-wrapper {
 		display: grid;
@@ -32,23 +64,23 @@
 		margin-bottom: 15px;
 		.PriceGraph-wrapper {
 			display: grid;
-			grid-template-columns: 340px auto;
+			grid-template-columns: 30% 40% 30%;
 			grid-row-gap: 15px;
-			grid-column-gap: 20px;
-			height: 288px;
-			@include media("<large") {
-				min-width: 90vw;
-				grid-template-columns: calc((360 / 894) * 100%) calc((504 / 894) * 100%);
-				grid-column-gap: calc((20 / 894) * 100%);
-			}
+			// grid-column-gap: 20px;
+			height: 330px;
+			// @include media("<large") {
+			// 	min-width: 90vw;
+			// 	grid-template-columns: calc((360 / 894) * 100%) calc((504 / 894) * 100%);
+			// 	grid-column-gap: calc((20 / 894) * 100%);
+			// }
 			@include media("<medium") {
-				@include card-nopadding-wrapper;
-				height: 278px;
+				// @include card-nopadding-wrapper;
 				grid-column-gap: 0;
-				grid-template-columns: 1fr;
+				grid-template-columns: 50% 50% 50%;
 			}
 			@include media("<small") {
-				grid-template-columns: 1fr;
+				grid-template-rows: 100% 100%;
+				grid-template-columns: 100%;
 			}
 		}
 
@@ -88,7 +120,7 @@
 
 	.BlockTx-wrapper {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 50% 50%;
 		grid-template-rows: 1fr;
 		grid-column-gap: 15px;
 		grid-row-gap: 15px;

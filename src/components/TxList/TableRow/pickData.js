@@ -34,7 +34,7 @@ export default function(blockData, cx, cell) {
 			if (!_.isNil(blockData.tx_hash))
 				return (
 					<NavLink className={cx("blueColor")} to={`/txs/${blockData.tx_hash}`}>
-						{reduceString(blockData.tx_hash, 15, 15)}
+						{reduceString(blockData.tx_hash, 6, 6)}
 					</NavLink>
 				);
 			return <Skeleton />;

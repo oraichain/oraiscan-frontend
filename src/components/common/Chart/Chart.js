@@ -34,7 +34,7 @@ export default function({options, data, showAxis = true, displayMax = false}) {
 					max: displayMax ? yMax + 0.00000000001 : yMax + (yMax + yMin) / 200,
 					min: displayMax ? yMin - 0.00000000001 : yMin - (yMax + yMin) / 200,
 					tickPixelInterval: 100,
-					tickAmount: displayMax ? 100 : 5,
+					tickAmount: displayMax ? 100 : 4,
 				},
 			],
 			xAxis: [
@@ -72,20 +72,21 @@ const xAxis = {
 };
 const yAxis = {
 	visible: true,
-	opposite: true,
-	endOnTick: true,
-	gridLineColor: "#eeeeee",
+	// opposite: true,
+	// endOnTick: true,
+	// gridLineColor: "#eeeeee",
 	labels: {
-		enabled: false,
+		enabled: true,
 		align: "left",
-		x: 14,
+		x: -16,
+		y: 4,
 		style: {
 			color: "#4b525d",
 			fontSize: "11px",
 		},
-		// formatter: function() {
-		// 	return `${humanFormat(this.value)}`;
-		// },
+		formatter: function() {
+			return `$${this.value > 999 ? formatNumber(Math.floor(this.value), 3) : this.value}`;
+		},
 	},
 	title: {
 		text: "",
@@ -94,7 +95,7 @@ const yAxis = {
 	tickPosition: "inside",
 };
 const series = {
-	color: "#ebba16",
+	color: "#1958FA",
 	fillColor: {
 		linearGradient: {
 			x1: 0,
@@ -106,14 +107,28 @@ const series = {
 			[
 				0,
 				highcharts
-					.color("#ffda5e")
+					.color("#1958FA")
 					.setOpacity(0.6)
 					.get("rgba"),
 			],
 			[
 				0.6,
 				highcharts
-					.color("#ffda5e")
+					.color("#94B2FF")
+					.setOpacity(0.4)
+					.get("rgba"),
+			],
+			[
+				0.8,
+				highcharts
+					.color("#638fff")
+					.setOpacity(0.3)
+					.get("rgba"),
+			],
+			[
+				0.9,
+				highcharts
+					.color("#85a7ff")
 					.setOpacity(0.2)
 					.get("rgba"),
 			],

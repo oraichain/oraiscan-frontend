@@ -14,7 +14,7 @@ import BlockDisplayTableRow from "./TableRow";
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=5`, "get");
+	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`, "get");
 	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
 
 	React.useEffect(() => {
@@ -54,7 +54,7 @@ export default function(props) {
 
 	return React.useMemo(
 		() => (
-			<TableWrapper title={"BLOCKS"} type={1}>
+			<TableWrapper title={"Blocks"} type={1}>
 				{data.error ? (
 					<ErrorPage />
 				) : (

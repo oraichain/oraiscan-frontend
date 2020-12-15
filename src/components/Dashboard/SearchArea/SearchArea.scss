@@ -2,30 +2,27 @@
 
 .SearchArea {
 	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
 	height: fit-content;
-
+	padding: var(--heightHeader) 0 0 0;
 	position: relative;
 	overflow: hidden;
 
-	background-size: cover;
+	// @include media(">1880px") {
+	// 	background-size: cover;
+	// }
+	// @include media("<large") {
+	// 	width: calc(100% + 30px);
+	// 	margin-left: -15px;
+	// }
 
-	background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../../../assets/dashboard/main_img.png") no-repeat fixed center center;
-	background-position-y: inherit;
-
-	@include media(">1880px") {
-		background-size: cover;
-	}
-	@include media("<large") {
-		width: calc(100% + 30px);
-		margin-left: -15px;
-	}
-
-	@include media("<medium") {
-		margin-top: 0;
-		background: #0a0e11;
-		width: calc(100% + 20px);
-		margin-left: -10px;
-	}
+	// @include media("<medium") {
+	// 	margin-top: 0;
+	// 	background: #0a0e11;
+	// 	width: calc(100% + 20px);
+	// 	margin-left: -10px;
+	// }
 
 	display: flex;
 	flex-flow: column;
@@ -33,101 +30,52 @@
 
 	.wrapper {
 		display: flex;
-		flex-flow: column;
+		justify-content: space-between;
 		align-items: center;
-
+		width: 100%;
 		background: transparent;
-		width: 708px;
 		height: 100%;
 
-		@include media("<medium") {
-			width: 82%;
-		}
+		// @include media("<medium") {
+		// 	width: 82%;
+		// }
 
-		@include media("<=small") {
-			width: 95%;
-			justify-content: center;
-		}
+		// @include media("<=small") {
+		// 	width: 95%;
+		// 	justify-content: center;
+		// }
 
-		@include media("<205px") {
-			width: 205px;
-		}
+		// @include media("<205px") {
+		// 	width: 205px;
+		// }
 
-		.title-wrapper {
-			margin: 40px 0 0 0;
-			display: flex;
-			flex-flow: column;
-			justify-content: space-between;
+		.title {
+			font-style: normal;
+			font-weight: bold;
+			font-size: 24px;
+			line-height: 28px;
+			color: #181818;
 
-			@include media("<large") {
-				margin: 40px 0 0 0;
-			}
+			// span {
+			// 	color: #ffffff;
+			// }
 
-			@include media("<medium") {
-				margin: 30px 0 0 0;
-			}
+			// @include media("<large") {
+			// 	font-size: 40px;
+			// }
 
-			@include media("<=small") {
-				margin: 20px 0 0 0;
-			}
+			// @include media("<medium") {
+			// 	font-size: 34px;
+			// }
 
-			.title {
-				font-family: Montserrat, serif;
-				font-size: 50px;
-				font-weight: 300;
-				font-stretch: normal;
-				font-style: normal;
-				line-height: 0.8;
-				letter-spacing: normal;
-				text-align: left;
-				color: #f1bd10;
-				word-wrap: break-word;
-
-				span {
-					color: #ffffff;
-				}
-
-				@include media("<large") {
-					font-size: 40px;
-				}
-
-				@include media("<medium") {
-					font-size: 34px;
-				}
-
-				@include media("<=small") {
-					font-size: 22px;
-				}
-			}
-
-			.byCosmostation {
-				margin-top: 6px;
-				align-self: flex-end;
-
-				height: 22px;
-				font-family: Montserrat, serif;
-				font-size: 18px;
-				font-weight: 300;
-				font-stretch: normal;
-				font-style: normal;
-				line-height: 1.22;
-				letter-spacing: normal;
-				text-align: left;
-				color: #b2b6bc;
-
-				@include media("<large") {
-					font-size: 16px;
-				}
-
-				@include media("<medium") {
-					font-size: 14px;
-				}
-			}
+			// @include media("<=small") {
+			// 	font-size: 22px;
+			// }
 		}
 
 		.search-wrapper {
+			width: 60%;
 			margin: 30px 0;
-			width: 100%;
 			height: fit-content;
 			@include media("<medium") {
 				margin: 15px 0;
@@ -149,8 +97,10 @@
 				padding: 0;
 				display: flex;
 				align-self: center;
-				background: var(--colorSearchInput);
-				border: 1px solid var(--colorSearchInput);
+				background: #ffffff;
+				border: 1px solid #e7e7e7;
+				box-sizing: border-box;
+				border-radius: 8px;
 
 				@include media("<medium") {
 					width: 100%;
@@ -162,7 +112,7 @@
 				}
 
 				.input {
-					padding: 8px 16px;
+					padding: 10px 20px;
 					height: 100%;
 					width: 100%;
 					background: var(--colorWhite);
@@ -187,9 +137,10 @@
 					cursor: pointer;
 					border: 1px solid var(--colorSearchInput);
 					border-radius: 0 5px 5px 0;
-					background: var(--colorSearchInput);
-					outline: var(--colorSearchInput);
+					background: #1b57f0;
+					background: #1b57f0;
 					padding: 0 10.5px;
+					margin-left: 10px;
 
 					@include media("<medium") {
 						padding: 0px 5px;

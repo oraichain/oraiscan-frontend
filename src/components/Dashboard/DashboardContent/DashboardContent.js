@@ -5,6 +5,7 @@ import {_} from "src/lib/scripts";
 //  components
 import GraphDisplay from "./GraphDisplay";
 import PriceDisplay from "./PriceDisplay";
+import DetailDisplay from "./DetailDisplay";
 import BlocksDisplay from "./BlocksDisplay";
 import TxDisplay from "./TxDisplay";
 //  assets
@@ -45,10 +46,32 @@ const cardData = Object.freeze([
 export default function(props) {
 	return (
 		<div className={cx("DashboardContent-wrapper")}>
+			<div className={cx("header")}>
+				<div className={cx("title")}>Dashboard</div>
+				<div className={cx("info")}>
+					<div className={cx("detail")}>
+						<span>Price: </span>
+						<span style={{fontWeight: 500}}>$4.73</span>
+					</div>
+					<div className={cx("detail")}>
+						<span>Height: </span>
+						<span style={{fontWeight: 500}}>4,374,598</span>
+					</div>
+					<div className={cx("detail")}>
+						<span>Bonded: </span>
+						<span style={{fontWeight: 500}}>189,132,631</span>
+					</div>
+					<div className={cx("detail")}>
+						<span>Inflation: </span>
+						<span style={{fontWeight: 500}}>7.00%</span>
+					</div>
+				</div>
+			</div>
 			<div className={cx("PriceGraphClickable-wrapper")}>
 				<div className={cx("Card", "PriceGraph-wrapper")}>
 					<PriceDisplay />
 					<GraphDisplay />
+					<DetailDisplay />
 				</div>
 			</div>
 			<div className={cx("BlockTx-wrapper")}>
