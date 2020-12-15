@@ -13,6 +13,7 @@ const cx = cn.bind(styles);
 const Block = lazy(() => import(`src/containers/Block`));
 const BlockList = lazy(() => import(`src/containers/BlockList`));
 const Dashboard = lazy(() => import(`src/containers/Dashboard`));
+const Validators = lazy(() => import(`src/containers/Validators`));
 const TxList = lazy(() => import(`src/containers/TxList`));
 const AssetList = lazy(() => import(`src/containers/AssetList`));
 const Tx = lazy(() => import(`src/containers/Tx`));
@@ -30,6 +31,7 @@ export default function(props) {
 				<ScrollToTop>
 					<Switch>
 						<Route exact path='/' render={props => <Dashboard {...props} />} />
+						<Route path='/validators' render={props => <Validators {...props} />}/>
 						<Route path='/blocks/:height' render={props => <Block {...props} />} />
 						<Route path='/blocks' render={props => <BlockList {...props} />} />
 						<Route path='/txs/:tx' render={props => <Tx {...props} />} />
