@@ -14,7 +14,7 @@ import TxDisplayTableRow from "./TableRow";
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.TXLIST}?limit=5`, "get");
+	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.TXLIST}?limit=10`, "get");
 
 	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
 
@@ -57,7 +57,7 @@ export default function(props) {
 
 	return React.useMemo(
 		() => (
-			<TableWrapper title={"TRANSACTIONS"} type={2}>
+			<TableWrapper title={"Transactions"} type={2}>
 				{data.error ? (
 					<ErrorPage />
 				) : (
