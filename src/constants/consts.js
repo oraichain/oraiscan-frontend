@@ -60,7 +60,7 @@ export default Object.freeze({
 		TOP_ASSETS: "/market/coin/list",
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
-		VALIDATORS: "/validators",
+		VALIDATORS: "/validators?moniker=chain",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

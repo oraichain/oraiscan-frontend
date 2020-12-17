@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import cn from "classnames/bind";
 import styles from "./DashboardContent.scss";
 import {_} from "src/lib/scripts";
+import {useFetch} from "src/hooks";
+import consts from "src/constants/consts";
 //  components
 import GraphDisplay from "./GraphDisplay";
 import PriceDisplay from "./PriceDisplay";
@@ -13,6 +15,10 @@ import exchangeSVG from "src/assets/dashboard/exchange_ic.svg";
 import dexSVG from "src/assets/dashboard/dex_ic.svg";
 import jexSVG from "src/assets/dashboard/jex_ic.svg";
 import launchpadSVG from "src/assets/dashboard/launchpad_ic.svg";
+//  component
+import Skeleton from "react-skeleton-loader";
+//  redux
+import {useSelector} from "react-redux";
 
 const cx = cn.bind(styles);
 
@@ -44,6 +50,9 @@ const cardData = Object.freeze([
 ]);
 
 export default function(props) {
+	const status = useSelector(state => state.blockchain.status);
+	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`, "get");
+	// console.log(data);
 	return (
 		<div className={cx("DashboardContent-wrapper")}>
 			<div className={cx("header")}>
@@ -51,20 +60,20 @@ export default function(props) {
 				<div className={cx("info")}>
 					<div className={cx("detail")}>
 						<span>Price: </span>
-						<span style={{fontWeight: 500}}>$4.73</span>
+						<span style={{fontWeight: 500}}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</span>
 					</div>
 					<div className={cx("detail")}>
 						<span>Height: </span>
-						<span style={{fontWeight: 500}}>4,374,598</span>
+						<span style={{fontWeight: 500}}>{data.data !== null ? data.data.paging.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</span>
 					</div>
-					<div className={cx("detail")}>
+					{/* <div className={cx("detail")}>
 						<span>Bonded: </span>
 						<span style={{fontWeight: 500}}>189,132,631</span>
 					</div>
 					<div className={cx("detail")}>
 						<span>Inflation: </span>
 						<span style={{fontWeight: 500}}>7.00%</span>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			<div className={cx("PriceGraphClickable-wrapper")}>

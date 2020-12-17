@@ -12,3 +12,15 @@ export const extractValueAndUnit = (inputString = "") => {
 		unitString,
 	};
 };
+
+export const formatInteger = (value, thousandsSeparator = ",") => {
+	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+};
+
+export const formatSeconds = (value, numberOfDigitsAfterDecimalPoint = 2) => {
+	return parseFloat(value).toFixed(numberOfDigitsAfterDecimalPoint);
+};
+
+export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => {
+	return (parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint);
+};

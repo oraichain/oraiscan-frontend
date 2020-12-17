@@ -28,6 +28,11 @@
 		background-color: rgb(224, 224, 224);
 	}
 
+	.Tab:visited {
+		cursor: pointer;
+		background-color: #1b57f0;
+	}
+
 	.Tab:first-child {
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
