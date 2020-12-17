@@ -20,17 +20,18 @@ const tabs = [
 	{
 		name: "Dashboard",
 		img: dashboardSVG,
+		route: "/dashboard",
 		route: "",
 	},
 	{
 		name: "Validators",
 		img: validatorsSVG,
-		route: "validators",
+		route: "/validators",
 	},
 	{
 		name: "Blocks",
 		img: blocksSVG,
-		route: "blocks",
+		route: "/blocks",
 	},
 	{
 		name: "Transactions",
@@ -40,12 +41,12 @@ const tabs = [
 	{
 		name: "Proposals",
 		img: proposalsSVG,
-		route: "proposals",
+		route: "/proposals",
 	},
 	{
 		name: "Data Sources",
 		img: data_sourcesSVG,
-		route: "data-sources",
+		route: "/data-sources",
 	},
 	{
 		name: "Test Cases",
@@ -55,12 +56,12 @@ const tabs = [
 	{
 		name: "Oracle Scripts",
 		img: oracle_scriptsSVG,
-		route: "oracle-scripts",
+		route: "/oracle-scripts",
 	},
 	{
 		name: "Requests",
 		img: requestsSVG,
-		route: "requests",
+		route: "/requests",
 	},
 ];
 
@@ -72,11 +73,10 @@ export default function(props) {
 		<div className={cx("Tabs")}>
 			{tabs.map(({name, img, route}) => {
 				return (
+
 					<div className={cx("Tab", {active: route === "" ? (pathname === "/" ? true: false) : pathname.indexOf(route) > -1 ? true : false})}>
 						<img src={img} alt='DB' />
-						<span className={cx("title")} onClick={() => history.push(route)}>
-							{name}
-						</span>
+						<span className={cx("title")}>{name}</span>
 					</div>
 				);
 			})}
