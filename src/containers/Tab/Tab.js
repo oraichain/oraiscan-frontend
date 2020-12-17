@@ -11,8 +11,8 @@ import proposalsSVG from "src/assets/header/proposals.svg";
 import data_sourcesSVG from "src/assets/header/data_sources.svg";
 import oracle_scriptsSVG from "src/assets/header/oracle_scripts.svg";
 import requestsSVG from "src/assets/header/requests.svg";
-import testcase from "src/assets/header/testcase.png";
-import {Link} from "react-router-dom";
+import test_caseSVG from "src/assets/header/test_case.svg";
+import { Link } from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -49,7 +49,7 @@ const tabs = [
 	},
 	{
 		name: "Test Cases",
-		img: testcase,
+		img: test_caseSVG,
 		route: "test-cases",
 	},
 	{
