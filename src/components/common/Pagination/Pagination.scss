@@ -35,3 +35,17 @@ nav {
 		}
 	}
 }
+
+.pagination-item {
+	button {
+		cursor: pointer;
+	}
+	button:disabled {
+		cursor: not-allowed;
+		svg {
+			path {
+				fill: #9a9a9a;
+			}
+		}
+	}
+}

@@ -16,6 +16,9 @@ export default Object.freeze({
 	// 	GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
 	// },
 	COIN_ID: "oraichain-token",
+	TABLE: {
+		PAGE_SIZE: 21,
+	},
 	NUM: {
 		BASE_MULT: 100000000,
 		DEFAULT_DECIMALS: 8,
@@ -57,7 +60,7 @@ export default Object.freeze({
 		TOP_ASSETS: "/market/coin/list",
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
-		VALIDATORS: "/validators",
+		VALIDATORS: "/validators?moniker=chain",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

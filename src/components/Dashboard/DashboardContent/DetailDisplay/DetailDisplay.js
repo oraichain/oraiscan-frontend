@@ -1,14 +1,14 @@
 import * as React from "react";
 import cn from "classnames/bind";
 import styles from "./DetailDisplay.scss";
-import { formatNumber } from "src/lib/scripts";
-import { useFetch } from "src/hooks";
+import {formatNumber} from "src/lib/scripts";
+import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
-import moment from 'moment';
+import moment from "moment";
 //  component
 import Skeleton from "react-skeleton-loader";
 //  redux
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 //  svgs
 import down_rd from "src/assets/common/arrow_down.svg";
 import up_gr from "src/assets/common/arrow_up.svg";
@@ -16,7 +16,7 @@ import blocktimeSVG from "src/assets/dashboard/blocktime_ic.svg";
 
 const cx = cn.bind(styles);
 
-export default function (props) {
+export default function(props) {
 	const status = useSelector(state => state.blockchain.status);
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
 	console.log(data);
