@@ -10,7 +10,7 @@ import proposalsSVG from "src/assets/header/proposals.svg";
 import data_sourcesSVG from "src/assets/header/data_sources.svg";
 import oracle_scriptsSVG from "src/assets/header/oracle_scripts.svg";
 import requestsSVG from "src/assets/header/requests.svg";
-import testcase from "src/assets/header/testcase.png";
+import testcase from "src/assets/header/test_case.svg";
 import { Link } from "react-router-dom";
 
 const cx = cn.bind(styles);
@@ -180,7 +180,7 @@ export default function (props) {
 					setTestCaseActive(true);
 				}}
 			>
-				<img src={testcase} alt='RQ' width="16" />
+				<img src={testcase} alt='RQ'/>
 				<span className={cx("title")}>Test case</span>
 			</div>
 		</div>
