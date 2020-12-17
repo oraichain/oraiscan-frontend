@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useMemo } from "react";
-import { Col, Row } from 'antd';
+import React, {useMemo} from "react";
+import {Col, Row} from "antd";
 
 import styles from "./Footer.scss";
 import classNames from "classnames/bind";
@@ -17,18 +17,26 @@ import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-export default function (props) {
+export default function(props) {
 	const render = (
 		<div className={cx("footer")}>
 			<div className={cx("footer-top")}>
 				<div className={cx("col-2")}>
 					<div className={cx("sub-footer-1")}>
-						<p><b>General Inquiries</b></p>
-						<p><u style={{ cursor: 'pointer' }}>contact@orai.io</u></p>
+						<p>
+							<b>General Inquiries</b>
+						</p>
+						<p>
+							<u style={{cursor: "pointer"}}>contact@orai.io</u>
+						</p>
 					</div>
-					<div style={{ paddingTop: '10px' }}>
-						<p><b>Technical support</b></p>
-						<p><u style={{ cursor: 'pointer' }}>support@orai.io</u></p>
+					<div style={{paddingTop: "10px"}}>
+						<p>
+							<b>Technical support</b>
+						</p>
+						<p>
+							<u style={{cursor: "pointer"}}>support@orai.io</u>
+						</p>
 					</div>
 				</div>
 
@@ -41,54 +49,85 @@ export default function (props) {
 				</div>
 
 				<div className={cx("col-2")}>
-					<p style={{ fontSize: '16px' }}><b>About</b></p>
+					<p style={{fontSize: "16px"}}>
+						<b>About</b>
+					</p>
 					<div className={cx("sub-footer-3")}>
 						<p>
-							<a
-								style={{ color: '#8AA2C9' }}
-								href="https://orai.io/presentations/intro.pdf"
-								target="_blank">
+							<a style={{color: "#8AA2C9"}} href='https://orai.io/presentations/intro.pdf' target='_blank'>
 								Introduction
-              			</a>
+							</a>
 						</p>
 						<p>
-							<a style={{ color: '#8AA2C9' }} href="https://orai.io/presentations/Binance-talk-Oct28-EN.pdf" target="_blank">Binance Task</a>
+							<a style={{color: "#8AA2C9"}} href='https://orai.io/presentations/Binance-talk-Oct28-EN.pdf' target='_blank'>
+								Binance Task
+							</a>
 						</p>
-						<p style={{ color: '#8AA2C9' }}>
-							<a
-								href="https://gov.orai.io/c/knowledge-base/7"
-								className={cx("link-style")}
-								target="_blank"
-							>
+						<p style={{color: "#8AA2C9"}}>
+							<a href='https://gov.orai.io/c/knowledge-base/7' className={cx("link-style")} target='_blank'>
 								FAQ
-               			</a>
+							</a>
 						</p>
 						<p>
-							<a
-								style={{ color: '#8AA2C9' }}
-								href="https://drive.google.com/drive/u/0/folders/16AOw7DJNkLp4IryQEpp1kfzGdhoJWBc_"
-								target="_blank"
-							>Media Park</a>
+							<a style={{color: "#8AA2C9"}} href='https://drive.google.com/drive/u/0/folders/16AOw7DJNkLp4IryQEpp1kfzGdhoJWBc_' target='_blank'>
+								Media Park
+							</a>
 						</p>
 					</div>
 				</div>
 
 				<div className={cx("col-2")}>
-					<p style={{ fontSize: '16px' }}><b>Product</b></p>
+					<p style={{fontSize: "16px"}}>
+						<b>Product</b>
+					</p>
 					<div className={cx("sub-footer-3")}>
-						<p><a style={{ color: '#8AA2C9' }} href="https://liquidity.orai.io/" target="_blank">MLE</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://scan.orai.io/" target="_blank">Testnet</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://yai.finance/" target="_blank">yAI.Finance</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://market.orai.io/oscript" target="_blank">Marketpalce</a></p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://liquidity.orai.io/' target='_blank'>
+								MLE
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://scan.orai.io/' target='_blank'>
+								Testnet
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://yai.finance/' target='_blank'>
+								yAI.Finance
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://market.orai.io/oscript' target='_blank'>
+								Marketpalce
+							</a>
+						</p>
 					</div>
 				</div>
 				<div className={cx("col-2")}>
-					<p style={{ fontSize: '16px' }}><b>Official Channels</b></p>
+					<p style={{fontSize: "16px"}}>
+						<b>Official Channels</b>
+					</p>
 					<div className={cx("sub-footer-3")}>
-						<p><a style={{ color: '#8AA2C9' }} href="https://twitter.com/oraichain" target="_blank">Twitter</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://t.me/oraichain" target="_blank">Telegram</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://www.coingecko.com/en/coins/oraichain-token" target="_blank">Coingecko</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://medium.com/oraichain" target="_blank">Medium</a></p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://twitter.com/oraichain' target='_blank'>
+								Twitter
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://t.me/oraichain' target='_blank'>
+								Telegram
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://www.coingecko.com/en/coins/oraichain-token' target='_blank'>
+								Coingecko
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://medium.com/oraichain' target='_blank'>
+								Medium
+							</a>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -99,9 +138,21 @@ export default function (props) {
 				</div>
 
 				<div className={cx("privacy")}>
-					<p><a style={{ color: '#99AAC2' }} href="">Privacy Policy</a></p>
-					<p><a style={{ color: '#99AAC2' }} href="">Customer Support</a></p>
-					<p><a style={{ color: '#99AAC2' }} href="">Careers</a></p>
+					<p>
+						<a style={{color: "#99AAC2"}} href=''>
+							Privacy Policy
+						</a>
+					</p>
+					<p>
+						<a style={{color: "#99AAC2"}} href=''>
+							Customer Support
+						</a>
+					</p>
+					<p>
+						<a style={{color: "#99AAC2"}} href=''>
+							Careers
+						</a>
+					</p>
 				</div>
 			</div>
 		</div>

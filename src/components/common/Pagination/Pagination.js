@@ -1,41 +1,42 @@
 import React, {memo} from "react";
 import {usePagination} from "@material-ui/lab/Pagination";
 import classNames from "classnames/bind";
+import {noop} from "lodash";
 import styles from "./Pagination.scss";
-import firstButtonIcon from "src/assets/pagination/first_button_ic.svg";
-import lastButtonIcon from "src/assets/pagination/last_button_ic.svg";
-import prevButtonIcon from "src/assets/pagination/prev_button_ic.svg";
-import nextButtonIcon from "src/assets/pagination/next_button_ic.svg";
+import {ReactComponent as FirstButtonIcon} from "src/assets/pagination/first_button_ic.svg";
+import {ReactComponent as LastButtonIcon} from "src/assets/pagination/last_button_ic.svg";
+import {ReactComponent as PrevButtonIcon} from "src/assets/pagination/prev_button_ic.svg";
+import {ReactComponent as NextButtonIcon} from "src/assets/pagination/next_button_ic.svg";
 
 const cx = classNames.bind(styles);
 
-const Pagination = memo(() => {
+const Pagination = memo(({pages, onChange = noop}) => {
 	const {items} = usePagination({
-		count: 10,
+		count: pages,
 		showFirstButton: true,
 		showLastButton: true,
+		onChange,
 	});
 
 	const getButtonIcon = type => {
-		let buttonIcon;
+		let ButtonIcon;
 		switch (type) {
 			case "first":
-				buttonIcon = firstButtonIcon;
+				ButtonIcon = FirstButtonIcon;
 				break;
 			case "last":
-				buttonIcon = lastButtonIcon;
+				ButtonIcon = LastButtonIcon;
 				break;
 			case "next":
-				buttonIcon = nextButtonIcon;
+				ButtonIcon = NextButtonIcon;
 				break;
 			case "previous":
-				buttonIcon = prevButtonIcon;
+				ButtonIcon = PrevButtonIcon;
 				break;
 			default:
 				return null;
 		}
-
-		return <img src={buttonIcon} alt='' />;
+		return <ButtonIcon />;
 	};
 
 	return (

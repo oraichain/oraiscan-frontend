@@ -15,7 +15,7 @@ const cx = cn.bind(styles);
 
 export default function(props) {
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`, "get");
-	console.log(data)
+	console.log(data);
 	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
 
 	React.useEffect(() => {
