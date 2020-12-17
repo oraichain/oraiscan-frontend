@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useMemo} from "react";
-import {Col, Row} from "antd";
+// import {Col, Row} from "antd";
 
 import styles from "./Footer.scss";
 import classNames from "classnames/bind";

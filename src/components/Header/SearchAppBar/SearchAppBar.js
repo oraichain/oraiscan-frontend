@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import cn from "classnames/bind";
+import Keystation from "src/lib/Keystation";
 import styles from "./SearchAppBar.scss";
 // import _ from "lodash";
 import {NavLink} from "react-router-dom";
@@ -13,7 +14,25 @@ import logo from "src/assets/header/logo.svg";
 
 const cx = cn.bind(styles);
 
-const navLinks = [
+const handleClickConnectWallet = () => {
+	const myKeystation = new Keystation({
+		client: process.env.REACT_APP_WALLET_API,
+		lcd: "https://lcd-cosmos-free.cosmostation.io",
+		path: "44/118/0/0/0",
+		keystationUrl: process.env.REACT_APP_WALLET_API,
+	});
+
+	const prefix = "cosmos";
+	const popup = myKeystation.openWindow("signin", prefix);
+	let popupTick = setInterval(function() {
+		if (popup.closed) {
+			clearInterval(popupTick);
+			console.log("window closed!");
+		}
+	}, 500);
+};
+
+const navLinkInit = [
 	{title: `Home`, path: `https://orai.io/`},
 	{
 		title: `Products`,
@@ -34,6 +53,7 @@ const navLinks = [
 		],
 	},
 	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
+	{title: "Connect Wallet", path: null, handleClick: handleClickConnectWallet},
 ];
 
 function openNav() {
@@ -45,6 +65,23 @@ function closeNav() {
 }
 
 export default function(props) {
+	const [navLinks, setNavLinks] = useState(navLinkInit);
+
+	useEffect(() => {
+		const callBack = function(e) {
+			if (e?.data?.address) {
+				navLinkInit[navLinkInit.length - 1] = {
+					title: e.data.address,
+				};
+				setNavLinks([...navLinkInit]);
+			}
+		};
+		window.addEventListener("message", callBack, false);
+		return () => {
+			window.removeEventListener("message", callBack);
+		};
+	}, []);
+
 	return (
 		<div className={cx("SearchAppBar-root")} id={"Header-fixed-id"}>
 			<Toolbar className={cx("toolbar")}>
@@ -55,7 +92,7 @@ export default function(props) {
 				<div className={cx("select-wrapper")}>
 					{/* <SearchArea propCx={cx} dropdownStyle={{position: "fixed", width: "459px"}} /> */}
 					<List component='nav' aria-labelledby='main navigation' className={cx("nav-display-flex")}>
-						{navLinks.map(({title, path, children}, idx) => {
+						{navLinks.map(({title, path, children, handleClick}, idx) => {
 							if (children) {
 								return (
 									<div className={cx("dropdown")}>
@@ -75,7 +112,13 @@ export default function(props) {
 									</div>
 								);
 							}
-							return (
+							return handleClick ? (
+								<a href={path} key={title} target='_blank' onClick={handleClick}>
+									<ListItem button>
+										<ListItemText primary={title} />
+									</ListItem>
+								</a>
+							) : (
 								<a href={path} key={title} target='_blank'>
 									<ListItem button>
 										<ListItemText primary={title} />
