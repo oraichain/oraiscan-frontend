@@ -11,9 +11,11 @@ import {InputBase} from "@material-ui/core";
 import {tableThemes} from "src/constants/tableThemes";
 import SearchIcon from "src/assets/common/search-icon.svg";
 import Pagination from "../Pagination";
-import styles from "./TableWithPagination.scss";
+import styles from "../ThemedTable/ThemedTable.scss";
+import styleSearch from "./TableWithPagination.scss";
 
 const cx = classNames.bind(styles);
+const cxSearch = classNames.bind(styleSearch);
 
 const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange}) => {
 	const [value, setValue] = React.useState("");
@@ -28,11 +30,11 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 
 	const renderInputBase = React.useMemo(
 		() => (
-			<div className={cx("search")}>
-				<button className={cx("searchBtn")} onClick={clickSearch}>
-					<img className={cx("searchIcon")} src={SearchIcon} alt={"search"} />
+			<div className={cxSearch("search")}>
+				<InputBase className={cxSearch("input")} placeholder='Search data sources' onChange={onChange} value={value} />
+				<button className={cxSearch("searchBtn")} onClick={clickSearch}>
+					<img className={cxSearch("searchIcon")} src={SearchIcon} alt={"search"} />
 				</button>
-				<InputBase className={cx("input")} placeholder='Search by Block, transaction, asset, address or orderid...' onChange={onChange} value={value} />
 			</div>
 		),
 		[onChange, clickSearch, value]

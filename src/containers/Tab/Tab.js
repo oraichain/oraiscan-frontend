@@ -74,8 +74,7 @@ export default function(props) {
 					<div className={cx("Tab", {active: pathname.indexOf(route) > -1 ? true : false})}>
 						<img src={img} alt='DB' />
 						<span className={cx("title")} onClick={() => history.push(route)}>
-							{" "}
-							{name}{" "}
+							{name}
 						</span>
 					</div>
 				);
