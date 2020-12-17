@@ -11,11 +11,12 @@ import {InputBase} from "@material-ui/core";
 import {tableThemes} from "src/constants/tableThemes";
 import SearchIcon from "src/assets/common/search-icon.svg";
 import Pagination from "../Pagination";
+import ThemedTable from "../ThemedTable";
 import styles from "../ThemedTable/ThemedTable.scss";
-import styleSearch from "./TableWithPagination.scss";
+import styleTableWithPagination from "./TableWithPagination.scss";
 
 const cx = classNames.bind(styles);
-const cxSearch = classNames.bind(styleSearch);
+const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 
 const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange}) => {
 	const [value, setValue] = React.useState("");
@@ -30,10 +31,10 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 
 	const renderInputBase = React.useMemo(
 		() => (
-			<div className={cxSearch("search")}>
-				<InputBase className={cxSearch("input")} placeholder='Search data sources' onChange={onChange} value={value} />
-				<button className={cxSearch("searchBtn")} onClick={clickSearch}>
-					<img className={cxSearch("searchIcon")} src={SearchIcon} alt={"search"} />
+			<div className={cxTableWithPagination("search")}>
+				<InputBase className={cxTableWithPagination("input")} placeholder='Search data sources' onChange={onChange} value={value} />
+				<button className={cxTableWithPagination("searchBtn")} onClick={clickSearch}>
+					<img className={cxTableWithPagination("searchIcon")} src={SearchIcon} alt={"search"} />
 				</button>
 			</div>
 		),
@@ -43,30 +44,7 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 	return (
 		<>
 			{renderInputBase}
-			<TableContainer className={cx("table-container")}>
-				<Table className={cx(theme)}>
-					<TableHead>
-						<TableRow key='header-row' className={cx("header-row")}>
-							{headerCells.map((headerCell, cellIndex) => (
-								<TableCell key={"header-cell-" + cellIndex} className={cx("header-cell")}>
-									{headerCell}
-								</TableCell>
-							))}
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{dataRows.map((dataRow, rowIndex) => (
-							<TableRow key={"data-row-" + rowIndex} className={cx("data-row")}>
-								{dataRow.map((dataCell, cellIndex) => (
-									<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell")}>
-										{dataCell}
-									</TableCell>
-								))}
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
+			<ThemedTable customClassNames={cxTableWithPagination("table-data-source")} theme={theme} headerCells={headerCells} dataRows={dataRows} />
 			<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
 		</>
 	);

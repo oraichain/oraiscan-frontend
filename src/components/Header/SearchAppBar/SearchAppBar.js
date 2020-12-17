@@ -16,10 +16,10 @@ const cx = cn.bind(styles);
 
 const handleClickConnectWallet = () => {
 	const myKeystation = new Keystation({
-		client: process.env.REACT_APP_API_CONNECT_WALLET,
+		client: process.env.REACT_APP_WALLET_API,
 		lcd: "https://lcd-cosmos-free.cosmostation.io",
 		path: "44/118/0/0/0",
-		keystationUrl: process.env.REACT_APP_API_CONNECT_WALLET,
+		keystationUrl: process.env.REACT_APP_WALLET_API,
 	});
 
 	const prefix = "cosmos";

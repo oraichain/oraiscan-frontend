@@ -12,41 +12,12 @@ import styles from "./DataSources.scss";
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const [dataRows, setDataRows] = useState([
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-		["1", "Query latest cryptocurrency token prices from CoinGecko.", "800 ORAI", 0, "2020-12-15 06:36:45.738"],
-	]);
+	const url = `${consts.LCD_API_BASE}${consts.API.DATA_SOURCES}`;
+	const [state, , , , setUrl] = useFetch(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=1`);
 
-	const baseURL = `${consts.API_BASE}/api/transaction/ai_data_source?name`;
-	const [state, , setUrl] = useFetch(`${baseURL}`);
-	console.log(state);
-
-	useEffect(() => {
-		// setUrl(baseURL);
-	}, []);
-
-	const pages = Math.ceil(state?.data?.data?.length || 0 / consts.TABLE.PAGE_SIZE);
+	const pages = parseInt(state?.data?.result?.count || 0);
 	const onPageChange = page => {
-		console.log("onPageChange = ", page);
+		setUrl(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=${page}`);
 	};
 	const dataForStatusBox = [
 		{
@@ -73,8 +44,8 @@ export default function(props) {
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
 
-			{/* <DataSourceTable dataRows={state?.data?.data || []} pages={pages} onPageChange={onPageChange} /> */}
-			<DataSourceTable dataRows={dataRows.slice(0, 10)} pages={pages} onPageChange={onPageChange} />
+			<DataSourceTable dataSources={state?.data?.result?.data_sources || []} pages={pages} onPageChange={onPageChange} />
+			{/* <DataSourceTable dataRows={dataRows.slice(0, 10)} pages={pages} onPageChange={onPageChange} /> */}
 		</Container>
 	);
 }
