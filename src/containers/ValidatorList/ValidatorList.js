@@ -1,6 +1,10 @@
 import React, {useState} from "react";
+import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import {formatInteger, formatSeconds} from "src/helpers/helper";
+import consts from "src/constants/consts";
+import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -17,15 +21,7 @@ import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
 
 const cx = cn.bind(styles);
 
-const dataRows = [
-	["1", "Oraichain", "12,411,351", "6.56%", "100%", "2.5%"],
-	["1", "Oraichain", "12,411,351", "6.56%", "100%", "2.5%"],
-	["1", "Oraichain", "12,411,351", "6.56%", "100%", "2.5%"],
-	["1", "Oraichain", "12,411,351", "6.56%", "100%", "2.5%"],
-	["1", "Oraichain", "12,411,351", "6.56%", "100%", "2.5%"],
-];
-
-export default function(props) {
+const ValidatorList = props => {
 	const [buttonGroupData, setButtonGroupData] = useState([
 		{
 			label: "Active",
@@ -52,10 +48,28 @@ export default function(props) {
 		});
 	};
 
+	const {data: validators} = useGet({
+		path: consts.API.VALIDATORS,
+	});
+
+	const {data: status} = useGet({
+		path: consts.API.STATUS,
+	});
+
+	if (!validators || !status) {
+		return (
+			<Container fixed className={cx("validator-list")}>
+				<Spinner />
+			</Container>
+		);
+	}
+
+	console.log("VALIDATOR", validators);
+
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
-				<PageTitle title={"Validator"} />
+				<PageTitle title={"Validators"} />
 				<StatusBox />
 			</TitleWrapper>
 			<StatusCardList
@@ -63,22 +77,22 @@ export default function(props) {
 					{
 						icon: heightIcon,
 						label: "Height",
-						value: "4,353,021",
+						value: status?.latest_block_height ? formatInteger(status.latest_block_height) : "-",
 					},
 					{
 						icon: validatorsIcon,
 						label: "Validators",
-						value: "125/265",
+						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "",
 					},
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: "189,106,369",
+						value: "-",
 					},
 					{
 						icon: blockTimeIcon,
 						label: "Block Time",
-						value: "7.38s",
+						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
 			/>
@@ -91,8 +105,10 @@ export default function(props) {
 					}}
 				/>
 			</div>
-			<ValidatorTable dataRows={dataRows} />
+			<ValidatorTable validators={validators} />
 			<Pagination />
 		</Container>
 	);
-}
+};
+
+export default ValidatorList;
