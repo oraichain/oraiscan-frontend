@@ -20,47 +20,47 @@ const tabs = [
 	{
 		name: "Dashboard",
 		img: dashboardSVG,
-		route: "dashboard",
+		route: "/dashboard",
 	},
 	{
 		name: "Validators",
 		img: validatorsSVG,
-		route: "validators",
+		route: "/validators",
 	},
 	{
 		name: "Blocks",
 		img: blocksSVG,
-		route: "blocks",
+		route: "/blocks",
 	},
 	{
 		name: "Transactions",
 		img: transactionsSVG,
-		route: "tx",
+		route: "/tx",
 	},
 	{
 		name: "Proposals",
 		img: proposalsSVG,
-		route: "proposals",
+		route: "/proposals",
 	},
 	{
 		name: "Data Sources",
 		img: data_sourcesSVG,
-		route: "data-sources",
+		route: "/data-sources",
 	},
 	{
 		name: "Test Cases",
 		img: testcase,
-		route: "test-cases",
+		route: "/test-cases",
 	},
 	{
 		name: "Oracle Scripts",
 		img: oracle_scriptsSVG,
-		route: "oracle-scripts",
+		route: "/oracle-scripts",
 	},
 	{
 		name: "Requests",
 		img: requestsSVG,
-		route: "requests",
+		route: "/requests",
 	},
 ];
 
@@ -71,11 +71,9 @@ export default function(props) {
 		<div className={cx("Tabs")}>
 			{tabs.map(({name, img, route}) => {
 				return (
-					<div className={cx("Tab", {active: pathname.indexOf(route) > -1 ? true : false})}>
+					<div className={cx("Tab", {active: pathname.indexOf(route) > -1 ? true : false})} onClick={() => history.push(route)}>
 						<img src={img} alt='DB' />
-						<span className={cx("title")} onClick={() => history.push(route)}>
-							{name}
-						</span>
+						<span className={cx("title")}>{name}</span>
 					</div>
 				);
 			})}

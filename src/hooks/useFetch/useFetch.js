@@ -23,7 +23,7 @@ export default function useFetch(inputUrl, method = "get", refineFunction = res 
 				if (!unmounted) {
 					const data = _.omitBy(refineFunction(res), _.isNil);
 					const keys = _.keys(data);
-					if (!empty(state.data) && _.isEqual(data[keys[0]], state.data[keys[0]])) return;
+					// if (!empty(state.data) && _.isEqual(data[keys[0]], state.data[keys[0]])) return;
 					dispatch({type: SUCCESS, payload: {data}});
 				}
 			})

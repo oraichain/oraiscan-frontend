@@ -3,6 +3,7 @@ import config from "src/config";
 import _ from "lodash";
 
 const api = process.env.NODE_ENV === "production" ? config.API_PROD : config.API_DEV;
+const lcdApi = process.env.REACT_APP_LCD_API;
 
 export default Object.freeze({
 	DEFAULT_ARRAY: [],
@@ -17,7 +18,7 @@ export default Object.freeze({
 	// },
 	COIN_ID: "oraichain-token",
 	TABLE: {
-		PAGE_SIZE: 21,
+		PAGE_SIZE: 20,
 	},
 	NUM: {
 		BASE_MULT: 100000000,
@@ -42,6 +43,7 @@ export default Object.freeze({
 	GET_LOGO_LINK: symbol =>
 		_.isString(symbol) ? `https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/thumnail/${_.split(symbol)[0]}}.png` : "",
 	API_BASE: api,
+	LCD_API_BASE: lcdApi,
 	API: {
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
@@ -61,6 +63,7 @@ export default Object.freeze({
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
 		VALIDATORS: "/validators?moniker=chain",
+		DATA_SOURCES: "/provider/datasources",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

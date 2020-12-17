@@ -12,9 +12,9 @@ import styles from "./ThemedTable.scss";
 
 const cx = classNames.bind(styles);
 
-const ThemedTable = memo(({theme = tableThemes.LIGHT, headerCells, dataRows}) => {
+const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows}) => {
 	return (
-		<TableContainer className={cx("table-container")}>
+		<TableContainer className={cx("table-container", customClassNames)}>
 			<Table className={cx(theme)}>
 				<TableHead>
 					<TableRow key='header-row' className={cx("header-row")}>
