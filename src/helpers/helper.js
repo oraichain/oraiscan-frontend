@@ -24,3 +24,11 @@ export const formatSeconds = (value, numberOfDigitsAfterDecimalPoint = 2) => {
 export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => {
 	return (parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint);
 };
+
+export const calculateBefore = (total, limit, page) => {
+	return total + 1 - (page - 1) * limit;
+};
+
+export const calculateAfter = (total, limit, page) => {
+	return total + 1 - page * limit;
+};
