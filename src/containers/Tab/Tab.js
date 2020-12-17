@@ -4,15 +4,15 @@ import {useLocation, useHistory} from "react-router-dom";
 import styles from "./Tab.scss";
 
 import blocksSVG from "src/assets/header/blocks.svg";
-import dashboardSVG from "src/assets/header/dashboard.svg";
+import dashboardSVG from "src/assets/header/dashboard_black.svg";
 import validatorsSVG from "src/assets/header/validators.svg";
 import transactionsSVG from "src/assets/header/transactions.svg";
 import proposalsSVG from "src/assets/header/proposals.svg";
 import data_sourcesSVG from "src/assets/header/data_sources.svg";
 import oracle_scriptsSVG from "src/assets/header/oracle_scripts.svg";
 import requestsSVG from "src/assets/header/requests.svg";
-import testcase from "src/assets/header/testcase.png";
-import {Link} from "react-router-dom";
+import test_caseSVG from "src/assets/header/test_case.svg";
+import { Link } from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -21,6 +21,7 @@ const tabs = [
 		name: "Dashboard",
 		img: dashboardSVG,
 		route: "/dashboard",
+		route: "",
 	},
 	{
 		name: "Validators",
@@ -35,7 +36,7 @@ const tabs = [
 	{
 		name: "Transactions",
 		img: transactionsSVG,
-		route: "/tx",
+		route: "txs",
 	},
 	{
 		name: "Proposals",
@@ -49,8 +50,8 @@ const tabs = [
 	},
 	{
 		name: "Test Cases",
-		img: testcase,
-		route: "/test-cases",
+		img: test_caseSVG,
+		route: "test-cases",
 	},
 	{
 		name: "Oracle Scripts",
@@ -67,11 +68,13 @@ const tabs = [
 export default function(props) {
 	const {pathname} = useLocation();
 	const history = useHistory();
+	console.log(pathname)
 	return (
 		<div className={cx("Tabs")}>
 			{tabs.map(({name, img, route}) => {
 				return (
-					<div className={cx("Tab", {active: pathname.indexOf(route) > -1 ? true : false})} onClick={() => history.push(route)}>
+
+					<div className={cx("Tab", {active: route === "" ? (pathname === "/" ? true: false) : pathname.indexOf(route) > -1 ? true : false})}>
 						<img src={img} alt='DB' />
 						<span className={cx("title")}>{name}</span>
 					</div>
