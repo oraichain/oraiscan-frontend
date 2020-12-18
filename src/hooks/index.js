@@ -16,6 +16,7 @@ import useMultiFetch from "./useMultiFetch";
 import useIncrementalListLoader from "./useIncrementalListLoader";
 import useCheckOutsideClick from "./useCheckOutsideClick";
 import {useDispatch, useSelector} from "react-redux";
+import useDebounce from "./useDebounce";
 
 export {
 	useFetch,
@@ -37,4 +38,5 @@ export {
 	useCheckOutsideClick,
 	useSelector,
 	useDispatch,
+	useDebounce,
 };
