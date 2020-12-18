@@ -53,7 +53,7 @@ export default function(props) {
 							</>
 						) : (
 							<Skeleton width={"122px"} height={"19px"} />
-						)} 
+						)}
 					</div>
 				</div>
 				<div className={cx("CapVolume-wrapper")}>

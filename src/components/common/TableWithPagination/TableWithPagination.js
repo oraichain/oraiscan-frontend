@@ -54,11 +54,17 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 
 	return (
 		<>
-			{renderInputBase}
+			{isActiveSearch && renderInputBase}
+
 			<ThemedTable customClassNames={cxTableWithPagination("table-data-source")} theme={theme} headerCells={headerCells} dataRows={dataRows} />
+
 			<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
 		</>
 	);
 });
+
+TableWithPagination.defaultProps = {
+	isActiveSearch: true,
+};
 
 export default TableWithPagination;
