@@ -8,7 +8,7 @@ import styles from "./DataSourceTable.scss";
 const cx = classNames.bind(styles);
 
 const headerCells = ["Data Source", "Description", "Fee", "Requests", "Owner"];
-const DataSourceTable = memo(({dataSources, pages, onPageChange}) => {
+const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) => {
 	const history = useHistory();
 	const dataRows = dataSources.map(({name, code, description, owner, fee, requests}) => {
 		const nameCell = (
@@ -42,7 +42,16 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange}) => {
 
 		return [nameCell, description, fee, requests, ownerCell];
 	});
-	return <TableWithPagination theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} pages={pages} onPageChange={onPageChange} />;
+	return (
+		<TableWithPagination
+			theme={tableThemes.LIGHT}
+			headerCells={headerCells}
+			dataRows={dataRows}
+			pages={pages}
+			onPageChange={onPageChange}
+			handleSearch={handleSearch}
+		/>
+	);
 });
 
 export default DataSourceTable;

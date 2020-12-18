@@ -12,7 +12,7 @@ import data_sourcesSVG from "src/assets/header/data_sources.svg";
 import oracle_scriptsSVG from "src/assets/header/oracle_scripts.svg";
 import requestsSVG from "src/assets/header/requests.svg";
 import test_caseSVG from "src/assets/header/test_case.svg";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -20,18 +20,17 @@ const tabs = [
 	{
 		name: "Dashboard",
 		img: dashboardSVG,
-		route: "/dashboard",
 		route: "",
 	},
 	{
 		name: "Validators",
 		img: validatorsSVG,
-		route: "/validators",
+		route: "validators",
 	},
 	{
 		name: "Blocks",
 		img: blocksSVG,
-		route: "/blocks",
+		route: "blocks",
 	},
 	{
 		name: "Transactions",
@@ -41,12 +40,12 @@ const tabs = [
 	{
 		name: "Proposals",
 		img: proposalsSVG,
-		route: "/proposals",
+		route: "proposals",
 	},
 	{
 		name: "Data Sources",
 		img: data_sourcesSVG,
-		route: "/data-sources",
+		route: "data-sources",
 	},
 	{
 		name: "Test Cases",
@@ -56,25 +55,26 @@ const tabs = [
 	{
 		name: "Oracle Scripts",
 		img: oracle_scriptsSVG,
-		route: "/oracle-scripts",
+		route: "oracle-scripts",
 	},
 	{
 		name: "Requests",
 		img: requestsSVG,
-		route: "/requests",
+		route: "requests",
 	},
 ];
 
 export default function(props) {
 	const {pathname} = useLocation();
 	const history = useHistory();
-	console.log(pathname)
+	console.log(pathname);
 	return (
 		<div className={cx("Tabs")}>
 			{tabs.map(({name, img, route}) => {
 				return (
-
-					<div className={cx("Tab", {active: route === "" ? (pathname === "/" ? true: false) : pathname.indexOf(route) > -1 ? true : false})}>
+					<div
+						className={cx("Tab", {active: route === "" ? (pathname === "/" ? true : false) : pathname.indexOf(route) > -1 ? true : false})}
+						onClick={() => history.push(route)}>
 						<img src={img} alt='DB' />
 						<span className={cx("title")}>{name}</span>
 					</div>

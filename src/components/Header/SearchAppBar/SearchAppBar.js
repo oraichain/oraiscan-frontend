@@ -1,16 +1,22 @@
+// @ts-nocheck
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import cn from "classnames/bind";
-import Keystation from "src/lib/Keystation";
-import styles from "./SearchAppBar.scss";
-// import _ from "lodash";
+import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
-
-//  components
-import SearchArea from "src/components/common/SearchArea";
 import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden} from "@material-ui/core";
 import {ArrowDropDown, DriveEta} from "@material-ui/icons";
+import copy from "copy-to-clipboard";
 
+import Keystation from "src/lib/Keystation";
+import {initWallet} from "src/store/modules/wallet";
+import SearchArea from "src/components/common/SearchArea";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logo from "src/assets/header/logo.svg";
+import {ReactComponent as CopyIcon} from "src/assets/icons/copy.svg";
+import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
+
+import styles from "./SearchAppBar.scss";
 
 const cx = cn.bind(styles);
 
@@ -53,7 +59,7 @@ const navLinkInit = [
 		],
 	},
 	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
-	{title: "Connect Wallet", path: null, handleClick: handleClickConnectWallet},
+	{title: "Connect Wallet", path: null, handleClick: handleClickConnectWallet, type: "wallet"},
 ];
 
 function openNav() {
@@ -66,14 +72,18 @@ function closeNav() {
 
 export default function(props) {
 	const [navLinks, setNavLinks] = useState(navLinkInit);
+	const dispatch = useDispatch();
+	const {address} = useSelector(state => state.wallet);
 
 	useEffect(() => {
 		const callBack = function(e) {
 			if (e?.data?.address) {
 				navLinkInit[navLinkInit.length - 1] = {
 					title: e.data.address,
+					type: "wallet",
 				};
 				setNavLinks([...navLinkInit]);
+				dispatch(initWallet(e.data.address));
 			}
 		};
 		window.addEventListener("message", callBack, false);
@@ -81,6 +91,61 @@ export default function(props) {
 			window.removeEventListener("message", callBack);
 		};
 	}, []);
+
+	useEffect(() => {
+		navLinkInit[navLinkInit.length - 1] = {
+			title: address,
+			type: "wallet",
+		};
+		setNavLinks([...navLinkInit]);
+	}, [address]);
+
+	const renderWalletItem = ({path, title, handleClick}) => {
+		if (title === "") {
+			return (
+				<a href={path} key={title} target='_blank' onClick={handleClick || handleClickConnectWallet}>
+					<ListItem button>
+						<ListItemText primary={"Connect Wallet"} />
+					</ListItem>
+				</a>
+			);
+		}
+		return (
+			<div className={cx("dropdown")}>
+				<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()}>
+					<ListItem button>
+						<AccountCircleIcon />
+						<ArrowDropDown />
+					</ListItem>
+				</a>
+				<div className={cx("dropdown-content")}>
+					<div className={cx("orai-profile")}>
+						<div className={cx("wallet-name")}>Address (your name here)</div>
+						<div className={cx("wallet-link")}>
+							<a href='/' onClick={e => e.preventDefault()}>
+								{title}
+							</a>
+							<span className={cx("wallet-copy")} onClick={() => copy(title)}>
+								<CopyIcon />
+							</span>
+							<span className={cx("wallet-share")}>
+								<ShareIcon />
+							</span>
+						</div>
+						<div className={cx("orai-btn-group")}>
+							<div className={cx("btn-orai", "change-wallet")} onClick={handleClickConnectWallet}>
+								{" "}
+								Change Wallet{" "}
+							</div>
+							<div className={cx("btn-orai", "close-wallet")} onClick={() => dispatch(initWallet(""))}>
+								Close Wallet
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	};
 
 	return (
 		<div className={cx("SearchAppBar-root")} id={"Header-fixed-id"}>
@@ -92,7 +157,8 @@ export default function(props) {
 				<div className={cx("select-wrapper")}>
 					{/* <SearchArea propCx={cx} dropdownStyle={{position: "fixed", width: "459px"}} /> */}
 					<List component='nav' aria-labelledby='main navigation' className={cx("nav-display-flex")}>
-						{navLinks.map(({title, path, children, handleClick}, idx) => {
+						{navLinks.map((item, idx) => {
+							const {title, path, children, handleClick, type} = item;
 							if (children) {
 								return (
 									<div className={cx("dropdown")}>
@@ -112,12 +178,8 @@ export default function(props) {
 									</div>
 								);
 							}
-							return handleClick ? (
-								<a href={path} key={title} target='_blank' onClick={handleClick}>
-									<ListItem button>
-										<ListItemText primary={title} />
-									</ListItem>
-								</a>
+							return type === "wallet" ? (
+								renderWalletItem(item)
 							) : (
 								<a href={path} key={title} target='_blank'>
 									<ListItem button>

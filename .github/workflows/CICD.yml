@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - master
-      - develop
+      # - develop
   # pull_request:
   #   branches: [ master ]
 
@@ -24,42 +24,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: ${{ secrets.DOCKER_USERNAME }}/oraiscan-frontend
         tags: ${{ github.sha }}, latest
-
-  deploy-to-staging:
-    name: Deploy to Staging
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master'
-    needs: build
-
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: Update Kubernetes resources for staging
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      run: |
-       sed -i -z -E "s/oraiscan-frontend:[^\\n]+\\n/oraiscan-frontend:${GITHUB_SHA}\\n/g" k8s/staging/deployment.yaml 
-     
-    # - name: Update Kubernetes resources for prod
-    #   env:
-    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-    #   run: |
-    #    sed -i -z -E "s/oraiscan-frontend:[^\\n]+\\n/oraiscan-frontend:${GITHUB_SHA}\\n/g" k8s/prod/deployment.yaml 
-    - name: Commit files
-      run: |
-        git config --local user.email "nguyentienthao96@gmail.com"
-        git config --local user.name "Thao Nguyen Tien"
-        git commit -am 'chore: Delivery to prod ${{ github.event.head_commit.message }} '
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-
-    
-
   deploy-to-prod:
     name: Deploy to Prod
     runs-on: ubuntu-latest

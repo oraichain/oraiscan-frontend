@@ -81,10 +81,26 @@ export default function(props) {
 						<b>Product</b>
 					</p>
 					<div className={cx("sub-footer-3")}>
-						<p><a style={{ color: '#8AA2C9' }} href="https://liquidity.orai.io/" target="_blank">LME</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://scan.orai.io/" target="_blank">Testnet</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://yai.finance/" target="_blank">yAI.Finance</a></p>
-						<p><a style={{ color: '#8AA2C9' }} href="https://market.orai.io/oscript" target="_blank">Marketpalce</a></p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://liquidity.orai.io/' target='_blank'>
+								LME
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://scan.orai.io/' target='_blank'>
+								Testnet
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://yai.finance/' target='_blank'>
+								yAI.Finance
+							</a>
+						</p>
+						<p>
+							<a style={{color: "#8AA2C9"}} href='https://market.orai.io/oscript' target='_blank'>
+								Marketpalce
+							</a>
+						</p>
 					</div>
 				</div>
 				<div className={cx("col-2")}>

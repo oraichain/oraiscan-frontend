@@ -59,6 +59,9 @@ const ValidatorList = props => {
 	if (!validators || !status) {
 		return (
 			<Container fixed className={cx("validator-list")}>
+				<TitleWrapper>
+					<PageTitle title={"Validators"} />
+				</TitleWrapper>
 				<Spinner />
 			</Container>
 		);
@@ -105,7 +108,7 @@ const ValidatorList = props => {
 					}}
 				/>
 			</div>
-			<ValidatorTable validators={validators} />
+			<ValidatorTable data={validators} />
 			<Pagination />
 		</Container>
 	);
