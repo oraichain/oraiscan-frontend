@@ -1,12 +1,21 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import penderMiddleware from "redux-pender";
 import {createLogger} from "redux-logger";
+import {persistStore, persistReducer} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 import {_} from "src/lib/scripts";
 
 import * as modules from "./modules";
 
+const persistConfig = {
+	key: "root",
+	storage,
+	whitelist: ["wallet"],
+};
+
 // add all reducers
-const reducers = combineReducers(modules);
+const reducers = persistReducer(persistConfig, combineReducers(modules));
 const middlewares = [penderMiddleware()];
 const isDev = process.env.NODE_ENV === "development";
 if (isDev) {
@@ -22,6 +31,8 @@ if (isDev) {
 const devtools = isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 const composeEnhancers = devtools || compose;
 
-const configure = () => createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
+const store = createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
 
-export default configure;
+export const persistor = persistStore(store);
+
+export default store;
