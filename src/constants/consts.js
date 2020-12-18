@@ -112,6 +112,8 @@ export default Object.freeze({
 			route: "/txs",
 		},
 	],
-	LIMIT: 10, // Number of records per page
-	REFETCH_TIMEOUT: 1000,
+	REQUEST: {
+		LIMIT: 10, // Number of records per page
+		INTERVAL: 2000,
+	},
 });

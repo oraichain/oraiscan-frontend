@@ -1,0 +1,15 @@
+@mixin Border($types, $info) {
+	@each $type in $types {
+		@if $type == "all" {
+			border: $info;
+		} @else if $type == "left" {
+			border-left: $info;
+		} @else if $type == "right" {
+			border-right: $info;
+		} @else if $type == "top" {
+			border-top: $info;
+		} @else if $type == "bottom" {
+			border-bottom: $info;
+		}
+	}
+}

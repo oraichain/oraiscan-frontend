@@ -18,6 +18,7 @@ const Tx = lazy(() => import(`src/containers/Tx`));
 const NotFound = lazy(() => import(`src/containers/NotFound`));
 const Account = lazy(() => import(`src/containers/Account`));
 const DataSources = lazy(() => import(`src/containers/DataSources`));
+const DataSourcesDetail = lazy(() => import(`src/containers/DataSourcesDetail`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -35,6 +36,7 @@ export default function(props) {
 						<Route path='/txs/:tx' render={props => <Tx {...props} />} />
 						<Route path='/txs' render={props => <TxList {...props} />} />
 						<Route path='/account/:account' render={props => <Account {...props} />} />
+						<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 						<Route path='/data-sources' component={DataSources} />
 						<Route render={() => <NotFound />} />
 					</Switch>

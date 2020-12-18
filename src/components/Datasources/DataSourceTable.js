@@ -17,7 +17,7 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 					href='code'
 					onClick={e => {
 						e.preventDefault();
-						history.push(`/data-source/${code}`);
+						history.push(`/data-sources/${name}`);
 					}}
 					className={cx("table-link")}>
 					{" "}

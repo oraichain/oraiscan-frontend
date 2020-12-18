@@ -68,6 +68,7 @@ const ValidatorList = props => {
 	}
 
 	console.log("VALIDATOR", validators);
+	console.log("STATUS", status);
 
 	return (
 		<Container fixed className={cx("validator-list")}>

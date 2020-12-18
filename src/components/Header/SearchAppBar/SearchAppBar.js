@@ -11,6 +11,7 @@ import copy from "copy-to-clipboard";
 import Keystation from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import SearchArea from "src/components/common/SearchArea";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logo from "src/assets/header/logo.svg";
 import {ReactComponent as CopyIcon} from "src/assets/icons/copy.svg";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
@@ -113,7 +114,7 @@ export default function(props) {
 			<div className={cx("dropdown")}>
 				<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()}>
 					<ListItem button>
-						{title}
+						<AccountCircleIcon />
 						<ArrowDropDown />
 					</ListItem>
 				</a>
@@ -122,23 +123,22 @@ export default function(props) {
 						<div className={cx("wallet-name")}>Address (your name here)</div>
 						<div className={cx("wallet-link")}>
 							<a href='/' onClick={e => e.preventDefault()}>
-								{" "}
-								{title}{" "}
+								{title}
 							</a>
 							<span className={cx("wallet-copy")} onClick={() => copy(title)}>
-								{" "}
-								<CopyIcon />{" "}
+								<CopyIcon />
 							</span>
 							<span className={cx("wallet-share")}>
-								{" "}
-								<ShareIcon />{" "}
+								<ShareIcon />
 							</span>
 						</div>
 						<div className={cx("orai-btn-group")}>
-							<div className={cx("btn-orai", "change-wallet")}> Change Wallet </div>
-							<div className={cx("btn-orai", "close-wallet")} onClick={() => dispatch(initWallet(""))}>
+							<div className={cx("btn-orai", "change-wallet")} onClick={handleClickConnectWallet}>
 								{" "}
-								Close Wallet{" "}
+								Change Wallet{" "}
+							</div>
+							<div className={cx("btn-orai", "close-wallet")} onClick={() => dispatch(initWallet(""))}>
+								Close Wallet
 							</div>
 						</div>
 					</div>
