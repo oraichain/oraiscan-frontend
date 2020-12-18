@@ -13,12 +13,22 @@ const cx = cn.bind(styles);
 
 export default function(props) {
 	const url = `${consts.LCD_API_BASE}${consts.API.DATA_SOURCES}`;
+	const [currentPage, setCurrentPage] = useState(1);
+	const [currentTextSearch, setCurrentTextSearch] = useState("");
 	const [state, , , , setUrl] = useFetch(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=1`);
 
-	const pages = parseInt(state?.data?.result?.count || 0);
+	const pages = Math.ceil(parseInt(state?.data?.result?.count || 0) / consts.TABLE.PAGE_SIZE);
+
 	const onPageChange = page => {
-		setUrl(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=${page}`);
+		setCurrentPage(page);
+		setUrl(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=${page}&name=${currentTextSearch}`);
 	};
+
+	const handleSearch = textSearch => {
+		setCurrentTextSearch(textSearch);
+		setUrl(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=${currentPage}&name=${textSearch}`);
+	};
+
 	const dataForStatusBox = [
 		{
 			label: "Price",
@@ -37,6 +47,7 @@ export default function(props) {
 			value: "7.00%",
 		},
 	];
+
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
@@ -44,8 +55,7 @@ export default function(props) {
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
 
-			<DataSourceTable dataSources={state?.data?.result?.data_sources || []} pages={pages} onPageChange={onPageChange} />
-			{/* <DataSourceTable dataRows={dataRows.slice(0, 10)} pages={pages} onPageChange={onPageChange} /> */}
+			<DataSourceTable dataSources={state?.data?.result?.data_sources || []} pages={pages} onPageChange={onPageChange} handleSearch={handleSearch} />
 		</Container>
 	);
 }
