@@ -19,9 +19,8 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const status = useSelector(state => state.blockchain.status);
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
-	console.log(data);
 
-	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
+	const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
 
 	React.useEffect(() => {
 		requestFetch();
@@ -47,7 +46,8 @@ export default function(props) {
 					</div>
 					<div className={cx("footer")}>
 						{/* {data.data !== null ? moment(data.data.timestamp).format('MMM Do YYYY h:mm:ss a') : ""} */}
-						{data.data !== null ? moment(data.data.timestamp).fromNow() : ""}
+						{/* {data.data !== null ? moment(data.data.timestamp).fromNow() : ""} */}
+						{data.data !== null ? moment().diff(moment(data.data.timestamp), 'seconds') + " seconds ago" : ""}
 					</div>
 				</div>
 				<div className={cx("card")}>

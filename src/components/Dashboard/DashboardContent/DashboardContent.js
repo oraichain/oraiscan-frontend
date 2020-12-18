@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import cn from "classnames/bind";
 import styles from "./DashboardContent.scss";
-import {_} from "src/lib/scripts";
-import {useFetch} from "src/hooks";
+import { _ } from "src/lib/scripts";
+import { useFetch, useTimer } from "src/hooks";
 import consts from "src/constants/consts";
 //  components
 import GraphDisplay from "./GraphDisplay";
@@ -18,7 +18,7 @@ import launchpadSVG from "src/assets/dashboard/launchpad_ic.svg";
 //  component
 import Skeleton from "react-skeleton-loader";
 //  redux
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const cx = cn.bind(styles);
 
@@ -49,9 +49,15 @@ const cardData = Object.freeze([
 	},
 ]);
 
-export default function(props) {
+export default function (props) {
 	const status = useSelector(state => state.blockchain.status);
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
+
+	const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
+
+	React.useEffect(() => {
+		requestFetch();
+	}, [watching, requestFetch]);
 	// console.log(data);
 	return (
 		<div className={cx("DashboardContent-wrapper")}>
@@ -60,11 +66,11 @@ export default function(props) {
 				<div className={cx("info")}>
 					<div className={cx("detail")}>
 						<span>Price: </span>
-						<span style={{fontWeight: 500}}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</span>
+						<span style={{ fontWeight: 500 }}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</span>
 					</div>
 					<div className={cx("detail")}>
 						<span>Height: </span>
-						<span style={{fontWeight: 500}}>{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</span>
+						<span style={{ fontWeight: 500 }}>{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</span>
 					</div>
 					{/* <div className={cx("detail")}>
 						<span>Bonded: </span>
@@ -93,7 +99,7 @@ export default function(props) {
 	);
 }
 
-const DashboardCard = ({svg, title, content, link}) => (
+const DashboardCard = ({ svg, title, content, link }) => (
 	<li className={cx("DashboardCard-wrapper")} onClick={() => window.open(link, "_blank")}>
 		<img src={svg} alt={"logo"} />
 		<div className={cx("text-wrapper")}>
