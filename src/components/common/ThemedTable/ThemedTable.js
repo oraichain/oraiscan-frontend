@@ -12,14 +12,14 @@ import styles from "./ThemedTable.scss";
 
 const cx = classNames.bind(styles);
 
-const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows}) => {
+const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = []}) => {
 	return (
 		<TableContainer className={cx("table-container", customClassNames)}>
 			<Table className={cx(theme)}>
 				<TableHead>
 					<TableRow key='header-row' className={cx("header-row")}>
 						{headerCells.map((headerCell, cellIndex) => (
-							<TableCell key={"header-cell-" + cellIndex} className={cx("header-cell")} children={headerCell} />
+							<TableCell key={"header-cell-" + cellIndex} className={cx("header-cell")} children={headerCell} style={headerCellStyles?.[cellIndex] ?? {}} />
 						))}
 					</TableRow>
 				</TableHead>

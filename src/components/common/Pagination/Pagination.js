@@ -10,9 +10,10 @@ import {ReactComponent as NextButtonIcon} from "src/assets/pagination/next_butto
 
 const cx = classNames.bind(styles);
 
-const Pagination = memo(({pages, onChange = noop}) => {
+const Pagination = memo(({pages, onChange = noop, page = 1}) => {
 	const {items} = usePagination({
 		count: pages,
+		page: page,
 		showFirstButton: true,
 		showLastButton: true,
 		onChange,

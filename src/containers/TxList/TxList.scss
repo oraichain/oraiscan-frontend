@@ -1,9 +1,5 @@
 @import "src/styles/utils";
 
-.TxList-wrapper {
-	@include page-wrapper;
-
-	.Card {
-		@include card-wrapper(70px);
-	}
+.tx-list {
+	margin-top: 0;
 }
