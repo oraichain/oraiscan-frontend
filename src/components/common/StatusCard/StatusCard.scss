@@ -3,7 +3,7 @@
 .status-card {
 	padding: 20px;
 	background: #ffffff;
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: var(--shadow1);
 	border-radius: 8px;
 
 	&-icon {

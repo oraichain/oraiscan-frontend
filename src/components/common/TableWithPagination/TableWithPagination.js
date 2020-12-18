@@ -18,7 +18,7 @@ import styleTableWithPagination from "./TableWithPagination.scss";
 const cx = classNames.bind(styles);
 const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 
-const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange}) => {
+const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange, isActiveSearch}) => {
 	const [value, setValue] = React.useState("");
 	const onChange = React.useCallback(e => {
 		setValue(e.target.value);
@@ -43,11 +43,17 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 
 	return (
 		<>
-			{renderInputBase}
+			{isActiveSearch && renderInputBase}
+
 			<ThemedTable customClassNames={cxTableWithPagination("table-data-source")} theme={theme} headerCells={headerCells} dataRows={dataRows} />
+
 			<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
 		</>
 	);
 });
+
+TableWithPagination.defaultProps = {
+	isActiveSearch: true,
+};
 
 export default TableWithPagination;
