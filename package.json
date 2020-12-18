@@ -115,6 +115,7 @@
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-pender": "^2.0.12",
+    "redux-persist": "^6.0.0",
     "resolve": "1.12.2",
     "resolve-url-loader": "3.1.1",
     "restful-react": "^9.11.0",
