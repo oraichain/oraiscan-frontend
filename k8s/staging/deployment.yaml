@@ -22,7 +22,7 @@ spec:
       containers:
       - name: oraiscan-frontend
 
-    image: thao1996/oraiscan-frontend:5b7ee97e25365b3a2a1110ac7c3c7bebf57661ef
+    image: thao1996/oraiscan-frontend:44e06aa79bdb25f0041997877a2a89bfcca8271e
 
 
         env:
