@@ -2,13 +2,13 @@ import * as React from "react";
 import cn from "classnames/bind";
 import styles from "./DetailDisplay.scss";
 import {formatNumber} from "src/lib/scripts";
-import {useFetch} from "src/hooks";
+import {useFetch, useTimer} from "src/hooks";
 import consts from "src/constants/consts";
 import moment from "moment";
 //  component
 import Skeleton from "react-skeleton-loader";
 //  redux
-import {useSelector} from "react-redux";
+import {useSelector} from "react-redux"; 
 //  svgs
 import down_rd from "src/assets/common/arrow_down.svg";
 import up_gr from "src/assets/common/arrow_up.svg";
@@ -20,6 +20,12 @@ export default function(props) {
 	const status = useSelector(state => state.blockchain.status);
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
 	console.log(data);
+
+	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
+
+	React.useEffect(() => {
+		requestFetch();
+	}, [watching, requestFetch]);
 
 	// React.useEffect(() => {
 	// 	const cancelToken = axios.CancelToken;
@@ -40,8 +46,8 @@ export default function(props) {
 						{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}
 					</div>
 					<div className={cx("footer")}>
-						{/* 8 Dec 2020 07:56:29am UTC */}
-						{data.data !== null ? moment(data.data.timestamp).format('MMM Do YYYY h:mm:ss a') : ""}
+						{/* {data.data !== null ? moment(data.data.timestamp).format('MMM Do YYYY h:mm:ss a') : ""} */}
+						{data.data !== null ? moment(data.data.timestamp).fromNow() : ""}
 					</div>
 				</div>
 				<div className={cx("card")}>
