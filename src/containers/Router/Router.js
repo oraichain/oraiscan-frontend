@@ -22,7 +22,6 @@ const DataSources = lazy(() => import(`src/containers/DataSources`));
 export default function(props) {
 	//  preload stuff that needs preloading
 	usePreload();
-	console.log("router rerender >>> should never happen");
 	return (
 		<main className={cx("routerContainer")}>
 			<Suspense fallback={<Loading />}>

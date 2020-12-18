@@ -56,13 +56,13 @@ const getCumulativeShareCell = (previousValue, currentValue) => {
 };
 
 const headerCells = [rankHeaderCell, validatorHeaderCell, votingPowerHeaderCell, cumulativeShareHeaderCell, uptimeHeaderCell, commissionHeaderCell];
-const ValidatorTable = memo(({validators = []}) => {
-	const dataRows = validators.map(validator => {
-		const rankDataCell = validator?.id ?? "-";
-		const validatorDataCell = validator?.moniker ? (
+const ValidatorTable = memo(({data = []}) => {
+	const dataRows = data.map(item => {
+		const rankDataCell = item?.id ?? "-";
+		const validatorDataCell = item?.moniker ? (
 			<div className={cx("validator-cell")}>
 				<img src={aiIcon} alt='' />
-				{validator.moniker}
+				{item.moniker}
 			</div>
 		) : (
 			"-"
@@ -77,7 +77,7 @@ const ValidatorTable = memo(({validators = []}) => {
 		const currentValue = 20;
 		const cumulativeShareDataCell = getCumulativeShareCell(previousValue, currentValue);
 		const uptimeDataCell = "-";
-		const commissionDataCell = validator?.commission_rate ? formatPercentage(validator?.commission_rate) + "%" : "-";
+		const commissionDataCell = item?.commission_rate ? formatPercentage(item?.commission_rate) + "%" : "-";
 		return [
 			rankDataCell, //Rank
 			validatorDataCell, //Validator
