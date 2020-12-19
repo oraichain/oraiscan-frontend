@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
 import {calculateBefore, calculateAfter} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
-import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -13,15 +13,22 @@ import Pagination from "src/components/common/Pagination";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import styles from "./TxList.scss";
 
-const cx = cn.bind(styles);
-
 const TxList = () => {
+	const cx = cn.bind(styles);
 	const defaultPath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 
 	const [showLoading, setShowLoading] = useState(true);
 	const [path, setPath] = useState(defaultPath);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [loadCompleted, setLoadCompleted] = useState(false);
+	let timerID = useRef(null);
+
+	const cleanUp = () => {
+		if (timerID) {
+			clearTimeout(timerID);
+			setLoadCompleted(false);
+		}
+	};
 
 	const {data, loading, refetch} = useGet({
 		path: path,
@@ -36,11 +43,13 @@ const TxList = () => {
 
 	useEffect(() => {
 		if (loadCompleted) {
-			const timerId = setTimeout(() => {
-				setLoadCompleted(false);
+			timerID = setTimeout(() => {
 				refetch();
+				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
-			return () => clearTimeout(timerId);
+			return () => {
+				cleanUp();
+			};
 		}
 	}, [loadCompleted]);
 
@@ -50,7 +59,7 @@ const TxList = () => {
 				<TitleWrapper>
 					<PageTitle title={"Transactions"} />
 				</TitleWrapper>
-				<Spinner />
+				<Skeleton variant='rect' animation='wave' height={400} />
 			</Container>
 		);
 	}
@@ -59,6 +68,7 @@ const TxList = () => {
 	const totalPages = Math.ceil(total / consts.REQUEST.LIMIT);
 
 	const onPageChange = (total, limit, page) => {
+		cleanUp();
 		setShowLoading(true);
 		setPath(defaultPath + "&before=" + calculateBefore(total, limit, page));
 		setCurrentPage(page);
