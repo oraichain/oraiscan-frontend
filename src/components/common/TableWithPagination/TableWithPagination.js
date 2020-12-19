@@ -12,62 +12,70 @@ import styleTableWithPagination from "./TableWithPagination.scss";
 
 const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 
-const TableWithPagination = memo(({isActiveSearch, theme = tableThemes.LIGHT, headerCells, headerCellStyles, dataRows, pages, onPageChange, handleSearch}) => {
-	const [value, setValue] = React.useState(null);
-	const valueDebounce = useDebounce(value, 500);
-	const onChange = React.useCallback(e => {
-		setValue(e.target.value);
-	}, []);
+const TableWithPagination = memo(
+	({theme = tableThemes.LIGHT, headerCells, headerCellStyles, dataRows, pages, onPageChange, textSearchPlaceholder, handleSearch}) => {
+		const [value, setValue] = React.useState(null);
+		const valueDebounce = useDebounce(value, 500);
+		const onChange = React.useCallback(e => {
+			setValue(e.target.value);
+		}, []);
 
-	const clickSearch = React.useCallback(
-		e => {
-			e.preventDefault();
-			handleSearch(value);
-		},
-		[handleSearch, value]
-	);
+		const clickSearch = React.useCallback(
+			e => {
+				e.preventDefault();
+				handleSearch && handleSearch(value);
+			},
+			[handleSearch, value]
+		);
 
-	const onKeyDown = React.useCallback(
-		e => {
-			if (e.keyCode === 13) {
-				handleSearch(value);
-			}
-		},
-		[handleSearch, value]
-	);
+		const onKeyDown = React.useCallback(
+			e => {
+				if (e.keyCode === 13) {
+					handleSearch && handleSearch(value);
+				}
+			},
+			[handleSearch, value]
+		);
 
-	useEffect(() => {
-		!_.isNil(valueDebounce) && handleSearch(valueDebounce);
-	}, [handleSearch, valueDebounce]);
+		useEffect(() => {
+			!_.isNil(valueDebounce) && handleSearch && handleSearch(valueDebounce);
+		}, [handleSearch, valueDebounce]);
 
-	const renderInputBase = React.useMemo(
-		() => (
-			<div className={cxTableWithPagination("search")}>
-				<InputBase className={cxTableWithPagination("input")} placeholder='Search data sources' onChange={onChange} onKeyDown={onKeyDown} value={value} />
-				<button className={cxTableWithPagination("searchBtn")} onClick={clickSearch}>
-					<img className={cxTableWithPagination("searchIcon")} src={SearchIcon} alt={"search"} />
-				</button>
-			</div>
-		),
-		[onChange, onKeyDown, value, clickSearch]
-	);
+		const renderInputBase = React.useMemo(
+			() => (
+				<div className={cxTableWithPagination("search")}>
+					<InputBase
+						className={cxTableWithPagination("input")}
+						placeholder={textSearchPlaceholder || "Search ... "}
+						onChange={onChange}
+						onKeyDown={onKeyDown}
+						value={value}
+					/>
+					<button className={cxTableWithPagination("searchBtn")} onClick={clickSearch}>
+						<img className={cxTableWithPagination("searchIcon")} src={SearchIcon} alt={"search"} />
+					</button>
+				</div>
+			),
+			[textSearchPlaceholder, onChange, onKeyDown, value, clickSearch]
+		);
 
-	return (
-		<>
-			{isActiveSearch && renderInputBase}
+		return (
+			<>
+				{handleSearch && renderInputBase}
 
-			<ThemedTable
-				customClassNames={cxTableWithPagination("table-data-source")}
-				theme={theme}
-				headerCells={headerCells}
-				headerCellStyles={headerCellStyles}
-				dataRows={dataRows}
-			/>
+				<ThemedTable
+					customClassNames={cxTableWithPagination("table-data-source")}
+					theme={theme}
+					headerCells={headerCells}
+					headerCellStyles={headerCellStyles}
+					dataRows={dataRows}
+				/>
 
-			<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
-		</>
-	);
-});
+				<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
+			</>
+		);
+	}
+);
 
 TableWithPagination.defaultProps = {
 	isActiveSearch: true,

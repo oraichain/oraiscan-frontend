@@ -3,22 +3,22 @@ import {useHistory} from "react-router-dom";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import TableWithPagination from "src/components/common/TableWithPagination";
-import styles from "./DataSourceTable.scss";
+import styles from "./TestCases.scss";
 
 const cx = classNames.bind(styles);
 
-const headerCells = ["Data Source", "Description", "Fee", "Requests", "Owner"];
+const headerCells = ["Test Case", "Description", "Fee", "Requests", "Owner"];
 const headerCellStyles = [{}, {}, {width: "150px", textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}];
-const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) => {
+const TestCaseTable = memo(({testCases, pages, onPageChange, handleSearch}) => {
 	const history = useHistory();
-	const dataRows = dataSources.map(({name, code, description, owner, fees, requests}) => {
+	const dataRows = testCases.map(({name, code, description, owner, fees, requests}) => {
 		const nameCell = (
 			<div>
 				<a
 					href='code'
 					onClick={e => {
 						e.preventDefault();
-						history.push(`/data-sources/${name}`);
+						history.push(`/test-cases/${name}`);
 					}}
 					className={cx("table-link")}>
 					{" "}
@@ -57,11 +57,11 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 			dataRows={dataRows}
 			pages={pages}
 			onPageChange={onPageChange}
-			textSearchPlaceholder='Search data sources'
+			textSearchPlaceholder='Search test cases'
 			handleSearch={handleSearch}
 			headerCellStyles={headerCellStyles}
 		/>
 	);
 });
 
-export default DataSourceTable;
+export default TestCaseTable;
