@@ -64,7 +64,10 @@ export default Object.freeze({
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
 		VALIDATORS: "/validators?moniker=chain",
+	},
+	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
+		TEST_CASES: "/provider/testcases",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
