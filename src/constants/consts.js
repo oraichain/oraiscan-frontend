@@ -114,6 +114,6 @@ export default Object.freeze({
 	],
 	REQUEST: {
 		LIMIT: 10, // Number of records per page
-		INTERVAL: 2000,
+		TIMEOUT: 3000,
 	},
 });
