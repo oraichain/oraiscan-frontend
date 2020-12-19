@@ -63,9 +63,10 @@ export default Object.freeze({
 		TOP_ASSETS: "/market/coin/list",
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
-		VALIDATORS: "/validators?moniker=chain",
+		VALIDATORS: "/validators",
 	},
 	LCD_API: {
+		VALIDATORS: "/validators",
 		DATA_SOURCES: "/provider/datasources",
 		TEST_CASES: "/provider/testcases",
 	},
