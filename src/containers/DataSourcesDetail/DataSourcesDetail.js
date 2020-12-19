@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import {useParams} from "react-router-dom";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -12,7 +13,8 @@ import styles from "./DataSourcesDetail.scss";
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const url = `${consts.LCD_API_BASE}${consts.API.DATA_SOURCES.replace("datasources", "datasource")}/${window.location.href.split("/").pop()}`;
+	const {detailId} = useParams();
+	const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
 	const [state, , , , setUrl] = useFetch(`${url}`);
 	const pages = parseInt(state?.data?.result?.count || 0);
 	const onPageChange = page => {

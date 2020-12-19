@@ -22,7 +22,11 @@ export const formatSeconds = (value, numberOfDigitsAfterDecimalPoint = 2) => {
 };
 
 export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => {
-	return (parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint);
+	return parseFloat((parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint));
+};
+
+export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2) => {
+	return parseFloat(value).toFixed(numberOfDigitsAfterDecimalPoint);
 };
 
 export const calculateBefore = (total, limit, page) => {

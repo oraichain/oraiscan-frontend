@@ -63,8 +63,14 @@ export default Object.freeze({
 		TOP_ASSETS: "/market/coin/list",
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
-		VALIDATORS: "/validators?moniker=chain",
+		VALIDATORS: "/validators",
+	},
+	LCD_API: {
+		VALIDATORS: "/validators",
 		DATA_SOURCES: "/provider/datasources",
+		DATA_SOURCE_DETAIL: "/provider/datasource",
+		TEST_CASES: "/provider/testcases",
+		ORACLE_SCRIPTS: "/provider/oscripts",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
