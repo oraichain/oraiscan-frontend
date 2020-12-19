@@ -8,9 +8,10 @@ import styles from "./DataSourceTable.scss";
 const cx = classNames.bind(styles);
 
 const headerCells = ["Data Source", "Description", "Fee", "Requests", "Owner"];
+const headerCellStyles = [{}, {}, {width: "150px", textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}];
 const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) => {
 	const history = useHistory();
-	const dataRows = dataSources.map(({name, code, description, owner, fee, requests}) => {
+	const dataRows = dataSources.map(({name, code, description, owner, fees, requests}) => {
 		const nameCell = (
 			<div>
 				<a
@@ -40,7 +41,14 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 			</div>
 		);
 
-		return [nameCell, description, fee, requests, ownerCell];
+		const feeCell = fees.map(({amount, denom}) => (
+			<>
+				{" "}
+				<div className={cx("text-right")}> {`${amount} ${denom.toUpperCase()}`} </div> <br />{" "}
+			</>
+		));
+
+		return [nameCell, description, feeCell, requests, ownerCell];
 	});
 	return (
 		<TableWithPagination
@@ -50,6 +58,7 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 			pages={pages}
 			onPageChange={onPageChange}
 			handleSearch={handleSearch}
+			headerCellStyles={headerCellStyles}
 		/>
 	);
 });
