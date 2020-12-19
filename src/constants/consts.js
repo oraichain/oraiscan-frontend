@@ -67,6 +67,7 @@ export default Object.freeze({
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
+		DATA_SOURCE_DETAIL: "/provider/datasource",
 		TEST_CASES: "/provider/testcases",
 		ORACLE_SCRIPTS: "/provider/oscripts",
 	},
