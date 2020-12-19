@@ -20,6 +20,7 @@ const Account = lazy(() => import(`src/containers/Account`));
 const DataSources = lazy(() => import(`src/containers/DataSources`));
 const DataSourcesDetail = lazy(() => import(`src/containers/DataSourcesDetail`));
 const TestCases = lazy(() => import(`src/containers/TestCases`));
+const OracleScripts = lazy(() => import(`src/containers/OracleScripts`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -40,6 +41,7 @@ export default function(props) {
 						<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 						<Route path='/data-sources' component={DataSources} />
 						<Route path='/test-cases' component={TestCases} />
+						<Route path='/oracle-scripts' component={OracleScripts} />
 						<Route render={() => <NotFound />} />
 					</Switch>
 				</ScrollToTop>
