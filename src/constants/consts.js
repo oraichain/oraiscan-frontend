@@ -68,6 +68,7 @@ export default Object.freeze({
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
 		TEST_CASES: "/provider/testcases",
+		ORACLE_SCRIPTS: "/provider/oscripts",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
