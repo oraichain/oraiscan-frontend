@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React, {memo} from "react"; 
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import {formatPercentage} from "src/helpers/helper";
