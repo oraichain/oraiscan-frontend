@@ -37,6 +37,8 @@ spec:
             value: "https://api.scan.orai.io/v1"
           - name: "REACT_APP_API_PROD"
             value: "https://api.scan.orai.io/v1"
+          - name: "REACT_APP_WALLET_API"
+            value: "https://api.wallet.orai.io"
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
