@@ -12,7 +12,7 @@ import styleTableWithPagination from "./TableWithPagination.scss";
 
 const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 
-const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange, handleSearch}) => {
+const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataRows, pages, onPageChange, handleSearch, isActiveSearch}) => {
 	const [value, setValue] = React.useState(null);
 	const valueDebounce = useDebounce(value, 500);
 	const onChange = React.useCallback(e => {
