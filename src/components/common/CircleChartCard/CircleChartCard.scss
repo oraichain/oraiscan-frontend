@@ -1,0 +1,86 @@
+@import "src/styles/utils";
+
+.circle-chart-card {
+	padding: 35px;
+	background: #ffffff;
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+
+	.total-orai-title,
+	.unit-price {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+
+	.total-orai-value,
+	.total-price {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+
+	.total-orai-value {
+		margin-bottom: 36px;
+	}
+
+	.circle-chart {
+		text-align: center;
+
+		&-graph {
+			display: inline-block;
+			width: 120px;
+			height: 120px;
+		}
+
+		&-name {
+			color: #000000;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+
+	.chart-comments {
+		padding-top: 16px;
+	}
+
+	.chart-comment {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		&-color {
+			margin-right: 10px;
+			width: 12px;
+			height: 12px;
+			border-radius: 100%;
+		}
+
+		&-text {
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+
+		&-value {
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+	}
+}
