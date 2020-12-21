@@ -1,5 +1,7 @@
 import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
+import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
 import {formatPercentage, formatInteger, formatFloat} from "src/helpers/helper";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -77,10 +79,10 @@ const ValidatorTable = memo(({data = []}) => {
 		return data.map(item => {
 			const rankDataCell = item?.id ?? "-";
 			const validatorDataCell = item?.moniker ? (
-				<div className={cx("validator--data-cell")}>
+				<NavLink className={cx("validator--data-cell")} to={`${consts.API.VALIDATORS}/${item.account_address}`}>
 					<img src={aiIcon} alt='' />
 					{item.moniker}
-				</div>
+				</NavLink>
 			) : (
 				"-"
 			);
