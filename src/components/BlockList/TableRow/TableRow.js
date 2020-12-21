@@ -1,17 +1,17 @@
 import React from "react";
 import customStyle from "./TableRow.scss";
 import classNames from "classnames/bind";
-import {NavLink} from "react-router-dom";
-import {reduceString, setAgoTime} from "src/lib/scripts";
+import { NavLink } from "react-router-dom";
+import { reduceString, setAgoTime } from "src/lib/scripts";
 //  redux
 // import {useSelector} from "react-redux";
 //  components
-import {TableCell, TableRow} from "@material-ui/core";
+import { TableCell, TableRow } from "@material-ui/core";
 import Skeleton from "react-skeleton-loader";
 
 const cx = classNames.bind(customStyle);
 
-export const TableRowThin = ({blockData}) => {
+export const TableRowThin = ({ blockData }) => {
 	// const validators = useSelector(state => state.blockchain.validators);
 	return (
 		<>
@@ -24,8 +24,8 @@ export const TableRowThin = ({blockData}) => {
 								{blockData.height}{" "}
 							</NavLink>
 						) : (
-							<Skeleton />
-						)}
+								<Skeleton />
+							)}
 					</li>
 				</ul>
 				<ul className={cx("row")}>
@@ -36,8 +36,8 @@ export const TableRowThin = ({blockData}) => {
 								{reduceString(blockData.block_hash, 20, 20)}
 							</NavLink>
 						) : (
-							<Skeleton />
-						)}
+								<Skeleton />
+							)}
 					</li>
 				</ul>
 				<ul className={cx("row")}>
@@ -60,7 +60,8 @@ export const TableRowThin = ({blockData}) => {
 	);
 };
 
-export default function({blockData}) {
+export default function ({ blockData }) {
+	{ console.log(blockData) }
 	// const validators = useSelector(state => state.blockchain.validators);
 	return (
 		<TableRow className={cx("BlockList-tableRow")} hover={true} key={blockData.height}>
@@ -70,8 +71,8 @@ export default function({blockData}) {
 						{blockData.height}{" "}
 					</NavLink>
 				) : (
-					<Skeleton />
-				)}
+						<Skeleton />
+					)}
 			</TableCell>
 			<TableCell className={cx("tablePointerCell", "text", "blockHashWidth")}>
 				{blockData.block_hash ? (
@@ -79,8 +80,8 @@ export default function({blockData}) {
 						{reduceString(blockData.block_hash, 20, 20)}
 					</NavLink>
 				) : (
-					<Skeleton />
-				)}
+						<Skeleton />
+					)}
 			</TableCell>
 			<TableCell className={cx("tablePointerCell", "text")} align='left'>
 				{/* {blockData.moniker ? <NavLink to={`/account/${validators[blockData.moniker].accountAddr}`}>{blockData.moniker}</NavLink> : <Skeleton />} */}
