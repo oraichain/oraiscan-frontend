@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:a9789f92ebedce652f86fbff62058f03b993b341
+        image: thao1996/oraiscan-frontend:c4c7640859a021fefbab3ee582b1bdb72f39cbdb
         env:
         - name: "REACT_APP_SITE_TITLE"
           value: "Oraiscan - Oraichain explorer"
@@ -37,6 +37,9 @@ spec:
           value: "https://api.scan.orai.io/v1"
         - name: "REACT_APP_API_PROD"
           value: "https://api.scan.orai.io/v1"
+        - name: "REACT_APP_WALLET_API"
+          value: "https://api.wallet.orai.io"
+
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

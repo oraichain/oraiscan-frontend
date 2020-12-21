@@ -61,7 +61,7 @@ export const ThinTableRow = ({data, account = ""}) => {
 		),
 		[data, account]
 	);
-};
+}; 
 
 export default function({data, account = ""}) {
 	return React.useMemo(

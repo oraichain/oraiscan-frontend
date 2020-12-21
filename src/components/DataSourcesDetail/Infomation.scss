@@ -1,0 +1,58 @@
+@import "src/styles/utils";
+
+.infomation {
+	background: var(--colorWhite);
+	box-shadow: var(--shadow1);
+	border-radius: var(--radius1);
+	padding: 20px 30px;
+}
+
+.title {
+	@include Typo(Roboto, normal, 500, 20px, 30px);
+	margin-bottom: 20px;
+
+	a {
+		color: var(--color1);
+	}
+}
+
+.content {
+	@include Border([ "all" ], var(--border1));
+	border-radius: var(--radius2);
+
+	&__title {
+		padding: 14px 20px;
+		@include Typo(Roboto, normal, 500, 16px, 24px);
+		@include Border([ "bottom" ], var(--border1));
+	}
+
+	&__main {
+		padding: 20px 20px;
+	}
+
+	&__owner {
+		@include FlexCombo(row, flex-start, center);
+		margin-bottom: 18px;
+
+		strong {
+			@include Typo(Roboto, normal, 500, 16px, 24px);
+			margin-right: 7px;
+		}
+
+		a {
+			@include Typo(Roboto, normal, 400, 16px, 24px);
+			color: var(--color1);
+			margin-left: 72px;
+		}
+	}
+
+	&__des {
+		&-title {
+			@include Typo(Roboto, normal, 500, 16px, 24px);
+			margin-bottom: 5px;
+		}
+		&-content {
+			@include Typo(Roboto, normal, 400, 16px, 24px);
+		}
+	}
+}

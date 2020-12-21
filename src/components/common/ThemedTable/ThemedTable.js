@@ -33,13 +33,20 @@ const ThemedTable = memo(({ customClassNames, theme = tableThemes.LIGHT, headerC
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{dataRows.map((dataRow, rowIndex) => (
-						<TableRow key={"data-row-" + rowIndex} className={cx("data-row")}>
-							{dataRow.map((dataCell, cellIndex) => (
-								<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell")} children={dataCell} />
-							))}
-						</TableRow>
-					))}
+					{
+						dataRows ? (
+							dataRows.map((dataRow, rowIndex) => (
+								<TableRow key={"data-row-" + rowIndex} className={cx("data-row")}>
+									{dataRow.map((dataCell, cellIndex) => (
+										<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell")} children={dataCell} />
+									))}
+								</TableRow>
+							))
+						) : (
+							<Skeleton />
+						)
+					}
+
 				</TableBody>
 			</Table>
 		</TableContainer>

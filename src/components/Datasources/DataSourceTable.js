@@ -8,16 +8,17 @@ import styles from "./DataSourceTable.scss";
 const cx = classNames.bind(styles);
 
 const headerCells = ["Data Source", "Description", "Fee", "Requests", "Owner"];
-const DataSourceTable = memo(({dataSources, pages, onPageChange}) => {
+const headerCellStyles = [{}, {}, {width: "150px", textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}];
+const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) => {
 	const history = useHistory();
-	const dataRows = dataSources.map(({name, code, description, owner, fee, requests}) => {
+	const dataRows = dataSources.map(({name, code, description, owner, fees, requests}) => {
 		const nameCell = (
 			<div>
 				<a
 					href='code'
 					onClick={e => {
 						e.preventDefault();
-						history.push(`/data-source/${code}`);
+						history.push(`/data-sources/${name}`);
 					}}
 					className={cx("table-link")}>
 					{" "}
@@ -40,9 +41,27 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange}) => {
 			</div>
 		);
 
-		return [nameCell, description, fee, requests, ownerCell];
+		const feeCell = fees.map(({amount, denom}) => (
+			<>
+				{" "}
+				<div className={cx("text-right")}> {`${amount} ${denom.toUpperCase()}`} </div> <br />{" "}
+			</>
+		));
+
+		return [nameCell, description, feeCell, requests, ownerCell];
 	});
-	return <TableWithPagination theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} pages={pages} onPageChange={onPageChange} />;
+	return (
+		<TableWithPagination
+			theme={tableThemes.LIGHT}
+			headerCells={headerCells}
+			dataRows={dataRows}
+			pages={pages}
+			onPageChange={onPageChange}
+			textSearchPlaceholder='Search data sources'
+			handleSearch={handleSearch}
+			headerCellStyles={headerCellStyles}
+		/>
+	);
 });
 
 export default DataSourceTable;

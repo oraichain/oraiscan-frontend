@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useGet } from "restful-react";
 
 import Container from "@material-ui/core/Container";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import { formatInteger, formatSeconds } from "src/helpers/helper";
 
 import consts from "src/constants/consts";
 import Spinner from "src/components/common/Spinner";
-import Skeleton from "react-skeleton-loader";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -25,18 +25,28 @@ import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
+	const [path, setPath] = useState(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=1`);
+
+	const toggleData = (data, selectedIndex) => {
+		return data.map((item, index) => {
+			if (selectedIndex === index) {
+				return Object.assign({}, item, {active: true});
+			}
+			return Object.assign({}, item, {active: false});
+		});
+	};
 	const [buttonGroupData, setButtonGroupData] = useState([
 		{
 			label: "Active",
 			onClick: selectedIndex => {
-				setButtonGroupData(getButtonGroupData(selectedIndex));
+				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
 			},
 			active: true,
 		},
 		{
 			label: "Inactive",
 			onClick: selectedIndex => {
-				setButtonGroupData(getButtonGroupData(selectedIndex));
+				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
 			},
 			active: false,
 		},
@@ -65,12 +75,21 @@ const ValidatorList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Validators"} />
 				</TitleWrapper>
-				<Skeleton />
+				{/* <Skeleton variant='rect' animation='wave' height={100} /> */}
+				<Spinner />
 			</Container>
 		);
 	}
 
-	console.log("VALIDATOR", validators);
+	console.log("VALIDATORS", validators);
+	console.log("STATUS", status);
+
+	const totalPages = validators?.page?.total_page ?? 0;
+	const currentPage = validators?.page?.page_id ?? 1;
+
+	const onPageChange = page => {
+		setPath(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=${page}`);
+	};
 
 	return (
 		<Container fixed className={cx("validator-list")}>
@@ -111,8 +130,8 @@ const ValidatorList = props => {
 					}}
 				/>
 			</div>
-			<ValidatorTable data={validators} />
-			<Pagination />
+			<ValidatorTable data={validators.data} />
+			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
 	);
 };

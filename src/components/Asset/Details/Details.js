@@ -86,7 +86,7 @@ export default function Details({asset}) {
 						</span>
 					</InfoRow>
 				) : (
-					undefined
+					<Skeleton />
 				)}
 			</div>
 		</div>
