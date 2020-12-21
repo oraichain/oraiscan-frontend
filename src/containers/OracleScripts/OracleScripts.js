@@ -4,15 +4,15 @@ import cn from "classnames/bind";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import {DataSourceTable} from "src/components/Datasources";
+import {OScriptTable, OracleScriptCard} from "src/components/OracleScripts";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import styles from "./DataSources.scss";
+import styles from "./OracleScripts.scss";
 
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCES}`;
+	const url = `${consts.LCD_API_BASE}${consts.LCD_API.ORACLE_SCRIPTS}`;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [currentTextSearch, setCurrentTextSearch] = useState("");
 	const [state, , , , setUrl] = useFetch(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=1`);
@@ -51,11 +51,11 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
-				<PageTitle title='Data Sources' />
+				<PageTitle title='Oracle Scripts' />
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
-
-			<DataSourceTable dataSources={state?.data?.result?.data_sources || []} pages={pages} onPageChange={onPageChange} handleSearch={handleSearch} />
+			<OracleScriptCard />
+			<OScriptTable oscipts={state?.data?.result?.oracle_scripts || []} pages={pages} onPageChange={onPageChange} handleSearch={handleSearch} />
 		</Container>
 	);
 }

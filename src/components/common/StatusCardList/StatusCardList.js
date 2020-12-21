@@ -6,11 +6,11 @@ import styles from "./StatusCardList.scss";
 
 const cx = cn.bind(styles);
 
-const StatusCardList = memo(({data = []}) => (
+const StatusCardList = memo(({data = [], minHeight = "100px"}) => (
 	<Grid container spacing={2} className={cx("status-card-list")}>
 		{data.map((item, index) => (
 			<Grid item md={3} sm={6} xs={12}>
-				<StatusCard icon={item.icon} label={item.label} key={index} value={item.value} />
+				<StatusCard icon={item.icon} label={item.label} key={index} value={item.value} minHeight={minHeight} />
 			</Grid>
 		))}
 	</Grid>

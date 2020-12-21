@@ -22,7 +22,7 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 	const clickSearch = React.useCallback(
 		e => {
 			e.preventDefault();
-			handleSearch(value);
+			handleSearch && handleSearch(value);
 		},
 		[handleSearch, value]
 	);
@@ -30,33 +30,45 @@ const TableWithPagination = memo(({theme = tableThemes.LIGHT, headerCells, dataR
 	const onKeyDown = React.useCallback(
 		e => {
 			if (e.keyCode === 13) {
-				handleSearch(value);
+				handleSearch && handleSearch(value);
 			}
 		},
 		[handleSearch, value]
 	);
 
 	useEffect(() => {
-		!_.isNil(valueDebounce) && handleSearch(valueDebounce);
+		!_.isNil(valueDebounce) && handleSearch && handleSearch(valueDebounce);
 	}, [handleSearch, valueDebounce]);
 
 	const renderInputBase = React.useMemo(
 		() => (
 			<div className={cxTableWithPagination("search")}>
-				<InputBase className={cxTableWithPagination("input")} placeholder='Search data sources' onChange={onChange} onKeyDown={onKeyDown} value={value} />
+				<InputBase
+					className={cxTableWithPagination("input")}
+					placeholder={textSearchPlaceholder || "Search ... "}
+					onChange={onChange}
+					onKeyDown={onKeyDown}
+					value={value}
+				/>
 				<button className={cxTableWithPagination("searchBtn")} onClick={clickSearch}>
 					<img className={cxTableWithPagination("searchIcon")} src={SearchIcon} alt={"search"} />
 				</button>
 			</div>
 		),
-		[onChange, onKeyDown, value, clickSearch]
+		[textSearchPlaceholder, onChange, onKeyDown, value, clickSearch]
 	);
 
 	return (
 		<>
-			{isActiveSearch && renderInputBase}
+			{handleSearch && renderInputBase}
 
-			<ThemedTable customClassNames={cxTableWithPagination("table-data-source")} theme={theme} headerCells={headerCells} dataRows={dataRows} />
+			<ThemedTable
+				customClassNames={cxTableWithPagination("table-data-source")}
+				theme={theme}
+				headerCells={headerCells}
+				headerCellStyles={headerCellStyles}
+				dataRows={dataRows}
+			/>
 
 			<Pagination pages={pages} onChange={(e, page) => onPageChange(page)} />
 		</>

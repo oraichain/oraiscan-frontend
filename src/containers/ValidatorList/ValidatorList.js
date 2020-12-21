@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import {formatInteger, formatSeconds} from "src/helpers/helper";
 import consts from "src/constants/consts";
-import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -22,34 +22,35 @@ import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
-	const [buttonGroupData, setButtonGroupData] = useState([
-		{
-			label: "Active",
-			onClick: selectedIndex => {
-				setButtonGroupData(getButtonGroupData(selectedIndex));
-			},
-			active: true,
-		},
-		{
-			label: "Inactive",
-			onClick: selectedIndex => {
-				setButtonGroupData(getButtonGroupData(selectedIndex));
-			},
-			active: false,
-		},
-	]);
+	const [path, setPath] = useState(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=1`);
 
-	const getButtonGroupData = selectedIndex => {
-		return buttonGroupData.map((item, index) => {
+	const toggleData = (data, selectedIndex) => {
+		return data.map((item, index) => {
 			if (selectedIndex === index) {
 				return Object.assign({}, item, {active: true});
 			}
 			return Object.assign({}, item, {active: false});
 		});
 	};
+	const [buttonGroupData, setButtonGroupData] = useState([
+		{
+			label: "Active",
+			onClick: selectedIndex => {
+				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
+			},
+			active: true,
+		},
+		{
+			label: "Inactive",
+			onClick: selectedIndex => {
+				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
+			},
+			active: false,
+		},
+	]);
 
 	const {data: validators} = useGet({
-		path: consts.API.VALIDATORS,
+		path: path,
 	});
 
 	const {data: status} = useGet({
@@ -62,12 +63,20 @@ const ValidatorList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Validators"} />
 				</TitleWrapper>
-				<Spinner />
+				<Skeleton variant='rect' animation='wave' height={400} />
 			</Container>
 		);
 	}
 
-	console.log("VALIDATOR", validators);
+	console.log("VALIDATORS", validators);
+	console.log("STATUS", status);
+
+	const totalPages = validators?.page?.total_page ?? 0;
+	const currentPage = validators?.page?.page_id ?? 1;
+
+	const onPageChange = page => {
+		setPath(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=${page}`);
+	};
 
 	return (
 		<Container fixed className={cx("validator-list")}>
@@ -85,12 +94,12 @@ const ValidatorList = props => {
 					{
 						icon: validatorsIcon,
 						label: "Validators",
-						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "",
+						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "-",
 					},
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: "-",
+						value: status?.bonded_tokens ? formatInteger(status.bonded_tokens) : "-",
 					},
 					{
 						icon: blockTimeIcon,
@@ -98,6 +107,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
+				minHeight='100px'
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
@@ -108,8 +118,8 @@ const ValidatorList = props => {
 					}}
 				/>
 			</div>
-			<ValidatorTable data={validators} />
-			<Pagination />
+			<ValidatorTable data={validators.data} />
+			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
 	);
 };

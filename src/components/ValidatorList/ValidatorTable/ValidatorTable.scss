@@ -1,5 +1,29 @@
 @import "src/styles/utils";
 
+.rank-header-cell {
+	text-align: left;
+}
+
+.validator-header-cell {
+	text-align: left;
+}
+
+.voting-power-header-cell {
+	text-align: right;
+}
+
+.cumulative-share-header-cell {
+	text-align: right;
+}
+
+.uptime-header-cell {
+	text-align: right;
+}
+
+.commission-header-cell {
+	text-align: right;
+}
+
 .sort-button {
 	padding: 0;
 	margin-left: 10px;
@@ -10,7 +34,12 @@
 	cursor: pointer;
 }
 
-.validator-cell {
+.rank-data-cell {
+	text-align: left;
+}
+
+.validator-data-cell {
+	display: block;
 	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
@@ -24,7 +53,7 @@
 	}
 }
 
-.voting-power-cell {
+.voting-power-data-cell {
 	& > div:nth-child(1) {
 		color: #181818;
 		font-family: Roboto;
@@ -52,7 +81,7 @@
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: #ecf8f4;
+	background: #d6fec4;
 }
 
 .current-graph {
@@ -61,7 +90,7 @@
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: #c5f1de;
+	background: #b9f69c;
 }
 
 .total-value {
@@ -74,5 +103,13 @@
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 150%;
+	text-align: right;
+}
+
+.uptime-data-cell {
+	text-align: right;
+}
+
+.commission-data-cell {
 	text-align: right;
 }
