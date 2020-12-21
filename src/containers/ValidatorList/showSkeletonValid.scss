@@ -1,0 +1,21 @@
+.card {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    .valid-card {
+        width: 22%;
+        background: #FFFFFF;
+        box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+        border-radius: 8px;
+        height: 105px;
+
+        .cart-content {
+            padding: 20px;
+
+            .cart-skeleton {
+                align-items: center;
+            }
+        }
+    }
+}
