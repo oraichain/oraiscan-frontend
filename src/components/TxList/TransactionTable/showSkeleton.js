@@ -12,7 +12,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const ShowSkeleton = () => {
 	return (
-		<TableContainer>
+		<TableContainer style={{ 
+			padding: '15px 20px',
+			borderRadius: '5px',
+			backgroundColor: '#ffffff',
+			boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
+		}}>
 			<Table aria-label="simple table">
 				<TableHead>
 					<TableRow>

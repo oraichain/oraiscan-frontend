@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useGet } from "restful-react";
 
 import Container from "@material-ui/core/Container";
-import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import { formatInteger, formatSeconds } from "src/helpers/helper";
 
@@ -16,11 +15,14 @@ import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import Pagination from "src/components/common/Pagination";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
 import bondedTokensIcon from "src/assets/validators/bonded_tokens_ic.svg";
 import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
+import ShowSkeletonValid from "src/containers/ValidatorList/showSkeletonValid";
 
 const cx = cn.bind(styles);
 
@@ -76,7 +78,7 @@ const ValidatorList = props => {
 					<PageTitle title={"Validators"} />
 				</TitleWrapper>
 				{/* <Skeleton variant='rect' animation='wave' height={100} /> */}
-				<Spinner />
+				<ShowSkeletonValid />
 			</Container>
 		);
 	}
