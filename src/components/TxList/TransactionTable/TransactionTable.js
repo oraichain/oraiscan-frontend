@@ -10,6 +10,7 @@ import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import Skeleton from "react-skeleton-loader";
 
 const TransactionTable = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
@@ -26,16 +27,19 @@ const TransactionTable = memo(({data = []}) => {
 	];
 	const getDataRows = data =>
 		data.map(item => {
-			const txHashDataCell = _.isNil(item?.tx_hash) ? (
+			const txHashDataCell = item.tx_hash ? ( _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("tx-hash-data-cell")} to={`${consts.API.TXLIST}/${item.tx_hash}`}>
 					{reduceString(item.tx_hash, 6, 6)}
 				</NavLink>
+			)) : (
+				<Skeleton />
 			);
 
 			const typeDataCell = _.isNil(item?.messages?.[0]?.type) ? (
 				<div className={cx("align-left")}>-</div>
+				
 			) : (
 				<div className={cx("type-data-cell")}>
 					<div className={cx("first-message-type")}>{item.messages[0].type}</div>
@@ -100,6 +104,10 @@ const TransactionTable = memo(({data = []}) => {
 		});
 
 	const dataRows = useMemo(() => getDataRows(data), [data]);
+	// const dataRows = useMemo(() => {
+	// 	setTimeout(getDataRows(data), 3000);
+	// }, [data]);
+	console.log(data);
 
 	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });

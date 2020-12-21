@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 import {reduceString, setAgoTime} from "src/lib/scripts";
 //  components
 import {TableCell, TableRow} from "@material-ui/core";
-import Skeleton from "react-skeleton-loader";
+import Skeleton from "react-skeleton-loader"; 
 
 import pickData from "./pickData";
 
@@ -61,7 +61,7 @@ export const ThinTableRow = ({data, account = ""}) => {
 		),
 		[data, account]
 	);
-};
+}; 
 
 export default function({data, account = ""}) {
 	return React.useMemo(

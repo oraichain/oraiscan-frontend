@@ -1,10 +1,13 @@
-import React, {useState} from "react";
-import {useGet} from "restful-react";
+import React, { useState } from "react";
+import { useGet } from "restful-react";
+
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
-import {formatInteger, formatSeconds} from "src/helpers/helper";
+import { formatInteger, formatSeconds } from "src/helpers/helper";
+
 import consts from "src/constants/consts";
+import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -49,11 +52,20 @@ const ValidatorList = props => {
 		},
 	]);
 
-	const {data: validators} = useGet({
-		path: path,
+	const getButtonGroupData = selectedIndex => {
+		return buttonGroupData.map((item, index) => {
+			if (selectedIndex === index) {
+				return Object.assign({}, item, { active: true });
+			}
+			return Object.assign({}, item, { active: false });
+		});
+	};
+
+	const { data: validators } = useGet({
+		path: consts.API.VALIDATORS,
 	});
 
-	const {data: status} = useGet({
+	const { data: status } = useGet({
 		path: consts.API.STATUS,
 	});
 
@@ -63,7 +75,8 @@ const ValidatorList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Validators"} />
 				</TitleWrapper>
-				<Skeleton variant='rect' animation='wave' height={400} />
+				{/* <Skeleton variant='rect' animation='wave' height={100} /> */}
+				<Spinner />
 			</Container>
 		);
 	}
