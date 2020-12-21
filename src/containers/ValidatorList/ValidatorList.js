@@ -109,12 +109,12 @@ const ValidatorList = props => {
 					{
 						icon: validatorsIcon,
 						label: "Validators",
-						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "",
+						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "-",
 					},
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: "-",
+						value: status?.bonded_tokens ? formatInteger(status.bonded_tokens) : "-",
 					},
 					{
 						icon: blockTimeIcon,
@@ -122,6 +122,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
+				minHeight='100px'
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
