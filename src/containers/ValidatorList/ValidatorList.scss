@@ -1,7 +1,10 @@
 @import "src/styles/utils";
 
 .validator-list {
-	margin-top: 30px;
+	margin-top: 0;
+	@media (min-width: 979px) {
+		margin-top: 30px;
+	}
 }
 
 .filter-section {

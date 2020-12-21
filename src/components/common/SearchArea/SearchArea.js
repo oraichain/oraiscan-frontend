@@ -12,7 +12,7 @@ import useWindowSize from "src/hooks/useWindowSize";
 import {_, compareProperty, empty, searchProperties, stringNumCheck} from "src/lib/scripts";
 import consts from "src/constants/consts";
 //  assests
-import SearchIcon from "src/assets/common/search-icon.svg";
+import SearchIcon from "src/assets/icons/search.svg";
 
 const cx = cn.bind(styles);
 

@@ -10,8 +10,8 @@ const sampleData = [
 		value: "$4.73",
 	},
 	{
-		label: "Bonded",
-		value: "189,132,631",
+		label: "Height",
+		value: "4,374,598",
 	},
 	{
 		label: "Bonded",
