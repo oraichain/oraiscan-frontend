@@ -135,7 +135,7 @@
 					justify-content: center;
 					align-items: center;
 					cursor: pointer;
-					border: 1px solid var(--colorSearchInput);
+					// border: 1px solid var(--colorSearchInput);
 					border-radius: 0 5px 5px 0;
 					background: #1b57f0;
 					background: #1b57f0;
@@ -146,11 +146,11 @@
 						padding: 0px 5px;
 					}
 					.searchIcon {
-						width: 32px;
-						height: 32px;
+						width: 22px;
+						height: 22px;
 						@include media("<medium") {
-							width: 24px;
-							height: 24px;
+							width: 16px;
+							height: 16px;
 						}
 					}
 				}
