@@ -73,13 +73,20 @@ const ValidatorTable = memo(({data = []}) => {
 		);
 	};
 	const headerCells = [rankHeaderCell, validatorHeaderCell, votingPowerHeaderCell, cumulativeShareHeaderCell, uptimeHeaderCell, commissionHeaderCell];
-
+	const headerCellStyles = [
+		{width: "80px"}, // Rank
+		{minWidth: "200px"}, // Validator
+		{width: "145px"}, // Voting Power
+		{width: "250px"}, // Cumulative Share
+		{width: "180px"}, // Uptime
+		{width: "150px"}, // Commission
+	];
 	const getDataRows = data => {
 		let previousVotingPower = 0;
 		return data.map(item => {
-			const rankDataCell = item?.id ?? "-";
+			const rankDataCell = <div className={cx("rank-data-cell")}>{item?.id ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
-				<NavLink className={cx("validator--data-cell")} to={`${consts.API.VALIDATORS}/${item.account_address}`}>
+				<NavLink className={cx("validator-data-cell")} to={`${consts.API.VALIDATORS}/${item.account_address}`}>
 					<img src={aiIcon} alt='' />
 					{item.moniker}
 				</NavLink>
@@ -121,7 +128,7 @@ const ValidatorTable = memo(({data = []}) => {
 	};
 
 	const dataRows = useMemo(() => getDataRows(data), [data]);
-	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} />;
+	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });
 
 export default ValidatorTable;
