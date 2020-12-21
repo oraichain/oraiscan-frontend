@@ -31,7 +31,7 @@ export default function(props) {
 				<ScrollToTop>
 					<Switch>
 						<Route exact path='/' render={props => <Dashboard {...props} />} />
-						<Route path='/validators/:validator' render={props => <Block {...props} />} />
+						{/* <Route path='/validators/:validator' render={props => <Block {...props} />} /> */}
 						<Route path='/validators' render={props => <ValidatorList {...props} />} />
 						<Route path='/blocks/:height' render={props => <Block {...props} />} />
 						<Route path='/blocks' render={props => <BlockList {...props} />} />
