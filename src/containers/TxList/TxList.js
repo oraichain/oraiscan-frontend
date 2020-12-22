@@ -4,8 +4,13 @@ import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
+<<<<<<< HEAD
 import { calculateBefore, calculateAfter } from "src/helpers/helper";
 import { _ } from "src/lib/scripts";
+=======
+import {calculateBefore} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
+>>>>>>> 2105314... feature/create account detail page
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";

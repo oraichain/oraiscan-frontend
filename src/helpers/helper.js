@@ -14,7 +14,9 @@ export const extractValueAndUnit = (inputString = "") => {
 };
 
 export const formatInteger = (value, thousandsSeparator = ",") => {
-	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+	return parseInt(value)
+		.toString()
+		.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
 };
 
 export const formatSeconds = (value, numberOfDigitsAfterDecimalPoint = 2) => {
@@ -25,8 +27,10 @@ export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => 
 	return parseFloat((parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint));
 };
 
-export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2) => {
-	return parseFloat(value).toFixed(numberOfDigitsAfterDecimalPoint);
+export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2, thousandsSeparator = ",") => {
+	return parseFloat(value)
+		.toFixed(numberOfDigitsAfterDecimalPoint)
+		.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
 };
 
 export const calculateBefore = (total, limit, page) => {

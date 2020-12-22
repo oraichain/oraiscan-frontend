@@ -27,7 +27,8 @@ import ShowSkeletonValid from "src/containers/ValidatorList/showSkeletonValid";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
-	const [path, setPath] = useState(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=1`);
+	const basePath = `${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}`;
+	const [path, setPath] = useState(`${basePath}&page_id=1`);
 
 	const toggleData = (data, selectedIndex) => {
 		return data.map((item, index) => {
@@ -90,7 +91,7 @@ const ValidatorList = props => {
 	const currentPage = validators?.page?.page_id ?? 1;
 
 	const onPageChange = page => {
-		setPath(`${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}&page_id=${page}`);
+		setPath(`${basePath}&page_id=${page}`);
 	};
 
 	return (
