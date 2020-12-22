@@ -1,99 +1,87 @@
-import React from "react";
+import React, {useState} from "react";
+import {useGet} from "restful-react";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
-import style from "./Account.scss";
 import consts from "src/constants/consts";
-import {_, empty} from "src/lib/scripts";
-//  components
-import AssetTxs from "src/components/Account/AssetTxs";
-import PageTitle from "src/components/common/PageTitle";
 import TitleWrapper from "src/components/common/TitleWrapper";
-import Address from "src/components/Account/Address";
-import NotFound from "src/components/common/NotFound";
-//  hooks
-import {useGetPrices, usePrevious, useFetch} from "src/hooks";
+import PageTitle from "src/components/common/PageTitle";
+import StatusBox from "src/components/common/StatusBox";
+import AddressCard from "src/components/common/AddressCard";
+import CircleChartCard from "src/components/common/CircleChartCard";
+import DelegatorCard from "src/components/Account/DelegatorCard";
+import UnbondingCard from "src/components/Account/UnbondingCard";
+import TransactionCard from "src/components/Account/TransactionCard";
+import styles from "./Account.scss";
+import qrIcon from "src/assets/common/qr_ic.svg";
+import copyIcon from "src/assets/common/copy_ic.svg";
+import questionIcon from "src/assets/common/question_ic.svg";
 
-const cx = cn.bind(style);
+const Account = props => {
+	const cx = cn.bind(styles);
+	const account = props?.match?.params?.account ?? 0;
+	const path = `${consts.API.ACCOUNT}/${account}`;
+	const {data} = useGet({
+		path: path,
+	});
 
-const baseURL = `${consts.API_BASE}${consts.API.ACCOUNT}/`;
-export default function Account(props) {
-	const account = props.match.params.account;
-	const prevAccount = usePrevious(account);
-	const [state1, , setUrl1] = useFetch("");
-	const [state2, , setUrl2] = useFetch(`${baseURL}${account}`);
-	const [txData, assetData] = [
-		state1.data?.txArray && !state1.loading ? state1.data.txArray : consts.DEFAULT_ARRAY,
-		state2.data && !state2.loading ? state2.data : consts.DEFAULT_ARRAY,
-	];
+	console.log("ACOUNT", data);
 
-	const [prices, setTargetAssets] = useGetPrices(consts.NUM.ASSET_REFETCH_PRICE_INTERVAL_MS);
-	// TODO
-	//  attempt at keeping account data up-to-date(refetch every x seconds)
-	//  fix this to work in the future
-	// React.useEffect(() => {
-	// 	if (!account) return;
-	// 	const interval = setInterval(() => {
-	// 		console.log(`refetch - ${account}`);
-	// 		refetch();
-	// 	}, consts.NUM.ACCOUNT_REFETCH_INTERVAL_MS);
-	// 	return () => clearInterval(interval);
-	// }, [account, refetch]);
+	return (
+		<Container fixed className={cx("validator-list")}>
+			<TitleWrapper>
+				<PageTitle title={"Account Detail"} />
+			</TitleWrapper>
+			<Grid container spacing={2} className={cx("card-list")}>
+				<Grid item lg={4} md={12}>
+					<AddressCard
+						headerIcon={qrIcon}
+						headerTitle='QR Code'
+						addresses={[
+							{
+								title: "Address",
+								icon: copyIcon,
+								value: "cosmos15v6k4u60xetq9a2frkzaasyu2nfru5efaj5mg6",
+							},
+							{
+								title: "Reward Address",
+								icon: questionIcon,
+								value: "cosmos15v6k4u60xetq9a2frkzaasyu2nfru5efaj5mg6",
+							},
+						]}
+						minHeight='220px'
+					/>
+				</Grid>
 
-	// React.useEffect(() => {
-	// 	if (history.action === "PUSH" || (history.action === "POP" && !empty(state.data) && state.data.address !== account)) {
-	// 		setUrl(`${baseURL}${account}`);
-	// 	}
-	// }, [account, history.action, refetch, setUrl, state.data]);
+				<Grid item lg={8} md={12}>
+					<CircleChartCard
+						totalOrai='11050300.54'
+						unitPrice='17.54'
+						chartName='Chart 0134765'
+						availablePercent='12.67'
+						delegatedPercent='81.96'
+						unbondingPercent='0.00'
+						rewardPercent='5.37'
+						minHeight='220px'
+					/>
+				</Grid>
+			</Grid>
 
-	//  when data from address arrives, set the useGetPrice hook to start
-	React.useEffect(() => {
-		if (empty(assetData?.balances)) return;
-		setTargetAssets(_.map(assetData.balances, v => v.symbol));
-	}, [setTargetAssets, assetData]);
-
-	const fetchAccountTxs = React.useCallback(() => {
-		setUrl1(`${consts.API_BASE}${consts.API.ACCOUNT_TXS(account)}`);
-	}, [account, setUrl1]);
-
-	//  refetch when account has changed(url)
-	React.useEffect(() => {
-		if (!empty(assetData) && account !== prevAccount) {
-			setUrl2(`${baseURL}${account}`);
-		}
-	}, [prevAccount, assetData, account, setUrl1, setUrl2]);
-
-	const assetTxs = React.useMemo(
-		() => (
-			<AssetTxs
-				fetchAccountTxs={fetchAccountTxs}
-				account={account}
-				prices={prices}
-				balances={assetData?.balances ? assetData.balances : consts.DEFAULT_ARRAY}
-				txData={txData}
-			/>
-		),
-		[fetchAccountTxs, prices, assetData, txData, account]
+			<Grid container spacing={2}>
+				<Grid item md={6} sm={12}>
+					<DelegatorCard account={account} />
+				</Grid>
+				<Grid item md={6} sm={12}>
+					<UnbondingCard account={account} />
+				</Grid>
+				<Grid item md={12}>
+					<TransactionCard account={account} />
+				</Grid>
+			</Grid>
+			{/* <Skeleton variant='rect' animation='wave' height={400} /> */}
+		</Container>
 	);
+};
 
-	const displayAddress = React.useMemo(() => <Address account={assetData ? assetData : {}} prices={prices} />, [assetData, prices]);
-
-	const render = React.useMemo(
-		() => (
-			<div className={cx("Account-wrapper")}>
-				<TitleWrapper>
-					<PageTitle title={"Account Details"} />
-				</TitleWrapper>
-				{state1.error || state2.error ? (
-					<NotFound altText={"Account was not found"} />
-				) : (
-					<>
-						{displayAddress}
-						{assetTxs}
-					</>
-				)}
-			</div>
-		),
-		[displayAddress, assetTxs, state1.error, state2.error]
-	);
-	if ((!state2.loading && (assetData?.address === "" || assetData?.error_code)) || account === "notFound") return <NotFound />;
-	return render;
-}
+export default Account;
