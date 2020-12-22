@@ -1,23 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useGet } from "restful-react";
+import React, {useState, useEffect, useRef} from "react";
+import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-<<<<<<< HEAD
-import { calculateBefore, calculateAfter } from "src/helpers/helper";
-import { _ } from "src/lib/scripts";
-=======
 import {calculateBefore} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
->>>>>>> 2105314... feature/create account detail page
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import styles from "./TxList.scss";
-import ShowSkeleton from '../../components/TxList/TransactionTable/showSkeleton';
+import ShowSkeleton from "../../components/TxList/TransactionTable/showSkeleton";
 const TxList = () => {
 	const cx = cn.bind(styles);
 	const defaultPath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
@@ -35,7 +30,7 @@ const TxList = () => {
 		}
 	};
 
-	const { data, loading, refetch } = useGet({
+	const {data, loading, refetch} = useGet({
 		path: path,
 		resolve: data => {
 			if (showLoading) {
