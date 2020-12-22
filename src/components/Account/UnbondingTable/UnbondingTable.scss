@@ -1,0 +1,69 @@
+@import "src/styles/utils";
+
+.validator-header-cell,
+.height-header-cell,
+.amount-header-cell,
+.completion-time-header-cell {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.validator-data-cell {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.height-data-cell,
+.amount-data-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	& > span:nth-child(1) {
+		display: inline-block;
+		margin-right: 4px;
+		color: #181818;
+	}
+
+	& > span:nth-child(2) {
+		display: inline-block;
+		color: #5f51ff;
+		text-transform: uppercase;
+	}
+}
+
+.completion-time-data-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 150%;
+
+	& > span:nth-child(1) {
+		display: block;
+		color: #181818;
+	}
+
+	& > span:nth-child(2) {
+		display: block;
+		color: #9a9a9a;
+	}
+}

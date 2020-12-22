@@ -64,6 +64,9 @@ export default Object.freeze({
 		CHARTS: "/stats/assets/chart",
 		FEE: "/fees",
 		VALIDATORS: "/validators",
+		DELEGATORS: "/delegations",
+		UNBONDINGS: "/account/unbonding",
+		TXS_ACCOUNT: "/txs-account",
 	},
 	LCD_API: {
 		VALIDATORS: "/validators",
