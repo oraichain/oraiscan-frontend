@@ -25,32 +25,32 @@ const tabs = [
 	{
 		name: "Validators",
 		img: validatorsSVG,
-		route: "validators",
+		route: "/validators",
 	},
 	{
 		name: "Blocks",
 		img: blocksSVG,
-		route: "blocks",
+		route: "/blocks",
 	},
 	{
 		name: "Transactions",
 		img: transactionsSVG,
-		route: "txs",
+		route: "/txs",
 	},
 	{
 		name: "Proposals",
 		img: proposalsSVG,
-		route: "proposals",
+		route: "/proposals",
 	},
 	{
 		name: "Data Sources",
 		img: data_sourcesSVG,
-		route: "data-sources",
+		route: "/data-sources",
 	},
 	{
 		name: "Test Cases",
 		img: test_caseSVG,
-		route: "test-cases",
+		route: "/test-cases",
 	},
 	{
 		name: "Oracle Scripts",
