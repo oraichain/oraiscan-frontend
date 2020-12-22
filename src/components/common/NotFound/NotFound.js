@@ -14,7 +14,7 @@ import DisplayLongString from "src/components/common/DisplayLongString";
 
 const cx = classNames.bind(styles);
 
-const NotFound = ({altText = "Sorry! Page Not Found"}) => {
+const NotFound = ({altText = "Coming soon"}) => {
 	const accelAPI = useSelector(state => state.blockchain.acceleratedNode);
 	const [state, , setUrl] = useFetch("");
 	const [altLink, setAltLink] = React.useState("");
@@ -37,7 +37,7 @@ const NotFound = ({altText = "Sorry! Page Not Found"}) => {
 		<>
 			{_.isNil(route) || (altLink === "" && !_.isNil(route)) ? (
 				<div className={cx("notFound-wrapper")}>
-					<img src={notFoundSVG} alt='not found' />
+					{/* <img src={notFoundSVG} alt='not found' /> */}
 					<h2>{altText}</h2>
 				</div>
 			) : (
