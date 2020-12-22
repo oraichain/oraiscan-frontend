@@ -16,6 +16,7 @@
 		@include FlexCombo(row, center, center);
 		border-radius: var(--radius3);
 		color: var(--color1);
+		cursor: pointer;
 
 		svg {
 			margin-left: 5px;
@@ -85,4 +86,20 @@
 .owner {
 	@include Typo(Roboto, normal, 400, 14px, 21px);
 	color: var(--color1);
+}
+
+.code {
+	@include FlexCombo(row, flex-start, center);
+
+	strong {
+		@include Typo(Roboto, normal, 500, 20px, 30px);
+		margin-right: 5px;
+	}
+}
+
+.code-format {
+	background: var(--color6);
+	padding: 20px;
+	box-sizing: border-box;
+	width: 100%;
 }
