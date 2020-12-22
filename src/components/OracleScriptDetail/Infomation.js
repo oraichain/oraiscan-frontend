@@ -36,7 +36,14 @@ const Infomation = memo(({data}) => {
 							<strong>Onwer</strong>
 							<InfoIcon />
 						</span>
-						<a herf='/'>{owner}</a>
+						<a
+							href='/'
+							onClick={e => {
+								e.preventDefault();
+								history.push(`/account/${owner}`);
+							}}>
+							{owner}
+						</a>
 					</div>
 
 					<div className={cx("content__owner")}>
@@ -49,7 +56,7 @@ const Infomation = memo(({data}) => {
 								href='/'
 								onClick={e => {
 									e.preventDefault();
-									history.push(`/data-source/${item}`);
+									history.push(`/data-sources/${item}`);
 								}}>
 								{" "}
 								#{item}{" "}
