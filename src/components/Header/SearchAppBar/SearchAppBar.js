@@ -28,7 +28,7 @@ const handleClickConnectWallet = () => {
 		keystationUrl: process.env.REACT_APP_WALLET_API,
 	});
 
-	const prefix = "cosmos";
+	const prefix = "orai";
 	const popup = myKeystation.openWindow("signin", prefix);
 	let popupTick = setInterval(function() {
 		if (popup.closed) {
