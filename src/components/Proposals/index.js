@@ -1,2 +1,3 @@
 import ProposalsListTable from "./ProposalsListTable";
-export {ProposalsListTable};
+import ProposalsListDetalTable from "./ProposalsListDetalTable";
+export {ProposalsListTable, ProposalsListDetalTable};
