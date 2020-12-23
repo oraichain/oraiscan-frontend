@@ -16,7 +16,6 @@ const TransactionCard = memo(({account = 0, minHeight = defaultMinHeight + "px"}
 		path: path,
 	});
 
-	console.log("TXS", data);
 	if (!data) {
 		return <Skeleton variant='rect' animation='wave' height={defaultMinHeight} />;
 	}
