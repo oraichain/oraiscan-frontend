@@ -5,6 +5,7 @@ import {formatNumber} from "src/lib/scripts";
 import {useFetch, useTimer} from "src/hooks";
 import consts from "src/constants/consts";
 import moment from "moment";
+import {setAgoTime} from "src/lib/scripts";
 //  component
 import Skeleton from "react-skeleton-loader";
 //  redux
@@ -44,8 +45,8 @@ export default function(props) {
 					<div className={cx("content")}>{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</div>
 					<div className={cx("footer")}>
 						{/* {data.data !== null ? moment(data.data.timestamp).format('MMM Do YYYY h:mm:ss a') : ""} */}
-						{/* {data.data !== null ? moment(data.data.timestamp).fromNow() : ""} */}
-						{data.data !== null ? moment().diff(moment(data.data.timestamp), "seconds") + " seconds ago" : ""}
+						{data.data !== null ? setAgoTime(data.data.timestamp) : ""}
+						{/* {data.data !== null ? moment().diff(moment(data.data.timestamp), "seconds") + " seconds ago" : ""} */}
 					</div>
 				</div>
 				<div className={cx("card")}>

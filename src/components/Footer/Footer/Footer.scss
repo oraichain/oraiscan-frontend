@@ -212,14 +212,21 @@ $sub-text-color: #8aa2c9;
 		padding: 60px;
 		margin: 0 auto;
 		display: flex;
+		flex-direction: row;
 
 		// width: 100%;
 		@media (max-width: 575px) {
 			font-size: 12px;
+			flex-direction: column;
+			padding: 30px;
 		}
 
 		.col-2 {
 			width: 16.67%;
+			@media (max-width: 599px) {
+				width: 100%;
+				padding-top: 15px;
+			}
 
 			.sub-footer-1 {
 				padding-right: 7%;
@@ -240,6 +247,10 @@ $sub-text-color: #8aa2c9;
 
 		.col-4 {
 			width: 33.33%;
+			@media (max-width: 599px) {
+				width: 100%;
+				padding-top: 15px;
+			}
 
 			.sub-footer-2 {
 				color: $sub-text-color;
@@ -266,7 +277,10 @@ $sub-text-color: #8aa2c9;
 		width: 100%;
 
 		@media (max-width: 575px) {
-			display: none;
+			// display: none;
+			height: 180px;
+			font-size: 12px;
+			padding: 30px;
 		}
 
 		.privacy {

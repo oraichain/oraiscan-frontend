@@ -9,7 +9,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import AddressCard from "src/components/common/AddressCard";
-import CircleChartCard from "src/components/common/CircleChartCard";
+import DonutChartCard from "src/components/common/DonutChartCard";
 import DelegatorCard from "src/components/Account/DelegatorCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import TransactionCard from "src/components/Account/TransactionCard";
@@ -25,8 +25,6 @@ const Account = props => {
 	const {data} = useGet({
 		path: path,
 	});
-
-	console.log("ACOUNT", data);
 
 	return (
 		<Container fixed className={cx("validator-list")}>
@@ -55,7 +53,7 @@ const Account = props => {
 				</Grid>
 
 				<Grid item lg={8} md={12}>
-					<CircleChartCard
+					<DonutChartCard
 						totalOrai='11050300.54'
 						unitPrice='17.54'
 						chartName='Chart 0134765'

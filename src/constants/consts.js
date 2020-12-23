@@ -67,6 +67,7 @@ export default Object.freeze({
 		DELEGATORS: "/delegations",
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
+		ORAICHAIN_INFO: "/oraichain_info",
 	},
 	LCD_API: {
 		VALIDATORS: "/validators",
