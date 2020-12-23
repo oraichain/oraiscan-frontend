@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 const ThemedTable = memo(({ customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [] }) => {
 	return (
 		<TableContainer className={cx("table-container", customClassNames)}>
-			<Table className={cx(theme)}>
+			<Table className={cx("table", theme)}>
 				<TableHead>
 					<TableRow key='header-row' className={cx("header-row")}>
 						{
