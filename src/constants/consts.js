@@ -76,6 +76,7 @@ export default Object.freeze({
 		TEST_CASES: "/provider/testcases",
 		ORACLE_SCRIPTS: "/provider/oscripts",
 		ORACLE_SCRIPT_DETAIL: "/provider/oscript",
+		ACCOUNT_DETAIL: "/auth/accounts",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
