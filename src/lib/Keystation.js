@@ -90,7 +90,7 @@ export default class Keystation {
 				"&path=" +
 				encodeURIComponent(this.path) +
 				"&payload=" +
-				encodeURIComponent(payload),
+				encodeURIComponent(JSON.stringify(payload)),
 			"",
 			"500",
 			"690"

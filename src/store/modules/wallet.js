@@ -8,7 +8,8 @@ const initState = {
 
 const handlers = {
 	INIT_WALLET: (state, action) => {
-		state.address = action.payload;
+		state.address = action.payload.address || "";
+		state.account = action.payload.account || "";
 		return {...state};
 	},
 };
