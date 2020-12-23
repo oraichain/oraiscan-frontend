@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useGet } from "restful-react";
+import React, {useState} from "react";
+import {useGet} from "restful-react";
 
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import { formatInteger, formatSeconds } from "src/helpers/helper";
+import {formatInteger, formatSeconds} from "src/helpers/helper";
 
 import consts from "src/constants/consts";
 import Spinner from "src/components/common/Spinner";
@@ -15,7 +15,7 @@ import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import Pagination from "src/components/common/Pagination";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
@@ -58,17 +58,17 @@ const ValidatorList = props => {
 	const getButtonGroupData = selectedIndex => {
 		return buttonGroupData.map((item, index) => {
 			if (selectedIndex === index) {
-				return Object.assign({}, item, { active: true });
+				return Object.assign({}, item, {active: true});
 			}
-			return Object.assign({}, item, { active: false });
+			return Object.assign({}, item, {active: false});
 		});
 	};
 
-	const { data: validators } = useGet({
+	const {data: validators} = useGet({
 		path: consts.API.VALIDATORS,
 	});
 
-	const { data: status } = useGet({
+	const {data: status} = useGet({
 		path: consts.API.STATUS,
 	});
 
@@ -83,9 +83,6 @@ const ValidatorList = props => {
 			</Container>
 		);
 	}
-
-	console.log("VALIDATORS", validators);
-	console.log("STATUS", status);
 
 	const totalPages = validators?.page?.total_page ?? 0;
 	const currentPage = validators?.page?.page_id ?? 1;
