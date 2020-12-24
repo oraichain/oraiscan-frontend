@@ -35,9 +35,10 @@ const Account = props => {
 	});
 
 	return (
-		<Container fixed className={cx("validator-list")}>
+		<Container fixed className={cx("account")}>
 			<TitleWrapper>
 				<PageTitle title={"Account Detail"} />
+				<StatusBox />
 			</TitleWrapper>
 			<Grid container spacing={2} className={cx("card-list")}>
 				<Grid item lg={4} xs={12}>
