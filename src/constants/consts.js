@@ -68,6 +68,7 @@ export default Object.freeze({
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
 		ORAICHAIN_INFO: "/oraichain_info",
+		ACCOUNT_COINS: "/account/coins",
 	},
 	LCD_API: {
 		VALIDATORS: "/validators",

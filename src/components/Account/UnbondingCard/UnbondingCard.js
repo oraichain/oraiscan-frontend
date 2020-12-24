@@ -14,6 +14,8 @@ const UnbondingCard = memo(({account = 0, minHeight = "420px"}) => {
 		path: path,
 	});
 
+	console.log("UNBONDINGS", data);
+
 	const totalPages = 1;
 	const currentPage = 1;
 	const onPageChange = page => {};
