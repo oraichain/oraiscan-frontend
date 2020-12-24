@@ -148,7 +148,7 @@ export default function(props) {
 						<div className={cx("board__title")}>Total ORAI</div>
 						<div className={cx("board__number")}>11,050,300.54</div>
 
-						<div className={cx("board__chart")}>sdsd</div>
+						<div className={cx("board__chart")}></div>
 
 						<div className={cx("board__estimation")}>
 							<div className={cx("board__estimation-item")}>
