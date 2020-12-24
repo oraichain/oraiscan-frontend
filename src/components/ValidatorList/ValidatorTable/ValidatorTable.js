@@ -1,4 +1,4 @@
-import React, {memo, useMemo} from "react";
+import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -11,6 +11,9 @@ import aiIcon from "src/assets/common/ai_ic.svg";
 
 const ValidatorTable = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
+
+	const [sortField, setSortField] = useState("id");
+	const [sortDirection, setSortDirection] = useState("asc");
 
 	const computeTotalVotingPower = data => {
 		if (!data || !Array.isArray(data)) {
@@ -81,6 +84,16 @@ const ValidatorTable = memo(({data = []}) => {
 		{width: "180px"}, // Uptime
 		{width: "150px"}, // Commission
 	];
+
+	const sortData = (data, sortField, sortDirection) => {
+		return [...data].sort(function(a, b) {
+			if (sortDirection === "asc") {
+				return parseInt(a[sortField]) - parseInt(b[sortField]);
+			}
+			return parseInt(b[sortField]) - parseInt(a[sortField]);
+		});
+	};
+
 	const getDataRows = data => {
 		let previousVotingPower = 0;
 		return data.map(item => {
@@ -127,7 +140,8 @@ const ValidatorTable = memo(({data = []}) => {
 		});
 	};
 
-	const dataRows = useMemo(() => getDataRows(data), [data]);
+	const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
+	const dataRows = useMemo(() => getDataRows(sortedData), [sortedData]);
 	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });
 
