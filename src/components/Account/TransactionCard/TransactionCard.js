@@ -20,6 +20,8 @@ const TransactionCard = memo(({account = 0, minHeight = defaultMinHeight + "px"}
 		return <Skeleton variant='rect' animation='wave' height={defaultMinHeight} />;
 	}
 
+	console.log("TRANSACTIONS", data);
+
 	const totalPages = data?.page?.total_page ?? 0;
 	const currentPage = data?.page?.page_id ?? 1;
 

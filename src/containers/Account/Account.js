@@ -9,7 +9,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import AddressCard from "src/components/common/AddressCard";
-import DonutChartCard from "src/components/common/DonutChartCard";
+import CoinsCard from "src/components/common/CoinsCard";
 import DelegatorCard from "src/components/Account/DelegatorCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import TransactionCard from "src/components/Account/TransactionCard";
@@ -19,11 +19,19 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 import questionIcon from "src/assets/common/question_ic.svg";
 
 const Account = props => {
+	const addressCardMinHeight = 220;
+	const coinsCardMinHeight = 220;
+
 	const cx = cn.bind(styles);
 	const account = props?.match?.params?.account ?? 0;
-	const path = `${consts.API.ACCOUNT}/${account}`;
-	const {data} = useGet({
-		path: path,
+	const addressPath = `${consts.API.ACCOUNT}/${account}`;
+	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
+	const {data: addressData} = useGet({
+		path: addressPath,
+	});
+
+	const {data: coinsData} = useGet({
+		path: coinsPath,
 	});
 
 	return (
@@ -32,52 +40,59 @@ const Account = props => {
 				<PageTitle title={"Account Detail"} />
 			</TitleWrapper>
 			<Grid container spacing={2} className={cx("card-list")}>
-				<Grid item lg={4} md={12}>
-					<AddressCard
-						headerIcon={qrIcon}
-						headerTitle='QR Code'
-						addresses={[
-							{
-								title: "Address",
-								icon: copyIcon,
-								value: "cosmos15v6k4u60xetq9a2frkzaasyu2nfru5efaj5mg6",
-							},
-							{
-								title: "Reward Address",
-								icon: questionIcon,
-								value: "cosmos15v6k4u60xetq9a2frkzaasyu2nfru5efaj5mg6",
-							},
-						]}
-						minHeight='220px'
-					/>
+				<Grid item lg={4} xs={12}>
+					{addressData ? (
+						<AddressCard
+							headerIcon={qrIcon}
+							headerTitle='QR Code'
+							addresses={[
+								{
+									title: "Address",
+									icon: copyIcon,
+									value: addressData?.address ?? "-",
+								},
+								{
+									title: "Reward Address",
+									icon: questionIcon,
+									value: addressData?.address ?? "-",
+								},
+							]}
+							minHeight={addressCardMinHeight + "px"}
+						/>
+					) : (
+						<Skeleton variant='rect' animation='wave' height={addressCardMinHeight} />
+					)}
 				</Grid>
 
-				<Grid item lg={8} md={12}>
-					<DonutChartCard
-						totalOrai='11050300.54'
-						unitPrice='17.54'
-						chartName='Chart 0134765'
-						availablePercent='12.67'
-						delegatedPercent='81.96'
-						unbondingPercent='0.00'
-						rewardPercent='5.37'
-						minHeight='220px'
-					/>
+				<Grid item lg={8} xs={12}>
+					{coinsData ? (
+						<CoinsCard
+							total={coinsData.total}
+							price={coinsData.price}
+							available={coinsData.available}
+							delegated={coinsData.delegated}
+							unbonding={coinsData.unbonding}
+							reward={coinsData.reward}
+							denom={coinsData.denom}
+							minHeight={coinsCardMinHeight + "px"}
+						/>
+					) : (
+						<Skeleton variant='rect' animation='wave' height={coinsCardMinHeight} />
+					)}
 				</Grid>
 			</Grid>
 
 			<Grid container spacing={2}>
-				<Grid item md={6} sm={12}>
+				<Grid item md={6} xs={12}>
 					<DelegatorCard account={account} />
 				</Grid>
-				<Grid item md={6} sm={12}>
+				<Grid item md={6} xs={12}>
 					<UnbondingCard account={account} />
 				</Grid>
-				<Grid item md={12}>
+				<Grid item xs={12}>
 					<TransactionCard account={account} />
 				</Grid>
 			</Grid>
-			{/* <Skeleton variant='rect' animation='wave' height={400} /> */}
 		</Container>
 	);
 };
