@@ -9,6 +9,7 @@ import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import styles from "./ProposalsDetail.scss";
 import {ProposalsListDetalTable} from "src/components/Proposals";
+import DonutChart from "react-donut-chart";
 
 const cx = cn.bind(styles);
 
@@ -148,7 +149,24 @@ export default function(props) {
 						<div className={cx("board__title")}>Total ORAI</div>
 						<div className={cx("board__number")}>11,050,300.54</div>
 
-						<div className={cx("board__chart")}></div>
+						<div className={cx("board__chart")}>
+							<DonutChart
+								startAngle={-90}
+								width={120}
+								height={120}
+								outerRadius={0.95}
+								innerRadius={0.5}
+								legend={false}
+								data={[
+									{value: parseFloat("81.96"), label: ""},
+									{value: parseFloat("0.00"), label: ""},
+									{value: parseFloat("5.37"), label: ""},
+									{value: parseFloat("12.67"), label: ""},
+								]}
+								colors={["#51ADCF", "#A5ECD7", "#FFBF9B", "#0278AE"]}
+								strokeColor={false}
+							/>
+						</div>
 
 						<div className={cx("board__estimation")}>
 							<div className={cx("board__estimation-item")}>
