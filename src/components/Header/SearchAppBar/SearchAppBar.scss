@@ -381,6 +381,10 @@
 		margin-top: 10px;
 		display: flex;
 		align-items: center;
+		.wallet-amount {
+			color: red;
+			padding-left: 15px;
+		}
 		a {
 			text-decoration: underline;
 			margin-right: 10px;

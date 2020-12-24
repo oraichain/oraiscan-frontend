@@ -12,6 +12,8 @@ import copy from "copy-to-clipboard";
 import Dialog from "./Dialog";
 import Keystation from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
+import {useFetch} from "src/hooks";
+import consts from "src/constants/consts";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import {ReactComponent as CopyIcon} from "src/assets/icons/copy.svg";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
@@ -44,6 +46,13 @@ export default function({data}) {
 	const [showCopySuccess, setShowCopySuccess] = useState(false);
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
 	const history = useHistory();
+	const [wallet, , , , setUrl] = useFetch();
+	const [reFetchAmount, setReFetchAmount] = useState(0);
+	const amount = wallet?.data?.result?.value?.coins?.[0]?.amount;
+
+	useEffect(() => {
+		setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.ACCOUNT_DETAIL}/${title}?t=${Date.now()}`);
+	}, [title, reFetchAmount]);
 
 	if (title === "") {
 		return (
@@ -57,7 +66,14 @@ export default function({data}) {
 	return (
 		<div className={cx("dropdown")}>
 			<Alert show={showCopySuccess} handleClose={() => setShowCopySuccess(false)} message='Copy thành công!' />
-			<Dialog show={showTransactionModal} handleClose={() => setShowTransactionModal(false)} address={title} account={account} />
+			<Dialog
+				show={showTransactionModal}
+				handleClose={() => setShowTransactionModal(false)}
+				address={title}
+				account={account}
+				amount={amount}
+				reFetchAmount={() => setReFetchAmount(prev => prev + 1)}
+			/>
 			<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()}>
 				<ListItem button>
 					<AccountCircleIcon />
@@ -87,6 +103,9 @@ export default function({data}) {
 						<span className={cx("wallet-share")}>
 							<ShareIcon />
 						</span>
+					</div>
+					<div className={cx("wallet-link")}>
+						<div className={cx("wallet-amount")}> Amount: {amount || 0} Orai </div>
 					</div>
 					<div className={cx("orai-btn-group")}>
 						<div className={cx("btn-orai", "change-wallet")} onClick={() => setShowTransactionModal(true)}>
