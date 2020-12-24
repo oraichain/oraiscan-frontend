@@ -10,6 +10,7 @@ import PriceDisplay from "./PriceDisplay";
 import DetailDisplay from "./DetailDisplay";
 import BlocksDisplay from "./BlocksDisplay";
 import TxDisplay from "./TxDisplay";
+import StatusBox from "src/components/common/StatusBox";
 //  assets
 import exchangeSVG from "src/assets/dashboard/exchange_ic.svg";
 import dexSVG from "src/assets/dashboard/dex_ic.svg";
@@ -63,24 +64,7 @@ export default function(props) {
 		<div className={cx("DashboardContent-wrapper")}>
 			<div className={cx("header")}>
 				<div className={cx("title")}>Dashboard</div>
-				<div className={cx("info")}>
-					<div className={cx("detail")}>
-						<span>Price: </span>
-						<span style={{fontWeight: 500}}>{status?.price ? `$${status?.price}` : <Skeleton width={"92px"} height={"34px"} />}</span>
-					</div>
-					<div className={cx("detail")}>
-						<span>Height: </span>
-						<span style={{fontWeight: 500}}>{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</span>
-					</div>
-					{/* <div className={cx("detail")}>
-						<span>Bonded: </span>
-						<span style={{fontWeight: 500}}>189,132,631</span>
-					</div>
-					<div className={cx("detail")}>
-						<span>Inflation: </span>
-						<span style={{fontWeight: 500}}>7.00%</span>
-					</div> */}
-				</div>
+				<StatusBox />
 			</div>
 			<div className={cx("PriceGraphClickable-wrapper")}>
 				<div className={cx("Card", "PriceGraph-wrapper")}>

@@ -1,17 +1,16 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./Tx.scss";
-
 import {_, empty} from "src/lib/scripts";
 import consts from "src/constants/consts";
 import {useFetch, usePrevious} from "src/hooks";
-import MockData from "src/containers/Tx/MockData";
-//  components
-import TitleWrapper from "src/components/common/TitleWrapper";
-import TxInfo from "src/components/Tx/TxInfo";
-import TxData from "src/components/Tx/TxData";
 import PageTitle from "src/components/common/PageTitle";
 import NotFound from "src/components/common/NotFound";
+import StatusBox from "src/components/common/StatusBox";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import MockData from "src/containers/Tx/MockData";
+import TxInfo from "src/components/Tx/TxInfo";
+import TxData from "src/components/Tx/TxData";
+import styles from "./Tx.scss";
 
 const cx = cn.bind(styles);
 
@@ -62,6 +61,7 @@ export default function(props) {
 		<div className={cx("Tx-wrapper")}>
 			<TitleWrapper>
 				<PageTitle title={"Transaction details"} />
+				<StatusBox />
 			</TitleWrapper>
 			{empty(state.data) && txHash !== "test" ? (
 				undefined
