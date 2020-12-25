@@ -22,14 +22,18 @@ import styles from "./Dialog.scss";
 
 const cx = cn.bind(styles);
 
-const validationSchemaForm1 = yup.object().shape({
-	recipientAddress: yup.string().required("Recipient Address Field is Required"),
-	sendAmount: yup.number().required("Send Amount Field is Required"),
-	// freeMessage: yup.string().required("Recipient Address Field is Required"),
-});
-
-const validationSchemaForm2 = yup.object().shape({
-	freeMessage: yup.string().required("Recipient Address Field is Required"),
+yup.addMethod(yup.number, "lessThanNumber", function(amount) {
+	return this.test({
+		name: "test-name",
+		exclusive: false,
+		message: "Transfer amount must be greater than 0 and less than your account's amount",
+		test(value) {
+			if (_.isNaN(value)) {
+				return true;
+			}
+			return value > 0 && value <= parseInt(amount);
+		},
+	});
 });
 
 const TABS = [
@@ -52,6 +56,19 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [showTransactionSuccess, setShowTransactionSuccess] = useState(false);
 	const history = useHistory();
+	const validationSchemaForm1 = yup.object().shape({
+		recipientAddress: yup.string().required("Recipient Address Field is Required"),
+		sendAmount: yup
+			.number()
+			.required("Send Amount Field is Required")
+			.lessThanNumber(amount, "lessThanNumber"),
+		// freeMessage: yup.string().required("Recipient Address Field is Required"),
+	});
+
+	const validationSchemaForm2 = yup.object().shape({
+		freeMessage: yup.string().required("Recipient Address Field is Required"),
+	});
+
 	const methods = useForm({
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
@@ -112,6 +129,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	useEffect(() => {
 		const callBack = function(e) {
+			if (e && e.data === "deny") {
+				return handleClose();
+			}
 			if (e?.data?.txhash) {
 				setShowTransactionSuccess(true);
 				history.push(`/txs/${e.data.txhash}`);
