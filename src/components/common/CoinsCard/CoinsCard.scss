@@ -1,6 +1,6 @@
 @import "src/styles/utils";
 
-.donut-chart-card {
+.coins-card {
 	padding: 35px;
 	background: #ffffff;
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
@@ -30,7 +30,7 @@
 		margin-bottom: 36px;
 	}
 
-	.donut-chart {
+	.coins {
 		text-align: center;
 
 		&-graph {
@@ -83,4 +83,8 @@
 			line-height: 150%;
 		}
 	}
+}
+
+.uppercase {
+	text-transform: uppercase;
 }

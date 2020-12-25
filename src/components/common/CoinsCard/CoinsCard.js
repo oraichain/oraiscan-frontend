@@ -3,26 +3,37 @@ import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
 import {formatFloat} from "src/helpers/helper";
 import DonutChart from "react-donut-chart";
-import styles from "./DonutChartCard.scss";
+import styles from "./CoinsCard.scss";
 
-const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent, delegatedPercent, unbondingPercent, rewardPercent, minHeight = "220px"}) => {
+const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, denom, minHeight = "220px"}) => {
 	const cx = classNames.bind(styles);
+
+	const delegatedPercent = (parseFloat(delegated) * 100) / parseFloat(total);
+	const unbondingPercent = (parseFloat(unbonding) * 100) / parseFloat(total);
+	const rewardPercent = (parseFloat(reward) * 100) / parseFloat(total);
+	const availablePercent = (parseFloat(available) * 100) / parseFloat(total);
+
 	const delegatedColor = "#51ADCF";
 	const unbondingColor = "#A5ECD7";
 	const rewardColor = "#FFBF9B";
 	const availableColor = "#0278AE";
-	const calculateTotalPrice = (totalOrai, unitPrice) => {
-		return parseFloat(totalOrai) * parseFloat(unitPrice);
+
+	const calculateTotalPrice = (total, price) => {
+		return parseFloat(total) * parseFloat(price);
 	};
 
-	const totalPrice = useMemo(() => calculateTotalPrice(totalOrai, unitPrice), [totalOrai, unitPrice]);
+	const totalPrice = useMemo(() => calculateTotalPrice(total, price), [total, price]);
 	return (
-		<div className={cx("donut-chart-card")} style={{minHeight: minHeight}}>
+		<div className={cx("coins-card")} style={{minHeight: minHeight}}>
 			<Grid container spacing={2}>
 				<Grid item lg={5} md={12}>
-					<div className={cx("total-orai-title")}>Total ORAI</div>
-					<div className={cx("total-orai-value")}>{formatFloat(totalOrai, 2)}</div>
-					<div className={cx("unit-price")}>${formatFloat(unitPrice, 2)} /ORAI</div>
+					<div className={cx("total-orai-title")}>
+						Total <span className={cx("uppercase")}>{denom}</span>
+					</div>
+					<div className={cx("total-orai-value")}>{formatFloat(total, 2)}</div>
+					<div className={cx("unit-price")}>
+						${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
+					</div>
 					<div className={cx("total-price")}>{formatFloat(totalPrice, 2)}</div>
 				</Grid>
 				<Grid container item lg={7} md={12}>
@@ -43,7 +54,6 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 							colors={[delegatedColor, unbondingColor, rewardColor, availableColor]}
 							strokeColor={false}
 						/>
-						<div className={cx("donut-chart-name")}>{chartName}</div>
 					</Grid>
 					<Grid container item md={7} xs={12} className={cx("chart-comments")}>
 						<Grid item md={6} xs={12}>
@@ -53,7 +63,7 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 								</div>
 								<div>
 									<div className={cx("chart-comment-text")}>Available</div>
-									<div className={cx("chart-comment-value")}>{availablePercent}%</div>
+									<div className={cx("chart-comment-value")}>{formatFloat(availablePercent)}%</div>
 								</div>
 							</div>
 						</Grid>
@@ -65,7 +75,7 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 								</div>
 								<div>
 									<div className={cx("chart-comment-text")}>Delegated</div>
-									<div className={cx("chart-comment-value")}>{delegatedPercent}%</div>
+									<div className={cx("chart-comment-value")}>{formatFloat(delegatedPercent)}%</div>
 								</div>
 							</div>
 						</Grid>
@@ -77,7 +87,7 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 								</div>
 								<div>
 									<div className={cx("chart-comment-text")}>Unbonding</div>
-									<div className={cx("chart-comment-value")}>{unbondingPercent}%</div>
+									<div className={cx("chart-comment-value")}>{formatFloat(unbondingPercent)}%</div>
 								</div>
 							</div>
 						</Grid>
@@ -89,7 +99,7 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 								</div>
 								<div>
 									<div className={cx("chart-comment-text")}>Reward</div>
-									<div className={cx("chart-comment-value")}>{rewardPercent}%</div>
+									<div className={cx("chart-comment-value")}>{formatFloat(rewardPercent)}%</div>
 								</div>
 							</div>
 						</Grid>
@@ -100,4 +110,4 @@ const DonutChartCard = memo(({totalOrai, unitPrice, chartName, availablePercent,
 	);
 });
 
-export default DonutChartCard;
+export default CoinsCard;
