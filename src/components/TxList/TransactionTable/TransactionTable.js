@@ -27,19 +27,20 @@ const TransactionTable = memo(({data = []}) => {
 	];
 	const getDataRows = data =>
 		data.map(item => {
-			const txHashDataCell = item.tx_hash ? ( _.isNil(item?.tx_hash) ? (
-				<div className={cx("align-left")}>-</div>
+			const txHashDataCell = item.tx_hash ? (
+				_.isNil(item?.tx_hash) ? (
+					<div className={cx("align-left")}>-</div>
+				) : (
+					<NavLink className={cx("tx-hash-data-cell")} to={`${consts.API.TXLIST}/${item.tx_hash}`}>
+						{reduceString(item.tx_hash, 6, 6)}
+					</NavLink>
+				)
 			) : (
-				<NavLink className={cx("tx-hash-data-cell")} to={`${consts.API.TXLIST}/${item.tx_hash}`}>
-					{reduceString(item.tx_hash, 6, 6)}
-				</NavLink>
-			)) : (
 				<Skeleton />
 			);
 
 			const typeDataCell = _.isNil(item?.messages?.[0]?.type) ? (
 				<div className={cx("align-left")}>-</div>
-				
 			) : (
 				<div className={cx("type-data-cell")}>
 					<div className={cx("first-message-type")}>{item.messages[0].type}</div>
@@ -103,11 +104,10 @@ const TransactionTable = memo(({data = []}) => {
 			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
 
-	const dataRows = useMemo(() => getDataRows(data), [data]);
+	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 	// const dataRows = useMemo(() => {
 	// 	setTimeout(getDataRows(data), 3000);
 	// }, [data]);
-	console.log(data);
 
 	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });

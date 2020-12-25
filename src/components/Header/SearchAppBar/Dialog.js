@@ -106,7 +106,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		const callBack = function(e) {
 			if (e?.data?.txhash) {
 				setShowTransactionSuccess(true);
-				reFetchAmount();
+				setTimeout(reFetchAmount, 2000);
 				handleClose();
 			}
 		};
@@ -124,7 +124,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						<Grid container spacing={2}>
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}> Available Amount </div>
-								<div className={cx("right")}> {amount} Orai </div>
+								<div className={cx("right")}> {amount} ORAI </div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
 								<InputText name='recipientAddress' label='Recipient Address' required errorobj={errors} />
@@ -137,7 +137,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							</Grid>
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}> Tx Fee </div>
-								<div className={cx("right")}> {fee || 0} Orai </div>
+								<div className={cx("right")}> {fee || 0} ORAI </div>
 							</div>
 						</Grid>
 					</form>
@@ -152,14 +152,14 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						<Grid container spacing={2}>
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}> Available Amount </div>
-								<div className={cx("right")}> {amount} Orai </div>
+								<div className={cx("right")}> {amount} ORAI </div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
 								<TextArea name='freeMessage' required errorobj={errors} />
 							</Grid>
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}> Tx Fee </div>
-								<div className={cx("right")}> {fee || 0} Orai </div>
+								<div className={cx("right")}> {fee || 0} ORAI </div>
 							</div>
 						</Grid>
 					</form>
@@ -186,10 +186,10 @@ export default function FormDialog({show, handleClose, address, account, amount,
 					{renderTab(activeTabId)}
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose} color='primary'>
+					<Button onClick={handleClose} className={cx("btn-cancel")}>
 						Cancel
 					</Button>
-					<Button variant='contained' color='primary' onClick={handleSubmit(onSubmit)}>
+					<Button variant='contained' className={cx("btn-submit")} onClick={handleSubmit(onSubmit)}>
 						SUBMIT
 					</Button>
 				</DialogActions>

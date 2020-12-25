@@ -65,3 +65,14 @@
 		}
 	}
 }
+
+.btn-cancel {
+	color: #1b57f0;
+}
+
+.btn-submit {
+	background-color: #1b57f0 !important;
+	span:first-child {
+		color: #ffffff;
+	}
+}

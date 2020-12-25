@@ -82,7 +82,7 @@ export default function({data}) {
 			</a>
 			<div className={cx("dropdown-content")}>
 				<div className={cx("orai-profile")}>
-					<div className={cx("wallet-name")}>Address (your name here)</div>
+					<div className={cx("wallet-name")}>Address: {account}</div>
 					<div className={cx("wallet-link")}>
 						<a
 							href='/'
@@ -105,7 +105,7 @@ export default function({data}) {
 						</span>
 					</div>
 					<div className={cx("wallet-link")}>
-						<div className={cx("wallet-amount")}> Amount: {amount || 0} Orai </div>
+						<div className={cx("wallet-amount")}> Balance: {amount || 0} ORAI </div>
 					</div>
 					<div className={cx("orai-btn-group")}>
 						<div className={cx("btn-orai", "change-wallet")} onClick={() => setShowTransactionModal(true)}>
