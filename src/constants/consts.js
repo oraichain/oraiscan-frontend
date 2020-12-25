@@ -3,6 +3,7 @@ import config from "src/config";
 import _ from "lodash";
 
 const api = process.env.NODE_ENV === "production" ? config.API_PROD : config.API_DEV;
+const lcdApi = process.env.REACT_APP_LCD_API;
 
 export default Object.freeze({
   DEFAULT_ARRAY: [],
@@ -16,17 +17,19 @@ export default Object.freeze({
   // 	GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
   // },
   COIN_ID: "oraichain-token",
+  TABLE: {
+    PAGE_SIZE: 20,
+  },
   NUM: {
     BASE_MULT: 100000000,
     DEFAULT_DECIMALS: 8,
     PAGE_SIZE: 20,
-
     SPARE_PAGE_CNT: 2, //  amount of pages to preload in pagination
     BINACE_API_ROWS_LIMIT: 1000, //  max rows binance api allows
     BINANCE_API_PAGES_LIMIT: 100, //  max page binance api allows
-
     REAL_TIME_DELAY_MS: 2000, //  real-time refetch interval(for indexedPagination)
     DASH_REAL_TIME_DELAY_MS: 3000, //  dashboard refetch interval
+    DETAIL_REAL_TIME_DELAY_MS: 7000, // detail display refetch interval
     ACCOUNT_REFETCH_INTERVAL_MS: 5000, // TODO : currently not used
     ASSET_REFETCH_INTERVAL_MS: 80000,
     ASSET_REFETCH_PRICE_INTERVAL_MS: 80000,
@@ -39,13 +42,13 @@ export default Object.freeze({
   GET_LOGO_LINK: symbol =>
     _.isString(symbol) ? `https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/thumnail/${_.split(symbol)[0]}}.png` : "",
   API_BASE: api,
+  LCD_API_BASE: lcdApi,
   API: {
     STATUS: "/status",
     BLOCKLIST: "/blocks",
     ACCOUNT: "/account",
     ACCOUNT_TXS: acc => `/account/txs/${acc}?page=1&rows=20`,
     TXLIST: "/txs",
-    TXS_LIST: "/txs?limit=5&after=15&before=25",
     TX: "/txs",
     ORDERS: "/orders",
     ASSET_IMAGES: "/assets-images?page=1&rows=1000",
@@ -59,10 +62,24 @@ export default Object.freeze({
     CHARTS: "/stats/assets/chart",
     FEE: "/fees",
     VALIDATORS: "/validators",
+    DELEGATORS: "/delegations",
+    UNBONDINGS: "/account/unbonding",
+    TXS_ACCOUNT: "/txs-account",
+    ORAICHAIN_INFO: "/oraichain_info",
+    ACCOUNT_COINS: "/account/coins",
     VALIDATOR: "/validator",
     DELEGATOR: "/delegator",
     PROPOSED_BLOCKS: "/proposed-blocks",
     MISSED_BLOCKS: "/validator/missed-block"
+  },
+  LCD_API: {
+    VALIDATORS: "/validators",
+    DATA_SOURCES: "/provider/datasources",
+    DATA_SOURCE_DETAIL: "/provider/datasource",
+    TEST_CASES: "/provider/testcases",
+    ORACLE_SCRIPTS: "/provider/oscripts",
+    ORACLE_SCRIPT_DETAIL: "/provider/oscript",
+    ACCOUNT_DETAIL: "/auth/accounts",
   },
   NETWORK: {
     COSMOS: "cosmoshub-3",
@@ -78,11 +95,6 @@ export default Object.freeze({
     ORAI_OPER: "oraivaloper",
     ORAI_CONS: "oraivalcons"
   },
-  MINTSCAN_URL: {
-    COSMOS: "https://www.mintscan.io/",
-    KAVA: "https://kava.mintscan.io/",
-    IRIS: "https://irishub.mintscan.io/",
-  },
 
   LINK: {
     GOOGLE: "https://play.google.com/store/apps/details?id=wannabit.io.cosmostaion",
@@ -92,7 +104,6 @@ export default Object.freeze({
     BINANCEDEX: "https://www.binance.org/",
     COINGECKO_ORAI: "https://www.coingecko.com/en/coins/oraichain-token",
   },
-
   MENU: [
     {
       display: "DASHBOARD",
@@ -112,4 +123,8 @@ export default Object.freeze({
       route: "/txs",
     },
   ],
+  REQUEST: {
+    LIMIT: 10, // Number of records per page
+    TIMEOUT: 3000,
+  },
 });

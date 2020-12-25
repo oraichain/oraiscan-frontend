@@ -1,1 +1,115 @@
 @import "src/styles/utils";
+
+.rank-header-cell {
+	text-align: left;
+}
+
+.validator-header-cell {
+	text-align: left;
+}
+
+.voting-power-header-cell {
+	text-align: right;
+}
+
+.cumulative-share-header-cell {
+	text-align: right;
+}
+
+.uptime-header-cell {
+	text-align: right;
+}
+
+.commission-header-cell {
+	text-align: right;
+}
+
+.sort-button {
+	padding: 0;
+	margin-left: 10px;
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.rank-data-cell {
+	text-align: left;
+}
+
+.validator-data-cell {
+	display: block;
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	img {
+		margin-right: 8px;
+		vertical-align: middle;
+	}
+}
+
+.voting-power-data-cell {
+	& > div:nth-child(1) {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+		text-align: right;
+	}
+
+	& > div:nth-child(2) {
+		color: #9a9a9a;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+		text-align: right;
+	}
+}
+
+.previous-graph {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: #d6fec4;
+}
+
+.current-graph {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: #b9f69c;
+}
+
+.total-value {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+	text-align: right;
+}
+
+.uptime-data-cell {
+	text-align: right;
+}
+
+.commission-data-cell {
+	text-align: right;
+}

@@ -1,24 +1,20 @@
 import React from "react";
 import classNames from "classnames/bind";
-import styles from "./App.scss";
-//  components
 import Router from "src/containers/Router/Router";
 import Header from "src/containers/Header";
 import SearchArea from "src/components/Dashboard/SearchArea";
-import Tab from "src/containers/Tab";
+import Tabs from "src/containers/Tabs";
 import Footer from "src/containers/Footer";
-
-//redux
-//  import redux stuff
+import styles from "./App.scss";
 
 const cx = classNames.bind(styles);
 
 export default function() {
 	return (
-		<div className={cx("App")}>
+		<div className={cx("app")}>
 			<Header />
 			<SearchArea />
-			<Tab />
+			<Tabs />
 			<Router />
 			<Footer />
 		</div>

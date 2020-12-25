@@ -2,13 +2,17 @@
 
 .table-container {
 	background: #ffffff;
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: var(--shadow1);
 	border-radius: 8px;
+}
+
+.table {
 }
 
 .header-cell,
 .data-cell {
-	border-right: 1px solid #e7e7e7;
+	position: relative;
+	border: 1px solid #e7e7e7;
 }
 
 .table-theme-light {

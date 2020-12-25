@@ -289,3 +289,16 @@
 	max-width: 100%;
 	height: auto;
 }
+
+.copy-icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.content-input {
+	position: fixed;
+	top: -100vh;
+	left: -100vw;
+}

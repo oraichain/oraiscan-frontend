@@ -1,40 +1,21 @@
-import React from "react";
+// @ts-nocheck
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from "react";
 import cn from "classnames/bind";
-import styles from "./SearchAppBar.scss";
-// import _ from "lodash";
-import {NavLink} from "react-router-dom";
-
-//  components
-import SearchArea from "src/components/common/SearchArea";
+import {useDispatch, useSelector} from "react-redux";
+import {NavLink, useHistory} from "react-router-dom";
 import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden} from "@material-ui/core";
 import {ArrowDropDown, DriveEta} from "@material-ui/icons";
 
+import Wallet from "./Wallet";
+import {initWallet} from "src/store/modules/wallet";
+import SearchArea from "src/components/common/SearchArea";
+import {navLinkInit} from "./nav-link-init";
 import logo from "src/assets/header/logo.svg";
 
-const cx = cn.bind(styles);
+import styles from "./SearchAppBar.scss";
 
-const navLinks = [
-	{title: `Home`, path: `https://orai.io/`},
-	{
-		title: `Products`,
-		children: [
-			{title: `Liquidity`, path: `https://liquidity.orai.io/`},
-			{title: `Testnet`, path: `https://scan.orai.io/`},
-			{title: `yAi.Finance`, path: `https://yai.finance/`},
-			{title: `Marketplace`, path: `https://market.orai.io/oscript`},
-		],
-	},
-	{title: `Tokenomics`, path: `https://orai.io/Tokenomics`},
-	{
-		title: `About`,
-		children: [
-			{title: `Team`, path: `https://orai.io/#team`},
-			{title: `Roadmap`, path: `https://orai.io/roadmap`},
-			{title: `Community`, path: `https://t.me/oraichain_official`},
-		],
-	},
-	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
-];
+const cx = cn.bind(styles);
 
 function openNav() {
 	document.getElementById("mySidenav").style.width = "280px";
@@ -45,6 +26,34 @@ function closeNav() {
 }
 
 export default function(props) {
+	const [navLinks, setNavLinks] = useState(navLinkInit);
+	const dispatch = useDispatch();
+	const {address} = useSelector(state => state.wallet);
+	useEffect(() => {
+		const callBack = function(e) {
+			if (e?.data?.address) {
+				navLinkInit[navLinkInit.length - 1] = {
+					title: e.data.address,
+					type: "wallet",
+				};
+				setNavLinks([...navLinkInit]);
+				dispatch(initWallet({address: e.data.address, account: e.data.account}));
+			}
+		};
+		window.addEventListener("message", callBack, false);
+		return () => {
+			window.removeEventListener("message", callBack);
+		};
+	}, []);
+
+	useEffect(() => {
+		navLinkInit[navLinkInit.length - 1] = {
+			title: address,
+			type: "wallet",
+		};
+		setNavLinks([...navLinkInit]);
+	}, [address]);
+
 	return (
 		<div className={cx("SearchAppBar-root")} id={"Header-fixed-id"}>
 			<Toolbar className={cx("toolbar")}>
@@ -55,11 +64,12 @@ export default function(props) {
 				<div className={cx("select-wrapper")}>
 					{/* <SearchArea propCx={cx} dropdownStyle={{position: "fixed", width: "459px"}} /> */}
 					<List component='nav' aria-labelledby='main navigation' className={cx("nav-display-flex")}>
-						{navLinks.map(({title, path, children}, idx) => {
+						{navLinks.map((item, idx) => {
+							const {title, path, children, type} = item;
 							if (children) {
 								return (
 									<div className={cx("dropdown")}>
-										<a key={title}>
+										<a key={title} href='/'>
 											<ListItem button>
 												<ListItemText primary={title} />
 												<ArrowDropDown />
@@ -67,7 +77,7 @@ export default function(props) {
 										</a>
 										<div className={cx("dropdown-content")}>
 											{children.map(({title, path}) => (
-												<a href={path} key={title} className={cx("link-text")} target='_blank'>
+												<a href={path} key={title} className={cx("link-text")}>
 													{title}
 												</a>
 											))}
@@ -75,8 +85,10 @@ export default function(props) {
 									</div>
 								);
 							}
-							return (
-								<a href={path} key={title} target='_blank'>
+							return type === "wallet" ? (
+								<Wallet data={item} />
+							) : (
+								<a href={path} key={title}>
 									<ListItem button>
 										<ListItemText primary={title} />
 									</ListItem>

@@ -1,6 +1,6 @@
-.App {
-	width: 100vw;
+.app {
 	min-height: calc(100vh - var(--heightFooter));
 	background-color: #f5f5f5;
 	font-family: Roboto;
+	overflow: hidden;
 }

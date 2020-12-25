@@ -4,8 +4,8 @@ import styles from "./StatusCard.scss";
 
 const cx = cn.bind(styles);
 
-const StatusCard = memo(({icon, label, value}) => (
-	<div className={cx("status-card")}>
+const StatusCard = memo(({icon, label, value, minHeight}) => (
+	<div className={cx("status-card")} style={{minHeight: minHeight}}>
 		<div className={cx("status-card-header")}>
 			<img src={icon} className={cx("status-card-icon")} />
 			<span className={cx("status-card-label")}>{label}</span>

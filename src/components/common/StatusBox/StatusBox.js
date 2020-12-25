@@ -1,31 +1,61 @@
-import React, {memo} from "react";
+import React, {memo, useState, useRef, useEffect} from "react";
+import {useGet} from "restful-react";
 import classNames from "classnames/bind";
+import consts from "src/constants/consts";
+import {formatInteger, formatFloat} from "src/helpers/helper";
 import styles from "./StatusBox.scss";
 
-const cx = classNames.bind(styles);
+const StatusBox = memo(() => {
+	const cx = classNames.bind(styles);
+	const [loadCompleted, setLoadCompleted] = useState(false);
+	let timerID = useRef(null);
 
-const StatusBox = memo(() => (
-	<div className={cx("status-box")}>
-		<div className={cx("status-box-item")}>
-			<span className={cx("status-label")}>Price: </span>
-			<span className={cx("status-value")}>$4.73</span>
-		</div>
+	const cleanUp = () => {
+		if (timerID) {
+			clearTimeout(timerID);
+		}
+	};
 
-		<div className={cx("status-box-item")}>
-			<span className={cx("status-label")}>Bonded:</span>
-			<span className={cx("status-value")}>189,132,631</span>
-		</div>
+	const {data, loading, refetch} = useGet({
+		path: consts.API.ORAICHAIN_INFO,
+		resolve: data => {
+			setLoadCompleted(true);
+			return data;
+		},
+	});
 
-		<div className={cx("status-box-item")}>
-			<span className={cx("status-label")}>Bonded: </span>
-			<span className={cx("status-value")}>189,132,631</span>
-		</div>
+	useEffect(() => {
+		if (loadCompleted) {
+			timerID = setTimeout(() => {
+				refetch();
+				setLoadCompleted(false);
+			}, consts.REQUEST.TIMEOUT);
+			return () => {
+				cleanUp();
+			};
+		}
+	}, [loadCompleted]);
 
-		<div className={cx("status-box-item")}>
-			<span className={cx("status-label")}>Inflation: </span>
-			<span className={cx("status-value")}>7.00%</span>
+	return (
+		<div className={cx("status-box")}>
+			<div className={cx("status-box-item")}>
+				<span className={cx("status-label")}>Price: </span>
+				<span className={cx("status-value")}>{data?.price ? "$" + formatFloat(data.price) : "--"}</span>
+			</div>
+			<div className={cx("status-box-item")}>
+				<span className={cx("status-label")}>Height: </span>
+				<span className={cx("status-value")}>{data?.height ? formatInteger(data.height) : "--"}</span>
+			</div>
+			<div className={cx("status-box-item")}>
+				<span className={cx("status-label")}>Bonded: </span>
+				<span className={cx("status-value")}>{data?.bonded ? formatInteger(data.bonded) : "--"}</span>
+			</div>
+			<div className={cx("status-box-item")}>
+				<span className={cx("status-label")}>Inflation: </span>
+				<span className={cx("status-value")}>{data?.inflation ? formatFloat(data.inflation) + "%" : "--"}</span>
+			</div>
 		</div>
-	</div>
-));
+	);
+});
 
 export default StatusBox;

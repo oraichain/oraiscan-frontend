@@ -1,21 +1,31 @@
 import React from "react";
 import customStyle from "./TableRow.scss";
 import classNames from "classnames/bind";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import {TableCell, TableRow} from "@material-ui/core";
-import {setAgoTime} from "src/lib/scripts";
+import { TableCell, TableRow } from "@material-ui/core";
+import { setAgoTime } from "src/lib/scripts";
 import Skeleton from "react-skeleton-loader";
-import pickData, {cellTypes} from "./pickData";
+import pickData, { cellTypes } from "./pickData";
 
 const cx = classNames.bind(customStyle);
 
-export const TableRowThin = ({blockData}) => {
+export const TableRowThin = ({ blockData }) => {
 	return (
 		<div className={cx("TxList-thinTableRow")}>
 			<ul className={cx("row", "text")}>
 				<li>Tx Hash</li>
-				<li>{pickData(blockData, cx, cellTypes.TX_HASH)}</li>
+				<li>
+					{  
+						blockData.tx_hash ? (
+							<>
+								{pickData(blockData, cx, cellTypes.TX_HASH)}
+							</>
+						) : (
+								<Skeleton />
+							)
+					}
+				</li>
 			</ul>
 			<ul className={cx("row", "text")}>
 				<li>Type</li>
@@ -42,8 +52,8 @@ export const TableRowThin = ({blockData}) => {
 							{blockData.height}{" "}
 						</NavLink>
 					) : (
-						<Skeleton />
-					)}
+							<Skeleton />
+						)}
 				</li>
 			</ul>
 			<ul className={cx("row")}>
@@ -54,7 +64,7 @@ export const TableRowThin = ({blockData}) => {
 	);
 };
 
-export default function({blockData}) {
+export default function ({ blockData }) {
 	return (
 		<TableRow className={cx("TxList-tableRow")} hover={true} key={blockData.id}>
 			<TableCell className={cx("tablePointerCell", "text", "txCell")} component='th' scope='row'>

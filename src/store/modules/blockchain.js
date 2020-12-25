@@ -45,7 +45,6 @@ const handlers = {
 	...pender({
 		type: GET_FASTEST_NODE,
 		onSuccess: (state, action) => {
-			console.log(action.payload);
 			return {...state, acceleratedNode: action.payload};
 		},
 		onFailure: state => ({...state}),

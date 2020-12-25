@@ -1,0 +1,19 @@
+@import "src/styles/utils";
+.validator-list {
+	margin-top: 30px;
+	width: 1200px;
+	padding: 0px;
+}
+
+.request-board-list {
+	box-shadow: var(--shadow1);
+	background: var(--colorWhite);
+	border-radius: var(--radius1);
+	padding: 25px 20px;
+	box-sizing: border-box;
+
+	&__title {
+		@include Typo(Roboto, normal, 500, 20px, 30px);
+		margin-bottom: 25px;
+	}
+}

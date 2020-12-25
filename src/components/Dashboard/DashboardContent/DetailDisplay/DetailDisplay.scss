@@ -1,17 +1,22 @@
 @import "src/styles/utils";
 
 .DetailDisplay {
-	display: grid;
-	grid-template-columns: 50% 50%;
-	grid-template-rows: 50% 50%;
-	grid-row-gap: 5px;
-	grid-column-gap: 5px;
+	// display: grid;
+	// grid-template-columns: 50% 50%;
+	// grid-template-rows: 50% 50%;
+	// grid-row-gap: 5px;
+	// grid-column-gap: 5px;
+	display: flex;
+	justify-content: space-around;
 	padding: 16px 16px 16px 0;
-	height: 330px;
+	height: 160px;
 
 	.card {
 		text-align: center;
 		padding: 20px 12px;
+		background: #F9F9F9;
+		border-radius: 6px;
+		width: 140px;
 
 		.title {
 			font-weight: normal;
@@ -39,4 +44,8 @@
 			margin: 0 auto;
 		}
 	}
+}
+
+.test {
+	justify-content: space-around;
 }
