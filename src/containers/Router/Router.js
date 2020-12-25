@@ -25,6 +25,9 @@ const OracleScriptDetail = lazy(() => import(`src/containers/OracleScriptDetail`
 const Proposals = lazy(() => import(`src/containers/Proposals`));
 const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
 
+const Requests = lazy(() => import(`src/containers/Requests`));
+const RequestsDetail = lazy(() => import(`src/containers/RequestsDetail`));
+
 export default function(props) {
 	//  preload stuff that needs preloading
 	usePreload();
@@ -46,6 +49,8 @@ export default function(props) {
 						<Route path='/test-cases' component={TestCases} />
 						<Route path='/proposals/:id' component={ProposalsDetail} />
 						<Route path='/proposals' component={Proposals} />
+						<Route path='/requests/:id' component={RequestsDetail} />
+						<Route path='/requests' component={Requests} />
 						<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 						<Route path='/oracle-scripts' component={OracleScripts} />
 						<Route render={() => <NotFound />} />
