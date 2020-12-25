@@ -20,6 +20,8 @@ const TransactionCard = memo(({account = 0, minHeight = defaultMinHeight + "px"}
 		return <Skeleton variant='rect' animation='wave' height={defaultMinHeight} />;
 	}
 
+	console.log("TRANSACTIONS", data);
+
 	const totalPages = data?.page?.total_page ?? 0;
 	const currentPage = data?.page?.page_id ?? 1;
 
@@ -29,7 +31,7 @@ const TransactionCard = memo(({account = 0, minHeight = defaultMinHeight + "px"}
 
 	return (
 		<div className={cx("transaction-card")} style={{minHeight: minHeight}}>
-			<div className={cx("transaction-card-header")}>Delegators</div>
+			<div className={cx("transaction-card-header")}>Transactions</div>
 			<div className={cx("transaction-card-body")}>
 				<TransactionTable data={data.data} />
 				{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
