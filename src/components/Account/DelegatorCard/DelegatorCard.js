@@ -20,6 +20,8 @@ const DelegatorCard = memo(({account = 0, minHeight = defaultMinHeight + "px"}) 
 		return <Skeleton variant='rect' animation='wave' height={defaultMinHeight} />;
 	}
 
+	console.log("DELEGATORS", data);
+
 	const totalPages = 1;
 	const currentPage = 1;
 	const onPageChange = page => {};
