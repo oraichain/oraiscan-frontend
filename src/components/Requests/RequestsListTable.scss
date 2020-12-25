@@ -1,57 +1,50 @@
 @import "src/styles/utils";
 
-.id-cell {
-	@include Typo(Roboto, normal, 400, 14px, 21px);
-}
-
-.title-cell {
+.requestId-cell {
 	@include Typo(Roboto, normal, 400, 14px, 21px);
 	color: var(--color1);
 }
 
-.status-cell {
-	button {
-		@include Typo(Roboto, normal, 400, 11px, 16.5px);
-
-		@include FlexCombo(row, center, center);
-		border-radius: var(--radius3);
-		padding: 4px 10px;
-
-		span {
-			margin-left: 4px;
-		}
-	}
-
-	&--success {
-		color: var(--color8);
-		@include Border([ "all" ], var(--border3));
-	}
-
-	&--reject {
-		color: var(--color10);
-		@include Border([ "all" ], var(--border4));
-	}
-}
-
-.vote-cell {
-	text-align: right;
-	@include Typo(Roboto, normal, 400, 14px, 21px);
-}
-
-.submit-cell {
-	text-align: right;
-	@include Typo(Roboto, normal, 400, 14px, 21px);
-}
-
-.total-cell {
-	@include FlexCombo(row, center, center);
+.oracleScript-cell {
+	@include FlexCombo(row, flex-start, center);
 	@include Typo(Roboto, normal, 400, 14px, 21px);
 
-	&--id {
+	span {
+		color: var(--color1);
 		margin-right: 4px;
 	}
+}
 
-	&--content {
-		color: var(--color7);
+.report-status {
+	&__title {
+		@include FlexCombo(row, space-between, center);
+		@include Typo(Roboto, normal, 400, 14px, 21px);
+		margin-bottom: 5px;
 	}
+
+	&__progress-bar {
+		height: 15px;
+		border-radius: var(--radius3);
+		background: var(--color3);
+
+		&--not-full {
+			background: var(--color4);
+		}
+	}
+}
+
+.status {
+	@include FlexCombo(row, flex-start, center);
+
+	span {
+		@include Typo(Roboto, normal, 400, 14px, 21px);
+		color: var(--color5);
+		margin-left: 4px;
+	}
+}
+
+.owner {
+	@include Typo(Roboto, normal, 400, 14px, 21px);
+	color: var(--color1);
+	text-align: right;
 }

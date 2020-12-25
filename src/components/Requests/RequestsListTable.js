@@ -4,36 +4,29 @@ import classNames from "classnames/bind";
 import Highlight from "react-highlight";
 import {tableThemes} from "src/constants/tableThemes";
 import TableWithPagination from "src/components/common/TableWithPagination";
-import styles from "./ProposalsListTable.scss";
+import styles from "./RequestsListTable.scss";
 
 const cx = classNames.bind(styles);
-const headerCells = ["#ID", "Title", "Status", "Voting Start", "Submit Time", "Total Deposit"];
-const headerCellStyles = [
-	{width: "70px"},
-	{width: "428px"},
-	{width: "119px"},
-	{width: "214px", textAlign: "right"},
-	{width: "197px", textAlign: "right"},
-	{width: "150px"},
-];
+const headerCells = ["Request ID", "Oracle Script", "Report Status", "Status", "Owner"];
+const headerCellStyles = [{width: "186px"}, {width: "329px"}, {width: "366px"}, {width: "119px"}, {width: "140px"}];
 
 const SuccessIcon = () => {
 	return (
-		<svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
-				d='M5.73959 9.96338C5.66298 9.96346 5.5871 9.94841 5.51632 9.91908C5.44555 9.88974 5.38127 9.84671 5.32717 9.79246L3.08727 7.55257C3.0326 7.49852 2.98915 7.4342 2.95943 7.36331C2.9297 7.29241 2.91429 7.21633 2.91406 7.13946C2.91384 7.06258 2.92882 6.98642 2.95814 6.91536C2.98745 6.84429 3.03053 6.77972 3.08489 6.72536C3.13925 6.671 3.20381 6.62792 3.27488 6.5986C3.34594 6.56928 3.4221 6.5543 3.49898 6.55451C3.57586 6.55473 3.65193 6.57014 3.72283 6.59986C3.79373 6.62959 3.85805 6.67303 3.9121 6.7277L5.73959 8.55516L10.0873 4.20752C10.1967 4.09851 10.345 4.03738 10.4995 4.03754C10.6539 4.03771 10.8021 4.09915 10.9113 4.2084C11.0205 4.31764 11.082 4.46575 11.0821 4.62024C11.0823 4.77472 11.0211 4.92296 10.9121 5.03241L6.15201 9.79251C6.09791 9.84675 6.03363 9.88977 5.96285 9.9191C5.89208 9.94842 5.8162 9.96347 5.73959 9.96338Z'
-				fill='#12C90E'
+				d='M15.5917 6.00822C15.5142 5.93011 15.4221 5.86811 15.3205 5.82581C15.219 5.7835 15.11 5.76172 15 5.76172C14.89 5.76172 14.7811 5.7835 14.6796 5.82581C14.578 5.86811 14.4858 5.93011 14.4084 6.00822L8.20004 12.2249L5.59171 9.60822C5.51127 9.53052 5.41632 9.46942 5.31227 9.42842C5.20823 9.38742 5.09713 9.36731 4.98531 9.36924C4.87349 9.37118 4.76315 9.39512 4.66058 9.4397C4.55802 9.48427 4.46524 9.54862 4.38754 9.62905C4.30984 9.70949 4.24875 9.80444 4.20774 9.90848C4.16674 10.0125 4.14663 10.1236 4.14856 10.2354C4.1505 10.3473 4.17444 10.4576 4.21902 10.5602C4.2636 10.6627 4.32794 10.7555 4.40837 10.8332L7.60837 14.0332C7.68584 14.1113 7.77801 14.1733 7.87956 14.2156C7.98111 14.2579 8.09003 14.2797 8.20004 14.2797C8.31005 14.2797 8.41897 14.2579 8.52052 14.2156C8.62207 14.1733 8.71424 14.1113 8.79171 14.0332L15.5917 7.23322C15.6763 7.15518 15.7438 7.06047 15.79 6.95506C15.8361 6.84964 15.86 6.7358 15.86 6.62072C15.86 6.50563 15.8361 6.3918 15.79 6.28638C15.7438 6.18096 15.6763 6.08625 15.5917 6.00822Z'
+				fill='#3FCC28'
 			/>
 		</svg>
 	);
 };
 
-const RejectIcon = () => {
+const PendingIcon = () => {
 	return (
-		<svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
-				d='M7.99793 7L10.7912 4.20674C10.9238 4.0744 10.9983 3.89483 10.9985 3.70751C10.9987 3.5202 10.9244 3.34049 10.7921 3.20793C10.6597 3.07536 10.4802 3.00079 10.2929 3.00062C10.1055 3.00046 9.92583 3.07471 9.79326 3.20704L7 6.00031L4.20674 3.20704C4.07417 3.07448 3.89437 3 3.70689 3C3.51941 3 3.33961 3.07448 3.20704 3.20704C3.07448 3.33961 3 3.51941 3 3.70689C3 3.89437 3.07448 4.07417 3.20704 4.20674L6.00031 7L3.20704 9.79326C3.07448 9.92583 3 10.1056 3 10.2931C3 10.4806 3.07448 10.6604 3.20704 10.793C3.33961 10.9255 3.51941 11 3.70689 11C3.89437 11 4.07417 10.9255 4.20674 10.793L7 7.99969L9.79326 10.793C9.92583 10.9255 10.1056 11 10.2931 11C10.4806 11 10.6604 10.9255 10.793 10.793C10.9255 10.6604 11 10.4806 11 10.2931C11 10.1056 10.9255 9.92583 10.793 9.79326L7.99793 7Z'
-				fill='#F3574F'
+				d='M12.5003 9.16675H10.8337V5.83342C10.8337 5.6124 10.7459 5.40044 10.5896 5.24416C10.4333 5.08788 10.2213 5.00008 10.0003 5.00008C9.77932 5.00008 9.56735 5.08788 9.41107 5.24416C9.25479 5.40044 9.167 5.6124 9.167 5.83342V10.0001C9.167 10.2211 9.25479 10.4331 9.41107 10.5893C9.56735 10.7456 9.77932 10.8334 10.0003 10.8334H12.5003C12.7213 10.8334 12.9333 10.7456 13.0896 10.5893C13.2459 10.4331 13.3337 10.2211 13.3337 10.0001C13.3337 9.77907 13.2459 9.56711 13.0896 9.41083C12.9333 9.25455 12.7213 9.16675 12.5003 9.16675ZM10.0003 1.66675C8.35215 1.66675 6.74099 2.15549 5.37058 3.07117C4.00017 3.98685 2.93206 5.28834 2.30133 6.81105C1.6706 8.33377 1.50558 10.0093 1.82712 11.6258C2.14866 13.2423 2.94234 14.7272 4.10777 15.8926C5.27321 17.0581 6.75807 17.8517 8.37458 18.1733C9.99109 18.4948 11.6666 18.3298 13.1894 17.6991C14.7121 17.0683 16.0136 16.0002 16.9292 14.6298C17.8449 13.2594 18.3337 11.6483 18.3337 10.0001C18.3337 8.90573 18.1181 7.8221 17.6993 6.81105C17.2805 5.80001 16.6667 4.88135 15.8929 4.10752C15.1191 3.3337 14.2004 2.71987 13.1894 2.30109C12.1783 1.8823 11.0947 1.66675 10.0003 1.66675ZM10.0003 16.6667C8.68179 16.6667 7.39286 16.2758 6.29653 15.5432C5.2002 14.8107 4.34572 13.7695 3.84113 12.5513C3.33655 11.3331 3.20453 9.99269 3.46176 8.69948C3.719 7.40627 4.35393 6.21839 5.28628 5.28604C6.21863 4.35369 7.40652 3.71875 8.69973 3.46151C9.99293 3.20428 11.3334 3.3363 12.5516 3.84088C13.7697 4.34547 14.8109 5.19995 15.5435 6.29628C16.276 7.39261 16.667 8.68154 16.667 10.0001C16.667 11.7682 15.9646 13.4639 14.7144 14.7141C13.4641 15.9644 11.7684 16.6667 10.0003 16.6667Z'
+				fill='#FFAE74'
 			/>
 		</svg>
 	);
@@ -41,40 +34,51 @@ const RejectIcon = () => {
 
 const RequestsListTable = memo(({dataSources, pages, onPageChange}) => {
 	const history = useHistory();
-	const [isShowGetCode, setToggleShowGetCode] = useState(false);
+	const [isFull, setFull] = useState(false);
+	const [percent, setPercent] = useState(70);
+	const [isSuccess, setSuccess] = useState(false);
 
-	const dataRows = dataSources.map(({id, title, status, vote, submit, total}) => {
-		const [isFull, setFull] = useState(false);
-		const [percent, setPercent] = useState(70);
-		const [isSuccess, setSuccess] = useState(false);
+	const dataRows = dataSources.map(({requestId, oracleScript, reportStatus, status, owner}) => {
+		const requestIdCell = <div className={cx("requestId-cell")}>{requestId}</div>;
+		const oracleScriptCell = (
+			<div className={cx("oracleScript-cell")}>
+				<span>#03</span>
+				Band Standard Dataset (Crypto)
+			</div>
+		);
 
-		const idCell = <div className={cx("id-cell")}>{id}</div>;
-		const titleCell = <div className={cx("title-cell")}>{title}</div>;
-		const statusCell = (
-			<div className={cx("status-cell")}>
-				{false ? (
-					<button className={cx("status-cell--success")}>
-						<SuccessIcon />
-						<span>Passed</span>
-					</button>
-				) : (
-					<button className={cx("status-cell--reject")}>
-						<RejectIcon />
-						<span>Rejected</span>
-					</button>
+		const reportStatusCell = (
+			<div className={cx("report-status")}>
+				<div className={cx("report-status__title")}>
+					<span>Min 10</span>
+					<span>16 of 16</span>
+				</div>
+				{isFull && <div className={cx("report-status__progress-bar")}></div>}
+				{!isFull && (
+					<div
+						className={cx("report-status__progress-bar", "report-status__progress-bar--not-full")}
+						style={{
+							width: `${percent}%`,
+						}}></div>
 				)}
 			</div>
 		);
-		const voteCell = <div className={cx("vote-cell")}>{vote}</div>;
-		const submitCell = <div className={cx("submit-cell")}>{submit}</div>;
-		const totalCell = (
-			<div className={cx("total-cell")}>
-				<span className={cx("total-cell--id")}>514.00 </span>
-				<span className={cx("total-cell--content")}>ORAI</span>
+
+		const statusCell = isSuccess ? (
+			<div className={cx("status")}>
+				<SuccessIcon />
+				<span>Success</span>
+			</div>
+		) : (
+			<div className={cx("status")}>
+				<PendingIcon />
+				<span>Pending</span>
 			</div>
 		);
 
-		return [idCell, titleCell, statusCell, voteCell, submitCell, totalCell];
+		const ownerCell = <div className={cx("owner")}>{owner}</div>;
+
+		return [requestIdCell, oracleScriptCell, reportStatusCell, statusCell, ownerCell];
 	});
 
 	return (
@@ -95,84 +99,81 @@ const RequestsListTable = memo(({dataSources, pages, onPageChange}) => {
 RequestsListTable.defaultProps = {
 	dataSources: [
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 		{
-			id: "xxx",
-			title: "xxx",
-			status: "xxx",
-			vote: "xxx",
-			submit: "xxx",
-			total: "xxx",
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
+		},
+		{
+			requestId: "xxxxx",
+			oracleScript: "xxxxxx",
+			reportStatus: "xxxxxxxx",
+			status: "xxxxxxxx",
+			owner: "xxxxxxxxx",
 		},
 	],
 };

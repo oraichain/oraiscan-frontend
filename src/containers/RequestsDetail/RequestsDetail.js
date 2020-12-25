@@ -13,6 +13,17 @@ import DonutChart from "react-donut-chart";
 
 const cx = cn.bind(styles);
 
+const SuccessIcon = () => {
+	return (
+		<svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M15.5917 6.00822C15.5142 5.93011 15.4221 5.86811 15.3205 5.82581C15.219 5.7835 15.11 5.76172 15 5.76172C14.89 5.76172 14.7811 5.7835 14.6796 5.82581C14.578 5.86811 14.4858 5.93011 14.4084 6.00822L8.20004 12.2249L5.59171 9.60822C5.51127 9.53052 5.41632 9.46942 5.31227 9.42842C5.20823 9.38742 5.09713 9.36731 4.98531 9.36924C4.87349 9.37118 4.76315 9.39512 4.66058 9.4397C4.55802 9.48427 4.46524 9.54862 4.38754 9.62905C4.30984 9.70949 4.24875 9.80444 4.20774 9.90848C4.16674 10.0125 4.14663 10.1236 4.14856 10.2354C4.1505 10.3473 4.17444 10.4576 4.21902 10.5602C4.2636 10.6627 4.32794 10.7555 4.40837 10.8332L7.60837 14.0332C7.68584 14.1113 7.77801 14.1733 7.87956 14.2156C7.98111 14.2579 8.09003 14.2797 8.20004 14.2797C8.31005 14.2797 8.41897 14.2579 8.52052 14.2156C8.62207 14.1733 8.71424 14.1113 8.79171 14.0332L15.5917 7.23322C15.6763 7.15518 15.7438 7.06047 15.79 6.95506C15.8361 6.84964 15.86 6.7358 15.86 6.62072C15.86 6.50563 15.8361 6.3918 15.79 6.28638C15.7438 6.18096 15.6763 6.08625 15.5917 6.00822Z'
+				fill='#3FCC28'
+			/>
+		</svg>
+	);
+};
+
 export default function(props) {
 	const {detailId} = useParams();
 	const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
@@ -59,7 +70,7 @@ export default function(props) {
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
 
-			<div className={cx("head")}>
+			{/*			<div className={cx("head")}>
 				<div className={cx("head__description")}>
 					<div className={cx("description")}>
 						<div className={cx("description__info")}>
@@ -222,6 +233,86 @@ export default function(props) {
 					</div>
 				</div>
 				<ProposalsListDetalTable />
+			</div>
+*/}
+
+			<div className={cx("data-request-table")}>
+				<div className={cx("data-request-table__title")}>
+					Data Request <span>#R305135</span>
+				</div>
+
+				<div className={cx("data-request-table__info")}>
+					<div className={cx("data-request-table__info-head")}>Request Info</div>
+					<div className={cx("data-request-table__info-code")}>
+						<div className={cx("data-request-table__info-code-item")}>
+							<div className={cx("data-request-table__info-code-item-title")}>Oracle Scripts</div>
+							<div className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type1")}>
+								<span>#O7</span> Stock Price
+							</div>
+						</div>
+						<div className={cx("data-request-table__info-code-item")}>
+							<div className={cx("data-request-table__info-code-item-title")}>Sender</div>
+							<div className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type2")}>
+								band1q3flqe8cdlcjywlg2qmtap32gkzjgh429qw5gs
+							</div>
+						</div>
+						<div className={cx("data-request-table__info-code-item")}>
+							<div className={cx("data-request-table__info-code-item-title")}>TX Hash</div>
+							<div className={cx("data-request-table__info-code-item-content")}>F127B443F798126DFAF5C7185CC48F3875C12EE67FB8D5D767...</div>
+						</div>
+						<div className={cx("data-request-table__info-code-item")}>
+							<div className={cx("data-request-table__info-code-item-title")}>Fee</div>
+							<div className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type3")}>
+								0.00 <span>ORAI</span>
+							</div>
+						</div>
+					</div>
+
+					<div className={cx("data-request-table__info-chart")}>
+						<div className={cx("data-request-table__info-chart-left")}>
+							<div className={cx("data-request-table__info-chart-left-status")}>
+								<div className={cx("data-request-table__info-chart-left-status-title")}>Request Status</div>
+								<div className={cx("data-request-table__info-chart-left-status-success")}>
+									<SuccessIcon />
+									Success
+								</div>
+							</div>
+
+							<div className={cx("data-request-table__info-chart-left-report")}>
+								<div className={cx("data-request-table__info-chart-left-report-title")}>Success Report</div>
+								<div className={cx("data-request-table__info-chart-left-report-success")}>16/16 (> min 10)</div>
+							</div>
+
+							<div className={cx("data-request-table__info-chart-left-chartbox")}>
+								<DonutChart
+									startAngle={-90}
+									width={120}
+									height={120}
+									outerRadius={0.95}
+									innerRadius={0.5}
+									legend={false}
+									data={[
+										{value: parseFloat("81.96"), label: ""},
+										{value: parseFloat("0.00"), label: ""},
+										{value: parseFloat("5.37"), label: ""},
+										{value: parseFloat("12.67"), label: ""},
+									]}
+									colors={["#51ADCF", "#A5ECD7", "#FFBF9B", "#0278AE"]}
+									strokeColor={false}
+								/>
+
+								<div className={cx("data-request-table__info-chart-left-chartbox-info")}>
+									<div className={cx("data-request-table__info-chart-left-chartbox-info-tab1")}>
+										<div></div>
+									</div>
+									<div className={cx("data-request-table__info-chart-left-chartbox-info-tab2")}></div>
+								</div>
+							</div>
+						</div>
+						<div className={cx("data-request-table__info-chart-middle")}>1</div>
+						<div className={cx("data-request-table__info-chart-right")}>1</div>
+					</div>
+				</div>
 			</div>
 		</Container>
 	);
