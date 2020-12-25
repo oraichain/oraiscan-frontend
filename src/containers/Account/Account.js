@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
+import Snackbar from "@material-ui/core/Snackbar";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
@@ -34,6 +35,47 @@ const Account = props => {
 		path: coinsPath,
 	});
 
+	const contentRef = useRef(null);
+	const [open, setOpen] = useState(false);
+
+	const handleClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		setOpen(false);
+	};
+
+	const addresses = [
+		{
+			title: "Address",
+			icon: copyIcon,
+			value: addressData?.address ?? "-",
+			onClick: function() {
+				copyToClipboard(this.value);
+			},
+		},
+		{
+			title: "Reward Address",
+			icon: questionIcon,
+			value: addressData?.address ?? "-",
+			onClick: function() {
+				copyToClipboard(this.value);
+			},
+		},
+	];
+
+	const copyToClipboard = content => {
+		if (contentRef && contentRef?.current) {
+			const contentElement = contentRef.current;
+			contentElement.value = content;
+			contentElement.select();
+			contentElement.setSelectionRange(0, 99999); /* For mobile devices */
+			document.execCommand("copy");
+			setOpen(true);
+		}
+	};
+
 	return (
 		<Container fixed className={cx("account")}>
 			<TitleWrapper>
@@ -43,23 +85,7 @@ const Account = props => {
 			<Grid container spacing={2} className={cx("card-list")}>
 				<Grid item lg={4} xs={12}>
 					{addressData ? (
-						<AddressCard
-							headerIcon={qrIcon}
-							headerTitle='QR Code'
-							addresses={[
-								{
-									title: "Address",
-									icon: copyIcon,
-									value: addressData?.address ?? "-",
-								},
-								{
-									title: "Reward Address",
-									icon: questionIcon,
-									value: addressData?.address ?? "-",
-								},
-							]}
-							minHeight={addressCardMinHeight + "px"}
-						/>
+						<AddressCard headerIcon={qrIcon} headerTitle='QR Code' addresses={addresses} minHeight={addressCardMinHeight + "px"} />
 					) : (
 						<Skeleton variant='rect' animation='wave' height={addressCardMinHeight} />
 					)}
@@ -94,6 +120,19 @@ const Account = props => {
 					<TransactionCard account={account} />
 				</Grid>
 			</Grid>
+
+			<input type='text' className={cx("content-input")} ref={contentRef} />
+			<Snackbar
+				anchorOrigin={{
+					vertical: "top",
+					horizontal: "center",
+				}}
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				autoHideDuration={400}
+				message='Đã sao chép'
+			/>
 		</Container>
 	);
 };
