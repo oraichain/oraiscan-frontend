@@ -16,7 +16,18 @@ const AddressCard = memo(({headerIcon, headerTitle, addresses, minHeight = "220p
 				<div className={cx("address-card-body")}>
 					<div className={cx("address-title")}>
 						<span className={cx("address-title-text")}>{address.title}</span>
-						{address?.icon && <img src={address.icon} alt='' className={cx("address-title-icon")} />}
+						{address?.icon && (
+							<img
+								src={address.icon}
+								alt=''
+								className={cx("address-title-icon")}
+								onClick={() => {
+									if (address?.onClick) {
+										address.onClick();
+									}
+								}}
+							/>
+						)}
 					</div>
 					<div className={cx("address-value")}>{address.value}</div>
 				</div>
