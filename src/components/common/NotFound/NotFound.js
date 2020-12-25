@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 
 const NotFound = ({altText = "Coming soon"}) => {
 	const accelAPI = useSelector(state => state.blockchain.acceleratedNode);
-	const [state, , setUrl] = useFetch("");
+	const [state, , , , setUrl] = useFetch("");
 	const [altLink, setAltLink] = React.useState("");
 	const [route, data] = React.useMemo(() => getRoute(), []);
 	React.useEffect(() => {
@@ -27,7 +27,7 @@ const NotFound = ({altText = "Coming soon"}) => {
 
 	React.useEffect(() => {
 		if (!_.isNil(state.data?.height) && !state.error) {
-			setAltLink(`https://explorer.binance.org/tx/${data}`);
+			// setAltLink(`https://explorer.binance.org/tx/${data}`);
 		}
 	}, [state, data]);
 

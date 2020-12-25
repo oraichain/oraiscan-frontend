@@ -8,6 +8,7 @@ import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden}
 import {ArrowDropDown, DriveEta} from "@material-ui/icons";
 import Alert from "src/components/common/Alert/Alert";
 import copy from "copy-to-clipboard";
+import NumberFormat from "react-number-format";
 
 import Dialog from "./Dialog";
 import Keystation from "src/lib/Keystation";
@@ -65,7 +66,7 @@ export default function({data}) {
 	}
 	return (
 		<div className={cx("dropdown")}>
-			<Alert show={showCopySuccess} handleClose={() => setShowCopySuccess(false)} message='Copy thành công!' />
+			<Alert show={showCopySuccess} handleClose={() => setShowCopySuccess(false)} message='Copied' />
 			<Dialog
 				show={showTransactionModal}
 				handleClose={() => setShowTransactionModal(false)}
@@ -100,12 +101,15 @@ export default function({data}) {
 							}}>
 							<CopyIcon />
 						</span>
-						<span className={cx("wallet-share")}>
+						<span className={cx("wallet-share")} onClick={() => history.push(`/account/${title}`)}>
 							<ShareIcon />
 						</span>
 					</div>
 					<div className={cx("wallet-link")}>
-						<div className={cx("wallet-amount")}> Balance: {amount || 0} ORAI </div>
+						<div className={cx("wallet-amount")}>
+							{" "}
+							Balance: <NumberFormat value={amount || 0} displayType={"text"} thousandSeparator={true} /> ORAI{" "}
+						</div>
 					</div>
 					<div className={cx("orai-btn-group")}>
 						<div className={cx("btn-orai", "change-wallet")} onClick={() => setShowTransactionModal(true)}>
