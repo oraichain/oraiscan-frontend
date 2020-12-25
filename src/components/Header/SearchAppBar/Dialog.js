@@ -15,7 +15,7 @@ import NumberFormat from "react-number-format";
 
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
-import {InputText, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {InputNumberFormat, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
@@ -55,7 +55,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const methods = useForm({
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
-	const {handleSubmit, errors, register} = methods;
+	const {handleSubmit, errors, register, setValue} = methods;
 
 	const onSubmit = data => {
 		const myKeystation = new Keystation({
@@ -124,6 +124,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		};
 	}, [handleClose, history, reFetchAmount]);
 
+	const setAmountValue = (e, rate) => {
+		e.preventDefault();
+		setValue("sendAmount", amount * rate);
+	};
+
 	const renderTab = id => {
 		if (id === 1) {
 			return (
@@ -151,11 +156,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								<div className={cx("label", "label-right")}>
 									<div className={cx("left")}> Amount </div>
 									<div className={cx("right")}>
-										<button onClick={e => e.preventDefault()}> 1 / 2 </button>
-										<button onClick={e => e.preventDefault()}> Max </button>
+										<button onClick={e => setAmountValue(e, 0.5)}> 1 / 2 </button>
+										<button onClick={e => setAmountValue(e, 1)}> Max </button>
 									</div>
 								</div>
-								<InputText name='sendAmount' required errorobj={errors} type='number' />
+								<InputNumberFormat name='sendAmount' required errorobj={errors} />
 							</Grid>
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
@@ -211,7 +216,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	return (
 		<div>
-			<Alert show={showTransactionSuccess} handleClose={() => setShowTransactionSuccess(false)} message='Thực hiện thành công!' autoHideDuration={3000} />
+			<Alert show={showTransactionSuccess} handleClose={() => setShowTransactionSuccess(false)} message='Transaction Successful!' autoHideDuration={3000} />
 			<Dialog open={show} onClose={handleClose} aria-labelledby='form-dialog-title'>
 				<DialogTitle className={cx("form-dialog-title")} onClick={handleClose}>
 					{" "}
