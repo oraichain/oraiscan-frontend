@@ -1,8 +1,21 @@
 .form-dialog {
 	width: 500px;
+	* {
+		font-family: Roboto;
+	}
 }
 .form-input {
 	margin-bottom: 10px !important;
+	textarea {
+		border-color: #e7e7e7;
+		padding-left: 15px;
+		padding-top: 10px;
+		font-size: 16px;
+		&::-webkit-input-placeholder {
+			color: #b5b5b5;
+			font-size: 16px;
+		}
+	}
 }
 
 .row-balance {
@@ -11,9 +24,13 @@
 	padding: 8px;
 	width: 100%;
 	margin-bottom: 15px;
-	.left {
+	.title {
+		font-weight: 500;
+		font-size: 18px;
 	}
-	.right {
+	.value {
+		font-weight: normal;
+		font-size: 16px;
 	}
 }
 
@@ -45,15 +62,16 @@
 
 		p {
 			font-family: "Open Sans", serif;
-			font-size: 14px;
+			font-size: 18px;
 			font-weight: normal;
 			font-stretch: normal;
 			font-style: normal;
 			line-height: 1.36;
 			letter-spacing: normal;
 			text-align: left;
-			color: #1b57f0;
+			color: #000;
 			padding: 10px;
+			font-weight: 500;
 		}
 
 		&.selected {
@@ -63,5 +81,74 @@
 				color: #ffffff;
 			}
 		}
+	}
+}
+
+.form-dialog-title {
+	text-align: right;
+	svg {
+		cursor: pointer;
+	}
+}
+
+.label {
+	font-weight: 500;
+	font-size: 18px;
+	margin-bottom: 10px;
+	padding-left: 2px;
+	.optional {
+		color: #b5b5b5;
+	}
+	.fee {
+		font-weight: 400;
+	}
+}
+
+.label-right {
+	display: flex;
+	justify-content: space-between;
+	.right {
+		button {
+			cursor: pointer;
+			font-size: 16px;
+			color: #008bd9;
+			padding: 8px 15px;
+			border: 1px solid #008bd9;
+			border-radius: 5px;
+			&:first-child {
+				margin-right: 10px;
+			}
+		}
+	}
+}
+
+.btn-action-group {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0px 18px;
+	margin-bottom: 30px;
+	button {
+		width: 50%;
+	}
+}
+
+.btn-cancel {
+	color: #008bd9 !important;
+	border: 1px solid #008bd9 !important;
+	border-radius: 8px !important;
+	padding: 11px 0px !important;
+	margin-right: 20px !important;
+	text-transform: none !important;
+	font-size: 18px !important;
+}
+
+.btn-submit {
+	background-color: #008bd9 !important;
+	border-radius: 8px !important;
+	text-transform: none !important;
+	font-size: 18px !important;
+	span:first-child {
+		color: #ffffff !important;
 	}
 }
