@@ -3,7 +3,7 @@
 }
 
 .input-text {
-	div {
+	> div {
 		border: 1px solid #e7e7e7;
 		&::before {
 			border: 0 !important;
@@ -15,7 +15,7 @@
 	input {
 		font-size: 14px;
 		padding: 12px;
-		padding-left: 15px;
+		padding-left: 0px;
 		&::before {
 			border: 0;
 		}

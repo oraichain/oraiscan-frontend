@@ -1,24 +1,18 @@
 import React from "react";
 import {useFormContext, Controller} from "react-hook-form";
-import {TextareaAutosize} from "@material-ui/core";
+import {TextField, InputAdornment, IconButton} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 import cn from "classnames/bind";
+
+import {ReactComponent as UploadIcon} from "src/assets/icons/upload.svg";
 
 import styles from "./index.scss";
 
 const cx = cn.bind(styles);
 
-const TextareaAutosizeWithErrorMessage = ({error, errorMessage, ...rest}) => {
-	return (
-		<>
-			<TextareaAutosize {...rest} className={cx("input-text", {error})} />
-			{error && <span className={cx("text-error")}> {errorMessage} </span>}
-		</>
-	);
-};
-
 function FormInput(props) {
 	const {control} = useFormContext();
-	const {name, placeholder, label, required, errorobj, rows} = props;
+	const {name, placeholder, label, required, errorobj} = props;
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
@@ -28,9 +22,7 @@ function FormInput(props) {
 
 	return (
 		<Controller
-			rows={rows}
-			multiline
-			as={TextareaAutosizeWithErrorMessage}
+			as={TextField}
 			name={name}
 			control={control}
 			placeholder={placeholder || ""}
@@ -42,8 +34,24 @@ function FormInput(props) {
 				required: required || false,
 				shrink: true,
 			}}
+			InputProps={{
+				startAdornment: (
+					<InputAdornment position='start'>
+						<IconButton>
+							<SearchIcon />
+						</IconButton>
+					</InputAdornment>
+				),
+				endAdornment: (
+					<InputAdornment position='start'>
+						<IconButton>
+							<UploadIcon />
+						</IconButton>
+					</InputAdornment>
+				),
+			}}
 			error={isError}
-			errorMessage={errorMessage}
+			helperText={errorMessage}
 			{...props}
 		/>
 	);
