@@ -8,9 +8,14 @@ import styles from "./index.scss";
 
 const cx = cn.bind(styles);
 
+const NumberFormatCustom = ({onChange, value, ...rest}) => (
+	<NumberFormat customInput={TextField} thousandSeparator value={value} onValueChange={v => onChange(v.floatValue)} {...rest} />
+);
+
 function FormInput(props) {
 	const {control} = useFormContext();
 	const {name, placeholder, label, required, errorobj} = props;
+	console.log(props);
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
@@ -20,9 +25,7 @@ function FormInput(props) {
 
 	return (
 		<Controller
-			as={({onChange, value, ...rest}) => (
-				<NumberFormat customInput={TextField} thousandSeparator value={value} onValueChange={v => onChange(v.floatValue)} {...rest} />
-			)}
+			as={NumberFormatCustom}
 			name={name}
 			control={control}
 			placeholder={placeholder || ""}
