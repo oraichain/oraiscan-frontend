@@ -1,0 +1,26 @@
+.required-label span {
+	color: #f44336;
+}
+
+.input-text {
+	div {
+		border: 1px solid #e7e7e7;
+		&::before {
+			border: 0 !important;
+		}
+		&::after {
+			border: 0 !important;
+		}
+	}
+	input {
+		font-size: 14px;
+		padding: 12px;
+		padding-left: 15px;
+		&::before {
+			border: 0;
+		}
+		&::after {
+			border: 0;
+		}
+	}
+}
