@@ -16,7 +16,6 @@ const cx = cn.bind(styles);
 
 export default function(props) {
 	const status = useSelector(state => state.blockchain.status);
-	console.log(status);
 
 	// React.useEffect(() => {
 	// 	const cancelToken = axios.CancelToken;

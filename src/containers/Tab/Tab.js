@@ -67,7 +67,6 @@ const tabs = [
 export default function(props) {
 	const {pathname} = useLocation();
 	const history = useHistory();
-	console.log(pathname);
 	return (
 		<div className={cx("Tabs")}>
 			{tabs.map(({name, img, route}) => {
