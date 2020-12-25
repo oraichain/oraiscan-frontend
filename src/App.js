@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import Router from "src/containers/Router/Router";
 import Header from "src/containers/Header";
 import SearchArea from "src/components/Dashboard/SearchArea";
-import Tab from "src/containers/Tab";
+import Tabs from "src/containers/Tabs";
 import Footer from "src/containers/Footer";
 import styles from "./App.scss";
 
@@ -14,7 +14,7 @@ export default function() {
 		<div className={cx("app")}>
 			<Header />
 			<SearchArea />
-			<Tab />
+			<Tabs />
 			<Router />
 			<Footer />
 		</div>

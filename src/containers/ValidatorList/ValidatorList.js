@@ -1,11 +1,10 @@
 import React, {useState} from "react";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {useGet} from "restful-react";
-
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import {formatInteger, formatSeconds} from "src/helpers/helper";
-
 import consts from "src/constants/consts";
+import {formatInteger, formatSeconds} from "src/helpers/helper";
 import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -15,8 +14,6 @@ import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import Pagination from "src/components/common/Pagination";
-import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
-
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
