@@ -129,6 +129,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	useEffect(() => {
 		const callBack = function(e) {
+			if (e && e.data === "deny") {
+				return handleClose();
+			}
 			if (e?.data?.txhash) {
 				setShowTransactionSuccess(true);
 				history.push(`/txs/${e.data.txhash}`);
