@@ -42,7 +42,7 @@ const Footer = memo(() => {
 								</li>
 								<li className={cx("nav-item")}>
 									<a href='https://orai.io/presentations/Binance-talk-Oct28-EN.pdf' target='_blank'>
-										Binance Task
+										Binance Talk
 									</a>
 								</li>
 								<li className={cx("nav-item")}>
@@ -51,8 +51,8 @@ const Footer = memo(() => {
 									</a>
 								</li>
 								<li className={cx("nav-item")}>
-									<a href='https://drive.google.com/drive/u/0/folders/16AOw7DJNkLp4IryQEpp1kfzGdhoJWBc_' target='_blank'>
-										Media Park
+									<a href='https://orai.io/media-kit' target='_blank'>
+										Media Kit
 									</a>
 								</li>
 							</ul>
