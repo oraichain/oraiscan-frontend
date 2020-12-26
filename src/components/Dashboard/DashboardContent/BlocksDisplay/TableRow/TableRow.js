@@ -26,7 +26,7 @@ export default function({blockData}) {
 			</TableCell>
 			<TableCell className={cx("tablePointerCell", "text", "proposer")} align='left'>
 				{blockData.moniker ? (
-					<NavLink className={cx("blueColor")} to={`/account/${validators[blockData.moniker]?.accountAddr}`}>
+					<NavLink className={cx("blueColor")} to={`/validators/${validators[blockData.moniker]?.operatorAddr}`}>
 						{blockData.moniker}
 					</NavLink>
 				) : (

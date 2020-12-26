@@ -11,7 +11,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import AddressCard from "src/components/common/AddressCard";
 import CoinsCard from "src/components/common/CoinsCard";
-import DelegatorCard from "src/components/Account/DelegatorCard";
+import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import TransactionCard from "src/components/Account/TransactionCard";
 import styles from "./Account.scss";
@@ -111,7 +111,7 @@ const Account = props => {
 
 			<Grid container spacing={2}>
 				<Grid item md={6} xs={12}>
-					<DelegatorCard account={account} />
+					<DelegationCard account={account} />
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<UnbondingCard account={account} />
