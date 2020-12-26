@@ -99,7 +99,7 @@ const ValidatorTable = memo(({data = []}) => {
 		return data.map(item => {
 			const rankDataCell = <div className={cx("rank-data-cell")}>{item?.id ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
-				<NavLink className={cx("validator-data-cell")} to={`${consts.API.VALIDATORS}/${item.account_address}`}>
+				<NavLink className={cx("validator-data-cell")} to={`/validators/${item.operator_address}`}>
 					<img src={aiIcon} alt='' />
 					{item.moniker}
 				</NavLink>

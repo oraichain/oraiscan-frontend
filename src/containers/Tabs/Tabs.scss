@@ -104,7 +104,12 @@
 
 		&-icon {
 			display: inline-block;
-			margin: 0 10px;
+			margin: 0;
+			margin-right: 10px;
+
+			@include media("<large") {
+				margin-left: 10px;
+			}
 		}
 
 		&-title {
@@ -120,6 +125,14 @@
 	.active {
 		color: white;
 		background-color: #1b57f0;
+
+		.tab-icon {
+			filter: invert(1);
+		}
+
+		.tab-title {
+			color: white;
+		}
 	}
 
 	.active:hover {
