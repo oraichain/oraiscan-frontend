@@ -131,7 +131,7 @@ const Account = props => {
 				autoHideDuration={6000}
 				onClose={handleClose}
 				autoHideDuration={400}
-				message='Đã sao chép'
+				message='Copied'
 			/>
 		</Container>
 	);
