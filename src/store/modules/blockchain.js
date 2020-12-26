@@ -84,7 +84,7 @@ const handlers = {
 		onSuccess: (state, action) => {
 			const {data} = action.payload;
 			const validators = {};
-			_.each(data, v => {
+			_.each(data.data, v => {
 				if (!v?.moniker) return;
 				_.assign(validators, {
 					[v.moniker]: {

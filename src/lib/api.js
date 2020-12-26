@@ -32,7 +32,7 @@ export const getFees = cancelToken => {
 };
 
 export const getValidators = cancelToken => {
-  return axios.get(`${consts.API_BASE}${consts.API.VALIDATORS}`, { cancelToken });
+  return axios.get(`${consts.API_BASE}${consts.API.VALIDATORS}?limit=100`, { cancelToken });
 };
 
 const pingServer = (api, cancelToken) => {

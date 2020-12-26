@@ -6,9 +6,9 @@ import {formatFloat} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./DelegatorTable.scss";
+import styles from "./DelegationTable.scss";
 
-const DelegatorTable = memo(({data = []}) => {
+const DelegationTable = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
 
 	const validatorHeaderCell = <div className={cx("validator-header-cell", "align-left")}>Validator</div>;
@@ -43,9 +43,9 @@ const DelegatorTable = memo(({data = []}) => {
 
 			const rewardDataCell =
 				_.isNil(item?.reward) || _.isNil(item?.denom) ? (
-					<div className={cx("align-left")}>-</div>
+					<div className={cx("reward-data-cell", "align-right")}>-</div>
 				) : (
-					<div className={cx("reward-data-cell")}>
+					<div className={cx("reward-data-cell", "align-right")}>
 						<span>{formatFloat(item.reward, 3)}</span>
 						<span>{item.denom}</span>
 					</div>
@@ -64,4 +64,4 @@ const DelegatorTable = memo(({data = []}) => {
 	return <ThemedTable theme={tableThemes.DARK} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });
 
-export default DelegatorTable;
+export default DelegationTable;
