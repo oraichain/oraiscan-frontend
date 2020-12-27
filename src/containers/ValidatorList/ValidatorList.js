@@ -121,12 +121,12 @@ const ValidatorList = props => {
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
-				<SearchInput
+				{/* <SearchInput
 					placeholder='Search validators'
 					onChange={() => {
 						alert("change");
 					}}
-				/>
+				/> */}
 			</div>
 			<ValidatorTable data={validators.data} />
 			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
