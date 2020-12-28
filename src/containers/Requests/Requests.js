@@ -48,14 +48,14 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
-				<PageTitle title='All requets' />
+				<PageTitle title='Coming Soon' />
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
 
-			<div className={cx("request-board-list")}>
+			{/* <div className={cx("request-board-list")}>
 				<div className={cx("request-board-list__title")}>304,888 In total</div>
 				<RequestsListTable />
-			</div>
+			</div> */}
 		</Container>
 	);
 }

@@ -21,23 +21,23 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:0.0.1
+        image: thao1996/oraiscan-frontend:0.1.2
         env:
-          - name: "REACT_APP_SITE_TITLE"
+          - name: REACT_APP_SITE_TITLE
             value: "Oraiscan - Oraichain explorer"
-          - name: "REACT_APP_SITE_DESC"
+          - name: REACT_APP_SITE_DESC
             value: "AI-Powered Data Oracle"
-          - name: "REACT_APP_SITE_KEYWORDS"
+          - name: REACT_APP_SITE_KEYWORDS
             value: "Oraichain, Oraiscan, AI Oracle"
-          - name: "REACT_APP_SITE_URL"
+          - name: REACT_APP_SITE_URL
             value: "https://scan.orai.io"
-          - name: "REACT_APP_SITE_TITLE_FOR_SHARE"
+          - name: REACT_APP_SITE_TITLE_FOR_SHARE
             value: "Oraiscan - Oraichain explorer "
-          - name: "REACT_APP_API_DEV"
+          - name: REACT_APP_API_DEV
             value: "https://api.scan.orai.io/v1"
-          - name: "REACT_APP_API_PROD"
+          - name: REACT_APP_API_PROD
             value: "https://api.scan.orai.io/v1"
-          - name: "REACT_APP_WALLET_API"
+          - name: REACT_APP_WALLET_API
             value: "https://api.wallet.orai.io"
         imagePullPolicy: Always
         ports:

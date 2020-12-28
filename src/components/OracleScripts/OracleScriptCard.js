@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 const OScriptTable = memo(({oscipts, pages, onPageChange, handleSearch}) => {
 	return (
 		<Grid container spacing={2} className={cx("oracle-script-card-list")}>
-			<Grid item md={3} sm={6} xs={12}>
+			{/* <Grid item md={3} sm={6} xs={12}>
 				<div className={cx("card-item")}>
 					<div className={cx("ordering")}> #03 </div>
 					<div className={cx("title")}> Band Standard Dataset (Forex & Commodities) </div>
@@ -70,7 +70,7 @@ const OScriptTable = memo(({oscipts, pages, onPageChange, handleSearch}) => {
 						<div className={cx("request-value")}> 8.17 s </div>
 					</div>
 				</div>
-			</Grid>
+			</Grid> */}
 		</Grid>
 	);
 });

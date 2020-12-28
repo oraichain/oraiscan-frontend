@@ -114,11 +114,10 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
-				<PageTitle title='Proposals' />
+				<PageTitle title='Coming Soon' />
 				<StatusBox data={dataForStatusBox} />
 			</TitleWrapper>
-
-			<div className={cx("board-list")}>
+			{/* <div className={cx("board-list")}>
 				<Board />
 				<Board />
 				<Board />
@@ -138,7 +137,7 @@ export default function(props) {
 				</div>
 			</div>
 
-			<ProposalsListTable />
+			<ProposalsListTable /> */}
 		</Container>
 	);
 }
