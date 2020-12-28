@@ -24,13 +24,13 @@ import ShowSkeletonValid from "src/containers/ValidatorList/showSkeletonValid";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
-	const baseValidatorsPath = `${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}`;
+	const baseValidatorsPath = `${consts.API.VALIDATORS}`;
 	const statusPath = consts.API.STATUS;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
-	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}&page_id=${currentPage}`);
+	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
 
 	let timerID = useRef(null);

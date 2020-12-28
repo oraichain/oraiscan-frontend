@@ -144,7 +144,8 @@ const ValidatorTable = memo(({data = []}) => {
 		});
 	};
 
-	const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
+	// const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
+	const sortedData = data;
 	const dataRows = useMemo(() => getDataRows(sortedData), [sortedData]);
 	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });
