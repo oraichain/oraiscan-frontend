@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import cn from "classnames/bind";
 import {Fade, Tooltip} from "@material-ui/core";
 import txTypes from "src/constants/txTypes";
-import {extractValueAndUnit} from "src/helpers/helper";
+import {formatOrai, extractValueAndUnit} from "src/helpers/helper";
 import {divide} from "src/lib/Big";
 import {_} from "src/lib/scripts";
 import consts from "src/constants/consts";
@@ -37,7 +37,7 @@ export default function({msg, txData}) {
 
 			return (
 				<InfoRow label={label}>
-					<span>{valueString} </span>
+					<span>{formatOrai(valueString)} </span>
 					<span className={cx(unitClassNames)}>{unitString}</span>
 				</InfoRow>
 			);
@@ -55,7 +55,7 @@ export default function({msg, txData}) {
 			const {amount, denom} = inputObject;
 			return (
 				<InfoRow label={label}>
-					<span>{amount} </span>
+					<span>{formatOrai(amount)} </span>
 					<span className={cx(unitClassNames)}>{denom}</span>
 				</InfoRow>
 			);
