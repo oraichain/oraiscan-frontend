@@ -13,6 +13,7 @@ import cn from "classnames/bind";
 import _, {add} from "lodash";
 import NumberFormat from "react-number-format";
 
+import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
 import {InputNumberFormat, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
@@ -66,7 +67,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	});
 
 	const validationSchemaForm2 = yup.object().shape({
-		freeMessage: yup.string().required("Recipient Address Field is Required"),
+		freeMessage: yup.string().required("Transaction Field is Required"),
 	});
 
 	const methods = useForm({
@@ -96,7 +97,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								amount: [
 									{
 										denom: "orai",
-										amount: data.sendAmount,
+										amount: data.sendAmount * 1000000,
 									},
 								],
 							},
@@ -146,7 +147,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
-		setValue("sendAmount", amount * rate);
+		amount && setValue("sendAmount", amount * rate);
 	};
 
 	const renderTab = id => {
@@ -162,10 +163,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								</div>
 								<div className={cx("right")}>
 									<div className={cx("title")}> Balance </div>
-									<div className={cx("value")}>
-										{" "}
-										<NumberFormat value={amount || 0} displayType={"text"} thousandSeparator={true} /> ORAI{" "}
-									</div>
+									<div className={cx("value")}> {formatOrai(amount || 0)} ORAI </div>
 								</div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
@@ -192,11 +190,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
 									{" "}
-									Tx Fee:{" "}
-									<span className={cx("fee")}>
-										{" "}
-										<NumberFormat value={fee || 0} displayType={"text"} thousandSeparator={true} /> ORAI{" "}
-									</span>{" "}
+									Tx Fee: <span className={cx("fee")}> {formatOrai(amount || 0)} ORAI </span>{" "}
 								</div>
 							</Grid>
 						</Grid>
@@ -217,10 +211,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								</div>
 								<div className={cx("right")}>
 									<div className={cx("title")}> Balance </div>
-									<div className={cx("value")}>
-										{" "}
-										<NumberFormat value={amount || 0} displayType={"text"} thousandSeparator={true} /> ORAI{" "}
-									</div>
+									<div className={cx("value")}>{formatOrai(amount || 0)} ORAI</div>
 								</div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>

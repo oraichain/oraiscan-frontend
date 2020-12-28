@@ -10,7 +10,7 @@ import Alert from "src/components/common/Alert/Alert";
 import copy from "copy-to-clipboard";
 import NumberFormat from "react-number-format";
 
-import Dialog from "./Dialog";
+import {formatOrai} from "src/helpers/helper";
 import Keystation from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import {useFetch} from "src/hooks";
@@ -19,6 +19,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import {ReactComponent as CopyIcon} from "src/assets/icons/copy.svg";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
 
+import Dialog from "./Dialog";
 import styles from "./SearchAppBar.scss";
 
 const cx = cn.bind(styles);
@@ -106,10 +107,7 @@ export default function({data}) {
 						</span>
 					</div>
 					<div className={cx("wallet-link")}>
-						<div className={cx("wallet-amount")}>
-							{" "}
-							Balance: <NumberFormat value={amount || 0} displayType={"text"} thousandSeparator={true} /> ORAI{" "}
-						</div>
+						<div className={cx("wallet-amount")}> Balance: {formatOrai(amount || 0)} ORAI </div>
 					</div>
 					<div className={cx("orai-btn-group")}>
 						<div className={cx("btn-orai", "change-wallet")} onClick={() => setShowTransactionModal(true)}>
