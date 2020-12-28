@@ -4,7 +4,7 @@ import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatInteger, formatSeconds} from "src/helpers/helper";
+import {formatInteger, formatSeconds, formatOrai} from "src/helpers/helper";
 import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -82,6 +82,7 @@ const ValidatorList = props => {
 		path: statusPath,
 	});
 
+	console.log();
 	useEffect(() => {
 		if (loadValidatorsCompleted) {
 			timerID = setTimeout(() => {
@@ -147,7 +148,7 @@ const ValidatorList = props => {
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: status?.bonded_tokens ? formatInteger(status.bonded_tokens) : "-",
+						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens, 1000000, 0, ",") : "-",
 					},
 					{
 						icon: blockTimeIcon,
