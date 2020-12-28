@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatInteger} from "src/helpers/helper";
+import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
@@ -74,7 +74,7 @@ const TransactionTable = memo(({data = []}) => {
 					</NavLink>
 				) : (
 					<div className={cx("amount-data-cell")}>
-						<span>{formatInteger(item.messages[0].value.amount[0].amount)} </span>
+						<span>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
 						<span>{item.messages[0].value.amount[0].denom}</span>
 					</div>
 				);
@@ -84,7 +84,7 @@ const TransactionTable = memo(({data = []}) => {
 					<div className={cx("align-right")}>-</div>
 				) : (
 					<div className={cx("fee-data-cell")}>
-						<span>{formatInteger(item.fee.amount[0].amount)}</span>
+						<span>{formatOrai(item.fee.amount[0].amount)}</span>
 						<span className={cx("blueColor", "uppercase")}>{item.fee.amount[0].denom}</span>
 					</div>
 				);
