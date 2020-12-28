@@ -86,6 +86,10 @@ const ValidatorTable = memo(({data = []}) => {
 	];
 
 	const sortData = (data, sortField, sortDirection) => {
+		if (!data) {
+			return [];
+		}
+
 		return [...data].sort(function(a, b) {
 			if (sortDirection === "asc") {
 				return parseInt(a[sortField]) - parseInt(b[sortField]);

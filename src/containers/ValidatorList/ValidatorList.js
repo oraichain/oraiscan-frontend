@@ -26,6 +26,7 @@ const cx = cn.bind(styles);
 const ValidatorList = props => {
 	const basePath = `${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}`;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
+	const [keyword, setKeyword] = useState("");
 
 	const toggleData = (data, selectedIndex) => {
 		return data.map((item, index) => {
@@ -62,7 +63,7 @@ const ValidatorList = props => {
 	};
 
 	const {data: validators} = useGet({
-		path: consts.API.VALIDATORS,
+		path,
 	});
 
 	const {data: status} = useGet({
@@ -84,9 +85,22 @@ const ValidatorList = props => {
 	const totalPages = validators?.page?.total_page ?? 0;
 	const currentPage = validators?.page?.page_id ?? 1;
 
-	const onPageChange = page => {
-		setPath(`${basePath}&page_id=${page}`);
+	const replaceQueryString = (path, key, value) => {
+		const searchParams = new URLSearchParams(path);
+		if (value === "") {
+			searchParams.delete(key);
+		} else {
+			searchParams.set(key, value);
+		}
+
+		return decodeURIComponent(searchParams.toString());
 	};
+
+	const onPageChange = page => {
+		setPath(replaceQueryString(path, "page_id", page));
+	};
+
+	console.log(path);
 
 	return (
 		<Container fixed className={cx("validator-list")}>
@@ -122,9 +136,11 @@ const ValidatorList = props => {
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
 				<SearchInput
+					value={keyword}
 					placeholder='Search validators'
-					onChange={() => {
-						alert("change");
+					onChange={e => {
+						setKeyword(e.target.value);
+						setPath(replaceQueryString(path, "moniker", e.target.value));
 					}}
 				/>
 			</div>
