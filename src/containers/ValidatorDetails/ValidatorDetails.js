@@ -235,7 +235,7 @@ export default function (props) {
                   <div style={{ fontSize: 12, fontWeight: "bold", color: "#1B57F0" }}>Time</div>
                 </div>
               </div>
-              {validatorDetails.proposedBlocks.map((block, index) => (
+              {validatorDetails.proposedBlocks?.map((block, index) => (
                 <div style={{ display: "flex", flexFlow: "row", backgroundColor: index % 2 === 1 ? "#F9F9F9" : "#FFF", borderBottomLeftRadius: index === validatorDetails.proposedBlocks.length - 1 ? 5 : 0, borderBottomRightRadius: index === validatorDetails.proposedBlocks.length - 1 ? 5 : 0 }} key={index}>
                   <div style={{ flex: 14, padding: 10, display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
                     <div style={{ fontSize: 12, color: "#1B57F0" }}>{block.height}</div>
@@ -266,7 +266,7 @@ export default function (props) {
               {blockMatrix.map((item, rowIndex) => (
                 <div key={rowIndex}>
                   {blockMatrix.map((item, colIndex) => (
-                    <img src={validatorDetails.missedBlocks.indexOf(rowIndex * 10 + colIndex) > 0 ? IC_BAD_BLOCK : IC_GOOD_BLOCK} style={{ marginLeft: 6 }} />
+                    <img src={validatorDetails.missedBlocks?.indexOf(rowIndex * 10 + colIndex) > 0 ? IC_BAD_BLOCK : IC_GOOD_BLOCK} style={{ marginLeft: 6 }} />
                   ))}
                 </div>
               ))}
@@ -288,7 +288,7 @@ export default function (props) {
                 <div style={{ fontSize: 12, fontWeight: "bold", color: "#1B57F0" }}>Share</div>
               </div>
             </div>
-            {validatorDetails.delegators.map((delegator, index) => (
+            {validatorDetails.delegators?.map((delegator, index) => (
               <div style={{ display: "flex", flexFlow: "row", backgroundColor: index % 2 === 1 ? "#F9F9F9" : "#FFF", borderBottomLeftRadius: index === validatorDetails.delegators.length - 1 ? 5 : 0, borderBottomRightRadius: index === validatorDetails.delegators.length - 1 ? 5 : 0 }} key={index}>
                 {/* <div style={{ width: 1, height: 30, backgroundColor: "#E7E7E7" }} /> */}
                 <div style={{ flex: 39, padding: 10 }}>
