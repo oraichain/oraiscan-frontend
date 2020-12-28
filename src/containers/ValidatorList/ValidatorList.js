@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatInteger, formatSeconds} from "src/helpers/helper";
+import {formatInteger, formatSeconds, formatOrai} from "src/helpers/helper";
 import Spinner from "src/components/common/Spinner";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -24,9 +24,23 @@ import ShowSkeletonValid from "src/containers/ValidatorList/showSkeletonValid";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
-	const basePath = `${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}`;
-	const [path, setPath] = useState(`${basePath}&page_id=1`);
+	const baseValidatorsPath = `${consts.API.VALIDATORS}?limit=${consts.REQUEST.LIMIT}`;
+	const statusPath = consts.API.STATUS;
+
+	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
+	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
+	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}&page_id=${currentPage}`);
+	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
+
+	let timerID = useRef(null);
+
+	const cleanUp = () => {
+		if (timerID) {
+			clearTimeout(timerID);
+			setLoadValidatorsCompleted(false);
+		}
+	};
 
 	const toggleData = (data, selectedIndex) => {
 		return data.map((item, index) => {
@@ -53,24 +67,35 @@ const ValidatorList = props => {
 		},
 	]);
 
-	const getButtonGroupData = selectedIndex => {
-		return buttonGroupData.map((item, index) => {
-			if (selectedIndex === index) {
-				return Object.assign({}, item, {active: true});
+	const {data: validators, loading: loadingValidators, refetch: refetchValidators} = useGet({
+		path: validatorsPath,
+		resolve: data => {
+			if (showLoadingValidators) {
+				setShowLoadingValidators(false);
 			}
-			return Object.assign({}, item, {active: false});
-		});
-	};
-
-	const {data: validators} = useGet({
-		path,
+			setLoadValidatorsCompleted(true);
+			return data;
+		},
 	});
 
 	const {data: status} = useGet({
-		path: consts.API.STATUS,
+		path: statusPath,
 	});
 
-	if (!validators || !status) {
+	console.log();
+	useEffect(() => {
+		if (loadValidatorsCompleted) {
+			timerID = setTimeout(() => {
+				refetchValidators();
+				setLoadValidatorsCompleted(false);
+			}, consts.REQUEST.TIMEOUT);
+			return () => {
+				cleanUp();
+			};
+		}
+	}, [loadValidatorsCompleted]);
+
+	if (!validators || (loadingValidators && showLoadingValidators) || !status) {
 		return (
 			<Container fixed className={cx("validator-list")}>
 				<TitleWrapper>
@@ -83,7 +108,6 @@ const ValidatorList = props => {
 	}
 
 	const totalPages = validators?.page?.total_page ?? 0;
-	const currentPage = validators?.page?.page_id ?? 1;
 
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
@@ -96,11 +120,12 @@ const ValidatorList = props => {
 		return decodeURIComponent(searchParams.toString());
 	};
 
-	const onPageChange = page => {
-		setPath(replaceQueryString(path, "page_id", page));
+	const onPageChange = (path, key, value) => {
+		cleanUp();
+		setCurrentPage(value);
+		setShowLoadingValidators(true);
+		setValidatorsPath(replaceQueryString(path, key, value));
 	};
-
-	console.log(path);
 
 	return (
 		<Container fixed className={cx("validator-list")}>
@@ -123,7 +148,7 @@ const ValidatorList = props => {
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: status?.bonded_tokens ? formatInteger(status.bonded_tokens) : "-",
+						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens, 1000000, 0, ",") : "-",
 					},
 					{
 						icon: blockTimeIcon,
@@ -140,12 +165,12 @@ const ValidatorList = props => {
 					placeholder='Search validators'
 					onChange={e => {
 						setKeyword(e.target.value);
-						setPath(replaceQueryString(path, "moniker", e.target.value));
+						setValidatorsPath(replaceQueryString(validatorsPath, "moniker", e.target.value));
 					}}
 				/>
 			</div>
 			<ValidatorTable data={validators.data} />
-			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
+			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />}
 		</Container>
 	);
 };

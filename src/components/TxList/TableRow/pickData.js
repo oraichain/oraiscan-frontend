@@ -1,16 +1,17 @@
 import React from "react";
-import {_, empty, formatNumber, reduceString, refineAddress, setAgoTime} from "src/lib/scripts";
 import {NavLink} from "react-router-dom";
 import Skeleton from "react-skeleton-loader";
 import txTypes from "src/constants/txTypes";
-import * as Big from "src/lib/Big";
 import getTxType from "src/constants/getTxType";
+import {formatOrai} from "src/helpers/helper";
+import {_, empty, formatNumber, reduceString, refineAddress, setAgoTime} from "src/lib/scripts";
+import * as Big from "src/lib/Big";
 import SvgDisplay from "src/components/common/SvgDisplay";
+import {txCheckHTLT} from "src/components/Tx/TxData/TxCase";
 import greenArrowSVG from "src/assets/common/transferarrow_gr.svg";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import {txCheckHTLT} from "src/components/Tx/TxData/TxCase";
 
 export const cellTypes = {
 	TX_HASH: "Tx Hash",
@@ -93,7 +94,7 @@ export default function(blockData, cx, cell) {
 				const split = amount.split(".");
 				return (
 					<>
-						<span className={cx("text")}>{formatNumber(split[0])}</span>.<span className={cx("text", "decimal")}>{split[1]}</span>
+						<span className={cx("text")}>{formatOrai(split[0])}</span>.<span className={cx("text", "decimal")}>{split[1]}</span>
 					</>
 				);
 			}
@@ -112,7 +113,7 @@ export default function(blockData, cx, cell) {
 			}
 			if (!empty(ret)) {
 				if (ret === "BNB") return <span className={cx("BNB")}>BNB</span>;
-				return <span className={cx("currency")}>{ret}</span>;
+				return <span className={cx("currency")}>{formatOrai(ret)}</span>;
 			}
 			return "-";
 		}
@@ -140,7 +141,7 @@ export default function(blockData, cx, cell) {
 			if (!_.isNil(blockData?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(blockData?.messages?.[0]?.value?.amount?.[0]?.amount)) {
 				return (
 					<div className={cx("flexCenterEnd")}>
-						<span>{blockData.messages[0].value.amount[0].amount} </span>
+						<span>{formatOrai(blockData.messages[0].value.amount[0].amount)} </span>
 						<span className={cx("blueColor", "uppercase")}>{blockData.messages[0].value.amount[0].denom}</span>
 					</div>
 				);
@@ -159,7 +160,7 @@ export default function(blockData, cx, cell) {
 				const denom = blockData.fee.amount[0].denom;
 				return (
 					<div className={cx("flexCenterEnd")}>
-						<span>{amount}</span>
+						<span>{formatOrai(amount)}</span>
 						<span className={cx("blueColor", "uppercase")}>{denom}</span>
 					</div>
 				);
