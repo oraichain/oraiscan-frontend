@@ -82,7 +82,6 @@ const ValidatorList = props => {
 		path: statusPath,
 	});
 
-	console.log();
 	useEffect(() => {
 		if (loadValidatorsCompleted) {
 			timerID = setTimeout(() => {
@@ -106,6 +105,8 @@ const ValidatorList = props => {
 			</Container>
 		);
 	}
+
+	console.log("VALIDATORS", validators);
 
 	const totalPages = validators?.page?.total_page ?? 0;
 
@@ -170,7 +171,7 @@ const ValidatorList = props => {
 				/>
 			</div>
 			<ValidatorTable data={validators.data} />
-			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />}
+			{/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */}
 		</Container>
 	);
 };
