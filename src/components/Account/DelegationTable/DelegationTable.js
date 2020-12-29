@@ -22,6 +22,10 @@ const DelegationTable = memo(({data = []}) => {
 	];
 
 	const getDataRows = data => {
+		if (!Array.isArray(data)) {
+			return [];
+		}
+
 		return data.map(item => {
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>

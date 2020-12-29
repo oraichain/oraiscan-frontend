@@ -25,8 +25,12 @@ const TransactionTable = memo(({data = []}) => {
 	const headerCellStyles = [
 		{minWidth: "350px"}, // Tx hash header cell
 	];
-	const getDataRows = data =>
-		data.map(item => {
+	const getDataRows = data => {
+		if (!Array.isArray(data)) {
+			return [];
+		}
+
+		return data.map(item => {
 			const txHashDataCell = item.tx_hash ? (
 				_.isNil(item?.tx_hash) ? (
 					<div className={cx("align-left")}>-</div>
@@ -103,6 +107,7 @@ const TransactionTable = memo(({data = []}) => {
 			);
 			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
+	};
 
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 	// const dataRows = useMemo(() => {

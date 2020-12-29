@@ -59,7 +59,7 @@ export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => 
 export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2, thousandsSeparator = ",") => {
 	return parseFloat(value)
 		.toFixed(numberOfDigitsAfterDecimalPoint)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+		.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1" + thousandsSeparator);
 };
 
 export const calculateBefore = (total, limit, page) => {
@@ -70,6 +70,6 @@ export const calculateAfter = (total, limit, page) => {
 	return total + 1 - page * limit;
 };
 
-export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6, thousandsSeparator = "") => {
+export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6, thousandsSeparator = ",") => {
 	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint, thousandsSeparator);
 };
