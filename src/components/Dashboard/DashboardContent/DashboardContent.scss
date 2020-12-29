@@ -3,6 +3,7 @@
 .DashboardContent-wrapper {
 	@include page-wrapper;
 
+	margin-bottom: 50px;
 	height: fit-content;
 	$linkWrapperHeight: 330px;
 
