@@ -195,7 +195,11 @@ export default function(props) {
 						</div>
 						<div style={{fontSize: 12, marginBottom: 10}}>{validatorDetails.operatorAddress === "" ? "--" : validatorDetails.operatorAddress}</div>
 						<div style={{fontSize: 14, fontWeight: "bold", marginBottom: 4}}>Address</div>
-						<div style={{fontSize: 12, color: "#1B57F0"}}>{validatorDetails.accountAddress === "" ? "--" : validatorDetails.accountAddress}</div>
+						<div
+							style={{fontSize: 12, color: "#1B57F0", cursor: "pointer"}}
+							onClick={() => validatorDetails.accountAddress && history.push(`/account/${validatorDetails.accountAddress}`)}>
+							{validatorDetails.accountAddress === "" ? "--" : validatorDetails.accountAddress}
+						</div>
 					</div>
 					<div style={{...styles.card, width: "65%"}}>
 						<div style={{display: "flex", flexFlow: "row"}}>
