@@ -12,8 +12,8 @@ import aiIcon from "src/assets/common/ai_ic.svg";
 const ValidatorTable = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
 
-	const [sortField, setSortField] = useState("id");
-	const [sortDirection, setSortDirection] = useState("asc");
+	const [sortField, setSortField] = useState("voting_power");
+	const [sortDirection, setSortDirection] = useState("desc");
 
 	const computeTotalVotingPower = data => {
 		if (!data || !Array.isArray(data)) {
@@ -22,7 +22,7 @@ const ValidatorTable = memo(({data = []}) => {
 
 		let total = 0;
 		for (let item of data) {
-			total += parseInt(item?.voting_power ?? 0);
+			total += parseFloat(item?.voting_power ?? 0);
 		}
 		return total;
 	};
@@ -85,23 +85,34 @@ const ValidatorTable = memo(({data = []}) => {
 		{width: "150px"}, // Commission
 	];
 
-	const sortData = (data, sortField, sortDirection) => {
+	const sortData = (data, sortField, sortDirection, extraSortField = "id") => {
 		if (!data) {
 			return [];
 		}
 
 		return [...data].sort(function(a, b) {
-			if (sortDirection === "asc") {
-				return parseInt(a[sortField]) - parseInt(b[sortField]);
+			if (parseFloat(b[sortField]) === parseFloat(a[sortField])) {
+				if (sortDirection === "asc") {
+					return parseFloat(a[extraSortField]) - parseFloat(b[extraSortField]);
+				}
+				return parseFloat(b[extraSortField]) - parseFloat(a[extraSortField]);
 			}
-			return parseInt(b[sortField]) - parseInt(a[sortField]);
+
+			if (sortDirection === "asc") {
+				return parseFloat(a[sortField]) - parseFloat(b[sortField]);
+			}
+			return parseFloat(b[sortField]) - parseFloat(a[sortField]);
 		});
 	};
 
 	const getDataRows = data => {
+		if (!Array.isArray(data)) {
+			return [];
+		}
+
 		let previousVotingPower = 0;
-		return data.map(item => {
-			const rankDataCell = <div className={cx("rank-data-cell")}>{item?.id ?? "-"}</div>;
+		return data.map((item, index) => {
+			const rankDataCell = <div className={cx("rank-data-cell")}>{index + 1}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell")} to={`/validators/${item.operator_address}`}>
 					<img src={aiIcon} alt='' />
@@ -119,7 +130,7 @@ const ValidatorTable = memo(({data = []}) => {
 				</div>
 			);
 			if (item?.voting_power && totalVotingPower > 0) {
-				currentVotingPower = parseInt(item.voting_power);
+				currentVotingPower = parseFloat(item.voting_power);
 				votingPowerDataCell = (
 					<div className={cx("voting-power-data-cell")}>
 						<div>{formatInteger(currentVotingPower)}</div>
@@ -130,8 +141,10 @@ const ValidatorTable = memo(({data = []}) => {
 
 			const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 			previousVotingPower += currentVotingPower;
-			const uptimeDataCell = <div className={cx("uptime-data-cell")}>-</div>;
-			const commissionDataCell = <div className={cx("commission-data-cell")}>{item?.commission_rate ? formatPercentage(item.commission_rate) + "%" : "-"}</div>;
+			const uptimeDataCell = <div className={cx("uptime-data-cell")}>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>;
+			const commissionDataCell = (
+				<div className={cx("commission-data-cell")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
+			);
 
 			return [
 				rankDataCell, //Rank
@@ -144,8 +157,7 @@ const ValidatorTable = memo(({data = []}) => {
 		});
 	};
 
-	// const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
-	const sortedData = data;
+	const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
 	const dataRows = useMemo(() => getDataRows(sortedData), [sortedData]);
 	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
 });
