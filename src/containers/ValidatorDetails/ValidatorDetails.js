@@ -263,11 +263,13 @@ export default function(props) {
 									}}
 									key={index}>
 									<div style={{flex: 14, padding: 10, display: "flex", flexDirection: "column", alignItems: "flex-end"}}>
-										<div style={{fontSize: 12, color: "#1B57F0"}}>{block.height}</div>
+										<div style={{fontSize: 12, color: "#1B57F0", cursor: "pointer"}} onClick={() => history.push(`/blocks/${block.height}`)}>
+											{block.height}
+										</div>
 									</div>
 									{/* <div style={{ width: 1, height: 30, backgroundColor: "#E7E7E7" }} /> */}
 									<div style={{flex: 33, padding: 10}}>
-										<div style={{fontSize: 12, color: "#1B57F0"}}>
+										<div style={{fontSize: 12, color: "#1B57F0", cursor: "pointer"}} onClick={() => history.push(`/blocks/${block.height}`)}>
 											{block.blockhash.slice(0, 10)}...{block.blockhash.slice(block.blockhash.length - 10, block.blockhash.length)}
 										</div>
 									</div>
