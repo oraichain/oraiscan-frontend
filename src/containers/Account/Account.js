@@ -85,7 +85,13 @@ const Account = props => {
 			<Grid container spacing={2} className={cx("card-list")}>
 				<Grid item lg={4} xs={12}>
 					{addressData ? (
-						<AddressCard headerIcon={qrIcon} headerTitle='QR Code' addresses={addresses} minHeight={addressCardMinHeight + "px"} />
+						<AddressCard
+							headerIcon={qrIcon}
+							headerTitle='QR Code'
+							headerAddress={addresses[0].value}
+							addresses={addresses}
+							minHeight={addressCardMinHeight + "px"}
+						/>
 					) : (
 						<Skeleton variant='rect' animation='wave' height={addressCardMinHeight} />
 					)}

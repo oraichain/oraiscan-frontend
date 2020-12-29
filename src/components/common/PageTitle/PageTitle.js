@@ -1,6 +1,6 @@
 import React, {memo} from "react";
-import styles from "./PageTitle.scss";
 import classNames from "classnames/bind";
+import styles from "./PageTitle.scss";
 
 const cx = classNames.bind(styles);
 

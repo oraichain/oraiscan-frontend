@@ -148,7 +148,7 @@ const ValidatorList = props => {
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens, 1000000, 0, ",") : "-",
+						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens) : "-",
 					},
 					{
 						icon: blockTimeIcon,
