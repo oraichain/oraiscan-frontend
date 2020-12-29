@@ -8,7 +8,7 @@ export default Object.freeze({
 		VALIDATOR_CREATE: "cosmos-sdk/MsgCreateValidator",
 		VALIDATOR_REMOVE: "cosmos-sdk/MsgRemoveValidator",
 		VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
-
+		MSG_DELEGATE: "cosmos-sdk/MsgDelegate",
 		MSG_SEND: "cosmos-sdk/MsgSend",
 	},
 
