@@ -15,7 +15,6 @@ import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import TransactionCard from "src/components/Account/TransactionCard";
 import styles from "./Account.scss";
-import qrIcon from "src/assets/common/qr_ic.svg";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import questionIcon from "src/assets/common/question_ic.svg";
 
@@ -85,13 +84,7 @@ const Account = props => {
 			<Grid container spacing={2} className={cx("card-list")}>
 				<Grid item lg={4} xs={12}>
 					{addressData ? (
-						<AddressCard
-							headerIcon={qrIcon}
-							headerTitle='QR Code'
-							headerAddress={addresses[0].value}
-							addresses={addresses}
-							minHeight={addressCardMinHeight + "px"}
-						/>
+						<AddressCard headerTitle='QR Code' addresses={addresses} minHeight={addressCardMinHeight} />
 					) : (
 						<Skeleton variant='rect' animation='wave' height={addressCardMinHeight} />
 					)}
