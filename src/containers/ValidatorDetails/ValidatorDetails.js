@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 
+import TitleWrapper from "src/components/common/TitleWrapper";
+import PageTitle from "src/components/common/PageTitle";
+import StatusBox from "src/components/common/StatusBox";
 import IC_CHECK from "src/assets/validatorDetails/check.svg";
 import ORAI_LOGO from "src/assets/common/orai_favicon.png";
 import IC_PASTE from "src/assets/validatorDetails/paste.svg";
@@ -26,6 +30,8 @@ export default function(props) {
 		delegators: [],
 		missedBlocks: [],
 	});
+
+	console.log(validatorDetails);
 
 	let events = [
 		{
@@ -140,32 +146,16 @@ export default function(props) {
 					missedBlocks: missedBlocks,
 				});
 			});
-	}, [missedBlocks, props.match.params.validator]);
+	}, [missedBlocks.join("-"), props.match.params.validator]);
 
 	return (
 		<div style={{width: "100%"}}>
-			<div style={{width: "1200px", margin: "0 auto"}}>
-				<div style={{display: "flex", flexFlow: "row", height: 30, marginTop: 30, justifyContent: "space-between"}}>
-					<div style={{fontSize: 24, fontWeight: "bold"}}>Validators</div>
-					<div style={styles.frameTxt}>
-						<div style={{display: "flex", flexFlow: "row"}}>
-							<div style={{fontSize: 12, marginRight: 5}}>Price:</div>
-							<div style={{fontSize: 12, fontWeight: "bold", marginRight: 30}}>$4.33</div>
-						</div>
-						<div style={{display: "flex", flexFlow: "row"}}>
-							<div style={{fontSize: 12, marginRight: 5}}>Height:</div>
-							<div style={{fontSize: 12, fontWeight: "bold", marginRight: 30}}>4,374,598</div>
-						</div>
-						<div style={{display: "flex", flexFlow: "row"}}>
-							<div style={{fontSize: 12, marginRight: 5}}>Bonded:</div>
-							<div style={{fontSize: 12, fontWeight: "bold", marginRight: 30}}>--</div>
-						</div>
-						<div style={{display: "flex", flexFlow: "row"}}>
-							<div style={{fontSize: 12, marginRight: 5}}>Inflation:</div>
-							<div style={{fontSize: 12, fontWeight: "bold"}}>--</div>
-						</div>
-					</div>
-				</div>
+			<div style={{width: "1200px", margin: "25px auto"}}>
+				<TitleWrapper>
+					<PageTitle title='Validators' />
+					<StatusBox />
+				</TitleWrapper>
+
 				<div style={{display: "flex", flexFlow: "row", justifyContent: "space-between"}}>
 					<div style={{...styles.card, width: "33%"}}>
 						<div style={{display: "flex", flexFlow: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 15}}>
@@ -263,11 +253,13 @@ export default function(props) {
 									}}
 									key={index}>
 									<div style={{flex: 14, padding: 10, display: "flex", flexDirection: "column", alignItems: "flex-end"}}>
-										<div style={{fontSize: 12, color: "#1B57F0"}}>{block.height}</div>
+										<div style={{fontSize: 12, color: "#1B57F0", cursor: "pointer"}} onClick={() => history.push(`/blocks/${block.height}`)}>
+											{block.height}
+										</div>
 									</div>
 									{/* <div style={{ width: 1, height: 30, backgroundColor: "#E7E7E7" }} /> */}
 									<div style={{flex: 33, padding: 10}}>
-										<div style={{fontSize: 12, color: "#1B57F0"}}>
+										<div style={{fontSize: 12, color: "#1B57F0", cursor: "pointer"}} onClick={() => history.push(`/blocks/${block.height}`)}>
 											{block.blockhash.slice(0, 10)}...{block.blockhash.slice(block.blockhash.length - 10, block.blockhash.length)}
 										</div>
 									</div>

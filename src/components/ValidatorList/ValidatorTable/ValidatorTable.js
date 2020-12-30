@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -111,6 +112,9 @@ const ValidatorTable = memo(({data = []}) => {
 		}
 
 		let previousVotingPower = 0;
+		if (!data) {
+			return null;
+		}
 		return data.map((item, index) => {
 			const rankDataCell = <div className={cx("rank-data-cell")}>{index + 1}</div>;
 			const validatorDataCell = item?.moniker ? (
