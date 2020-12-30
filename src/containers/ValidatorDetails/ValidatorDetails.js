@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import copy from "copy-to-clipboard";
 
+import {showAlert} from "src/store/modules/global";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -17,6 +20,8 @@ import {commafy, formatTime} from "src/helpers/helper";
 
 export default function(props) {
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const bonded = (parseFloat(useSelector(state => state?.blockchain?.statusBox?.bonded)) || 1000000) / 1000000;
 	const [validatorDetails, setValidatorDetails] = useState({
 		accountAddress: "",
 		consensusAddress: "",
@@ -33,120 +38,66 @@ export default function(props) {
 
 	console.log(validatorDetails);
 
-	let events = [
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: 0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: 0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: 0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: 0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: 0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: -0.00037,
-			time: "1h ago",
-		},
-		{
-			height: 209610,
-			txHash: "608080F5...33E8E8A9",
-			amount: -0.00037,
-			time: "1h ago",
-		},
-	];
-
-	let missedBlocks = [92, 93, 94, 95, 96, 97, 98, 99];
 	const blockMatrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 	React.useEffect(() => {
 		let info = {};
 		let validatorInfo = props.match.params.validator;
-		getValidator(validatorInfo, Axios.CancelToken.source().token)
-			.then(res => {
-				if (res.data !== null) {
-					info.accountAddress = res.data.account_address;
-					info.operatorAddress = res.data.operator_address;
-					info.consensusAddress = res.data.consensus_address;
-					info.votingPower = res.data.voting_power;
-					info.bondedHeight = res.data.bond_height;
-					info.commission = res.data.commission_rate;
-					info.details = res.data.description.details;
-					info.website = res.data.description.website;
-				}
-			})
-			.then(() => getDelegators(validatorInfo, 1, Axios.CancelToken.source().token))
-			.then(res => {
-				if (res.data.data !== null) {
-					let arrDelegators = [];
-					res.data.data.forEach(delegator => {
-						arrDelegators.push({
-							address: delegator.delegator_address,
-							amount: delegator.amount,
-							share: delegator.shares,
-						});
+		const getDetailData = async () => {
+			const [validator, delegator, proposedBlock, missedBlock] = await Promise.all([
+				getValidator(validatorInfo, Axios.CancelToken.source().token),
+				getDelegators(validatorInfo, 1, Axios.CancelToken.source().token),
+				getProposedBlocks(validatorInfo, 1, Axios.CancelToken.source().token),
+				getMissedBlocks(validatorInfo, Axios.CancelToken.source().token),
+			]);
+			info = {...info, ...validator?.data};
+			info.accountAddress = validator?.data.account_address;
+			info.operatorAddress = validator?.data.operator_address;
+			info.consensusAddress = validator?.data.consensus_address;
+			info.votingPower = validator?.data.voting_power;
+			info.bondedHeight = validator?.data.bond_height;
+			info.commission = validator?.data.commission_rate;
+			info.details = validator?.data.description.details;
+			info.website = validator?.data.description.website;
+			if (delegator?.data?.data !== null) {
+				let arrDelegators = [];
+				delegator.data.data.forEach(delegator => {
+					arrDelegators.push({
+						address: delegator.delegator_address,
+						amount: delegator.amount,
+						share: delegator.shares,
 					});
-					info.delegators = arrDelegators;
-				}
-			})
-			.then(() => getProposedBlocks(validatorInfo, 1, Axios.CancelToken.source().token))
-			.then(res => {
-				if (res.data.data !== null) {
-					let arrProposedBlocks = [];
-					res.data.data.forEach(block => {
-						arrProposedBlocks.push({
-							height: block.height,
-							blockhash: block.block_hash,
-							txs: block.total_txs,
-							time: block.timestamp,
-						});
-					});
-					info.proposedBlocks = arrProposedBlocks;
-				}
-			})
-			.then(() => getMissedBlocks(validatorInfo, Axios.CancelToken.source().token))
-			.then(res => {
-				// Process missed blocks here
-			})
-			.then(() => {
-				console.log("Info", info);
-				setValidatorDetails({
-					accountAddress: info.accountAddress,
-					consensusAddress: info.consensusAddress,
-					operatorAddress: info.operatorAddress,
-					votingPower: info.votingPower,
-					bondedHeight: info.bondedHeight,
-					commission: info.commission,
-					details: info.details,
-					website: info.website,
-					proposedBlocks: info.proposedBlocks,
-					delegators: info.delegators,
-					missedBlocks: missedBlocks,
 				});
-			});
-	}, [missedBlocks.join("-"), props.match.params.validator]);
+				info.delegators = arrDelegators;
+			}
+			if (proposedBlock?.data?.data !== null) {
+				let arrProposedBlocks = [];
+				proposedBlock.data.data.forEach(block => {
+					arrProposedBlocks.push({
+						height: block.height,
+						blockhash: block.block_hash,
+						txs: block.total_txs,
+						time: block.timestamp,
+					});
+				});
+				info.proposedBlocks = arrProposedBlocks;
+			}
+			info.missedBlocks = missedBlock?.data?.missed_blocks || [];
+			setValidatorDetails(info);
+		};
+		getDetailData();
+	}, [props.match.params.validator]);
+
+	const handleCopy = data => {
+		copy(data);
+		dispatch(
+			showAlert({
+				show: true,
+				message: "Copied",
+				autoHideDuration: 1500,
+			})
+		);
+	};
 
 	return (
 		<div style={{width: "100%"}}>
@@ -161,7 +112,7 @@ export default function(props) {
 						<div style={{display: "flex", flexFlow: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 15}}>
 							<div style={{display: "flex", flexFlow: "row", alignItems: "center"}}>
 								<img src={ORAI_LOGO} height={30} width={30} />
-								<div style={{...styles.title, marginLeft: 15}}>Orai Staking</div>
+								<div style={{...styles.title, marginLeft: 15}}> {validatorDetails.moniker} </div>
 							</div>
 							<div
 								style={{
@@ -181,7 +132,7 @@ export default function(props) {
 						</div>
 						<div style={{display: "flex", flexFlow: "row", marginBottom: 4}}>
 							<div style={{fontSize: 14, fontWeight: "bold", marginRight: 5}}>Operator address</div>
-							<img src={IC_PASTE} />
+							<img style={{cursor: "pointer"}} src={IC_PASTE} alt='#' onClick={() => handleCopy(validatorDetails.operatorAddress)} />
 						</div>
 						<div style={{fontSize: 12, marginBottom: 10}}>{validatorDetails.operatorAddress === "" ? "--" : validatorDetails.operatorAddress}</div>
 						<div style={{fontSize: 14, fontWeight: "bold", marginBottom: 4}}>Address</div>
@@ -203,7 +154,9 @@ export default function(props) {
 							</div>
 							<div style={{flex: 7}}>
 								<div style={{fontSize: 12, fontWeight: "bold"}}>Voting power</div>
-								<div style={{fontSize: 12}}>6.56% ({commafy(validatorDetails.votingPower)} ORAI)</div>
+								<div style={{fontSize: 12}}>
+									{(validatorDetails.votingPower / bonded).toFixed(2)}% ({commafy(validatorDetails.votingPower)} ORAI)
+								</div>
 								<div style={{fontSize: 12, fontWeight: "bold", marginTop: 15}}>Bonded Height</div>
 								<div style={{fontSize: 12}}>{validatorDetails.bondedHeight}</div>
 								<div style={{fontSize: 12, fontWeight: "bold", marginTop: 15}}>Self Bonded</div>

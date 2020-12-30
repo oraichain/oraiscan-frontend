@@ -8,8 +8,8 @@ import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden}
 import {ArrowDropDown, DriveEta} from "@material-ui/icons";
 import Alert from "src/components/common/Alert/Alert";
 import copy from "copy-to-clipboard";
-import NumberFormat from "react-number-format";
 
+import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Keystation from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
@@ -45,7 +45,6 @@ export default function({data}) {
 	const {path, title, handleClick} = data;
 	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
-	const [showCopySuccess, setShowCopySuccess] = useState(false);
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
 	const history = useHistory();
 	const [wallet, , , , setUrl] = useFetch();
@@ -67,7 +66,6 @@ export default function({data}) {
 	}
 	return (
 		<div className={cx("dropdown")}>
-			<Alert show={showCopySuccess} handleClose={() => setShowCopySuccess(false)} message='Copied' />
 			<Dialog
 				show={showTransactionModal}
 				handleClose={() => setShowTransactionModal(false)}
@@ -98,7 +96,13 @@ export default function({data}) {
 							className={cx("wallet-copy")}
 							onClick={() => {
 								copy(title);
-								setShowCopySuccess(true);
+								dispatch(
+									showAlert({
+										show: true,
+										message: "Copied",
+										autoHideDuration: 1500,
+									})
+								);
 							}}>
 							<CopyIcon />
 						</span>
