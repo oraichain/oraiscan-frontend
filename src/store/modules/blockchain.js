@@ -20,6 +20,7 @@ export const getCryptoBasicData = createAction(GET_BASIC_DATA, (id, currency, ca
 export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getStatus(cancelToken));
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
+export const setStatusBox = createAction("SET_STATUS_BOX");
 
 const initState = {
 	status: {
@@ -160,6 +161,10 @@ const handlers = {
 			};
 		},
 	}),
+	SET_STATUS_BOX: (state, action) => {
+		state.statusBox = action.payload;
+		return {...state};
+	},
 };
 
 const flatTxTypes = Object.freeze({

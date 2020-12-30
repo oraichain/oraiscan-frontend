@@ -11,8 +11,9 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _, {add} from "lodash";
-import NumberFormat from "react-number-format";
+import {useDispatch} from "react-redux";
 
+import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
@@ -55,7 +56,7 @@ const reduceAddress = address => {
 export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
 	const [fee, setFee] = useState(0);
 	const [activeTabId, setActiveTabId] = useState(1);
-	const [showTransactionSuccess, setShowTransactionSuccess] = useState(false);
+	const dispatch = useDispatch();
 	const history = useHistory();
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
@@ -134,7 +135,13 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				return handleClose();
 			}
 			if (e?.data?.txhash) {
-				setShowTransactionSuccess(true);
+				dispatch(
+					showAlert({
+						show: true,
+						message: "Transaction Successful!",
+						autoHideDuration: 3000,
+					})
+				);
 				history.push(`/txs/${e.data.txhash}`);
 				handleClose();
 			}
@@ -143,7 +150,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		return () => {
 			window.removeEventListener("message", callBack);
 		};
-	}, [handleClose, history, reFetchAmount]);
+	}, [dispatch, handleClose, history, reFetchAmount]);
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -227,7 +234,6 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	return (
 		<div>
-			<Alert show={showTransactionSuccess} handleClose={() => setShowTransactionSuccess(false)} message='Transaction Successful!' autoHideDuration={3000} />
 			<Dialog open={show} onClose={handleClose} aria-labelledby='form-dialog-title'>
 				<DialogTitle className={cx("form-dialog-title")} onClick={handleClose}>
 					{" "}
