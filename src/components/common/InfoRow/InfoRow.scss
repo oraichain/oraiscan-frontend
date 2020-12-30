@@ -29,4 +29,8 @@
 	.value {
 		@include gridValue;
 	}
+	.value-link {
+		cursor: pointer;
+		color: #4472de;
+	}
 }

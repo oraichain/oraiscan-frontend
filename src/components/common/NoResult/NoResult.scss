@@ -1,0 +1,24 @@
+@import "src/styles/utils";
+
+.no-result {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&-icon {
+		margin-bottom: 15px;
+	}
+
+	&-text {
+		color: #9a9a9a;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+		display: flex;
+		align-items: center;
+		letter-spacing: 0.4px;
+	}
+}

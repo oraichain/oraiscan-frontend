@@ -85,6 +85,22 @@ export default function({msg, txData}) {
 					</>
 				)}
 
+				{type === txTypes.COSMOS.VALIDATOR_CREATE && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.value, ["blueColor", "uppercase"])}
+					</>
+				)}
+
+				{type === txTypes.COSMOS.MSG_DELEGATE && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.amount, ["blueColor", "uppercase"])}
+					</>
+				)}
+
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
 					<>
 						{getInfoRow("Code", value?.code)}
@@ -214,7 +230,7 @@ export default function({msg, txData}) {
 				)}
 			</div>
 		);
-	}, [txData, type, value]);
+	}, [type, value]);
 
 	const toolTippedImg = React.useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";

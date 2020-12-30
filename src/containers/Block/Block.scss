@@ -2,6 +2,7 @@
 
 .Block {
 	@include page-wrapper;
+	margin-bottom: 50px;
 
 	.Card {
 		@include card-wrapper(15px);
