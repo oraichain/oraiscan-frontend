@@ -25,6 +25,26 @@
 			line-height: 150%;
 			vertical-align: middle;
 		}
+
+		.qr-icon {
+			position: relative;
+			display: inline-block;
+			margin-right: 10px;
+			border-radius: 100%;
+			width: 36px;
+			height: 36px;
+			vertical-align: middle;
+			cursor: pointer;
+
+			& > svg {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				display: inline-block;
+				margin: 0;
+				transform: translate(-50%, -50%);
+			}
+		}
 	}
 
 	&-body {

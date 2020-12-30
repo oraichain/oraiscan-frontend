@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 
@@ -29,6 +30,8 @@ export default function(props) {
 		delegators: [],
 		missedBlocks: [],
 	});
+
+	console.log(validatorDetails);
 
 	let events = [
 		{
@@ -143,7 +146,7 @@ export default function(props) {
 					missedBlocks: missedBlocks,
 				});
 			});
-	}, [missedBlocks, props.match.params.validator]);
+	}, [missedBlocks.join("-"), props.match.params.validator]);
 
 	return (
 		<div style={{width: "100%"}}>
