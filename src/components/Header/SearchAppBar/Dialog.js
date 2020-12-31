@@ -109,7 +109,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						gas: 200000,
 					},
 					signatures: null,
-					memo: data.memo,
+					memo: data.memo || "",
 				},
 			};
 		} else {
@@ -197,7 +197,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
 									{" "}
-									Tx Fee: <span className={cx("fee")}> {formatOrai(amount || 0)} ORAI </span>{" "}
+									Tx Fee: <span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
 								</div>
 							</Grid>
 						</Grid>
