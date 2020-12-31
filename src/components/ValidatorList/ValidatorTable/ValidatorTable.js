@@ -71,7 +71,6 @@ const ValidatorTable = memo(({data = []}) => {
 		return total;
 	};
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
-
 	const rankHeaderCell = <div className={cx("rank-header-cell")}>Rank</div>;
 	const validatorHeaderCell = (
 		<div className={cx("validator-header-cell")}>
@@ -149,19 +148,36 @@ const ValidatorTable = memo(({data = []}) => {
 		{width: "150px"}, // Commission
 	];
 
+	const isGreater = (value1, value2) => {
+		if (!isNaN(value1) && !isNaN(value2)) {
+			return parseFloat(value1) > parseFloat(value2);
+		}
+
+		return value1.toString().toLowerCase() > value2.toString().toLowerCase();
+	};
+
+	const isLess = (value1, value2) => {
+		if (!isNaN(value1) && !isNaN(value2)) {
+			return parseFloat(value1) < parseFloat(value2);
+		}
+
+		return value1.toString().toLowerCase() < value2.toString().toLowerCase();
+	};
+
 	const compareTwoValues = (value1, value2, direction = sortDirections.ASC) => {
+		console.log("THINH", value1, value2, !isNaN(value1), !isNaN(value2));
 		if (direction === sortDirections.ASC) {
-			if (value1 > value2) {
+			if (isGreater(value1, value2)) {
 				return 1;
-			} else if (value1 < value2) {
+			} else if (isLess(value1, value2)) {
 				return -1;
 			} else {
 				return 0;
 			}
 		} else {
-			if (value1 < value2) {
+			if (isLess(value1, value2)) {
 				return 1;
-			} else if (value1 > value2) {
+			} else if (isGreater(value1, value2)) {
 				return -1;
 			} else {
 				return 0;
