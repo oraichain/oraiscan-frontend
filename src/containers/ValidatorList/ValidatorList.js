@@ -169,6 +169,7 @@ const ValidatorList = props => {
 					value={keyword}
 					placeholder='Search validators'
 					onChange={e => {
+						cleanUp();
 						setKeyword(e.target.value);
 						setValidatorsPath(replaceQueryString(validatorsPath, "moniker", e.target.value));
 					}}
