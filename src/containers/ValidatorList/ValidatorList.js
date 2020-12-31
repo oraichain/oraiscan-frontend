@@ -163,7 +163,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
-				minHeight='100px'
+				minHeight={105}
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
