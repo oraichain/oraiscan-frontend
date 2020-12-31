@@ -1,4 +1,5 @@
 import {floor} from "lodash";
+import numeral from "numeral";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -56,10 +57,8 @@ export const formatPercentage = (value, numberOfDigitsAfterDecimalPoint = 1) => 
 	return parseFloat((parseFloat(value) * 100).toFixed(numberOfDigitsAfterDecimalPoint));
 };
 
-export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2, thousandsSeparator = ",") => {
-	return parseFloat(value)
-		.toFixed(numberOfDigitsAfterDecimalPoint)
-		.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1" + thousandsSeparator);
+export const formatFloat = (value, numberOfDigitsAfterDecimalPoint = 2) => {
+	return numeral(parseFloat(value)).format("0,0." + "0".repeat(numberOfDigitsAfterDecimalPoint));
 };
 
 export const calculateBefore = (total, limit, page) => {
@@ -70,6 +69,6 @@ export const calculateAfter = (total, limit, page) => {
 	return total + 1 - page * limit;
 };
 
-export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6, thousandsSeparator = ",") => {
-	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint, thousandsSeparator);
+export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6) => {
+	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
 };
