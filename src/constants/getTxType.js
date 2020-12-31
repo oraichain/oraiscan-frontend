@@ -1,6 +1,6 @@
 import txTypes from "src/constants/txTypes";
 
-const {COSMOS, DEX, TOKENS, MISC} = txTypes;
+const {COSMOS, DEX, TOKENS, MISC, PROVIDER} = txTypes;
 
 export default function(txType) {
 	switch (txType) {
@@ -14,6 +14,7 @@ export default function(txType) {
 
 		case "TRANSFER":
 		case COSMOS.SEND:
+		case COSMOS.MSG_SEND:
 			return "Transfer";
 
 		case "LIST_TOKEN":
@@ -67,12 +68,28 @@ export default function(txType) {
 		case COSMOS.VOTE:
 			return "Vote";
 		case COSMOS.VALIDATOR_CREATE:
-			return "Validator Create";
+			return "Create Validator";
 		case COSMOS.VALIDATOR_REMOVE:
-			return "Validator Remove";
+			return "Remove Validator";
+		case COSMOS.MSG_DELEGATE:
+			return "Delegate";
 
 		case MISC.ACCOUNTFLAG_SET:
 			return "Set Account Flag";
+
+		case PROVIDER.CREATE_AI_DATA_SOURCE:
+			return "Create AI Data Source";
+		case PROVIDER.EDIT_AI_DATA_SOURCE:
+			return "Edit AI Data Source";
+		case PROVIDER.CREATE_TEST_CASE:
+			return "Create AI Test Case";
+		case PROVIDER.EDIT_TEST_CASE:
+			return "Edit AI Test Case";
+		case PROVIDER.CREATE_ORACLE_SCRIPT:
+			return "Create Oracle Script";
+		case PROVIDER.EDIT_ORACLE_SCRIPT:
+			return "Edit Oracle Script";
+
 		default:
 			return txType;
 	}
