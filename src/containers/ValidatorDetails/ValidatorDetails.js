@@ -70,18 +70,20 @@ export default function(props) {
 				});
 				info.delegators = arrDelegators;
 			}
+			let arrProposedBlocks = [];
+			info.totalProposedBlocks = 0;
 			if (proposedBlock?.data?.data !== null) {
-				let arrProposedBlocks = [];
+				info.totalProposedBlocks = proposedBlock.data.page.total_item;
 				proposedBlock.data.data.forEach(block => {
 					arrProposedBlocks.push({
 						height: block.height,
 						blockhash: block.block_hash,
-						txs: block.total_txs,
+						txs: block.num_txs,
 						time: block.timestamp,
 					});
 				});
-				info.proposedBlocks = arrProposedBlocks;
 			}
+			info.proposedBlocks = arrProposedBlocks;
 			info.missedBlocks = missedBlock?.data?.missed_blocks || [];
 			setValidatorDetails(info);
 		};
@@ -176,7 +178,7 @@ export default function(props) {
 							<div style={styles.title}>Proposed Blocks</div>
 							<div style={{...styles.frameTxt, paddingLeft: 10, paddingRight: 10}}>
 								<img src={IC_BLOCKS} />
-								<div style={{fontSize: 12, marginLeft: 5}}>Total: 300,206 blocks</div>
+								<div style={{fontSize: 12, marginLeft: 5}}>Total: {validatorDetails.totalProposedBlocks} blocks</div>
 							</div>
 						</div>
 						<div>
