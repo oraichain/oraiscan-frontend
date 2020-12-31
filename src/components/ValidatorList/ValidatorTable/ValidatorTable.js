@@ -19,7 +19,7 @@ const ValidatorTable = memo(({data = []}) => {
 		VALIDATOR: "moniker",
 		VOTING_POWER: "voting_power",
 		UPTIME: "uptime",
-		COMMISSION: "commission",
+		COMMISSION: "commission_rate",
 	};
 
 	const sortDirections = {
@@ -165,7 +165,6 @@ const ValidatorTable = memo(({data = []}) => {
 	};
 
 	const compareTwoValues = (value1, value2, direction = sortDirections.ASC) => {
-		console.log("THINH", value1, value2, !isNaN(value1), !isNaN(value2));
 		if (direction === sortDirections.ASC) {
 			if (isGreater(value1, value2)) {
 				return 1;
