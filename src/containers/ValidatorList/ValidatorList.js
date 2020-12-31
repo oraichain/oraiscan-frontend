@@ -30,7 +30,8 @@ const ValidatorList = props => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
-	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}`);
+	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
+	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
 
 	let timerID = useRef(null);
@@ -113,11 +114,16 @@ const ValidatorList = props => {
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
 		if (value === "") {
-			searchParams.delete(key);
+			if (searchParams.has(key)) {
+				searchParams.delete(key);
+			}
 		} else {
-			searchParams.set(key, value);
+			if (searchParams.has(key)) {
+				searchParams.set(key, value);
+			} else {
+				searchParams.append(key, value);
+			}
 		}
-
 		return decodeURIComponent(searchParams.toString());
 	};
 
