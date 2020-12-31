@@ -107,8 +107,6 @@ const ValidatorList = props => {
 		);
 	}
 
-	console.log("VALIDATORS", validators);
-
 	const totalPages = validators?.page?.total_page ?? 0;
 
 	const replaceQueryString = (path, key, value) => {
