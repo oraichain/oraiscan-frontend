@@ -30,7 +30,8 @@ const ValidatorList = props => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
-	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}`);
+	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
+	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
 
 	let timerID = useRef(null);
@@ -106,18 +107,21 @@ const ValidatorList = props => {
 		);
 	}
 
-	console.log("VALIDATORS", validators);
-
 	const totalPages = validators?.page?.total_page ?? 0;
 
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
 		if (value === "") {
-			searchParams.delete(key);
+			if (searchParams.has(key)) {
+				searchParams.delete(key);
+			}
 		} else {
-			searchParams.set(key, value);
+			if (searchParams.has(key)) {
+				searchParams.set(key, value);
+			} else {
+				searchParams.append(key, value);
+			}
 		}
-
 		return decodeURIComponent(searchParams.toString());
 	};
 
@@ -157,7 +161,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
-				minHeight='100px'
+				minHeight={105}
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
