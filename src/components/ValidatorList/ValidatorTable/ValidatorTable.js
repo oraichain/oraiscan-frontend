@@ -86,7 +86,7 @@ const ValidatorTable = memo(({data = []}) => {
 		{width: "150px"}, // Commission
 	];
 
-	const sortData = (data, sortField, sortDirection, extraSortField = "id") => {
+	const sortData = (data, sortField, sortDirection, extraSortField = "rank") => {
 		if (!data) {
 			return [];
 		}
@@ -115,8 +115,8 @@ const ValidatorTable = memo(({data = []}) => {
 		if (!data) {
 			return null;
 		}
-		return data.map((item, index) => {
-			const rankDataCell = <div className={cx("rank-data-cell")}>{index + 1}</div>;
+		return data.map(item => {
+			const rankDataCell = <div className={cx("rank-data-cell")}>{item?.rank ? item.rank : "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell")} to={`/validators/${item.operator_address}`}>
 					<img src={aiIcon} alt='' />
