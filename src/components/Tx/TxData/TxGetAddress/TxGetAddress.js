@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import React, {useState, useRef} from "react";
+import {NavLink} from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
-import { _, refineAddress } from "src/lib/scripts";
+import {_, refineAddress} from "src/lib/scripts";
 import DisplayLongString from "src/components/common/DisplayLongString";
 import copyIcon from "src/assets/common/copy_ic.svg";
 
-export default function ({ address, cx, link }) {
+export default function({address, cx, link}) {
 	const contentRef = useRef(null);
 	const [open, setOpen] = useState(false);
 
@@ -32,13 +32,13 @@ export default function ({ address, cx, link }) {
 		return (
 			<>
 				<input type='text' className={cx("content-input")} ref={contentRef} value={refinedAddress} />
-				{link ?
+				{link ? (
 					<NavLink className={cx("blueColor")} to={`/account/${refinedAddress}`}>
 						<DisplayLongString inputString={refinedAddress} />
 					</NavLink>
-					:
+				) : (
 					<DisplayLongString inputString={refinedAddress} />
-				}
+				)}
 				<img
 					src={copyIcon}
 					alt=''
@@ -56,7 +56,7 @@ export default function ({ address, cx, link }) {
 					autoHideDuration={6000}
 					onClose={handleClose}
 					autoHideDuration={400}
-					message='Đã sao chép'
+					message='Copied'
 				/>
 			</>
 		);
