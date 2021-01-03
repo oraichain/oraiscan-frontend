@@ -4,11 +4,13 @@ import styles from "./InfoRow.scss";
 
 const cx = cn.bind(styles);
 
-export default function({label, children}) {
+export default function({label, children, handleClickCustom = null}) {
 	return (
 		<ul className={cx("infoRow-grid")}>
 			<li className={cx("label")}>{label}</li>
-			<li className={cx("value")}>{children}</li>
+			<li className={cx("value", {"value-link": !!handleClickCustom})} onClick={() => handleClickCustom && handleClickCustom()}>
+				{children}
+			</li>
 		</ul>
 	);
 }

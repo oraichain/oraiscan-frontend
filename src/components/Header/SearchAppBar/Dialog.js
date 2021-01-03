@@ -11,8 +11,9 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _, {add} from "lodash";
-import NumberFormat from "react-number-format";
+import {useDispatch} from "react-redux";
 
+import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
@@ -55,7 +56,7 @@ const reduceAddress = address => {
 export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
 	const [fee, setFee] = useState(0);
 	const [activeTabId, setActiveTabId] = useState(1);
-	const [showTransactionSuccess, setShowTransactionSuccess] = useState(false);
+	const dispatch = useDispatch();
 	const history = useHistory();
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
@@ -108,7 +109,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						gas: 200000,
 					},
 					signatures: null,
-					memo: data.memo,
+					memo: data.memo || "",
 				},
 			};
 		} else {
@@ -134,7 +135,13 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				return handleClose();
 			}
 			if (e?.data?.txhash) {
-				setShowTransactionSuccess(true);
+				dispatch(
+					showAlert({
+						show: true,
+						message: "Transaction Successful!",
+						autoHideDuration: 3000,
+					})
+				);
 				history.push(`/txs/${e.data.txhash}`);
 				handleClose();
 			}
@@ -143,11 +150,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		return () => {
 			window.removeEventListener("message", callBack);
 		};
-	}, [handleClose, history, reFetchAmount]);
+	}, [dispatch, handleClose, history, reFetchAmount]);
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
-		amount && setValue("sendAmount", amount * rate);
+		amount && setValue("sendAmount", (amount * rate) / 1000000);
 	};
 
 	const renderTab = id => {
@@ -159,10 +166,10 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}>
 									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {reduceAddress(address)} </div>
+									<div className={cx("value")}> {address} </div>
 								</div>
 								<div className={cx("right")}>
-									<div className={cx("title")}> Balance </div>
+									<div className={cx("title", "title-right")}> Balance </div>
 									<div className={cx("value")}> {formatOrai(amount || 0)} ORAI </div>
 								</div>
 							</div>
@@ -190,7 +197,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
 									{" "}
-									Tx Fee: <span className={cx("fee")}> {formatOrai(amount || 0)} ORAI </span>{" "}
+									Tx Fee: <span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
 								</div>
 							</Grid>
 						</Grid>
@@ -227,7 +234,6 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	return (
 		<div>
-			<Alert show={showTransactionSuccess} handleClose={() => setShowTransactionSuccess(false)} message='Transaction Successful!' autoHideDuration={3000} />
 			<Dialog open={show} onClose={handleClose} aria-labelledby='form-dialog-title'>
 				<DialogTitle className={cx("form-dialog-title")} onClick={handleClose}>
 					{" "}

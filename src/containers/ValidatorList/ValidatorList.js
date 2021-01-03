@@ -30,7 +30,8 @@ const ValidatorList = props => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
-	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}`);
+	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
+	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
 
 	let timerID = useRef(null);
@@ -82,7 +83,6 @@ const ValidatorList = props => {
 		path: statusPath,
 	});
 
-	console.log();
 	useEffect(() => {
 		if (loadValidatorsCompleted) {
 			timerID = setTimeout(() => {
@@ -112,11 +112,16 @@ const ValidatorList = props => {
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
 		if (value === "") {
-			searchParams.delete(key);
+			if (searchParams.has(key)) {
+				searchParams.delete(key);
+			}
 		} else {
-			searchParams.set(key, value);
+			if (searchParams.has(key)) {
+				searchParams.set(key, value);
+			} else {
+				searchParams.append(key, value);
+			}
 		}
-
 		return decodeURIComponent(searchParams.toString());
 	};
 
@@ -148,7 +153,7 @@ const ValidatorList = props => {
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens, 1000000, 0, ",") : "-",
+						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens) : "-",
 					},
 					{
 						icon: blockTimeIcon,
@@ -156,7 +161,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
-				minHeight='100px'
+				minHeight={105}
 			/>
 			<div className={cx("filter-section")}>
 				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
@@ -164,13 +169,14 @@ const ValidatorList = props => {
 					value={keyword}
 					placeholder='Search validators'
 					onChange={e => {
+						cleanUp();
 						setKeyword(e.target.value);
 						setValidatorsPath(replaceQueryString(validatorsPath, "moniker", e.target.value));
 					}}
 				/>
 			</div>
 			<ValidatorTable data={validators.data} />
-			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />}
+			{/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */}
 		</Container>
 	);
 };
