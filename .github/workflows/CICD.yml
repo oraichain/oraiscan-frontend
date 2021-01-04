@@ -14,6 +14,7 @@ jobs:
 
     name: Build
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
     - uses: actions/checkout@v2
@@ -24,9 +25,11 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: ${{ secrets.DOCKER_USERNAME }}/oraiscan-frontend
         tags: ${{ github.sha }}, latest
+
   deploy-to-prod:
     name: Deploy to Prod
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: build
     if: github.ref == 'refs/heads/master'
     steps:
