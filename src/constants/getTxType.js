@@ -1,6 +1,6 @@
 import txTypes from "src/constants/txTypes";
 
-const {COSMOS, DEX, TOKENS, MISC, PROVIDER} = txTypes;
+const {COSMOS, DEX, TOKENS, MISC, PROVIDER, WEBSOCKET} = txTypes;
 
 export default function(txType) {
 	switch (txType) {
@@ -89,6 +89,11 @@ export default function(txType) {
 			return "Create Oracle Script";
 		case PROVIDER.EDIT_ORACLE_SCRIPT:
 			return "Edit Oracle Script";
+
+		case WEBSOCKET.ADD_REPORTER:
+			return "Add Reporter";
+		case WEBSOCKET.ADD_REPORT:
+			return "Report";
 
 		default:
 			return txType;

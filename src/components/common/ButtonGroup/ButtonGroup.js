@@ -17,7 +17,6 @@ const ButtonGroup = memo(({data = [], rootClassName}) => {
 					{item.label}
 				</button>
 			))}
-			<button></button>
 		</div>
 	);
 });

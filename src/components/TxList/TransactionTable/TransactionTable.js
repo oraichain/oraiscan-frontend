@@ -2,6 +2,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
@@ -42,7 +43,7 @@ const TransactionTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{item.messages[0].type}</div>
+					<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
