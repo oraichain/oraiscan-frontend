@@ -1,0 +1,38 @@
+@import "src/styles/utils";
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+	color: #546a8a;
+}
+
+.data-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.color-blue {
+	color: #1b57f0;
+}
+
+.color-black {
+	color: #181818;
+}

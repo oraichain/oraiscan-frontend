@@ -1,33 +1,30 @@
 @import "src/styles/utils";
 
-.rank-header-cell {
+.align-left {
 	text-align: left;
 }
 
-.validator-header-cell {
-	text-align: left;
-}
-
-.voting-power-header-cell {
+.align-right {
 	text-align: right;
 }
 
-.cumulative-share-header-cell {
-	text-align: right;
+.align-center {
+	text-align: center;
 }
 
-.uptime-header-cell {
-	text-align: right;
-}
-
-.commission-header-cell {
-	text-align: right;
+.header-cell {
+	color: #546a8a;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
 }
 
 .sort-button {
 	padding: 0;
-	margin-left: 10px;
-	margin-right: 0;
+	margin-left: 12px;
+	margin-right: -4px;
 	margin-top: 0;
 	margin-bottom: 0;
 	vertical-align: middle;
@@ -35,7 +32,6 @@
 }
 
 .rank-data-cell {
-	text-align: left;
 }
 
 .validator-data-cell {
@@ -107,9 +103,7 @@
 }
 
 .uptime-data-cell {
-	text-align: right;
 }
 
 .commission-data-cell {
-	text-align: right;
 }
