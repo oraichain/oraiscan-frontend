@@ -71,9 +71,9 @@ const ValidatorTable = memo(({data = []}) => {
 		return total;
 	};
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
-	const rankHeaderCell = <div className={cx("rank-header-cell")}>Rank</div>;
+	const rankHeaderCell = <div className={cx("rank-header-cell", "align-center")}>Rank</div>;
 	const validatorHeaderCell = (
-		<div className={cx("validator-header-cell")}>
+		<div className={cx("header-cell", "align-left")}>
 			Validator
 			<button
 				type='button'
@@ -86,7 +86,7 @@ const ValidatorTable = memo(({data = []}) => {
 		</div>
 	);
 	const votingPowerHeaderCell = (
-		<div className={cx("voting-power-header-cell")}>
+		<div className={cx("header-cell", "align-right")}>
 			Voting power
 			<button
 				type='button'
@@ -98,9 +98,9 @@ const ValidatorTable = memo(({data = []}) => {
 			</button>
 		</div>
 	);
-	const cumulativeShareHeaderCell = <div className={cx("cumulative-share-header-cell")}>Cumulative Share %</div>;
+	const cumulativeShareHeaderCell = <div className={cx("header-cell", "align-right")}>Cumulative Share %</div>;
 	const uptimeHeaderCell = (
-		<div className={cx("uptime-header-cell")}>
+		<div className={cx("header-cell", "align-right")}>
 			Uptime
 			<button
 				type='button'
@@ -113,7 +113,7 @@ const ValidatorTable = memo(({data = []}) => {
 		</div>
 	);
 	const commissionHeaderCell = (
-		<div className={cx("commission-header-cell")}>
+		<div className={cx("header-cell", "align-right")}>
 			Commission
 			<button
 				type='button'
@@ -142,7 +142,7 @@ const ValidatorTable = memo(({data = []}) => {
 	const headerCellStyles = [
 		{width: "80px"}, // Rank
 		{minWidth: "200px"}, // Validator
-		{width: "145px"}, // Voting Power
+		{width: "155px"}, // Voting Power
 		{width: "250px"}, // Cumulative Share
 		{width: "180px"}, // Uptime
 		{width: "150px"}, // Commission
@@ -208,19 +208,19 @@ const ValidatorTable = memo(({data = []}) => {
 			return null;
 		}
 		return data.map(item => {
-			const rankDataCell = <div className={cx("rank-data-cell")}>{item?.rank ? item.rank : "-"}</div>;
+			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ? item.rank : "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
-				<NavLink className={cx("validator-data-cell")} to={`/validators/${item.operator_address}`}>
+				<NavLink className={cx("validator-data-cell", "align-left")} to={`/validators/${item.operator_address}`}>
 					<img src={aiIcon} alt='' />
 					{item.moniker}
 				</NavLink>
 			) : (
-				"-"
+				<div className={cx("align-left")}>-</div>
 			);
 
 			let currentVotingPower = 0;
 			let votingPowerDataCell = (
-				<div className={cx("voting-power-data-cell")}>
+				<div className={cx("voting-power-data-cell", "align-right")}>
 					<div>-</div>
 					<div>- %</div>
 				</div>
@@ -228,7 +228,7 @@ const ValidatorTable = memo(({data = []}) => {
 			if (item?.voting_power && totalVotingPower > 0) {
 				currentVotingPower = parseFloat(item.voting_power);
 				votingPowerDataCell = (
-					<div className={cx("voting-power-data-cell")}>
+					<div className={cx("voting-power-data-cell", "align-right")}>
 						<div>{formatInteger(currentVotingPower)}</div>
 						<div>{formatPercentage(currentVotingPower / totalVotingPower, 2)}%</div>
 					</div>
@@ -237,9 +237,9 @@ const ValidatorTable = memo(({data = []}) => {
 
 			const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 			previousVotingPower += currentVotingPower;
-			const uptimeDataCell = <div className={cx("uptime-data-cell")}>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>;
+			const uptimeDataCell = <div className={cx("uptime-data-cell", "align-right")}>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>;
 			const commissionDataCell = (
-				<div className={cx("commission-data-cell")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
+				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
 
 			return [
