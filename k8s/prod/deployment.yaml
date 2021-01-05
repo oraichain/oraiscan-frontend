@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:9f8afbe6ee6bf14516bddbf3303893e6728ba569
+        image: thao1996/oraiscan-frontend:5dcf4e7539ec9b3e34cc0c1c92876b00e0d9aec9
         env:
         - name: NODE_ENV
             value: "production"
