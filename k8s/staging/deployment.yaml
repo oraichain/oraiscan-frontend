@@ -25,10 +25,10 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
-      volumeMounts:
-      - name: oraiscan-frontend-volume
-        mountPath: /app/.env
-        subPath: .env
+        volumeMounts:
+          - name: oraiscan-frontend-volume
+            mountPath: /app/.env
+            subPath: .env
     volumes:
       - name: oraiscan-frontend-volume
         configMap:
