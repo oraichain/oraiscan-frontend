@@ -157,7 +157,7 @@ export default function(props) {
 							<div style={{flex: 7}}>
 								<div style={{fontSize: 12, fontWeight: "bold"}}>Voting power</div>
 								<div style={{fontSize: 12}}>
-									{(validatorDetails.votingPower / bonded).toFixed(2)}% ({commafy(validatorDetails.votingPower)} ORAI)
+									{(validatorDetails.votingPower * 100 / bonded).toFixed(2)}% ({commafy(validatorDetails.votingPower)} ORAI)
 								</div>
 								<div style={{fontSize: 12, fontWeight: "bold", marginTop: 15}}>Bonded Height</div>
 								<div style={{fontSize: 12}}>{validatorDetails.bondedHeight}</div>
