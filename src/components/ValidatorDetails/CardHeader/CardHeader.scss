@@ -1,0 +1,31 @@
+@import "src/styles/utils";
+
+.info {
+    display: flex;
+    flex-flow: row;
+    border-radius: 5px;
+    background: #FFF;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: solid 1px #C1C1C1;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.container {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.txt-info {
+    font-size: 12px;
+    margin-left: 5px;
+}
