@@ -26,14 +26,13 @@ spec:
           - name: oraiscan-frontend-volume
             mountPath: /app/.env
             subPath: .env
-    volumes:
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+      volumes:
       - name: oraiscan-frontend-volume
         configMap:
           name: oraiscan-frontend-config
-
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5000
       imagePullSecrets:
       - name: regcred
       restartPolicy: Always
