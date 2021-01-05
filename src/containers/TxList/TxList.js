@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
+import {useHistory} from "react-router-dom";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -13,15 +14,35 @@ import Pagination from "src/components/common/Pagination";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import styles from "./TxList.scss";
 import ShowSkeleton from "../../components/TxList/TransactionTable/showSkeleton";
-const TxList = () => {
+const TxList = props => {
 	const cx = cn.bind(styles);
-	const defaultPath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
+
+	const history = useHistory();
+	const getPaginationPath = (pathname, page) => {
+		return pathname + "?page=" + page;
+	};
+	const redirectToFirstPage = pathname => {
+		history.push(getPaginationPath(pathname, 1));
+	};
+
+	const [total, setTotal] = useState(-1);
+	const searchParams = new URLSearchParams(props.location.search);
+	let page = parseFloat(searchParams.get("page"));
+	let isPageValid = true;
+	if (!Number.isInteger(page) || page < 1 || (total !== -1 && page > Math.ceil(total / consts.REQUEST.LIMIT))) {
+		page = 1;
+		isPageValid = false;
+	}
 
 	const [showLoading, setShowLoading] = useState(true);
-	const [path, setPath] = useState(defaultPath);
-	const [currentPage, setCurrentPage] = useState(1);
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	let timerID = useRef(null);
+
+	const basePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
+	let path = basePath;
+	if (total !== -1 && isPageValid) {
+		path = basePath + "&before=" + calculateBefore(total, consts.REQUEST.LIMIT, page);
+	}
 
 	const cleanUp = () => {
 		if (timerID) {
@@ -53,6 +74,12 @@ const TxList = () => {
 		}
 	}, [loadCompleted]);
 
+	useEffect(() => {
+		if (!isPageValid) {
+			redirectToFirstPage(props.location.pathname);
+		}
+	}, [total]);
+
 	if (!data || (loading && showLoading)) {
 		return (
 			<Container fixed className={cx("tx-list")}>
@@ -65,14 +92,17 @@ const TxList = () => {
 		);
 	}
 
-	const total = _.isNil(data?.paging?.total) ? 0 : Math.ceil(parseInt(data.paging.total));
-	const totalPages = Math.ceil(total / consts.REQUEST.LIMIT);
+	const totalItems = _.isNil(data?.paging?.total) ? 0 : Math.ceil(parseInt(data.paging.total));
+	const totalPages = Math.ceil(totalItems / consts.REQUEST.LIMIT);
 
-	const onPageChange = (total, limit, page) => {
+	if (total !== totalItems) {
+		setTotal(totalItems);
+	}
+
+	const onPageChange = page => {
 		cleanUp();
 		setShowLoading(true);
-		setPath(defaultPath + "&before=" + calculateBefore(total, limit, page));
-		setCurrentPage(page);
+		history.push(getPaginationPath(props.location.pathname, page));
 	};
 
 	return (
@@ -82,7 +112,7 @@ const TxList = () => {
 				<StatusBox />
 			</TitleWrapper>
 			<TransactionTable data={data.data} />
-			{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(total, consts.REQUEST.LIMIT, page)} />}
+			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
 	);
 };
