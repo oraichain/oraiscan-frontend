@@ -37,50 +37,6 @@ export default function (props) {
     onClick: []
   });
 
-  let events = [
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: 0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: 0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: 0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: 0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: 0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: -0.00037,
-      time: "1h ago",
-    },
-    {
-      height: 209610,
-      txHash: "608080F5...33E8E8A9",
-      amount: -0.00037,
-      time: "1h ago",
-    },
-  ];
 
   const blockMatrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -99,7 +55,6 @@ export default function (props) {
     let commonInfo = await getValidator(validatorInfo, Axios.CancelToken.source().token);
     let delegators = await getDelegators(validatorInfo, 1, Axios.CancelToken.source().token);
     let blocks = await getProposedBlocks(validatorInfo, 1, Axios.CancelToken.source().token);
-    let missedBlocks = await getMissedBlocks(validatorInfo, Axios.CancelToken.source().token);
     info.accountAddress = commonInfo?.data?.account_address === "" ? "--" : commonInfo?.data?.account_address;
     info.operatorAddress = commonInfo?.data?.operator_address === "" ? "--" : commonInfo?.data?.operator_address;
     info.consensusAddress = commonInfo?.data?.consensus_address;

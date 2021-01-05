@@ -23,7 +23,7 @@ const baseURL = `${consts.API_BASE}${consts.API.BLOCKLIST}?&limit=1`;
 export default function(props) {
 	const {history} = props;
 	const height = Number(props.match.params.height);
-	const [state, , setUrl] = useFetch(`${baseURL}&before=${Number(height) + 1}`);
+	const [state, , , , setUrl] = useFetch(`${baseURL}&before=${Number(height) + 1}`);
 	const queriedHeight = state.data?.data?.[0]?.height;
 	const [after, setAfter] = React.useState(false);
 

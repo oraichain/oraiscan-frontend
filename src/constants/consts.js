@@ -71,6 +71,7 @@ export default Object.freeze({
 		DELEGATOR: "/delegator",
 		PROPOSED_BLOCKS: "/proposed-blocks",
 		MISSED_BLOCKS: "/validator/missed-block",
+		DELEGATIONS: "/delegations",
 	},
 	LCD_API: {
 		VALIDATORS: "/validators",
@@ -125,6 +126,6 @@ export default Object.freeze({
 	],
 	REQUEST: {
 		LIMIT: 10, // Number of records per page
-		TIMEOUT: 3000,
+		TIMEOUT: 10000,
 	},
 });

@@ -44,11 +44,10 @@ export default Object.freeze({
 	PROVIDER: {
 		CREATE_AI_DATA_SOURCE: "provider/CreateAIDataSource",
 		EDIT_AI_DATA_SOURCE: "provider/EditAIDataSource",
-
+		CREATE_TEST_CASE: "provider/SetTestCase",
+		EDIT_TEST_CASE: "provider/EditTestCase",
 		CREATE_ORACLE_SCRIPT: "provider/CreateOracleScript",
 		EDIT_ORACLE_SCRIPT: "provider/EditOracleScript",
-
-		SET_TESTCASE: "provider/SetTestCase",
 	},
 
 	// WEBSOCKET
@@ -64,5 +63,10 @@ export default Object.freeze({
 		SET_PRICE_REQUEST: "airequest/SetPriceRequest",
 		SET_OCR_REQUEST: "airequest/SetOCRRequest",
 		SET_KYC_REQUEST: "airequest/SetKYCRequest",
+	},
+
+	// AIRESULT
+	AIRESULT: {
+
 	},
 });

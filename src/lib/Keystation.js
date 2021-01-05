@@ -92,7 +92,7 @@ export default class Keystation {
 				"&payload=" +
 				encodeURIComponent(JSON.stringify(payload)),
 			"",
-			"500",
+			"470",
 			"690"
 		);
 	}

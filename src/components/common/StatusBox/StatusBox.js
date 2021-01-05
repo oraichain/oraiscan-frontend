@@ -1,37 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import classNames from "classnames/bind";
+import {useDispatch} from "react-redux";
+
 import consts from "src/constants/consts";
 import {formatInteger, formatFloat, formatOrai} from "src/helpers/helper";
+import {setStatusBox} from "src/store/modules/blockchain";
+
 import styles from "./StatusBox.scss";
 
 const StatusBox = memo(() => {
 	const cx = classNames.bind(styles);
 	const [loadCompleted, setLoadCompleted] = useState(false);
+	const dispatch = useDispatch();
 	let timerID = useRef(null);
-
-	const cleanUp = () => {
-		if (timerID) {
-			clearTimeout(timerID);
-		}
-	};
 
 	const {data, loading, refetch} = useGet({
 		path: consts.API.ORAICHAIN_INFO,
 		resolve: data => {
 			setLoadCompleted(true);
+			dispatch(setStatusBox(data));
 			return data;
 		},
 	});
 
 	useEffect(() => {
 		if (loadCompleted) {
-			timerID = setTimeout(() => {
+			timerID.current = setTimeout(() => {
 				refetch();
 				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
 			return () => {
-				cleanUp();
+				if (timerID) {
+					clearTimeout(timerID.current);
+				}
 			};
 		}
 	}, [loadCompleted]);
@@ -48,7 +51,7 @@ const StatusBox = memo(() => {
 			</div>
 			<div className={cx("status-box-item")}>
 				<span className={cx("status-label")}>Bonded: </span>
-				<span className={cx("status-value")}>{data?.bonded ? formatOrai(data.bonded, 1000000, 0, ",") : "--"}</span>
+				<span className={cx("status-value")}>{data?.bonded ? formatOrai(data.bonded) : "--"}</span>
 			</div>
 			<div className={cx("status-box-item")}>
 				<span className={cx("status-label")}>Inflation: </span>

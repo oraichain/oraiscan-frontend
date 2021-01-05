@@ -1,7 +1,7 @@
 import React, {memo, useMemo} from "react";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
-import {formatFloat} from "src/helpers/helper";
+import {formatOrai, formatFloat} from "src/helpers/helper";
 import DonutChart from "react-donut-chart";
 import styles from "./CoinsCard.scss";
 
@@ -22,7 +22,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 		return parseFloat(total) * parseFloat(price);
 	};
 
-	const totalPrice = useMemo(() => calculateTotalPrice(total, price), [total, price]);
+	const totalPrice = useMemo(() => calculateTotalPrice(total / 1000000, price), [total, price]);
 	return (
 		<div className={cx("coins-card")} style={{minHeight: minHeight}}>
 			<Grid container spacing={2}>
@@ -30,7 +30,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 					<div className={cx("total-orai-title")}>
 						Total <span className={cx("uppercase")}>{denom}</span>
 					</div>
-					<div className={cx("total-orai-value")}>{formatFloat(total, 2)}</div>
+					<div className={cx("total-orai-value")}>{formatOrai(total)}</div>
 					<div className={cx("unit-price")}>
 						${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
 					</div>

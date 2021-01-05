@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import cn from "classnames/bind";
 import styles from "./BlockHeader.scss";
@@ -6,10 +7,13 @@ import {_, getTotalTime, setAgoTime} from "src/lib/scripts";
 //  components
 import InfoRow from "src/components/common/InfoRow";
 import Skeleton from "react-skeleton-loader";
+import {useSelector} from "react-redux";
 
 const cx = cn.bind(styles);
 
 export default function({blockData, history}) {
+	const validators = useSelector(state => state.blockchain.validators);
+	console.log(validators);
 	// console.log(blockData);
 
 	const onClick = React.useCallback(() => history.replace(`/blocks/${Number(blockData?.height) - 1}`), [blockData, history]);
@@ -31,7 +35,9 @@ export default function({blockData, history}) {
 						</span>
 					</InfoRow>
 					<InfoRow label={"Number of Tx"}>{blockData?.txs.length}</InfoRow>
-					<InfoRow label={"Node"}>{blockData?.moniker}</InfoRow>
+					<InfoRow label={"Node"} handleClickCustom={() => blockData?.moniker && history.push(`/validators/${validators[blockData?.moniker]?.operatorAddr}`)}>
+						{blockData?.moniker}
+					</InfoRow>
 					{/*<InfoRow label={"Block Time"}>*/}
 					{/*	<span className={cx("no-transform")}>in 438 ms</span>*/}
 					{/*</InfoRow>*/}

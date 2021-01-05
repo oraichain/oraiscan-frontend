@@ -5,7 +5,7 @@ import {_, refineAddress} from "src/lib/scripts";
 import DisplayLongString from "src/components/common/DisplayLongString";
 import copyIcon from "src/assets/common/copy_ic.svg";
 
-export default function({address, cx}) {
+export default function({address, cx, link}) {
 	const contentRef = useRef(null);
 	const [open, setOpen] = useState(false);
 
@@ -32,9 +32,13 @@ export default function({address, cx}) {
 		return (
 			<>
 				<input type='text' className={cx("content-input")} ref={contentRef} value={refinedAddress} />
-				<NavLink className={cx("blueColor")} to={`/account/${refinedAddress}`}>
+				{link ? (
+					<NavLink className={cx("blueColor")} to={`/account/${refinedAddress}`}>
+						<DisplayLongString inputString={refinedAddress} />
+					</NavLink>
+				) : (
 					<DisplayLongString inputString={refinedAddress} />
-				</NavLink>
+				)}
 				<img
 					src={copyIcon}
 					alt=''
@@ -52,7 +56,7 @@ export default function({address, cx}) {
 					autoHideDuration={6000}
 					onClose={handleClose}
 					autoHideDuration={400}
-					message='Đã sao chép'
+					message='Copied'
 				/>
 			</>
 		);
