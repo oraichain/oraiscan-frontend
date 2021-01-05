@@ -52,20 +52,20 @@ export const getFastestNode = (apiArr = []) => {
   return Promise.race(promiseArr);
 };
 
-export const getValidator = (validatorInfo, cancelToken) => {
-  return axios(`${consts.API_BASE}${consts.API.VALIDATOR}/${validatorInfo}`, cancelToken);
+export const getValidator = async (validatorInfo, cancelToken) => {
+  return await axios(`${consts.API_BASE}${consts.API.VALIDATOR}/${validatorInfo}`, cancelToken);
 };
 
-export const getDelegators = (validatorInfo, page, cancelToken) => {
-  return axios(`${consts.API_BASE}${consts.API.DELEGATOR}/${validatorInfo}?page_id=${page}&limit=8`, cancelToken);
+export const getDelegators = async (validatorInfo, page, cancelToken) => {
+  return await axios(`${consts.API_BASE}${consts.API.DELEGATOR}/${validatorInfo}?page_id=${page}&limit=8`, cancelToken);
 };
 
-export const getProposedBlocks = (validatorInfo, page, cancelToken) => {
-  return axios(`${consts.API_BASE}${consts.API.PROPOSED_BLOCKS}/${validatorInfo}?limit=8&page_id=${page}`, cancelToken);
+export const getProposedBlocks = async (validatorInfo, page, cancelToken) => {
+  return await axios(`${consts.API_BASE}${consts.API.PROPOSED_BLOCKS}/${validatorInfo}?limit=8&page_id=${page}`, cancelToken);
 };
 
-export const getMissedBlocks = (validatorInfo, cancelToken) => {
-  return axios(`${consts.API_BASE}${consts.API.MISSED_BLOCKS}/${validatorInfo}`, cancelToken);
+export const getMissedBlocks = async (validatorInfo, cancelToken) => {
+  return await axios(`${consts.API_BASE}${consts.API.MISSED_BLOCKS}/${validatorInfo}`, cancelToken);
 };
 
 export const getListTxs = cancelToken => {
