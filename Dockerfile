@@ -1,6 +1,6 @@
 FROM node:10.20.1-alpine3.9
 
-WORKDIR /app/src
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
