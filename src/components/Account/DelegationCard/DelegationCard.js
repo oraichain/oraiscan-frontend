@@ -15,10 +15,6 @@ const DelegationCard = memo(({account = 0, minHeight = 222}) => {
 		path: path,
 	});
 
-	if (!data) {
-		return <Skeleton variant='rect' animation='wave' height={minHeight} />;
-	}
-
 	const totalPages = 1;
 	const currentPage = 1;
 	const onPageChange = page => {};
