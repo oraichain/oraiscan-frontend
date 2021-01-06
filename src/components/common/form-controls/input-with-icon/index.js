@@ -4,7 +4,7 @@ import {TextField, InputAdornment, IconButton} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import cn from "classnames/bind";
 
-import {ReactComponent as UploadIcon} from "src/assets/icons/upload.svg";
+import {ReactComponent as OpenInNewTab} from "src/assets/icons/open-new-tab.svg";
 
 import styles from "./index.scss";
 
@@ -12,7 +12,7 @@ const cx = cn.bind(styles);
 
 function FormInput(props) {
 	const {control} = useFormContext();
-	const {name, placeholder, label, required, errorobj} = props;
+	const {name, placeholder, label, required, errorobj, onClickEndAdornment} = props;
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
@@ -45,7 +45,7 @@ function FormInput(props) {
 				endAdornment: (
 					<InputAdornment position='start'>
 						<IconButton>
-							<UploadIcon />
+							<OpenInNewTab onClick={onClickEndAdornment} />
 						</IconButton>
 					</InputAdornment>
 				),

@@ -62,7 +62,7 @@ export default function(props) {
 	return (
 		<div className={cx("SearchAppBar-root")}>
 			<Toolbar className={cx("toolbar")}>
-				<NavLink to='/'>
+				<NavLink to='/' className={cx("toolbar-logo")}>
 					<img src={logo} alt={"logo"} />
 					<span className={cx("name")}>Oraiscan</span>
 				</NavLink>
@@ -93,10 +93,8 @@ export default function(props) {
 							return type === "wallet" ? (
 								<Wallet data={item} key={"nav-wallet-" + index} />
 							) : (
-								<a href={path} key={"nav-link-" + index}>
-									<ListItem button>
-										<ListItemText primary={title} />
-									</ListItem>
+								<a href={path} key={"nav-link-" + index} className={cx("dropdown", "dropdown-link")}>
+									{title}
 								</a>
 							);
 						})}
