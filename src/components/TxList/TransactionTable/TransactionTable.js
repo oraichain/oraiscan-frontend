@@ -23,7 +23,13 @@ const TransactionTable = memo(({data = []}) => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "350px"}, // Tx hash header cell
+		{width: "160px", minWidth: "160px"}, // TxHash
+		{minWidth: "100px"}, // Type
+		{width: "160px", minWidth: "160px"}, // Result
+		{minWidth: "180px"}, // Amount
+		{minWidth: "170px"}, // Fee
+		{minWidth: "120px"}, // Height
+		{width: "150px", minWidth: "150px"}, // Time
 	];
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
