@@ -22,9 +22,10 @@ spec:
       containers:
       - name: oraiscan-frontend
         image: thao1996/oraiscan-frontend:603cded040a76bcf9dc588feee48d4630eb45158
+        command: ["sh", "-c", "cp /app/.env /app/"]
         volumeMounts:
           - name: oraiscan-frontend-volume
-            mountPath: /app/.env
+            mountPath: /app
             subPath: .env
         ports:
         - containerPort: 5000
