@@ -38,9 +38,20 @@ export const formatTime = timeStr => {
 	date.setUTCHours(parseInt(timeStr.slice(11, 13)));
 	date.setUTCMinutes(parseInt(timeStr.slice(14, 16)));
 	date.setUTCSeconds(parseInt(timeStr.slice(17, 19)));
-	let period = (now.getTime() - date.getTime()) / 1000; // unit: second
-	if (period < 60) return `${floor(period)}s ago`;
-	else return `${floor(period / 60)}m ago`;
+	let seconds = (now.getTime() - date.getTime()) / 1000; // unit: second
+	if (seconds < 60) return `${floor(seconds)}s ago`;
+	else {
+		let minutes = seconds / 60;
+		if (minutes < 60) return `${floor(minutes)}m ago`;
+		else {
+			let hours = minutes / 60;
+			if (hours < 24) return `${floor(hours)}h ago`;
+			else {
+				let days = hours / 24;
+				return `${floor(days)}d ago`;
+			}
+		}
+	}
 };
 
 export const formatInteger = (value, thousandsSeparator = ",") => {

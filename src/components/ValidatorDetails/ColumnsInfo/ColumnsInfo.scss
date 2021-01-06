@@ -1,0 +1,17 @@
+@import "src/styles/utils";
+
+.main-container {
+	display: flex;
+	flex-flow: row;
+}
+
+.title {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.row {
+	&:not(:first-child) {
+		margin-top: 15px;
+	}
+}
