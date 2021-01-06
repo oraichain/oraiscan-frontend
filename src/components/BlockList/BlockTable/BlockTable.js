@@ -16,11 +16,11 @@ const BlockTable = memo(({data = []}) => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [heightHeaderCell, parentHashHeaderCell, nodeHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "180px"}, // Height
-		{minWidth: "180px"}, // Parent Hash
+		{minWidth: "50px"}, // Height
+		{width: "200px", minWidth: "200px"}, // Parent Hash
 		{minWidth: "180px"}, // Node
-		{width: "100px"}, // Txs
-		{width: "150px"}, // Time
+		{width: "110px", minWidth: "110px"}, // Txs
+		{width: "150px", minWidth: "150px"}, // Time
 	];
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {

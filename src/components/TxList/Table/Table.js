@@ -32,7 +32,6 @@ export default function(props) {
 		updateQuery: updateQueries.TX_LIST,
 	});
 	const previousIsFront = usePrevious(state.isFront);
-	//  copied from BlockList
 	//========================
 	useEffect(() => {
 		if (empty(state.index)) return;

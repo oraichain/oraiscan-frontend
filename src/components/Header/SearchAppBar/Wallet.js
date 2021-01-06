@@ -16,8 +16,9 @@ import {initWallet} from "src/store/modules/wallet";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import {ReactComponent as CopyIcon} from "src/assets/icons/copy.svg";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
+import {ReactComponent as WalletIcon} from "src/assets/icons/wallet.svg";
+import {ReactComponent as CopyIcon} from "src/assets/common/copy_ic.svg";
 
 import Dialog from "./Dialog";
 import styles from "./SearchAppBar.scss";
@@ -57,10 +58,8 @@ export default function({data}) {
 
 	if (title === "") {
 		return (
-			<a href={path} key={title} target='_blank' onClick={handleClick || handleClickConnectWallet}>
-				<ListItem button>
-					<ListItemText primary={"Connect Wallet"} />
-				</ListItem>
+			<a href={path} key={title} target='_blank' onClick={handleClick || handleClickConnectWallet} className={cx("dropdown", "dropdown-link")}>
+				Connect Wallet
 			</a>
 		);
 	}
@@ -82,18 +81,14 @@ export default function({data}) {
 			</a>
 			<div className={cx("dropdown-content")}>
 				<div className={cx("orai-profile")}>
-					<div className={cx("wallet-name")}>Address: {account}</div>
-					<div className={cx("wallet-link")}>
-						<a
-							href='/'
-							onClick={e => {
-								e.preventDefault();
-								history.push(`/account/${title}`);
-							}}>
-							{title}
-						</a>
-						<span
-							className={cx("wallet-copy")}
+					<div className={cx("wallet-name")}>
+						{" "}
+						<WalletIcon /> <span className={cx("wallet-account")}> {account} </span>{" "}
+					</div>
+					<div className={cx("wallet-address-title")}>
+						{" "}
+						Address{" "}
+						<CopyIcon
 							onClick={() => {
 								copy(title);
 								dispatch(
@@ -103,25 +98,19 @@ export default function({data}) {
 										autoHideDuration: 1500,
 									})
 								);
-							}}>
-							<CopyIcon />
-						</span>
-						<span className={cx("wallet-share")} onClick={() => history.push(`/account/${title}`)}>
-							<ShareIcon />
-						</span>
+							}}
+						/>{" "}
 					</div>
-					<div className={cx("wallet-link")}>
-						<div className={cx("wallet-amount")}> Balance: {formatOrai(amount || 0)} ORAI </div>
-					</div>
-					<div className={cx("orai-btn-group")}>
-						<div className={cx("btn-orai", "change-wallet")} onClick={() => setShowTransactionModal(true)}>
+					<div className={cx("wallet-address-detail")}>{title}</div>
+
+					<div className={cx("wallet-address-title")}> Balance </div>
+					<div className={cx("wallet-address-detail")}>{formatOrai(amount || 0)} ORAI</div>
+
+					<div className={cx("btn-action-group")}>
+						<div className={cx("btn-send")} onClick={() => setShowTransactionModal(true)}>
 							Send
 						</div>
-						<div className={cx("btn-orai", "change-wallet")} onClick={handleClickConnectWallet}>
-							{" "}
-							Change Wallet{" "}
-						</div>
-						<div className={cx("btn-orai", "close-wallet")} onClick={() => dispatch(initWallet({}))}>
+						<div className={cx("btn-close")} onClick={() => dispatch(initWallet({}))}>
 							Close Wallet
 						</div>
 					</div>
