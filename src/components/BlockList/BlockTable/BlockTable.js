@@ -7,8 +7,9 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
 
-const BlockTable = memo(({data = []}) => {
-	const cx = classNames.bind(styles);
+const cx = classNames.bind(styles);
+
+export const getHeaderRow = () => {
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
 	const parentHashHeaderCell = <div className={cx("header-cell", "align-left")}>Parent Hash</div>;
 	const nodeHeaderCell = <div className={cx("header-cell", "align-left")}>Node</div>;
@@ -22,6 +23,13 @@ const BlockTable = memo(({data = []}) => {
 		{width: "110px", minWidth: "110px"}, // Txs
 		{width: "150px", minWidth: "150px"}, // Time
 	];
+	return {
+		headerCells,
+		headerCellStyles,
+	};
+};
+
+const BlockTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -68,12 +76,10 @@ const BlockTable = memo(({data = []}) => {
 		});
 	};
 
+	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
-	// const dataRows = useMemo(() => {
-	// 	setTimeout(getDataRows(data), 3000);
-	// }, [data]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
+	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
 export default BlockTable;

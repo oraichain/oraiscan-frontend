@@ -12,8 +12,9 @@ import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 
-const TransactionTable = memo(({data = []}) => {
-	const cx = classNames.bind(styles);
+const cx = classNames.bind(styles);
+
+export const getHeaderRow = () => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
@@ -31,6 +32,13 @@ const TransactionTable = memo(({data = []}) => {
 		{minWidth: "120px"}, // Height
 		{width: "150px", minWidth: "150px"}, // Time
 	];
+	return {
+		headerCells,
+		headerCellStyles,
+	};
+};
+
+const TransactionTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -111,12 +119,10 @@ const TransactionTable = memo(({data = []}) => {
 		});
 	};
 
+	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
-	// const dataRows = useMemo(() => {
-	// 	setTimeout(getDataRows(data), 3000);
-	// }, [data]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
+	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
 export default TransactionTable;

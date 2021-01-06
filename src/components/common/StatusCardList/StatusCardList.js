@@ -9,7 +9,7 @@ const cx = cn.bind(styles);
 const StatusCardList = memo(({data = [], minHeight = "100px"}) => (
 	<Grid container spacing={2} className={cx("status-card-list")}>
 		{data.map((item, index) => (
-			<Grid item md={3} sm={6} xs={12}>
+			<Grid item md={3} sm={6} xs={12} key={"status-card-item-" + index}>
 				<StatusCard icon={item.icon} label={item.label} key={index} value={item.value} minHeight={minHeight} />
 			</Grid>
 		))}
