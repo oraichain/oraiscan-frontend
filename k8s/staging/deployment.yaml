@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:fc11c458902809ffb824de11424fb61e3480cf55
+        image: thao1996/oraiscan-frontend:b055c783cc219579015bc579267a0ded0d311eaa
         volumeMounts:
           - name: oraiscan-frontend-volume
             mountPath: /app
