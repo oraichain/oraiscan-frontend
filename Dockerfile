@@ -12,3 +12,4 @@ RUN npm install -g serve
 EXPOSE 5000
 
 CMD [ "serve", "-s","-l","tcp://0.0.0.0", "build" ]
+ENTRYPOINT ["bash"]
