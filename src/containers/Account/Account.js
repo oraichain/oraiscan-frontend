@@ -5,6 +5,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
+import {useDispatch, useSelector} from "react-redux";
+import copy from "copy-to-clipboard";
+
+import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -19,6 +23,8 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 import questionIcon from "src/assets/common/question_ic.svg";
 
 const Account = props => {
+	const dispatch = useDispatch();
+
 	const addressCardMinHeight = 220;
 	const coinsCardMinHeight = 220;
 
@@ -34,15 +40,15 @@ const Account = props => {
 		path: coinsPath,
 	});
 
-	const contentRef = useRef(null);
-	const [open, setOpen] = useState(false);
-
-	const handleClose = (event, reason) => {
-		if (reason === "clickaway") {
-			return;
-		}
-
-		setOpen(false);
+	const handleCopy = address => {
+		copy(address);
+		dispatch(
+			showAlert({
+				show: true,
+				message: "Copied",
+				autoHideDuration: 1500,
+			})
+		);
 	};
 
 	const addresses = [
@@ -51,7 +57,7 @@ const Account = props => {
 			icon: copyIcon,
 			value: addressData?.address ?? "-",
 			onClick: function() {
-				copyToClipboard(this.value);
+				handleCopy(this.value);
 			},
 		},
 		{
@@ -59,21 +65,10 @@ const Account = props => {
 			icon: questionIcon,
 			value: addressData?.address ?? "-",
 			onClick: function() {
-				copyToClipboard(this.value);
+				handleCopy(this.value);
 			},
 		},
 	];
-
-	const copyToClipboard = content => {
-		if (contentRef && contentRef?.current) {
-			const contentElement = contentRef.current;
-			contentElement.value = content;
-			contentElement.select();
-			contentElement.setSelectionRange(0, 99999); /* For mobile devices */
-			document.execCommand("copy");
-			setOpen(true);
-		}
-	};
 
 	return (
 		<Container fixed className={cx("account")}>
@@ -119,19 +114,6 @@ const Account = props => {
 					<TransactionCard account={account} />
 				</Grid>
 			</Grid>
-
-			<input type='text' className={cx("content-input")} ref={contentRef} />
-			<Snackbar
-				anchorOrigin={{
-					vertical: "top",
-					horizontal: "center",
-				}}
-				open={open}
-				autoHideDuration={6000}
-				onClose={handleClose}
-				autoHideDuration={400}
-				message='Copied'
-			/>
 		</Container>
 	);
 };

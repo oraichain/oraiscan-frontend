@@ -10,9 +10,11 @@ import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
-import _, {add} from "lodash";
+import _, {add, constant} from "lodash";
 import {useDispatch} from "react-redux";
+import Loading from "react-fullscreen-loading";
 
+import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
@@ -55,6 +57,7 @@ const reduceAddress = address => {
 
 export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
 	const [fee, setFee] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -74,7 +77,8 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const methods = useForm({
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
-	const {handleSubmit, errors, register, setValue} = methods;
+
+	const {handleSubmit, errors, register, setValue, getValues} = methods;
 
 	const onSubmit = data => {
 		const myKeystation = new Keystation({
@@ -142,7 +146,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						autoHideDuration: 3000,
 					})
 				);
-				history.push(`/txs/${e.data.txhash}`);
+				setIsLoading(true);
+				setTimeout(() => {
+					history.push(`/txs/${e.data.txhash}`);
+					setIsLoading(false);
+				}, 5000);
 				handleClose();
 			}
 		};
@@ -155,6 +163,15 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
 		amount && setValue("sendAmount", (amount * rate) / 1000000);
+	};
+
+	const handleClickEndAdornment = () => {
+		const form = getValues();
+		if (form.recipientAddress) {
+			const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
+			var win = window.open(url, "_blank");
+			win.focus();
+		}
 	};
 
 	const renderTab = id => {
@@ -175,7 +192,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}> Add Recipient </div>
-								<InputTextWithIcon name='recipientAddress' required errorobj={errors} />
+								<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 							</Grid>
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label", "label-right")}>
@@ -223,7 +240,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}> Transaction </div>
-								<TextArea name='freeMessage' placeholder='Insert memo here' rows={23} required errorobj={errors} />
+								<TextArea name='freeMessage' placeholder='Enter unsigned transaction json' rows={23} required errorobj={errors} />
 							</Grid>
 						</Grid>
 					</form>
@@ -234,6 +251,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	return (
 		<div>
+			{isLoading && <Loading loading background='rgba(0,0,0,0.5)' loaderColor='#3498db' />}
 			<Dialog open={show} onClose={handleClose} aria-labelledby='form-dialog-title'>
 				<DialogTitle className={cx("form-dialog-title")} onClick={handleClose}>
 					{" "}
