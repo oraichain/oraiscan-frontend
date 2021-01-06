@@ -15,7 +15,6 @@ const NumberFormatCustom = ({onChange, value, ...rest}) => (
 function FormInput(props) {
 	const {control} = useFormContext();
 	const {name, placeholder, label, required, errorobj} = props;
-	console.log(props);
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {

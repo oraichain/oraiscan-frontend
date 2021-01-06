@@ -24,7 +24,7 @@
 
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: unset;
 
 		@include media("<large") {
 			width: 98%;
@@ -36,11 +36,10 @@
 			padding: 0 10px;
 		}
 
-		a {
+		.toolbar-logo {
 			display: flex;
 			align-items: center;
-			height: 34px;
-			width: auto;
+			width: 120px;
 			@include media("<medium") {
 				height: 27px;
 				margin-left: 5px;
@@ -54,7 +53,7 @@
 			}
 			img {
 				height: 100%;
-				width: auto;
+				width: 35px;
 				object-fit: contain;
 			}
 		}
@@ -63,11 +62,10 @@
 
 .select-wrapper {
 	display: flex;
-	align-items: center;
 	.nav-display-flex {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		padding: 0px;
 		@include media("<medium") {
 			display: none;
 		}
@@ -82,6 +80,14 @@
 		.dropdown {
 			color: white;
 			position: relative;
+			display: flex;
+			align-items: center;
+			font-size: 1rem;
+			padding-left: 8px;
+			padding-right: 8px;
+			&:last-child {
+				padding-right: 0px;
+			}
 			.a {
 				text-decoration: none;
 				color: black;
@@ -99,7 +105,7 @@
 				min-width: 160px;
 				box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 				z-index: 1;
-				padding: 10px 0;
+				top: 64px;
 				a {
 					text-decoration: none;
 					color: black;
@@ -112,7 +118,20 @@
 				a:hover {
 					background-color: #dad6d6;
 				}
+
+				.link-text {
+					display: flex;
+					align-items: center;
+					height: 34px;
+					width: auto;
+				}
 			}
+		}
+
+		.dropdown-link {
+			font-weight: 400;
+			height: 100%;
+			cursor: pointer;
 		}
 
 		.dropdown:hover {
@@ -351,7 +370,7 @@
 }
 
 .hide {
-	display: none !important;
+	display: none;
 }
 
 .net-icon {
@@ -370,12 +389,40 @@
 //}
 
 .orai-profile {
-	padding: 15px;
+	width: 528px;
+	padding-left: 30px;
+	padding-top: 20px;
+	padding-right: 20px;
 	.wallet-name {
 		font-weight: bold;
 		line-height: 21px;
 		color: #727286;
-		padding-left: 15px;
+		svg {
+			vertical-align: middle;
+			display: inline-block;
+		}
+		.wallet-account {
+			font-family: Roboto;
+			font-weight: 500;
+			font-size: 20px;
+			color: #1b57f0;
+			padding-left: 10px;
+			vertical-align: middle;
+			display: inline-block;
+		}
+	}
+	.wallet-address-title {
+		font-weight: 500;
+		font-size: 18px;
+		color: #000;
+		margin-top: 15px;
+		svg {
+			cursor: pointer;
+		}
+	}
+	.wallet-address-detail {
+		font-size: 16px;
+		color: #000;
 	}
 	.wallet-link {
 		margin-top: 10px;
@@ -431,4 +478,45 @@
 			background-color: #3247e6;
 		}
 	}
+}
+
+.btn-action-group {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding-bottom: 20px;
+	padding-top: 15px;
+	button {
+		width: 50%;
+	}
+}
+
+.btn-send {
+	background-color: #008bd9;
+	border-radius: 6px;
+	text-transform: none;
+	font-size: 16px;
+	span:first-child {
+		color: #ffffff;
+	}
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.btn-close {
+	color: #008bd9;
+	border: 1px solid #008bd9;
+	border-radius: 6px;
+	padding: 11px 0px;
+	text-transform: none;
+	font-size: 16px;
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 15px;
+	cursor: pointer;
 }
