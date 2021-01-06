@@ -241,9 +241,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				</DialogTitle>
 				<DialogContent>
 					<div className={cx("tab-wrapper")}>
-						{TABS.map(({id, name}) => {
+						{TABS.map(({id, name}, index) => {
 							return (
-								<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)}>
+								<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
 									<p> {name} </p>
 								</button>
 							);
