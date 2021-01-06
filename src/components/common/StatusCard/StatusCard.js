@@ -7,7 +7,7 @@ const cx = cn.bind(styles);
 const StatusCard = memo(({icon, label, value, minHeight}) => (
 	<div className={cx("status-card")} style={{minHeight: minHeight + "px"}}>
 		<div className={cx("status-card-header")}>
-			<img src={icon} className={cx("status-card-icon")} />
+			<img src={icon} className={cx("status-card-icon")} alt='' />
 			<span className={cx("status-card-label")}>{label}</span>
 		</div>
 		<div className={cx("status-card-content")}>
