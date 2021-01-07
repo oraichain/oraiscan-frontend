@@ -13,7 +13,8 @@ const ButtonGroup = memo(({data = [], rootClassName}) => {
 					className={cx("button", {active: item.active})}
 					onClick={() => {
 						item.onClick(index);
-					}}>
+					}}
+					key={"button-" + index}>
 					{item.label}
 				</button>
 			))}

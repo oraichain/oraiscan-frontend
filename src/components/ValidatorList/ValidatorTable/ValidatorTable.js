@@ -2,9 +2,8 @@
 import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
-import {formatPercentage, formatInteger, formatFloat} from "src/helpers/helper";
+import {formatPercentage, formatInteger} from "src/helpers/helper";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ValidatorTable.scss";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
@@ -81,7 +80,7 @@ const ValidatorTable = memo(({data = []}) => {
 				onClick={() => {
 					sortBy(sortFields.VALIDATOR);
 				}}>
-				<img src={getSortIcon(sortFields.VALIDATOR)} />
+				<img src={getSortIcon(sortFields.VALIDATOR)} alt='' />
 			</button>
 		</div>
 	);
@@ -94,7 +93,7 @@ const ValidatorTable = memo(({data = []}) => {
 				onClick={() => {
 					sortBy(sortFields.VOTING_POWER);
 				}}>
-				<img src={getSortIcon(sortFields.VOTING_POWER)} />
+				<img src={getSortIcon(sortFields.VOTING_POWER)} alt='' />
 			</button>
 		</div>
 	);
@@ -108,7 +107,7 @@ const ValidatorTable = memo(({data = []}) => {
 				onClick={() => {
 					sortBy(sortFields.UPTIME);
 				}}>
-				<img src={getSortIcon(sortFields.UPTIME)} />
+				<img src={getSortIcon(sortFields.UPTIME)} alt='' />
 			</button>
 		</div>
 	);
@@ -121,7 +120,7 @@ const ValidatorTable = memo(({data = []}) => {
 				onClick={() => {
 					sortBy(sortFields.COMMISSION);
 				}}>
-				<img src={getSortIcon(sortFields.COMMISSION)} />
+				<img src={getSortIcon(sortFields.COMMISSION)} alt='' />
 			</button>
 		</div>
 	);
@@ -255,7 +254,7 @@ const ValidatorTable = memo(({data = []}) => {
 
 	const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
 	const dataRows = useMemo(() => getDataRows(sortedData), [sortedData]);
-	return <ThemedTable theme={tableThemes.LIGHT} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
+	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerCellStyles} headerCells={headerCells} dataRows={dataRows} />;
 });
 
 export default ValidatorTable;
