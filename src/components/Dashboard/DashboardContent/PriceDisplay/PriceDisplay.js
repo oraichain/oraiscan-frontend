@@ -37,7 +37,7 @@ export default function(props) {
 					<div className={cx("BlockTime")}>
 						<img src={blocktimeSVG} alt={"BT"} />
 						<p>
-							Block time <span>{status?.blockTime}ms</span>
+							Block time <span>{status?.block_time?.toFixed(2)}ms</span>
 						</p>
 					</div>
 				</div>
