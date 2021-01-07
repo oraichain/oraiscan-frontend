@@ -10,6 +10,7 @@ const ButtonGroup = memo(({data = [], rootClassName}) => {
 		<div className={cx("button-group", rootClassName)}>
 			{data.map((item, index) => (
 				<button
+					key={"button-" + index}
 					className={cx("button", {active: item.active})}
 					onClick={() => {
 						item.onClick(index);
