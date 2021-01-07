@@ -94,7 +94,7 @@ const Account = props => {
 							delegated={coinsData.delegated}
 							unbonding={coinsData.unbonding}
 							reward={coinsData.reward}
-							denom={coinsData.denom}
+							denom={consts.DENOM}
 							minHeight={coinsCardMinHeight + "px"}
 						/>
 					) : (

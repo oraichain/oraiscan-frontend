@@ -34,7 +34,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 					<div className={cx("unit-price")}>
 						${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
 					</div>
-					<div className={cx("total-price")}>{formatFloat(totalPrice, 2)}</div>
+					<div className={cx("total-price")}>${formatFloat(totalPrice, 2)}</div>
 				</Grid>
 				<Grid container item lg={7} md={12}>
 					<Grid item className={cx("donut-chart")} md={5} xs={12}>
@@ -46,12 +46,12 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 							innerRadius={0.5}
 							legend={false}
 							data={[
+								{value: parseFloat(availablePercent), label: ""},
 								{value: parseFloat(delegatedPercent), label: ""},
 								{value: parseFloat(unbondingPercent), label: ""},
 								{value: parseFloat(rewardPercent), label: ""},
-								{value: parseFloat(availablePercent), label: ""},
 							]}
-							colors={[delegatedColor, unbondingColor, rewardColor, availableColor]}
+							colors={[availableColor, delegatedColor, unbondingColor, rewardColor]}
 							strokeColor={false}
 						/>
 					</Grid>

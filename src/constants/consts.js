@@ -17,6 +17,7 @@ export default Object.freeze({
 	// 	GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
 	// },
 	COIN_ID: "oraichain-token",
+	DENOM: "orai",
 	TABLE: {
 		PAGE_SIZE: 20,
 	},
