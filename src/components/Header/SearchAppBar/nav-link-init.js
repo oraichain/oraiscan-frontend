@@ -19,5 +19,5 @@ export const navLinkInit = [
 		],
 	},
 	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
-	{title: "Connect Wallet", path: null, type: "wallet"},
+	{title: "Connect Wallet", path: null, type: "wallet", init: true},
 ];
