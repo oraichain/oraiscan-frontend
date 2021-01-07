@@ -18,14 +18,14 @@ import blocktimeSVG from "src/assets/dashboard/blocktime_ic.svg";
 const cx = cn.bind(styles);
 
 export default function(props) {
-	const status = useSelector(state => state.blockchain.status);
-	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
+	const data = useSelector(state => state.blockchain.status);
+	// const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
 
-	const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
+	// const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
 
-	React.useEffect(() => {
-		requestFetch();
-	}, [watching, requestFetch]);
+	// React.useEffect(() => {
+	// 	requestFetch();
+	// }, [watching, requestFetch]);
 
 	// React.useEffect(() => {
 	// 	const cancelToken = axios.CancelToken;
@@ -42,24 +42,24 @@ export default function(props) {
 			<div className={cx("DetailDisplay")}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Last block height</div>
-					<div className={cx("content")}>{data.data !== null ? data.data.latest_block_height.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</div>
+					<div className={cx("content")}>{data !== null ? data?.latest_block_height?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ""}</div>
 					<div className={cx("footer")}>
-						{/* {data.data !== null ? moment(data.data.timestamp).format('MMM Do YYYY h:mm:ss a') : ""} */}
-						{data.data !== null ? setAgoTime(data.data.timestamp) : ""}
-						{/* {data.data !== null ? moment().diff(moment(data.data.timestamp), "seconds") + " seconds ago" : ""} */}
+						{/* {data !== null ? moment(data?.timestamp).format('MMM Do YYYY h:mm:ss a') : ""} */}
+						{data !== null ? setAgoTime(data?.timestamp) : ""}
+						{/* {data !== null ? moment().diff(moment(data?.timestamp), "seconds") + " seconds ago" : ""} */}
 					</div>
 				</div>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Average Blocktime (All)</div>
-					<div className={cx("content")}>{data.data !== null ? data.data.block_time.toFixed(2) : ""}</div>
+					<div className={cx("content")}>{data !== null ? data?.block_time?.toFixed(2) : ""}</div>
 					<div className={cx("footer")}>seconds</div>
 				</div>
 				{/* <div className={cx("card")}>
 					<div className={cx("title")}>Active Validators</div>
 					<div className={cx("content")}>
-						{data.data !== null ? data.data.total_validator_num : ""}
+						{data !== null ? data?.total_validator_num : ""}
 					</div>
-					<div className={cx("footer")}>out of {data.data !== null ? data.data.total_validator_num : ""} validators</div>
+					<div className={cx("footer")}>out of {data !== null ? data?.total_validator_num : ""} validators</div>
 				</div> */}
 				{/* <div className={cx("card")}>
 				<div className={cx("title")}>Online voting power</div>
@@ -70,8 +70,8 @@ export default function(props) {
 			<div className={cx("DetailDisplay", "test")}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Active Validators</div>
-					<div className={cx("content")}>{data.data !== null ? data.data.total_validator_num : ""}</div>
-					<div className={cx("footer")}>out of {data.data !== null ? data.data.total_validator_num : ""} validators</div>
+					<div className={cx("content")}>{data !== null ? data?.total_validator_num : ""}</div>
+					<div className={cx("footer")}>out of {data !== null ? data?.total_validator_num : ""} validators</div>
 				</div>
 			</div>
 		</div>

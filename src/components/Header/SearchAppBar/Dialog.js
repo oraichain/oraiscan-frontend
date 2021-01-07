@@ -231,11 +231,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}>
 									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {reduceAddress(address)} </div>
+									<div className={cx("value")}> {address} </div>
 								</div>
 								<div className={cx("right")}>
-									<div className={cx("title")}> Balance </div>
-									<div className={cx("value")}>{formatOrai(amount || 0)} ORAI</div>
+									<div className={cx("title", "title-right")}> Balance </div>
+									<div className={cx("value")}> {formatOrai(amount || 0)} ORAI </div>
 								</div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>

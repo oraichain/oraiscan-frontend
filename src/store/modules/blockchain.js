@@ -131,17 +131,15 @@ const handlers = {
 		type: GET_STATUS,
 		onSuccess: (state, action) => {
 			const {data} = action.payload;
-			// console.log("status>>", data);
 			return {
 				...state,
 				status: {
 					...state.status,
-					blockTime: Math.round(data.block_time * 1000),
+					...data,
 				},
 			};
 		},
 		onFailure: state => {
-			//  TODO : retry on fail
 			return {...state};
 		},
 	}),
