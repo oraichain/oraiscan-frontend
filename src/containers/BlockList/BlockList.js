@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
-import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
 import {calculateBefore} from "src/helpers/helper";
@@ -12,8 +11,9 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import BlockTable from "src/components/BlockList/BlockTable";
+import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import styles from "./BlockList.scss";
-import ShowSkeleton from "../../components/BlockList/BlockTable/showSkeleton";
+
 const BlockList = props => {
 	const cx = cn.bind(styles);
 
@@ -86,8 +86,7 @@ const BlockList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Blocks"} />
 				</TitleWrapper>
-				{/* <Skeleton variant='rect' animation='wave' height={400} /> */}
-				<ShowSkeleton />
+				<BlockTableSkeleton />
 			</Container>
 		);
 	}
