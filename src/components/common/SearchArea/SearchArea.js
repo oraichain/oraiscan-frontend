@@ -88,6 +88,7 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 		else if (input.substring(0, 3).toLowerCase() === "bnb" && input.length === 42) return "Account";
 		else if (input.length === 64) return "Transaction";
 		else if (stringNumCheck(input.split("-")[1]) && input.split("-")[0].length === 40) return "Order Id";
+		else if (input.length === 43) return "Account";
 		return false;
 	}, [input]);
 

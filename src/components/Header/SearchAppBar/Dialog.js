@@ -12,8 +12,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import {useDispatch} from "react-redux";
-import Loading from "react-fullscreen-loading";
 
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
@@ -150,7 +150,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				setTimeout(() => {
 					history.push(`/txs/${e.data.txhash}`);
 					setIsLoading(false);
-				}, 5000);
+				}, 7000);
 				handleClose();
 			}
 		};
@@ -251,7 +251,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	return (
 		<div>
-			{isLoading && <Loading loading background='rgba(0,0,0,0.5)' loaderColor='#3498db' />}
+			{isLoading && <LoadingOverlay />}
 			<Dialog open={show} onClose={handleClose} aria-labelledby='form-dialog-title'>
 				<DialogTitle className={cx("form-dialog-title")} onClick={handleClose}>
 					{" "}
