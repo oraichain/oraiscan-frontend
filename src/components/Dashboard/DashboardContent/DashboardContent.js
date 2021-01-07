@@ -51,14 +51,14 @@ const cardData = Object.freeze([
 ]);
 
 export default function(props) {
-	const status = useSelector(state => state.blockchain.status);
-	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
+	// const status = useSelector(state => state.blockchain.status);
+	// const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.STATUS}`, "get");
 
-	const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
+	// const [watching] = useTimer(true, consts.NUM.DETAIL_REAL_TIME_DELAY_MS);
 
-	React.useEffect(() => {
-		requestFetch();
-	}, [watching, requestFetch]);
+	// React.useEffect(() => {
+	// 	requestFetch();
+	// }, [watching, requestFetch]);
 	// console.log(data);
 	return (
 		<div className={cx("DashboardContent-wrapper")}>
