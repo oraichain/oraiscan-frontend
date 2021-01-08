@@ -13,9 +13,9 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import BlockTable from "src/components/BlockList/BlockTable";
+import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/BlockList/BlockCardList";
 import BlockCardListSkeleton from "src/components/BlockList/BlockCardList/BlockCardListSkeleton";
-import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import styles from "./BlockList.scss";
 
 const BlockList = props => {

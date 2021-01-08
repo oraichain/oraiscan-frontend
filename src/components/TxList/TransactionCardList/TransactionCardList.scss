@@ -1,0 +1,131 @@
+@import "src/styles/utils";
+
+.transaction-card-list {
+	&-item {
+		padding: 15px;
+		margin-bottom: 15px;
+		background-color: #ffffff;
+		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+
+		table {
+			width: 100%;
+			tr {
+				td:nth-child(1) {
+					text-align: left;
+				}
+				td:nth-child(2) {
+					text-align: right;
+				}
+
+				&:nth-child(1) {
+					td {
+						padding-bottom: 10px;
+					}
+				}
+
+				&:nth-child(2),
+				&:nth-child(3),
+				&:nth-child(4) {
+					td {
+						padding-bottom: 15px;
+					}
+				}
+			}
+		}
+
+		.item-title {
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-text {
+			color: #181818;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-link {
+			color: #1b57f0;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.type-data-cell {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+
+			.first-message-type {
+				padding: 6px 10px;
+				margin-right: 5px;
+				border: 1px solid #5f51ff;
+				box-sizing: border-box;
+				border-radius: 4px;
+				color: #5f51ff;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 12px;
+				line-height: 150%;
+			}
+
+			.number-of-message {
+				color: #5f51ff;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 12px;
+				line-height: 150%;
+			}
+		}
+
+		.result-data-cell {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+
+			img {
+				margin-right: 9px;
+			}
+		}
+
+		.amount-data-cell {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+
+			p {
+				margin-right: 8px;
+			}
+
+			span:nth-child(1) {
+				padding-right: 4px;
+			}
+
+			span:nth-child(2) {
+				text-transform: uppercase;
+			}
+		}
+
+		.fee-data-cell {
+			span:nth-child(1) {
+				padding-right: 4px;
+			}
+
+			span:nth-child(2) {
+				text-transform: uppercase;
+			}
+		}
+	}
+}
