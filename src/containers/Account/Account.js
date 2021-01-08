@@ -3,7 +3,7 @@ import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Snackbar from "@material-ui/core/Snackbar";
 import Grid from "@material-ui/core/Grid";
-import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "react-loading-skeleton";
 import cn from "classnames/bind";
 import {useDispatch, useSelector} from "react-redux";
 import copy from "copy-to-clipboard";
@@ -70,6 +70,21 @@ const Account = props => {
 		},
 	];
 
+	const skeletonAddresses = [
+		{
+			title: "Address",
+			icon: copyIcon,
+			value: <Skeleton />,
+			onClick: function() {},
+		},
+		{
+			title: "Reward Address",
+			icon: questionIcon,
+			value: <Skeleton />,
+			onClick: function() {},
+		},
+	];
+
 	return (
 		<Container fixed className={cx("account")}>
 			<TitleWrapper>
@@ -81,7 +96,7 @@ const Account = props => {
 					{addressData ? (
 						<AddressCard headerTitle='QR Code' addresses={addresses} minHeight={addressCardMinHeight} />
 					) : (
-						<Skeleton variant='rect' animation='wave' height={addressCardMinHeight} />
+						<AddressCard headerTitle='QR Code' qrValue='Loading' addresses={skeletonAddresses} minHeight={addressCardMinHeight} />
 					)}
 				</Grid>
 

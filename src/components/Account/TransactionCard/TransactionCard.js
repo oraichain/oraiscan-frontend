@@ -4,6 +4,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import TransactionTable from "src/components/TxList/TransactionTable";
+import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.scss";
@@ -17,7 +18,7 @@ const TransactionCard = memo(({account = 0, minHeight = 222}) => {
 	});
 
 	if (!data || typeof data === "string") {
-		return <Skeleton variant='rect' animation='wave' height={minHeight + "px"} />;
+		return <TransactionTableSkeleton />;
 	}
 
 	const totalPages = data?.page?.total_page ?? 0;
