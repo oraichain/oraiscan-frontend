@@ -99,7 +99,7 @@ const TransactionTable = memo(({data = []}) => {
 				) : (
 					<div className={cx("fee-data-cell", "align-right")}>
 						<span>{formatOrai(item.fee.amount[0].amount)}</span>
-						<span className={cx("uppercase")}>{item.fee.amount[0].denom}</span>
+						<span>{item.fee.amount[0].denom}</span>
 					</div>
 				);
 
