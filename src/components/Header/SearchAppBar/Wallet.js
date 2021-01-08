@@ -43,17 +43,16 @@ const handleClickConnectWallet = () => {
 };
 
 export default function({data}) {
-	const {path, title, handleClick} = data;
+	const {path, title, handleClick, init} = data;
 	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
-	const history = useHistory();
 	const [wallet, , , , setUrl] = useFetch();
 	const [reFetchAmount, setReFetchAmount] = useState(0);
 	const amount = wallet?.data?.result?.value?.coins?.[0]?.amount;
 
 	useEffect(() => {
-		setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.ACCOUNT_DETAIL}/${title}?t=${Date.now()}`);
+		title && !init && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.ACCOUNT_DETAIL}/${title}?t=${Date.now()}`);
 	}, [title, reFetchAmount]);
 
 	if (title === "") {

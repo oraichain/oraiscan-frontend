@@ -108,6 +108,9 @@ const handlers = {
 		type: GET_BASIC_DATA,
 		onSuccess: (state, action) => {
 			const {data} = action.payload;
+			if (!data.current_price) {
+				return state;
+			}
 			// console.log("basicData>>", data);
 			return {
 				...state,
