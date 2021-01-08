@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
@@ -12,11 +14,14 @@ import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
+import TransactionCardList from "src/components/TxList/TransactionCardList";
+import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import styles from "./TxList.scss";
 
 const TxList = props => {
 	const cx = cn.bind(styles);
-
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
 	const history = useHistory();
 	const getPaginationPath = (pathname, page) => {
 		return pathname + "?page=" + page;
@@ -86,7 +91,7 @@ const TxList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Transactions"} />
 				</TitleWrapper>
-				<TransactionTableSkeleton />
+				{isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />}
 			</Container>
 		);
 	}
@@ -110,7 +115,7 @@ const TxList = props => {
 				<PageTitle title={"Transactions"} />
 				<StatusBox />
 			</TitleWrapper>
-			<TransactionTable data={data.data} />
+			{isLargeScreen ? <TransactionTable data={data.data} /> : <TransactionCardList data={data.data} />}
 			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
 	);
