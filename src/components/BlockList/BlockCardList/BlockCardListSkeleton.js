@@ -26,16 +26,7 @@ const BlockCardListSkeleton = memo(({rows = 10}) => {
 
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Parent Hash</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Proposer</div>
+								<div className={cx("item-title")}>Block Hash</div>
 							</td>
 							<td>
 								<Skeleton />

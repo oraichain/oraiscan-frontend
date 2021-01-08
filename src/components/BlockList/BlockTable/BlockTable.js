@@ -6,21 +6,20 @@ import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
+import aiIcon from "src/assets/common/ai_ic.svg";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
-	const parentHashHeaderCell = <div className={cx("header-cell", "align-left")}>Parent Hash</div>;
-	const proposerHeaderCell = <div className={cx("header-cell", "align-left")}>Proposer</div>;
+	const parentHashHeaderCell = <div className={cx("header-cell", "align-left")}>Block Hash</div>;
 	const nodeHeaderCell = <div className={cx("header-cell", "align-left")}>Node</div>;
 	const txsHeaderCell = <div className={cx("header-cell", "align-right")}>Txs</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	const headerCells = [heightHeaderCell, parentHashHeaderCell, proposerHeaderCell, nodeHeaderCell, txsHeaderCell, timeHeaderCell];
+	const headerCells = [heightHeaderCell, parentHashHeaderCell, nodeHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "50px"}, // Height
-		{width: "200px", minWidth: "200px"}, // Parent Hash
-		{minWidth: "180px"}, // Proposer
+		{width: "200px", minWidth: "200px"}, // Block Hash
 		{minWidth: "180px"}, // Node
 		{width: "110px", minWidth: "110px"}, // Txs
 		{width: "150px", minWidth: "150px"}, // Time
@@ -46,19 +45,11 @@ const BlockTable = memo(({data = []}) => {
 				</NavLink>
 			);
 
-			const parentHashDataCell = _.isNil(item?.parent_hash) ? (
+			const parentHashDataCell = _.isNil(item?.block_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.BLOCKLIST}/${item.parent_hash}`}>
-					{reduceString(item.parent_hash, 8, 8)}
-				</NavLink>
-			);
-
-			const proposerDataCell = _.isNil(item?.proposer) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.PROPOSALS}/${item.proposer}`}>
-					{reduceString(item.proposer, 8, 8)}
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.BLOCKLIST}/${item.block_hash}`}>
+					{reduceString(item.block_hash, 8, 8)}
 				</NavLink>
 			);
 
@@ -66,6 +57,7 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.VALIDATORS}/${item.moniker}`}>
+					<img src={aiIcon} alt='' className={cx("ai-icon")} />
 					{item.moniker}
 				</NavLink>
 			);
@@ -82,7 +74,7 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("data-cell", "color-black", "align-right")}>{setAgoTime(item.timestamp)}</div>
 			);
 
-			return [heightDataCell, parentHashDataCell, proposerDataCell, nodeDataCell, txsDataCell, timeDataCell];
+			return [heightDataCell, parentHashDataCell, nodeDataCell, txsDataCell, timeDataCell];
 		});
 	};
 
