@@ -1,5 +1,6 @@
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
@@ -31,6 +32,7 @@ export const getHeaderRow = () => {
 };
 
 const BlockTable = memo(({data = []}) => {
+	const validators = useSelector(state => state.blockchain.validators);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -56,7 +58,7 @@ const BlockTable = memo(({data = []}) => {
 			const nodeDataCell = _.isNil(item?.moniker) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.VALIDATORS}/${item.moniker}`}>
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
 					<img src={aiIcon} alt='' className={cx("ai-icon")} />
 					{item.moniker}
 				</NavLink>
