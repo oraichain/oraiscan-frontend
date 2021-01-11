@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
@@ -12,11 +14,14 @@ import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import BlockTable from "src/components/BlockList/BlockTable";
 import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
+import BlockCardList from "src/components/BlockList/BlockCardList";
+import BlockCardListSkeleton from "src/components/BlockList/BlockCardList/BlockCardListSkeleton";
 import styles from "./BlockList.scss";
 
 const BlockList = props => {
 	const cx = cn.bind(styles);
-
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
 	const history = useHistory();
 	const getPaginationPath = (pathname, page) => {
 		return pathname + "?page=" + page;
@@ -86,7 +91,7 @@ const BlockList = props => {
 				<TitleWrapper>
 					<PageTitle title={"Blocks"} />
 				</TitleWrapper>
-				<BlockTableSkeleton />
+				{isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />}
 			</Container>
 		);
 	}
@@ -110,7 +115,7 @@ const BlockList = props => {
 				<PageTitle title={"Blocks"} />
 				<StatusBox />
 			</TitleWrapper>
-			<BlockTable data={data.data} />
+			{isLargeScreen ? <BlockTable data={data.data} /> : <BlockCardList data={data.data} />}
 			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
 	);

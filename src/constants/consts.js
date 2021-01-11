@@ -73,6 +73,7 @@ export default Object.freeze({
 		PROPOSED_BLOCKS: "/proposed-blocks",
 		MISSED_BLOCKS: "/validator/missed-block",
 		DELEGATIONS: "/delegations",
+		PROPOSALS: "proposals",
 	},
 	LCD_API: {
 		VALIDATORS: "/validators",

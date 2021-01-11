@@ -4,13 +4,14 @@ import Dialog from "@material-ui/core/Dialog";
 import classNames from "classnames/bind";
 import styles from "./AddressCard.scss";
 import closeIcon from "src/assets/common/close_ic.svg";
+import {findIndex} from "lodash";
 
 const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeight = 220}) => {
 	const bgColor = "#FFFFFF";
 	const fgColor = "#1B57F0";
 	const cx = classNames.bind(styles);
 	const [open, setOpen] = useState(false);
-	const value = qrValue ? value : addresses?.[0]?.value ?? 0;
+	const value = qrValue ? qrValue : addresses?.[0]?.value ?? "";
 
 	return (
 		<div className={cx("address-card")} style={{minHeight: minHeight + "px"}}>
@@ -43,7 +44,7 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 			</div>
 
 			{addresses.map((address, index) => (
-				<div className={cx("address-card-body")}>
+				<div className={cx("address-card-body")} key={"address-card-body-" + index}>
 					<div className={cx("address-title")}>
 						<span className={cx("address-title-text")}>{address.title}</span>
 						{address?.icon && (
