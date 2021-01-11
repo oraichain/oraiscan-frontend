@@ -10,14 +10,19 @@
 	@include media("<medium") {
 		margin: 0;
 		max-width: map_get($breakpoints, medium);
-		height: 330px;
+		height: unset;
 		padding: 15px;
+		background: #ffffff;
+		padding-bottom: 0px;
 	}
 	.iconBlockTime-wrapper {
 		display: flex;
 		flex-flow: row;
 		justify-content: space-between;
 		border-bottom: 1px solid #e7e7e7;
+		@include media("<medium") {
+			border-bottom: none;
+		}
 		padding-bottom: 12px;
 		.icon {
 			display: flex;

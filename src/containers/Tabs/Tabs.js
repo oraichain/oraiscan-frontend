@@ -2,6 +2,9 @@ import React, {memo, useState, useRef} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import {closePageBar} from "src/store/modules/global";
+import {useDispatch} from "react-redux";
+
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
 import toggleIcon from "src/assets/header/toggle_ic.svg";
@@ -68,38 +71,13 @@ const tabs = [
 const Tabs = memo(() => {
 	const {pathname} = useLocation();
 	const history = useHistory();
-	const [isVisible, setIsVisible] = useState(true);
-
-	if (!isVisible) {
-		return (
-			<Container>
-				<div className={cx("open")}>
-					<img
-						src={toggleIcon}
-						alt=''
-						className={cx("open-icon")}
-						onClick={() => {
-							setIsVisible(true);
-						}}
-					/>
-				</div>
-			</Container>
-		);
-	}
-
+	const dispatch = useDispatch();
 	return (
 		<Container>
 			<div className={cx("overlay")}></div>
 			<div className={cx("tabs")}>
 				<div className={cx("close")}>
-					<img
-						src={backIcon}
-						alt=''
-						className={cx("close-icon")}
-						onClick={() => {
-							setIsVisible(false);
-						}}
-					/>
+					<img src={backIcon} alt='' className={cx("close-icon")} onClick={() => dispatch(closePageBar())} />
 				</div>
 				{tabs.map(({name, img, route}, index) => {
 					return (

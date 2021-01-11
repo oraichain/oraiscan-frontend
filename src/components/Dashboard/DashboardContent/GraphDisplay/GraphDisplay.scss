@@ -6,30 +6,44 @@
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: flex-end;
 	height: 330px;
 
 	@include media("<medium") {
-		display: none;
+		padding: 0px;
+		margin-top: 30px;
+		height: unset;
 	}
 
 	.tab-wrapper {
-		width: 188px;
-		height: 30px;
-
-		margin-bottom: 25px;
-		display: flex;
-		flex-flow: row;
-		align-self: flex-end;
-
-		:nth-child(1) {
-			border-bottom-left-radius: 5px;
-			border-top-left-radius: 5px;
+		@include media("<medium") {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
 		}
 
-		:nth-child(2) {
-			border-bottom-right-radius: 5px;
-			border-top-right-radius: 5px;
+		.tab-wrapper-name {
+			font-weight: 500;
+			font-size: 18px;
+		}
+
+		.tab-wrapper-btn {
+			width: 188px;
+			height: 30px;
+
+			margin-bottom: 25px;
+			display: flex;
+			flex-flow: row;
+			align-self: flex-end;
+			:nth-child(1) {
+				border-bottom-left-radius: 5px;
+				border-top-left-radius: 5px;
+			}
+
+			:nth-child(2) {
+				border-bottom-right-radius: 5px;
+				border-top-right-radius: 5px;
+			}
 		}
 
 		button {
@@ -78,6 +92,10 @@
 		}
 		@include media(">=medium") {
 			width: 100%;
+		}
+		@include media("<medium") {
+			width: 100%;
+			padding-left: 0px;
 		}
 	}
 }

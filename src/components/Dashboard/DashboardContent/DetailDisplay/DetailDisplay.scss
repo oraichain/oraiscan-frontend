@@ -1,5 +1,9 @@
 @import "src/styles/utils";
 
+.DetailWrapper {
+	margin-top: 18px;
+}
+
 .DetailDisplay {
 	// display: grid;
 	// grid-template-columns: 50% 50%;
@@ -10,13 +14,23 @@
 	justify-content: space-around;
 	padding: 16px 16px 16px 0;
 	height: 160px;
+	@include media("<medium") {
+		padding: 0px;
+		justify-content: space-between;
+	}
 
 	.card {
 		text-align: center;
 		padding: 20px 12px;
-		background: #F9F9F9;
+		background: #f9f9f9;
 		border-radius: 6px;
 		width: 140px;
+		@include media("<medium") {
+			background-color: #fff;
+			width: 49%;
+			padding-bottom: 0px;
+			margin-top: 15px;
+		}
 
 		.title {
 			font-weight: normal;
@@ -48,4 +62,7 @@
 
 .test {
 	justify-content: space-around;
+	@include media("<medium") {
+		justify-content: space-between;
+	}
 }
