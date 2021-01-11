@@ -56,7 +56,7 @@ const BlockCardList = memo(({data = []}) => {
 							</tr>
 							<tr>
 								<td colSpan={2}>
-									<div className={cx("item-title")}>Node</div>
+									<div className={cx("item-title")}>Proposer</div>
 									{_.isNil(item?.moniker) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (

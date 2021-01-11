@@ -14,14 +14,14 @@ const cx = classNames.bind(styles);
 export const getHeaderRow = () => {
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
 	const parentHashHeaderCell = <div className={cx("header-cell", "align-left")}>Block Hash</div>;
-	const nodeHeaderCell = <div className={cx("header-cell", "align-left")}>Node</div>;
+	const proposerHeaderCell = <div className={cx("header-cell", "align-left")}>Proposer</div>;
 	const txsHeaderCell = <div className={cx("header-cell", "align-right")}>Txs</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	const headerCells = [heightHeaderCell, parentHashHeaderCell, nodeHeaderCell, txsHeaderCell, timeHeaderCell];
+	const headerCells = [heightHeaderCell, parentHashHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "50px"}, // Height
 		{width: "200px", minWidth: "200px"}, // Block Hash
-		{minWidth: "180px"}, // Node
+		{minWidth: "180px"}, // Proposer
 		{width: "110px", minWidth: "110px"}, // Txs
 		{width: "150px", minWidth: "150px"}, // Time
 	];
@@ -55,7 +55,7 @@ const BlockTable = memo(({data = []}) => {
 				</NavLink>
 			);
 
-			const nodeDataCell = _.isNil(item?.moniker) ? (
+			const proposerDataCell = _.isNil(item?.moniker) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
@@ -76,7 +76,7 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("data-cell", "color-black", "align-right")}>{setAgoTime(item.timestamp)}</div>
 			);
 
-			return [heightDataCell, parentHashDataCell, nodeDataCell, txsDataCell, timeDataCell];
+			return [heightDataCell, parentHashDataCell, proposerDataCell, txsDataCell, timeDataCell];
 		});
 	};
 
