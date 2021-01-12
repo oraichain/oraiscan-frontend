@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Container from "@material-ui/core/Container";
 import Router from "src/containers/Router/Router";
 import Header from "src/containers/Header";
 import SearchArea from "src/components/Dashboard/SearchArea";
@@ -21,7 +22,11 @@ export default function() {
 		<div className={cx("app")}>
 			<Alert />
 			<Header />
-			{isLargeScreen && <SearchArea />}
+			{isLargeScreen && (
+				<Container>
+					<SearchArea />
+				</Container>
+			)}
 			{(isLargeScreen || openPageBar) && <Tabs />}
 			<Router />
 			<Footer />
