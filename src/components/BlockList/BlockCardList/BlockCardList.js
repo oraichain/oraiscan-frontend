@@ -31,29 +31,14 @@ const BlockCardList = memo(({data = []}) => {
 
 							<tr>
 								<td>
-									<div className={cx("item-title")}>Parent Hash</div>
+									<div className={cx("item-title")}>Block Hash</div>
 								</td>
 								<td>
-									{_.isNil(item?.parent_hash) ? (
+									{_.isNil(item?.block_hash) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.BLOCKLIST}/${item.parent_hash}`}>
-											{reduceString(item.parent_hash, 8, 8)}
-										</NavLink>
-									)}
-								</td>
-							</tr>
-
-							<tr>
-								<td>
-									<div className={cx("item-title")}>Proposer</div>
-								</td>
-								<td>
-									{_.isNil(item?.proposer) ? (
-										<div className={cx("item-link")}>-</div>
-									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.PROPOSALS}/${item.proposer}`}>
-											{reduceString(item.proposer, 8, 8)}
+										<NavLink className={cx("item-link")} to={`${consts.API.BLOCKLIST}/${item.block_hash}`}>
+											{reduceString(item.block_hash, 8, 8)}
 										</NavLink>
 									)}
 								</td>
@@ -71,7 +56,7 @@ const BlockCardList = memo(({data = []}) => {
 							</tr>
 							<tr>
 								<td colSpan={2}>
-									<div className={cx("item-title")}>Node</div>
+									<div className={cx("item-title")}>Proposer</div>
 									{_.isNil(item?.moniker) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (

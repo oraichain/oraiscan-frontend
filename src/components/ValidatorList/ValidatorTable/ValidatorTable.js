@@ -2,6 +2,11 @@
 import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useHistory} from "react-router-dom";
+import Skeleton from "react-skeleton-loader";
+
+import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import {formatPercentage, formatInteger} from "src/helpers/helper";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -11,8 +16,50 @@ import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
 
+const cx = classNames.bind(styles);
+
+const ValidatorTableMobile = ({data}) => {
+	const history = useHistory();
+	return (
+		<div className={cx("block-table")}>
+			{_.map(data, (dataRow, i) => {
+				return (
+					<div className={cx("block-row-wrapper")} key={i}>
+						<div className={cx("block-row")}>
+							<div className={cx("left")}> Rank </div>
+							<div className={cx("right", "link")}>{dataRow[0]}</div>
+						</div>
+						<div className={cx("block-row")}>
+							<div className={cx("left")}> Validator </div>
+							<div className={cx("right")}>{dataRow[1]}</div>
+						</div>
+						<div className={cx("block-row-power")}>
+							<div className={cx("left")}> Voting Power </div>
+							<div className={cx("right")}>{dataRow[2]}</div>
+						</div>
+						<div className={cx("block-row-cumulative")}>
+							<div className={cx("left")}> Cumulative Share % </div>
+							<div className={cx("right")}>{dataRow[3]}</div>
+						</div>
+						<div className={cx("block-row")}>
+							<div className={cx("left-two-line")}>
+								<div className={cx("title")}> Uptime </div>
+								<div className={cx("value")}> {dataRow[4]} </div>
+							</div>
+							<div className={cx("right-two-line")}>
+								<div className={cx("title")}> Commission </div>
+								{dataRow[5]}
+							</div>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
+};
+
 const ValidatorTable = memo(({data = []}) => {
-	const cx = classNames.bind(styles);
+	const isDesktop = useMediaQuery("(min-width:500px)");
 	const sortFields = {
 		RANK: "rank",
 		VALIDATOR: "moniker",
@@ -254,7 +301,10 @@ const ValidatorTable = memo(({data = []}) => {
 
 	const sortedData = useMemo(() => sortData(data, sortField, sortDirection), [data, sortField, sortDirection]);
 	const dataRows = useMemo(() => getDataRows(sortedData), [sortedData]);
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerCellStyles} headerCells={headerCells} dataRows={dataRows} />;
+	if (isDesktop) {
+		return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerCellStyles} headerCells={headerCells} dataRows={dataRows} />;
+	}
+	return <ValidatorTableMobile data={dataRows} />;
 });
 
 export default ValidatorTable;

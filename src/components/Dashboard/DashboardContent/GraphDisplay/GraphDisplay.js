@@ -1,6 +1,7 @@
 import * as React from "react";
 import cn from "classnames/bind";
 import axios from "axios";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import consts from "src/constants/consts";
 import {_, empty, getUnixTimes} from "src/lib/scripts";
@@ -25,6 +26,9 @@ const DATA_COUNT_DENOM = 4;
 export default function(props) {
 	const [data, setData] = React.useState(null);
 	const [showPrice, setShowPrice] = React.useState(true);
+	const [graphWrapperWidth, setGraphWrapperWidth] = React.useState(100);
+	const isMobile = useMediaQuery("(max-width:500px)");
+	const graphWrapperRef = React.useRef();
 
 	const transformData = data => {
 		if (Array.isArray(data)) {
@@ -52,6 +56,7 @@ export default function(props) {
 			.catch(ex => {
 				console.log("exception querying coinGecko", ex);
 			});
+		setGraphWrapperWidth(graphWrapperRef.current.offsetWidth);
 		return () => {
 			source.cancel("cleanup cancel");
 		};
@@ -60,20 +65,23 @@ export default function(props) {
 	return (
 		<div className={cx("GraphDisplay")}>
 			<div className={cx("tab-wrapper")}>
-				<button className={cx({selected: showPrice})} onClick={clickTab}>
-					<p>Price</p>
-				</button>
-				<button className={cx({selected: !showPrice})} onClick={clickTab}>
-					<p>Volume</p>
-				</button>
+				{isMobile && <div className={cx("tab-wrapper-name")}> Data Table Name </div>}
+				<div className={cx("tab-wrapper-btn")}>
+					<button className={cx({selected: showPrice})} onClick={clickTab}>
+						<p>Price</p>
+					</button>
+					<button className={cx({selected: !showPrice})} onClick={clickTab}>
+						<p>Volume</p>
+					</button>
+				</div>
 			</div>
-			<div className={cx("Graph-wrapper")}>
+			<div className={cx("Graph-wrapper")} ref={graphWrapperRef}>
 				{_.isNil(data) ? (
 					undefined
 				) : empty(data?.[0]) || empty(data?.[0]) ? (
 					<ErrorPage />
 				) : (
-					<Chart key={showPrice} options={options} data={data?.[showPrice ? 0 : 1]} />
+					<Chart key={showPrice} options={options} data={data?.[showPrice ? 0 : 1]} wrapperWidth={graphWrapperWidth} />
 				)}
 			</div>
 		</div>

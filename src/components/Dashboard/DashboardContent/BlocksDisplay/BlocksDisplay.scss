@@ -7,6 +7,9 @@
 	background: #f9f9f9;
 	border: 1px solid #e7e7e7;
 	margin-top: 20px;
+	@include media("<medium") {
+		background-color: #f5f5f5;
+	}
 
 	.tableHeaderCell {
 		@include tableHeaderCellWidth300;

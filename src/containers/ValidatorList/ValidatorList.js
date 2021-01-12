@@ -3,6 +3,8 @@ import {useGet} from "restful-react";
 import Skeleton from "react-loading-skeleton";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
 import consts from "src/constants/consts";
 import {formatInteger, formatSeconds, formatOrai} from "src/helpers/helper";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -13,7 +15,7 @@ import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
-import Pagination from "src/components/common/Pagination";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
@@ -25,6 +27,8 @@ const cx = cn.bind(styles);
 const ValidatorList = props => {
 	const baseValidatorsPath = `${consts.API.VALIDATORS}`;
 	const statusPath = consts.API.STATUS;
+
+	const isDesktop = useMediaQuery("(min-width:500px)");
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
@@ -97,9 +101,13 @@ const ValidatorList = props => {
 	if (!validators || (loadingValidators && showLoadingValidators) || !status) {
 		return (
 			<Container fixed className={cx("validator-list")}>
-				<TitleWrapper>
-					<PageTitle title={"Validators"} />
-				</TitleWrapper>
+				{isDesktop ? (
+					<TitleWrapper>
+						<PageTitle title={"Validators"} />
+					</TitleWrapper>
+				) : (
+					<TogglePageBar type='validators' />
+				)}
 				<StatusCardList
 					data={[
 						{
@@ -127,7 +135,7 @@ const ValidatorList = props => {
 				/>
 				<div className={cx("filter-section")}>
 					<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
-					<SearchInput value={keyword} placeholder='Search validators' onChange={e => {}} />
+					<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
 					<div className={cx("filter-section-overlay")}></div>
 				</div>
 				<ValidatorTableSkeleton rows={10} />
@@ -162,10 +170,14 @@ const ValidatorList = props => {
 
 	return (
 		<Container fixed className={cx("validator-list")}>
-			<TitleWrapper>
-				<PageTitle title={"Validators"} />
-				<StatusBox />
-			</TitleWrapper>
+			{isDesktop ? (
+				<TitleWrapper>
+					<PageTitle title={"Validators"} />
+					<StatusBox />
+				</TitleWrapper>
+			) : (
+				<TogglePageBar type='validators' />
+			)}
 			<StatusCardList
 				data={[
 					{
@@ -196,6 +208,7 @@ const ValidatorList = props => {
 				<SearchInput
 					value={keyword}
 					placeholder='Search validators'
+					rootClassName={cx("search-validators")}
 					onChange={e => {
 						cleanUp();
 						setKeyword(e.target.value);

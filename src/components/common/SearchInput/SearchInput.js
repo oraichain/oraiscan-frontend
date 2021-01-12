@@ -5,9 +5,9 @@ import searchIcon from "src/assets/common/search_ic.svg";
 
 const cx = cn.bind(styles);
 
-const SearchInput = memo(({value = "", placeholder, onChange}) => (
+const SearchInput = memo(({value = "", placeholder, onChange, rootClassName}) => (
 	<form>
-		<div className={cx("search-input")}>
+		<div className={cx("search-input", rootClassName)}>
 			<input type='text' placeholder={placeholder} value={value} onChange={onChange} />
 			<button>
 				<img src={searchIcon} alt='' />

@@ -41,7 +41,6 @@
 			align-items: center;
 			width: 120px;
 			@include media("<medium") {
-				height: 27px;
 				margin-left: 5px;
 			}
 			.name {

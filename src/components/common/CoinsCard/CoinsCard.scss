@@ -6,14 +6,26 @@
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
+	.unit-price,
+	.total-price {
+		text-align: right;
+		@media screen and (min-width: 960px) {
+			text-align: left;
+		}
+	}
+
 	.total-orai-title,
 	.unit-price {
 		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		line-height: 150%;
+		font-weight: 500;
+		font-size: 16px;
+
+		@media screen and (min-width: 960px) {
+			font-weight: normal;
+			font-size: 14px;
+		}
 	}
 
 	.total-orai-value,
@@ -21,9 +33,15 @@
 		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
-		font-weight: 500;
-		font-size: 20px;
+		font-weight: normal;
+		font-size: 16px;
 		line-height: 150%;
+
+		@media screen and (min-width: 960px) {
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 150%;
+		}
 	}
 
 	.total-orai-value {
@@ -49,14 +67,23 @@
 		}
 	}
 
+	.donut-chart {
+		text-align: center;
+
+		@media screen and (min-width: 960px) {
+			text-align: left;
+		}
+	}
+
 	.chart-comments {
-		padding-top: 16px;
+		margin-top: 16px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
 	}
 
 	.chart-comment {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
+		margin-bottom: 16px;
 
 		&-color {
 			margin-right: 10px;

@@ -15,6 +15,9 @@
 	justify-content: flex-end;
 	margin-bottom: 20px;
 	align-items: baseline;
+	@include media("<medium") {
+		display: block;
+	}
 
 	&-overlay {
 		position: absolute;
@@ -28,4 +31,23 @@
 
 .mr-18px {
 	margin-right: 18px;
+	@include media("<medium") {
+		display: flex;
+		margin-right: 0px;
+	}
+	button {
+		@include media("<medium") {
+			width: 50%;
+		}
+	}
+}
+
+.search-validators {
+	width: 100%;
+	margin-top: 15px;
+	button {
+		position: absolute;
+		right: 18px;
+		top: 13px;
+	}
 }

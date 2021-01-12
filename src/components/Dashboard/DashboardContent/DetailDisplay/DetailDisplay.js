@@ -38,7 +38,7 @@ export default function(props) {
 	// }, [dispatch]);
 	return (
 		// () => (
-		<div>
+		<div className={cx("DetailWrapper")}>
 			<div className={cx("DetailDisplay")}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Last block height</div>

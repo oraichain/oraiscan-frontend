@@ -1,10 +1,16 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useRef, useEffect} from "react";
 import HighchartsReact from "highcharts-react-official";
 import highcharts from "highcharts";
 
 import {_, formatNumber, getHours, getTime} from "src/lib/scripts";
 
-export default function({options, data, showAxis = true, displayMax = false}) {
+export default function({options, data, showAxis = true, displayMax = false, wrapperWidth}) {
+	const myRef = useRef();
+
+	useEffect(() => {
+		myRef.current.chart.setSize(wrapperWidth, 250);
+	}, [wrapperWidth]);
+
 	const graphOptions = useMemo(() => {
 		// console.log(data);
 		const [xMax, xMin, yMax, yMin] = [data[data.length - 1][0], data[0][0], _.max(_.map(data, v => v[1])), _.min(_.map(data, v => v[1]))];
@@ -50,7 +56,7 @@ export default function({options, data, showAxis = true, displayMax = false}) {
 		};
 	}, [options, data, displayMax, showAxis]);
 	// console.log(graphOptions);
-	return <HighchartsReact highcharts={highcharts} options={graphOptions} />;
+	return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
 }
 
 const xAxis = {
