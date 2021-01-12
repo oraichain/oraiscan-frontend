@@ -8,6 +8,7 @@ import cn from "classnames/bind";
 import consts from "src/constants/consts";
 import {calculateBefore} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -18,10 +19,11 @@ import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import styles from "./TxList.scss";
 
+const cx = cn.bind(styles);
+
 const TxList = props => {
-	const cx = cn.bind(styles);
 	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const history = useHistory();
 	const getPaginationPath = (pathname, page) => {
 		return pathname + "?page=" + page;
@@ -88,9 +90,13 @@ const TxList = props => {
 	if (!data || (loading && showLoading)) {
 		return (
 			<Container fixed className={cx("tx-list")}>
-				<TitleWrapper>
-					<PageTitle title={"Transactions"} />
-				</TitleWrapper>
+				{isLargeScreen ? (
+					<TitleWrapper>
+						<PageTitle title={"Transactions"} />
+					</TitleWrapper>
+				) : (
+					<TogglePageBar type='transactions' />
+				)}
 				{isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />}
 			</Container>
 		);
@@ -111,10 +117,14 @@ const TxList = props => {
 
 	return (
 		<Container fixed className={cx("tx-list")}>
-			<TitleWrapper>
-				<PageTitle title={"Transactions"} />
-				<StatusBox />
-			</TitleWrapper>
+			{isLargeScreen ? (
+				<TitleWrapper>
+					<PageTitle title={"Transactions"} />
+					<StatusBox />
+				</TitleWrapper>
+			) : (
+				<TogglePageBar type='transactions' />
+			)}
 			{isLargeScreen ? <TransactionTable data={data.data} /> : <TransactionCardList data={data.data} />}
 			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
 		</Container>
