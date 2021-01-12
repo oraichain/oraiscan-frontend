@@ -57,15 +57,20 @@ export const getValidator = async (validatorInfo, cancelToken) => {
 };
 
 export const getDelegators = async (validatorInfo, page, cancelToken) => {
-	return await axios(`${consts.API_BASE}${consts.API.DELEGATOR}/${validatorInfo}?page_id=${page}&limit=8`, cancelToken);
+  return await axios(`${consts.API_BASE}${consts.API.DELEGATOR}/${validatorInfo}?page_id=${page}&limit=7`, cancelToken);
 };
 
 export const getProposedBlocks = async (validatorInfo, page, cancelToken) => {
-	return await axios(`${consts.API_BASE}${consts.API.PROPOSED_BLOCKS}/${validatorInfo}?limit=8&page_id=${page}`, cancelToken);
+  return await axios(`${consts.API_BASE}${consts.API.PROPOSED_BLOCKS}/${validatorInfo}?limit=7&page_id=${page}`, cancelToken);
+
 };
 
 export const getMissedBlocks = async (validatorInfo, cancelToken) => {
 	return await axios(`${consts.API_BASE}${consts.API.MISSED_BLOCKS}/${validatorInfo}`, cancelToken);
+};
+
+export const getValidatorAnalytics = async (cancelToken) => {
+  return await axios(`${consts.API_BASE}${consts.API.VALIDATOR_ANALYTICS}`, cancelToken);
 };
 
 export const getListTxs = cancelToken => {

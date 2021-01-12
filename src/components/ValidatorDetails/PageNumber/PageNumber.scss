@@ -1,0 +1,22 @@
+@import "src/styles/utils";
+
+.container {
+    display: flex;
+    align-self: flex-end;
+    margin-top: 5px;
+}
+
+.normal-text {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.current-page {
+    font-weight: bold;
+    font-size: 12px;
+    color: #1B57F0;
+    margin-left: 10px;
+    text-decoration-line: underline
+}

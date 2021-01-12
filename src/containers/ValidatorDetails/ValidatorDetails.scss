@@ -1,11 +1,13 @@
 @import "src/styles/utils";
 
 .card {
-	background: #fff;
-	border-radius: 5px;
-	box-shadow: 5px 5px 15px 0px rgba(14, 38, 48, 0.12);
-	margin-top: 20px;
-	padding: 15px;
+    display: flex;
+    flex-flow: column;
+    background: #FFF;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 0px rgba(14, 38, 48, 0.12);
+    margin-top: 20px;
+    padding: 15px;
 }
 
 .main-card {

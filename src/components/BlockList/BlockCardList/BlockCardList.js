@@ -22,7 +22,7 @@ const BlockCardList = memo(({data = []}) => {
 									{_.isNil(item?.height) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.BLOCKLIST}/${item.height}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
 											{item.height}
 										</NavLink>
 									)}
@@ -37,7 +37,7 @@ const BlockCardList = memo(({data = []}) => {
 									{_.isNil(item?.block_hash) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.BLOCKLIST}/${item.block_hash}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.block_hash}`}>
 											{reduceString(item.block_hash, 8, 8)}
 										</NavLink>
 									)}
@@ -60,7 +60,7 @@ const BlockCardList = memo(({data = []}) => {
 									{_.isNil(item?.moniker) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.VALIDATORS}/${item.moniker}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.moniker}`}>
 											{item.moniker}
 										</NavLink>
 									)}
