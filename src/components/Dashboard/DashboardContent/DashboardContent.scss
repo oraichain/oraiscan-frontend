@@ -42,23 +42,6 @@
 		}
 	}
 
-	.header-mobile {
-		margin-bottom: 20px;
-		display: flex;
-		justify-content: space-between;
-		.title {
-			font-weight: 500;
-			font-size: 20px;
-			color: #181818;
-			display: flex;
-			align-items: center;
-			svg {
-				display: block;
-				margin-right: 10px;
-			}
-		}
-	}
-
 	.PriceGraphClickable-wrapper {
 		display: grid;
 

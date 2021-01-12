@@ -21,7 +21,7 @@ export default function() {
 			<Alert />
 			<Header />
 			{isDesktop && <SearchArea />}
-			{openPageBar && <Tabs />}
+			{(isDesktop || openPageBar) && <Tabs />}
 			<Router />
 			<Footer />
 		</div>

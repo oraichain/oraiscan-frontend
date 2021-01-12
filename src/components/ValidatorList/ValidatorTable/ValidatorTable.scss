@@ -83,6 +83,11 @@
 	left: 0;
 	top: 0;
 	background: #d6fec4;
+	@include media("<medium") {
+		height: 80%;
+		border-top-left-radius: 3px;
+		border-bottom-left-radius: 3px;
+	}
 }
 
 .current-graph {
@@ -92,6 +97,9 @@
 	left: 0;
 	top: 0;
 	background: #b9f69c;
+	@include media("<medium") {
+		height: 80%;
+	}
 }
 
 .total-value {
@@ -107,8 +115,87 @@
 	text-align: right;
 }
 
-.uptime-data-cell {
-}
-
-.commission-data-cell {
+.block-row-wrapper {
+	background: #ffffff;
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+	margin-top: 15px;
+	padding: 15px;
+	.block-row {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 10px;
+		.link {
+			font-weight: normal;
+			font-size: 16px;
+			color: #1b57f0;
+			cursor: pointer;
+		}
+		.left {
+			font-weight: 500;
+			font-size: 16px;
+			color: #181818;
+		}
+		.right {
+			text-align: right;
+		}
+		.left-two-line {
+			.title {
+				font-weight: 500;
+				font-size: 16px;
+			}
+			.value {
+				div {
+					text-align: left;
+				}
+			}
+		}
+		.right-two-line {
+			.title {
+				font-weight: 500;
+				font-size: 16px;
+			}
+			text-align: right;
+		}
+	}
+	.block-row-power {
+		margin-top: 10px;
+		.left {
+			font-weight: 500;
+			font-size: 16px;
+			color: #181818;
+		}
+		.right {
+			position: relative;
+			> div {
+				margin-top: 5px;
+				display: flex;
+				div {
+					font-size: 16px;
+					&:last-child {
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+	.block-row-cumulative {
+		margin-top: 10px;
+		.left {
+			font-weight: 500;
+			font-size: 16px;
+			color: #181818;
+		}
+		.right {
+			position: relative;
+			div {
+				font-size: 14px;
+				margin-top: 2px;
+				&:last-child {
+					display: block;
+					text-align: right;
+				}
+			}
+		}
+	}
 }
