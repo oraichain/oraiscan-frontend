@@ -131,4 +131,9 @@ export default Object.freeze({
 		TIMEOUT: 10000,
 	},
 	DOMAIN: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/`,
+	PATH: {
+		BLOCKLIST: "/blocks",
+		VALIDATORS: "/validators",
+		TXLIST: "/txs",
+	},
 });

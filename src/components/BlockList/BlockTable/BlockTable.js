@@ -42,7 +42,7 @@ const BlockTable = memo(({data = []}) => {
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.BLOCKLIST}/${item.height}`}>
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
 					{item.height}
 				</NavLink>
 			);
@@ -50,7 +50,7 @@ const BlockTable = memo(({data = []}) => {
 			const parentHashDataCell = _.isNil(item?.block_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.BLOCKLIST}/${item.block_hash}`}>
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.block_hash}`}>
 					{reduceString(item.block_hash, 8, 8)}
 				</NavLink>
 			);
@@ -58,7 +58,7 @@ const BlockTable = memo(({data = []}) => {
 			const proposerDataCell = _.isNil(item?.moniker) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.API.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
 					<img src={aiIcon} alt='' className={cx("ai-icon")} />
 					{item.moniker}
 				</NavLink>
