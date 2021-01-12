@@ -1,5 +1,7 @@
 import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import IC_CHECK from "src/assets/validatorDetails/check.svg";
 import ORAI_LOGO from "src/assets/common/orai_favicon.png";
@@ -7,6 +9,7 @@ import IC_PASTE from "src/assets/validatorDetails/paste.svg";
 import IC_BLOCKS from "src/assets/validatorDetails/blocks.svg";
 import IC_GOOD_BLOCK from "src/assets/validatorDetails/good_block.svg";
 import IC_BAD_BLOCK from "src/assets/validatorDetails/bad_block.svg";
+import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 import Axios from "axios";
 import {getDelegators, getMissedBlocks, getProposedBlocks, getValidator} from "src/lib/api";
 import {commafy, formatTime} from "src/helpers/helper";
@@ -16,6 +19,7 @@ import Table from "src/components/ValidatorDetails/Table";
 import CardHeader from "src/components/ValidatorDetails/CardHeader";
 import ColumnsInfo from "src/components/ValidatorDetails/ColumnsInfo";
 import StatusBox from "src/components/common/StatusBox";
+import TogglePageBar from "src/components/common/TogglePageBar";
 
 const cx = cn.bind(styles);
 
@@ -36,6 +40,8 @@ export default function(props) {
 		missedBlocks: [],
 		onClick: [],
 	});
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const blockMatrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -108,14 +114,25 @@ export default function(props) {
 
 	React.useEffect(() => {
 		fetchValidatorData();
-	}, [props.match.params.validator]);
+	}, [fetchValidatorData, props.match.params.validator]);
 
 	return (
 		<div className={cx("screen")}>
 			<div className={cx("content-area")}>
 				<div className={cx("header")}>
-					<div className={cx("huge-title")}>Validators</div>
-					<StatusBox />
+					{isDesktop ? (
+						<>
+							<div className={cx("huge-title")}>Validators</div>
+							<StatusBox />
+						</>
+					) : (
+						<>
+							<TogglePageBar type='validators' />
+							<div className={cx("validator-detail-title")} onClick={() => history.push("/validators")}>
+								<BackIcon /> Validator details
+							</div>
+						</>
+					)}
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("left-card")}>
@@ -147,29 +164,46 @@ export default function(props) {
 					</div>
 					<div className={cx("right-card")}>
 						<ColumnsInfo
-							width={[6, 7, 8]}
-							data={[
-								[
-									{key: "Website", value: validatorDetails.website, link: true},
-									{key: "Commission", value: validatorDetails.commission, link: false},
-									{key: "Uptime", value: "100%", link: false},
-								],
-								[
-									{key: "Voting power", value: validatorDetails.votingPower, link: false},
-									{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
-									{key: "Self Bonded", value: "-- ORAI (--%)", link: false},
-								],
-								[
-									{key: "Details", value: validatorDetails.details, link: false},
-									{key: "", value: "Show more", link: true},
-								],
-							]}
+							width={isDesktop ? [6, 7, 8] : [1, 1, 1]}
+							data={
+								isDesktop
+									? [
+											[
+												{key: "Website", value: validatorDetails.website, link: true},
+												{key: "Commission", value: validatorDetails.commission, link: false},
+												{key: "Uptime", value: "100%", link: false},
+											],
+											[
+												{key: "Voting power", value: validatorDetails.votingPower, link: false},
+												{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
+												{key: "Self Bonded", value: "-- ORAI (--%)", link: false},
+											],
+											[
+												{key: "Details", value: validatorDetails.details, link: false},
+												{key: "", value: "Show more", link: true},
+											],
+									  ]
+									: [
+											[{key: "Website", value: validatorDetails.website, link: true}],
+											[
+												{key: "Commission", value: validatorDetails.commission, link: false},
+												{key: "Uptime", value: "100%", link: false},
+											],
+											[{key: "Voting power", value: validatorDetails.votingPower, link: false}],
+											[
+												{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
+												{key: "Self Bonded", value: "-- ORAI (--%)", link: false},
+											],
+											[{key: "Details", value: validatorDetails.details, link: false}],
+											[{key: "", value: "Show more", link: true}],
+									  ]
+							}
 						/>
 					</div>
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card")}>
-						<CardHeader title={"Proposed Blocks"} info={"Total: 300,206 blocks"} icon={IC_BLOCKS} />
+						<CardHeader title={"Proposed Blocks"} info={"Total: 300,206 blocks"} icon={IC_BLOCKS} isDesktop={isDesktop} />
 						<Table titles={["Height", "Blockhash", "Txs", "Time"]} data={validatorDetails.proposedBlocks} colFlex={[14, 33, 18, 18]} />
 					</div>
 					<div className={cx("main-card")}>

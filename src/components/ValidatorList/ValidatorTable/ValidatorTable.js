@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useHistory} from "react-router-dom";
 import Skeleton from "react-skeleton-loader";
+import {useTheme} from "@material-ui/core/styles";
 
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
@@ -59,7 +60,8 @@ const ValidatorTableMobile = ({data}) => {
 };
 
 const ValidatorTable = memo(({data = []}) => {
-	const isDesktop = useMediaQuery("(min-width:500px)");
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 	const sortFields = {
 		RANK: "rank",
 		VALIDATOR: "moniker",
