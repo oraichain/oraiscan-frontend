@@ -3,10 +3,11 @@ import {useGet} from "restful-react";
 import Skeleton from "react-loading-skeleton";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
 import consts from "src/constants/consts";
 import {formatInteger, formatSeconds, formatOrai} from "src/helpers/helper";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -15,7 +16,6 @@ import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
-import TogglePageBar from "src/components/common/TogglePageBar";
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
@@ -25,11 +25,10 @@ import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
 const cx = cn.bind(styles);
 
 const ValidatorList = props => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const baseValidatorsPath = `${consts.API.VALIDATORS}`;
 	const statusPath = consts.API.STATUS;
-
-	const isDesktop = useMediaQuery("(min-width:500px)");
-
 	const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
@@ -100,8 +99,8 @@ const ValidatorList = props => {
 
 	if (!validators || (loadingValidators && showLoadingValidators) || !status) {
 		return (
-			<Container fixed className={cx("validator-list")}>
-				{isDesktop ? (
+			<Container className={cx("validator-list")}>
+				{isLargeScreen ? (
 					<TitleWrapper>
 						<PageTitle title={"Validators"} />
 					</TitleWrapper>
@@ -170,7 +169,7 @@ const ValidatorList = props => {
 
 	return (
 		<Container fixed className={cx("validator-list")}>
-			{isDesktop ? (
+			{isLargeScreen ? (
 				<TitleWrapper>
 					<PageTitle title={"Validators"} />
 					<StatusBox />
