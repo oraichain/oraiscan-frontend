@@ -27,7 +27,7 @@ const TransactionCardList = memo(({data = []}) => {
 									{_.isNil(item?.tx_hash) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.TXLIST}/${item.tx_hash}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
 											{reduceString(item.tx_hash, 6, 6)}
 										</NavLink>
 									)}
@@ -74,7 +74,7 @@ const TransactionCardList = memo(({data = []}) => {
 								<td>
 									<div className={cx("item-title")}>Amount</div>
 									{_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) || _.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount) ? (
-										<NavLink to={`${consts.API.TXLIST}/${item.tx_hash}`} className={cx("amount-data-cell")}>
+										<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("amount-data-cell")}>
 											<p>More</p>
 											<img src={moreIcon} alt='more' />
 										</NavLink>
@@ -109,7 +109,7 @@ const TransactionCardList = memo(({data = []}) => {
 									{_.isNil(item?.height) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.API.BLOCKLIST}/${item.height}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
 											{item.height}
 										</NavLink>
 									)}
