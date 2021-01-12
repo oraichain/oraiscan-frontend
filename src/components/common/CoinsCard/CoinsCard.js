@@ -26,17 +26,21 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 	return (
 		<div className={cx("coins-card")} style={{minHeight: minHeight}}>
 			<Grid container spacing={2}>
-				<Grid item lg={5} md={12}>
-					<div className={cx("total-orai-title")}>
-						Total <span className={cx("uppercase")}>{denom}</span>
-					</div>
-					<div className={cx("total-orai-value")}>{formatOrai(total)}</div>
-					<div className={cx("unit-price")}>
-						${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
-					</div>
-					<div className={cx("total-price")}>${formatFloat(totalPrice, 2)}</div>
+				<Grid container item md={5} sm={12}>
+					<Grid item md={12} sm={6} xs={6}>
+						<div className={cx("total-orai-title")}>
+							Total <span className={cx("uppercase")}>{denom}</span>
+						</div>
+						<div className={cx("total-orai-value")}>{formatOrai(total)}</div>
+					</Grid>
+					<Grid item md={12} sm={6} xs={6}>
+						<div className={cx("unit-price")}>
+							${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
+						</div>
+						<div className={cx("total-price")}>${formatFloat(totalPrice, 2)}</div>
+					</Grid>
 				</Grid>
-				<Grid container item lg={7} md={12}>
+				<Grid container item md={7} sm={12}>
 					<Grid item className={cx("donut-chart")} md={5} xs={12}>
 						<DonutChart
 							startAngle={-90}
@@ -56,7 +60,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 						/>
 					</Grid>
 					<Grid container item md={7} xs={12} className={cx("chart-comments")}>
-						<Grid item md={6} xs={12}>
+						<div>
 							<div className={cx("chart-comment")}>
 								<div>
 									<div className={cx("chart-comment-color")} style={{background: availableColor}}></div>
@@ -66,9 +70,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 									<div className={cx("chart-comment-value")}>{formatFloat(availablePercent)}%</div>
 								</div>
 							</div>
-						</Grid>
 
-						<Grid item md={6} xs={12}>
 							<div className={cx("chart-comment")}>
 								<div>
 									<div className={cx("chart-comment-color")} style={{background: delegatedColor}}></div>
@@ -78,9 +80,9 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 									<div className={cx("chart-comment-value")}>{formatFloat(delegatedPercent)}%</div>
 								</div>
 							</div>
-						</Grid>
+						</div>
 
-						<Grid item md={6} xs={12}>
+						<div>
 							<div className={cx("chart-comment")}>
 								<div>
 									<div className={cx("chart-comment-color")} style={{background: unbondingColor}}></div>
@@ -90,9 +92,6 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 									<div className={cx("chart-comment-value")}>{formatFloat(unbondingPercent)}%</div>
 								</div>
 							</div>
-						</Grid>
-
-						<Grid item md={6} xs={12}>
 							<div className={cx("chart-comment")}>
 								<div>
 									<div className={cx("chart-comment-color")} style={{background: rewardColor}}></div>
@@ -102,7 +101,7 @@ const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, 
 									<div className={cx("chart-comment-value")}>{formatFloat(rewardPercent)}%</div>
 								</div>
 							</div>
-						</Grid>
+						</div>
 					</Grid>
 				</Grid>
 			</Grid>
