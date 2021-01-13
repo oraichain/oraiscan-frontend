@@ -1,9 +1,7 @@
 import React, {useState, useRef} from "react";
 import {NavLink} from "react-router-dom";
-import Snackbar from "@material-ui/core/Snackbar";
 import copy from "copy-to-clipboard";
 import {useDispatch} from "react-redux";
-
 import {showAlert} from "src/store/modules/global";
 import {_, refineAddress} from "src/lib/scripts";
 import DisplayLongString from "src/components/common/DisplayLongString";

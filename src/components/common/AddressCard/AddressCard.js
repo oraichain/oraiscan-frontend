@@ -2,9 +2,9 @@ import React, {memo, useState} from "react";
 import QRCode from "qrcode.react";
 import Dialog from "@material-ui/core/Dialog";
 import classNames from "classnames/bind";
+import Address from "src/components/common/Address";
 import styles from "./AddressCard.scss";
 import closeIcon from "src/assets/common/close_ic.svg";
-import {findIndex} from "lodash";
 
 const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeight = 220}) => {
 	const bgColor = "#FFFFFF";
@@ -60,7 +60,9 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 							/>
 						)}
 					</div>
-					<div className={cx("address-value")}>{address.value}</div>
+					<div className={cx("address-value")}>
+						<Address address={address.value} showCopyIcon={false} size='md' />
+					</div>
 				</div>
 			))}
 

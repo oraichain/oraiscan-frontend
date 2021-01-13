@@ -2,6 +2,7 @@ import React, {memo} from "react";
 import {useHistory} from "react-router-dom";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
+import Address from "src/components/common/Address";
 import TableWithPagination from "src/components/common/TableWithPagination";
 import styles from "./TestCases.scss";
 
@@ -28,16 +29,8 @@ const TestCaseTable = memo(({testCases, pages, onPageChange, handleSearch}) => {
 		);
 		const ownerCell = (
 			<div>
-				<a
-					href='code'
-					onClick={e => {
-						e.preventDefault();
-						history.push(`/account/${owner}`);
-					}}
-					className={cx("table-link")}>
-					{" "}
-					{owner}
-				</a>
+				{" "}
+				<Address address={owner} link={`/account/${owner}`} size='md' showCopyIcon={false} />
 			</div>
 		);
 

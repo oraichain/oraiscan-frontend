@@ -1,38 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
-
-import IC_CHECK from "src/assets/validatorDetails/check.svg";
-import ORAI_LOGO from "src/assets/common/orai_favicon.png";
-import IC_PASTE from "src/assets/validatorDetails/paste.svg";
-import IC_BLOCKS from "src/assets/validatorDetails/blocks.svg";
-import IC_GOOD_BLOCK from "src/assets/validatorDetails/good_block.svg";
-import IC_BAD_BLOCK from "src/assets/validatorDetails/bad_block.svg";
-import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
+import cn from "classnames/bind";
 import Axios from "axios";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {getDelegators, getMissedBlocks, getProposedBlocks, getValidator, getValidatorAnalytics} from "src/lib/api";
 import {commafy, formatOrai, formatTime} from "src/helpers/helper";
-import cn from "classnames/bind";
-import styles from "./ValidatorDetails.scss";
+import TogglePageBar from "src/components/common/TogglePageBar";
+import Address from "src/components/common/Address";
 import Table, {ProposedBlocksMobile, DelegatorsMobile} from "src/components/ValidatorDetails/Table";
 import CardHeader from "src/components/ValidatorDetails/CardHeader";
 import ColumnsInfo from "src/components/ValidatorDetails/ColumnsInfo";
 import PageNumber from "src/components/ValidatorDetails/PageNumber";
 import StatusBox from "src/components/common/StatusBox";
-import {useDispatch, useSelector} from "react-redux";
-import copy from "copy-to-clipboard";
-import {showAlert} from "src/store/modules/global";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import TogglePageBar from "src/components/common/TogglePageBar";
+import styles from "./ValidatorDetails.scss";
+import IC_CHECK from "src/assets/validatorDetails/check.svg";
+import ORAI_LOGO from "src/assets/common/orai_favicon.png";
+import IC_BLOCKS from "src/assets/validatorDetails/blocks.svg";
+import IC_GOOD_BLOCK from "src/assets/validatorDetails/good_block.svg";
+import IC_BAD_BLOCK from "src/assets/validatorDetails/bad_block.svg";
+import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 
 const cx = cn.bind(styles);
 
 export default function(props) {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const operatorAddrRef = useRef(null);
-	const accountAddrRef = useRef(null);
 	const totalTokensBonded = useSelector(state => state?.blockchain?.statusBox?.bonded);
 	const [proposedBlocksPage, setProposedBlocksPage] = useState(1);
 	const [delegatorsPage, setDelegatorsPage] = useState(1);
@@ -62,17 +57,6 @@ export default function(props) {
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const blockMatrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-	const copyToClipboard = content => {
-		copy(content);
-		dispatch(
-			showAlert({
-				show: true,
-				message: "Copied",
-				autoHideDuration: 1500,
-			})
-		);
-	};
 
 	const fetchCommonData = async validatorInfo => {
 		let info = {};
@@ -231,17 +215,11 @@ export default function(props) {
 						</div>
 						<div className={cx("left-title")}>Operator address</div>
 						<div className={cx("left-title-container")}>
-							<div className={cx("addr-txt")} onClick={() => history.push(`/validators/${validatorDetails.operatorAddress}`)}>
-								{validatorDetails.operatorAddress}
-							</div>
-							<img src={IC_PASTE} className={cx("ic-paste")} onClick={() => copyToClipboard(validatorDetails.operatorAddress)} alt='' />
+							<Address address={validatorDetails.operatorAddress} link={`/validators/${validatorDetails.operatorAddress}`} size='sm' />
 						</div>
 						<div className={cx("left-title")}>Address</div>
 						<div className={cx("left-title-container")}>
-							<div className={cx("addr-txt")} onClick={() => history.push(`/account/${validatorDetails.accountAddress}`)}>
-								{validatorDetails.accountAddress}
-							</div>
-							<img src={IC_PASTE} className={cx("ic-paste")} onClick={() => copyToClipboard(validatorDetails.accountAddress)} alt='' />
+							<Address address={validatorDetails.accountAddress} link={`/account/${validatorDetails.accountAddress}`} size='sm' />
 						</div>
 					</div>
 					<div className={cx("right-card")}>
@@ -311,9 +289,10 @@ export default function(props) {
 						<CardHeader title={"Missed Blocks"} info={"Last 100 blocks"} icon={IC_BLOCKS} type='missed' />
 						<div className={cx("blocks-matrix")}>
 							{blockMatrix.map((item, rowIndex) => (
-								<div key={rowIndex} className={cx("blocks-matrix-row")}>
+								<div key={"blocks-matrix-" + rowIndex} className={cx("blocks-matrix-row")}>
 									{blockMatrix.map((item, colIndex) => (
 										<img
+											key={"blocks-matrix-" + rowIndex + "-" + colIndex}
 											className={cx("block")}
 											src={validatorDetails.missedBlocks?.indexOf(rowIndex * 10 + colIndex) > 0 ? IC_BAD_BLOCK : IC_GOOD_BLOCK}
 											alt=''
