@@ -3,11 +3,36 @@
 .main-container {
 	display: flex;
 	flex-flow: row;
+	@include media("<medium") {
+		display: block;
+	}
+	.value {
+		font-size: 16px;
+	}
+	.col {
+		margin-top: 15px;
+		@include media("<medium") {
+			display: flex;
+			justify-content: space-between;
+		}
+		.row {
+			&:last-child {
+				text-align: right;
+			}
+			&:first-child {
+				text-align: left;
+			}
+		}
+	}
 }
 
 .title {
 	font-size: 12px;
 	font-weight: bold;
+	@include media("<medium") {
+		font-size: 16px;
+		font-weight: 500;
+	}
 }
 
 .row {
