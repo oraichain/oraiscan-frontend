@@ -1,0 +1,31 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+
+	.title {
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		display: flex;
+		align-items: center;
+		letter-spacing: 0.4px;
+		color: #000000;
+	}
+
+	.withdraw {
+		border: 1px solid #1b57f0;
+		box-sizing: border-box;
+		border-radius: 4px;
+		width: 150px;
+		height: 40px;
+		padding: 8px 10px;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+		text-align: center;
+		color: #1b57f0;
+		text-transform: none !important;
+	}
+}

@@ -63,6 +63,11 @@ const tabs = [
 		img: requestsSVG,
 		route: "/requests",
 	},
+	{
+		name: "Wallet",
+		img: requestsSVG,
+		route: "/wallet",
+	},
 ];
 
 const Tabs = memo(() => {

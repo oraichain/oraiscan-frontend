@@ -1,0 +1,57 @@
+.Tabs {
+	margin-bottom: 20px;
+	max-width: 698px;
+
+	.Tab {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+		color: #181818;
+		height: 40px;
+		padding: 10px;
+		background-color: white;
+		border: 1px solid #1b57f0;
+		border-left: none;
+		border-right: none;
+		cursor: pointer;
+
+		img {
+			margin-right: 5px;
+		}
+
+		@media (max-width: 599.99px) {
+			border: 1px solid #1b57f0;
+			border-radius: 8px;
+			margin: auto;
+			margin-bottom: 2px;
+		}
+	}
+
+	.Tab:first-child {
+		border-radius: 8px 0px 0px 8px;
+		border: 1px solid #1b57f0;
+		border-right: none;
+		@media (max-width: 599.99px) {
+			border: 1px solid #1b57f0;
+			border-radius: 8px;
+		}
+	}
+
+	.Tab:last-child {
+		border-radius: 0px 8px 8px 0px;
+		border: 1px solid #1b57f0;
+		border-left: none;
+		@media (max-width: 599.99px) {
+			border: 1px solid #1b57f0;
+			border-radius: 8px;
+		}
+	}
+
+	.active {
+		background: #1b57f0;
+		color: white;
+	}
+}
