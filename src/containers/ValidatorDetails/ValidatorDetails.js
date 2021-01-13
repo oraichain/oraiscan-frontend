@@ -1,7 +1,6 @@
-import React, {useRef, useState, useCallback} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import IC_CHECK from "src/assets/validatorDetails/check.svg";
 import ORAI_LOGO from "src/assets/common/orai_favicon.png";
@@ -15,7 +14,7 @@ import {getDelegators, getMissedBlocks, getProposedBlocks, getValidator, getVali
 import {commafy, formatOrai, formatTime} from "src/helpers/helper";
 import cn from "classnames/bind";
 import styles from "./ValidatorDetails.scss";
-import Table from "src/components/ValidatorDetails/Table";
+import Table, {ProposedBlocksMobile, DelegatorsMobile} from "src/components/ValidatorDetails/Table";
 import CardHeader from "src/components/ValidatorDetails/CardHeader";
 import ColumnsInfo from "src/components/ValidatorDetails/ColumnsInfo";
 import PageNumber from "src/components/ValidatorDetails/PageNumber";
@@ -23,6 +22,9 @@ import StatusBox from "src/components/common/StatusBox";
 import {useDispatch, useSelector} from "react-redux";
 import copy from "copy-to-clipboard";
 import {showAlert} from "src/store/modules/global";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import TogglePageBar from "src/components/common/TogglePageBar";
 
 const cx = cn.bind(styles);
 
@@ -93,7 +95,7 @@ export default function(props) {
 		return info;
 	};
 
-	const fetchProposedBlocks = useCallback(async operatorAddress => {
+	const fetchProposedBlocks = async operatorAddress => {
 		let info = {};
 		if (operatorAddress != "--") {
 			let blocks = await getProposedBlocks(operatorAddress, proposedBlocksPage, Axios.CancelToken.source().token);
@@ -116,9 +118,9 @@ export default function(props) {
 			}
 		}
 		return info;
-	});
+	};
 
-	const fetchDelegators = useCallback(async (operatorAddress, accountAddress) => {
+	const fetchDelegators = async (operatorAddress, accountAddress) => {
 		let info = {};
 		if (operatorAddress !== "--") {
 			let delegators = await getDelegators(operatorAddress, delegatorsPage, Axios.CancelToken.source().token);
@@ -142,7 +144,7 @@ export default function(props) {
 			}
 		}
 		return info;
-	});
+	};
 
 	const setAllData = info => {
 		setValidatorDetails({
@@ -177,7 +179,7 @@ export default function(props) {
 			setAllData(info);
 		};
 		getAllData();
-	}, [fetchCommonData, fetchDelegators, fetchProposedBlocks, props.match.params.validator, totalTokensBonded]);
+	}, [props.match.params.validator, totalTokensBonded]);
 
 	React.useEffect(() => {
 		const getBlocks = async () => {
@@ -186,7 +188,7 @@ export default function(props) {
 			setAllData(info);
 		};
 		getBlocks();
-	}, [fetchProposedBlocks, proposedBlocksPage, validatorDetails, validatorDetails.operatorAddress]);
+	}, [proposedBlocksPage, validatorDetails.operatorAddress]);
 
 	React.useEffect(() => {
 		const getDelegators = async () => {
@@ -195,14 +197,25 @@ export default function(props) {
 			setAllData(info);
 		};
 		getDelegators();
-	}, [delegatorsPage, fetchDelegators, validatorDetails, validatorDetails.operatorAddress]);
+	}, [delegatorsPage, validatorDetails.operatorAddress]);
 
 	return (
 		<div className={cx("screen")}>
 			<div className={cx("content-area")}>
 				<div className={cx("header")}>
-					<div className={cx("huge-title")}>Validators</div>
-					<StatusBox />
+					{isDesktop ? (
+						<>
+							<div className={cx("huge-title")}>Validators</div>
+							<StatusBox />
+						</>
+					) : (
+						<>
+							<TogglePageBar type='validators' />
+							<div className={cx("validator-detail-title")} onClick={() => history.push("/validators")}>
+								<BackIcon /> Validator details
+							</div>
+						</>
+					)}
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("left-card")}>
@@ -233,46 +246,72 @@ export default function(props) {
 					</div>
 					<div className={cx("right-card")}>
 						<ColumnsInfo
-							width={[6, 7, 8]}
-							data={[
-								[
-									{key: "Website", value: validatorDetails.website, link: true},
-									{key: "Commission", value: validatorDetails.commission, link: false},
-									{key: "Uptime", value: validatorDetails.uptime, link: false},
-								],
-								[
-									{key: "Voting power", value: validatorDetails.votingPower, link: false},
-									{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
-									{key: "Self Bonded", value: validatorDetails.selfBonded, link: false},
-								],
-								[
-									{key: "Details", value: validatorDetails.details, link: false},
-									// { key: "", value: "Show more", link: true },
-								],
-							]}
+							width={isDesktop ? [6, 7, 8] : [1, 1, 1]}
+							data={
+								isDesktop
+									? [
+											[
+												{key: "Website", value: validatorDetails.website, link: true},
+												{key: "Commission", value: validatorDetails.commission, link: false},
+												{key: "Uptime", value: "100%", link: false},
+											],
+											[
+												{key: "Voting power", value: validatorDetails.votingPower, link: false},
+												{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
+												{key: "Self Bonded", value: "-- ORAI (--%)", link: false},
+											],
+											[
+												{key: "Details", value: validatorDetails.details, link: false},
+												{key: "", value: "Show more", link: true},
+											],
+									  ]
+									: [
+											[{key: "Website", value: validatorDetails.website, link: true}],
+											[
+												{key: "Commission", value: validatorDetails.commission, link: false},
+												{key: "Uptime", value: "100%", link: false},
+											],
+											[{key: "Voting power", value: validatorDetails.votingPower, link: false}],
+											[
+												{key: "Bonded Height", value: validatorDetails.bondedHeight, link: false},
+												{key: "Self Bonded", value: "-- ORAI (--%)", link: false},
+											],
+											[{key: "Details", value: validatorDetails.details, link: false}],
+											[{key: "", value: "Show more", link: true}],
+									  ]
+							}
 						/>
 					</div>
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card")}>
-						<CardHeader title={"Proposed Blocks"} info={validatorDetails.totalBlocks} icon={IC_BLOCKS} />
-						<Table
-							titles={["Height", "Blockhash", "Txs", "Time"]}
-							data={validatorDetails.proposedBlocks}
-							colFlex={[14, 33, 18, 18]}
-							onClick={validatorDetails.onClickBlock}
-						/>
-						<PageNumber
-							page={proposedBlocksPage}
-							totalPages={validatorDetails.totalBlockPages}
-							update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
-						/>
+						<CardHeader title={"Proposed Blocks"} info={validatorDetails.totalBlocks} icon={IC_BLOCKS} isDesktop={isDesktop} />
+						{isDesktop ? (
+							<>
+								<Table
+									titles={["Height", "Blockhash", "Txs", "Time"]}
+									data={validatorDetails.proposedBlocks}
+									colFlex={[14, 33, 18, 18]}
+									onClick={validatorDetails.onClickBlock}
+								/>
+								<PageNumber
+									page={proposedBlocksPage}
+									totalPages={validatorDetails.totalBlockPages}
+									update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
+								/>
+							</>
+						) : (
+							<>
+								<ProposedBlocksMobile data={validatorDetails.proposedBlocks} onClick={validatorDetails.onClickBlock} />
+							</>
+						)}
 					</div>
+					{!isDesktop && <div className={cx("hr-price")}></div>}
 					<div className={cx("main-card")}>
-						<CardHeader title={"Missed Blocks"} info={"Last 100 blocks"} icon={IC_BLOCKS} />
+						<CardHeader title={"Missed Blocks"} info={"Last 100 blocks"} icon={IC_BLOCKS} type='missed' />
 						<div className={cx("blocks-matrix")}>
 							{blockMatrix.map((item, rowIndex) => (
-								<div key={rowIndex}>
+								<div key={rowIndex} className={cx("blocks-matrix-row")}>
 									{blockMatrix.map((item, colIndex) => (
 										<img
 											className={cx("block")}
@@ -285,24 +324,35 @@ export default function(props) {
 						</div>
 					</div>
 				</div>
+				{!isDesktop && <div className={cx("hr-price", "hr-price--delegator")}></div>}
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card")}>
-						<CardHeader title={"Delegators"} />
-						<Table
-							titles={["Delegator Address", "Amount", "Share"]}
-							data={validatorDetails.delegators}
-							colFlex={[39, 26, 18]}
-							onClick={validatorDetails.onClickDelegator}
-						/>
-						<PageNumber
-							page={delegatorsPage}
-							totalPages={validatorDetails.totalDelegatorPages}
-							update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
-						/>
+						<CardHeader title={"Delegators"} type='delegators' />
+						{isDesktop ? (
+							<>
+								<Table
+									titles={["Delegator Address", "Amount", "Share"]}
+									data={validatorDetails.delegators}
+									colFlex={[39, 26, 18]}
+									onClick={validatorDetails.onClickDelegator}
+								/>
+								<PageNumber
+									page={delegatorsPage}
+									totalPages={validatorDetails.totalDelegatorPages}
+									update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
+								/>
+							</>
+						) : (
+							<>
+								<DelegatorsMobile data={validatorDetails.delegators} onClick={validatorDetails.onClickDelegator} />
+							</>
+						)}
 					</div>
-					<div className={cx("main-card")}>
-						<CardHeader title={"Power Events"} />
-					</div>
+					{isDesktop && (
+						<div className={cx("main-card")}>
+							<CardHeader title={"Power Events"} />
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
