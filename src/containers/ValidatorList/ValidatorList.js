@@ -35,12 +35,13 @@ const ValidatorList = props => {
 	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
 	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
+	let backupData = useRef([]);
 
 	let timerID = useRef(null);
 
 	const cleanUp = () => {
-		if (timerID) {
-			clearTimeout(timerID);
+		if (timerID.current) {
+			clearTimeout(timerID.current);
 			setLoadValidatorsCompleted(false);
 		}
 	};
@@ -87,7 +88,7 @@ const ValidatorList = props => {
 
 	useEffect(() => {
 		if (loadValidatorsCompleted) {
-			timerID = setTimeout(() => {
+			timerID.current = setTimeout(() => {
 				refetchValidators();
 				setLoadValidatorsCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
@@ -140,6 +141,10 @@ const ValidatorList = props => {
 				<ValidatorTableSkeleton rows={10} />
 			</Container>
 		);
+	}
+
+	if (validators?.data != null) {
+		backupData.current = validators.data;
 	}
 
 	const totalPages = validators?.page?.total_page ?? 0;
@@ -215,7 +220,7 @@ const ValidatorList = props => {
 					}}
 				/>
 			</div>
-			<ValidatorTable data={validators.data} />
+			<ValidatorTable data={validators?.data != null ? validators.data : backupData.current} />
 			{/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */}
 		</Container>
 	);
