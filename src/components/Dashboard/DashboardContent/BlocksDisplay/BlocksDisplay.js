@@ -4,6 +4,7 @@ import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/cor
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Skeleton from "react-skeleton-loader";
 import {setAgoTime} from "src/lib/scripts";
+import {useTheme} from "@material-ui/core/styles";
 
 import styles from "./BlocksDisplay.scss";
 //  utils
@@ -20,7 +21,8 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`, "get");
 	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
-	const isDesktop = useMediaQuery("(min-width:500px)");
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	React.useEffect(() => {
 		requestFetch();

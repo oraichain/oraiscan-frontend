@@ -2,6 +2,7 @@ import * as React from "react";
 import cn from "classnames/bind";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useTheme} from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
@@ -15,7 +16,8 @@ const cx = cn.bind(styles);
 
 export default function(props) {
 	const [data, requestFetch] = useFetch(`${consts.API_BASE}${consts.API.TXLIST}?limit=10`, "get");
-	const isDesktop = useMediaQuery("(min-width:500px)");
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const [watching] = useTimer(true, consts.NUM.DASH_REAL_TIME_DELAY_MS);
 

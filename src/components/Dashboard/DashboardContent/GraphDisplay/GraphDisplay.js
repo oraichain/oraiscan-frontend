@@ -2,6 +2,7 @@ import * as React from "react";
 import cn from "classnames/bind";
 import axios from "axios";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useTheme} from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import {_, empty, getUnixTimes} from "src/lib/scripts";
@@ -27,7 +28,8 @@ export default function(props) {
 	const [data, setData] = React.useState(null);
 	const [showPrice, setShowPrice] = React.useState(true);
 	const [graphWrapperWidth, setGraphWrapperWidth] = React.useState(100);
-	const isMobile = useMediaQuery("(max-width:500px)");
+	const theme = useTheme();
+	const isMobile = !useMediaQuery(theme.breakpoints.up("lg"));
 	const graphWrapperRef = React.useRef();
 
 	const transformData = data => {

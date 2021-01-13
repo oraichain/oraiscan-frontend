@@ -2,13 +2,15 @@ import React, {memo} from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useTheme} from "@material-ui/core/styles";
 
 import classNames from "classnames/bind";
 import styles from "./Footer.scss";
 
 const Footer = memo(() => {
 	const cx = classNames.bind(styles);
-	const isDesktop = useMediaQuery("(min-width:500px)");
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const MobileFooter = () => {
 		return (
