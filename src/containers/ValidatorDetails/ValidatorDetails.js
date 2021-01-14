@@ -52,9 +52,11 @@ export default function(props) {
 		selfBonded: "--",
 		onClickBlock: [],
 		onClickDelegator: [],
+		missedBlockWidth: 33,
 	});
 	const theme = useTheme();
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+	const missedBlockRef = useRef();
 
 	const blockMatrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -183,6 +185,14 @@ export default function(props) {
 		getDelegators();
 	}, [delegatorsPage, validatorDetails.operatorAddress]);
 
+	React.useEffect(() => {
+		const missedBlockWidth = missedBlockRef.current.offsetWidth;
+		setValidatorDetails(prevState => ({
+			...prevState,
+			missedBlockWidth: Math.floor((missedBlockWidth - 6 * 9) / 10) - 1,
+		}));
+	}, [isDesktop]);
+
 	return (
 		<div className={cx("screen")}>
 			<div className={cx("content-area")}>
@@ -262,7 +272,7 @@ export default function(props) {
 					</div>
 				</div>
 				<div className={cx("row-of-cards")}>
-					<div className={cx("main-card")}>
+					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Proposed Blocks"} info={validatorDetails.totalBlocks} icon={IC_BLOCKS} isDesktop={isDesktop} />
 						{isDesktop ? (
 							<>
@@ -285,9 +295,9 @@ export default function(props) {
 						)}
 					</div>
 					{!isDesktop && <div className={cx("hr-price")}></div>}
-					<div className={cx("main-card")}>
+					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Missed Blocks"} info={"Last 100 blocks"} icon={IC_BLOCKS} type='missed' />
-						<div className={cx("blocks-matrix")}>
+						<div className={cx("blocks-matrix")} ref={missedBlockRef}>
 							{blockMatrix.map((item, rowIndex) => (
 								<div key={"blocks-matrix-" + rowIndex} className={cx("blocks-matrix-row")}>
 									{blockMatrix.map((item, colIndex) => (
@@ -296,6 +306,7 @@ export default function(props) {
 											className={cx("block")}
 											src={validatorDetails.missedBlocks?.indexOf(rowIndex * 10 + colIndex) > 0 ? IC_BAD_BLOCK : IC_GOOD_BLOCK}
 											alt=''
+											style={!isDesktop ? {width: `${validatorDetails.missedBlockWidth}px`} : null}
 										/>
 									))}
 								</div>
@@ -305,7 +316,7 @@ export default function(props) {
 				</div>
 				{!isDesktop && <div className={cx("hr-price", "hr-price--delegator")}></div>}
 				<div className={cx("row-of-cards")}>
-					<div className={cx("main-card")}>
+					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Delegators"} type='delegators' />
 						{isDesktop ? (
 							<>
