@@ -3,7 +3,25 @@
 	margin-top: 30px;
 	width: 1200px;
 	padding: 0px;
+	@include media("<medium") {
+		width: 100%;
+		margin-top: 5px;
+	}
 }
 .detail-section {
 	margin-bottom: var(--verticalSpace1);
+}
+.validator-detail-title {
+	font-weight: 500;
+	font-size: 18px;
+	color: #000000;
+	display: flex;
+	align-items: center;
+	svg {
+		display: block;
+		margin-right: 10px;
+	}
+	@include media("<medium") {
+		margin-top: -5px;
+	}
 }

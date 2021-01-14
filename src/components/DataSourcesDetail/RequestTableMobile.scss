@@ -27,6 +27,16 @@
 				font-weight: 500;
 				font-size: 16px;
 			}
+			.value-check {
+				display: flex;
+				align-items: center;
+				font-size: 16px;
+				color: #8b8b8b;
+				svg {
+					display: block;
+					margin-right: 5px;
+				}
+			}
 		}
 		.right-two-line {
 			.title {
@@ -35,24 +45,33 @@
 			}
 			text-align: right;
 		}
-		.type {
-			font-size: 12px;
-		}
-		.owner {
-			a {
-				width: 150px;
-				display: inline-block;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				font-size: 16px;
-			}
-		}
 	}
-
 	.block-row-desc {
 		display: block;
 		.right-desc {
 			font-size: 16px;
+		}
+	}
+	.status-text {
+		display: flex;
+		justify-content: space-between;
+		font-size: 14px;
+	}
+	.status-graph {
+		margin-top: 5px;
+		height: 15px;
+		background: #f6f5f5;
+		border-radius: 4px;
+		position: relative;
+		.status-graph-child {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: 15px;
+			width: 40%;
+			background: #ffae74;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
 		}
 	}
 }

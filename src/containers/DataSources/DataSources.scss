@@ -2,6 +2,9 @@
 
 .validator-list {
 	margin-top: 30px;
+	@include media("<medium") {
+		margin-top: 0px;
+	}
 }
 
 .filter-section {

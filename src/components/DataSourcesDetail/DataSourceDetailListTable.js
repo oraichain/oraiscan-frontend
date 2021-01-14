@@ -154,12 +154,12 @@ const DataSourceDetailListTable = memo(({dataSources, pages, onPageChange}) => {
 				<div className={cx("code-format")}>
 					<Highlight language='go'>
 						{`
-type AIDataSource struct {
-	Name        string         \`json:"name"\`
-	Owner       sdk.AccAddress \`json:"owner"\`
-	Fees        sdk.Coins      \`json:"transaction_fee"\`
-	Description string         \`json:"description"\`
-}
+							type AIDataSource struct {
+								Name        string         \`json:"name"\`
+								Owner       sdk.AccAddress \`json:"owner"\`
+								Fees        sdk.Coins      \`json:"transaction_fee"\`
+								Description string         \`json:"description"\`
+							}
 			      `}
 					</Highlight>
 				</div>
