@@ -1,0 +1,61 @@
+.YourDelelgator {
+	padding: 30px;
+	background-color: white;
+
+	.title {
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 150%;
+		color: #181818;
+		margin-bottom: 34px;
+	}
+
+	.row {
+		margin-bottom: 20px;
+
+		.label {
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+			color: #181818;
+			display: flex;
+			align-items: center;
+		}
+
+		.content {
+			font-weight: normal;
+			font-size: 18px;
+			line-height: 150%;
+			color: #181818;
+		}
+
+		.address {
+			@media (max-width: 550px) {
+				font-size: 12px;
+			}
+		}
+
+		a {
+			font-weight: normal;
+			font-size: 18px;
+			line-height: 150%;
+			color: #1b57f0;
+		}
+	}
+
+	.MuiButton-root {
+		min-width: 300px;
+		height: 50px;
+		background: #00b1e9;
+		border-radius: 8px;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+		text-align: center;
+		color: #ffffff;
+		text-transform: none;
+		font-family: Roboto;
+		font-style: normal;
+		padding: 11px;
+	}
+}
