@@ -96,7 +96,7 @@ const ValidatorList = props => {
 				cleanUp();
 			};
 		}
-	}, [loadValidatorsCompleted]);
+	}, [loadValidatorsCompleted, refetchValidators]);
 
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
@@ -198,7 +198,7 @@ const ValidatorList = props => {
 	if (!validators || (loadingValidators && showLoadingValidators)) {
 		filterSection = (
 			<div className={cx("filter-section")}>
-				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
+				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
 				<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
 				<div className={cx("filter-section-overlay")}></div>
 			</div>
@@ -213,7 +213,7 @@ const ValidatorList = props => {
 
 		filterSection = (
 			<div className={cx("filter-section")}>
-				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
+				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
 				<SearchInput
 					value={keyword}
 					placeholder='Search validators'
