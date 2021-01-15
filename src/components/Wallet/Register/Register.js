@@ -359,7 +359,7 @@ export default class Register extends React.Component {
 							)}
 						</Grid>
 					</Grid>
-					<Button className={cx("MuiButton-root")} onClick={this.onSubmit}>
+					<Button className={cx("MuiButton-root")} onClick={this.onSubmit} disabled>
 						Next
 					</Button>
 				</form>

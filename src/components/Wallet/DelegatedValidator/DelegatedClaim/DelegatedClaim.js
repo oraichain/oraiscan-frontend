@@ -16,7 +16,13 @@ export default function({setActiveTab}) {
 					Withdraw <img src={require("../../../../assets/wallet/arrow.svg")} />
 				</Button>
 			</div>
-			<DelegatedTable
+			<div
+				style={{
+					height: "300px",
+				}}>
+				<p style={{fontSize: "28px", fontWeight: "500"}}>Coming soon</p>
+			</div>
+			{/* <DelegatedTable
 				data={[
 					{
 						address: "0x2371983011533f7d88efc27e87b2982A863B2724",
@@ -50,7 +56,7 @@ export default function({setActiveTab}) {
 					},
 				]}
 			/>
-			<Pagination pages={10} page={1} />
+			<Pagination pages={10} page={1} /> */}
 		</>
 	);
 }

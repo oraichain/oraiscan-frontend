@@ -1,6 +1,7 @@
 // import Transaction from "./Transaction";
 
 // export default Transaction;
+
 import React from "react";
 const Transaction = () => {
 	return (

@@ -32,6 +32,7 @@ export default function(props) {
 			{activeTab === 0 && <Transaction />}
 			{activeTab === 1 && <YourDelelgator />}
 			{activeTab === 2 && <DelegatedValidator />}
+			{activeTab === 3 && <Register />}
 		</Container>
 	);
 }

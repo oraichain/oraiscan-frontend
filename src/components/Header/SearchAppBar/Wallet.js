@@ -100,7 +100,9 @@ export default function({data}) {
 							}}
 						/>{" "}
 					</div>
-					<div className={cx("wallet-address-detail")}>{title}</div>
+					<NavLink className={cx("wallet-address-detail")} to='/wallet'>
+						{title}
+					</NavLink>
 
 					<div className={cx("wallet-address-title")}> Balance </div>
 					<div className={cx("wallet-address-detail")}>{formatOrai(amount || 0)} ORAI</div>
