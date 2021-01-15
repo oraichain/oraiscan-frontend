@@ -9,7 +9,7 @@ import consts from "src/constants/consts";
 import App from "./App";
 // import "./firebase"
 //  comment this out if you do not plan on using firebase
-// import "./firebase";
+import "./firebase";
 //  redux
 import store, {persistor} from "./store/configure";
 
