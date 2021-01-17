@@ -1,3 +1,4 @@
-import Infomation from "./Infomation";
+import Information from "./Information";
 import DataSourceDetailListTable from "./DataSourceDetailListTable";
-export {Infomation, DataSourceDetailListTable};
+import RequestTableMobile from "./RequestTableMobile";
+export {Information, DataSourceDetailListTable, RequestTableMobile};

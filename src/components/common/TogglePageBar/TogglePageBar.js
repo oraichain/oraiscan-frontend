@@ -9,6 +9,7 @@ import {ReactComponent as ValidatorIcon} from "src/assets/icons/validators.svg";
 import {ReactComponent as BlockIcon} from "src/assets/icons/blocks.svg";
 import {ReactComponent as TransactionIcon} from "src/assets/icons/transactions.svg";
 import {ReactComponent as TogglePageIcon} from "src/assets/icons/toggle-page.svg";
+import {ReactComponent as DataSourceIcon} from "src/assets/icons/data-source.svg";
 
 const cx = classNames.bind(styles);
 
@@ -45,6 +46,14 @@ const TogglePageBar = ({type}) => {
 					<div className={cx("title")}>
 						{" "}
 						<TransactionIcon /> Transactions
+					</div>
+				);
+			}
+			case "data-sources": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<DataSourceIcon /> Data Sources
 					</div>
 				);
 			}

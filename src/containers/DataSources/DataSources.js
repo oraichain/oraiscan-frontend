@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useTheme} from "@material-ui/core/styles";
+
+import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -16,6 +20,8 @@ export default function(props) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [currentTextSearch, setCurrentTextSearch] = useState("");
 	const [state, , , , setUrl] = useFetch(`${url}?limit=${consts.TABLE.PAGE_SIZE}&page=1`);
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const pages = Math.ceil(parseInt(state?.data?.result?.count || 0) / consts.TABLE.PAGE_SIZE);
 
@@ -50,10 +56,14 @@ export default function(props) {
 
 	return (
 		<Container fixed className={cx("validator-list")}>
-			<TitleWrapper>
-				<PageTitle title='Data Sources' />
-				<StatusBox data={dataForStatusBox} />
-			</TitleWrapper>
+			{isDesktop ? (
+				<TitleWrapper>
+					<PageTitle title='Data Sources' />
+					<StatusBox data={dataForStatusBox} />
+				</TitleWrapper>
+			) : (
+				<TogglePageBar type='data-sources' />
+			)}
 
 			<DataSourceTable dataSources={state?.data?.result?.data_sources || []} pages={pages} onPageChange={onPageChange} handleSearch={handleSearch} />
 		</Container>

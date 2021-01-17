@@ -1,10 +1,14 @@
 @import "src/styles/utils";
 
-.infomation {
+.information {
 	background: var(--colorWhite);
 	box-shadow: var(--shadow1);
 	border-radius: var(--radius1);
 	padding: 20px 30px;
+	@include media("<medium") {
+		margin-top: 15px;
+		padding: 15px;
+	}
 }
 
 .title {
@@ -55,4 +59,32 @@
 			@include Typo(Roboto, normal, 400, 16px, 24px);
 		}
 	}
+
+	@include media("<medium") {
+		border: none;
+		&__main {
+			padding: 0px;
+		}
+		&__owner {
+			display: block;
+			a {
+				margin-left: 0px;
+			}
+		}
+		&__owner-title {
+			display: flex;
+			align-items: center;
+			svg {
+				display: block;
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+.hr {
+	margin-top: 25px;
+	margin-bottom: 12px;
+	border: 1px solid #e7e7e7;
+	width: 100%;
 }

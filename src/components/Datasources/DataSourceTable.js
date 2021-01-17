@@ -53,6 +53,7 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 			textSearchPlaceholder='Search data sources'
 			handleSearch={handleSearch}
 			headerCellStyles={headerCellStyles}
+			screenType='data-source'
 		/>
 	);
 });
