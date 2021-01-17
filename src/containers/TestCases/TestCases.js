@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import consts from "src/constants/consts";
+import {useFetch} from "src/hooks";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import {TestCaseTable} from "src/components/TestCases";
-import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
 import styles from "./TestCases.scss";
 
 const cx = cn.bind(styles);

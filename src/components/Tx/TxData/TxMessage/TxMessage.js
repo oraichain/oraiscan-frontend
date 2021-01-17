@@ -1,25 +1,25 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import cn from "classnames/bind";
-import { Fade, Tooltip } from "@material-ui/core";
-import txTypes from "src/constants/txTypes";
-import { formatOrai, extractValueAndUnit } from "src/helpers/helper";
-import { divide } from "src/lib/Big";
-import { _ } from "src/lib/scripts";
+import {Fade, Tooltip} from "@material-ui/core";
 import consts from "src/constants/consts";
+import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
+import {formatOrai, extractValueAndUnit} from "src/helpers/helper";
+import {divide} from "src/lib/Big";
+import {_} from "src/lib/scripts";
+import Address from "src/components/common/Address";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
-import TxGetAddress from "src/components/Tx/TxData/TxGetAddress/TxGetAddress";
 import styles from "./TxMessage.scss";
 
 const cx = cn.bind(styles);
 
-export default function ({ msg, txData }) {
+export default function({msg, txData}) {
 	const fees = useSelector(state => state.blockchain.fees);
 
-	const { type, value } = msg;
-	const { memo } = txData;
+	const {type, value} = msg;
+	const {memo} = txData;
 	const MsgGridRender = React.useMemo(() => {
 		const getInfoRow = (label, value, classNames) => (
 			<InfoRow label={label}>{_.isNil(value) ? <span>-</span> : <span className={cx(classNames)}>{value}</span>}</InfoRow>
@@ -34,7 +34,7 @@ export default function ({ msg, txData }) {
 				);
 			}
 
-			const { valueString, unitString } = extractValueAndUnit(inputString);
+			const {valueString, unitString} = extractValueAndUnit(inputString);
 
 			return (
 				<InfoRow label={label}>
@@ -53,7 +53,7 @@ export default function ({ msg, txData }) {
 				);
 			}
 
-			const { amount, denom } = inputObject;
+			const {amount, denom} = inputObject;
 			return (
 				<InfoRow label={label}>
 					<span>{formatOrai(amount)} </span>
@@ -70,7 +70,7 @@ export default function ({ msg, txData }) {
 
 		const getAddressRow = (label, address, link = true) => (
 			<InfoRow label={label}>
-				<TxGetAddress address={address} cx={cx} link={link} />
+				<Address address={address} link={link} showCopyIcon={true} />
 			</InfoRow>
 		);
 
@@ -189,17 +189,17 @@ export default function ({ msg, txData }) {
 				{(type === txTypes.AIREQUEST.SET_CLASSIFICATION_REQUEST ||
 					type === txTypes.AIREQUEST.SET_OCR_REQUEST ||
 					type === txTypes.AIREQUEST.SET_KYC_REQUEST) && (
-						<>
-							{getInfoRow("Image Hash", value?.image_hash)}
-							{getInfoRow("Image Name", value?.image_name)}
-							{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
-							{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
-							{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
-							{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-							{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
-							{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
-						</>
-					)}
+					<>
+						{getInfoRow("Image Hash", value?.image_hash)}
+						{getInfoRow("Image Name", value?.image_name)}
+						{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
+						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
+						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
+						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
+						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
+						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
+					</>
+				)}
 
 				{type === txTypes.AIREQUEST.SET_PRICE_REQUEST && (
 					<>
@@ -240,7 +240,7 @@ export default function ({ msg, txData }) {
 			<Tooltip
 				placement='right-start'
 				TransitionComponent={Fade}
-				TransitionProps={{ timeout: 300 }}
+				TransitionProps={{timeout: 300}}
 				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
 				disableTouchListener
 				disableFocusListener>

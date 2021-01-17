@@ -1,0 +1,65 @@
+.Register {
+	padding: 30px;
+	background-color: white;
+
+	.title {
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 150%;
+		color: #181818;
+		margin-bottom: 34px;
+	}
+
+	.row {
+		margin-bottom: 20px;
+
+		.tooltip {
+			background: #f7f7f7;
+			border-radius: 4px;
+		}
+		.MuiFormLabel-root {
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+			color: #181818;
+			margin-bottom: 10px;
+		}
+
+		.MuiInputBase-root {
+			min-width: 300px;
+			height: 40px;
+			padding: 10px 15px;
+			border: 1px solid #e7e7e7;
+			box-sizing: border-box;
+			border-radius: 6px;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+			color: #181818;
+		}
+
+		.asterisk {
+			color: red;
+		}
+
+		.error {
+			margin-top: 5px;
+		}
+	}
+
+	.MuiButton-root {
+		min-width: 300px;
+		height: 50px;
+		background: #00b1e9;
+		border-radius: 8px;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+		text-align: center;
+		color: #ffffff;
+		text-transform: none;
+		font-family: Roboto;
+		font-style: normal;
+		padding: 11px;
+	}
+}

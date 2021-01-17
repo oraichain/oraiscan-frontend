@@ -66,6 +66,11 @@ const tabs = [
 		img: requestsSVG,
 		route: "/requests",
 	},
+	// {
+	// 	name: "Wallet",
+	// 	img: requestsSVG,
+	// 	route: "/wallet",
+	// },
 ];
 
 const Tabs = memo(() => {
@@ -74,7 +79,7 @@ const Tabs = memo(() => {
 	const dispatch = useDispatch();
 	return (
 		<Container>
-			<div className={cx("overlay")}></div>
+			<div className={cx("overlay")} onClick={() => dispatch(closePageBar())}></div>
 			<div className={cx("tabs")}>
 				<div className={cx("close")}>
 					<img src={backIcon} alt='' className={cx("close-icon")} onClick={() => dispatch(closePageBar())} />
@@ -83,7 +88,10 @@ const Tabs = memo(() => {
 					return (
 						<div
 							className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
-							onClick={() => history.push(route)}
+							onClick={() => {
+								history.push(route);
+								dispatch(closePageBar());
+							}}
 							key={index}>
 							<img src={img} alt='' className={cx("tab-icon")} />
 							<span className={cx("tab-title")}>{name}</span>

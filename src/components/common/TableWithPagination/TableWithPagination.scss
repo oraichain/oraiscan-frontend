@@ -20,26 +20,20 @@
 
 	@include media("<medium") {
 		width: 100%;
-		height: 40px;
-	}
-
-	@include media("<=small") {
-		height: 32px;
 	}
 
 	.input {
 		padding: 10px 20px;
 		height: 100%;
 		width: 15%;
+		@include media("<medium") {
+			width: 100%;
+			font-size: 14px;
+		}
 		background: var(--colorWhite);
 		color: var(--colorMainText);
 		font-size: var(--fontSizeMain);
 		border-radius: 8px 0px 0px 8px;
-
-		@include media("<=small") {
-			margin-left: -5px;
-			font-size: 10px;
-		}
 
 		&::placeholder {
 			font-size: var(--fontSizeMain);

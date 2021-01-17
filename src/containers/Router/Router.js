@@ -1,9 +1,9 @@
-import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, {lazy, Suspense} from "react";
+import {Route, Switch} from "react-router-dom";
 import ReactGA from "react-ga";
 import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
-import { useHistory, usePreload } from "src/hooks";
+import {useHistory, usePreload} from "src/hooks";
 import styles from "./Router.scss";
 
 const cx = cn.bind(styles);
@@ -28,8 +28,9 @@ const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
 
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestsDetail = lazy(() => import(`src/containers/RequestsDetail`));
+const Wallet = lazy(() => import(`src/containers/Wallet`));
 
-export default function (props) {
+export default function(props) {
 	//  preload stuff that needs preloading
 	usePreload();
 	return (
@@ -54,6 +55,7 @@ export default function (props) {
 						<Route path='/requests' component={Requests} />
 						<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 						<Route path='/oracle-scripts' component={OracleScripts} />
+						<Route path='/wallet' component={Wallet} />
 						<Route render={() => <NotFound />} />
 					</Switch>
 				</ScrollToTop>

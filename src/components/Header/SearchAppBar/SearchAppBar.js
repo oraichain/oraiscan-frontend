@@ -38,6 +38,7 @@ export default function(props) {
 	useEffect(() => {
 		const callBack = function(e) {
 			if (e?.data?.address) {
+				console.log(e);
 				navLinkInit[navLinkInit.length - 1] = {
 					title: e.data.address,
 					type: "wallet",

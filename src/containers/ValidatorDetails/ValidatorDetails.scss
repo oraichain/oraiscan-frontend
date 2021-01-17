@@ -30,6 +30,12 @@
 		background-color: unset;
 		box-shadow: unset;
 	}
+	&--no-padding {
+		@include media("<medium") {
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+	}
 }
 
 .left-card {

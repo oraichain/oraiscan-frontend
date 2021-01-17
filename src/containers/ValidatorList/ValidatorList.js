@@ -96,58 +96,7 @@ const ValidatorList = props => {
 				cleanUp();
 			};
 		}
-	}, [loadValidatorsCompleted]);
-
-	if (!validators || (loadingValidators && showLoadingValidators) || !status) {
-		return (
-			<Container className={cx("validator-list")}>
-				{isLargeScreen ? (
-					<TitleWrapper>
-						<PageTitle title={"Validators"} />
-					</TitleWrapper>
-				) : (
-					<TogglePageBar type='validators' />
-				)}
-				<StatusCardList
-					data={[
-						{
-							icon: heightIcon,
-							label: "Height",
-							value: <Skeleton />,
-						},
-						{
-							icon: validatorsIcon,
-							label: "Validators",
-							value: <Skeleton />,
-						},
-						{
-							icon: bondedTokensIcon,
-							label: "Bonded Tokens",
-							value: <Skeleton />,
-						},
-						{
-							icon: blockTimeIcon,
-							label: "Block Time",
-							value: <Skeleton />,
-						},
-					]}
-					minHeight={105}
-				/>
-				<div className={cx("filter-section")}>
-					<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
-					<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
-					<div className={cx("filter-section-overlay")}></div>
-				</div>
-				<ValidatorTableSkeleton rows={10} />
-			</Container>
-		);
-	}
-
-	if (validators?.data != null) {
-		backupData.current = validators.data;
-	}
-
-	const totalPages = validators?.page?.total_page ?? 0;
+	}, [loadValidatorsCompleted, refetchValidators]);
 
 	const replaceQueryString = (path, key, value) => {
 		const searchParams = new URLSearchParams(path);
@@ -172,16 +121,24 @@ const ValidatorList = props => {
 		setValidatorsPath(replaceQueryString(path, key, value));
 	};
 
-	return (
-		<Container fixed className={cx("validator-list")}>
-			{isLargeScreen ? (
-				<TitleWrapper>
-					<PageTitle title={"Validators"} />
-					<StatusBox />
-				</TitleWrapper>
-			) : (
-				<TogglePageBar type='validators' />
-			)}
+	let titleSection;
+	let statusSection;
+	let filterSection;
+	let tableSection;
+
+	if (isLargeScreen) {
+		titleSection = (
+			<TitleWrapper>
+				<PageTitle title={"Validators"} />
+				<StatusBox />
+			</TitleWrapper>
+		);
+	} else {
+		titleSection = <TogglePageBar type='validators' />;
+	}
+
+	if (status) {
+		statusSection = (
 			<StatusCardList
 				data={[
 					{
@@ -207,8 +164,56 @@ const ValidatorList = props => {
 				]}
 				minHeight={105}
 			/>
+		);
+	} else {
+		statusSection = (
+			<StatusCardList
+				data={[
+					{
+						icon: heightIcon,
+						label: "Height",
+						value: <Skeleton />,
+					},
+					{
+						icon: validatorsIcon,
+						label: "Validators",
+						value: <Skeleton />,
+					},
+					{
+						icon: bondedTokensIcon,
+						label: "Bonded Tokens",
+						value: <Skeleton />,
+					},
+					{
+						icon: blockTimeIcon,
+						label: "Block Time",
+						value: <Skeleton />,
+					},
+				]}
+				minHeight={105}
+			/>
+		);
+	}
+
+	if (!validators || (loadingValidators && showLoadingValidators)) {
+		filterSection = (
 			<div className={cx("filter-section")}>
-				<ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} />
+				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
+				<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
+				<div className={cx("filter-section-overlay")}></div>
+			</div>
+		);
+		tableSection = <ValidatorTableSkeleton rows={10} />;
+	} else {
+		if (validators?.data != null) {
+			backupData.current = validators.data;
+		}
+
+		// const totalPages = validators?.page?.total_page ?? 0;
+
+		filterSection = (
+			<div className={cx("filter-section")}>
+				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
 				<SearchInput
 					value={keyword}
 					placeholder='Search validators'
@@ -220,8 +225,20 @@ const ValidatorList = props => {
 					}}
 				/>
 			</div>
-			<ValidatorTable data={validators?.data != null ? validators.data : backupData.current} />
-			{/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */}
+		);
+
+		tableSection = <ValidatorTable data={validators?.data != null ? validators.data : backupData.current} />;
+		{
+			/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */
+		}
+	}
+
+	return (
+		<Container fixed className={cx("validator-list")}>
+			{titleSection}
+			{statusSection}
+			{filterSection}
+			{tableSection}
 		</Container>
 	);
 };

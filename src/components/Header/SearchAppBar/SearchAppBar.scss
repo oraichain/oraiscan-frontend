@@ -422,6 +422,12 @@
 	.wallet-address-detail {
 		font-size: 16px;
 		color: #000;
+		padding: 0 !important;
+		background: none !important;
+	}
+	.wallet-address-detail:hover {
+		cursor: pointer;
+		color: #3247e6 !important;
 	}
 	.wallet-link {
 		margin-top: 10px;

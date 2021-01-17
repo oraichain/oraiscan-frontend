@@ -5,22 +5,23 @@
 	flex-flow: row;
 	@include media("<medium") {
 		display: block;
+		.value {
+			font-size: 16px;
+		}
 	}
-	.value {
-		font-size: 16px;
-	}
+
 	.col {
 		margin-top: 15px;
 		@include media("<medium") {
 			display: flex;
 			justify-content: space-between;
-		}
-		.row {
-			&:last-child {
-				text-align: right;
-			}
-			&:first-child {
-				text-align: left;
+			.row {
+				&:last-child {
+					text-align: right;
+				}
+				&:first-child {
+					text-align: left;
+				}
 			}
 		}
 	}

@@ -2,12 +2,18 @@ import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useParams} from "react-router-dom";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useTheme} from "@material-ui/core/styles";
+import {useHistory} from "react-router-dom";
+
+import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import {Infomation, DataSourceDetailListTable} from "src/components/DataSourcesDetail";
+import {Information, DataSourceDetailListTable, RequestTableMobile} from "src/components/DataSourcesDetail";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
+import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 import styles from "./DataSourcesDetail.scss";
 
 const cx = cn.bind(styles);
@@ -17,6 +23,9 @@ export default function(props) {
 	const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
 	const [state, , , , setUrl] = useFetch(`${url}`);
 	const pages = parseInt(state?.data?.result?.count || 0);
+	const history = useHistory();
+	const theme = useTheme();
+	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 	const onPageChange = page => {
 		setUrl(`${url}`);
 	};
@@ -38,20 +47,39 @@ export default function(props) {
 			value: "7.00%",
 		},
 	];
+
 	return (
 		<Container fixed className={cx("validator-list")}>
-			<TitleWrapper>
-				<PageTitle title='Data Sources Details' />
-				<StatusBox data={dataForStatusBox} />
-			</TitleWrapper>
+			{isDesktop ? (
+				<TitleWrapper>
+					<PageTitle title='Data Sources Details' />
+					<StatusBox data={dataForStatusBox} />
+				</TitleWrapper>
+			) : (
+				<>
+					<TogglePageBar type='data-sources' />
+					<div className={cx("validator-detail-title")} onClick={() => history.push("/data-sources")}>
+						<BackIcon /> Data Source Details
+					</div>
+				</>
+			)}
 
 			<div className={cx("detail-section")}>
 				{state.data !== undefined && state.data !== null && (
-					<Infomation name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} />
+					<Information name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} isDesktop={isDesktop} />
 				)}
 			</div>
 
-			<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
+			{isDesktop ? (
+				<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
+			) : (
+				<>
+					<RequestTableMobile />
+					<RequestTableMobile />
+					<RequestTableMobile />
+					<RequestTableMobile />
+				</>
+			)}
 		</Container>
 	);
 }
