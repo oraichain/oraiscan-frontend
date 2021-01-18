@@ -1,18 +1,4 @@
 @import "src/styles/utils";
 
-.loading-wrapper {
-	height: 100vh;
-	//background: var(--colorPageBg);
-	@include Flex_center();
-
-	.loading-img {
-		height: 50px;
-		width: 50px;
-		opacity: 1;
-
-		@include media("<small") {
-			height: 50px;
-			width: 50px;
-		}
-	}
+.loading {
 }

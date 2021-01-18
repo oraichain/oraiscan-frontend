@@ -136,5 +136,7 @@ export default Object.freeze({
 		BLOCKLIST: "/blocks",
 		VALIDATORS: "/validators",
 		TXLIST: "/txs",
+		ACCOUNT: "/account",
+		TEST_CASES: "/test-cases",
 	},
 });
