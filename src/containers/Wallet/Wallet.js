@@ -3,6 +3,7 @@ import * as React from "react";
 import cn from "classnames/bind";
 import Skeleton from "react-skeleton-loader";
 import Container from "@material-ui/core/Container";
+import {useDispatch, useSelector} from "react-redux";
 
 import {_, empty} from "src/lib/scripts";
 import consts from "src/constants/consts";
@@ -22,6 +23,7 @@ const cx = cn.bind(styles);
 
 export default function(props) {
 	const [activeTab, setActiveTab] = React.useState(0);
+	const {address, account} = useSelector(state => state.wallet);
 	return (
 		<Container fixed className={cx("wallet")}>
 			<TitleWrapper>
@@ -32,7 +34,7 @@ export default function(props) {
 			{activeTab === 0 && <Transaction />}
 			{activeTab === 1 && <YourDelelgator />}
 			{activeTab === 2 && <DelegatedValidator />}
-			{activeTab === 3 && <Register />}
+			{activeTab === 3 && <Register account={account} address={address} />}
 		</Container>
 	);
 }
