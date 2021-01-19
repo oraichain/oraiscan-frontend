@@ -11,10 +11,7 @@ import {ReactComponent as TransactionIcon} from "src/assets/icons/transactions.s
 import {ReactComponent as TogglePageIcon} from "src/assets/icons/toggle-page.svg";
 import {ReactComponent as DataSourceIcon} from "src/assets/icons/data-source.svg";
 import {ReactComponent as TestCaseIcon} from "src/assets/header/test_case.svg";
-<<<<<<< HEAD
-=======
 import {ReactComponent as OracleScriptIcon} from "src/assets/icons/oracle-script.svg";
->>>>>>> 6521c26... responsive oracle script list page
 
 const cx = classNames.bind(styles);
 
@@ -70,8 +67,6 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
-<<<<<<< HEAD
-=======
 			case "oracle-scripts": {
 				return (
 					<div className={cx("title")}>
@@ -80,7 +75,6 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
->>>>>>> 6521c26... responsive oracle script list page
 			default:
 				return null;
 		}

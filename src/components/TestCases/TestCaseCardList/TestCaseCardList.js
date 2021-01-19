@@ -9,7 +9,6 @@ import styles from "./TestCaseCardList.scss";
 
 const TestCaseCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
-	console.log(data);
 
 	return (
 		<div className='test-case-card-list'>
