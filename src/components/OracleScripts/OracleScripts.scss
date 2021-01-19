@@ -32,6 +32,7 @@
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	padding: 15px 20px 20px 20px;
+
 	.ordering {
 		color: #1b57f0;
 	}
@@ -56,6 +57,18 @@
 		.request-value {
 			font-weight: normal;
 			color: #181818;
+		}
+	}
+
+	@include media("<medium") {
+		.ordering,
+		.content,
+		.request-key,
+		.request-value {
+			font-size: 16px;
+		}
+		.title {
+			font-size: 19px;
 		}
 	}
 }
