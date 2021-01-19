@@ -60,7 +60,7 @@
 		}
 	}
 
-	@include media("<medium") {
+	@include media("<large") {
 		.ordering,
 		.content,
 		.request-key,
