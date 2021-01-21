@@ -138,5 +138,6 @@ export default Object.freeze({
 		TXLIST: "/txs",
 		ACCOUNT: "/account",
 		TEST_CASES: "/test-cases",
+		ORACLE_SCRIPTS: "/oracle-scripts",
 	},
 });
