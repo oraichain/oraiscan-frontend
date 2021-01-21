@@ -13,11 +13,11 @@ const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
-	const parentHashHeaderCell = <div className={cx("header-cell", "align-left")}>Block Hash</div>;
+	const blockHashHeaderCell = <div className={cx("header-cell", "align-left")}>Block Hash</div>;
 	const proposerHeaderCell = <div className={cx("header-cell", "align-left")}>Proposer</div>;
 	const txsHeaderCell = <div className={cx("header-cell", "align-right")}>Txs</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	const headerCells = [heightHeaderCell, parentHashHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
+	const headerCells = [heightHeaderCell, blockHashHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "50px"}, // Height
 		{width: "200px", minWidth: "200px"}, // Block Hash
@@ -47,10 +47,10 @@ const BlockTable = memo(({data = []}) => {
 				</NavLink>
 			);
 
-			const parentHashDataCell = _.isNil(item?.block_hash) ? (
+			const blockHashDataCell = _.isNil(item?.block_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.block_hash}`}>
+				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
 					{reduceString(item.block_hash, 8, 8)}
 				</NavLink>
 			);
@@ -76,7 +76,7 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("data-cell", "color-black", "align-right")}>{setAgoTime(item.timestamp)}</div>
 			);
 
-			return [heightDataCell, parentHashDataCell, proposerDataCell, txsDataCell, timeDataCell];
+			return [heightDataCell, blockHashDataCell, proposerDataCell, txsDataCell, timeDataCell];
 		});
 	};
 

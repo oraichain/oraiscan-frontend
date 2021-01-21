@@ -37,7 +37,7 @@ const BlockCardList = memo(({data = []}) => {
 									{_.isNil(item?.block_hash) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.block_hash}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
 											{reduceString(item.block_hash, 8, 8)}
 										</NavLink>
 									)}
