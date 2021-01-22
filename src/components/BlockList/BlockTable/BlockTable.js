@@ -19,11 +19,11 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [heightHeaderCell, blockHashHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "50px"}, // Height
-		{width: "200px", minWidth: "200px"}, // Block Hash
-		{minWidth: "180px"}, // Proposer
-		{width: "110px", minWidth: "110px"}, // Txs
-		{width: "150px", minWidth: "150px"}, // Time
+		{width: "10%", minWidth: "100px"}, // Height
+		{width: "33%", minWidth: "200px"}, // Block Hash
+		{width: "33%", minWidth: "180px"}, // Proposer
+		{width: "10%", minWidth: "80px"},  // Txs
+		{width: "14%", minWidth: "150px"}, // Time
 	];
 	return {
 		headerCells,
