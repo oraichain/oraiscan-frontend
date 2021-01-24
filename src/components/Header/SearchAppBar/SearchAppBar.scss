@@ -145,6 +145,7 @@
 		cursor: pointer;
 		color: white;
 		display: none;
+		padding-top: 8px;
 		@include media("<medium") {
 			display: block;
 		}
