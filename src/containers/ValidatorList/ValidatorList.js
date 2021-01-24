@@ -6,7 +6,7 @@ import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import {formatInteger, formatSeconds, formatOrai} from "src/helpers/helper";
+import {formatInteger, formatSeconds, formatOrai, replaceQueryString} from "src/helpers/helper";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -35,7 +35,6 @@ const ValidatorList = props => {
 	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
 	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
 	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
-	let backupData = useRef([]);
 
 	let timerID = useRef(null);
 
@@ -97,22 +96,6 @@ const ValidatorList = props => {
 			};
 		}
 	}, [loadValidatorsCompleted, refetchValidators]);
-
-	const replaceQueryString = (path, key, value) => {
-		const searchParams = new URLSearchParams(path);
-		if (value === "") {
-			if (searchParams.has(key)) {
-				searchParams.delete(key);
-			}
-		} else {
-			if (searchParams.has(key)) {
-				searchParams.set(key, value);
-			} else {
-				searchParams.append(key, value);
-			}
-		}
-		return decodeURIComponent(searchParams.toString());
-	};
 
 	const onPageChange = (path, key, value) => {
 		cleanUp();
@@ -205,10 +188,6 @@ const ValidatorList = props => {
 		);
 		tableSection = <ValidatorTableSkeleton rows={10} />;
 	} else {
-		if (validators?.data != null) {
-			backupData.current = validators.data;
-		}
-
 		// const totalPages = validators?.page?.total_page ?? 0;
 
 		filterSection = (
@@ -227,7 +206,7 @@ const ValidatorList = props => {
 			</div>
 		);
 
-		tableSection = <ValidatorTable data={validators?.data != null ? validators.data : backupData.current} />;
+		tableSection = <ValidatorTable data={validators?.data != null ? validators.data : []} />;
 		{
 			/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */
 		}

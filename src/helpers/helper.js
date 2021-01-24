@@ -83,3 +83,19 @@ export const calculateAfter = (total, limit, page) => {
 export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6) => {
 	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
 };
+
+export const replaceQueryString = (path, key, value) => {
+	const searchParams = new URLSearchParams(path);
+	if (value === "") {
+		if (searchParams.has(key)) {
+			searchParams.delete(key);
+		}
+	} else {
+		if (searchParams.has(key)) {
+			searchParams.set(key, value);
+		} else {
+			searchParams.append(key, value);
+		}
+	}
+	return decodeURIComponent(searchParams.toString());
+};
