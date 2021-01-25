@@ -140,4 +140,8 @@ export default Object.freeze({
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 	},
+	ADDRESS_PREFIX: {
+		VALIDATOR: "oraivaloper1",
+		ACCOUNT: "orai1",
+	},
 });

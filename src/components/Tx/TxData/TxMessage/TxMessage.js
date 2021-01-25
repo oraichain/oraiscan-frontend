@@ -68,9 +68,9 @@ export default function({msg, txData}) {
 			</InfoRow>
 		);
 
-		const getAddressRow = (label, address, link = true) => (
+		const getAddressRow = (label, address) => (
 			<InfoRow label={label}>
-				<Address address={address} link={link} showCopyIcon={true} />
+				<Address address={address} showCopyIcon={true} size='md' />
 			</InfoRow>
 		);
 
@@ -83,7 +83,7 @@ export default function({msg, txData}) {
 						{getAddressRow("From Address", value?.from_address)}
 						{getAddressRow("To Address", value?.to_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0], ["blueColor", "uppercase"])}
-						{getAddressRow("Memo", memo, false)}
+						{getAddressRow("Memo", memo)}
 					</>
 				)}
 
@@ -108,7 +108,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Code", value?.code)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
-						{getInfoRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
 					</>
 				)}
@@ -120,7 +120,7 @@ export default function({msg, txData}) {
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
 						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee, ["blueColor", "uppercase"])}
-						{getInfoRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner)}
 					</>
 				)}
 
@@ -129,7 +129,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Code", value?.code)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
-						{getInfoRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner)}
 					</>
 				)}
 
@@ -139,7 +139,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
-						{getInfoRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner)}
 					</>
 				)}
 
@@ -147,7 +147,7 @@ export default function({msg, txData}) {
 					<>
 						{getInfoRow("Code", value?.code)}
 						{getInfoRow("Description", value?.description)}
-						{getInfoRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
 					</>
@@ -171,18 +171,18 @@ export default function({msg, txData}) {
 									</div>
 								</div>
 							))}
-						{getInfoRow("Reporter Address", value?.reporter?.reporter_address)}
+						{getAddressRow("Reporter Address", value?.reporter?.reporter_address)}
 						{getInfoRow("Reporter Name", value?.reporter?.reporter_name)}
-						{getInfoRow("Reporter Validator", value?.reporter?.reporter_validator)}
+						{getAddressRow("Reporter Validator", value?.reporter?.reporter_validator)}
 						{getInfoRow("Request Id", value?.request_id)}
 					</>
 				)}
 
 				{type === txTypes.WEBSOCKET.ADD_REPORTER && (
 					<>
-						{getInfoRow("Adder", value?.adder)}
-						{getInfoRow("Reporter", value?.reporter)}
-						{getInfoRow("Validator", value?.validator)}
+						{getAddressRow("Adder", value?.adder)}
+						{getAddressRow("Reporter", value?.reporter)}
+						{getAddressRow("Validator", value?.validator)}
 					</>
 				)}
 
@@ -192,7 +192,7 @@ export default function({msg, txData}) {
 					<>
 						{getInfoRow("Image Hash", value?.image_hash)}
 						{getInfoRow("Image Name", value?.image_name)}
-						{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
+						{getAddressRow("Creator", value?.msg_set_ai_request?.creator)}
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
@@ -203,7 +203,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.AIREQUEST.SET_PRICE_REQUEST && (
 					<>
-						{getInfoRow("Creator", value?.msg_set_ai_request?.creator)}
+						{getAddressRow("Creator", value?.msg_set_ai_request?.creator)}
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}

@@ -29,8 +29,7 @@ const DataSourceTable = memo(({dataSources, pages, onPageChange, handleSearch}) 
 		);
 		const ownerCell = (
 			<div>
-				{" "}
-				<Address address={owner} link={`/account/${owner}`} size='sm' showCopyIcon={false} />
+				<Address address={owner} size='sm' showCopyIcon={false} />
 			</div>
 		);
 

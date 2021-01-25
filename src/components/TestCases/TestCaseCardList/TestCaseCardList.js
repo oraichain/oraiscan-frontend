@@ -58,7 +58,7 @@ const TestCaseCardList = memo(({data = []}) => {
 										<div className={cx("item-link")}>-</div>
 									) : (
 										<div className={cx("flex-row-end")}>
-											<Address address={item.owner} link={`${consts.PATH.ACCOUNT}/${item.owner}`} size='md' showCopyIcon={false} />
+											<Address address={item.owner} size='md' showCopyIcon={false} />
 										</div>
 									)}
 								</td>
