@@ -68,11 +68,7 @@ const TestCaseTable = memo(({data = []}) => {
 				<div className={cx("data-cell", "align-center")}>{item.requests}</div>
 			);
 
-			const ownerDataCell = _.isNil(item?.owner) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<Address address={item.owner} link={`${consts.PATH.ACCOUNT}/${item.owner}`} size='md' showCopyIcon={false} />
-			);
+			const ownerDataCell = _.isNil(item?.owner) ? <div className={cx("align-left")}>-</div> : <Address address={item.owner} size='md' showCopyIcon={false} />;
 
 			return [testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell];
 		});

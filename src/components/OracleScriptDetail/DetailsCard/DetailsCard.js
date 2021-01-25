@@ -39,12 +39,7 @@ const DetailsCard = memo(() => {
 							<img src={infoIcon} alt='' className={cx("information-title-icon")} />
 						</Grid>
 						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							<Address
-								address='band1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv'
-								link='/account/band1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv'
-								size='md'
-								showCopyIcon={false}
-							/>
+							<Address address='orai1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv' size='md' showCopyIcon={false} />
 						</Grid>
 					</Grid>
 

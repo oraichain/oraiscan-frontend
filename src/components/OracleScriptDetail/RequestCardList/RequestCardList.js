@@ -63,7 +63,7 @@ const RequestCardList = memo(({data = []}) => {
 							<td>
 								<div className={cx("item-title")}>Owner</div>
 								<div className={cx("flex-row-end")}>
-									<Address address='Owner-01' link={`${consts.PATH.ACCOUNT}/Owner-01`} size='md' showCopyIcon={false} />
+									<Address address='orai1clmdwn4tjr27rlm9cn8t7vapu9zx5zsdc3efxq' size='md' showCopyIcon={false} />
 								</div>
 							</td>
 						</tr>

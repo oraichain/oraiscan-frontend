@@ -75,7 +75,7 @@ const RequestTable = memo(({data = []}) => {
 
 		const ownerDataCell = (
 			<div className={cx("owner-data-cell")}>
-				<Address address='Owner-01' link={`${consts.PATH.ACCOUNT}/Owner-01`} size='md' showCopyIcon={false} />
+				<Address address='orai1clmdwn4tjr27rlm9cn8t7vapu9zx5zsdc3efxq' size='md' showCopyIcon={false} />
 			</div>
 		);
 
