@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Container from "@material-ui/core/Container";
 import {_} from "src/lib/scripts";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
@@ -18,29 +19,31 @@ export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	return (
-		<div className={cx("DashboardContent-wrapper")}>
-			{isLargeScreen ? (
-				<div className={cx("header")}>
-					<div className={cx("title")}>Dashboard</div>
-					<StatusBox />
+		<Container>
+			<div className={cx("DashboardContent-wrapper")}>
+				{isLargeScreen ? (
+					<div className={cx("header")}>
+						<div className={cx("title")}>Dashboard</div>
+						<StatusBox />
+					</div>
+				) : (
+					<TogglePageBar type='dashboard' />
+				)}
+				<div className={cx("PriceGraphClickable-wrapper")}>
+					<div className={cx("Card", "PriceGraph-wrapper")}>
+						<PriceDisplay />
+						<GraphDisplay />
+						<DetailDisplay />
+						{!isLargeScreen && <div className={cx("hr-price")}></div>}
+					</div>
 				</div>
-			) : (
-				<TogglePageBar type='dashboard' />
-			)}
-			<div className={cx("PriceGraphClickable-wrapper")}>
-				<div className={cx("Card", "PriceGraph-wrapper")}>
-					<PriceDisplay />
-					<GraphDisplay />
-					<DetailDisplay />
-					{!isLargeScreen && <div className={cx("hr-price")}></div>}
+				<div className={cx("BlockTx-wrapper")}>
+					<BlocksDisplay />
+					<div className={cx("CardFixed")}>
+						<TxDisplay />
+					</div>
 				</div>
 			</div>
-			<div className={cx("BlockTx-wrapper")}>
-				<BlocksDisplay />
-				<div className={cx("CardFixed")}>
-					<TxDisplay />
-				</div>
-			</div>
-		</div>
+		</Container>
 	);
 }
