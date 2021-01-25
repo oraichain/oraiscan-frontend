@@ -1,54 +1,48 @@
 import React, {useState} from "react";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import _ from "lodash";
-import {useParams} from "react-router-dom";
+import RequestCard from "src/components/OracleScriptDetail/RequestCard";
+import DetailsCard from "src/components/OracleScriptDetail/DetailsCard";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import {Infomation, OracleScriptDetailTable} from "src/components/OracleScriptDetail";
-import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
 import styles from "./DataSourcesDetail.scss";
 
 const cx = cn.bind(styles);
 
-export default function(props) {
-	const {id} = useParams();
-	const url = `${consts.LCD_API_BASE}${consts.LCD_API.ORACLE_SCRIPT_DETAIL}/${id}`;
-	const [state, , , , setUrl] = useFetch(`${url}`);
-	const pages = parseInt(state?.data?.result?.count || 0);
-	const onPageChange = page => {
-		setUrl(`${url}`);
-	};
-	const dataForStatusBox = [
-		{
-			label: "Price",
-			value: "$455.73",
-		},
-		{
-			label: "Height",
-			value: "4,374,598",
-		},
-		{
-			label: "Bonded",
-			value: "189,132,631",
-		},
-		{
-			label: "Inflation",
-			value: "7.00%",
-		},
-	];
-	return (
-		<Container fixed className={cx("validator-list")}>
+const OracleScriptDetail = () => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	let titleSection;
+	let detailsCard;
+	let requestCard;
+
+	if (isLargeScreen) {
+		titleSection = (
 			<TitleWrapper>
-				<PageTitle title='Oracle Scripts Details' />
-				<StatusBox data={dataForStatusBox} />
+				<PageTitle title={"Oracle Script Details"} />
+				<StatusBox />
 			</TitleWrapper>
+		);
+	} else {
+		titleSection = <TogglePageBar type='oracle-scripts' />;
+	}
 
-			<div className={cx("detail-section")}>{!_.isNil(state.data) && <Infomation data={state.data.result} />}</div>
+	detailsCard = <DetailsCard />;
 
-			<OracleScriptDetailTable pages={pages} onPageChange={onPageChange} />
+	requestCard = <RequestCard />;
+
+	return (
+		<Container fixed className={cx("oracle-script-detail")}>
+			{titleSection}
+			{detailsCard}
+			{requestCard}
 		</Container>
 	);
-}
+};
+
+export default OracleScriptDetail;

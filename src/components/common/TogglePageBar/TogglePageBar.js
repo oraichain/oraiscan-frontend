@@ -11,6 +11,7 @@ import {ReactComponent as TransactionIcon} from "src/assets/icons/transactions.s
 import {ReactComponent as TogglePageIcon} from "src/assets/icons/toggle-page.svg";
 import {ReactComponent as DataSourceIcon} from "src/assets/icons/data-source.svg";
 import {ReactComponent as TestCaseIcon} from "src/assets/header/test_case.svg";
+import {ReactComponent as OracleScriptIcon} from "src/assets/icons/oracle-script.svg";
 
 const cx = classNames.bind(styles);
 
@@ -63,6 +64,14 @@ const TogglePageBar = ({type}) => {
 					<div className={cx("title")}>
 						{" "}
 						<TestCaseIcon /> Test Cases
+					</div>
+				);
+			}
+			case "oracle-scripts": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<OracleScriptIcon /> Oracle Scripts
 					</div>
 				);
 			}

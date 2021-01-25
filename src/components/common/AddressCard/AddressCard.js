@@ -61,7 +61,7 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 						)}
 					</div>
 					<div className={cx("address-value")}>
-						<Address address={address.value} showCopyIcon={false} size='md' />
+						{typeof address.value === "string" ? <Address address={address.value} showCopyIcon={false} size='md' /> : address.value}
 					</div>
 				</div>
 			))}

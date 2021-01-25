@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 .GraphDisplay {
-	padding: 16px 30px 30px 0;
+	padding: 16px 30px 30px 30px;
 	width: 100%;
 	display: flex;
 	flex-flow: column;
@@ -79,7 +79,6 @@
 
 	.Graph-wrapper {
 		width: 95%;
-		padding-left: 30px;
 		margin: auto;
 		@include media(">=xxsmall") {
 			width: map_get($breakpoints, xxsmall) - 40px;
@@ -95,7 +94,6 @@
 		}
 		@include media("<medium") {
 			width: 100%;
-			padding-left: 0px;
 		}
 	}
 }

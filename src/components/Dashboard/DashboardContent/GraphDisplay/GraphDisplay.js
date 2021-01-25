@@ -94,7 +94,7 @@ const options = {
 	chart: {
 		type: "areaspline",
 		margin: [5, 15, 20, 15],
-		height: "180px",
+		height: "230px",
 		width: null,
 		spacing: [20, 20, 20, 20],
 		renderTo: "container",
