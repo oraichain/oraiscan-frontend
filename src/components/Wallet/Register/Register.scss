@@ -48,6 +48,7 @@
 	}
 
 	.MuiButton-root {
+		margin-top: 25px;
 		min-width: 300px;
 		height: 50px;
 		background: #00b1e9;
@@ -61,5 +62,28 @@
 		font-family: Roboto;
 		font-style: normal;
 		padding: 11px;
+	}
+
+	.form-dialog {
+		width: 87%;
+	}
+
+	.input-text {
+		font-size: 14px;
+		color: #b5b5b5;
+
+		> div {
+			border-radius: 6px;
+		}
+
+		label {
+			font-size: 22px;
+			color: #181818;
+			top: -12px;
+			font-weight: 500;
+		}
+	}
+	.grid {
+		margin-top: 25px;
 	}
 }
