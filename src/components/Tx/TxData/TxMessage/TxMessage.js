@@ -82,7 +82,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("From Address", value?.from_address)}
 						{getAddressRow("To Address", value?.to_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount?.[0], ["blueColor", "uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount?.[0], ["uppercase"])}
 						{getAddressRow("Memo", memo)}
 					</>
 				)}
@@ -91,7 +91,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.value, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.value, ["uppercase"])}
 					</>
 				)}
 
@@ -99,7 +99,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
 					</>
 				)}
 
@@ -109,7 +109,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
-						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["uppercase"])}
 					</>
 				)}
 
@@ -119,7 +119,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
-						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee, ["uppercase"])}
 						{getAddressRow("Owner", value?.owner)}
 					</>
 				)}
@@ -149,14 +149,14 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getAddressRow("Owner", value?.owner)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}
-						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["uppercase"])}
 					</>
 				)}
 
 				{type === txTypes.WEBSOCKET.ADD_REPORT && (
 					<>
 						{getInfoRow("Aggregated Result", atob(value?.aggregated_result))}
-						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0], ["blueColor", "uppercase"])}
+						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0], ["uppercase"])}
 						{getAddressRow("Report Address", value?.reporter?.reporter_address)}
 
 						{getTitleRow("Data Source Results")}
@@ -196,7 +196,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
 				)}
@@ -207,7 +207,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["blueColor", "uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["uppercase"])}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
 				)}
