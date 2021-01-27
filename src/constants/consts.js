@@ -67,6 +67,7 @@ export default Object.freeze({
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
 		ORAICHAIN_INFO: "/oraichain_info",
+
 		ACCOUNT_COINS: "/account/coins",
 		VALIDATOR: "/validator",
 		DELEGATOR: "/delegator",
@@ -77,13 +78,13 @@ export default Object.freeze({
 		VALIDATOR_ANALYTICS: "/validator-analytics",
 	},
 	LCD_API: {
-		VALIDATORS: "/validators",
 		DATA_SOURCES: "/provider/datasources",
 		DATA_SOURCE_DETAIL: "/provider/datasource",
 		TEST_CASES: "/provider/testcases",
 		ORACLE_SCRIPTS: "/provider/oscripts",
 		ORACLE_SCRIPT_DETAIL: "/provider/oscript",
-		ACCOUNT_DETAIL: "/auth/accounts",
+		ACCOUNT_DETAIL: "/cosmos/auth/v1beta1",
+		BALANCES: "/cosmos/bank/v1beta1/balances",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

@@ -105,7 +105,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
@@ -115,7 +115,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
@@ -126,7 +126,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.CREATE_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
@@ -135,7 +135,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
@@ -145,7 +145,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.SET_TESTCASE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getAddressRow("Owner", value?.owner)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}
