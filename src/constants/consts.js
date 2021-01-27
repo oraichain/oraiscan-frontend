@@ -137,6 +137,7 @@ export default Object.freeze({
 		VALIDATORS: "/validators",
 		TXLIST: "/txs",
 		ACCOUNT: "/account",
+		DATA_SOURCES: "/data-sources",
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 	},
