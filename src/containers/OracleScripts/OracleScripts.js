@@ -119,7 +119,7 @@ const OracleScripts = props => {
 			<div className={cx("filter-section-overlay")}></div>
 		</div>
 	);
-	tableSection = isLargeScreen ? <OracleScriptTable /> : <OracleScriptCardList />;
+	// tableSection = isLargeScreen ? <OracleScriptTable /> : <OracleScriptCardList />;
 	// tableSection = isLargeScreen ? <OracleScriptTableSkeleton /> : <OracleScriptCardListSkeleton />;
 	// } else {
 	// 	filterSection = (

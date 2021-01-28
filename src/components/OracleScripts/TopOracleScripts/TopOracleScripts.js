@@ -8,7 +8,8 @@ const cx = classNames.bind(styles);
 const TopOracleScripts = memo(() => {
 	return (
 		<Grid container spacing={2} className={cx("top-oracle-scripts")}>
-			<Grid item xs={12} lg={3}>
+			<h1> Coming Soon!</h1>
+			{/* <Grid item xs={12} lg={3}>
 				<div className={cx("item")}>
 					<div className={cx("item-ordering")}> #03 </div>
 					<div className={cx("item-title")}> Band Standard Dataset (Forex & Commodities) </div>
@@ -70,7 +71,7 @@ const TopOracleScripts = memo(() => {
 						<div className={cx("item-response-value")}> 8.17 s </div>
 					</div>
 				</div>
-			</Grid>
+			</Grid> */}
 		</Grid>
 	);
 });

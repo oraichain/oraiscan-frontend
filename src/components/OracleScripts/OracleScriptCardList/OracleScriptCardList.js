@@ -12,7 +12,7 @@ const OracleScriptCardList = memo(({data = []}) => {
 
 	return (
 		<div className='oracle-script-card-list'>
-			<div className={cx("oracle-script-card-list-item")}>
+			{/* <div className={cx("oracle-script-card-list-item")}>
 				<table>
 					<tbody>
 						<tr>
@@ -56,7 +56,7 @@ const OracleScriptCardList = memo(({data = []}) => {
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			</div> */}
 
 			{/* Bỏ comment này và xóa các dòng trên khi có data */}
 			{/* {data.map((item, index) => (
