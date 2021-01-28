@@ -137,7 +137,12 @@ export default Object.freeze({
 		VALIDATORS: "/validators",
 		TXLIST: "/txs",
 		ACCOUNT: "/account",
+		DATA_SOURCES: "/data-sources",
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
+	},
+	ADDRESS_PREFIX: {
+		VALIDATOR: "oraivaloper1",
+		ACCOUNT: "orai1",
 	},
 });

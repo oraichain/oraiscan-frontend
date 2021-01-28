@@ -1,9 +1,9 @@
 import React, {lazy, Suspense} from "react";
 import {Route, Switch} from "react-router-dom";
-import ReactGA from "react-ga";
 import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
-import {useHistory, usePreload} from "src/hooks";
+import {usePreload} from "src/hooks";
+import ScrollToTop from "./ScrollToTop";
 import styles from "./Router.scss";
 
 const cx = cn.bind(styles);
@@ -36,39 +36,29 @@ export default function(props) {
 	return (
 		<main className={cx("routerContainer")}>
 			<Suspense fallback={<Loading />}>
-				<ScrollToTop>
-					<Switch>
-						<Route exact path='/' render={props => <Dashboard {...props} />} />
-						<Route path='/validators/:validator' render={props => <ValidatorDetails {...props} />} />
-						<Route path='/validators' render={props => <ValidatorList {...props} />} />
-						<Route path='/blocks/:height' render={props => <Block {...props} />} />
-						<Route path='/blocks' render={props => <BlockList {...props} />} />
-						<Route path='/txs/:tx' render={props => <Tx {...props} />} />
-						<Route path='/txs' render={props => <TxList {...props} />} />
-						<Route path='/account/:account' render={props => <Account {...props} />} />
-						<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
-						<Route path='/data-sources' component={DataSources} />
-						<Route path='/test-cases' component={TestCases} />
-						<Route path='/proposals/:id' component={ProposalsDetail} />
-						<Route path='/proposals' component={Proposals} />
-						<Route path='/requests/:id' component={RequestsDetail} />
-						<Route path='/requests' component={Requests} />
-						<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
-						<Route path='/oracle-scripts' component={OracleScripts} />
-						<Route path='/wallet' component={Wallet} />
-						<Route render={() => <NotFound />} />
-					</Switch>
-				</ScrollToTop>
+				<ScrollToTop />
+				<Switch>
+					<Route exact path='/' render={props => <Dashboard {...props} />} />
+					<Route path='/validators/:validator' render={props => <ValidatorDetails {...props} />} />
+					<Route path='/validators' render={props => <ValidatorList {...props} />} />
+					<Route path='/blocks/:height' render={props => <Block {...props} />} />
+					<Route path='/blocks' render={props => <BlockList {...props} />} />
+					<Route path='/txs/:tx' render={props => <Tx {...props} />} />
+					<Route path='/txs' render={props => <TxList {...props} />} />
+					<Route path='/account/:account' render={props => <Account {...props} />} />
+					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
+					<Route path='/data-sources' component={DataSources} />
+					<Route path='/test-cases' component={TestCases} />
+					<Route path='/proposals/:id' component={ProposalsDetail} />
+					<Route path='/proposals' component={Proposals} />
+					<Route path='/requests/:id' component={RequestsDetail} />
+					<Route path='/requests' component={Requests} />
+					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
+					<Route path='/oracle-scripts' component={OracleScripts} />
+					<Route path='/wallet' component={Wallet} />
+					<Route render={() => <NotFound />} />
+				</Switch>
 			</Suspense>
 		</main>
 	);
 }
-
-const ScrollToTop = props => {
-	const history = useHistory();
-	React.useEffect(() => {
-		ReactGA.pageview(window.location.pathname + window.location.search);
-		window.scrollTo(0, 0);
-	}, [history.location.pathname]);
-	return <>{props.children}</>;
-};

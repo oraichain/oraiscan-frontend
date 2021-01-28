@@ -1,11 +1,11 @@
 @import "src/styles/utils";
 
 .test-cases {
-	margin-top: 24px;
 	margin-bottom: 24px;
+	margin-top: 30px;
 
-	@media (min-width: 979px) {
-		margin-top: 30px;
+	@include media("<medium") {
+		margin-top: 0;
 	}
 }
 
@@ -15,7 +15,7 @@
 	justify-content: flex-end;
 	margin-bottom: 20px;
 	align-items: baseline;
-	@include media("<medium") {
+	@include media("<large") {
 		display: block;
 	}
 
@@ -44,7 +44,6 @@
 
 .search-test-cases {
 	width: 100%;
-	margin-top: 15px;
 	button {
 		position: absolute;
 		right: 18px;

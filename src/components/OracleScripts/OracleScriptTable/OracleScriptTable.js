@@ -63,7 +63,7 @@ const OracleScriptTable = memo(({data = []}) => {
 
 		const ownerDataCell = (
 			<div className={cx("owner-data-cell")}>
-				<Address address='Owner 001' link={`${consts.PATH.ACCOUNT}/orai1234`} size='md' showCopyIcon={false} />
+				<Address address='orai1clmdwn4tjr27rlm9cn8t7vapu9zx5zsdc3efxq' size='md' showCopyIcon={false} />
 			</div>
 		);
 

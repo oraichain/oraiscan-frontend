@@ -225,11 +225,11 @@ export default function(props) {
 						</div>
 						<div className={cx("left-title")}>Operator address</div>
 						<div className={cx("left-title-container")}>
-							<Address address={validatorDetails.operatorAddress} link={`/validators/${validatorDetails.operatorAddress}`} size='sm' />
+							<Address address={validatorDetails.operatorAddress} size='sm' />
 						</div>
 						<div className={cx("left-title")}>Address</div>
 						<div className={cx("left-title-container")}>
-							<Address address={validatorDetails.accountAddress} link={`/account/${validatorDetails.accountAddress}`} size='sm' />
+							<Address address={validatorDetails.accountAddress} size='sm' />
 						</div>
 					</div>
 					<div className={cx("right-card")}>

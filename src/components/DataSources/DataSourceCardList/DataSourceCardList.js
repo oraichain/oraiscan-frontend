@@ -5,26 +5,26 @@ import consts from "src/constants/consts";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
-import styles from "./TestCaseCardList.scss";
+import styles from "./DataSourceCardList.scss";
 
-const TestCaseCardList = memo(({data = []}) => {
+const DataSourceCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
 
 	return (
-		<div className='test-case-card-list'>
+		<div className='data-source-card-list'>
 			{data.map((item, index) => (
-				<div className={cx("test-case-card-list-item")} key={"test-case-card-list-item-" + index}>
+				<div className={cx("data-source-card-list-item")} key={"data-source-card-list-item-" + index}>
 					<table>
 						<tbody>
 							<tr>
 								<td>
-									<div className={cx("item-title")}>Test Case</div>
+									<div className={cx("item-title")}>Data Source</div>
 								</td>
 								<td>
 									{_.isNil(item?.name) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (
-										<NavLink className={cx("item-link")} to={`${consts.PATH.TEST_CASES}/${item.name}`}>
+										<NavLink className={cx("item-link")} to={`${consts.PATH.DATA_SOURCES}/${item.name}`}>
 											{item.name}
 										</NavLink>
 									)}
@@ -78,4 +78,4 @@ const TestCaseCardList = memo(({data = []}) => {
 	);
 });
 
-export default TestCaseCardList;
+export default DataSourceCardList;
