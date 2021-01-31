@@ -160,7 +160,7 @@ const OracleScripts = props => {
 			{titleSection}
 			{topSection}
 			{filterSection}
-			{tableSection}
+			{/* {tableSection} */}
 			{paginationSection}
 		</Container>
 	);
