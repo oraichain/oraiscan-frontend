@@ -1,15 +1,20 @@
 export default Object.freeze({
-	//  COSMOS
-	COSMOS: {
-		SEND: "cosmos-sdk/Send",
-		PROPOSAL_SUBMIT: "cosmos-sdk/MsgSubmitProposal",
-		DEPOSIT: "cosmos-sdk/MsgDeposit",
-		VOTE: "cosmos-sdk/MsgVote",
-		VALIDATOR_CREATE: "cosmos-sdk/MsgCreateValidator",
-		VALIDATOR_REMOVE: "cosmos-sdk/MsgRemoveValidator",
-		VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
+	//  COSMOS_SDK
+	COSMOS_SDK: {
+		MSG_CREATE_VALIDATOR: "cosmos-sdk/MsgCreateValidator",
 		MSG_DELEGATE: "cosmos-sdk/MsgDelegate",
+		MSG_UNDELEGATE: "cosmos-sdk/MsgUndelegate",
 		MSG_SEND: "cosmos-sdk/MsgSend",
+		MSG_EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
+		MSG_BEGIN_REDELEGATE: "cosmos-sdk/MsgBeginRedelegate",
+		MSG_WITHDRAW_DELEGATION_REWARD: "cosmos-sdk/MsgWithdrawDelegationReward",
+		MSG_WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission",
+		SEND: "cosmos-sdk/Send",
+		MSG_SUBMIT_PROPOSAL: "cosmos-sdk/MsgSubmitProposal",
+		MSG_DEPOSIT: "cosmos-sdk/MsgDeposit",
+		MSG_VOTE: "cosmos-sdk/MsgVote",
+		MSG_REMOVE_VALIDATOR: "cosmos-sdk/MsgRemoveValidator",
+		MSG_CREATE_VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
 	},
 
 	//  DEX
@@ -66,7 +71,5 @@ export default Object.freeze({
 	},
 
 	// AIRESULT
-	AIRESULT: {
-
-	},
+	AIRESULT: {},
 });

@@ -81,6 +81,10 @@ export const calculateAfter = (total, limit, page) => {
 };
 
 export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6) => {
+	if (value === undefined || value === null) {
+		return "_";
+	}
+
 	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
 };
 
