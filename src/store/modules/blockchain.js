@@ -169,7 +169,7 @@ const handlers = {
 };
 
 const flatTxTypes = Object.freeze({
-	...txTypes.COSMOS,
+	...txTypes.COSMOS_SDK,
 	...txTypes.DEX,
 	...txTypes.TOKENS,
 	...txTypes.MISC,

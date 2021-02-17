@@ -1,6 +1,6 @@
 import txTypes from "src/constants/txTypes";
 
-const {COSMOS, DEX, TOKENS, MISC, PROVIDER, WEBSOCKET} = txTypes;
+const {COSMOS_SDK, DEX, TOKENS, MISC, PROVIDER, WEBSOCKET} = txTypes;
 
 export default function(txType) {
 	switch (txType) {
@@ -13,8 +13,9 @@ export default function(txType) {
 			return "Cancel Order";
 
 		case "TRANSFER":
-		case COSMOS.SEND:
-		case COSMOS.MSG_SEND:
+
+		case COSMOS_SDK.SEND:
+		case COSMOS_SDK.MSG_SEND:
 			return "Transfer";
 
 		case "LIST_TOKEN":
@@ -57,21 +58,21 @@ export default function(txType) {
 		case TOKENS.HTLT_REFUND:
 			return "Refund Swap";
 
-		case COSMOS.DEPOSIT:
+		case COSMOS_SDK.MSG_DEPOSIT:
 			return "Deposit";
 		case "PROPOSAL":
-		case COSMOS.PROPOSAL_SUBMIT:
+		case COSMOS_SDK.MSG_SUBMIT_PROPOSAL:
 			return "Proposal Submit";
-		case COSMOS.VALIDATOR_PROPOSAL:
+		case COSMOS_SDK.MSG_CREATE_VALIDATOR_PROPOSAL:
 			return "Validator Proposal";
 		case "VOTE":
-		case COSMOS.VOTE:
+		case COSMOS_SDK.MSG_VOTE:
 			return "Vote";
-		case COSMOS.VALIDATOR_CREATE:
+		case COSMOS_SDK.MSG_CREATE_VALIDATOR:
 			return "Create Validator";
-		case COSMOS.VALIDATOR_REMOVE:
+		case COSMOS_SDK.MSG_REMOVE_VALIDATOR:
 			return "Remove Validator";
-		case COSMOS.MSG_DELEGATE:
+		case COSMOS_SDK.MSG_DELEGATE:
 			return "Delegate";
 
 		case MISC.ACCOUNTFLAG_SET:

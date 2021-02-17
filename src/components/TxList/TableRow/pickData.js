@@ -48,7 +48,7 @@ export default function(blockData, cx, cell) {
 			if (_.isNil(blockData?.messages)) return <Skeleton />;
 			let address;
 			if (!_.isNil(blockData?.messages?.[0]?.value?.sender)) address = `${blockData?.messages?.[0]?.value?.sender}`;
-			else if (blockData?.messages?.[0]?.type === txTypes.COSMOS.SEND) address = `${blockData?.messages?.[0]?.value?.inputs?.[0]?.address}`;
+			else if (blockData?.messages?.[0]?.type === txTypes.COSMOS_SDK.SEND) address = `${blockData?.messages?.[0]?.value?.inputs?.[0]?.address}`;
 			else if (txCheckHTLT(blockData?.messages?.[0]?.type)) address = blockData?.messages[0]?.value?.to;
 			else if (blockData?.messages?.[0]?.type === txTypes.TOKENS.HTLT_CLAIM || blockData?.messages?.[0]?.type === txTypes.TOKENS.HTLT_REFUND)
 				address = blockData?.messages[0]?.value?.from;
@@ -56,7 +56,7 @@ export default function(blockData, cx, cell) {
 			if (_.isString(address))
 				return (
 					<NavLink
-						className={cx("blueColor", blockData?.messages?.[0]?.type === txTypes.COSMOS.SEND ? "address" : undefined)}
+						className={cx("blueColor", blockData?.messages?.[0]?.type === txTypes.COSMOS_SDK.SEND ? "address" : undefined)}
 						to={`/account/${refineAddress(address)}`}>
 						<span>{reduceString(refineAddress(address), 6, 6)}</span>
 					</NavLink>
@@ -66,14 +66,14 @@ export default function(blockData, cx, cell) {
 		case cellTypes.TO: {
 			// TODO
 			//  pretty much divide all the cases
-			if (blockData?.messages?.[0]?.type !== txTypes.COSMOS.SEND) return "";
+			if (blockData?.messages?.[0]?.type !== txTypes.COSMOS_SDK.SEND) return "";
 			if (blockData?.messages?.[0]?.value?.outputs.length > 1) return <span>Multiple Address</span>;
 			const address = `${blockData?.messages?.[0]?.value?.outputs?.[0]?.address}`;
 			return (
 				<>
 					<SvgDisplay svgSrc={greenArrowSVG} customClass={"upsideDown"} />
 					<NavLink
-						className={cx("blueColor", blockData?.messages?.[0]?.type === txTypes.COSMOS.SEND ? "address" : undefined)}
+						className={cx("blueColor", blockData?.messages?.[0]?.type === txTypes.COSMOS_SDK.SEND ? "address" : undefined)}
 						to={`/account/${refineAddress(address)}`}>
 						<span>{reduceString(refineAddress(address), 6, 6)}</span>
 					</NavLink>
@@ -87,7 +87,7 @@ export default function(blockData, cx, cell) {
 
 				if (type === txTypes.DEX.ORDER_NEW)
 					amount = Big.multiply(Big.divide(blockData.messages[0]?.value?.price, BASE_MULT), Big.divide(blockData.messages[0]?.value?.quantity, BASE_MULT));
-				else if (type === txTypes.COSMOS.SEND) amount = Big.divide(blockData.messages[0]?.value?.outputs?.[0]?.coins?.[0]?.amount, BASE_MULT);
+				else if (type === txTypes.COSMOS_SDK.SEND) amount = Big.divide(blockData.messages[0]?.value?.outputs?.[0]?.coins?.[0]?.amount, BASE_MULT);
 				else if (type === txTypes.TOKENS.HTLT) amount = Big.divide(blockData.messages[0]?.value?.amount?.[0]?.amount, BASE_MULT);
 			}
 			if (!_.isNil(amount)) {
@@ -107,7 +107,7 @@ export default function(blockData, cx, cell) {
 				if (type === txTypes.DEX.ORDER_NEW) {
 					const symbol = blockData?.messages?.[0]?.value?.symbol;
 					if (_.isString(symbol)) ret = symbol.split("_")[1];
-				} else if (type === txTypes.COSMOS.SEND) {
+				} else if (type === txTypes.COSMOS_SDK.SEND) {
 					ret = blockData?.messages?.[0]?.value?.inputs?.[0]?.coins?.[0]?.denom;
 				} else if (type === txTypes.TOKENS.HTLT) ret = blockData.messages[0]?.value?.amount?.[0]?.denom;
 			}
