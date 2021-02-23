@@ -4,6 +4,7 @@ import {FormControl, InputLabel, Input, Button, FormHelperText, Tooltip} from "@
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 
+import Keystation from "src/lib/Keystation";
 import styles from "./Register.scss";
 
 const cx = cn.bind(styles);
@@ -82,9 +83,55 @@ export default class Register extends React.Component {
 			}
 		});
 
-		if (error) {
-			return;
-		}
+		const {account, address} = this.props;
+
+		const myKeystation = new Keystation({
+			client: process.env.REACT_APP_WALLET_API,
+			lcd: "https://lcd.orai.io",
+			path: "44/118/0/0/0",
+			keystationUrl: process.env.REACT_APP_WALLET_API,
+		});
+
+		const payload = {
+			type: "cosmos-sdk/MsgCreateValidator",
+			value: {
+				msg: [
+					{
+						type: "cosmos-sdk/MsgCreateValidator",
+						value: {
+							commission: {
+								max_change_rate: maxChangeRate,
+								max_rate: maxRate,
+								rate: commissionRate,
+							},
+							delegator_address: address,
+							description: {
+								details: "helloworld",
+								identity: "node",
+								moniker: name,
+								security_contact: "efg",
+								website: "xyx.com",
+							},
+							min_self_delegation: 100,
+							pubkey: "oraivalconspub1addwnpepqw8jxdggysfhj42eh6vy3z28x2c9y4nwfnz7x9vnszwdtyjwkn5jc7ev2m0",
+							validator_address: "oraivaloper1fl58xqkpn24v2jecpcdg2w29fndsulmne4vy5g",
+							value: {
+								denom: "orai",
+								amount: parseFloat(delegationAmount) * 1000000,
+							},
+						},
+					},
+				],
+				signatures: null,
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
 	};
 
 	onChange = e => {
@@ -359,7 +406,7 @@ export default class Register extends React.Component {
 							)}
 						</Grid>
 					</Grid>
-					<Button className={cx("MuiButton-root")} onClick={this.onSubmit} disabled>
+					<Button className={cx("MuiButton-root")} onClick={this.onSubmit}>
 						Next
 					</Button>
 				</form>
