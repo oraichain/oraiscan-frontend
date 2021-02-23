@@ -6,7 +6,7 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
-import {formatOrai, extractValueAndUnit} from "src/helpers/helper";
+import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {divide} from "src/lib/Big";
 import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
@@ -74,11 +74,78 @@ export default function({msg, txData}) {
 			</InfoRow>
 		);
 
+		const getLinkRow = (label, href) => {
+			if (_.isNil(href)) {
+				return (
+					<InfoRow label={label}>
+						<span>-</span>
+					</InfoRow>
+				);
+			}
+
+			return (
+				<InfoRow label={label}>
+					<a href={href} target='_blank' className={cx("blueColor")}>
+						{href}
+					</a>
+				</InfoRow>
+			);
+		};
+
 		const getTitleRow = label => <InfoRow label={label}></InfoRow>;
 
 		return (
 			<div className={cx("grid")}>
-				{type === txTypes.COSMOS.MSG_SEND && (
+				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.value, ["uppercase"])}
+						{getInfoRow("Min Self Delegation", value?.min_self_delegation)}
+						{getTitleRow("Pubkey")}
+						<div className={cx("grid-wrapper")}>
+							<div className={cx("grid")}>
+								{getInfoRow("Type", value?.pubkey?.type)}
+								{getInfoRow("Value", value?.pubkey?.value)}
+							</div>
+						</div>
+						{getTitleRow("Commission")}
+						<div className={cx("grid-wrapper")}>
+							<div className={cx("grid")}>
+								{getInfoRow("Rate", formatFloat(value?.commission?.rate, 6))}
+								{getInfoRow("Max Rate", formatFloat(value?.commission?.max_rate, 6))}
+							</div>
+						</div>
+						{getTitleRow("Description")}
+						<div className={cx("grid-wrapper")}>
+							<div className={cx("grid")}>
+								{getInfoRow("Details", value?.description?.details)}
+								{getInfoRow("Moniker", value?.description?.moniker)}
+								{getLinkRow("Website", value?.description?.website)}
+								{getInfoRow("Identity", value?.description?.identity)}
+								{getInfoRow("Security Contact", value?.description?.security_contact)}
+							</div>
+						</div>
+					</>
+				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_DELEGATE && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+					</>
+				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_UNDELEGATE && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+					</>
+				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_SEND && (
 					<>
 						{getAddressRow("From Address", value?.from_address)}
 						{getAddressRow("To Address", value?.to_address)}
@@ -87,25 +154,43 @@ export default function({msg, txData}) {
 					</>
 				)}
 
-				{type === txTypes.COSMOS.VALIDATOR_CREATE && (
+				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
 					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.value, ["uppercase"])}
+						{getTitleRow("Description")}
+						<div className={cx("grid-wrapper")}>
+							<div className={cx("grid")}>
+								{getInfoRow("Details", value?.description?.details)}
+								{getInfoRow("Moniker", value?.description?.moniker)}
+								{getLinkRow("Website", value?.description?.website)}
+								{getInfoRow("Identity", value?.description?.identity)}
+								{getInfoRow("Security Contact", value?.description?.security_contact)}
+							</div>
+						</div>
 					</>
 				)}
 
-				{type === txTypes.COSMOS.MSG_DELEGATE && (
+				{type === txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
-						{getAddressRow("Validator Address", value?.validator_address)}
+						{getAddressRow("Validator Dst Address", value?.validator_dst_address)}
+						{getAddressRow("Validator Src Address", value?.validator_src_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
 					</>
 				)}
 
+				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATION_REWARD && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+					</>
+				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_VALIDATOR_COMMISSION && <>{getAddressRow("Validator Address", value?.validator_address)}</>}
+
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
@@ -115,7 +200,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_AI_DATA_SOURCE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
@@ -126,7 +211,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.CREATE_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
@@ -135,7 +220,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.EDIT_ORACLE_SCRIPT && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
@@ -145,7 +230,7 @@ export default function({msg, txData}) {
 
 				{type === txTypes.PROVIDER.SET_TESTCASE && (
 					<>
-						{getInfoRow("Code", value?.code)}
+						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getAddressRow("Owner", value?.owner)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}

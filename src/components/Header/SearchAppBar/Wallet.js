@@ -44,15 +44,17 @@ const handleClickConnectWallet = () => {
 
 export default function({data}) {
 	const {path, title, handleClick, init} = data;
+	const history = useHistory();
 	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
-	const [wallet, , , , setUrl] = useFetch();
+	const [balance, , , , setUrl] = useFetch();
 	const [reFetchAmount, setReFetchAmount] = useState(0);
-	const amount = wallet?.data?.result?.value?.coins?.[0]?.amount;
+	const amount = balance?.balances?.[0]?.amount ?? 0;
+	const denom = balance?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
-		title && !init && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.ACCOUNT_DETAIL}/${title}?t=${Date.now()}`);
+		title && !init && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}?t=${Date.now()}`);
 	}, [title, reFetchAmount]);
 
 	if (title === "") {
@@ -105,9 +107,14 @@ export default function({data}) {
 					</NavLink>
 
 					<div className={cx("wallet-address-title")}> Balance </div>
-					<div className={cx("wallet-address-detail")}>{formatOrai(amount || 0)} ORAI</div>
+					<div className={cx("wallet-address-detail")}>
+						{formatOrai(amount || 0)} <span className={cx("denom")}>{denom}</span>
+					</div>
 
 					<div className={cx("btn-action-group")}>
+						<div className={cx("btn-send", "btn-wallet")} onClick={() => history.push("/wallet/")}>
+							My Wallet
+						</div>
 						<div className={cx("btn-send")} onClick={() => setShowTransactionModal(true)}>
 							Send
 						</div>

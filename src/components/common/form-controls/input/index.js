@@ -9,7 +9,7 @@ const cx = cn.bind(styles);
 
 function FormInput(props) {
 	const {control} = useFormContext();
-	const {name, placeholder, label, required, errorobj} = props;
+	const {name, placeholder, label, required, errorobj, classNameCustom} = props;
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
@@ -25,7 +25,7 @@ function FormInput(props) {
 			placeholder={placeholder || ""}
 			label={label}
 			fullWidth
-			className={cx("input-text")}
+			className={cx("input-text", classNameCustom)}
 			InputLabelProps={{
 				className: cx({"required-label": required}),
 				required: required || false,
