@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:ee31ad4779d32888f0dc376b587da98a8f7fff2e
+        image: thao1996/oraiscan-frontend:f05abd23d90d48458db9e02b2499b110f0253d5d
         command: ["sh", "-c", "cp /env/.env /app/"]
         volumeMounts:
           - name: oraiscan-frontend-volume
