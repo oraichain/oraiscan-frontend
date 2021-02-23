@@ -44,6 +44,7 @@ const handleClickConnectWallet = () => {
 
 export default function({data}) {
 	const {path, title, handleClick, init} = data;
+	const history = useHistory();
 	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
@@ -111,6 +112,9 @@ export default function({data}) {
 					</div>
 
 					<div className={cx("btn-action-group")}>
+						<div className={cx("btn-send", "btn-wallet")} onClick={() => history.push("/wallet/")}>
+							My Wallet
+						</div>
 						<div className={cx("btn-send")} onClick={() => setShowTransactionModal(true)}>
 							Send
 						</div>
