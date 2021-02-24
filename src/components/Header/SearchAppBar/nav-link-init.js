@@ -9,7 +9,7 @@ export const navLinkInit = [
 			{title: `Marketplace`, path: `https://market.orai.io/oscript`},
 		],
 	},
-	{title: `Tokenomics`, path: `https://orai.io/Tokenomics`},
+	{title: `Tokenomics`, path: `https://orai.io/tokenomics`},
 	{
 		title: `About`,
 		children: [
