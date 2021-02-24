@@ -42,7 +42,7 @@ export default function() {
 		return <CustomCountDown {...rest} />;
 	};
 
-	const releaseDate = Date.parse("2021-02-24T20:00:00.000+07:00");
+	const releaseDate = Date.parse("2021-02-24T19:30:00.000+07:00");
 	// const releaseDate = Date.parse('2021-02-23T19:08:00.000+07:00');
 
 	return <Countdown date={releaseDate} renderer={renderer} />;
