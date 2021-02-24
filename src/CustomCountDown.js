@@ -40,7 +40,7 @@ export default function({days, hours, minutes, seconds}) {
 					</div>
 					<div>
 						{" "}
-						<a href='https://orai.io/Tokenomics'> Tokenomic </a>{" "}
+						<a href='https://orai.io/tokenomics'> Tokenomic </a>{" "}
 					</div>
 					<div>
 						{" "}
