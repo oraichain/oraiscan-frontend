@@ -3,13 +3,11 @@ import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useHistory} from "react-router-dom";
-import Skeleton from "react-skeleton-loader";
 import {useTheme} from "@material-ui/core/styles";
-
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import {formatPercentage, formatInteger} from "src/helpers/helper";
+import Delegate from "src/components/common/Delegate";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ValidatorTable.scss";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
@@ -20,7 +18,6 @@ import aiIcon from "src/assets/common/ai_ic.svg";
 const cx = classNames.bind(styles);
 
 const ValidatorTableMobile = ({data}) => {
-	const history = useHistory();
 	return (
 		<div className={cx("block-table")}>
 			{_.map(data, (dataRow, i) => {
@@ -52,6 +49,7 @@ const ValidatorTableMobile = ({data}) => {
 								{dataRow[5]}
 							</div>
 						</div>
+						<div className={cx("block-row-delegate")}>{dataRow[6]}</div>
 					</div>
 				);
 			})}
@@ -173,6 +171,9 @@ const ValidatorTable = memo(({data = []}) => {
 			</button>
 		</div>
 	);
+
+	const delegateHeaderCell = <div className={cx("header-cell", "align-center")}>Delegate</div>;
+
 	const getCumulativeShareCell = (previousValue, currentValue, totalValue) => {
 		const previousPercent = formatPercentage(previousValue / totalValue);
 		const currentPercent = formatPercentage(currentValue / totalValue);
@@ -186,7 +187,15 @@ const ValidatorTable = memo(({data = []}) => {
 			</>
 		);
 	};
-	const headerCells = [rankHeaderCell, validatorHeaderCell, votingPowerHeaderCell, cumulativeShareHeaderCell, uptimeHeaderCell, commissionHeaderCell];
+	const headerCells = [
+		rankHeaderCell,
+		validatorHeaderCell,
+		votingPowerHeaderCell,
+		cumulativeShareHeaderCell,
+		uptimeHeaderCell,
+		commissionHeaderCell,
+		delegateHeaderCell,
+	];
 	const headerCellStyles = [
 		{width: "80px"}, // Rank
 		{minWidth: "200px"}, // Validator
@@ -194,6 +203,7 @@ const ValidatorTable = memo(({data = []}) => {
 		{width: "250px"}, // Cumulative Share
 		{width: "180px"}, // Uptime
 		{width: "150px"}, // Commission
+		{width: "100px"}, // Delegate
 	];
 
 	const isGreater = (value1, value2) => {
@@ -289,6 +299,17 @@ const ValidatorTable = memo(({data = []}) => {
 			const commissionDataCell = (
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
+			const delegateDataCell = (
+				<div className={cx("commission-data-cell", "align-center")}>
+					<Delegate
+						openButtonText='Delegate'
+						balance={100}
+						onDelegate={data => {
+							console.log(data);
+						}}
+					/>
+				</div>
+			);
 
 			return [
 				rankDataCell, //Rank
@@ -297,6 +318,7 @@ const ValidatorTable = memo(({data = []}) => {
 				cumulativeShareDataCell, // Cumulative Share
 				uptimeDataCell, // Uptime
 				commissionDataCell, // Commission
+				delegateDataCell, // Delegate
 			];
 		});
 	};

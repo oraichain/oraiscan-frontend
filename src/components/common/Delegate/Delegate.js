@@ -59,7 +59,7 @@ const calculateAmount = (balance, percent) => {
 	return (percent * balance) / 100;
 };
 
-const Delegate = memo(({balance, onDelegate}) => {
+const Delegate = memo(({openButtonText = "Delegate for this validator", balance, onDelegate}) => {
 	const [open, setOpen] = useState(false);
 	const percents = [25, 50, 75, 100];
 
@@ -80,7 +80,7 @@ const Delegate = memo(({balance, onDelegate}) => {
 	return (
 		<div className={cx("delegate")}>
 			<button type='button' className={cx("btn", "btn-outline-primary")} onClick={openDialog}>
-				Delegate for this validator
+				{openButtonText}
 			</button>
 
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
