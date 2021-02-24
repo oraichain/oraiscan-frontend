@@ -50,7 +50,7 @@ export default function() {
 					</div>
 					<div className={cx("address")}>{address}</div>
 					<a href={`https://etherscan.io/address/${address}`} target='_blank' className={cx("footer")}>
-						<img src={require("../../../assets/wallet/view.svg")} style={{marginRight: 5}} /> View on Etherscan
+						<img src={require("../../../assets/wallet/view.svg")} style={{marginRight: 5}} /> View on Oraiscan
 					</a>
 				</div>
 			</Grid>
