@@ -31,7 +31,7 @@ export default function(props) {
 			</TitleWrapper>
 			<StatusBar />
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-			{activeTab === 0 && <Transaction />}
+			{activeTab === 0 && <Transaction account={address} />}
 			{activeTab === 1 && <YourDelelgator />}
 			{activeTab === 2 && <DelegatedValidator />}
 			{activeTab === 3 && <Register account={account} address={address} />}
