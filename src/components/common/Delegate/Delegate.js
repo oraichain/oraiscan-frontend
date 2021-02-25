@@ -63,7 +63,7 @@ const calculateAmount = (balance, percent) => {
 	return (percent * balance) / 100;
 };
 
-const Delegate = memo(({operatorAddress}) => {
+const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const [balanceInfo, , , , setUrl] = useFetch();
@@ -152,8 +152,8 @@ const Delegate = memo(({operatorAddress}) => {
 
 	return (
 		<div className={cx("delegate")}>
-			<button type='button' className={cx("btn", "btn-outline-primary")} onClick={openDialog}>
-				Delegate for this validator
+			<button type='button' className={cx("btn", "btn-outline-primary")} onClick={openDialog} disabled={!operatorAddress || operatorAddress === "--"}>
+				{openButtonText}
 			</button>
 
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
