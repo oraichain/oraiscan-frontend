@@ -14,6 +14,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
+import ComingSoon from "src/components/common/ComingSoon";
 import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
 import TopOracleScripts from "src/components/OracleScripts/TopOracleScripts";
 import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
@@ -102,7 +103,7 @@ const OracleScripts = props => {
 	if (isLargeScreen) {
 		titleSection = (
 			<TitleWrapper>
-				<PageTitle title={"Test Cases"} />
+				<PageTitle title={"Oracle Scripts"} />
 				<StatusBox />
 			</TitleWrapper>
 		);
@@ -110,16 +111,16 @@ const OracleScripts = props => {
 		titleSection = <TogglePageBar type='oracle-scripts' />;
 	}
 
-	topSection = <TopOracleScripts />;
+	// topSection = <TopOracleScripts />;
 
 	// if (!data || (loading && showLoading)) {
-	filterSection = (
-		<div className={cx("filter-section")}>
-			<SearchInput value={keyword} rootClassName={cx("search-oracle-scripts")} placeholder='Search oracle scripts' onChange={() => {}} />
-			<div className={cx("filter-section-overlay")}></div>
-		</div>
-	);
-	tableSection = isLargeScreen ? <OracleScriptTable /> : <OracleScriptCardList />;
+	// filterSection = (
+	// 	<div className={cx("filter-section")}>
+	// 		<SearchInput value={keyword} rootClassName={cx("search-oracle-scripts")} placeholder='Search oracle scripts' onChange={() => {}} />
+	// 		<div className={cx("filter-section-overlay")}></div>
+	// 	</div>
+	// );
+	// tableSection = isLargeScreen ? <OracleScriptTable /> : <OracleScriptCardList />;
 	// tableSection = isLargeScreen ? <OracleScriptTableSkeleton /> : <OracleScriptCardListSkeleton />;
 	// } else {
 	// 	filterSection = (
@@ -153,15 +154,16 @@ const OracleScripts = props => {
 	// 	setTotal(totalItems);
 	// }
 	// paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />;
-	paginationSection = <Pagination pages={1} page={1} onChange={(e, page) => {}} />;
+	// paginationSection = <Pagination pages={1} page={1} onChange={(e, page) => {}} />;
 
 	return (
 		<Container fixed className={cx("oracle-scripts")}>
 			{titleSection}
-			{topSection}
-			{filterSection}
+			<ComingSoon />
+			{/* {topSection} */}
+			{/* {filterSection} */}
 			{/* {tableSection} */}
-			{paginationSection}
+			{/* {paginationSection} */}
 		</Container>
 	);
 };

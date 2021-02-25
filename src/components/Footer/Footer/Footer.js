@@ -168,7 +168,7 @@ const Footer = memo(() => {
 							<div className={cx("copyright")}>©2020 Oraichain Pte. Ltd. All rights reserved. Privacy Policy Customer Support</div>
 							<ul className={cx("nav")}>
 								<li className={cx("nav-item")}>
-									<a href='/' target='_blank'>
+									<a href='https://orai.io/privacy' target='_blank'>
 										Privacy Policy
 									</a>
 								</li>
