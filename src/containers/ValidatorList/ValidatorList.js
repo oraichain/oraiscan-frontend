@@ -12,10 +12,12 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import StatusCardList from "src/components/common/StatusCardList";
-import ButtonGroup from "src/components/common/ButtonGroup";
+// import ButtonGroup from "src/components/common/ButtonGroup";
 import SearchInput from "src/components/common/SearchInput";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
+import ValidatorCardList from "src/components/ValidatorList/ValidatorCardList";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
+import ValidatorCardListSkeleton from "src/components/ValidatorList/ValidatorCardList/ValidatorCardListSkeleton";
 import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
@@ -29,7 +31,7 @@ const ValidatorList = props => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const baseValidatorsPath = `${consts.API.VALIDATORS}`;
 	const statusPath = consts.API.STATUS;
-	const [currentPage, setCurrentPage] = useState(1);
+	// const [currentPage, setCurrentPage] = useState(1);
 	const [keyword, setKeyword] = useState("");
 	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
 	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
@@ -97,17 +99,18 @@ const ValidatorList = props => {
 		}
 	}, [loadValidatorsCompleted, refetchValidators]);
 
-	const onPageChange = (path, key, value) => {
-		cleanUp();
-		setCurrentPage(value);
-		setShowLoadingValidators(true);
-		setValidatorsPath(replaceQueryString(path, key, value));
-	};
+	// const onPageChange = (path, key, value) => {
+	// 	cleanUp();
+	// 	setCurrentPage(value);
+	// 	setShowLoadingValidators(true);
+	// 	setValidatorsPath(replaceQueryString(path, key, value));
+	// };
 
 	let titleSection;
 	let statusSection;
 	let filterSection;
 	let tableSection;
+	// let paginationSection;
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -186,7 +189,7 @@ const ValidatorList = props => {
 				<div className={cx("filter-section-overlay")}></div>
 			</div>
 		);
-		tableSection = <ValidatorTableSkeleton rows={10} />;
+		tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
 	} else {
 		// const totalPages = validators?.page?.total_page ?? 0;
 
@@ -206,10 +209,11 @@ const ValidatorList = props => {
 			</div>
 		);
 
-		tableSection = <ValidatorTable data={validators?.data != null ? validators.data : []} />;
-		{
-			/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} />} */
-		}
+		const tableData = validators?.data ?? [];
+		tableSection = isLargeScreen ? <ValidatorTable data={tableData} /> : <ValidatorCardList data={tableData} />;
+
+		// paginationSection =
+		// 	totalPages > 0 ? <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} /> : <></>;
 	}
 
 	return (
@@ -218,6 +222,7 @@ const ValidatorList = props => {
 			{statusSection}
 			{filterSection}
 			{tableSection}
+			{/* {paginationSection} */}
 		</Container>
 	);
 };

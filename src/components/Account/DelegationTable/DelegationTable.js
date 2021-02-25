@@ -2,7 +2,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatFloat} from "src/helpers/helper";
+import {formatOrai, formatFloat} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -40,7 +40,7 @@ const DelegationTable = memo(({data = []}) => {
 					<div className={cx("align-right")}>-</div>
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
-						<span>{formatFloat(item.amount, 3)}</span>
+						<span>{formatFloat(formatOrai(item.amount), 2)}</span>
 						<span>{item.denom}</span>
 					</div>
 				);
@@ -50,7 +50,7 @@ const DelegationTable = memo(({data = []}) => {
 					<div className={cx("reward-data-cell", "align-right")}>-</div>
 				) : (
 					<div className={cx("reward-data-cell", "align-right")}>
-						<span>{formatFloat(item.reward, 3)}</span>
+						<span>{formatFloat(formatOrai(item.reward), 2)}</span>
 						<span>{item.denom}</span>
 					</div>
 				);

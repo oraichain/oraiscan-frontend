@@ -50,8 +50,8 @@ export default function({data}) {
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
 	const [balance, , , , setUrl] = useFetch();
 	const [reFetchAmount, setReFetchAmount] = useState(0);
-	const amount = balance?.balances?.[0]?.amount ?? 0;
-	const denom = balance?.balances?.[0]?.denom ?? "ORAI";
+	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
+	const denom = balance?.data?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
 		title && !init && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}?t=${Date.now()}`);

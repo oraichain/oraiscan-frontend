@@ -10,11 +10,12 @@ import {getDelegators, getMissedBlocks, getProposedBlocks, getValidator, getVali
 import {commafy, formatOrai, formatTime} from "src/helpers/helper";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import Address from "src/components/common/Address";
+import StatusBox from "src/components/common/StatusBox";
+import Delegate from "src/components/common/Delegate";
 import Table, {ProposedBlocksMobile, DelegatorsMobile} from "src/components/ValidatorDetails/Table";
 import CardHeader from "src/components/ValidatorDetails/CardHeader";
 import ColumnsInfo from "src/components/ValidatorDetails/ColumnsInfo";
 import PageNumber from "src/components/ValidatorDetails/PageNumber";
-import StatusBox from "src/components/common/StatusBox";
 import styles from "./ValidatorDetails.scss";
 import IC_CHECK from "src/assets/validatorDetails/check.svg";
 import ORAI_LOGO from "src/assets/common/orai_favicon.png";
@@ -210,6 +211,9 @@ export default function(props) {
 							</div>
 						</>
 					)}
+				</div>
+				<div className={cx("delegate-section")}>
+					<Delegate operatorAddress={validatorDetails.operatorAddress} />
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("left-card")}>
