@@ -17,14 +17,14 @@ export default function() {
 	const [balance, , , , setUrl] = useFetch();
 	const {address} = useSelector(state => state.wallet);
 	const [reFetchAmount, setReFetchAmount] = useState(0);
-	const amount = balance?.balances?.[0]?.amount ?? 0;
-	const denom = balance?.balances?.[0]?.denom ?? "ORAI";
+	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
+	const denom = balance?.data?.balances?.[0]?.denom ?? "ORAI";
 	const [isZoom, setIsZoom] = useState(false);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (!address) return;
 		setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
-	}, [address, reFetchAmount]);
+	}, [address, reFetchAmount, setUrl]);
 
 	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>

@@ -213,12 +213,7 @@ export default function(props) {
 					)}
 				</div>
 				<div className={cx("delegate-section")}>
-					<Delegate
-						balance={1000}
-						onDelegate={data => {
-							console.log(data);
-						}}
-					/>
+					<Delegate operatorAddress={validatorDetails.operatorAddress} />
 				</div>
 				<div className={cx("row-of-cards")}>
 					<div className={cx("left-card")}>

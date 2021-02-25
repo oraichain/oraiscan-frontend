@@ -10,6 +10,31 @@
 		margin-bottom: 34px;
 	}
 
+	.validator-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		.column {
+			width: 50%;
+			.validator-title {
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+				color: #181818;
+			}
+			.validator-name {
+				color: #1b57f0;
+			}
+			.validator-info {
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+			}
+		}
+	}
+
 	.row {
 		margin-bottom: 20px;
 

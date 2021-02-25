@@ -13,7 +13,7 @@ import NotFound from "src/components/common/NotFound";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import StatusBar from "src/components/Wallet/StatusBar";
 import Tabs from "src/components/Wallet/Tabs";
-import Register from "src/components/Wallet/Register";
+import Register, {RegisterDetail} from "src/components/Wallet/Register";
 import DelegatedValidator from "src/components/Wallet/DelegatedValidator";
 import Transaction from "src/components/Wallet/Transaction";
 import YourDelelgator from "src/components/Wallet/YourDelegator";
@@ -24,17 +24,19 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const [activeTab, setActiveTab] = React.useState(0);
 	const {address, account} = useSelector(state => state.wallet);
+	const isBecomeValidator = false;
 	return (
 		<Container fixed className={cx("wallet")}>
 			<TitleWrapper>
 				<PageTitle title={"Orai Wallet"} />
 			</TitleWrapper>
 			<StatusBar />
-			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} />
 			{activeTab === 0 && <Transaction />}
 			{activeTab === 1 && <YourDelelgator />}
 			{activeTab === 2 && <DelegatedValidator />}
-			{activeTab === 3 && <Register account={account} address={address} />}
+			{activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />}
+			{activeTab === 3 && isBecomeValidator && <RegisterDetail account={account} address={address} />}
 		</Container>
 	);
 }
