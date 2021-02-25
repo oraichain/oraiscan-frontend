@@ -195,6 +195,7 @@ const ValidatorTable = memo(({data = []}) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
+			console.log(item);
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
@@ -230,13 +231,7 @@ const ValidatorTable = memo(({data = []}) => {
 			);
 			const delegateDataCell = (
 				<div className={cx("commission-data-cell", "align-center")}>
-					<Delegate
-						openButtonText='Delegate'
-						balance={100}
-						onDelegate={data => {
-							console.log(data);
-						}}
-					/>
+					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' />
 				</div>
 			);
 
