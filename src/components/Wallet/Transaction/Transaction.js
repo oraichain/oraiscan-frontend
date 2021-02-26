@@ -14,9 +14,9 @@ import styles from "./Transaction.scss";
 
 const cx = classNames.bind(styles);
 
-const Transaction = memo(({account = 0, minHeight = 222}) => {
+const Transaction = memo(({account = "", minHeight = 222}) => {
 	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
@@ -38,7 +38,7 @@ const Transaction = memo(({account = 0, minHeight = 222}) => {
 		<div className={cx("transaction")}>
 			{Array.isArray(data?.data) && data.data.length > 0 ? (
 				<>
-					{isLargeScreen ? <TransactionTable data={data.data} /> : <TransactionCardList data={data.data} />}
+					{isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (

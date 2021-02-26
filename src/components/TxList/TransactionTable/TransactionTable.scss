@@ -78,17 +78,41 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
+	align-items: center;
 
 	p {
 		margin-right: 8px;
 	}
 
-	span:nth-child(1) {
+	.amount {
 		padding-right: 4px;
 	}
 
-	span:nth-child(2) {
+	.denom {
 		text-transform: uppercase;
+	}
+
+	.transfer-status {
+		display: inline-block;
+		margin-right: 38px;
+		padding: 7px;
+		border-radius: 4px;
+		background: #ffffff;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 11px;
+		line-height: 150%;
+
+		&-in {
+			color: #3fcc28;
+			border: 1px solid #3fcc28;
+		}
+
+		&-out {
+			color: #f98442;
+			border: 1px solid #f98442;
+		}
 	}
 }
 
