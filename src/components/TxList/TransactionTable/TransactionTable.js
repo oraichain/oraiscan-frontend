@@ -11,6 +11,7 @@ import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import txTypes from "src/constants/txTypes";
 
 const cx = classNames.bind(styles);
 
@@ -38,7 +39,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = []}) => {
+const TransactionTable = memo(({data = [], account}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -80,6 +81,22 @@ const TransactionTable = memo(({data = []}) => {
 				</div>
 			);
 
+			let transferStatus = <></>;
+			if (
+				account &&
+				// item?.messages?.[0]?.type == txTypes.COSMOS_SDK.MSG_SEND &&
+				item?.messages?.[0]?.value &&
+				item?.messages?.[0]?.value?.amount &&
+				item?.messages?.[0]?.value?.from_address &&
+				item?.messages?.[0]?.value?.to_address
+			) {
+				if (account === item.messages[0].value.from_address) {
+					transferStatus = <span className={cx("transfer-status", "transfer-status-out")}>OUT</span>;
+				} else if (account === item.messages[0].value.to_address) {
+					transferStatus = <span className={cx("transfer-status", "transfer-status-in")}>IN</span>;
+				}
+			}
+
 			const amountDataCell =
 				_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) || _.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount) ? (
 					<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("amount-data-cell")}>
@@ -88,8 +105,9 @@ const TransactionTable = memo(({data = []}) => {
 					</NavLink>
 				) : (
 					<div className={cx("amount-data-cell")}>
-						<span>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
-						<span>{item.messages[0].value.amount[0].denom}</span>
+						{transferStatus}
+						<span className={cx("amount")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
+						<span className={cx("denom")}>{item.messages[0].value.amount[0].denom}</span>
 					</div>
 				);
 

@@ -13,10 +13,10 @@ import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.scss";
 
-const TransactionCard = memo(({account = 0, minHeight = 222}) => {
+const TransactionCard = memo(({account = "", minHeight = 222}) => {
 	const cx = classNames.bind(styles);
 	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
@@ -40,7 +40,7 @@ const TransactionCard = memo(({account = 0, minHeight = 222}) => {
 			<div className={cx("transaction-card-body")} style={{minHeight: minHeight + "px"}}>
 				{Array.isArray(data?.data) && data.data.length > 0 ? (
 					<>
-						{isLargeScreen ? <TransactionTable data={data.data} /> : <TransactionCardList data={data.data} />}
+						{isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />}
 						{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 					</>
 				) : (
