@@ -19,7 +19,7 @@ import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
-import {InputNumberFormat, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
@@ -35,7 +35,7 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 			if (_.isNaN(value)) {
 				return true;
 			}
-			return value > 0 && value <= parseInt(amount);
+			return value >= 0 && value <= parseFloat(amount);
 		},
 	});
 });
@@ -66,7 +66,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		sendAmount: yup
 			.number()
 			.required("Send Amount Field is Required")
-			.lessThanNumber(amount, "lessThanNumber"),
+			.lessThanNumber(amount / 1000000, "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -78,9 +78,15 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const {handleSubmit, errors, register, setValue, getValues} = methods;
+	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
 
 	const onSubmit = data => {
+		if (data.sendAmount <= 0) {
+			setError("sendAmount", {
+				type: "greater_than_0",
+				message: "Transfer amount must be greater than 0 and less than your account's amount",
+			});
+		}
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",
@@ -202,7 +208,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 										<button onClick={e => setAmountValue(e, 1)}> Max </button>
 									</div>
 								</div>
-								<InputNumberFormat name='sendAmount' required errorobj={errors} />
+								<InputNumberOrai name='sendAmount' required errorobj={errors} />
 							</Grid>
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
