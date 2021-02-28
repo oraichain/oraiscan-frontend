@@ -15,6 +15,10 @@ import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
+import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
+import kadiaChain from "src/assets/validators/kardia.png";
+import {css} from "highcharts";
+import {logoBrand} from "src/constants/logoBrand";
 
 const cx = classNames.bind(styles);
 
@@ -199,8 +203,11 @@ const ValidatorTable = memo(({data = []}) => {
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
-					<img src={aiIcon} alt='' />
-					{item.moniker}
+					<div className={cx("logo-brand")}>
+						<img src={logoBrand.filter(it => item.moniker === it.name)[0].logo} width={32} height={32} className={cx("logo")} />
+						<div className={cx("brand")}>{item.moniker}</div>
+					</div>
+					{console.log(logoBrand.filter(it => item.moniker === it.name)[0].logo)}
 				</NavLink>
 			) : (
 				<div className={cx("align-left")}>-</div>
