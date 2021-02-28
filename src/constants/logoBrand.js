@@ -1,6 +1,7 @@
 import aiIcon from "src/assets/common/ai_ic.svg";
 import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
 import kadiaChain from "src/assets/validators/kardia.png";
+import vaiot from "src/assets/validators/vaiot.png";
 
 export const logoBrand = [
 	{
@@ -9,7 +10,7 @@ export const logoBrand = [
 	},
 	{
 		name: "vaiot-validator",
-		logo: "https://res-2.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco/ybwq2m33wxrm6uvtqyh9",
+		logo: vaiot,
 	},
 	{
 		name: "QuantumSamORAI",
@@ -53,7 +54,7 @@ export const logoBrand = [
 	},
 	{
 		name: "titan_moniker",
-		logo: aiIcon,
+		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1613059097/titan_-_Toan_Nguyen_kypzda.jpg",
 	},
 	{
 		name: "g1_moniker",
