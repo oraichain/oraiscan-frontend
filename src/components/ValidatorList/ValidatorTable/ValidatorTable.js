@@ -15,6 +15,10 @@ import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
+import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
+import kadiaChain from "src/assets/validators/kardia.png";
+import {Avatar} from "antd";
+import {css} from "highcharts";
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +29,77 @@ const sortFields = {
 	UPTIME: "uptime",
 	COMMISSION: "commission_rate",
 };
+
+const logoBrand = [
+	{
+		name: "Oraichain_node3",
+		logo: aiIcon,
+	},
+	{
+		name: "vaiot-validator",
+		logo: "https://res-2.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco/ybwq2m33wxrm6uvtqyh9",
+	},
+	{
+		name: "QuantumSamORAI",
+		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912170/EBDBE2E3-FE99-47A7-97F5-939382C59083_-_Kyle_H_jvutzi.jpg",
+	},
+	{
+		name: "The_Firm_Community_Cookiefactory",
+		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611911771/Screenshot_20210126_205723_-_Lars_Van_Der_Voort_kdwdig.jpg",
+	},
+	{
+		name: "ORAI_Vanguard",
+		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912662/Superman_4_-_SAL_L_nwykie.jpg",
+	},
+	{
+		name: "Antorai",
+		logo: "https://yai.finance/static/5.fc8e5744.jpg",
+	},
+	{
+		name: "Stakement",
+		logo: "https://yai.finance/static/4.0e480ed1.png",
+	},
+	{
+		name: "StakeWithOraiKing",
+		logo: "https://yai.finance/static/8.01cee929.jpg",
+	},
+	{
+		name: "The_firm_samorai_D",
+		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912214/20201212_160050_1_-_D_V_Dyk_l9l5bl.jpg",
+	},
+	{
+		name: "rikkei_moniker",
+		logo: rikkeiLogo,
+	},
+	{
+		name: "KardiaChain",
+		logo: kadiaChain,
+	},
+	{
+		name: "SerenityT",
+		logo: "https://yai.finance/static/3.3b569465.png",
+	},
+	{
+		name: "titan_moniker",
+		logo: aiIcon,
+	},
+	{
+		name: "g1_moniker",
+		logo: aiIcon,
+	},
+	{
+		name: "banana",
+		logo: aiIcon,
+	},
+	{
+		name: "g2_moniker",
+		logo: aiIcon,
+	},
+	{
+		name: "TetrisBlock",
+		logo: aiIcon,
+	},
+];
 
 export const computeTotalVotingPower = data => {
 	if (!data || !Array.isArray(data)) {
@@ -199,8 +274,11 @@ const ValidatorTable = memo(({data = []}) => {
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
-					<img src={aiIcon} alt='' />
-					{item.moniker}
+					<div className={cx("logo-brand")}>
+						<img src={logoBrand.filter(it => item.moniker === it.name)[0].logo} width={32} height={32} className={cx("logo")} />
+						<div className={cx("brand")}>{item.moniker}</div>
+					</div>
+					{console.log(logoBrand.filter(it => item.moniker === it.name)[0].logo)}
 				</NavLink>
 			) : (
 				<div className={cx("align-left")}>-</div>

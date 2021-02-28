@@ -149,6 +149,11 @@ const Footer = memo(() => {
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
+										<a href='https://coinmarketcap.com/currencies/oraichain-token/' target='_blank'>
+											CoinMarketCap
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
 										<a href='https://medium.com/oraichain' target='_blank'>
 											Medium
 										</a>
