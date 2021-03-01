@@ -12,9 +12,11 @@
 			tr {
 				td:nth-child(1) {
 					text-align: left;
+					width: 50%;
 				}
 				td:nth-child(2) {
 					text-align: right;
+					width: 50%;
 				}
 
 				&:nth-child(1) {
@@ -91,12 +93,23 @@
 		}
 
 		.result-data-cell {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
+			.result {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
 
-			img {
-				margin-right: 9px;
+				&-icon {
+					margin-right: 9px;
+				}
+
+				&-text {
+					color: #8b8b8b;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 16px;
+					line-height: 150%;
+				}
 			}
 		}
 
@@ -106,21 +119,51 @@
 			justify-content: flex-end;
 			align-items: center;
 
-			p {
-				margin-right: 8px;
+			&-with-transfer-status {
+				justify-content: space-between;
+			}
+
+			.more {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+
+				&-text {
+					display: inline-block;
+					margin-right: 8px;
+					color: #8b8b8b;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 16px;
+					line-height: 150%;
+				}
+
+				&-icon {
+					display: inline-block;
+				}
 			}
 
 			.amount {
-				padding-right: 4px;
-			}
+				color: #181818;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 150%;
 
-			.denom {
-				text-transform: uppercase;
+				&-value {
+					padding-right: 4px;
+				}
+
+				&-denom {
+					text-transform: uppercase;
+				}
 			}
 
 			.transfer-status {
-				display: inline-block;
-				margin-right: 38px;
+				display: block;
 				padding: 7px;
 				border-radius: 4px;
 				background: #ffffff;
@@ -143,12 +186,21 @@
 		}
 
 		.fee-data-cell {
-			span:nth-child(1) {
-				padding-right: 4px;
-			}
+			.fee {
+				color: #181818;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 150%;
 
-			span:nth-child(2) {
-				text-transform: uppercase;
+				&-value {
+					padding-right: 4px;
+				}
+
+				&-denom {
+					text-transform: uppercase;
+				}
 			}
 		}
 	}
