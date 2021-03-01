@@ -25,13 +25,13 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "18%", minWidth: "140px"}, // TxHash
+		{width: "14%", minWidth: "140px"}, // TxHash
 		{width: "18%", minWidth: "180px"}, // Type
 		{width: "10%", minWidth: "100px"}, // Result
-		{width: "16%", minWidth: "160px"}, // Amount
-		{width: "16%", minWidth: "160px"}, // Fee
+		{width: "24%", minWidth: "240px"}, // Amount
+		{width: "14%", minWidth: "140px"}, // Fee
 		{width: "10%", minWidth: "100px"}, // Height
-		{width: "12%", minWidth: "100px"}, // Time
+		{width: "10%", minWidth: "100px"}, // Time
 	];
 	return {
 		headerCells,
