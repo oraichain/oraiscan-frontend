@@ -55,7 +55,7 @@ const Account = props => {
 		{
 			title: "Address",
 			icon: copyIcon,
-			value: addressData?.address ?? "",
+			value: account,
 			onClick: function() {
 				handleCopy(this.value);
 			},
@@ -63,7 +63,7 @@ const Account = props => {
 		{
 			title: "Reward Address",
 			icon: questionIcon,
-			value: addressData?.address ?? "",
+			value: account,
 			onClick: function() {
 				handleCopy(this.value);
 			},
