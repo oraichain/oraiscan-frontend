@@ -16,7 +16,7 @@ const TransactionCardList = memo(({data = [], account}) => {
 	return (
 		<div className='transaction-card-list'>
 			{data.map((item, index) => {
-				let transferStatus = <></>;
+				let transferStatus = null;
 				if (
 					account &&
 					// item?.messages?.[0]?.type == txTypes.COSMOS_SDK.MSG_SEND &&
@@ -75,15 +75,15 @@ const TransactionCardList = memo(({data = [], account}) => {
 										) : (
 											<div className={cx("result-data-cell")}>
 												{item?.result ? (
-													<>
-														<img src={successIcon} alt='success' />
-														<p>Success</p>
-													</>
+													<div className={cx("result")}>
+														<img className={cx("result-icon")} src={successIcon} alt='success' />
+														<span className={cx("result-text")}>Success</span>
+													</div>
 												) : (
-													<>
-														<img src={failureIcon} alt='failure' />
-														<p>Failure</p>
-													</>
+													<div className={cx("result")}>
+														<img className={cx("result-icon")} src={failureIcon} alt='failure' />
+														<span className={cx("result-text")}>Failure</span>
+													</div>
 												)}
 											</div>
 										)}
@@ -91,15 +91,19 @@ const TransactionCardList = memo(({data = [], account}) => {
 									<td>
 										<div className={cx("item-title")}>Amount</div>
 										{_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) || _.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount) ? (
-											<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("amount-data-cell")}>
-												<p>More</p>
-												<img src={moreIcon} alt='more' />
-											</NavLink>
+											<div className={cx("amount-data-cell")}>
+												<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
+													<span className={cx("more-text")}>More</span>
+													<img className={cx("more-icon")} src={moreIcon} alt='more' />
+												</NavLink>
+											</div>
 										) : (
-											<div className={cx("amount-data-cell", "item-text")}>
-												{transferStatus}
-												<span className={cx("amount")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
-												<span className={cx("denom")}>{item.messages[0].value.amount[0].denom}</span>
+											<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+												{transferStatus && transferStatus}
+												<div className={cx("amount")}>
+													<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
+													<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
+												</div>
 											</div>
 										)}
 									</td>
@@ -113,9 +117,11 @@ const TransactionCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
-											<div className={cx("fee-data-cell", "item-text")}>
-												<span>{formatOrai(item.fee.amount[0].amount)}</span>
-												<span>{item.fee.amount[0].denom}</span>
+											<div className={cx("fee-data-cell", "align-right")}>
+												<div className={cx("fee")}>
+													<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
+													<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
+												</div>
 											</div>
 										)}
 									</td>
