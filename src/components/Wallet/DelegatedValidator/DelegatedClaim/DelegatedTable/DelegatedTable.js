@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -11,6 +12,7 @@ import styles from "./DelegatedTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import GiftIcon from "./Gift";
 
 const cx = classNames.bind(styles);
 
@@ -18,43 +20,55 @@ export const getHeaderRow = () => {
 	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const stakeHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
 	const claimHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
-	const headerCells = [addressHeaderCell, stakeHeaderCell, claimHeaderCell];
-	const headerCellStyles = [{width: "30.33%"}, {width: "30.33%"}, {width: "30.33%"}];
+	const claimBtnHeaderCell = <div className={cx("header-cell", "align-left")}> </div>;
+	const headerCells = [addressHeaderCell, stakeHeaderCell, claimHeaderCell, claimBtnHeaderCell];
+	const headerCellStyles = [{width: "30.33%"}, {width: "28.33%"}, {width: "28.33%"}];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const DelegatedTable = memo(({data = []}) => {
-	const getDataRows = data => {
-		if (!Array.isArray(data)) {
+const DelegatedTable = memo(({rewards = [], delegations = []}) => {
+	const getDataRows = rewards => {
+		if (!Array.isArray(rewards)) {
 			return [];
 		}
 
-		return data.map(item => {
-			const addressHashDataCell = _.isNil(item?.address) ? (
+		return rewards.map((item, index) => {
+			const addressHashDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("parent-hash-data-cell", "align-left")} to={`${consts.API.TXLIST}/${item.parent_hash}`}>
-					{reduceString(item.address, 6, 6)}
+				<NavLink className={cx("parent-hash-data-cell", "align-left")} to={`${consts.API.ACCOUNT}/${item.validator_address}`}>
+					{reduceString(item.validator_address, 6, 6)}
 				</NavLink>
 			);
 
-			const stakeDataCell = _.isNil(item?.stake) ? <div className={cx("align-left")}>-</div> : <div className={cx("node-data-cell")}>{item.stake}</div>;
-
-			const claimDataCell = _.isNil(item?.claim) ? (
+			const stakeDataCell = _.isNil(delegations[index]?.balance?.amount) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("txs-data-cell", "align-left")}>{item.claim}</div>
+				<div className={cx("node-data-cell")}>{formatOrai(delegations[index]?.balance?.amount)}</div>
 			);
 
-			return [addressHashDataCell, stakeDataCell, claimDataCell];
+			const claimDataCell = _.isNil(item?.reward[0]) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<div className={cx("txs-data-cell", "align-left")}>{formatOrai(item?.reward[0].amount)}</div>
+			);
+
+			const claimBtnCell = (
+				<div className={cx("txs-data-cell", "align-left", "claim-btn")}>
+					{" "}
+					Claim <GiftIcon />{" "}
+				</div>
+			);
+
+			return [addressHashDataCell, stakeDataCell, claimDataCell, claimBtnCell];
 		});
 	};
 
 	const headerRow = useMemo(() => getHeaderRow(), []);
-	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
+	const dataRows = useMemo(() => getDataRows(rewards), [rewards, getDataRows]);
 
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });

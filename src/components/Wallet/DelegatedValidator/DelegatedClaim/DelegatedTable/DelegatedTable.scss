@@ -112,3 +112,18 @@
 	font-size: 14px;
 	line-height: 150%;
 }
+
+.claim-btn {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	color: #1b57f0;
+	border: 1px solid #1b57f0;
+	border-radius: 4px;
+	padding: 7px 14px;
+	display: flex;
+	svg {
+		margin-left: 10px;
+	}
+}
