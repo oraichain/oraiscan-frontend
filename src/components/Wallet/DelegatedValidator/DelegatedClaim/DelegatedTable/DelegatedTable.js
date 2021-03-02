@@ -17,7 +17,7 @@ import GiftIcon from "./Gift";
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
+	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
 	const stakeHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
 	const claimHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
 	const claimBtnHeaderCell = <div className={cx("header-cell", "align-left")}> </div>;

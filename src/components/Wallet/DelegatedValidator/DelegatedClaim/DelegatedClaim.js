@@ -24,8 +24,6 @@ export default function({setActiveTab, address}) {
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.DELEGATION}/${address}`,
 	});
 
-	console.log(delegations);
-
 	const totalPages = data?.page?.total_page ?? 0;
 	const currentPage = data?.page?.page_id ?? 1;
 
