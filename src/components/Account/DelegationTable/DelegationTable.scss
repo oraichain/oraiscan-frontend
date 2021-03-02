@@ -1,22 +1,20 @@
 @import "src/styles/utils";
 
-.validator-header-cell,
-.amount-header-cell,
-.reward-header-cell {
-	color: #1b57f0;
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 150%;
-}
-
 .align-left {
 	text-align: left;
 }
 
 .align-right {
 	text-align: right;
+}
+
+.header-cell {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
 }
 
 .validator-data-cell {
@@ -30,21 +28,24 @@
 
 .amount-data-cell,
 .reward-data-cell {
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 150%;
+	.amount,
+	.reward {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
 
-	& > span:nth-child(1) {
-		display: inline-block;
-		margin-right: 4px;
-		color: #181818;
-	}
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+			color: #181818;
+		}
 
-	& > span:nth-child(2) {
-		display: inline-block;
-		color: #5f51ff;
-		text-transform: uppercase;
+		&-denom {
+			display: inline-block;
+			color: #5f51ff;
+			text-transform: uppercase;
+		}
 	}
 }

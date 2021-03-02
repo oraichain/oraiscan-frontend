@@ -1,15 +1,23 @@
 import React, {memo} from "react";
 import {useGet} from "restful-react";
 import classNames from "classnames/bind";
-import Skeleton from "@material-ui/lab/Skeleton";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
 import DelegationTable from "src/components/Account/DelegationTable";
+import DelegationTableSkeleton from "src/components/Account/DelegationTable/DelegationTableSkeleton";
+import DelegationCardList from "src/components/Account/DelegationCardList/DelegationCardList";
+import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./DelegationCard.scss";
 
+const cx = classNames.bind(styles);
+
 const DelegationCard = memo(({account = 0, minHeight = 222}) => {
-	const cx = classNames.bind(styles);
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+
 	const path = `${consts.API.DELEGATIONS}/${account}`;
 	const {data} = useGet({
 		path: path,
@@ -19,20 +27,30 @@ const DelegationCard = memo(({account = 0, minHeight = 222}) => {
 	const currentPage = 1;
 	const onPageChange = page => {};
 
+	let tableSection;
+	let paginationSection = null;
+
+	if (!data) {
+		tableSection = isLargeScreen ? <DelegationTableSkeleton /> : <DelegationCardListSkeleton />;
+	} else {
+		if (Array.isArray(data?.data) && data.data.length > 0) {
+			tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
+			paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />;
+		} else {
+			tableSection = (
+				<div className={cx("no-result-wrapper")}>
+					<NoResult />
+				</div>
+			);
+		}
+	}
+
 	return (
 		<div className={cx("delegation-card")}>
 			<div className={cx("delegation-card-header")}>Delegations</div>
 			<div className={cx("delegation-card-body")} style={{minHeight: minHeight + "px"}}>
-				{Array.isArray(data?.data) && data.data.length > 0 ? (
-					<>
-						<DelegationTable data={data.data} />
-						{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-					</>
-				) : (
-					<div className={cx("no-result-wrapper")}>
-						<NoResult />
-					</div>
-				)}
+				{tableSection}
+				{paginationSection && paginationSection}
 			</div>
 		</div>
 	);

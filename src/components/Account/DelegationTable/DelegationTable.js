@@ -2,25 +2,32 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatOrai, formatFloat} from "src/helpers/helper";
+import {formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DelegationTable.scss";
 
-const DelegationTable = memo(({data = []}) => {
-	const cx = classNames.bind(styles);
+const cx = classNames.bind(styles);
 
-	const validatorHeaderCell = <div className={cx("validator-header-cell", "align-left")}>Validator</div>;
-	const amountHeaderCell = <div className={cx("amount-header-cell", "align-right")}>Amount</div>;
-	const rewardHeaderCell = <div className={cx("reward-header-cell", "align-right")}>Reward</div>;
+export const getHeaderRow = () => {
+	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
+	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
+	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Reward</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
 	const headerCellStyles = [
-		// {minWidth: "80px"}, // Rank
-		// {width: "240px"}, // Validator
-		// {width: "170px"}, // Voting Power
+		{minWidth: "100px"}, // Validator
+		{minWidth: "100px"}, // Amount
+		{minWidth: "100px"}, // Reward
 	];
 
+	return {
+		headerCells,
+		headerCellStyles,
+	};
+};
+
+const DelegationTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -40,8 +47,10 @@ const DelegationTable = memo(({data = []}) => {
 					<div className={cx("align-right")}>-</div>
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
-						<span>{formatFloat(formatOrai(item.amount), 2)}</span>
-						<span>{item.denom}</span>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
+							<span className={cx("amount-denom")}>{item.denom}</span>
+						</div>
 					</div>
 				);
 
@@ -50,22 +59,21 @@ const DelegationTable = memo(({data = []}) => {
 					<div className={cx("reward-data-cell", "align-right")}>-</div>
 				) : (
 					<div className={cx("reward-data-cell", "align-right")}>
-						<span>{formatFloat(formatOrai(item.reward), 2)}</span>
-						<span>{item.denom}</span>
+						<div className={cx("reward")}>
+							<span className={cx("reward-value")}>{formatOrai(item.reward)}</span>
+							<span className={cx("reward-denom")}>{item.denom}</span>
+						</div>
 					</div>
 				);
 
-			return [
-				validatorDataCell, // Validator
-				amountDataCell, // Amount
-				rewardDataCell, // Reward
-			];
+			return [validatorDataCell, amountDataCell, rewardDataCell];
 		});
 	};
 
+	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data]);
 
-	return <ThemedTable theme={tableThemes.DARK} headerCells={headerCells} dataRows={dataRows} headerCellStyles={headerCellStyles} />;
+	return <ThemedTable theme={tableThemes.DARK} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
 export default DelegationTable;
