@@ -204,8 +204,9 @@ const ValidatorTable = memo(({data = []}) => {
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
 					<div className={cx("logo-brand")}>
-						<img src={logoBrand.filter(it => item.moniker === it.name)[0]?.logo} width={32} height={32} className={cx("logo")} />
+						<img src={logoBrand.filter(it => item.operator_address === it.operatorAddress)[0]?.logo} width={32} height={32} className={cx("logo")} />
 						<div className={cx("brand")}>{item.moniker}</div>
+						{console.log(item.operator_address)}
 					</div>
 				</NavLink>
 			) : (
