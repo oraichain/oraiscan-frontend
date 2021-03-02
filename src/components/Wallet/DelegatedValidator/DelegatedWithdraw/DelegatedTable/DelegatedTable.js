@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -11,6 +13,7 @@ import styles from "./DelegatedTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import {ReactComponent as ArrowDownIcon} from "src/assets/icons/arrow-down.svg";
 
 const cx = classNames.bind(styles);
 
@@ -19,9 +22,10 @@ export const getHeaderRow = () => {
 	const stakeHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
 	const rewardHeaderCell = <div className={cx("header-cell", "align-left")}>Rewards (ORAI)</div>;
 	const unbondedHeaderCell = <div className={cx("header-cell", "align-left")}>Unbonded (ORAI)</div>;
-	const withdrawHeaderCell = <div className={cx("header-cell", "align-left")}>Withdrawable (ORAI)</div>;
-	const headerCells = [validatorHeaderCell, stakeHeaderCell, rewardHeaderCell, unbondedHeaderCell, withdrawHeaderCell];
-	const headerCellStyles = [{width: "20%"}, {width: "20%"}, {width: "20%"}, {width: "20%"}, {width: "20%"}];
+	const withdrawableHeaderCell = <div className={cx("header-cell", "align-left")}>Withdrawable (ORAI)</div>;
+	const withdrawHeaderCell = <div className={cx("header-cell", "align-left")}>Withdraw</div>;
+	const headerCells = [validatorHeaderCell, stakeHeaderCell, rewardHeaderCell, unbondedHeaderCell, withdrawableHeaderCell, withdrawHeaderCell];
+	const headerCellStyles = [{width: "20%"}, {width: "16%"}, {width: "16%"}, {width: "16%"}, {width: "16%"}, {width: "16%"}];
 	return {
 		headerCells,
 		headerCellStyles,
@@ -67,13 +71,19 @@ const DelegatedTable = memo(({data = []}) => {
 				<div className={cx("txs-data-cell", "align-left")}>{item.unbonded}</div>
 			);
 
-			const withdrawDataCell = _.isNil(item?.withdraw) ? (
+			const withdrawableDataCell = _.isNil(item?.withdraw) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("txs-data-cell", "align-left")}>{item.withdraw}</div>
 			);
 
-			return [validatorHashDataCell, stakeDataCell, rewardDataCell, unnbondedDataCell, withdrawDataCell];
+			const withdrawCell = (
+				<div className={cx("txs-data-cell", "align-left", "with-draw")}>
+					Withdraw <ArrowDownIcon />{" "}
+				</div>
+			);
+
+			return [validatorHashDataCell, stakeDataCell, rewardDataCell, unnbondedDataCell, withdrawableDataCell, withdrawCell];
 		});
 	};
 

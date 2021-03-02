@@ -1,13 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
+import {useGet} from "restful-react";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import styles from "./DelegatedWithdraw.scss";
 import {Button} from "@material-ui/core";
-import DelegatedTable from "./DelegatedTable";
 import Pagination from "src/components/common/Pagination";
 import cn from "classnames/bind";
+import consts from "src/constants/consts";
+import DelegatedTable from "./DelegatedTable";
 
 const cx = cn.bind(styles);
 
 export default function({setActiveTab}) {
+	const theme = useTheme();
+	// const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	// const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.CLAIM_REWARD}/${address}/rewards`;
+	// const [path, setPath] = useState(`${basePath}`);
+	// const { data } = useGet({
+	// 	path: path,
+	// });
+
+	// const totalPages = data?.page?.total_page ?? 0;
+	// const currentPage = data?.page?.page_id ?? 1;
+
+	// const onPageChange = page => {
+	// 	setPath(`${basePath}&page_id=${page}`);
+	// };
+
 	return (
 		<>
 			<div className={cx("header")}>
@@ -81,8 +100,8 @@ export default function({setActiveTab}) {
 						withdraw: 153.123,
 					},
 				]}
-			/>
-			<Pagination pages={10} page={1} /> */}
+			/> */}
+			<Pagination pages={10} page={1} />
 		</>
 	);
 }

@@ -8,12 +8,12 @@ import DelegatedWithdraw from "./DelegatedWithdraw";
 
 const cx = cn.bind(styles);
 
-export default function(props) {
+export default function({address}) {
 	const [activeTab, setActiveTab] = React.useState(0);
 	return (
 		<div className={cx("DelegatedValidator")}>
-			{activeTab === 0 && <DelegatedClaim setActiveTab={setActiveTab} />}
-			{activeTab === 1 && <DelegatedWithdraw setActiveTab={setActiveTab} />}
+			{activeTab === 0 && <DelegatedClaim setActiveTab={setActiveTab} address={address} />}
+			{activeTab === 1 && <DelegatedWithdraw setActiveTab={setActiveTab} address={address} />}
 		</div>
 	);
 }

@@ -85,6 +85,8 @@ export default Object.freeze({
 		ORACLE_SCRIPT_DETAIL: "/provider/oscript",
 		ACCOUNT_DETAIL: "/cosmos/auth/v1beta1",
 		BALANCES: "/cosmos/bank/v1beta1/balances",
+		CLAIM_REWARD: "/cosmos/distribution/v1beta1/delegators",
+		DELEGATION: "/cosmos/staking/v1beta1/delegations",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
@@ -100,7 +102,6 @@ export default Object.freeze({
 		ORAI_OPER: "oraivaloper",
 		ORAI_CONS: "oraivalcons",
 	},
-
 	LINK: {
 		GOOGLE: "https://play.google.com/store/apps/details?id=wannabit.io.cosmostaion",
 		IOS: "https://apple.co/2IAM3Xm",
