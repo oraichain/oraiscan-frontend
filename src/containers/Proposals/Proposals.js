@@ -163,7 +163,15 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("proposals")}>
 			{titleSection}
-			<ComingSoon />
+			{/* <ComingSoon /> */}
+			<div
+				style={{
+					padding: "30px",
+					fontWeight: "bold",
+					textAlign: "center",
+				}}>
+				<p style={{fontSize: "30px"}}>COMING SOON</p>
+			</div>
 		</Container>
 	);
 }
