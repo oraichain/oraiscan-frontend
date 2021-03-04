@@ -17,6 +17,7 @@ import CardHeader from "src/components/ValidatorDetails/CardHeader";
 import ColumnsInfo from "src/components/ValidatorDetails/ColumnsInfo";
 import PageNumber from "src/components/ValidatorDetails/PageNumber";
 import styles from "./ValidatorDetails.scss";
+import {logoBrand} from "src/constants/logoBrand";
 import IC_CHECK from "src/assets/validatorDetails/check.svg";
 import ORAI_LOGO from "src/assets/common/orai_favicon.png";
 import IC_BLOCKS from "src/assets/validatorDetails/blocks.svg";
@@ -219,7 +220,13 @@ export default function(props) {
 					<div className={cx("left-card")}>
 						<div className={cx("main-info")}>
 							<div className={cx("name-container")}>
-								<img src={ORAI_LOGO} height={30} width={30} alt='' />
+								<img
+									src={logoBrand.filter(it => validatorDetails.operatorAddress === it.operatorAddress)[0]?.logo}
+									height={32}
+									width={32}
+									alt=''
+									className={cx("logo")}
+								/>
 								<div className={cx("title")}>{validatorDetails.moniker}</div>
 							</div>
 							<div className={cx("status-container")}>
