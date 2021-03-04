@@ -1,0 +1,89 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: #546a8a;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.skeleton-data-cell {
+	box-sizing: border-box;
+	height: 32px;
+}
+
+.validator-data-cell {
+	.validator {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: auto;
+			height: 30px;
+			margin-right: 10px;
+		}
+
+		&-name {
+			color: #1b57f0;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.staked-data-cell,
+.rewards-data-cell,
+.unbonded-data-cell,
+.withdrawable-data-cell,
+.withdraw-data-cell {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.withdraw-data-cell {
+	.button {
+		padding: 8px;
+		color: #1b57f0;
+		border: 1px solid #1b57f0;
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+		cursor: pointer;
+
+		&-icon {
+			position: relative;
+			top: 2px;
+			display: inline-block;
+			margin-left: 8px;
+			width: auto;
+			height: 16px;
+		}
+	}
+}
