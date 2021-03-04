@@ -55,7 +55,7 @@ const Account = props => {
 		{
 			title: "Address",
 			icon: copyIcon,
-			value: addressData?.address ?? "",
+			value: account,
 			onClick: function() {
 				handleCopy(this.value);
 			},
@@ -63,7 +63,7 @@ const Account = props => {
 		{
 			title: "Reward Address",
 			icon: questionIcon,
-			value: addressData?.address ?? "",
+			value: account,
 			onClick: function() {
 				handleCopy(this.value);
 			},
@@ -119,10 +119,10 @@ const Account = props => {
 			</Grid>
 
 			<Grid container spacing={2}>
-				<Grid item md={6} xs={12}>
+				<Grid item lg={6} xs={12}>
 					<DelegationCard account={account} />
 				</Grid>
-				<Grid item md={6} xs={12}>
+				<Grid item lg={6} xs={12}>
 					<UnbondingCard account={account} />
 				</Grid>
 				<Grid item xs={12}>

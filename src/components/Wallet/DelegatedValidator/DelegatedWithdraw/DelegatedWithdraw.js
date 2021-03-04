@@ -1,88 +1,53 @@
-import React from "react";
-import styles from "./DelegatedWithdraw.scss";
-import {Button} from "@material-ui/core";
-import DelegatedTable from "./DelegatedTable";
-import Pagination from "src/components/common/Pagination";
+import React, {useState} from "react";
+import {useGet} from "restful-react";
 import cn from "classnames/bind";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import consts from "src/constants/consts";
+import NoResult from "src/components/common/NoResult";
+import WithdrawTable from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawTable/WithdrawTable";
+import WithdrawTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawTable/WithdrawTableSkeleton";
+import WithdrawCardList from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawCardList/WithdrawCardList";
+import WithdrawCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawCardList/WithdrawCardListSkeleton";
+import styles from "./DelegatedWithdraw.scss";
+import arrowIcon from "src/assets/wallet/arrow.svg";
 
 const cx = cn.bind(styles);
 
-export default function({setActiveTab}) {
+export default function({setActiveTab, address}) {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const path = consts.API.WALLET.WITHDRAW + "/" + address;
+	const {data} = useGet({
+		path: path,
+	});
+
+	let tableSection;
+
+	if (data) {
+		if (Array.isArray(data?.withdraw) && data.withdraw.length > 0) {
+			tableSection = isLargeScreen ? <WithdrawTable data={data.withdraw} /> : <WithdrawCardList data={data.withdraw} />;
+		} else {
+			tableSection = (
+				<div className={cx("no-result-wrapper")}>
+					<NoResult />
+				</div>
+			);
+		}
+	} else {
+		tableSection = isLargeScreen ? <WithdrawTableSkeleton /> : <WithdrawCardListSkeleton />;
+	}
+
 	return (
-		<>
-			<div className={cx("header")}>
+		<div className={cx("delegated-withdraw")}>
+			<div className={cx("delegated-withdraw-header")}>
 				<div className={cx("title")}>Withdraw</div>
-				<Button className={cx("withdraw")} onClick={() => setActiveTab(0)}>
-					Claim Reward <img src={require("../../../../assets/wallet/arrow.svg")} />
-				</Button>
+				<button className={cx("button")} onClick={() => setActiveTab(0)}>
+					Claim Reward
+					<img className={cx("button-icon")} src={arrowIcon} />
+				</button>
 			</div>
-			<div
-				style={{
-					height: "300px",
-				}}>
-				<p style={{fontSize: "28px", fontWeight: "500"}}>Coming soon</p>
-			</div>
-			{/* <DelegatedTable
-				data={[
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-					{
-						validator: "Oraichain",
-						stake: 153.123,
-						reward: 153.123,
-						unbonded: 123.123,
-						withdraw: 153.123,
-					},
-				]}
-			/>
-			<Pagination pages={10} page={1} /> */}
-		</>
+			{tableSection}
+		</div>
 	);
 }

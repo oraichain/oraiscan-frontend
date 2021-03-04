@@ -34,7 +34,7 @@ export default function(props) {
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} />
 			{activeTab === 0 && <Transaction account={address} />}
 			{activeTab === 1 && <YourDelelgator />}
-			{activeTab === 2 && <DelegatedValidator />}
+			{activeTab === 2 && <DelegatedValidator address={address} />}
 			{activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail account={account} address={address} />}
 		</Container>
