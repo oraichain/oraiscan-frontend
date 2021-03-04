@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
@@ -8,6 +9,7 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
+import Keystation from "src/lib/Keystation";
 import styles from "./ClaimTable.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import giftIcon from "src/assets/wallet/gift.svg";
@@ -28,6 +30,45 @@ export const getHeaderRow = () => {
 };
 
 const ClaimTable = memo(({data}) => {
+	const {address, account} = useSelector(state => state.wallet);
+
+	const handleClickClaim = validatorAddress => {
+		const myKeystation = new Keystation({
+			client: process.env.REACT_APP_WALLET_API,
+			lcd: "https://lcd.orai.io",
+			path: "44/118/0/0/0",
+			keystationUrl: process.env.REACT_APP_WALLET_API,
+		});
+
+		const payload = {
+			type: "cosmos-sdk/MsgWithdrawDelegationReward",
+			value: {
+				msg: [
+					{
+						type: "cosmos-sdk/MsgWithdrawDelegationReward",
+						value: {
+							delegator_address: address,
+							validator_address: validatorAddress,
+						},
+					},
+				],
+				fee: {
+					amount: [0],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	};
+
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -60,10 +101,10 @@ const ClaimTable = memo(({data}) => {
 			);
 
 			const claimDataCell = (
-				<div className={cx("claim-data-cell", "align-center")}>
+				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator)}>
 					<button className={cx("button")}>
 						Claim
-						<img className={cx("button-icon")} src={giftIcon} />
+						<img alt='/' className={cx("button-icon")} src={giftIcon} />
 					</button>
 				</div>
 			);
