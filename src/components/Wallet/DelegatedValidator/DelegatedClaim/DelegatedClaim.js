@@ -1,46 +1,53 @@
 import React, {useState} from "react";
 import {useGet} from "restful-react";
+import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {Button} from "@material-ui/core";
-import cn from "classnames/bind";
-import Pagination from "src/components/common/Pagination";
 import consts from "src/constants/consts";
+import NoResult from "src/components/common/NoResult";
+import ClaimTable from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTable";
+import ClaimTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTableSkeleton";
+import ClaimCardList from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";
+import ClaimCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardListSkeleton";
 import styles from "./DelegatedClaim.scss";
-import DelegatedTable from "./DelegatedTable";
+import arrowIcon from "src/assets/wallet/arrow.svg";
 
 const cx = cn.bind(styles);
 
 export default function({setActiveTab, address}) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.CLAIM_REWARD}/${address}/rewards`;
-	const [path, setPath] = useState(`${basePath}`);
+	const path = consts.API.WALLET.CLAIM_REWARD + "/" + address;
 	const {data} = useGet({
 		path: path,
 	});
 
-	const {data: delegations} = useGet({
-		path: `${consts.LCD_API_BASE}${consts.LCD_API.DELEGATION}/${address}`,
-	});
+	let tableSection;
 
-	const totalPages = data?.page?.total_page ?? 0;
-	const currentPage = data?.page?.page_id ?? 1;
-
-	const onPageChange = page => {
-		setPath(`${basePath}&page_id=${page}`);
-	};
+	if (data) {
+		if (Array.isArray(data?.claim_reward) && data.claim_reward.length > 0) {
+			tableSection = isLargeScreen ? <ClaimTable data={data.claim_reward} /> : <ClaimCardList data={data.claim_reward} />;
+		} else {
+			tableSection = (
+				<div className={cx("no-result-wrapper")}>
+					<NoResult />
+				</div>
+			);
+		}
+	} else {
+		tableSection = isLargeScreen ? <ClaimTableSkeleton /> : <ClaimCardListSkeleton />;
+	}
 
 	return (
-		<>
-			<div className={cx("header")}>
+		<div className={cx("delegated-claim")}>
+			<div className={cx("delegated-claim-header")}>
 				<div className={cx("title")}>Claim Reward</div>
-				<Button className={cx("withdraw")} onClick={() => setActiveTab(1)}>
-					Withdraw <img src={require("../../../../assets/wallet/arrow.svg")} />
-				</Button>
+				<button className={cx("button")} onClick={() => setActiveTab(1)}>
+					Withdraw
+					<img className={cx("button-icon")} src={arrowIcon} />
+				</button>
 			</div>
-			<DelegatedTable rewards={data?.rewards} delegations={delegations?.delegation_responses} />
-			<Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />
-		</>
+			{tableSection}
+		</div>
 	);
 }

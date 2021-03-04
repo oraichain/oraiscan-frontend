@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import cn from "classnames/bind";
-
+import DelegatedClaim from "src/components/Wallet/DelegatedValidator/DelegatedClaim";
+import DelegatedWithdraw from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw";
 import styles from "./DelegatedValidator.scss";
-import DelegatedClaim from "./DelegatedClaim";
-import DelegatedWithdraw from "./DelegatedWithdraw";
 
 const cx = cn.bind(styles);
 

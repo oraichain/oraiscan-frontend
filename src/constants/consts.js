@@ -76,6 +76,10 @@ export default Object.freeze({
 		DELEGATIONS: "/delegations",
 		PROPOSALS: "proposals",
 		VALIDATOR_ANALYTICS: "/validator-analytics",
+		WALLET: {
+			CLAIM_REWARD: "/wallet/claim_reward",
+			WITHDRAW: "/wallet/withdraw",
+		},
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
