@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
@@ -12,9 +13,16 @@ import styles from "./DelegatedTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import Keystation from "src/lib/Keystation";
 import GiftIcon from "./Gift";
 
 const cx = classNames.bind(styles);
+
+// const ClaimBtn = ({ onClick }) => (
+// 	<div className={cx("txs-data-cell", "align-left", "claim-btn")} onClick={onClick}>
+// 		Claim <GiftIcon />
+// 	</div>
+// );
 
 export const getHeaderRow = () => {
 	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
@@ -30,6 +38,45 @@ export const getHeaderRow = () => {
 };
 
 const DelegatedTable = memo(({rewards = [], delegations = []}) => {
+	const {address, account} = useSelector(state => state.wallet);
+
+	const handleClickClaim = validatorAddress => {
+		const myKeystation = new Keystation({
+			client: process.env.REACT_APP_WALLET_API,
+			lcd: "https://lcd.orai.io",
+			path: "44/118/0/0/0",
+			keystationUrl: process.env.REACT_APP_WALLET_API,
+		});
+
+		const payload = {
+			type: "cosmos-sdk/MsgWithdrawDelegationReward",
+			value: {
+				msg: [
+					{
+						type: "cosmos-sdk/MsgWithdrawDelegationReward",
+						value: {
+							delegator_address: address,
+							validator_address: validatorAddress,
+						},
+					},
+				],
+				fee: {
+					amount: [0],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	};
+
 	const getDataRows = rewards => {
 		if (!Array.isArray(rewards)) {
 			return [];
@@ -57,7 +104,7 @@ const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 			);
 
 			const claimBtnCell = (
-				<div className={cx("txs-data-cell", "align-left", "claim-btn")}>
+				<div className={cx("txs-data-cell", "align-left", "claim-btn")} onClick={() => handleClickClaim(item?.validator_address)}>
 					{" "}
 					Claim <GiftIcon />{" "}
 				</div>
