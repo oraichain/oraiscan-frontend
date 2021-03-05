@@ -7,6 +7,7 @@ import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
+import {logoBrand} from "src/constants/logoBrand";
 import aiIcon from "src/assets/common/ai_ic.svg";
 
 const cx = classNames.bind(styles);
@@ -22,7 +23,7 @@ export const getHeaderRow = () => {
 		{width: "10%", minWidth: "100px"}, // Height
 		{width: "33%", minWidth: "200px"}, // Block Hash
 		{width: "33%", minWidth: "180px"}, // Proposer
-		{width: "10%", minWidth: "80px"},  // Txs
+		{width: "10%", minWidth: "80px"}, // Txs
 		{width: "14%", minWidth: "150px"}, // Time
 	];
 	return {
@@ -59,7 +60,13 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
-					<img src={aiIcon} alt='' className={cx("ai-icon")} />
+					<img
+						src={logoBrand.filter(it => validators[item?.moniker]?.operatorAddr === it.operatorAddress)[0]?.logo}
+						height={32}
+						width={32}
+						alt=''
+						className={cx("logo")}
+					/>
 					{item.moniker}
 				</NavLink>
 			);
