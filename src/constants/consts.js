@@ -79,6 +79,7 @@ export default Object.freeze({
 		WALLET: {
 			CLAIM_REWARD: "/wallet/claim_reward",
 			WITHDRAW: "/wallet/withdraw",
+			DELEGATOR: "/wallet/delegator",
 		},
 	},
 	LCD_API: {
