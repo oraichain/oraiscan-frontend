@@ -1,0 +1,113 @@
+.your-validator-card {
+	padding: 30px;
+	background: #ffffff;
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+
+	&-header {
+		margin-bottom: 30px;
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 150%;
+	}
+
+	&-body {
+		.validator-detail {
+			margin-bottom: 20px;
+
+			.validator-title {
+				color: #181818;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+			}
+
+			.validator-text {
+				color: #181818;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+				line-height: 150%;
+
+				&-blue {
+					color: #1b57f0;
+				}
+			}
+
+			.validator-link {
+				color: #1b57f0;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+				line-height: 150%;
+			}
+
+			.validator-status {
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 18px;
+				line-height: 150%;
+
+				&-active {
+					color: #3fcc28;
+				}
+			}
+
+			.validator-icon {
+				display: inline-block;
+				padding: 0;
+				max-width: 20px;
+				height: auto;
+
+				&-clickable {
+					cursor: pointer;
+				}
+
+				&-left {
+					margin-right: 8px;
+				}
+
+				&-right {
+					margin-left: 8px;
+				}
+			}
+
+			.validator-name,
+			.validator-role {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+			}
+
+			.nav-link {
+				display: inline-block;
+				padding: 0;
+				margin: 0;
+				line-height: initial;
+			}
+
+			.button {
+				padding: 8px;
+				margin-top: 8px;
+				color: #1b57f0;
+				border: 1px solid #1b57f0;
+				box-sizing: border-box;
+				border-radius: 4px;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 150%;
+				cursor: pointer;
+			}
+		}
+	}
+}
