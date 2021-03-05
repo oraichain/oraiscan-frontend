@@ -3,13 +3,13 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
+import {_, reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import styles from "./DelegatorCardList.scss";
 
 const cx = classNames.bind(styles);
 
-const DelegatorCardList = memo(({data = []}) => {
+const DelegatorCardList = memo(({data = [], address = ""}) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -17,6 +17,12 @@ const DelegatorCardList = memo(({data = []}) => {
 	return (
 		<div className='delegator-card-list'>
 			{data.map((item, index) => {
+				let ownerBadge = null;
+
+				if (item?.address && item.address == address) {
+					ownerBadge = <span className={cx("owner-badge")}>Owner</span>;
+				}
+
 				return (
 					<div className={cx("delegator-card-list-item")} key={"delegator-card-list-item-" + index}>
 						<table>
@@ -27,9 +33,12 @@ const DelegatorCardList = memo(({data = []}) => {
 									</td>
 									<td>
 										{item?.address ? (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.address}`}>
-												{item.address}
-											</NavLink>
+											<div className={cx("address-data-cell", {"address-data-cell-with-owner-badge": ownerBadge})}>
+												{ownerBadge && ownerBadge}
+												<NavLink className={cx("address")} to={`${consts.PATH.VALIDATORS}/${item.address}`}>
+													{reduceString(item.address, 4, 3)}
+												</NavLink>
+											</div>
 										) : (
 											<div className={cx("item-link")}>-</div>
 										)}

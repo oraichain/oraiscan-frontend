@@ -23,18 +23,25 @@ export const getHeaderRow = () => {
 	};
 };
 
-const DelegatorTable = memo(({data}) => {
+const DelegatorTable = memo(({data = [], address = ""}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map((item, index) => {
+			let ownerBadge = null;
+
+			if (item?.address && item.address == address) {
+				ownerBadge = <span className={cx("owner-badge")}>Owner</span>;
+			}
+
 			const addressDataCell = item?.address ? (
-				<div className={cx("address-data-cell", "align-left")}>
+				<div className={cx("address-data-cell", {"address-data-cell-with-owner-badge": ownerBadge})}>
 					<NavLink className={cx("address")} to={`${consts.PATH.VALIDATORS}/${item.address}`}>
 						{item.address}
 					</NavLink>
+					{ownerBadge && ownerBadge}
 				</div>
 			) : (
 				<div className={cx("align-left")}>-</div>
