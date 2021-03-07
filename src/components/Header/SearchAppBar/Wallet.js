@@ -108,7 +108,8 @@ export default function({data}) {
 
 					<div className={cx("wallet-address-title")}> Balance </div>
 					<div className={cx("wallet-address-detail")}>
-						{formatOrai(amount || 0)} <span className={cx("denom")}>{denom}</span>
+						{formatOrai(amount || 0)}
+						<span className={cx("denom")}>{denom}</span>
 					</div>
 
 					<div className={cx("btn-action-group")}>
