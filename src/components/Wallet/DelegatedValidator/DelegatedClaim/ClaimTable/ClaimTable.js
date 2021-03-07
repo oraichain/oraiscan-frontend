@@ -113,7 +113,7 @@ const ClaimTable = memo(({data}) => {
 			);
 
 			const claimDataCell = (
-				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator, item.claimable_rewards)}>
+				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
 					<button className={cx("button")}>
 						Claim
 						<img alt='/' className={cx("button-icon")} src={giftIcon} />
