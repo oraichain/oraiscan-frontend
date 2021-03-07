@@ -111,7 +111,7 @@ export default function({data}) {
 					<div className={cx("wallet-address-detail")}>
 						{formatOrai(amount || 0)}
 						<span className={cx("denom")}>{denom}</span>
-						<span> {status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
+						<span>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
 					</div>
 
 					<div className={cx("btn-action-group")}>

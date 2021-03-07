@@ -126,9 +126,9 @@ const TransactionCardList = memo(({data = [], account}) => {
 												<div className={cx("fee")}>
 													<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
 													<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
-													<span className={cx("fee-usd")}>
+													{/* <span className={cx("fee-usd")}>
 														{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-													</span>
+													</span> */}
 												</div>
 											</div>
 										)}
