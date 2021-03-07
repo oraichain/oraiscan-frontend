@@ -13,6 +13,7 @@ import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 import txTypes from "src/constants/txTypes";
+import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +42,7 @@ export const getHeaderRow = () => {
 };
 
 const TransactionTable = memo(({data = [], account}) => {
+	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -112,6 +114,9 @@ const TransactionTable = memo(({data = [], account}) => {
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
 							<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
+							<span className={cx("amount-usd")}>
+								{status?.price ? "($" + (status?.price * Number(formatOrai(item.messages[0].value.amount[0].amount))).toFixed(4) + ")" : ""}
+							</span>
 						</div>
 					</div>
 				);
@@ -124,6 +129,9 @@ const TransactionTable = memo(({data = [], account}) => {
 						<div className={cx("fee")}>
 							<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
 							<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
+							<span className={cx("fee-usd")}>
+								{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
+							</span>
 						</div>
 					</div>
 				);
