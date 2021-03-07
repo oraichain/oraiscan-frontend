@@ -94,6 +94,9 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			});
 			return;
 		}
+
+		data.amount = parseFloat(data.amount).toFixed(6);
+
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",

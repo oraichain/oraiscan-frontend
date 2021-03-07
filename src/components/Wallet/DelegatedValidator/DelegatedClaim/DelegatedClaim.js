@@ -9,6 +9,7 @@ import ClaimTable from "src/components/Wallet/DelegatedValidator/DelegatedClaim/
 import ClaimTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTableSkeleton";
 import ClaimCardList from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";
 import ClaimCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardListSkeleton";
+import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./DelegatedClaim.scss";
 import arrowIcon from "src/assets/wallet/arrow.svg";
 
@@ -23,16 +24,13 @@ export default function({setActiveTab, address}) {
 	});
 
 	let tableSection;
+	const columns = [{title: "Validator"}, {title: "Staked (ORAI)"}, {title: "Claimable Rewards (ORAI)"}];
 
 	if (data) {
 		if (Array.isArray(data?.claim_reward) && data.claim_reward.length > 0) {
 			tableSection = isLargeScreen ? <ClaimTable data={data.claim_reward} /> : <ClaimCardList data={data.claim_reward} />;
 		} else {
-			tableSection = (
-				<div className={cx("no-result-wrapper")}>
-					<NoResult />
-				</div>
-			);
+			tableSection = <EmptyTable columns={columns} />;
 		}
 	} else {
 		tableSection = isLargeScreen ? <ClaimTableSkeleton /> : <ClaimCardListSkeleton />;

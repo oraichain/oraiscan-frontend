@@ -7,7 +7,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {hideAlert} from "src/store/modules/global";
 
 const Alert = () => {
-	const {show, message, autoHideDuration} = useSelector(state => state.global.showAlert);
+	const {show, message, autoHideDuration, type = "success"} = useSelector(state => state.global.showAlert);
 	const dispatch = useDispatch();
 	const handleClose = () => dispatch(hideAlert());
 	useEffect(() => {
@@ -20,7 +20,7 @@ const Alert = () => {
 	}, []);
 	return (
 		<Snackbar autoHideDuration={autoHideDuration || 1500} anchorOrigin={{vertical: "top", horizontal: "right"}} open={show} onClose={handleClose}>
-			<MuiAlert elevation={6} variant='filled' onClose={handleClose} severity='success'>
+			<MuiAlert elevation={6} variant='filled' onClose={handleClose} severity={type}>
 				{message}
 			</MuiAlert>
 		</Snackbar>

@@ -24,7 +24,18 @@ export default function() {
 	useEffect(() => {
 		if (!address) return;
 		setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
-	}, [address, reFetchAmount, setUrl]);
+	}, [address, dispatch, reFetchAmount, setUrl]);
+
+	const handleRefeshAccount = () => {
+		setReFetchAmount(prev => prev + 1);
+		dispatch(
+			showAlert({
+				show: true,
+				message: "Refreshed",
+				autoHideDuration: 1500,
+			})
+		);
+	};
 
 	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>
@@ -60,7 +71,7 @@ export default function() {
 					<div className={cx("balance")}>
 						{formatOrai(amount || 0)} <span className={cx("symbol")}>{denom}</span>
 					</div>
-					<div className={cx("footer")} onClick={() => setReFetchAmount(prev => prev + 1)}>
+					<div className={cx("footer")} onClick={handleRefeshAccount}>
 						<img src={require("../../../assets/wallet/refresh.svg")} style={{marginRight: 5}} /> Refresh
 					</div>
 				</div>

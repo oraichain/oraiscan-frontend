@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
@@ -10,6 +10,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import Keystation from "src/lib/Keystation";
+import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimTable.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import giftIcon from "src/assets/wallet/gift.svg";
@@ -31,8 +32,19 @@ export const getHeaderRow = () => {
 
 const ClaimTable = memo(({data}) => {
 	const {address, account} = useSelector(state => state.wallet);
+	const dispatch = useDispatch();
 
-	const handleClickClaim = validatorAddress => {
+	const handleClickClaim = (validatorAddress, claimableRewards) => {
+		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
+			return dispatch(
+				showAlert({
+					show: true,
+					message: "Claimable Rewards ORAI must greater than 0",
+					autoHideDuration: 1500,
+					type: "error",
+				})
+			);
+		}
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",
@@ -101,7 +113,7 @@ const ClaimTable = memo(({data}) => {
 			);
 
 			const claimDataCell = (
-				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator)}>
+				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
 					<button className={cx("button")}>
 						Claim
 						<img alt='/' className={cx("button-icon")} src={giftIcon} />

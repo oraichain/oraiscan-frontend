@@ -9,7 +9,7 @@ import TransactionTableSkeleton from "src/components/TxList/TransactionTable/Tra
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import NoResult from "src/components/common/NoResult";
+import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./Transaction.scss";
 
 const cx = classNames.bind(styles);
@@ -34,6 +34,8 @@ const Transaction = memo(({account = "", minHeight = 222}) => {
 		setPath(`${basePath}&page_id=${page}`);
 	};
 
+	const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
+
 	return (
 		<div className={cx("transaction")}>
 			{Array.isArray(data?.data) && data.data.length > 0 ? (
@@ -42,9 +44,7 @@ const Transaction = memo(({account = "", minHeight = 222}) => {
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (
-				<div className={cx("no-result-wrapper")}>
-					<NoResult />
-				</div>
+				<EmptyTable columns={columns} />
 			)}
 		</div>
 	);

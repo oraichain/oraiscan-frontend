@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import {useSelector, useDispatch} from "react-redux";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
+import {showAlert} from "src/store/modules/global";
 import Keystation from "src/lib/Keystation";
 import styles from "./WithdrawTable.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
@@ -33,8 +34,20 @@ export const getHeaderRow = () => {
 
 const WithdrawTable = memo(({data}) => {
 	const {address, account} = useSelector(state => state.wallet);
+	const dispatch = useDispatch();
 
-	const handleClickClaim = validatorAddress => {
+	const handleClickClaim = (validatorAddress, withdrawable) => {
+		if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
+			return dispatch(
+				showAlert({
+					show: true,
+					message: "Withdrawable ORAI must greater than 0",
+					autoHideDuration: 1500,
+					type: "error",
+				})
+			);
+		}
+
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",
@@ -77,6 +90,7 @@ const WithdrawTable = memo(({data}) => {
 		}
 
 		return data.map((item, index) => {
+			console.log(item);
 			const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 
 			const validatorDataCell = item?.validator ? (
@@ -116,7 +130,7 @@ const WithdrawTable = memo(({data}) => {
 
 			const withdrawDataCell = (
 				<div className={cx("withdraw-data-cell", "align-center")}>
-					<button className={cx("button")} onClick={() => handleClickClaim(item?.validator)}>
+					<button className={cx("button")} onClick={() => handleClickClaim(item?.validator_address, item?.withdrawable)}>
 						Withdraw
 						<img alt='/' className={cx("button-icon")} src={arrowIcon} />
 					</button>
