@@ -1,7 +1,7 @@
 .tabs {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	flex-wrap: nowrap;
 	margin-bottom: 20px;
@@ -41,7 +41,7 @@
 		user-select: none;
 		white-space: nowrap;
 
-		img {
+		&-icon {
 			height: 16px;
 			width: auto;
 			margin-right: 5px;
@@ -64,6 +64,10 @@
 			@media (min-width: 600px) {
 				background: #1b57f0;
 				color: #ffffff;
+
+				.tab-icon {
+					filter: invert(1);
+				}
 			}
 		}
 	}
