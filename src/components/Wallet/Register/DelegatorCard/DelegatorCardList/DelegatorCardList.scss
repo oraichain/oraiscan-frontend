@@ -13,11 +13,11 @@
 			tr {
 				td:nth-child(1) {
 					text-align: left;
-					width: 50%;
+					width: 40%;
 				}
 				td:nth-child(2) {
 					text-align: right;
-					width: 50%;
+					width: 60%;
 				}
 
 				&:nth-child(1) {
@@ -53,6 +53,39 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
+		}
+
+		.address-data-cell {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+
+			&-with-owner-badge {
+				justify-content: space-between;
+			}
+
+			.address {
+				color: #1b57f0;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 150%;
+			}
+
+			.owner-badge {
+				padding: 6px;
+				color: #5f51ff;
+				border: 1px solid #5f51ff;
+				box-sizing: border-box;
+				border-radius: 4px;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+			}
 		}
 	}
 }

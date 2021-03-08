@@ -21,12 +21,34 @@
 }
 
 .address-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&-with-owner-badge {
+		justify-content: space-between;
+	}
+
 	.address {
 		color: #1b57f0;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
+		line-height: 150%;
+	}
+
+	.owner-badge {
+		padding: 6px 20px;
+		color: #5f51ff;
+		border: 1px solid #5f51ff;
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
 		line-height: 150%;
 	}
 }
