@@ -11,7 +11,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
@@ -61,6 +61,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const [activeTabId, setActiveTabId] = useState(1);
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const status = useSelector(state => state.blockchain.status);
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
 		sendAmount: yup
@@ -193,7 +194,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								</div>
 								<div className={cx("right")}>
 									<div className={cx("title", "title-right")}> Balance </div>
-									<div className={cx("value")}> {formatOrai(amount || 0)} ORAI </div>
+									<div className={cx("value")}>
+										{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
+									</div>
 								</div>
 							</div>
 							<Grid item xs={12} className={cx("form-input")}>
@@ -220,7 +223,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<Grid item xs={12} className={cx("form-input")}>
 								<div className={cx("label")}>
 									{" "}
-									Tx Fee: <span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
+									Tx Fee:
+									<span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
+									<span>{status?.price ? "($" + (status?.price * Number(formatOrai(fee))).toFixed(6) + ")" : ""}</span>
 								</div>
 							</Grid>
 						</Grid>

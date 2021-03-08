@@ -51,7 +51,7 @@ const StatusBox = memo(() => {
 			</div>
 			<div className={cx("status-box-item")}>
 				<span className={cx("status-label")}>Bonded: </span>
-				<span className={cx("status-value")}>{data?.bonded ? formatOrai(data.bonded) : "--"}</span>
+				<span className={cx("status-value")}>{data?.bonded ? formatFloat(data.bonded / 1000000) + " ORAI" : "--"}</span>
 			</div>
 			<div className={cx("status-box-item")}>
 				<span className={cx("status-label")}>Inflation: </span>

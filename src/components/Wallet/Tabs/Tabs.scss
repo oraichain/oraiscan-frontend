@@ -1,61 +1,70 @@
-.Tabs {
+.tabs {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
 	margin-bottom: 20px;
-	max-width: 698px;
+	border-bottom: 1px solid #1b57f0;
+	overflow-x: scroll;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 
-	.Tab {
+	@media (min-width: 600px) {
+		display: inline-flex;
+		border-radius: 8px;
+		border: 1px solid #1b57f0;
+	}
+
+	.tab {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-weight: 500;
-		font-size: 14px;
-		line-height: 150%;
-		color: #181818;
+		flex-wrap: nowrap;
+		flex: 1;
+		box-sizing: border-box;
 		height: 40px;
-		padding: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+		color: #181818;
 		background-color: white;
-		border: 1px solid #1b57f0;
-		border-left: none;
-		border-right: none;
+
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 150%;
 		cursor: pointer;
+		user-select: none;
+		white-space: nowrap;
 
 		img {
+			height: 16px;
+			width: auto;
 			margin-right: 5px;
 		}
 
-		@media (max-width: 599.99px) {
-			border: 1px solid #1b57f0;
-			border-radius: 8px;
-			margin: auto;
-			margin-bottom: 2px;
+		&.active {
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				background: #1b57f0;
+				width: 100%;
+				height: 3px;
+
+				@media (min-width: 600px) {
+					display: none;
+				}
+			}
+
+			@media (min-width: 600px) {
+				background: #1b57f0;
+				color: #ffffff;
+			}
 		}
-	}
-
-	.Tab:first-child {
-		border-radius: 8px 0px 0px 8px;
-		border: 1px solid #1b57f0;
-		border-right: none;
-		@media (max-width: 599.99px) {
-			border: 1px solid #1b57f0;
-			border-radius: 8px;
-		}
-	}
-
-	.Tab:last-child {
-		border-radius: 0px 8px 8px 0px;
-		border: 1px solid #1b57f0;
-		border-left: none;
-		@media (max-width: 599.99px) {
-			border: 1px solid #1b57f0;
-			border-radius: 8px;
-		}
-	}
-
-	.active {
-		background: #1b57f0;
-		color: white;
-	}
-
-	.borderLeft {
-		border-left: 1px solid #1b57f0 !important;
 	}
 }

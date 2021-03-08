@@ -132,6 +132,10 @@
 		&-denom {
 			text-transform: uppercase;
 		}
+
+		&-usd {
+			padding-left: 4px;
+		}
 	}
 
 	.transfer-status {
@@ -172,6 +176,10 @@
 
 		&-denom {
 			text-transform: uppercase;
+		}
+
+		&-usd {
+			padding-left: 4px;
 		}
 	}
 }
