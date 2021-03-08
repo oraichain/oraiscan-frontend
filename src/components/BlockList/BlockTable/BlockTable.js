@@ -52,7 +52,8 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
-					{reduceString(item.block_hash, 8, 8)}
+					{console.log("black_hask", item.block_hash)}
+					{reduceString(item.block_hash, 16, 16)}
 				</NavLink>
 			);
 
