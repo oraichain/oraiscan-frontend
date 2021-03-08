@@ -2,11 +2,15 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
+import {useGet} from "restful-react";
 import {useDispatch} from "react-redux";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
+import Skeleton from "@material-ui/lab/Skeleton";
 import {showAlert} from "src/store/modules/global";
+import consts from "src/constants/consts";
+import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import styles from "./YourValidatorCard.scss";
 import editIcon from "src/assets/icons/edit.svg";
 import roleIcon from "src/assets/wallet/role.svg";
@@ -14,11 +18,16 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
 
-const YourValidatorCard = memo(({address}) => {
+const YourValidatorCard = memo(({validatorAddress}) => {
 	const dispatch = useDispatch();
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+
+	const path = consts.API.WALLET.VALIDATOR + "/" + validatorAddress;
+	const {data} = useGet({
+		path: path,
+	});
 
 	const handleCopy = address => {
 		copy(address);
@@ -31,6 +40,177 @@ const YourValidatorCard = memo(({address}) => {
 		);
 	};
 
+	const validatorNameElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Validator name</div>
+			<div className={cx("validator-name")}>
+				<NavLink className={cx("nav-link")} to={`${consts.PATH.VALIDATORS}/${data?.validator_address ?? ""}`}>
+					<span className={cx("validator-link")}>{data?.validator_name ?? "-"}</span>
+				</NavLink>
+				<NavLink className={cx("nav-link")} to='/'>
+					<img className={cx("validator-icon", "validator-icon-right")} src={editIcon} />
+				</NavLink>
+			</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Validator name</div>
+			<div className={cx("validator-name")}>
+				<Skeleton variant='text' width={100} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const totalDelegatorsElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Total Delegators</div>
+			<div className={cx("validator-text")}>{formatInteger(data?.total_delegators ?? "-")}</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Total Delegators</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={100} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const validatorAddressElement = data ? (
+		<>
+			<div className={cx("validator-title")}>
+				Validator address
+				<img
+					className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
+					src={copyIcon}
+					onClick={() => {
+						handleCopy(data?.validator_address ?? "-");
+					}}
+				/>
+			</div>
+			<div className={cx("validator-text")}>{data?.validator_address ?? "-"}</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>
+				Validator address
+				<Skeleton variant='text' width={16} height={27} className={cx("skeleton")} />
+			</div>
+			<Skeleton variant='text' width={100} height={27} className={cx("skeleton")} />
+		</>
+	);
+
+	const totalStakeAmountElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Total Stake Amount</div>
+			<div className={cx("validator-text")}>{formatOrai(data?.total_stake_amount) ?? "-"} ORAI</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Total Stake Amount</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={50} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const statusElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Status</div>
+			<div className={cx("validator-status", "validator-status-active")}>{data?.status ?? "-"}</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Status</div>
+			<div className={cx("validator-status", "validator-status-active")}>
+				<Skeleton variant='text' width={50} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const missingBlockElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Missing Block</div>
+			<div className={cx("validator-text")}>{data?.missing_block ?? "-"}</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Missing Block</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={20} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const commissionRateElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Commission Rate</div>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
+				{data?.commission_rate ? formatFloat(data.commission_rate) + "%" : "-"}
+			</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Commission Rate</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={20} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const claimableCommissionRewardElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Claimable Commission Reward</div>
+			<div className={cx("validator-text")}>{data?.claimable_commission_reward ? formatOrai(data.claimable_commission_reward) : "-"} ORAI</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Claimable Commission Reward</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={50} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const maxCommissionRateElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Max Commission Rate</div>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
+				{data?.max_commission_rate ? formatFloat(data.max_commission_rate) + "%" : "-"}
+			</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Max Commission Rate</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={50} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const maxChangeCommissionRateElement = data ? (
+		<>
+			<div className={cx("validator-title")}>Max Change Commission Rate</div>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
+				{data?.max_change_commission_rate ? formatFloat(data.max_change_commission_rate) + "%" : "-"}
+			</div>
+		</>
+	) : (
+		<>
+			<div className={cx("validator-title")}>Max Change Commission Rate</div>
+			<div className={cx("validator-text")}>
+				<Skeleton variant='text' width={50} height={27} className={cx("skeleton")} />
+			</div>
+		</>
+	);
+
+	const withdrawElement = data ? (
+		<button className={cx("button")} onClick={() => {}}>
+			Withdraw
+		</button>
+	) : (
+		<Skeleton variant='text' width={96} height={36} className={cx("skeleton")} />
+	);
+
 	return (
 		<div className={cx("your-validator-card")}>
 			<div className={cx("your-validator-card-header")}>Your Validator</div>
@@ -38,181 +218,74 @@ const YourValidatorCard = memo(({address}) => {
 				{isLargeScreen ? (
 					<Grid container spacing={0}>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Validator name</div>
-							<div className={cx("validator-name")}>
-								<NavLink className={cx("nav-link")} to='/'>
-									<span className={cx("validator-link")}>Oraichain</span>
-								</NavLink>
-								<NavLink className={cx("nav-link")} to='/'>
-									<img className={cx("validator-icon", "validator-icon-right")} src={editIcon} />
-								</NavLink>
-							</div>
+							{validatorNameElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Total Delegators</div>
-							<div className={cx("validator-text")}>122</div>
+							{totalDelegatorsElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>
-								Validator address
-								<img
-									className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
-									src={copyIcon}
-									onClick={() => {
-										handleCopy("0x09470B5978C978eB28df8C3cB8421520339c1E2a");
-									}}
-								/>
-							</div>
-							<div className={cx("validator-text")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
+							{validatorAddressElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Total Stake Amount</div>
-							<div className={cx("validator-text")}>120,256 ORAI</div>
+							{totalStakeAmountElement}
 						</Grid>
 
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>
-								Validator Contract
-								<img
-									className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
-									src={copyIcon}
-									onClick={() => {
-										handleCopy("0x09470B5978C978eB28df8C3cB8421520339c1E2a");
-									}}
-								/>
-							</div>
-							<div className={cx("validator-text")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
+							{statusElement}
 						</Grid>
 
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Status</div>
-							<div className={cx("validator-status", "validator-status-active")}>Active</div>
-						</Grid>
-
-						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Role</div>
-							<div className={cx("validator-role")}>
-								<img className={cx("validator-icon", "validator-icon-left")} src={roleIcon} />
-								<NavLink className={cx("nav-link")} to='/'>
-									<span className={cx("validator-link")}>Oraichain</span>
-								</NavLink>
-								<NavLink className={cx("nav-link")} to='/'>
-									<img className={cx("validator-icon", "validator-icon-right")} src={editIcon} />
-								</NavLink>
-							</div>
+							{missingBlockElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Missing Block</div>
-							<div className={cx("validator-text")}>0</div>
+							{commissionRateElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Commission Rate</div>
-							<div className={cx("validator-text")}>5%</div>
+							{claimableCommissionRewardElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Claimable Commission Reward</div>
-							<div className={cx("validator-text")}>12,000 ORAI</div>
+							{maxCommissionRateElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Max Commission Rate</div>
-							<div className={cx("validator-text")}>25%</div>
+							{withdrawElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<button className={cx("button")} onClick={() => {}}>
-								Withdraw
-							</button>
-						</Grid>
-						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Max Change Commission Rate</div>
-							<div className={cx("validator-text")}>5%</div>
+							{maxChangeCommissionRateElement}
 						</Grid>
 					</Grid>
 				) : (
 					<Grid container spacing={0}>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Validator name</div>
-							<div className={cx("validator-name")}>
-								<NavLink className={cx("nav-link")} to='/'>
-									<span className={cx("validator-link")}>Oraichain</span>
-								</NavLink>
-								<NavLink className={cx("nav-link")} to='/'>
-									<img className={cx("validator-icon", "validator-icon-right")} src={editIcon} />
-								</NavLink>
-							</div>
+							{validatorNameElement}
 						</Grid>
 						<Grid item xs={6} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>
-								Validator address
-								<img
-									className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
-									src={copyIcon}
-									onClick={() => {
-										handleCopy("0x09470B5978C978eB28df8C3cB8421520339c1E2a");
-									}}
-								/>
-							</div>
-							<div className={cx("validator-text")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
+							{validatorAddressElement}
 						</Grid>
 
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>
-								Validator Contract
-								<img
-									className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
-									src={copyIcon}
-									onClick={() => {
-										handleCopy("0x09470B5978C978eB28df8C3cB8421520339c1E2a");
-									}}
-								/>
-							</div>
-							<div className={cx("validator-text")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
+							{commissionRateElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Role</div>
-							<div className={cx("validator-role")}>
-								<img className={cx("validator-icon", "validator-icon-left")} src={roleIcon} />
-								<NavLink className={cx("nav-link")} to='/'>
-									<span className={cx("validator-link")}>Oraichain</span>
-								</NavLink>
-								<NavLink className={cx("nav-link")} to='/'>
-									<img className={cx("validator-icon", "validator-icon-right")} src={editIcon} />
-								</NavLink>
-							</div>
+							{maxCommissionRateElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Commission Rate</div>
-							<div className={cx("validator-text", "validator-text-blue")}>5%</div>
+							{maxChangeCommissionRateElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Max Commission Rate</div>
-							<div className={cx("validator-text", "validator-text-blue")}>25%</div>
+							{totalDelegatorsElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Max Change Commission Rate</div>
-							<div className={cx("validator-text", "validator-text-blue")}>5%</div>
+							{totalStakeAmountElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Total Delegators</div>
-							<div className={cx("validator-text")}>122</div>
+							{statusElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Total Stake Amount</div>
-							<div className={cx("validator-text")}>120,256 ORAI</div>
+							{missingBlockElement}
 						</Grid>
 						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Status</div>
-							<div className={cx("validator-status", "validator-status-active")}>Active</div>
-						</Grid>
-						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Missing Block</div>
-							<div className={cx("validator-text")}>0</div>
-						</Grid>
-						<Grid item xs={12} className={cx("validator-detail")}>
-							<div className={cx("validator-title")}>Claimable Commission Reward</div>
-							<div className={cx("validator-text")}>12,000 ORAI</div>
-							<button className={cx("button")} onClick={() => {}}>
-								Withdraw
-							</button>
+							{claimableCommissionRewardElement}
+							{withdrawElement}
 						</Grid>
 					</Grid>
 				)}
