@@ -18,6 +18,7 @@ import DataSourceTable from "src/components/DataSources/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/DataSources/DataSourceTable/DataSourceTableSkeleton";
 import DataSourceCardList from "src/components/DataSources/DataSourceCardList";
 import DataSourceCardListSkeleton from "src/components/DataSources/DataSourceCardList/DataSourceCardListSkeleton";
+import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./DataSources.scss";
 
 const cx = cn.bind(styles);
@@ -152,9 +153,10 @@ const DataSources = props => {
 	return (
 		<Container fixed className={cx("data-sources")}>
 			{titleSection}
-			{filterSection}
+			<ComingSoon />
+			{/* {filterSection}
 			{tableSection}
-			{paginationSection}
+			{paginationSection} */}
 		</Container>
 	);
 };
