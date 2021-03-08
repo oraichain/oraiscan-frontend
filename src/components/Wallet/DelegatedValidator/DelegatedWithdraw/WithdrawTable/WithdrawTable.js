@@ -11,6 +11,7 @@ import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import {showAlert} from "src/store/modules/global";
 import Keystation from "src/lib/Keystation";
+import WithdrawBtn from "./WithdrawBtn";
 import styles from "./WithdrawTable.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
@@ -30,6 +31,17 @@ export const getHeaderRow = () => {
 		headerCells,
 		headerCellStyles,
 	};
+};
+
+const BtnComponent = ({handleClick}) => {
+	return (
+		<div className={cx("withdraw-data-cell", "align-center")}>
+			<button className={cx("button")} onClick={handleClick}>
+				Withdraw
+				<img alt='/' className={cx("button-icon")} src={arrowIcon} />
+			</button>
+		</div>
+	);
 };
 
 const WithdrawTable = memo(({data}) => {
@@ -56,14 +68,18 @@ const WithdrawTable = memo(({data}) => {
 		});
 
 		const payload = {
-			type: "cosmos-sdk/MsgWithdrawDelegationReward",
+			type: "cosmos-sdk/MsgUndelegate",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgWithdrawDelegationReward",
+						type: "cosmos-sdk/MsgUndelegate",
 						value: {
 							delegator_address: address,
 							validator_address: validatorAddress,
+							amount: {
+								denom: "orai",
+								amount: String(0.2 * 1000000),
+							},
 						},
 					},
 				],
@@ -128,14 +144,16 @@ const WithdrawTable = memo(({data}) => {
 				<div className={cx("withdrawable-data-cell", "align-left")}>{formatOrai(item.withdrawable)}</div>
 			);
 
-			const withdrawDataCell = (
-				<div className={cx("withdraw-data-cell", "align-center")}>
-					<button className={cx("button")} onClick={() => handleClickClaim(item?.validator_address, item?.withdrawable)}>
-						Withdraw
-						<img alt='/' className={cx("button-icon")} src={arrowIcon} />
-					</button>
-				</div>
-			);
+			const withdrawDataCell = <WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={BtnComponent} />;
+
+			// const withdrawDataCell = (
+			// 	<div className={cx("withdraw-data-cell", "align-center")}>
+			// 		<button className={cx("button")} onClick={() => handleClickClaim(item?.validator_address, item?.withdrawable)}>
+			// 			Withdraw
+			// 			<img alt='/' className={cx("button-icon")} src={arrowIcon} />
+			// 		</button>
+			// 	</div>
+			// );
 
 			return [validatorDataCell, stakedDataCell, rewardsDataCell, unbondedDataCell, withdrawableDataCell, withdrawDataCell];
 		});
