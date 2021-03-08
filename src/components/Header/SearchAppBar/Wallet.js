@@ -46,6 +46,7 @@ export default function({data}) {
 	const {path, title, handleClick, init} = data;
 	const history = useHistory();
 	const {account} = useSelector(state => state.wallet);
+	const status = useSelector(state => state.blockchain.status);
 	const dispatch = useDispatch();
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
 	const [balance, , , , setUrl] = useFetch();
@@ -108,7 +109,9 @@ export default function({data}) {
 
 					<div className={cx("wallet-address-title")}> Balance </div>
 					<div className={cx("wallet-address-detail")}>
-						{formatOrai(amount || 0)} <span className={cx("denom")}>{denom}</span>
+						{formatOrai(amount || 0)}
+						<span className={cx("denom")}>{denom}</span>
+						<span>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
 					</div>
 
 					<div className={cx("btn-action-group")}>

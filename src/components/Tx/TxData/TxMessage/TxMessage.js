@@ -17,6 +17,7 @@ const cx = cn.bind(styles);
 
 export default function({msg, txData}) {
 	const fees = useSelector(state => state.blockchain.fees);
+	const status = useSelector(state => state.blockchain.status);
 
 	const {type, value} = msg;
 	const {memo} = txData;
@@ -56,8 +57,9 @@ export default function({msg, txData}) {
 			const {amount, denom} = inputObject;
 			return (
 				<InfoRow label={label}>
-					<span>{formatOrai(amount)} </span>
+					<span>{formatOrai(amount)}</span>
 					<span className={cx(unitClassNames)}>{denom}</span>
+					<span className={cx("usd")}>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
 				</InfoRow>
 			);
 		};

@@ -10,11 +10,13 @@
 
 		table {
 			width: 100%;
+
 			tr {
 				td:nth-child(1) {
 					text-align: left;
 					width: 50%;
 				}
+
 				td:nth-child(2) {
 					text-align: right;
 					width: 50%;
@@ -161,6 +163,10 @@
 				&-denom {
 					text-transform: uppercase;
 				}
+
+				&-usd {
+					padding-left: 4px;
+				}
 			}
 
 			.transfer-status {
@@ -201,6 +207,10 @@
 
 				&-denom {
 					text-transform: uppercase;
+				}
+
+				&-usd {
+					padding-left: 4px;
 				}
 			}
 		}
