@@ -10,8 +10,8 @@ const cx = cn.bind(styles);
 export default function({address, account}) {
 	return (
 		<>
-			<YourValidatorCard />
-			<DelegatorCard />
+			<YourValidatorCard address={address} />
+			<DelegatorCard address={address} />
 		</>
 	);
 }

@@ -2,17 +2,22 @@
 import * as React from "react";
 import cn from "classnames/bind";
 import styles from "./BlockHeader.scss";
+import {useDispatch} from "react-redux";
 
 import {_, getTotalTime, setAgoTime} from "src/lib/scripts";
 //  components
 import InfoRow from "src/components/common/InfoRow";
 import Skeleton from "react-skeleton-loader";
 import {useSelector} from "react-redux";
+import copyIcon from "src/assets/common/copy_ic.svg";
+import copy from "copy-to-clipboard";
+import {showAlert} from "src/store/modules/global";
 
 const cx = cn.bind(styles);
 
 export default function({blockData, history}) {
 	const validators = useSelector(state => state.blockchain.validators);
+	const dispatch = useDispatch();
 	console.log(validators);
 	// console.log(blockData);
 
@@ -28,7 +33,24 @@ export default function({blockData, history}) {
 					<InfoRow label={"Block Time"}>
 						{_.isNil(blockData?.timestamp) ? <Skeleton /> : `${setAgoTime(blockData?.timestamp)} (${getTotalTime(blockData?.timestamp)})`}
 					</InfoRow>
-					<InfoRow label={"Block Hash"}>{blockData?.block_hash}</InfoRow>
+					<InfoRow label={"Block Hash"}>
+						{blockData?.block_hash}
+						<img
+							src={copyIcon}
+							alt=''
+							className={cx("blockHash-copy")}
+							onClick={() => {
+								copy(blockData.block_hash);
+								dispatch(
+									showAlert({
+										show: true,
+										message: "Copied",
+										autoHideDuration: 1500,
+									})
+								);
+							}}
+						/>
+					</InfoRow>
 					<InfoRow label={"Parent Hash"}>
 						<span className={cx("blueLink")} onClick={onClick}>
 							{blockData?.parent_hash}

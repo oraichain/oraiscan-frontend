@@ -6,7 +6,7 @@ import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import {formatInteger, formatSeconds, formatOrai, replaceQueryString} from "src/helpers/helper";
+import {formatInteger, formatSeconds, formatOrai, replaceQueryString, formatFloat} from "src/helpers/helper";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -87,6 +87,10 @@ const ValidatorList = props => {
 		path: statusPath,
 	});
 
+	const {data: dataPrice} = useGet({
+		path: consts.API.ORAICHAIN_INFO,
+	});
+
 	useEffect(() => {
 		if (loadValidatorsCompleted) {
 			timerID.current = setTimeout(() => {
@@ -140,7 +144,14 @@ const ValidatorList = props => {
 					{
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
-						value: status?.bonded_tokens ? formatOrai(status.bonded_tokens) : "-",
+						value: (
+							<div>
+								<div>{status?.bonded_tokens ? formatFloat(status.bonded_tokens / 1000000) + " ORAI " : "-"}</div>
+								<div style={{fontSize: "12px", marginTop: "-10px"}}>
+									{dataPrice?.price ? formatFloat(dataPrice.price * (status.bonded_tokens / 1000000)) + " USD" : "-"}
+								</div>
+							</div>
+						),
 					},
 					{
 						icon: blockTimeIcon,
@@ -148,7 +159,7 @@ const ValidatorList = props => {
 						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 					},
 				]}
-				minHeight={105}
+				minHeight={125}
 			/>
 		);
 	} else {

@@ -15,16 +15,17 @@ import styles from "./DelegatorCard.scss";
 const cx = classNames.bind(styles);
 
 const DelegatorCard = memo(({address = ""}) => {
+	const limit = consts.REQUEST.LIMIT;
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = consts.API.WALLET.DELEGATOR + "/" + address;
+	const basePath = consts.API.WALLET.DELEGATOR + "/" + address + "?limit=" + limit;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
 		path: path,
 	});
 
-	const totalPages = data?.page?.total_page ?? 0;
-	const currentPage = data?.page?.page_id ?? 1;
+	const totalPages = Math.ceil((data?.pagination?.total ?? 0) / limit);
+	const currentPage = data?.pagination?.page_id ?? 1;
 
 	const onPageChange = page => {
 		setPath(`${basePath}&page_id=${page}`);
@@ -34,8 +35,8 @@ const DelegatorCard = memo(({address = ""}) => {
 	let paginationSection;
 
 	if (data) {
-		if (Array.isArray(data?.data) && data.data.length > 0) {
-			tableSection = isLargeScreen ? <DelegatorTable data={data.data} /> : <DelegatorCardList data={data.data} />;
+		if (Array.isArray(data?.delegator) && data.delegator.length > 0) {
+			tableSection = isLargeScreen ? <DelegatorTable data={data.delegator} address={address} /> : <DelegatorCardList data={data.delegator} address={address} />;
 		} else {
 			tableSection = (
 				<div className={cx("no-result-wrapper")}>
@@ -44,7 +45,7 @@ const DelegatorCard = memo(({address = ""}) => {
 			);
 		}
 	} else {
-		tableSection = isLargeScreen ? <DelegatorTableSkeleton /> : <DelegatorCardListSkeleton />;
+		tableSection = isLargeScreen ? <DelegatorTableSkeleton rows={limit} /> : <DelegatorCardListSkeleton rows={limit} />;
 	}
 
 	if (totalPages > 0) {
