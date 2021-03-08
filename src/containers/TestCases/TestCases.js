@@ -18,6 +18,7 @@ import TestCaseTable from "src/components/TestCases/TestCaseTable";
 import TestCaseTableSkeleton from "src/components/TestCases/TestCaseTable/TestCaseTableSkeleton";
 import TestCaseCardList from "src/components/TestCases/TestCaseCardList";
 import TestCaseCardListSkeleton from "src/components/TestCases/TestCaseCardList/TestCaseCardListSkeleton";
+import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./TestCases.scss";
 
 const cx = cn.bind(styles);
@@ -152,9 +153,10 @@ const TestCases = props => {
 	return (
 		<Container fixed className={cx("test-cases")}>
 			{titleSection}
-			{filterSection}
+			<ComingSoon />
+			{/* {filterSection}
 			{tableSection}
-			{paginationSection}
+			{paginationSection} */}
 		</Container>
 	);
 };

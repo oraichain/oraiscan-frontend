@@ -85,7 +85,9 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 		return "_";
 	}
 
-	return formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	const result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
+
+	return isNaN(result) ? "0.000000" : result;
 };
 
 export const replaceQueryString = (path, key, value) => {

@@ -48,58 +48,6 @@ const WithdrawTable = memo(({data}) => {
 	const {address, account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
-	const handleClickClaim = (validatorAddress, withdrawable) => {
-		if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
-			return dispatch(
-				showAlert({
-					show: true,
-					message: "Withdrawable ORAI must greater than 0",
-					autoHideDuration: 1500,
-					type: "error",
-				})
-			);
-		}
-
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
-
-		const payload = {
-			type: "cosmos-sdk/MsgUndelegate",
-			value: {
-				msg: [
-					{
-						type: "cosmos-sdk/MsgUndelegate",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-							amount: {
-								denom: "orai",
-								amount: String(0.2 * 1000000),
-							},
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
-	};
-
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];

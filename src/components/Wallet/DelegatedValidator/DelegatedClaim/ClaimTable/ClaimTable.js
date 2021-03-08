@@ -87,6 +87,7 @@ const ClaimTable = memo(({data}) => {
 		}
 
 		return data.map((item, index) => {
+			console.log(item);
 			const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 
 			const validatorDataCell = item?.validator ? (
@@ -113,7 +114,7 @@ const ClaimTable = memo(({data}) => {
 			);
 
 			const claimDataCell = (
-				<div className={cx("claim-data-cell", "align-center")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
+				<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
 					<button className={cx("button")}>
 						Claim
 						<img alt='/' className={cx("button-icon")} src={giftIcon} />

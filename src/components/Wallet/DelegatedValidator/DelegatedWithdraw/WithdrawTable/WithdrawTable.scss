@@ -64,6 +64,9 @@
 }
 
 .withdraw-data-cell {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 	.button {
 		padding: 8px;
 		color: #1b57f0;
@@ -76,6 +79,7 @@
 		font-size: 14px;
 		line-height: 150%;
 		cursor: pointer;
+		display: flex;
 
 		&-icon {
 			position: relative;

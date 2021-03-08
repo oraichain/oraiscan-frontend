@@ -14,7 +14,8 @@ const cx = cn.bind(styles);
 
 const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 	const formatUSDT = () => {
-		return ((value || 0) * orai2usdt).toFixed(6);
+		const result = ((value || 0) * orai2usdt).toFixed(6);
+		return isNaN(result) ? 0 : result;
 	};
 	return (
 		<div className={cx("input-exchange")}>

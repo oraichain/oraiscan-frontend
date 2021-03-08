@@ -170,7 +170,7 @@ const Footer = memo(() => {
 				<div className={cx("footer-bottom")}>
 					<Container fixed>
 						<div className={cx("content")}>
-							<div className={cx("copyright")}>©2020 Oraichain Pte. Ltd. All rights reserved. Privacy Policy Customer Support</div>
+							<div className={cx("copyright")}>©2021 Oraichain Pte. Ltd. All rights reserved. Privacy Policy Customer Support</div>
 							<ul className={cx("nav")}>
 								<li className={cx("nav-item")}>
 									<a href='https://orai.io/privacy' target='_blank'>

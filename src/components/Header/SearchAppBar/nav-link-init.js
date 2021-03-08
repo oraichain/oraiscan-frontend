@@ -1,5 +1,5 @@
 export const navLinkInit = [
-	{title: `Home`, path: `https://orai.io/`},
+	{title: `ORAI Homepage`, path: `https://orai.io/`},
 	{
 		title: `Products`,
 		children: [
