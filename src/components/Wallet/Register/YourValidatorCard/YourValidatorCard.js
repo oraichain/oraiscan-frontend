@@ -14,7 +14,7 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
 
-const YourValidatorCard = memo(({}) => {
+const YourValidatorCard = memo(({address}) => {
 	const dispatch = useDispatch();
 
 	const theme = useTheme();
