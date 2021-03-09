@@ -15,6 +15,7 @@ import Keystation from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
+import BigNumber from "bignumber.js";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
 import {ReactComponent as WalletIcon} from "src/assets/icons/wallet.svg";
@@ -52,6 +53,7 @@ export default function({data}) {
 	const [balance, , , , setUrl] = useFetch();
 	const [reFetchAmount, setReFetchAmount] = useState(0);
 	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
+	// const amount = "927900393543589";
 	const denom = balance?.data?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
@@ -65,6 +67,12 @@ export default function({data}) {
 			</a>
 		);
 	}
+
+	const priceInUSD = new BigNumber(amount)
+		.dividedBy(1000000)
+		.multipliedBy(status?.price || 0)
+		.toFormat(6);
+
 	return (
 		<div className={cx("dropdown")}>
 			<Dialog
@@ -111,7 +119,7 @@ export default function({data}) {
 					<div className={cx("wallet-address-detail")}>
 						{formatOrai(amount || 0) + " "}
 						<span className={cx("denom")}>{denom}</span>
-						<span>{status?.price ? " ($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
+						<span>{status?.price ? " ($" + priceInUSD + ")" : ""}</span>
 					</div>
 
 					<div className={cx("btn-action-group")}>

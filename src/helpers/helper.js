@@ -2,6 +2,7 @@ import {floor} from "lodash";
 import numeral from "numeral";
 import bigInt from "big-integer";
 import _ from "lodash";
+import BigNumber from "bignumber.js";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -89,8 +90,9 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	let result;
 
-	if (`${value}`.length > 9 && _.isInteger(value)) {
-		result = formatFloat(bigInt(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	if (`${value}`.length > 9) {
+		const bigValue = new BigNumber(value);
+		result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
 	} else {
 		result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
 	}
