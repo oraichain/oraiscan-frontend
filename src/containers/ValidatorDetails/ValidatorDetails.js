@@ -250,7 +250,15 @@ export default function(props) {
 								isDesktop
 									? [
 											[
-												{key: "Website", value: validatorDetails.website, link: true},
+												{
+													key: "Website",
+													value: (
+														<a href={validatorDetails.website} target='_blank'>
+															{validatorDetails.website}
+														</a>
+													),
+													link: true,
+												},
 												{key: "Commission", value: validatorDetails.commission, link: false},
 												{key: "Uptime", value: "100%", link: false},
 											],

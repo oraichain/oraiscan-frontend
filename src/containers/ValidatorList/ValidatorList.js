@@ -22,7 +22,7 @@ import styles from "./ValidatorList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";
 import validatorsIcon from "src/assets/validators/validators_ic.svg";
 import bondedTokensIcon from "src/assets/validators/bonded_tokens_ic.svg";
-import blockTimeIcon from "src/assets/validators/block_time_ic.svg";
+import blockTimeIcon from "src/assets/validators/clock.svg";
 
 const cx = cn.bind(styles);
 

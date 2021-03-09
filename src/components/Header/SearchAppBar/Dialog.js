@@ -13,6 +13,7 @@ import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
+import {reduceString} from "src/lib/scripts";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
@@ -203,7 +204,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}>
 									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {address} </div>
+									<div className={cx("value")}> {reduceString(address, 8, 8)} </div>
 								</div>
 								<div className={cx("right")}>
 									<div className={cx("title", "title-right")}> Balance </div>
@@ -255,7 +256,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							<div className={cx("row-balance")}>
 								<div className={cx("left")}>
 									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {address} </div>
+									<div className={cx("value")}> {reduceString(address, 8, 8)} </div>
 								</div>
 								<div className={cx("right")}>
 									<div className={cx("title", "title-right")}> Balance </div>
