@@ -22,7 +22,7 @@ const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 			<NumberFormat customInput={TextField} thousandSeparator value={value} onValueChange={v => onChange(v.floatValue)} {...rest} />
 			<div className={cx("to-usdt")}>
 				{" "}
-				<ExchangeIcon /> {formatUSDT()} USDT{" "}
+				<ExchangeIcon /> {formatUSDT()} USD{" "}
 			</div>
 		</div>
 	);
