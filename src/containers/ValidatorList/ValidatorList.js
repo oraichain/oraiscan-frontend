@@ -145,7 +145,7 @@ const ValidatorList = props => {
 						icon: bondedTokensIcon,
 						label: "Bonded Tokens",
 						value: (
-							<div>
+							<div style={{marginBottom: "-45px"}}>
 								<div>{status?.bonded_tokens ? formatFloat(status.bonded_tokens / 1000000) + " ORAI " : "-"}</div>
 								<div style={{fontSize: "12px", marginTop: "-10px"}}>
 									{dataPrice?.price ? formatFloat(dataPrice.price * (status.bonded_tokens / 1000000)) + " USD" : "-"}
