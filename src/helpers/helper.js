@@ -88,14 +88,15 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 		return "_";
 	}
 
-	let result;
+	const bigValue = new BigNumber(value);
+	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
 
-	if (`${value}`.length > 9) {
-		const bigValue = new BigNumber(value);
-		result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
-	} else {
-		result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
-	}
+	// if (`${value}`.length > 9) {
+	// 	const bigValue = new BigNumber(value);
+	// 	result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
+	// } else {
+	// 	result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	// }
 
 	return `${result}` === "NaN" ? "0.000000" : result;
 };

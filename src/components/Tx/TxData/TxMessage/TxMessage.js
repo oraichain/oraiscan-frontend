@@ -11,6 +11,7 @@ import {divide} from "src/lib/Big";
 import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
+import BigNumber from "bignumber.js";
 import styles from "./TxMessage.scss";
 
 const cx = cn.bind(styles);
@@ -55,11 +56,12 @@ export default function({msg, txData}) {
 			}
 
 			const {amount, denom} = inputObject;
+			const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			return (
 				<InfoRow label={label}>
-					<span>{formatOrai(amount)}</span>
+					<span>{formatOrai(amount) + " "}</span>
 					<span className={cx(unitClassNames)}>{denom}</span>
-					<span className={cx("usd")}>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
+					<span className={cx("usd")}>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
 				</InfoRow>
 			);
 		};

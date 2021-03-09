@@ -15,7 +15,7 @@ const cx = cn.bind(styles);
 
 const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 	const formatUSDT = () => {
-		return new BigNumber(value || 0).multipliedBy(orai2usdt).toFormat(6);
+		return new BigNumber(value || 0).multipliedBy(orai2usdt).toFormat(2);
 		// const result = ((value || 0) * orai2usdt).toFixed(6);
 		// return isNaN(result) ? 0 : result;
 		// return 0;
