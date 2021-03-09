@@ -19,6 +19,7 @@ import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
 import kadiaChain from "src/assets/validators/kardia.png";
 import {css} from "highcharts";
 import {logoBrand} from "src/constants/logoBrand";
+import {Progress} from "antd";
 
 const cx = classNames.bind(styles);
 
@@ -232,7 +233,14 @@ const ValidatorTable = memo(({data = []}) => {
 
 			const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 			previousVotingPower += currentVotingPower;
-			const uptimeDataCell = <div className={cx("uptime-data-cell", "align-right")}>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>;
+			const uptimeDataCell = (
+				<div className={cx("uptime-data-cell", "align-right")}>
+					<div>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>
+					<div>
+						<Progress percent={30} showInfo={true} />
+					</div>
+				</div>
+			);
 			const commissionDataCell = (
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
