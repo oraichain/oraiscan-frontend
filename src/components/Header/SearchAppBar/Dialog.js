@@ -12,6 +12,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import {useDispatch, useSelector} from "react-redux";
+import BigNumber from "bignumber.js";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
@@ -169,7 +170,14 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
-		amount && setValue("sendAmount", (amount * rate) / 1000000);
+		amount &&
+			setValue(
+				"sendAmount",
+				new BigNumber(amount)
+					.multipliedBy(rate)
+					.dividedBy(1000000)
+					.toFixed(6)
+			);
 	};
 
 	const handleClickEndAdornment = () => {
@@ -180,6 +188,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 			win.focus();
 		}
 	};
+
+	const priceInUSD = new BigNumber(amount)
+		.dividedBy(1000000)
+		.multipliedBy(status?.price || 0)
+		.toFormat(6);
 
 	const renderTab = id => {
 		if (id === 1) {
@@ -195,7 +208,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 								<div className={cx("right")}>
 									<div className={cx("title", "title-right")}> Balance </div>
 									<div className={cx("value")}>
-										{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + (status?.price * Number(formatOrai(amount))).toFixed(6) + ")" : ""}</span>
+										{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
 									</div>
 								</div>
 							</div>

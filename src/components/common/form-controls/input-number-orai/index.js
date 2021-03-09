@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import cn from "classnames/bind";
 import NumberFormat from "react-number-format";
 import {useFetch} from "src/hooks";
+import BigNumber from "bignumber.js";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/exchange.svg";
 
 import styles from "./index.scss";
@@ -14,8 +15,10 @@ const cx = cn.bind(styles);
 
 const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 	const formatUSDT = () => {
-		const result = ((value || 0) * orai2usdt).toFixed(6);
-		return isNaN(result) ? 0 : result;
+		return new BigNumber(value || 0).multipliedBy(orai2usdt).toFormat(6);
+		// const result = ((value || 0) * orai2usdt).toFixed(6);
+		// return isNaN(result) ? 0 : result;
+		// return 0;
 	};
 	return (
 		<div className={cx("input-exchange")}>
