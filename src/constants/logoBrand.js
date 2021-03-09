@@ -48,6 +48,7 @@ export const logoBrand = [
 	},
 	{
 		name: "The_firm_samorai_D",
+		operatorAddress: "oraivaloper1qdcln9krzqwywxru8jx6yq2qs9cjqcvvhyjyet",
 		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912214/20201212_160050_1_-_D_V_Dyk_l9l5bl.jpg",
 	},
 	{
