@@ -192,7 +192,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const priceInUSD = new BigNumber(amount)
 		.dividedBy(1000000)
 		.multipliedBy(status?.price || 0)
-		.toFormat(6);
+		.toFormat(2);
 
 	const renderTab = id => {
 		if (id === 1) {

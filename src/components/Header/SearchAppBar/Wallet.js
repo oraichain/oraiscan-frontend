@@ -71,7 +71,7 @@ export default function({data}) {
 	const priceInUSD = new BigNumber(amount)
 		.dividedBy(1000000)
 		.multipliedBy(status?.price || 0)
-		.toFormat(6);
+		.toFormat(2);
 
 	return (
 		<div className={cx("dropdown")}>
@@ -117,7 +117,7 @@ export default function({data}) {
 
 					<div className={cx("wallet-address-title")}> Balance </div>
 					<div className={cx("wallet-address-detail")}>
-						{formatOrai(amount || 0) + " "}
+						{formatOrai(amount || 0, 1000000, 2) + " "}
 						<span className={cx("denom")}>{denom}</span>
 						<span>{status?.price ? " ($" + priceInUSD + ")" : ""}</span>
 					</div>
