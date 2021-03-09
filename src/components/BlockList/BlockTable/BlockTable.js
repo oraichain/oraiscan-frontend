@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
+import {_, reduceString, setAgoTime, getTotalTime} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
@@ -81,7 +81,7 @@ const BlockTable = memo(({data = []}) => {
 			const timeDataCell = _.isNil(item?.timestamp) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("data-cell", "color-black", "align-right")}>{setAgoTime(item.timestamp)}</div>
+				<div className={cx("data-cell", "color-black", "align-right")}>{getTotalTime(item.timestamp) + " (" + setAgoTime(item.timestamp) + ")"}</div>
 			);
 
 			return [heightDataCell, blockHashDataCell, proposerDataCell, txsDataCell, timeDataCell];
