@@ -1,5 +1,7 @@
 import {floor} from "lodash";
 import numeral from "numeral";
+import bigInt from "big-integer";
+import _ from "lodash";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -85,9 +87,15 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 		return "_";
 	}
 
-	const result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	let result;
 
-	return isNaN(result) ? "0.000000" : result;
+	if (`${value}`.length > 9) {
+		result = formatFloat(bigInt(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	} else {
+		result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
+	}
+
+	return _.isNaN(result) ? "0.000000" : result;
 };
 
 export const replaceQueryString = (path, key, value) => {
