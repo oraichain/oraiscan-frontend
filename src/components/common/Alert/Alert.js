@@ -18,6 +18,11 @@ const Alert = () => {
 			clearTimeout(autoHide);
 		};
 	}, []);
+
+	if (!show) {
+		return null;
+	}
+
 	return (
 		<Snackbar autoHideDuration={autoHideDuration || 1500} anchorOrigin={{vertical: "top", horizontal: "right"}} open={show} onClose={handleClose}>
 			<MuiAlert elevation={6} variant='filled' onClose={handleClose} severity={type}>

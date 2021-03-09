@@ -89,7 +89,7 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	let result;
 
-	if (`${value}`.length > 9) {
+	if (`${value}`.length > 9 && _.isInteger(value)) {
 		result = formatFloat(bigInt(value) / divisor, numberOfDigitsAfterDecimalPoint);
 	} else {
 		result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);

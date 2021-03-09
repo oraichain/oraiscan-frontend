@@ -18,7 +18,7 @@ export default function() {
 	const {address} = useSelector(state => state.wallet);
 	const [reFetchAmount, setReFetchAmount] = useState(0);
 	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
-	// const amount = "15000750";
+	// const amount = "927900393543589";
 	const denom = balance?.data?.balances?.[0]?.denom ?? "ORAI";
 	const [isZoom, setIsZoom] = useState(false);
 	const dispatch = useDispatch();
