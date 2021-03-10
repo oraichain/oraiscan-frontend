@@ -2,6 +2,7 @@
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import Axios from "axios";
 import {useTheme} from "@material-ui/core/styles";
@@ -56,6 +57,7 @@ export default function(props) {
 		onClickDelegator: [],
 		missedBlockWidth: 33,
 	});
+	const [loadingDelegators, setLoadingDelegators] = useState(true);
 	const theme = useTheme();
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 	const missedBlockRef = useRef();
@@ -183,6 +185,7 @@ export default function(props) {
 			let info = {...validatorDetails};
 			Object.assign(info, await fetchDelegators(info.operatorAddress, info.accountAddress));
 			setAllData(info);
+			setLoadingDelegators(false);
 		};
 		getDelegators();
 	}, [delegatorsPage, validatorDetails.operatorAddress]);
@@ -194,6 +197,51 @@ export default function(props) {
 			missedBlockWidth: Math.floor((missedBlockWidth - 6 * 9) / 10) - 1,
 		}));
 	}, [isDesktop]);
+
+	const getSkeletonData = (rows = 10, cols = 3, width = 100, height = 19) => {
+		let skeletonData = [];
+		for (let row = 1; row <= rows; row++) {
+			const skeletonRows = [];
+			for (let col = 1; col <= cols; col++) {
+				skeletonRows.push(<Skeleton variant='text' width={width} height={height} animation='wave' />);
+			}
+			skeletonData.push(skeletonRows);
+		}
+		return skeletonData;
+	};
+
+	let delegatorTable;
+	if (loadingDelegators) {
+		delegatorTable = isDesktop ? (
+			<>
+				<Table titles={["Delegator Address", "Amount", "Share"]} data={getSkeletonData(10, 3)} colFlex={[39, 26, 18]} />
+			</>
+		) : (
+			<>
+				<DelegatorsMobile data={getSkeletonData(10, 3)} />
+			</>
+		);
+	} else {
+		delegatorTable = isDesktop ? (
+			<>
+				<Table
+					titles={["Delegator Address", "Amount", "Share"]}
+					data={validatorDetails.delegators}
+					colFlex={[39, 26, 18]}
+					onClick={validatorDetails.onClickDelegator}
+				/>
+				<PageNumber
+					page={delegatorsPage}
+					totalPages={validatorDetails.totalDelegatorPages}
+					update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
+				/>
+			</>
+		) : (
+			<>
+				<DelegatorsMobile data={validatorDetails.delegators} onClick={validatorDetails.onClickDelegator} />
+			</>
+		);
+	}
 
 	return (
 		<div className={cx("screen")}>
@@ -337,25 +385,7 @@ export default function(props) {
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Delegators"} type='delegators' />
-						{isDesktop ? (
-							<>
-								<Table
-									titles={["Delegator Address", "Amount", "Share"]}
-									data={validatorDetails.delegators}
-									colFlex={[39, 26, 18]}
-									onClick={validatorDetails.onClickDelegator}
-								/>
-								<PageNumber
-									page={delegatorsPage}
-									totalPages={validatorDetails.totalDelegatorPages}
-									update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
-								/>
-							</>
-						) : (
-							<>
-								<DelegatorsMobile data={validatorDetails.delegators} onClick={validatorDetails.onClickDelegator} />
-							</>
-						)}
+						{delegatorTable}
 					</div>
 					{isDesktop && (
 						<div className={cx("main-card")}>
