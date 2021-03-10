@@ -22,6 +22,7 @@ spec:
       containers:
       - name: oraiscan-frontend
         image: thao1996/oraiscan-frontend:e47cb1eb1e5206801d22910837e2ccc77829015e
+        imagePullPolicy: Always
         env:
           - name: "REACT_APP_SITE_TITLE"
             value: "Oraiscan - Oraichain explorer by Cosmostation"
@@ -45,7 +46,6 @@ spec:
           value: "https://api.coingecko.com/api/v3/simple/price?ids=oraichain-token&vs_currencies=usd"
         ports:
         - containerPort: 5000
-        imagePullPolicy: Always
       imagePullSecrets:
       - name: regcred
       restartPolicy: Always
