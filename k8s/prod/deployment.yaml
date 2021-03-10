@@ -46,10 +46,6 @@ spec:
         ports:
         - containerPort: 5000
         imagePullPolicy: Always
-      volumes:
-      - name: oraiscan-frontend-volume
-        configMap:
-          name: oraiscan-frontend-config
       imagePullSecrets:
       - name: regcred
       restartPolicy: Always
