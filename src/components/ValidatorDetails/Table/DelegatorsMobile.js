@@ -9,11 +9,12 @@ export default function({data, onClick}) {
 	return (
 		check &&
 		data.map((blockData, index) => {
+			console.log(blockData[0]);
 			return (
 				<div className={cx("block-row-wrapper")}>
 					<div className={cx("block-row")}>
 						<div className={cx("left")}> Address </div>
-						<div className={cx("right", "link")} onClick={onClick[index]}>
+						<div className={cx("right", "link")} onClick={onClick && onClick[index]}>
 							{blockData[0]}
 						</div>
 					</div>
