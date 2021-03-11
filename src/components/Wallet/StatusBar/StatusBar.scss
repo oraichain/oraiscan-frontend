@@ -70,3 +70,30 @@
 		}
 	}
 }
+
+.qrcode {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	width: 300;
+	background-color: rgba(85, 88, 112, 0.95);
+	border: none;
+	// padding: 40px 120px;
+	width: 500px;
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: #fff;
+		font-size: 16px;
+		padding: 15px 25px;
+		.close {
+			cursor: pointer;
+		}
+	}
+	.img-wrap {
+		text-align: center;
+		padding: 20px 30px 50px 30px;
+	}
+}
