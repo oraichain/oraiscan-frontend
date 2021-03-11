@@ -2,6 +2,7 @@
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import Axios from "axios";
 import {useTheme} from "@material-ui/core/styles";
@@ -56,6 +57,8 @@ export default function(props) {
 		onClickDelegator: [],
 		missedBlockWidth: 33,
 	});
+	const [loadingProposedBlocks, setLoadingProposedBlocks] = useState(true);
+	const [loadingDelegators, setLoadingDelegators] = useState(true);
 	const theme = useTheme();
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
 	const missedBlockRef = useRef();
@@ -174,6 +177,7 @@ export default function(props) {
 			let info = {...validatorDetails};
 			Object.assign(info, await fetchProposedBlocks(info.operatorAddress));
 			setAllData(info);
+			setLoadingProposedBlocks(false);
 		};
 		getBlocks();
 	}, [proposedBlocksPage, validatorDetails.operatorAddress]);
@@ -183,6 +187,7 @@ export default function(props) {
 			let info = {...validatorDetails};
 			Object.assign(info, await fetchDelegators(info.operatorAddress, info.accountAddress));
 			setAllData(info);
+			setLoadingDelegators(false);
 		};
 		getDelegators();
 	}, [delegatorsPage, validatorDetails.operatorAddress]);
@@ -194,6 +199,84 @@ export default function(props) {
 			missedBlockWidth: Math.floor((missedBlockWidth - 6 * 9) / 10) - 1,
 		}));
 	}, [isDesktop]);
+
+	const getSkeletonData = (rows = 10, cols = 3, width = 100, height = 19) => {
+		let skeletonData = [];
+		for (let row = 1; row <= rows; row++) {
+			const skeletonRows = [];
+			for (let col = 1; col <= cols; col++) {
+				skeletonRows.push(<Skeleton variant='text' width={width} height={height} animation='wave' />);
+			}
+			skeletonData.push(skeletonRows);
+		}
+		return skeletonData;
+	};
+
+	let proposedBlocksTable;
+	if (loadingProposedBlocks) {
+		proposedBlocksTable = isDesktop ? (
+			<>
+				<Table titles={["Height", "Blockhash", "Txs", "Time"]} data={getSkeletonData(10, 4)} colFlex={[14, 33, 18, 18]} />
+			</>
+		) : (
+			<>
+				<ProposedBlocksMobile data={getSkeletonData(10, 4)} />
+			</>
+		);
+	} else {
+		proposedBlocksTable = isDesktop ? (
+			<>
+				<Table
+					titles={["Height", "Blockhash", "Txs", "Time"]}
+					data={validatorDetails.proposedBlocks}
+					colFlex={[14, 33, 18, 18]}
+					onClick={validatorDetails.onClickBlock}
+				/>
+				<PageNumber
+					page={proposedBlocksPage}
+					totalPages={validatorDetails.totalBlockPages}
+					update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
+				/>
+			</>
+		) : (
+			<>
+				<ProposedBlocksMobile data={validatorDetails.proposedBlocks} onClick={validatorDetails.onClickBlock} />
+			</>
+		);
+	}
+
+	let delegatorsTable;
+	if (loadingDelegators) {
+		delegatorsTable = isDesktop ? (
+			<>
+				<Table titles={["Delegator Address", "Amount", "Share"]} data={getSkeletonData(10, 3)} colFlex={[39, 26, 18]} />
+			</>
+		) : (
+			<>
+				<DelegatorsMobile data={getSkeletonData(10, 3)} />
+			</>
+		);
+	} else {
+		delegatorsTable = isDesktop ? (
+			<>
+				<Table
+					titles={["Delegator Address", "Amount", "Share"]}
+					data={validatorDetails.delegators}
+					colFlex={[39, 26, 18]}
+					onClick={validatorDetails.onClickDelegator}
+				/>
+				<PageNumber
+					page={delegatorsPage}
+					totalPages={validatorDetails.totalDelegatorPages}
+					update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
+				/>
+			</>
+		) : (
+			<>
+				<DelegatorsMobile data={validatorDetails.delegators} onClick={validatorDetails.onClickDelegator} />
+			</>
+		);
+	}
 
 	return (
 		<div className={cx("screen")}>
@@ -250,7 +333,15 @@ export default function(props) {
 								isDesktop
 									? [
 											[
-												{key: "Website", value: validatorDetails.website, link: true},
+												{
+													key: "Website",
+													value: (
+														<a href={validatorDetails.website} target='_blank'>
+															{validatorDetails.website}
+														</a>
+													),
+													link: true,
+												},
 												{key: "Commission", value: validatorDetails.commission, link: false},
 												{key: "Uptime", value: "100%", link: false},
 											],
@@ -285,25 +376,7 @@ export default function(props) {
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Proposed Blocks"} info={validatorDetails.totalBlocks} icon={IC_BLOCKS} isDesktop={isDesktop} />
-						{isDesktop ? (
-							<>
-								<Table
-									titles={["Height", "Blockhash", "Txs", "Time"]}
-									data={validatorDetails.proposedBlocks}
-									colFlex={[14, 33, 18, 18]}
-									onClick={validatorDetails.onClickBlock}
-								/>
-								<PageNumber
-									page={proposedBlocksPage}
-									totalPages={validatorDetails.totalBlockPages}
-									update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
-								/>
-							</>
-						) : (
-							<>
-								<ProposedBlocksMobile data={validatorDetails.proposedBlocks} onClick={validatorDetails.onClickBlock} />
-							</>
-						)}
+						{proposedBlocksTable}
 					</div>
 					{!isDesktop && <div className={cx("hr-price")}></div>}
 					<div className={cx("main-card", "main-card--no-padding")}>
@@ -329,25 +402,7 @@ export default function(props) {
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Delegators"} type='delegators' />
-						{isDesktop ? (
-							<>
-								<Table
-									titles={["Delegator Address", "Amount", "Share"]}
-									data={validatorDetails.delegators}
-									colFlex={[39, 26, 18]}
-									onClick={validatorDetails.onClickDelegator}
-								/>
-								<PageNumber
-									page={delegatorsPage}
-									totalPages={validatorDetails.totalDelegatorPages}
-									update={value => setDelegatorsPage(Math.max(1, Math.min(validatorDetails.totalDelegatorPages, delegatorsPage + value)))}
-								/>
-							</>
-						) : (
-							<>
-								<DelegatorsMobile data={validatorDetails.delegators} onClick={validatorDetails.onClickDelegator} />
-							</>
-						)}
+						{delegatorsTable}
 					</div>
 					{isDesktop && (
 						<div className={cx("main-card")}>

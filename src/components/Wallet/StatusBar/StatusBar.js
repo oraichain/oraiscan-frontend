@@ -96,23 +96,23 @@ export default function() {
 				</div>
 			</Grid>
 			<Modal aria-labelledby='simple-modal-title' aria-describedby='simple-modal-description' open={isZoom} onClose={() => setIsZoom(false)}>
-				<div
-					style={{
-						top: `50%`,
-						left: `50%`,
-						transform: `translate(-50%, -50%)`,
-						position: "absolute",
-						width: 300,
-						backgroundColor: "white",
-						border: "none",
-					}}>
-					<img
-						src={require("../../../assets/wallet/qrcode.png")}
-						style={{
-							width: 300,
-							height: 300,
-						}}
-					/>
+				<div className={cx("qrcode")}>
+					<div className={cx("title")}>
+						<div> Your Wallet Address </div>
+						<div onClick={() => setIsZoom(false)} className={cx("close")}>
+							{" "}
+							x{" "}
+						</div>
+					</div>
+					<div className={cx("img-wrap")}>
+						<img
+							src={require("../../../assets/wallet/qrcode.png")}
+							style={{
+								width: 300,
+								height: 300,
+							}}
+						/>
+					</div>
 				</div>
 			</Modal>
 		</Grid>

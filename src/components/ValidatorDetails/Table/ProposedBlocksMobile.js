@@ -10,13 +10,13 @@ export default function({data, onClick}) {
 			<div className={cx("block-row-wrapper")}>
 				<div className={cx("block-row")}>
 					<div className={cx("left")}> Height </div>
-					<div className={cx("right", "link")} onClick={onClick[index]}>
+					<div className={cx("right", "link")} onClick={onClick && onClick[index]}>
 						{blockData[0]}
 					</div>
 				</div>
 				<div className={cx("block-row")}>
 					<div className={cx("left")}> Blockhash </div>
-					<div className={cx("right", "link")} onClick={onClick[index]}>
+					<div className={cx("right", "link")} onClick={onClick && onClick[index]}>
 						{blockData[1]}
 					</div>
 				</div>
