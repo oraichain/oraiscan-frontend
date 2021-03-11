@@ -57,6 +57,7 @@ export default function(props) {
 		onClickDelegator: [],
 		missedBlockWidth: 33,
 	});
+	const [loadingProposedBlocks, setLoadingProposedBlocks] = useState(true);
 	const [loadingDelegators, setLoadingDelegators] = useState(true);
 	const theme = useTheme();
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
@@ -176,6 +177,7 @@ export default function(props) {
 			let info = {...validatorDetails};
 			Object.assign(info, await fetchProposedBlocks(info.operatorAddress));
 			setAllData(info);
+			setLoadingProposedBlocks(false);
 		};
 		getBlocks();
 	}, [proposedBlocksPage, validatorDetails.operatorAddress]);
@@ -210,9 +212,42 @@ export default function(props) {
 		return skeletonData;
 	};
 
-	let delegatorTable;
+	let proposedBlocksTable;
+	if (loadingProposedBlocks) {
+		proposedBlocksTable = isDesktop ? (
+			<>
+				<Table titles={["Height", "Blockhash", "Txs", "Time"]} data={getSkeletonData(10, 4)} colFlex={[14, 33, 18, 18]} />
+			</>
+		) : (
+			<>
+				<ProposedBlocksMobile data={getSkeletonData(10, 4)} />
+			</>
+		);
+	} else {
+		proposedBlocksTable = isDesktop ? (
+			<>
+				<Table
+					titles={["Height", "Blockhash", "Txs", "Time"]}
+					data={validatorDetails.proposedBlocks}
+					colFlex={[14, 33, 18, 18]}
+					onClick={validatorDetails.onClickBlock}
+				/>
+				<PageNumber
+					page={proposedBlocksPage}
+					totalPages={validatorDetails.totalBlockPages}
+					update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
+				/>
+			</>
+		) : (
+			<>
+				<ProposedBlocksMobile data={validatorDetails.proposedBlocks} onClick={validatorDetails.onClickBlock} />
+			</>
+		);
+	}
+
+	let delegatorsTable;
 	if (loadingDelegators) {
-		delegatorTable = isDesktop ? (
+		delegatorsTable = isDesktop ? (
 			<>
 				<Table titles={["Delegator Address", "Amount", "Share"]} data={getSkeletonData(10, 3)} colFlex={[39, 26, 18]} />
 			</>
@@ -222,7 +257,7 @@ export default function(props) {
 			</>
 		);
 	} else {
-		delegatorTable = isDesktop ? (
+		delegatorsTable = isDesktop ? (
 			<>
 				<Table
 					titles={["Delegator Address", "Amount", "Share"]}
@@ -341,25 +376,7 @@ export default function(props) {
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Proposed Blocks"} info={validatorDetails.totalBlocks} icon={IC_BLOCKS} isDesktop={isDesktop} />
-						{isDesktop ? (
-							<>
-								<Table
-									titles={["Height", "Blockhash", "Txs", "Time"]}
-									data={validatorDetails.proposedBlocks}
-									colFlex={[14, 33, 18, 18]}
-									onClick={validatorDetails.onClickBlock}
-								/>
-								<PageNumber
-									page={proposedBlocksPage}
-									totalPages={validatorDetails.totalBlockPages}
-									update={value => setProposedBlocksPage(Math.max(1, Math.min(validatorDetails.totalBlockPages, proposedBlocksPage + value)))}
-								/>
-							</>
-						) : (
-							<>
-								<ProposedBlocksMobile data={validatorDetails.proposedBlocks} onClick={validatorDetails.onClickBlock} />
-							</>
-						)}
+						{proposedBlocksTable}
 					</div>
 					{!isDesktop && <div className={cx("hr-price")}></div>}
 					<div className={cx("main-card", "main-card--no-padding")}>
@@ -385,7 +402,7 @@ export default function(props) {
 				<div className={cx("row-of-cards")}>
 					<div className={cx("main-card", "main-card--no-padding")}>
 						<CardHeader title={"Delegators"} type='delegators' />
-						{delegatorTable}
+						{delegatorsTable}
 					</div>
 					{isDesktop && (
 						<div className={cx("main-card")}>
