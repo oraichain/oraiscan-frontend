@@ -10,6 +10,7 @@ import DelegationCardList from "src/components/Account/DelegationCardList/Delega
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
+import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./DelegationCard.scss";
 
 const cx = classNames.bind(styles);
@@ -29,6 +30,7 @@ const DelegationCard = memo(({account = 0, minHeight = 222}) => {
 
 	let tableSection;
 	let paginationSection = null;
+	const columns = [{title: "Validator"}, {title: "Amount"}, {title: "Reward"}];
 
 	if (!data) {
 		tableSection = isLargeScreen ? <DelegationTableSkeleton /> : <DelegationCardListSkeleton />;
@@ -37,11 +39,7 @@ const DelegationCard = memo(({account = 0, minHeight = 222}) => {
 			tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
 			paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />;
 		} else {
-			tableSection = (
-				<div className={cx("no-result-wrapper")}>
-					<NoResult />
-				</div>
-			);
+			tableSection = <EmptyTable columns={columns} />;
 		}
 	}
 
