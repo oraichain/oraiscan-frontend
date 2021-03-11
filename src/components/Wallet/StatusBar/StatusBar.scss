@@ -76,24 +76,29 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: absolute;
-	width: 300;
-	background-color: rgba(85, 88, 112, 0.95);
+	background-color: #fff;
 	border: none;
-	// padding: 40px 120px;
+	border-radius: 10px;
 	width: 500px;
 	.title {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: #fff;
-		font-size: 16px;
+		font-size: 18px;
 		padding: 15px 25px;
 		.close {
 			cursor: pointer;
 		}
 	}
+	.divider {
+		margin: 0px;
+	}
 	.img-wrap {
-		text-align: center;
-		padding: 20px 30px 50px 30px;
+		height: 400px;
+		width: 400px;
+		margin: 0px auto;
+		img {
+			width: 100%;
+		}
 	}
 }
