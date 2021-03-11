@@ -2,23 +2,23 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./DelegationTable.scss";
+import styles from "./DelegatorsTable.scss";
+import {formatOrai} from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
+	const delegatorAddressHeaderCell = <div className={cx("header-cell", "align-left")}>Delegator Address</div>;
 	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
-	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Reward</div>;
-	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
+	const shareHeaderCell = <div className={cx("header-cell", "align-right")}>Share</div>;
+	const headerCells = [delegatorAddressHeaderCell, amountHeaderCell, shareHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Validator
-		{minWidth: "100px"}, // Amount
-		{minWidth: "100px"}, // Reward
+		{width: "auto"}, // Delegator Address
+		{width: "auto"}, // Amount
+		{width: "auto"}, // Share
 	];
 
 	return {
@@ -27,18 +27,18 @@ export const getHeaderRow = () => {
 	};
 };
 
-const DelegationTable = memo(({data = []}) => {
+const DelegatorsTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
-			const validatorDataCell = _.isNil(item?.validator_address) ? (
+			const delegatorAddressDataCell = _.isNil(item?.delegator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
-					{reduceString(item.validator_address, 6, 6)}
+				<NavLink className={cx("delegator-address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.delegator_address}`}>
+					{reduceString(item.delegator_address, 6, 6)}
 				</NavLink>
 			);
 
@@ -54,19 +54,13 @@ const DelegationTable = memo(({data = []}) => {
 					</div>
 				);
 
-			const rewardDataCell =
-				_.isNil(item?.reward) || _.isNil(item?.denom) ? (
-					<div className={cx("reward-data-cell", "align-right")}>-</div>
-				) : (
-					<div className={cx("reward-data-cell", "align-right")}>
-						<div className={cx("reward")}>
-							<span className={cx("reward-value")}>{formatOrai(item.reward)}</span>
-							<span className={cx("reward-denom")}>{item.denom}</span>
-						</div>
-					</div>
-				);
+			const shareDataCell = _.isNil(item?.shares) ? (
+				<div className={cx("align-right")}>-</div>
+			) : (
+				<div className={cx("shares-data-cell", "align-right")}>{item.shares}%</div>
+			);
 
-			return [validatorDataCell, amountDataCell, rewardDataCell];
+			return [delegatorAddressDataCell, amountDataCell, shareDataCell];
 		});
 	};
 
@@ -76,4 +70,4 @@ const DelegationTable = memo(({data = []}) => {
 	return <ThemedTable theme={tableThemes.DARK} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default DelegationTable;
+export default DelegatorsTable;
