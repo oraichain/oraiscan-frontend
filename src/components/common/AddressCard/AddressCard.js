@@ -1,10 +1,12 @@
 import React, {memo, useState} from "react";
-import QRCode from "qrcode.react";
+import QRCodeReact from "qrcode.react";
 import Dialog from "@material-ui/core/Dialog";
 import classNames from "classnames/bind";
+
 import Address from "src/components/common/Address";
-import styles from "./AddressCard.scss";
+import QRCode from "src/components/common/QRCode";
 import closeIcon from "src/assets/common/close_ic.svg";
+import styles from "./AddressCard.scss";
 
 const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeight = 220}) => {
 	const bgColor = "#FFFFFF";
@@ -12,6 +14,9 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 	const cx = classNames.bind(styles);
 	const [open, setOpen] = useState(false);
 	const value = qrValue ? qrValue : addresses?.[0]?.value ?? "";
+	const handleCloseModal = () => {
+		setOpen(false);
+	};
 
 	return (
 		<div className={cx("address-card")} style={{minHeight: minHeight + "px"}}>
@@ -27,7 +32,7 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 					/>
 				) : (
 					<div className={cx("qr-icon")} style={{backgroundColor: fgColor}}>
-						<QRCode
+						<QRCodeReact
 							value={value}
 							size={20}
 							renderAs='svg'
@@ -66,10 +71,10 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 				</div>
 			))}
 
-			<Dialog
-				onClose={() => {
-					setOpen(false);
-				}}
+			<QRCode open={open} onClose={handleCloseModal} address={value} />
+
+			{/* <Dialog
+				onClose={}
 				aria-labelledby='image-dialog'
 				open={open}>
 				<div className={cx("dialog")}>
@@ -104,7 +109,7 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeigh
 						)}
 					</div>
 				</div>
-			</Dialog>
+			</Dialog> */}
 		</div>
 	);
 });

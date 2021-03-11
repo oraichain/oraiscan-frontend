@@ -3,12 +3,16 @@ import Grid from "@material-ui/core/Grid";
 import {useDispatch, useSelector} from "react-redux";
 import {Modal} from "@material-ui/core";
 import copy from "copy-to-clipboard";
+import {CloseOutlined} from "@ant-design/icons";
+import {Divider} from "antd";
+import QRCodeReact from "qrcode.react";
 
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
 import cn from "classnames/bind";
+import QRCode from "src/components/common/QRCode";
 import styles from "./StatusBar.scss";
 
 const cx = cn.bind(styles);
@@ -37,6 +41,8 @@ export default function() {
 			})
 		);
 	};
+
+	const handleCloseModal = React.useCallback(() => setIsZoom(false), []);
 
 	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>
@@ -83,38 +89,14 @@ export default function() {
 					style={{
 						textAlign: "center",
 					}}>
-					<img
-						src={require("../../../assets/wallet/qrcode.png")}
-						style={{
-							width: 96,
-							height: 96,
-						}}
-					/>
+					<QRCodeReact value={address} size={96} renderAs='svg' />
 					<div onClick={() => setIsZoom(true)} className={cx("footer")} style={{position: "unset", display: "flex", justifyContent: "center"}}>
 						<img src={require("../../../assets/wallet/zoom.svg")} style={{marginRight: 5}} /> Zoom in
 					</div>
 				</div>
 			</Grid>
-			<Modal aria-labelledby='simple-modal-title' aria-describedby='simple-modal-description' open={isZoom} onClose={() => setIsZoom(false)}>
-				<div className={cx("qrcode")}>
-					<div className={cx("title")}>
-						<div> Your Wallet Address </div>
-						<div onClick={() => setIsZoom(false)} className={cx("close")}>
-							{" "}
-							x{" "}
-						</div>
-					</div>
-					<div className={cx("img-wrap")}>
-						<img
-							src={require("../../../assets/wallet/qrcode.png")}
-							style={{
-								width: 300,
-								height: 300,
-							}}
-						/>
-					</div>
-				</div>
-			</Modal>
+
+			<QRCode open={isZoom} onClose={handleCloseModal} address={address} />
 		</Grid>
 	);
 }
