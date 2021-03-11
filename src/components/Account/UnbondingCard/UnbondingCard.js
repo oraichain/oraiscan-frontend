@@ -6,7 +6,7 @@ import consts from "src/constants/consts";
 import {_, reduceString} from "src/lib/scripts";
 import UnbondingTable from "src/components/Account/UnbondingTable";
 import Pagination from "src/components/common/Pagination";
-import NoResult from "src/components/common/NoResult";
+import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./UnbondingCard.scss";
 
 const UnbondingCard = memo(({account = 0, minHeight = 222}) => {
@@ -23,6 +23,7 @@ const UnbondingCard = memo(({account = 0, minHeight = 222}) => {
 	const totalPages = 1;
 	const currentPage = 1;
 	const onPageChange = page => {};
+	const columns = [{title: "Validator"}, {title: "Height"}, {title: "Amount"}, {title: "Completion Time"}];
 
 	return (
 		<div className={cx("unbonding-card")}>
@@ -34,9 +35,7 @@ const UnbondingCard = memo(({account = 0, minHeight = 222}) => {
 						{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 					</>
 				) : (
-					<div className={cx("no-result-wrapper")}>
-						<NoResult />
-					</div>
+					<EmptyTable columns={columns} />
 				)}
 			</div>
 		</div>
