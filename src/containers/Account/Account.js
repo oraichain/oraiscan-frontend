@@ -62,7 +62,7 @@ const Account = props => {
 		},
 		{
 			title: "Reward Address",
-			icon: questionIcon,
+			icon: copyIcon,
 			value: account,
 			onClick: function() {
 				handleCopy(this.value);
@@ -79,7 +79,7 @@ const Account = props => {
 		},
 		{
 			title: "Reward Address",
-			icon: questionIcon,
+			icon: copyIcon,
 			value: <Skeleton />,
 			onClick: function() {},
 		},

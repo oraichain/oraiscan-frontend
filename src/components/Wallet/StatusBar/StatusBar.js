@@ -1,18 +1,17 @@
 import React, {useState, useEffect} from "react";
 import Grid from "@material-ui/core/Grid";
 import {useDispatch, useSelector} from "react-redux";
-import {Modal} from "@material-ui/core";
 import copy from "copy-to-clipboard";
-import {CloseOutlined} from "@ant-design/icons";
-import {Divider} from "antd";
 import QRCodeReact from "qrcode.react";
+import BigNumber from "bignumber.js";
+import cn from "classnames/bind";
 
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
-import cn from "classnames/bind";
 import QRCode from "src/components/common/QRCode";
+import {ReactComponent as ExchangeIcon} from "src/assets/icons/exchange.svg";
 import styles from "./StatusBar.scss";
 
 const cx = cn.bind(styles);
@@ -20,6 +19,7 @@ const cx = cn.bind(styles);
 export default function() {
 	const [balance, , , , setUrl] = useFetch();
 	const {address} = useSelector(state => state.wallet);
+	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [reFetchAmount, setReFetchAmount] = useState(0);
 	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
 	// const amount = "927900393543589";
@@ -43,6 +43,13 @@ export default function() {
 	};
 
 	const handleCloseModal = React.useCallback(() => setIsZoom(false), []);
+
+	const formatUSD = () => {
+		return new BigNumber(amount || 0)
+			.dividedBy(1000000)
+			.multipliedBy(orai2usd)
+			.toFormat(2);
+	};
 
 	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>
@@ -77,6 +84,9 @@ export default function() {
 					<div className={cx("title")}>Balance</div>
 					<div className={cx("balance")}>
 						{formatOrai(amount || 0)} <span className={cx("symbol")}>{denom}</span>
+					</div>
+					<div className={cx("orai2usd")}>
+						<ExchangeIcon /> {formatUSD()} USD
 					</div>
 					<div className={cx("footer")} onClick={handleRefeshAccount}>
 						<img src={require("../../../assets/wallet/refresh.svg")} style={{marginRight: 5}} /> Refresh
