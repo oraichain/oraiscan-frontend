@@ -44,6 +44,14 @@
 			}
 		}
 
+		.orai2usd {
+			display: flex;
+			align-items: center;
+			svg {
+				margin-right: 5px;
+			}
+		}
+
 		.footer {
 			position: absolute;
 			top: 124px;
@@ -67,38 +75,6 @@
 				text-transform: uppercase;
 				color: #1b57f0;
 			}
-		}
-	}
-}
-
-.qrcode {
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	position: absolute;
-	background-color: #fff;
-	border: none;
-	border-radius: 10px;
-	width: 500px;
-	.title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 18px;
-		padding: 15px 25px;
-		.close {
-			cursor: pointer;
-		}
-	}
-	.divider {
-		margin: 0px;
-	}
-	.img-wrap {
-		height: 400px;
-		width: 400px;
-		margin: 0px auto;
-		img {
-			width: 100%;
 		}
 	}
 }

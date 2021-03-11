@@ -1,4 +1,5 @@
 import React from "react";
+import {useSelector} from "react-redux";
 import {useFormContext, Controller} from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import cn from "classnames/bind";
@@ -13,9 +14,9 @@ const cx = cn.bind(styles);
 
 // const TextFieldCustom = (props) => <TextField  {...props} className={cx("input-text-exchange")} />
 
-const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
-	const formatUSDT = () => {
-		return new BigNumber(value || 0).multipliedBy(orai2usdt).toFormat(2);
+const NumberFormatCustom = ({onChange, value, orai2usd, ...rest}) => {
+	const formatUSD = () => {
+		return new BigNumber(value || 0).multipliedBy(orai2usd).toFormat(2);
 		// const result = ((value || 0) * orai2usdt).toFixed(6);
 		// return isNaN(result) ? 0 : result;
 		// return 0;
@@ -25,7 +26,7 @@ const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 			<NumberFormat customInput={TextField} thousandSeparator value={value} onValueChange={v => onChange(v.floatValue)} {...rest} />
 			<div className={cx("to-usdt")}>
 				{" "}
-				<ExchangeIcon /> {formatUSDT()} USD{" "}
+				<ExchangeIcon /> {formatUSD()} USD{" "}
 			</div>
 		</div>
 	);
@@ -34,8 +35,7 @@ const NumberFormatCustom = ({onChange, value, orai2usdt, ...rest}) => {
 function FormInput(props) {
 	const {control} = useFormContext();
 	const {name, placeholder, label, required, errorobj} = props;
-	const [price, , , , setUrl] = useFetch(process.env.REACT_APP_CONVERT_TO_USDT_API);
-	const orai2usdt = price?.data?.["oraichain-token"]?.usd;
+	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
@@ -45,7 +45,7 @@ function FormInput(props) {
 
 	return (
 		<Controller
-			as={props => <NumberFormatCustom {...props} orai2usdt={orai2usdt} />}
+			as={props => <NumberFormatCustom {...props} orai2usd={orai2usd} />}
 			name={name}
 			control={control}
 			placeholder={placeholder || ""}
