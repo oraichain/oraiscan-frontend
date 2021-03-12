@@ -137,6 +137,7 @@ export default Object.freeze({
 	REQUEST: {
 		LIMIT: 10, // Number of records per page
 		TIMEOUT: 10000,
+		PROPOSED_BLOCKS_LIMIT: 9,
 	},
 	DOMAIN: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/`,
 	PATH: {

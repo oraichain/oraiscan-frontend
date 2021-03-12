@@ -24,7 +24,7 @@ const DelegationCardList = memo(({data = []}) => {
 										{_.isNil(item?.validator_address) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to={`${consts.API.VALIDATORS}/${item.validator_address}`}>
+											<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
 												{reduceString(item.validator_address, 6, 6)}
 											</NavLink>
 										)}
