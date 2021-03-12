@@ -66,7 +66,7 @@ const ValidatorDetails = ({match}) => {
 		detailCard = <DetailCardSkeleton />;
 	}
 
-	missedBlocksCard = <MissedBlocksCard />;
+	missedBlocksCard = <MissedBlocksCard validatorAddress={validatorAddress} />;
 	proposedBlocksCard = <ProposedBlocksCard validatorAddress={validatorAddress} />;
 	delegatorsCard = <DelegatorsCard validatorAddress={validatorAddress} />;
 

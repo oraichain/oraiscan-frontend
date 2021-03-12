@@ -20,7 +20,7 @@ const MissedBlocksCard = memo(({validatorAddress}) => {
 		let signedBlocks;
 
 		if (!isNaN(data?.lastest_height)) {
-			lastestHeight = parseInt(data.lastest_height);
+			lastestHeight = parseInt(data.lastest_height) - 1;
 		}
 
 		if (Array.isArray(data?.signed_blocks)) {

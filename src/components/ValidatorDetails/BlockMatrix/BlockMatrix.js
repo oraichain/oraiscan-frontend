@@ -21,7 +21,7 @@ const BlockMatrix = memo(({lastestHeight, signedBlocks}) => {
 		if (signedBlocks.includes(value)) {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<img src={signedBlockIcon} />
+					<img className={cx("block-icon")} src={signedBlockIcon} />
 				</div>
 			);
 		} else {
