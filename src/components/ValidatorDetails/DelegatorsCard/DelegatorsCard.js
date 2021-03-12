@@ -9,6 +9,7 @@ import DelegatorsTableSkeleton from "src/components/ValidatorDetails/DelegatorsT
 import DelegatorsCardList from "src/components/ValidatorDetails/DelegatorsCardList";
 import DelegatorsCardListSkeleton from "src/components/ValidatorDetails/DelegatorsCardList/DelegatorsCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
+import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./DelegatorsCard.scss";
 import blockIcon from "src/assets/validatorDetails/blocks.svg";
 
@@ -19,7 +20,7 @@ const DelegatorsCard = memo(({validatorAddress}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const basePath = `${consts.API_BASE}${consts.API.DELEGATOR}/${validatorAddress}?limit=${consts.REQUEST.LIMIT}`;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
-	const {data} = useGet({
+	const {data, loading} = useGet({
 		path: path,
 	});
 
@@ -32,8 +33,11 @@ const DelegatorsCard = memo(({validatorAddress}) => {
 
 	let tableSection;
 	let paginationSection;
+	const columns = [{title: "Delegator Address"}, {title: "Amount"}, {title: "Share"}];
 
-	if (data) {
+	if (loading) {
+		tableSection = isLargeScreen ? <DelegatorsTableSkeleton /> : <DelegatorsCardListSkeleton />;
+	} else if (data) {
 		tableSection = isLargeScreen ? <DelegatorsTable data={data.data} /> : <DelegatorsCardList data={data.data} />;
 		paginationSection =
 			totalPages > 0 ? (
@@ -42,7 +46,7 @@ const DelegatorsCard = memo(({validatorAddress}) => {
 				<></>
 			);
 	} else {
-		tableSection = isLargeScreen ? <DelegatorsTableSkeleton /> : <DelegatorsCardListSkeleton />;
+		tableSection = <EmptyTable columns={columns} />;
 	}
 
 	return (

@@ -53,7 +53,7 @@ const DetailCard = memo(({data}) => {
 	if (isNaN(data?.voting_percentage) || isNaN(data?.voting_power)) {
 		votingPowerInfo = "-";
 	} else {
-		const votingPowerPercent = formatPercentage(data?.voting_percentage);
+		const votingPowerPercent = formatPercentage(data?.voting_percentage / 100);
 		const votingPower = formatInteger(data.voting_power);
 		votingPowerInfo = (
 			<div className={cx("info-text")}>

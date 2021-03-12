@@ -69,5 +69,10 @@
 	}
 
 	&-body {
+		@media screen and (min-width: 760px) {
+			width: 80%;
+			margin: 0 auto;
+			margin-top: 10%;
+		}
 	}
 }
