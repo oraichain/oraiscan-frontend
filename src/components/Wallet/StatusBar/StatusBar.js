@@ -1,14 +1,17 @@
 import React, {useState, useEffect} from "react";
 import Grid from "@material-ui/core/Grid";
 import {useDispatch, useSelector} from "react-redux";
-import {Modal} from "@material-ui/core";
 import copy from "copy-to-clipboard";
+import QRCodeReact from "qrcode.react";
+import BigNumber from "bignumber.js";
+import cn from "classnames/bind";
 
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
-import cn from "classnames/bind";
+import QRCode from "src/components/common/QRCode";
+import {ReactComponent as ExchangeIcon} from "src/assets/icons/exchange.svg";
 import styles from "./StatusBar.scss";
 
 const cx = cn.bind(styles);
@@ -16,6 +19,7 @@ const cx = cn.bind(styles);
 export default function() {
 	const [balance, , , , setUrl] = useFetch();
 	const {address} = useSelector(state => state.wallet);
+	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [reFetchAmount, setReFetchAmount] = useState(0);
 	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
 	// const amount = "927900393543589";
@@ -36,6 +40,15 @@ export default function() {
 				autoHideDuration: 1500,
 			})
 		);
+	};
+
+	const handleCloseModal = React.useCallback(() => setIsZoom(false), []);
+
+	const formatUSD = () => {
+		return new BigNumber(amount || 0)
+			.dividedBy(1000000)
+			.multipliedBy(orai2usd)
+			.toFormat(2);
 	};
 
 	return (
@@ -72,6 +85,9 @@ export default function() {
 					<div className={cx("balance")}>
 						{formatOrai(amount || 0)} <span className={cx("symbol")}>{denom}</span>
 					</div>
+					<div className={cx("orai2usd")}>
+						<ExchangeIcon /> {formatUSD()} USD
+					</div>
 					<div className={cx("footer")} onClick={handleRefeshAccount}>
 						<img src={require("../../../assets/wallet/refresh.svg")} style={{marginRight: 5}} /> Refresh
 					</div>
@@ -83,38 +99,14 @@ export default function() {
 					style={{
 						textAlign: "center",
 					}}>
-					<img
-						src={require("../../../assets/wallet/qrcode.png")}
-						style={{
-							width: 96,
-							height: 96,
-						}}
-					/>
+					<QRCodeReact value={address} size={96} renderAs='svg' />
 					<div onClick={() => setIsZoom(true)} className={cx("footer")} style={{position: "unset", display: "flex", justifyContent: "center"}}>
 						<img src={require("../../../assets/wallet/zoom.svg")} style={{marginRight: 5}} /> Zoom in
 					</div>
 				</div>
 			</Grid>
-			<Modal aria-labelledby='simple-modal-title' aria-describedby='simple-modal-description' open={isZoom} onClose={() => setIsZoom(false)}>
-				<div
-					style={{
-						top: `50%`,
-						left: `50%`,
-						transform: `translate(-50%, -50%)`,
-						position: "absolute",
-						width: 300,
-						backgroundColor: "white",
-						border: "none",
-					}}>
-					<img
-						src={require("../../../assets/wallet/qrcode.png")}
-						style={{
-							width: 300,
-							height: 300,
-						}}
-					/>
-				</div>
-			</Modal>
+
+			<QRCode open={isZoom} onClose={handleCloseModal} address={address} />
 		</Grid>
 	);
 }

@@ -10,7 +10,7 @@ import {ReactComponent as NextButtonIcon} from "src/assets/pagination/next_butto
 
 const cx = classNames.bind(styles);
 
-const Pagination = memo(({pages, onChange = noop, page = 1}) => {
+const Pagination = memo(({pages, onChange = noop, page = 1, itemClassName}) => {
 	const {items} = usePagination({
 		count: pages,
 		page: page,
@@ -41,14 +41,14 @@ const Pagination = memo(({pages, onChange = noop, page = 1}) => {
 	};
 
 	return (
-		<nav>
+		<nav className={cx("container")}>
 			<ul className={cx("pagination")}>
 				{items.map(({page, type, selected, ...item}, index) => {
 					let children = null;
 					switch (type) {
 						case "start-ellipsis":
 						case "end-ellipsis":
-							children = "…";
+							children = "...";
 							break;
 						case "page":
 							children = (
@@ -67,7 +67,7 @@ const Pagination = memo(({pages, onChange = noop, page = 1}) => {
 					}
 
 					return (
-						<li key={index} className={cx("pagination-item")}>
+						<li key={index} className={cx("pagination-item", itemClassName)}>
 							{children}
 						</li>
 					);

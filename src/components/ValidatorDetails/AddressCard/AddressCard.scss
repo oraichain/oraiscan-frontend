@@ -1,0 +1,85 @@
+.address-card {
+	padding: 20px;
+	background: #ffffff;
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+	height: 100%;
+
+	&-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+
+		.validator {
+			&-account {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+
+				&-icon {
+					display: inline-block;
+					width: 32px;
+					height: 32px;
+					margin-right: 10px;
+					border-radius: 50%;
+				}
+
+				&-name {
+					color: #181818;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: 500;
+					font-size: 20px;
+					line-height: 150%;
+				}
+			}
+
+			&-status {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				padding: 6px;
+				background: #ecffe9;
+				border-radius: 4px;
+
+				&-icon {
+					display: inline-block;
+					width: auto;
+					height: 16px;
+					margin-right: 4;
+				}
+
+				&-text {
+					color: #12c90e;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 12px;
+					line-height: 150%;
+				}
+			}
+		}
+	}
+
+	&-body {
+		.address {
+			margin-bottom: 15px;
+
+			&-type {
+				color: #181818;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 150%;
+			}
+
+			&-value {
+			}
+		}
+	}
+}

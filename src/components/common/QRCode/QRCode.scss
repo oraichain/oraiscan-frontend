@@ -1,0 +1,36 @@
+.qrcode {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	background-color: #fff;
+	border: none;
+	border-radius: 10px;
+	width: 500px;
+
+	&:focus {
+		outline: none;
+	}
+
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 16px;
+		padding: 15px 25px;
+		.close {
+			cursor: pointer;
+		}
+	}
+	.divider {
+		margin: 0px;
+		border-top: 1px solid rgba(0, 0, 0, 0.2);
+	}
+	.img-wrap {
+		height: 400px;
+		width: 400px;
+		margin: 0px auto;
+		padding-top: 20px;
+		text-align: center;
+	}
+}

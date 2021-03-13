@@ -1,4 +1,9 @@
 .config-provider .ant-table-cell {
-	border-left: 1px solid #e7e7e7;
+	border-left: 1px solid #f0f0f0;
+	border-top: 1px solid #f0f0f0;
 	text-align: center;
+}
+
+.config-provider .ant-table-cell:last-child {
+	border-right: 1px solid #f0f0f0;
 }
