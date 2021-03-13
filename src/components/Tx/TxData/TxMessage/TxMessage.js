@@ -61,7 +61,7 @@ export default function({msg, txData}) {
 				<InfoRow label={label}>
 					<span>{formatOrai(amount) + " "}</span>
 					<span className={cx(unitClassNames)}>{denom}</span>
-					<span className={cx("usd")}>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
+					<span className={cx("usd")}>{status?.price ? " ($" + formatFloat((amount / 1000000) * status.price, 4) + ")" : ""}</span>
 				</InfoRow>
 			);
 		};
