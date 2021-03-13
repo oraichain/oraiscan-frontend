@@ -20,7 +20,7 @@ import kadiaChain from "src/assets/validators/kardia.png";
 import {css} from "highcharts";
 import {logoBrand} from "src/constants/logoBrand";
 import {Progress} from "antd";
-import "antd/dist/antd.css";
+import "./style.css";
 
 const cx = classNames.bind(styles);
 
@@ -238,7 +238,14 @@ const ValidatorTable = memo(({data = []}) => {
 				<div className={cx("uptime-data-cell", "align-right")}>
 					<div>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>
 					<div>
-						<Progress percent={formatPercentage(item.uptime, 2)} showInfo={false} />
+						{item?.uptime && (
+							<Progress
+								percent={formatPercentage(item.uptime, 2)}
+								showInfo={false}
+								strokeColor={formatPercentage(item.uptime, 2) == 100 ? "#52c41a" : "#1890ff"}
+								trailColor='#bfbfbf'
+							/>
+						)}
 					</div>
 				</div>
 			);

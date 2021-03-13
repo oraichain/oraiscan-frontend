@@ -8,7 +8,7 @@ import Delegate from "src/components/common/Delegate";
 import styles from "./ValidatorCardList.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import {Progress} from "antd";
-import "antd/dist/antd.css";
+import "./style.css";
 
 const cx = classNames.bind(styles);
 
@@ -103,7 +103,14 @@ const ValidatorCardList = memo(({data = []}) => {
 										<div className={cx("item-text")}>
 											<div>{item?.uptime ? formatPercentage(item.uptime, 2) + "%" : "-"}</div>
 											<div>
-												<Progress percent={formatPercentage(item.uptime, 2)} showInfo={false} />
+												{item?.uptime && (
+													<Progress
+														percent={formatPercentage(item.uptime, 2)}
+														showInfo={false}
+														strokeColor={formatPercentage(item.uptime, 2) == 100 ? "#52c41a" : "#1890ff"}
+														trailColor='#bfbfbf'
+													/>
+												)}
 											</div>
 										</div>
 									</td>

@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
@@ -43,7 +43,6 @@ export const getHeaderRow = () => {
 
 const TransactionTable = memo(({data = [], account}) => {
 	const status = useSelector(state => state.blockchain.status);
-	console.log("price", data);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -113,10 +112,12 @@ const TransactionTable = memo(({data = [], account}) => {
 					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
-							<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
+							<div>
+								<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)}</span>
+								<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
+							</div>
 							<span className={cx("amount-usd")}>
-								{status?.price ? "($" + (status?.price * Number(formatOrai(item.messages[0].value.amount[0].amount))).toFixed(4) + ")" : ""}
+								{status?.price ? " ($" + formatFloat(status.price * (item.messages[0].value.amount[0].amount / 1000000), 4) + ")" : ""}
 							</span>
 						</div>
 					</div>

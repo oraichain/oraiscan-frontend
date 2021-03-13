@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import {formatFloat, formatOrai} from "src/helpers/helper";
 import styles from "./TransactionCardList.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
@@ -106,7 +106,7 @@ const TransactionCardList = memo(({data = [], account}) => {
 													<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
 													<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
 													<span className={cx("amount-usd")}>
-														{status?.price ? "($" + (status?.price * Number(formatOrai(item.messages[0].value.amount[0].amount))).toFixed(4) + ")" : ""}
+														{status?.price ? "($" + formatFloat(status?.price * (item.messages[0].value.amount[0].amount / 1000000), 4) + ")" : ""}
 													</span>
 												</div>
 											</div>
