@@ -75,6 +75,7 @@ export default Object.freeze({
 		MISSED_BLOCKS: "/validator/missed-block",
 		DELEGATIONS: "/delegations",
 		PROPOSALS: "proposals",
+		PROPOSAL_STATUS: "proposal/status",
 		VALIDATOR_ANALYTICS: "/validator-analytics",
 		WALLET: {
 			CLAIM_REWARD: "/wallet/claim_reward",
@@ -149,6 +150,7 @@ export default Object.freeze({
 		DATA_SOURCES: "/data-sources",
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
+		PROPOSALS: "/proposals",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

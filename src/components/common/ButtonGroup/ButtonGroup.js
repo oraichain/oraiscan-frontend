@@ -5,17 +5,18 @@ import styles from "./ButtonGroup.scss";
 
 const cx = cn.bind(styles);
 
-const ButtonGroup = memo(({data = [], rootClassName}) => {
+const ButtonGroup = memo(({data = [], value, onChange}) => {
 	return (
-		<div className={cx("button-group", rootClassName)}>
+		<div className={cx("button-group")}>
 			{data.map((item, index) => (
 				<button
 					key={"button-" + index}
-					className={cx("button", {active: item.active})}
+					className={cx("button", {active: item.value == value})}
 					onClick={() => {
-						item.onClick(index);
-					}}
-					key={"button-" + index}>
+						if (item.value != value) {
+							onChange(item.value);
+						}
+					}}>
 					{item.label}
 				</button>
 			))}
