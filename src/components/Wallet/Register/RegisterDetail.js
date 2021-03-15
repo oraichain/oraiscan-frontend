@@ -7,10 +7,10 @@ import styles from "./Register.scss";
 
 const cx = cn.bind(styles);
 
-export default function({address, account}) {
+export default function({address, validatorAddress}) {
 	return (
 		<>
-			<YourValidatorCard address={address} />
+			<YourValidatorCard validatorAddress={validatorAddress} />
 			<DelegatorCard address={address} />
 		</>
 	);
