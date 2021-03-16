@@ -10,6 +10,7 @@ import rejectedIcon from "src/assets/proposals/rejected.svg";
 import viewMoreIcon from "src/assets/proposals/view_more.svg";
 import votedIcon from "src/assets/proposals/voted.svg";
 import consts from "src/constants/consts";
+import {formatDateTime} from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
@@ -59,7 +60,7 @@ const TopProposalCardList = memo(({data = []}) => {
 													<div className={cx("item-title")}>Voting Start</div>
 												</td>
 												<td>
-													<div className={cx("item-text")}>{item?.voting_start_time ?? "-"}</div>
+													<div className={cx("item-text")}>{item?.voting_start_time ? formatDateTime(item.voting_start_time) : "-"}</div>
 												</td>
 											</tr>
 
@@ -68,13 +69,13 @@ const TopProposalCardList = memo(({data = []}) => {
 													<div className={cx("item-title")}>Voting End</div>
 												</td>
 												<td>
-													<div className={cx("item-text")}>{item?.voting_end_time ?? "-"}</div>
+													<div className={cx("item-text")}>{item?.voting_end_time ? formatDateTime(item.voting_end_time) : "-"}</div>
 												</td>
 											</tr>
 
 											<tr>
 												<td colSpan={2}>
-													<div className={cx("graph")}>
+													{/* <div className={cx("graph")}>
 														<Tooltip title='Available' placement='top' arrow>
 															<div className={cx("graph-available")} style={{flexBasis: "12.67%"}}></div>
 														</Tooltip>
@@ -90,7 +91,8 @@ const TopProposalCardList = memo(({data = []}) => {
 														<Tooltip title='Reward' placement='top' arrow>
 															<div className={cx("graph-reward")} style={{flexBasis: "5.37%"}}></div>
 														</Tooltip>
-													</div>
+													</div> */}
+													Coming soon
 												</td>
 											</tr>
 
@@ -99,7 +101,7 @@ const TopProposalCardList = memo(({data = []}) => {
 													<div className={cx("item-title")}>Most voted on</div>
 													<div className={cx("proposal-voted")}>
 														<img className={cx("proposal-voted-icon")} src={votedIcon} alt='' />
-														<span className={cx("proposal-voted-text")}>{!isNaN(item?.most_voted_on) ? "Yes" + item.most_voted_on + "%" : "-"}</span>
+														<span className={cx("proposal-voted-text")}>{!isNaN(item?.most_voted_on) ? "Yes " + item.most_voted_on + "%" : "-"}</span>
 													</div>
 												</td>
 												<td>

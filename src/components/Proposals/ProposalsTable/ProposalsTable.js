@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import consts from "src/constants/consts";
+import {formatDateTime, formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ProposalsTable.scss";
 import passedIcon from "src/assets/proposals/passed.svg";
 import rejectedIcon from "src/assets/proposals/rejected.svg";
-import {NavLink} from "react-router-dom";
-import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
@@ -83,13 +83,13 @@ const ProposalsTable = memo(({data = []}) => {
 			const votingStartDataCell = _.isNil(item?.voting_start_time) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("voting-start-data-cell", "align-right")}>{item.voting_start_time}</div>
+				<div className={cx("voting-start-data-cell", "align-right")}>{formatDateTime(item.voting_start_time)}</div>
 			);
 
 			const submitTimeDataCell = _.isNil(item?.submit_time) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("submit-time-data-cell", "align-right")}>{item.submit_time}</div>
+				<div className={cx("submit-time-data-cell", "align-right")}>{formatDateTime(item.submit_time)}</div>
 			);
 
 			const totalDepositDataCell = _.isNil(item?.total_deposit) ? (
