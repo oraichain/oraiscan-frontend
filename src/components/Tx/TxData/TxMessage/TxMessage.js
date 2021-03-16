@@ -154,7 +154,7 @@ export default function({msg, txData}) {
 						{getAddressRow("From Address", value?.from_address)}
 						{getAddressRow("To Address", value?.to_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0], ["uppercase"])}
-						{getAddressRow("Memo", memo)}
+						{getInfoRow("Memo", memo)}
 					</>
 				)}
 

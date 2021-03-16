@@ -201,7 +201,6 @@ const ValidatorTable = memo(({data = []}) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
-			console.log(item);
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
