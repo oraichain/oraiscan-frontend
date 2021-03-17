@@ -82,7 +82,8 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	return balance.multipliedBy(percent).dividedBy(100);
+	// return balance.multipliedBy(percent).dividedBy(100);
+	return (balance * percent) / 100;
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
