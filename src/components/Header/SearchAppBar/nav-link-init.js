@@ -3,8 +3,8 @@ export const navLinkInit = [
 	{
 		title: `Products`,
 		children: [
-			{title: `Liquidity`, path: `https://liquidity.orai.io/`},
-			{title: `Testnet`, path: `https://scan.orai.io/`},
+			// {title: `Liquidity`, path: `https://liquidity.orai.io/`},
+			// {title: `Testnet`, path: `https://scan.orai.io/`},
 			{title: `yAi.Finance`, path: `https://yai.finance/`},
 			{title: `Marketplace`, path: `https://market.orai.io/oscript`},
 		],

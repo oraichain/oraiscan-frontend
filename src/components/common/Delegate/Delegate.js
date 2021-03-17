@@ -82,7 +82,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	return (percent * balance) / 100;
+	return balance.multipliedBy(percent).dividedBy(100);
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
@@ -120,9 +120,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		const amount = new BigNumber(data.amount);
-
-		data.amount = amount.toFixed(5);
+		data.amount = data.amount * 1000000 + "";
+		data.amount = data.amount.split(".")[0];
 
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
@@ -142,7 +141,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							validator_address: operatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount * 1000000),
+								amount: String(data.amount),
 							},
 						},
 					},
