@@ -121,8 +121,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		data.amount = data.amount * 1000000 + "";
-		data.amount = data.amount.split(".")[0];
+		data.amount = data.amount * 100 + "";
+		data.amount = data.amount.split(".")[0] * 10000;
 
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
