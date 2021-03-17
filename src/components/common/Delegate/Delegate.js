@@ -16,6 +16,7 @@ import TextField from "@material-ui/core/TextField";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
+import BigNumber from "bignumber.js";
 
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {formatOrai} from "src/helpers/helper";
@@ -91,6 +92,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const percents = [25, 50, 75, 100];
 
 	const balance = balanceInfo?.data?.balances?.[0]?.amount ?? 0;
+	// const balance = new BigNumber("3817852412082");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
@@ -118,15 +120,9 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
-			setError("amount", {
-				type: "too_many_digit",
-				message: "Maximum 6 digits after decimal",
-			});
-			return;
-		}
+		const amount = new BigNumber(data.amount);
 
-		data.amount = parseFloat(data.amount).toFixed(6);
+		data.amount = amount.toFixed(5);
 
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
