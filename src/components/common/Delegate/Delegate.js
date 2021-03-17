@@ -217,30 +217,6 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							</div>
 							<div className={cx("form-field")}>
 								<InputNumberOrai name='amount' required errorobj={errors} />
-								{/* <input
-									type='text'
-									className={cx("text-field")}
-									ref={register({
-										required: {
-											value: true,
-											message: "The amount field is required.",
-										},
-										validate: {
-											numeric: value => !isNaN(value) || "The amount field must be a number.",
-											between: value => {
-												const amount = parseFloat(value);
-												if (amount > 0 && amount <= balance) {
-													return true;
-												}
-												return `The amount must be greater than 0 and less than or equal ${balance}`;
-											},
-										},
-									})}
-									name='amount'
-									id='amount'
-									defaultValue={0}
-								/> */}
-								{/* <ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} /> */}
 							</div>
 						</DialogContent>
 						<DialogActions>

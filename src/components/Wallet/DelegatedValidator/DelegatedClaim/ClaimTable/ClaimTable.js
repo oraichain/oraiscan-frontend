@@ -87,7 +87,6 @@ const ClaimTable = memo(({data}) => {
 		}
 
 		return data.map((item, index) => {
-			console.log(item);
 			const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 
 			const validatorDataCell = item?.validator ? (

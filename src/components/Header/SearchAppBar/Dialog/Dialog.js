@@ -21,7 +21,8 @@ import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
 import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
-import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import SendOraiTab from "./SendOraiTab";
+import SendTrasactionTab from "./SendTrasactionTab";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
@@ -129,8 +130,14 @@ export default function FormDialog({show, handleClose, address, account, amount,
 			try {
 				payload = JSON.parse(data.freeMessage);
 			} catch (e) {
-				alert("Cannot parse transaction. Please check again!");
-				return;
+				return dispatch(
+					showAlert({
+						show: true,
+						message: "Cannot parse transaction. Please check again!",
+						autoHideDuration: 1500,
+						type: "error",
+					})
+				);
 			}
 		}
 
@@ -169,108 +176,13 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		};
 	}, [dispatch, handleClose, history, reFetchAmount]);
 
-	const setAmountValue = (e, rate) => {
-		e.preventDefault();
-		amount &&
-			setValue(
-				"sendAmount",
-				new BigNumber(amount)
-					.multipliedBy(rate)
-					.dividedBy(1000000)
-					.toFixed(6)
-			);
-	};
-
-	const handleClickEndAdornment = () => {
-		const form = getValues();
-		if (form.recipientAddress) {
-			const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
-			var win = window.open(url, "_blank");
-			win.focus();
-		}
-	};
-
-	const priceInUSD = new BigNumber(amount)
-		.dividedBy(1000000)
-		.multipliedBy(status?.price || 0)
-		.toFormat(2);
-
 	const renderTab = id => {
 		if (id === 1) {
-			return (
-				<FormProvider {...methods}>
-					<form className={cx("form-dialog")}>
-						<Grid container spacing={2}>
-							<div className={cx("row-balance")}>
-								<div className={cx("left")}>
-									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {reduceString(address, 8, 8)} </div>
-								</div>
-								<div className={cx("right")}>
-									<div className={cx("title", "title-right")}> Balance </div>
-									<div className={cx("value")}>
-										{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
-									</div>
-								</div>
-							</div>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}> Add Recipient </div>
-								<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
-							</Grid>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label", "label-right")}>
-									<div className={cx("left")}> Amount </div>
-									<div className={cx("right")}>
-										<button onClick={e => setAmountValue(e, 0.5)}> 1 / 2 </button>
-										<button onClick={e => setAmountValue(e, 1)}> Max </button>
-									</div>
-								</div>
-								<InputNumberOrai name='sendAmount' required errorobj={errors} />
-							</Grid>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}>
-									{" "}
-									Memo <span className={cx("optional")}> (Optional) </span>{" "}
-								</div>
-								<TextArea name='memo' placeholder='Insert memo here' rows={5} />
-							</Grid>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}>
-									{" "}
-									Tx Fee:
-									<span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
-									<span>{status?.price ? "($" + (status?.price * Number(formatOrai(fee))).toFixed(6) + ")" : ""}</span>
-								</div>
-							</Grid>
-						</Grid>
-					</form>
-				</FormProvider>
-			);
+			return <SendOraiTab address={address} amount={amount} status={status} methods={methods} />;
 		}
 
 		if (id === 2) {
-			return (
-				<FormProvider {...methods}>
-					<form className={cx("form-dialog")}>
-						<Grid container spacing={2}>
-							<div className={cx("row-balance")}>
-								<div className={cx("left")}>
-									<div className={cx("title")}> My Address </div>
-									<div className={cx("value")}> {reduceString(address, 8, 8)} </div>
-								</div>
-								<div className={cx("right")}>
-									<div className={cx("title", "title-right")}> Balance </div>
-									<div className={cx("value")}> {formatOrai(amount || 0)} ORAI </div>
-								</div>
-							</div>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}> Transaction </div>
-								<TextArea name='freeMessage' placeholder='Enter unsigned transaction json' rows={23} required errorobj={errors} />
-							</Grid>
-						</Grid>
-					</form>
-				</FormProvider>
-			);
+			return <SendTrasactionTab address={address} amount={amount} methods={methods} />;
 		}
 	};
 
@@ -292,7 +204,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							);
 						})}
 					</div>
-					{renderTab(activeTabId)}
+					<FormProvider {...methods}>{renderTab(activeTabId)}</FormProvider>
 				</DialogContent>
 				<DialogActions>
 					<div className={cx("btn-action-group")}>
