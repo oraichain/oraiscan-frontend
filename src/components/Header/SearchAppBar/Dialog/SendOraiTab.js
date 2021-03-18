@@ -11,6 +11,7 @@ import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
+import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
@@ -87,7 +88,10 @@ export default function FormDialog({address, amount, status, methods}) {
 						</div>
 					</div>
 					<div className={cx("right")}>
-						<div className={cx("title", "title-right", "switch-blue")}> Show example </div>
+						<div className={cx("title", "title-right", "switch-blue")}>
+							{" "}
+							<ShowExample />{" "}
+						</div>
 					</div>
 				</div>
 			</>
