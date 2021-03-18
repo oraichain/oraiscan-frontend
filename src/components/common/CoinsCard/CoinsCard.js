@@ -3,15 +3,24 @@ import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
 import {formatOrai, formatFloat} from "src/helpers/helper";
 import DonutChart from "react-donut-chart";
+import BigNumber from "bignumber.js";
 import styles from "./CoinsCard.scss";
 
-const CoinsCard = memo(({total, price, available, delegated, unbonding, reward, denom, minHeight = "220px"}) => {
+const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom, minHeight = "220px"}) => {
 	const cx = classNames.bind(styles);
 
-	const delegatedPercent = (parseFloat(delegated) * 100) / parseFloat(total);
-	const unbondingPercent = (parseFloat(unbonding) * 100) / parseFloat(total);
-	const rewardPercent = (parseFloat(reward) * 100) / parseFloat(total);
-	const availablePercent = (parseFloat(available) * 100) / parseFloat(total);
+	unbonding = new BigNumber(unbonding);
+	delegated = new BigNumber(delegated);
+	available = new BigNumber(available);
+	reward = new BigNumber(reward);
+	const total = unbonding
+		.plus(delegated)
+		.plus(available)
+		.plus(reward);
+	const delegatedPercent = delegated.dividedBy(total).multipliedBy(100);
+	const unbondingPercent = unbonding.dividedBy(total).multipliedBy(100);
+	const rewardPercent = reward.dividedBy(total).multipliedBy(100);
+	const availablePercent = available.dividedBy(total).multipliedBy(100);
 
 	const delegatedColor = "#51ADCF";
 	const unbondingColor = "#A5ECD7";

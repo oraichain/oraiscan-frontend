@@ -15,8 +15,10 @@ const cx = cn.bind(styles);
 // const TextFieldCustom = (props) => <TextField  {...props} className={cx("input-text-exchange")} />
 
 const NumberFormatCustom = ({onChange, value, orai2usd, ...rest}) => {
+	value = ((value || 0) + "").replaceAll(",", "");
 	const formatUSD = () => {
-		return new BigNumber(value || 0).multipliedBy(orai2usd).toFormat(2);
+		// console.log(new BigNumber(valueParse).multipliedBy(orai2usd).toFormat(2))
+		return new BigNumber(value).multipliedBy(orai2usd).toFormat(2);
 		// const result = ((value || 0) * orai2usdt).toFixed(6);
 		// return isNaN(result) ? 0 : result;
 		// return 0;

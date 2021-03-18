@@ -16,6 +16,7 @@ import TextField from "@material-ui/core/TextField";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
+import BigNumber from "bignumber.js";
 
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {formatOrai} from "src/helpers/helper";
@@ -81,7 +82,10 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	return (percent * balance) / 100;
+	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
+	result = result.split(".")[0];
+	result = new BigNumber(result).dividedBy(100).toString();
+	return result;
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
@@ -90,7 +94,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const percents = [25, 50, 75, 100];
 
-	const balance = balanceInfo?.data?.balances?.[0]?.amount ?? 0;
+	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
+	// const balance = new BigNumber("3817852419082");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
@@ -108,7 +113,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 		amount: yup
 			.number()
 			.required("Send Amount Field is Required")
-			.lessThanNumber(balance / 1000000, "lessThanNumber"),
+			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -118,15 +123,15 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
+		data.amount = data.amount * 100 + "";
+		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
+		if (data.amount == 0) {
 			setError("amount", {
-				type: "too_many_digit",
-				message: "Maximum 6 digits after decimal",
+				type: "zero",
+				message: "Transfer amount must be greater than 0 and less than your account's amount",
 			});
 			return;
 		}
-
-		data.amount = parseFloat(data.amount).toFixed(6);
 
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
@@ -146,7 +151,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							validator_address: operatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount * 1000000),
+								amount: String(data.amount),
 							},
 						},
 					},
@@ -207,7 +212,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 											type='button'
 											className={cx("btn", "btn-outline-primary", "m-2")}
 											onClick={() => {
-												setValue("amount", formatOrai(calculateAmount(balance, value)));
+												setValue("amount", calculateAmount(balance, value));
 												clearErrors();
 											}}>
 											{value + "%"}
