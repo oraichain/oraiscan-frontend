@@ -266,9 +266,9 @@ const ValidatorTable = memo(({data = []}) => {
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
 
-			console.log(`item?.commission_rate == `, item?.commission_rate);
-
-			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{(29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2)}</div>;
+			const estAPRnDataCell = (
+				<div className={cx("commission-data-cell", "align-right")}>{(29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2)} %</div>
+			);
 
 			const delegateDataCell = (
 				<div className={cx("commission-data-cell", "align-center")}>
