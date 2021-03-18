@@ -82,7 +82,10 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	return balance.multipliedBy(percent).dividedBy(100) + "";
+	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
+	result = result.split(".")[0];
+	result = new BigNumber(result).dividedBy(100).toString();
+	return result;
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
@@ -91,8 +94,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const percents = [25, 50, 75, 100];
 
-	//const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
-	const balance = new BigNumber("3817852419082");
+	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
+	// const balance = new BigNumber("3817852419082");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 
 	useEffect(() => {
@@ -122,6 +125,13 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const onSubmit = data => {
 		data.amount = data.amount * 100 + "";
 		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
+		if (data.amount == 0) {
+			setError("amount", {
+				type: "zero",
+				message: "Transfer amount must be greater than 0 and less than your account's amount",
+			});
+			return;
+		}
 
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
@@ -202,7 +212,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 											type='button'
 											className={cx("btn", "btn-outline-primary", "m-2")}
 											onClick={() => {
-												setValue("amount", formatOrai(calculateAmount(balance, value), 1000000, 2, true));
+												setValue("amount", calculateAmount(balance, value));
 												clearErrors();
 											}}>
 											{value + "%"}

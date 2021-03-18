@@ -83,21 +83,13 @@ export const calculateAfter = (total, limit, page) => {
 	return total + 1 - page * limit;
 };
 
-export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6, noFloor = false) => {
+export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6) => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
 
 	const bigValue = new BigNumber(value);
-	let result;
-	if (noFloor) {
-		result = bigValue.dividedBy(divisor).multipliedBy(100) + "";
-		result = result.split(".")[0];
-		result = bigValue.dividedBy(100);
-		console.log(result + "");
-	} else {
-		result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
-	}
+	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
 
 	// if (`${value}`.length > 9) {
 	// 	const bigValue = new BigNumber(value);
