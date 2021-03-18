@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
+import {Tooltip} from "antd";
+import {QuestionCircleOutlined} from "@ant-design/icons";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
@@ -149,6 +151,15 @@ const ValidatorTable = memo(({data = []}) => {
 			</div>
 		);
 
+		const EstAPRCell = (
+			<div className={cx("header-cell", "align-right")}>
+				Est APR
+				<Tooltip title='The APR is calculated assuming the node uptime is 100%.' className={cx("tooltip-header-cell")}>
+					<QuestionCircleOutlined />
+				</Tooltip>
+			</div>
+		);
+
 		const delegateHeaderCell = <div className={cx("header-cell", "align-center")}>Delegate</div>;
 
 		const headerCells = [
@@ -158,16 +169,18 @@ const ValidatorTable = memo(({data = []}) => {
 			cumulativeShareHeaderCell,
 			uptimeHeaderCell,
 			commissionHeaderCell,
+			EstAPRCell,
 			delegateHeaderCell,
 		];
 		const headerCellStyles = [
-			{width: "80px"}, // Rank
-			{minWidth: "200px"}, // Validator
-			{width: "155px"}, // Voting Power
-			{width: "250px"}, // Cumulative Share
-			{width: "180px"}, // Uptime
-			{width: "150px"}, // Commission
-			{width: "100px"}, // Delegate
+			{width: "40px"}, // Rank
+			{minWidth: "180px"}, // Validator
+			{width: "160px"}, // Voting Power
+			{width: "240px"}, // Cumulative Share
+			{width: "110px"}, // Uptime
+			{width: "140px"}, // Commission
+			{width: "110px"}, // EstAPRCell
+			{width: "80px"}, // Delegate
 		];
 		return {
 			headerCells,
@@ -248,9 +261,15 @@ const ValidatorTable = memo(({data = []}) => {
 					</div>
 				</div>
 			);
+
 			const commissionDataCell = (
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
+
+			console.log(`item?.commission_rate == `, item?.commission_rate);
+
+			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{(29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2)}</div>;
+
 			const delegateDataCell = (
 				<div className={cx("commission-data-cell", "align-center")}>
 					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' />
@@ -264,6 +283,7 @@ const ValidatorTable = memo(({data = []}) => {
 				cumulativeShareDataCell, // Cumulative Share
 				uptimeDataCell, // Uptime
 				commissionDataCell, // Commission
+				estAPRnDataCell, // estAPRnDataCell
 				delegateDataCell, // Delegate
 			];
 		});
