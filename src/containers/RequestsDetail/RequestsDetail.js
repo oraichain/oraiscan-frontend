@@ -8,7 +8,7 @@ import StatusBox from "src/components/common/StatusBox";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import styles from "./RequestsDetail.scss";
-import {ProposalsListDetalTable} from "src/components/Proposals";
+// import {ProposalsListDetalTable} from "src/components/Proposals";
 import DonutChart from "react-donut-chart";
 
 const cx = cn.bind(styles);

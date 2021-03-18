@@ -1,6 +1,7 @@
 import React, {memo, useMemo} from "react";
 import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
+import {QuestionCircleOutlined} from "@ant-design/icons";
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -45,6 +46,12 @@ const getHeaderRow = () => {
 		</div>
 	);
 
+	const estAPRHeaderCell = (
+		<div className={cx("header-cell", "align-right")}>
+			Est APR <QuestionCircleOutlined />
+		</div>
+	);
+
 	const delegateHeaderCell = <div className={cx("header-cell", "align-center")}>Delegate</div>;
 
 	const headerCells = [
@@ -54,16 +61,18 @@ const getHeaderRow = () => {
 		cumulativeShareHeaderCell,
 		uptimeHeaderCell,
 		commissionHeaderCell,
+		estAPRHeaderCell,
 		delegateHeaderCell,
 	];
 	const headerCellStyles = [
-		{width: "80px"}, // Rank
-		{minWidth: "200px"}, // Validator
-		{width: "155px"}, // Voting Power
-		{width: "250px"}, // Cumulative Share
-		{width: "180px"}, // Uptime
-		{width: "150px"}, // Commission
-		{width: "100px"}, // Delegate
+		{width: "40px"}, // Rank
+		{minWidth: "180px"}, // Validator
+		{width: "160px"}, // Voting Power
+		{width: "240px"}, // Cumulative Share
+		{width: "110px"}, // Uptime
+		{width: "140px"}, // Commission
+		{width: "110px"}, // EstAPRCell
+		{width: "80px"}, // Delegate
 	];
 	return {
 		headerCells,
@@ -110,13 +119,28 @@ const getDataRows = rows => {
 			</div>
 		);
 
+		const estAPRnDataCell = (
+			<div className={cx("skeleton-data-cell", "align-right")}>
+				<Skeleton />
+			</div>
+		);
+
 		const delegateDataCell = (
 			<div className={cx("skeleton-data-cell", "align-center")}>
 				<Skeleton />
 			</div>
 		);
 
-		dataRows.push([rankDataCell, validatorDataCell, votingPowerDataCell, cumulativeShareDataCell, uptimeDataCell, commissionDataCell, delegateDataCell]);
+		dataRows.push([
+			rankDataCell,
+			validatorDataCell,
+			votingPowerDataCell,
+			cumulativeShareDataCell,
+			uptimeDataCell,
+			commissionDataCell,
+			estAPRnDataCell,
+			delegateDataCell,
+		]);
 	}
 	return dataRows;
 };

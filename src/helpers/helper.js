@@ -3,6 +3,7 @@ import numeral from "numeral";
 import bigInt from "big-integer";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
+import moment from "moment";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -115,4 +116,9 @@ export const replaceQueryString = (path, key, value) => {
 		}
 	}
 	return decodeURIComponent(searchParams.toString());
+};
+
+export const formatDateTime = inputString => {
+	const m = moment(inputString);
+	return m.format("YYYY-MM-DD HH:mm:ss");
 };
