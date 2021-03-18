@@ -32,17 +32,12 @@ export default function(props) {
 	const [totalPages, setTotalPages] = useState(1);
 
 	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}`;
-	const getPath = () => {
-		let path;
-		if (status === "PROPOSAL_STATUS_ALL") {
-			path = `${basePath}&page_id=${pageId}`;
-		} else {
-			path = `${basePath}&status=${status}&page_id=${pageId}`;
-		}
-		return path;
-	};
-
-	const path = getPath();
+	let path;
+	if (status === "PROPOSAL_STATUS_ALL") {
+		path = `${basePath}&page_id=${pageId}`;
+	} else {
+		path = `${basePath}&status=${status}&page_id=${pageId}`;
+	}
 	const {data} = useGet({
 		path: path,
 	});
