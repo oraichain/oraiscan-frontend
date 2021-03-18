@@ -48,8 +48,7 @@ const getHeaderRow = () => {
 
 	const estAPRHeaderCell = (
 		<div className={cx("header-cell", "align-right")}>
-			Est APR
-			<QuestionCircleOutlined />
+			Est APR <QuestionCircleOutlined />
 		</div>
 	);
 
@@ -120,13 +119,28 @@ const getDataRows = rows => {
 			</div>
 		);
 
+		const estAPRnDataCell = (
+			<div className={cx("skeleton-data-cell", "align-right")}>
+				<Skeleton />
+			</div>
+		);
+
 		const delegateDataCell = (
 			<div className={cx("skeleton-data-cell", "align-center")}>
 				<Skeleton />
 			</div>
 		);
 
-		dataRows.push([rankDataCell, validatorDataCell, votingPowerDataCell, cumulativeShareDataCell, uptimeDataCell, commissionDataCell, delegateDataCell]);
+		dataRows.push([
+			rankDataCell,
+			validatorDataCell,
+			votingPowerDataCell,
+			cumulativeShareDataCell,
+			uptimeDataCell,
+			commissionDataCell,
+			estAPRnDataCell,
+			delegateDataCell,
+		]);
 	}
 	return dataRows;
 };
