@@ -1,0 +1,110 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: #546a8a;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.id-data-cell,
+.voting-start-data-cell,
+.submit-time-data-cell {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.title-data-cell {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.total-deposit-data-cell {
+	.amount {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 8px;
+			color: #181818;
+		}
+
+		&-denom {
+			display: inline-block;
+			color: #5f51ff;
+		}
+	}
+}
+
+.status-data-cell {
+	.status {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		height: 28px;
+		padding-left: 8px;
+		padding-right: 8px;
+		border-radius: 4px;
+
+		&-icon {
+			display: inline-block;
+			margin-right: 4px;
+		}
+
+		&-text {
+			display: inline-block;
+
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 11px;
+		}
+
+		&-passed {
+			border: 1px solid #3fcc28;
+
+			.status-text {
+				color: #12c90e;
+			}
+		}
+
+		&-rejected {
+			border: 1px solid #f3574f;
+
+			.status-text {
+				color: #f3574f;
+			}
+		}
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

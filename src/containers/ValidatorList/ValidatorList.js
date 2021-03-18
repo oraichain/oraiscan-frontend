@@ -55,22 +55,6 @@ const ValidatorList = props => {
 			return Object.assign({}, item, {active: false});
 		});
 	};
-	const [buttonGroupData, setButtonGroupData] = useState([
-		{
-			label: "Active",
-			onClick: selectedIndex => {
-				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
-			},
-			active: true,
-		},
-		{
-			label: "Inactive",
-			onClick: selectedIndex => {
-				setButtonGroupData(toggleData(buttonGroupData, selectedIndex));
-			},
-			active: false,
-		},
-	]);
 
 	const {data: validators, loading: loadingValidators, refetch: refetchValidators} = useGet({
 		path: validatorsPath,
@@ -195,7 +179,6 @@ const ValidatorList = props => {
 	if (!validators || (loadingValidators && showLoadingValidators)) {
 		filterSection = (
 			<div className={cx("filter-section")}>
-				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
 				<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
 				<div className={cx("filter-section-overlay")}></div>
 			</div>
@@ -206,7 +189,6 @@ const ValidatorList = props => {
 
 		filterSection = (
 			<div className={cx("filter-section")}>
-				{/* <ButtonGroup data={buttonGroupData} rootClassName={cx("mr-18px")} /> */}
 				<SearchInput
 					value={keyword}
 					placeholder='Search validators'
