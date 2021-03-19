@@ -13,6 +13,7 @@ import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
+import axios from "axios";
 import {reduceString} from "src/lib/scripts";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
@@ -185,10 +186,16 @@ export default function FormDialog({show, handleClose, address, account, amount,
 					})
 				);
 				setIsLoading(true);
-				setTimeout(() => {
-					history.push(`/txs/${e.data.txhash}`);
-					setIsLoading(false);
-				}, 7000);
+				const checkTimeout = async () => {
+					const result = await axios.get(`${consts.API_BASE}${consts.API.TX}/${e.data.txhash}`);
+					if (!result || !result.data || !result.data.result) {
+						setTimeout(checkTimeout, 2000);
+					} else {
+						history.push(`/txs/${e.data.txhash}`);
+						setIsLoading(false);
+					}
+				};
+				setTimeout(checkTimeout, 2000);
 				handleClose();
 			}
 		};
