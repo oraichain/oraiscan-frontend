@@ -62,6 +62,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const [fee, setFee] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
+	const [multiSendData, handleInputMulti] = useState(null);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
@@ -85,7 +86,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
 
 	const onSubmit = data => {
-		if (data.sendAmount <= 0) {
+		if (data && data.sendAmount <= 0) {
 			setError("sendAmount", {
 				type: "greater_than_0",
 				message: "Transfer amount must be greater than 0 and less than your account's amount",
@@ -100,30 +101,51 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 		let payload;
 		if (activeTabId === 1) {
+			let msg = [];
+			if (multiSendData) {
+				console.log(multiSendData);
+				msg = multiSendData.map(v => {
+					return {
+						type: "cosmos-sdk/MsgSend",
+						value: {
+							from_address: address,
+							to_address: v.address,
+							amount: [
+								{
+									denom: "orai",
+									amount: v.amount * 1000000,
+								},
+							],
+						},
+					};
+				});
+			} else {
+				msg = [
+					{
+						type: "cosmos-sdk/MsgSend",
+						value: {
+							from_address: address,
+							to_address: data.recipientAddress,
+							amount: [
+								{
+									denom: "orai",
+									amount: data.sendAmount * 1000000,
+								},
+							],
+						},
+					},
+				];
+			}
 			payload = {
 				type: "cosmos-sdk/StdTx",
 				value: {
-					msg: [
-						{
-							type: "cosmos-sdk/MsgSend",
-							value: {
-								from_address: address,
-								to_address: data.recipientAddress,
-								amount: [
-									{
-										denom: "orai",
-										amount: data.sendAmount * 1000000,
-									},
-								],
-							},
-						},
-					],
+					msg,
 					fee: {
 						amount: [fee],
 						gas: 200000,
 					},
 					signatures: null,
-					memo: data.memo || "",
+					memo: (data && data.memo) || "",
 				},
 			};
 		} else {
@@ -178,12 +200,19 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const renderTab = id => {
 		if (id === 1) {
-			return <SendOraiTab address={address} amount={amount} status={status} methods={methods} />;
+			return <SendOraiTab address={address} amount={amount} status={status} methods={methods} handleInputMulti={handleInputMulti} />;
 		}
 
 		if (id === 2) {
 			return <SendTrasactionTab address={address} amount={amount} methods={methods} />;
 		}
+	};
+
+	const handleClickNext = () => {
+		if (multiSendData) {
+			return onSubmit();
+		}
+		return handleSubmit(onSubmit)();
 	};
 
 	return (
@@ -211,7 +240,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 						<Button onClick={handleClose} className={cx("btn-cancel")}>
 							Cancel
 						</Button>
-						<Button variant='contained' className={cx("btn-submit")} onClick={handleSubmit(onSubmit)}>
+						<Button variant='contained' className={cx("btn-submit")} onClick={handleClickNext}>
 							Next
 						</Button>
 					</div>

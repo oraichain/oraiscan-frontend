@@ -179,9 +179,27 @@
 		font-family: Roboto;
 		font-size: 16px;
 		color: #1b57f0;
+		cursor: pointer;
 		svg {
-			cursor: pointer;
 			margin-left: 5px;
 		}
+	}
+}
+
+.summary {
+	border: 1px dashed #e7e7e7;
+	border-radius: 4px;
+	padding: 10px;
+	.row {
+		padding: 2px;
+	}
+}
+
+.input-multi-send {
+	height: 400px;
+	border: 1px dashed #e7e7e7;
+	border-radius: 4px;
+	.textarea {
+		height: 400px !important;
 	}
 }
