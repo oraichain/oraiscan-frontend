@@ -11,16 +11,14 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import _ from "lodash";
+import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import _ from "lodash";
 
-import styles from "./WithdrawBtn.scss";
-import {formatOrai} from "src/helpers/helper";
-import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
-import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
 import Keystation from "src/lib/Keystation";
+import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import styles from "./WithdrawBtn.scss";
 
 const cx = cn.bind(styles);
 
@@ -51,6 +49,20 @@ const dialogStyles = theme => ({
 	},
 });
 
+yup.addMethod(yup.number, "lessThanNumber", function(amount) {
+	return this.test({
+		name: "test-name",
+		exclusive: false,
+		message: "Withdraw amount must be greater than 0 and less than withdrawable amount",
+		test(value) {
+			if (_.isNaN(value)) {
+				return true;
+			}
+			return value >= 0 && value <= parseFloat(amount);
+		},
+	});
+});
+
 const DialogTitle = withStyles(dialogStyles)(props => {
 	const {children, classes, onClose, ...other} = props;
 	return (
@@ -79,19 +91,18 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	return (percent * balance) / 100;
+	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
+	result = result.split(".")[0];
+	result = new BigNumber(result).dividedBy(100).toString();
+	return result;
 };
 
 const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
-	const [balanceInfo, , , , setUrl] = useFetch();
 	const percents = [25, 50, 75, 100];
-	const balance = withdrawable;
-
-	useEffect(() => {
-		address && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
-	}, [address, setUrl]);
+	const balance = new BigNumber(withdrawable);
+	// const balance = new BigNumber("3817852419082");
 
 	const openDialog = () => {
 		setOpen(true);
@@ -99,11 +110,12 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const closeDialog = () => {
 		setOpen(false);
 	};
+
 	const validationSchemaForm = yup.object().shape({
 		amount: yup
 			.number()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance / 1000000, "lessThanNumber"),
+			.required("Amount Field is Required")
+			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -113,10 +125,12 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
+		data.amount = data.amount * 100 + "";
+		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
+		if (data.amount == 0) {
 			setError("amount", {
-				type: "too_many_digit",
-				message: "Maximum 6 digits after decimal",
+				type: "zero",
+				message: "Withdraw amount must be greater than 0 and less than withdrawable amount",
 			});
 			return;
 		}
@@ -139,7 +153,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 							validator_address: validatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount * 1000000),
+								amount: String(data.amount),
 							},
 						},
 					},
@@ -197,7 +211,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 											type='button'
 											className={cx("btn", "btn-outline-primary", "m-2")}
 											onClick={() => {
-												setValue("amount", formatOrai(calculateAmount(balance, value)));
+												setValue("amount", calculateAmount(balance, value));
 												clearErrors();
 											}}>
 											{value + "%"}

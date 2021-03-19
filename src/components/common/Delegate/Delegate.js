@@ -1,7 +1,6 @@
 import React, {isValidElement, memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
 import {useForm, FormProvider} from "react-hook-form";
-import {ErrorMessage} from "@hookform/error-message";
 import {withStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,15 +10,12 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import NumberFormat from "react-number-format";
-import TextField from "@material-ui/core/TextField";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
-import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import Keystation from "src/lib/Keystation";
@@ -225,11 +221,11 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							</div>
 						</DialogContent>
 						<DialogActions>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Delegate
-							</button>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
 								Cancel
+							</button>
+							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
+								Delegate
 							</button>
 						</DialogActions>
 					</form>
