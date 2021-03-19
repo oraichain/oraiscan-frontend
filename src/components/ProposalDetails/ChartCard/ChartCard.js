@@ -8,10 +8,10 @@ import styles from "./ChartCard.scss";
 const cx = classNames.bind(styles);
 
 export const colors = {
-	DELEGATED: "#51ADCF",
-	UNBONDING: "#A5ECD7",
-	REWARD: "#FFBF9B",
-	AVAILABLE: "#0278AE",
+	YES: "#0278AE",
+	NO: "#51ADCF",
+	NO_WITH_VETO: "#A5ECD7",
+	ABSTAIN: "#FFBF9B",
 };
 
 const ChartCard = memo(({data}) => {
@@ -32,47 +32,47 @@ const ChartCard = memo(({data}) => {
 					innerRadius={0.5}
 					legend={false}
 					data={[
-						{value: parseFloat(data?.delegatedPercent ?? 0), label: ""},
-						{value: parseFloat(data?.unbondingPercent ?? 0), label: ""},
-						{value: parseFloat(data?.rewardPercent ?? 0), label: ""},
-						{value: parseFloat(data?.availablePercent ?? 0), label: ""},
+						{value: parseFloat(data?.yes_percentage ?? 0), label: ""},
+						{value: parseFloat(data?.no_percentage ?? 0), label: ""},
+						{value: parseFloat(data?.no_with_veto_percentage ?? 0), label: ""},
+						{value: parseFloat(data?.abstain_percentage ?? 0), label: ""},
 					]}
-					colors={[colors.DELEGATED, colors.UNBONDING, colors.REWARD, colors.AVAILABLE]}
+					colors={[colors.YES, colors.NO, colors.NO_WITH_VETO, colors.ABSTAIN]}
 					strokeColor={false}
 				/>
 			</div>
 			<div className={cx("chart-card-footer")}>
 				<div className={cx("chart-comment-group")}>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.AVAILABLE}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.YES}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Available</div>
-							<div className={cx("chart-comment-value")}>{!isNaN(data?.availablePercent) ? data.availablePercent + "%" : "-"}</div>
+							<div className={cx("chart-comment-label")}>Yes</div>
+							<div className={cx("chart-comment-value")}>{!isNaN(data?.yes_percentage) ? data.yes_percentage + "%" : "-"}</div>
 						</div>
 					</div>
 
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.DELEGATED}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.NO}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Delegated</div>
-							<div className={cx("chart-comment-value")}>{!isNaN(data?.delegatedPercent) ? data.delegatedPercent + "%" : "-"}</div>
+							<div className={cx("chart-comment-label")}>No</div>
+							<div className={cx("chart-comment-value")}>{!isNaN(data?.no_percentage) ? data.no_percentage + "%" : "-"}</div>
 						</div>
 					</div>
 				</div>
 
 				<div className={cx("chart-comment-group")}>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.UNBONDING}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.NO_WITH_VETO}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Unbonding</div>
-							<div className={cx("chart-comment-value")}>{!isNaN(data?.unbondingPercent) ? data.unbondingPercent + "%" : "-"}</div>
+							<div className={cx("chart-comment-label")}>NoWithVeto</div>
+							<div className={cx("chart-comment-value")}>{!isNaN(data?.no_with_veto_percentage) ? data.no_with_veto_percentage + "%" : "-"}</div>
 						</div>
 					</div>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.REWARD}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.ABSTAIN}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Reward</div>
-							<div className={cx("chart-comment-value")}>{!isNaN(data?.rewardPercent) ? data.rewardPercent + "%" : "-"}</div>
+							<div className={cx("chart-comment-label")}>Abstain</div>
+							<div className={cx("chart-comment-value")}>{!isNaN(data?.abstain_percentage) ? data.abstain_percentage + "%" : "-"}</div>
 						</div>
 					</div>
 				</div>
