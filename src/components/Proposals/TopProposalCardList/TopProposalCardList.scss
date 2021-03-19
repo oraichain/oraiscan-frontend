@@ -175,22 +175,22 @@
 				border-radius: 4px;
 				overflow: hidden;
 
-				&-available {
+				&-yes {
 					height: 100%;
 					background: #0278ae;
 				}
 
-				&-delegated {
+				&-no {
 					height: 100%;
 					background: #51adcf;
 				}
 
-				&-unbonding {
+				&-no-with-veto {
 					height: 100%;
 					background: #a5ecd7;
 				}
 
-				&-reward {
+				&-abstain {
 					height: 100%;
 					background: #ffbf9b;
 				}
