@@ -12,13 +12,13 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
 import EmptyTable from "src/components/common/EmptyTable";
+import Pagination from "src/components/common/Pagination";
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
 import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTable";
 import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
-import Pagination from "src/components/common/Pagination";
 import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
@@ -26,10 +26,19 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
 	const [pageId, setPageId] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
+
+	const topPath = `${consts.API.PROPOSALS}?status&limit=4&page_id=1`;
+	const {data: topData} = useGet({
+		path: topPath,
+	});
+
+	const statusPath = consts.API.PROPOSAL_STATUS;
+	const {data: statusData} = useGet({
+		path: statusPath,
+	});
 
 	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}`;
 	let path;
@@ -40,16 +49,6 @@ export default function(props) {
 	}
 	const {data} = useGet({
 		path: path,
-	});
-
-	const topPath = `${consts.API.PROPOSALS}?status&limit=4&page_id=1`;
-	const {data: topData} = useGet({
-		path: topPath,
-	});
-
-	const statusPath = consts.API.PROPOSAL_STATUS;
-	const {data: statusData} = useGet({
-		path: statusPath,
 	});
 
 	const onPageChange = page => {
@@ -100,7 +99,6 @@ export default function(props) {
 				data={filterData}
 				value={status}
 				onChange={value => {
-					console.log("THINH", value);
 					setStatus(value);
 				}}
 			/>

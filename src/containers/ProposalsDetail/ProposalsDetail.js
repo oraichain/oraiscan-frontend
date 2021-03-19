@@ -23,20 +23,12 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const proposalsId = props?.match?.params?.id;
+	const proposalId = props?.match?.params?.id;
 
-	const path = `${consts.API.PROPOSALS}/${proposalsId}`;
+	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const {data} = useGet({
 		path: path,
 	});
-
-	// const chartData = {
-	// 	totalOrai: 11050300.54,
-	// 	delegatedPercent: 81.96,
-	// 	unbondingPercent: 0,
-	// 	rewardPercent: 5.37,
-	// 	availablePercent: 12.67,
-	// };
 
 	let titleSection;
 	let detailsCard;
@@ -54,13 +46,13 @@ export default function(props) {
 
 	if (data) {
 		detailsCard = <DetailsCard data={data} />;
+		chartCard = <ChartCard data={data} />;
 	} else {
 		detailsCard = <DetailsCardSkeleton />;
+		chartCard = <ChartCardSkeleton />;
 	}
 
-	// chartCard = <ChartCard data={chartData} />;
-	// chartCard = <ChartCardSkeleton />;
-	// transactionsCard = <TransactionsCard />;
+	transactionsCard = <TransactionsCard proposalId={proposalId} />;
 	return (
 		<Container fixed className={cx("proposal-details")}>
 			{titleSection}

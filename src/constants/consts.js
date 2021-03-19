@@ -75,6 +75,7 @@ export default Object.freeze({
 		DELEGATIONS: "/delegations",
 		PROPOSALS: "proposals",
 		PROPOSAL_STATUS: "proposal/status",
+		PROPOSALS_TRANSACTIONS: "/proposals/transactions",
 		VALIDATOR_ANALYTICS: "/validator-analytics",
 		WALLET: {
 			CLAIM_REWARD: "/wallet/claim_reward",
