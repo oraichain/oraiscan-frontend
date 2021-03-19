@@ -75,24 +75,30 @@ const TopProposalCardList = memo(({data = []}) => {
 
 											<tr>
 												<td colSpan={2}>
-													{/* <div className={cx("graph")}>
-														<Tooltip title='Available' placement='top' arrow>
-															<div className={cx("graph-available")} style={{flexBasis: "12.67%"}}></div>
-														</Tooltip>
+													{isNaN(item?.yes_percentage) ||
+													isNaN(item?.no_percentage) ||
+													isNaN(item?.no_with_veto_percentage) ||
+													isNaN(item?.abstain_percentage) ? (
+														<div className={cx("graph")}></div>
+													) : (
+														<div className={cx("graph")}>
+															<Tooltip title={"Yes: " + item.yes_percentage + "%"} placement='top' arrow>
+																<div className={cx("graph-yes")} style={{flexBasis: item.yes_percentage + "%"}}></div>
+															</Tooltip>
 
-														<Tooltip title='Delegated' placement='top' arrow>
-															<div className={cx("graph-delegated")} style={{flexBasis: "81.96%"}}></div>
-														</Tooltip>
+															<Tooltip title={"No: " + item.no_percentage + "%"} placement='top' arrow>
+																<div className={cx("graph-no")} style={{flexBasis: item.no_percentage + "%"}}></div>
+															</Tooltip>
 
-														<Tooltip title='Unbonding' placement='top' arrow>
-															<div className={cx("graph-unbonding")} style={{flexBasis: "0%"}}></div>
-														</Tooltip>
+															<Tooltip title={"NoWithVeto: " + item.no_with_veto_percentage + "%"} placement='top' arrow>
+																<div className={cx("graph-no-with-veto")} style={{flexBasis: item.no_with_veto_percentage + "%"}}></div>
+															</Tooltip>
 
-														<Tooltip title='Reward' placement='top' arrow>
-															<div className={cx("graph-reward")} style={{flexBasis: "5.37%"}}></div>
-														</Tooltip>
-													</div> */}
-													Coming soon
+															<Tooltip title={"Abstain: " + item.abstain_percentage + "%"} placement='top' arrow>
+																<div className={cx("graph-abstain")} style={{flexBasis: item.abstain_percentage + "%"}}></div>
+															</Tooltip>
+														</div>
+													)}
 												</td>
 											</tr>
 
