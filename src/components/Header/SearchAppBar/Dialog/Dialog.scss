@@ -4,6 +4,7 @@
 		font-family: Roboto;
 	}
 }
+
 .form-input {
 	margin-bottom: 10px !important;
 	textarea {
@@ -18,12 +19,17 @@
 	}
 }
 
+.transaction-content {
+	margin: 0px !important;
+}
+
 .row-balance {
 	display: flex;
 	justify-content: space-between;
 	padding: 8px;
 	width: 100%;
 	margin-bottom: 15px;
+	padding-left: 0px;
 	.title {
 		font-weight: 500;
 		font-size: 18px;
@@ -34,6 +40,17 @@
 	}
 	.title-right {
 		text-align: right;
+	}
+}
+
+.switch-multisend {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+	padding: 8px;
+	padding-left: 0;
+	button {
+		margin-left: 5px;
 	}
 }
 
@@ -153,5 +170,36 @@
 	font-size: 18px !important;
 	span:first-child {
 		color: #ffffff !important;
+	}
+}
+
+.switch-control {
+	margin-top: 10px;
+	.switch-blue {
+		font-family: Roboto;
+		font-size: 16px;
+		color: #1b57f0;
+		cursor: pointer;
+		svg {
+			margin-left: 5px;
+		}
+	}
+}
+
+.summary {
+	border: 1px dashed #e7e7e7;
+	border-radius: 4px;
+	padding: 10px;
+	.row {
+		padding: 2px;
+	}
+}
+
+.input-multi-send {
+	height: 400px;
+	border: 1px dashed #e7e7e7;
+	border-radius: 4px;
+	.textarea {
+		height: 400px !important;
 	}
 }
