@@ -111,6 +111,7 @@
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.12.0",
     "react-donut-chart": "^1.1.8",
+    "react-dropzone": "^11.3.1",
     "react-fullscreen-loading": "0.0.4",
     "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",

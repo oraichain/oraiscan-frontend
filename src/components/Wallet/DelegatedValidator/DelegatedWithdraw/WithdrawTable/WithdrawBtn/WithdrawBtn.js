@@ -22,6 +22,20 @@ import styles from "./WithdrawBtn.scss";
 
 const cx = cn.bind(styles);
 
+yup.addMethod(yup.number, "lessThanNumber", function(amount) {
+	return this.test({
+		name: "test-name",
+		exclusive: false,
+		message: "Transfer amount must be greater than 0 and less than your account's amount",
+		test(value) {
+			if (_.isNaN(value)) {
+				return true;
+			}
+			return value >= 0 && value <= parseFloat(amount);
+		},
+	});
+});
+
 const dialogStyles = theme => ({
 	root: {
 		margin: 0,
