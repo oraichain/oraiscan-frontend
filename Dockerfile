@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-COPY .env.example .env
+CP .env.example .env
 RUN npm run build:prod
 RUN npm install -g serve
 
