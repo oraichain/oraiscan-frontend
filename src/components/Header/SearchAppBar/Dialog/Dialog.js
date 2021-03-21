@@ -115,7 +115,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							amount: [
 								{
 									denom: "orai",
-									amount: v.amount * 1000000,
+									amount: new BigNumber(v.amount).multipliedBy(1000000),
 								},
 							],
 						},
@@ -131,7 +131,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							amount: [
 								{
 									denom: "orai",
-									amount: data.sendAmount * 1000000,
+									amount: new BigNumber(data.sendAmount).multipliedBy(1000000),
 								},
 							],
 						},
