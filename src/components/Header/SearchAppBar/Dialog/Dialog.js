@@ -81,18 +81,19 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	});
 
 	const methods = useForm({
-		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
+		// resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
 	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
 
 	const onSubmit = data => {
-		if (data && data.sendAmount <= 0) {
-			setError("sendAmount", {
-				type: "greater_than_0",
-				message: "Transfer amount must be greater than 0 and less than your account's amount",
-			});
-		}
+		// if (data && (data.sendAmount <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) {
+		// 	setError("sendAmount", {
+		// 		type: "greater_than_0",
+		// 		message: "Transfer amount must be greater than 0 and less than your account's amount",
+		// 	});
+		// 	return;
+		// }
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",
