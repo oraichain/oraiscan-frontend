@@ -11,6 +11,7 @@ import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
+import consts from "src/constants/consts";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
@@ -39,7 +40,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 
-	const {errors, setValue} = methods;
+	const {errors, setValue, getValues} = methods;
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -159,6 +160,17 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 		);
 	};
 
+	const handleClickEndAdornment = () => {
+		const form = getValues();
+		if (form.recipientAddress) {
+			const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
+			const newWindow = window.open(url, "_blank");
+			if (newWindow) {
+				newWindow.opener = null;
+			}
+		}
+	};
+
 	return (
 		<form className={cx("form-dialog")}>
 			<div className={cx("switch-multisend")}>
@@ -180,7 +192,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</div>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
-						<InputTextWithIcon name='recipientAddress' required errorobj={errors} />
+						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label", "label-right")}>
