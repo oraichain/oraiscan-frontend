@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 const Transaction = memo(({account = "", minHeight = 222}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
+	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
 		path: path,
