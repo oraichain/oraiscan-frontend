@@ -97,6 +97,6 @@ export default function(txType) {
 			return "Report";
 
 		default:
-			return txType.replace("cosmos-sdk/", "");
+			return txType.replace("cosmos-sdk/Msg", "");
 	}
 }
