@@ -13,6 +13,7 @@ import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
+import axios from "axios";
 import {reduceString} from "src/lib/scripts";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
@@ -80,18 +81,19 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	});
 
 	const methods = useForm({
-		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
+		// resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
 	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
 
 	const onSubmit = data => {
-		if (data && data.sendAmount <= 0) {
-			setError("sendAmount", {
-				type: "greater_than_0",
-				message: "Transfer amount must be greater than 0 and less than your account's amount",
-			});
-		}
+		// if (data && (data.sendAmount <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) {
+		// 	setError("sendAmount", {
+		// 		type: "greater_than_0",
+		// 		message: "Transfer amount must be greater than 0 and less than your account's amount",
+		// 	});
+		// 	return;
+		// }
 		const myKeystation = new Keystation({
 			client: process.env.REACT_APP_WALLET_API,
 			lcd: "https://lcd.orai.io",
@@ -113,7 +115,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							amount: [
 								{
 									denom: "orai",
-									amount: v.amount * 1000000,
+									amount: new BigNumber(v.amount).multipliedBy(1000000),
 								},
 							],
 						},
@@ -129,7 +131,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 							amount: [
 								{
 									denom: "orai",
-									amount: data.sendAmount * 1000000,
+									amount: new BigNumber(data.sendAmount).multipliedBy(1000000),
 								},
 							],
 						},
@@ -185,10 +187,16 @@ export default function FormDialog({show, handleClose, address, account, amount,
 					})
 				);
 				setIsLoading(true);
-				setTimeout(() => {
-					history.push(`/txs/${e.data.txhash}`);
-					setIsLoading(false);
-				}, 7000);
+				const checkTimeout = async () => {
+					const result = await axios.get(`${consts.API_BASE}${consts.API.TX}/${e.data.txhash}`);
+					if (!result || !result.data || !result.data.result) {
+						setTimeout(checkTimeout, 2000);
+					} else {
+						history.push(`/txs/${e.data.txhash}`);
+						setIsLoading(false);
+					}
+				};
+				setTimeout(checkTimeout, 2000);
 				handleClose();
 			}
 		};
