@@ -78,3 +78,13 @@
 		}
 	}
 }
+
+.skeleton {
+	&-block {
+		display: block;
+	}
+
+	&-inline {
+		display: inline-block;
+	}
+}
