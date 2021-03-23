@@ -13,41 +13,49 @@ import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./TransactionCard.scss";
 
-const TransactionCard = memo(({account = "", minHeight = 222}) => {
+const TransactionCard = memo(({account = ""}) => {
 	const cx = classNames.bind(styles);
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [pageId, setPageId] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
-	const [path, setPath] = useState(`${basePath}&page_id=1`);
+	const path = `${basePath}&page_id=${pageId}`;
+
 	const {data} = useGet({
 		path: path,
 	});
 
-	if (!data || typeof data === "string") {
-		return isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
-	}
-
-	const totalPages = data?.page?.total_page ?? 0;
-	const currentPage = data?.page?.page_id ?? 1;
-
 	const onPageChange = page => {
-		setPath(`${basePath}&page_id=${page}`);
+		setPageId(page);
 	};
 
-	const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
+	let tableSection;
+	let paginationSection;
+
+	if (!data || typeof data === "string") {
+		return isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
+	} else {
+		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
+			setTotalPages(data.page.total_page);
+		}
+
+		if (Array.isArray(data?.data) && data.data.length > 0) {
+			tableSection = isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />;
+		} else {
+			const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
+			tableSection = <EmptyTable columns={columns} />;
+		}
+
+		paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	}
 
 	return (
 		<div className={cx("transaction-card")}>
 			<div className={cx("transaction-card-header")}>Transactions</div>
-			<div className={cx("transaction-card-body")} style={{minHeight: minHeight + "px"}}>
-				{Array.isArray(data?.data) && data.data.length > 0 ? (
-					<>
-						{isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />}
-						{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-					</>
-				) : (
-					<EmptyTable columns={columns} />
-				)}
+			<div className={cx("transaction-card-body")}>
+				{tableSection}
+				{paginationSection}
 			</div>
 		</div>
 	);

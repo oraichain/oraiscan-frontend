@@ -5,45 +5,35 @@ import classNames from "classnames/bind";
 
 import Address from "src/components/common/Address";
 import QRCode from "src/components/common/QRCode";
-import closeIcon from "src/assets/common/close_ic.svg";
 import styles from "./AddressCard.scss";
 
-const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, minHeight = 220}) => {
-	const bgColor = "#FFFFFF";
-	const fgColor = "#1B57F0";
-	const cx = classNames.bind(styles);
+const BG_COLOR = "#FFFFFF";
+const FG_COLOR = "#1B57F0";
+const cx = classNames.bind(styles);
+
+const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses}) => {
 	const [open, setOpen] = useState(false);
 	const value = qrValue ? qrValue : addresses?.[0]?.value ?? "";
+
 	const handleCloseModal = () => {
 		setOpen(false);
 	};
 
 	return (
-		<div className={cx("address-card")} style={{minHeight: minHeight + "px"}}>
+		<div className={cx("address-card")}>
 			<div className={cx("address-card-header")}>
-				{headerIcon ? (
-					<img
-						src={headerIcon}
-						alt=''
-						className={cx("header-icon")}
+				<div className={cx("qr-icon")} style={{backgroundColor: FG_COLOR}}>
+					<QRCodeReact
+						value={value}
+						size={20}
+						renderAs='svg'
 						onClick={() => {
 							setOpen(true);
 						}}
+						bgColor={BG_COLOR}
+						fgColor={FG_COLOR}
 					/>
-				) : (
-					<div className={cx("qr-icon")} style={{backgroundColor: fgColor}}>
-						<QRCodeReact
-							value={value}
-							size={20}
-							renderAs='svg'
-							onClick={() => {
-								setOpen(true);
-							}}
-							bgColor={bgColor}
-							fgColor={fgColor}
-						/>
-					</div>
-				)}
+				</div>
 
 				<span className={cx("header-title")}>{headerTitle}</span>
 			</div>

@@ -220,7 +220,6 @@ const ValidatorTable = memo(({data = []}) => {
 					<div className={cx("logo-brand")}>
 						<img src={logoBrand.filter(it => item.operator_address === it.operatorAddress)[0]?.logo} width={32} height={32} className={cx("logo")} />
 						<div className={cx("brand")}>{item.moniker}</div>
-						{console.log(item.operator_address)}
 					</div>
 				</NavLink>
 			) : (

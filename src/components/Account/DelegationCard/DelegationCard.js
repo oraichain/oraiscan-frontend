@@ -15,7 +15,7 @@ import styles from "./DelegationCard.scss";
 
 const cx = classNames.bind(styles);
 
-const DelegationCard = memo(({account = 0, minHeight = 222}) => {
+const DelegationCard = memo(({account = ""}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -46,7 +46,7 @@ const DelegationCard = memo(({account = 0, minHeight = 222}) => {
 	return (
 		<div className={cx("delegation-card")}>
 			<div className={cx("delegation-card-header")}>Delegations</div>
-			<div className={cx("delegation-card-body")} style={{minHeight: minHeight + "px"}}>
+			<div className={cx("delegation-card-body")}>
 				{tableSection}
 				{paginationSection && paginationSection}
 			</div>

@@ -6,6 +6,10 @@
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
+	.denom {
+		text-transform: uppercase;
+	}
+
 	.unit-price,
 	.total-price {
 		text-align: right;
@@ -76,42 +80,69 @@
 	}
 
 	.chart-comments {
-		margin-top: 16px;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-around;
-	}
+		align-items: center;
+		width: 100%;
+		margin-top: 20px;
 
-	.chart-comment {
-		margin-bottom: 16px;
-
-		&-color {
-			margin-right: 10px;
-			width: 12px;
-			height: 12px;
-			border-radius: 100%;
+		@media screen and (min-width: 960px) {
+			margin-top: 0;
 		}
 
-		&-text {
-			color: #181818;
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 14px;
-			line-height: 150%;
-		}
+		.chart-comment-group {
+			display: inline-flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
 
-		&-value {
-			color: #181818;
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: 500;
-			font-size: 16px;
-			line-height: 150%;
+			.chart-comment {
+				display: inline-flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+
+				&:first-child {
+					margin-bottom: 15px;
+				}
+
+				&-icon {
+					width: 12px;
+					height: 12px;
+					margin-right: 10px;
+					border-radius: 100%;
+					background-color: #0278ae;
+				}
+
+				&-label {
+					color: #181818;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 14px;
+					line-height: 150%;
+				}
+
+				&-value {
+					color: #181818;
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: 500;
+					font-size: 16px;
+					line-height: 150%;
+				}
+			}
 		}
 	}
 }
 
-.uppercase {
-	text-transform: uppercase;
+.skeleton {
+	&-block {
+		display: block;
+	}
+
+	&-inline {
+		display: inline-block;
+	}
 }

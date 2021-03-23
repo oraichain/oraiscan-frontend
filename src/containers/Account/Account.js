@@ -1,32 +1,28 @@
-import React, {useState, useRef} from "react";
+import React from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
-import Snackbar from "@material-ui/core/Snackbar";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "react-loading-skeleton";
 import cn from "classnames/bind";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import copy from "copy-to-clipboard";
-
 import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import AddressCard from "src/components/common/AddressCard";
+import AddressCardSkeleton from "src/components/common/AddressCard/AddressCardSkeleton";
 import CoinsCard from "src/components/common/CoinsCard";
+import CoinsCardSkeleton from "src/components/common/CoinsCard/CoinsCardSkeleton";
 import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import TransactionCard from "src/components/Account/TransactionCard";
 import styles from "./Account.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
-import questionIcon from "src/assets/common/question_ic.svg";
 
 const Account = props => {
 	const dispatch = useDispatch();
-
-	const addressCardMinHeight = 220;
-	const coinsCardMinHeight = 220;
 
 	const cx = cn.bind(styles);
 	const account = props?.match?.params?.account ?? 0;
@@ -70,63 +66,68 @@ const Account = props => {
 		},
 	];
 
-	const skeletonAddresses = [
-		{
-			title: "Address",
-			icon: copyIcon,
-			value: <Skeleton />,
-			onClick: function() {},
-		},
-		{
-			title: "Reward Address",
-			icon: copyIcon,
-			value: <Skeleton />,
-			onClick: function() {},
-		},
-	];
+	let titleSection;
+	let addressCard;
+	let coinsCard;
+	let delegationCard;
+	let unbondingCard;
+	let transactionCard;
+
+	titleSection = (
+		<TitleWrapper>
+			<PageTitle title={"Account Detail"} />
+			<StatusBox />
+		</TitleWrapper>
+	);
+
+	if (addressData) {
+		addressCard = <AddressCard headerTitle='QR Code' addresses={addresses} />;
+	} else {
+		addressCard = <AddressCardSkeleton />;
+	}
+
+	if (coinsData) {
+		coinsCard = (
+			<CoinsCard
+				total={coinsData.total}
+				price={coinsData.price}
+				available={coinsData.available}
+				delegated={coinsData.delegated}
+				unbonding={coinsData.unbonding}
+				reward={coinsData.reward + coinsData.commission}
+				denom={consts.DENOM}
+			/>
+		);
+	} else {
+		coinsCard = <CoinsCardSkeleton />;
+	}
+
+	delegationCard = <DelegationCard account={account} />;
+	unbondingCard = <UnbondingCard account={account} />;
+	transactionCard = <TransactionCard account={account} />;
 
 	return (
 		<Container fixed className={cx("account")}>
-			<TitleWrapper>
-				<PageTitle title={"Account Detail"} />
-				<StatusBox />
-			</TitleWrapper>
+			{titleSection}
 			<Grid container spacing={2} className={cx("card-list")}>
 				<Grid item lg={4} xs={12}>
-					{addressData ? (
-						<AddressCard headerTitle='QR Code' addresses={addresses} minHeight={addressCardMinHeight} />
-					) : (
-						<AddressCard headerTitle='QR Code' qrValue='Loading' addresses={skeletonAddresses} minHeight={addressCardMinHeight} />
-					)}
+					{addressCard}
 				</Grid>
 
 				<Grid item lg={8} xs={12}>
-					{coinsData ? (
-						<CoinsCard
-							total={coinsData.total}
-							price={coinsData.price}
-							available={coinsData.available}
-							delegated={coinsData.delegated}
-							unbonding={coinsData.unbonding}
-							reward={coinsData.reward + coinsData.commission}
-							denom={consts.DENOM}
-							minHeight={coinsCardMinHeight + "px"}
-						/>
-					) : (
-						<Skeleton variant='rect' animation='wave' height={coinsCardMinHeight} />
-					)}
+					{coinsCard}
 				</Grid>
 			</Grid>
 
 			<Grid container spacing={2}>
 				<Grid item lg={6} xs={12}>
-					<DelegationCard account={account} />
+					{delegationCard}
 				</Grid>
 				<Grid item lg={6} xs={12}>
-					<UnbondingCard account={account} />
+					{unbondingCard}
 				</Grid>
 				<Grid item xs={12}>
-					<TransactionCard account={account} />
+					{transactionCard}
 				</Grid>
 			</Grid>
 		</Container>
