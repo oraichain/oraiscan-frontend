@@ -39,7 +39,7 @@
 				}
 
 				.emails {
-					flex-basis: 40%;
+					flex-basis: 60%;
 
 					@include media("<small") {
 						width: 100%;
@@ -77,7 +77,7 @@
 						width: 100%;
 					}
 
-					color: #e7eef8;
+					color: #acc7f2;
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;

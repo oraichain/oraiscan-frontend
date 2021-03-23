@@ -6,7 +6,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Account/DelegationTable/DelegationTable";
 import styles from "./DelegationTable.scss";
 
-const DelegationTableSkeleton = memo(({rows = 10}) => {
+const DelegationTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];

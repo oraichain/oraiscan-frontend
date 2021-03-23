@@ -6,6 +6,11 @@ import {useTheme} from "@material-ui/core/styles";
 
 import classNames from "classnames/bind";
 import styles from "./Footer.scss";
+import iconTwitter from "src/assets/footer/icon-twitter 1.svg";
+import iconTelegram from "src/assets/footer/icon-telegram 1.svg";
+import iconCoinGecko from "src/assets/footer/icon-coingecko 1.svg";
+import iconMedium from "src/assets/footer/icon-medium 1.svg";
+import iconCoinMarketCap from "src/assets/footer/icon-coinmarketcap 1.svg";
 
 const Footer = memo(() => {
 	const cx = classNames.bind(styles);
@@ -69,16 +74,11 @@ const Footer = memo(() => {
 										<div className={cx("email-address")}>contact@orai.io</div>
 									</div>
 
-									<div className={cx("email")}>
-										<div className={cx("email-function")}>Technical Support</div>
-										<div className={cx("email-address")}>support@orai.io</div>
+									<div className={cx("address")}>
+										<p>We can be mailed at:</p>
+										<p>Oraichain Pte. Ltd.</p>
+										<p>68 Circular Road, #02-01, 049422, Singapore</p>
 									</div>
-								</div>
-
-								<div className={cx("address")}>
-									<p>We can be mailed at:</p>
-									<p>Oraichain Pte. Ltd.</p>
-									<p>68 Circular Road, #02-01, 049422, Singapore</p>
 								</div>
 							</div>
 
@@ -110,13 +110,13 @@ const Footer = memo(() => {
 								<ul className={cx("nav")}>
 									<li className={cx("nav-title")}>Product</li>
 									<li className={cx("nav-item")}>
-										<a href='https://liquidity.orai.io/' target='_blank'>
-											LME
+										<a href='https://scan.orai.io/' target='_blank'>
+											LMP
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a href='https://scan.orai.io/' target='_blank'>
-											Testnet
+										<a href='https://liquidity.orai.io/' target='_blank'>
+											LME
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
@@ -126,7 +126,12 @@ const Footer = memo(() => {
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://market.orai.io/oscript' target='_blank'>
-											Marketpalce
+											Marketplace
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a href='https://scan.orai.io/' target='_blank'>
+											Oraiscan
 										</a>
 									</li>
 								</ul>
@@ -135,27 +140,27 @@ const Footer = memo(() => {
 									<li className={cx("nav-title")}>Official Channels</li>
 									<li className={cx("nav-item")}>
 										<a href='https://twitter.com/oraichain' target='_blank'>
-											Twitter
+											<img src={iconTwitter}></img> Twitter
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://t.me/oraichain' target='_blank'>
-											Telegram
+											<img src={iconTelegram}></img> Telegram
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://www.coingecko.com/en/coins/oraichain-token' target='_blank'>
-											Coingecko
-										</a>
-									</li>
-									<li className={cx("nav-item")}>
-										<a href='https://coinmarketcap.com/currencies/oraichain-token/' target='_blank'>
-											CoinMarketCap
+											<img src={iconCoinGecko}></img> Coingecko
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://medium.com/oraichain' target='_blank'>
-											Medium
+											<img src={iconMedium}></img> Medium
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a href='https://coinmarketcap.com/currencies/oraichain-token/' target='_blank'>
+											<img src={iconCoinMarketCap}></img> CoinMarketCap
 										</a>
 									</li>
 								</ul>
@@ -170,7 +175,7 @@ const Footer = memo(() => {
 				<div className={cx("footer-bottom")}>
 					<Container fixed>
 						<div className={cx("content")}>
-							<div className={cx("copyright")}>©2021 Oraichain Pte. Ltd. All rights reserved.</div>
+							<div className={cx("copyright")}>©2020 Oraichain Pte. Ltd. All rights reserved. Privacy Policy Customer Support</div>
 							<ul className={cx("nav")}>
 								<li className={cx("nav-item")}>
 									<a href='https://orai.io/privacy' target='_blank'>

@@ -24,38 +24,40 @@ const ChartCardSkeleton = memo(({data}) => {
 			<div className={cx("chart-card-footer")}>
 				<div className={cx("chart-comment-group")}>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.AVAILABLE}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.YES}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Available</div>
+							<div className={cx("chart-comment-label")}>Yes</div>
 							<div className={cx("chart-comment-value")}>
 								<Skeleton className={cx("skeleton")} variant='text' width={53} height={24} />
 							</div>
 						</div>
 					</div>
+
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.DELEGATED}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.NO}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Delegated</div>
+							<div className={cx("chart-comment-label")}>No</div>
 							<div className={cx("chart-comment-value")}>
 								<Skeleton className={cx("skeleton")} variant='text' width={53} height={24} />
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div className={cx("chart-comment-group")}>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.UNBONDING}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.NO_WITH_VETO}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Unbonding</div>
+							<div className={cx("chart-comment-label")}>NoWithVeto</div>
 							<div className={cx("chart-comment-value")}>
 								<Skeleton className={cx("skeleton")} variant='text' width={53} height={24} />
 							</div>
 						</div>
 					</div>
 					<div className={cx("chart-comment")}>
-						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.REWARD}}></div>
+						<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.ABSTAIN}}></div>
 						<div className={cx("chart-comment-info")}>
-							<div className={cx("chart-comment-label")}>Reward</div>
+							<div className={cx("chart-comment-label")}>Abstain</div>
 							<div className={cx("chart-comment-value")}>
 								<Skeleton className={cx("skeleton")} variant='text' width={53} height={24} />
 							</div>
