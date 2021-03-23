@@ -140,27 +140,27 @@ const Footer = memo(() => {
 									<li className={cx("nav-title")}>Official Channels</li>
 									<li className={cx("nav-item")}>
 										<a href='https://twitter.com/oraichain' target='_blank'>
-											<img src={iconTwitter}></img> Twitter
+											<img src={iconTwitter}></img>Twitter
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://t.me/oraichain' target='_blank'>
-											<img src={iconTelegram}></img> Telegram
+											<img src={iconTelegram}></img>Telegram
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://www.coingecko.com/en/coins/oraichain-token' target='_blank'>
-											<img src={iconCoinGecko}></img> Coingecko
+											<img src={iconCoinGecko}></img>Coingecko
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://medium.com/oraichain' target='_blank'>
-											<img src={iconMedium}></img> Medium
+											<img src={iconMedium}></img>Medium
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a href='https://coinmarketcap.com/currencies/oraichain-token/' target='_blank'>
-											<img src={iconCoinMarketCap}></img> CoinMarketCap
+											<img src={iconCoinMarketCap}></img>CoinMarketCap
 										</a>
 									</li>
 								</ul>
