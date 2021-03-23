@@ -80,5 +80,11 @@
 }
 
 .skeleton {
-	display: block;
+	&-block {
+		display: block;
+	}
+
+	&-inline {
+		display: inline-block;
+	}
 }
