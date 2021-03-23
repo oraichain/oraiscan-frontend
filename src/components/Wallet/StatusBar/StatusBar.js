@@ -27,11 +27,9 @@ export default function() {
 	useEffect(() => {
 		if (loading === false) setLoadingComplete(true);
 	});
-
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
-	const [reFetchAmount, setReFetchAmount] = useState(0);
-	const amount = data?.data?.balances?.[0]?.amount ?? 0;
-	const denom = data?.data?.balances?.[0]?.denom ?? "ORAI";
+	const amount = data?.balances?.[0]?.amount ?? 0;
+	const denom = data?.balances?.[0]?.denom ?? "ORAI";
 	const [isZoom, setIsZoom] = useState(false);
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -40,7 +38,6 @@ export default function() {
 	}, [address]);
 
 	const handleRefeshAccount = () => {
-		setReFetchAmount(prev => prev + 1);
 		setLoadingComplete(false);
 		refetch();
 		dispatch(
@@ -61,8 +58,39 @@ export default function() {
 			.toFormat(2);
 	};
 
-	let element;
-	element = (
+	let balanceElement;
+
+	if (!data) {
+		balanceElement = (
+			<div>
+				<div className={cx("balance")}>
+					<Skeleton className={cx("skeleton-inline")} variant='text' width={121} height={27} />
+				</div>
+				<div className={cx("orai2usd")}>
+					<Skeleton className={cx("skeleton-inline")} variant='text' width={67} height={24} />
+				</div>
+			</div>
+		);
+		if (loadingComplete)
+			balanceElement = (
+				<div>
+					<div className={cx("balance")}>-</div>
+					<div className={cx("orai2usd")}>-</div>
+				</div>
+			);
+	} else {
+		balanceElement = (
+			<div>
+				{formatOrai(amount || 0) + "  "}
+				<span className={cx("symbol")}>{denom}</span>
+				<div className={cx("orai2usd")}>
+					<ExchangeIcon /> {formatUSD()} USD
+				</div>
+			</div>
+		);
+	}
+
+	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>
 			<Grid item md={6} sm={12} xs={12}>
 				<div className={cx("card")}>
@@ -93,31 +121,7 @@ export default function() {
 			<Grid item md={3} sm={6} xs={6}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Balance</div>
-					<div className={cx("balance")}>
-						{!data?.data && loadingComplete ? (
-							<div>
-								<div className={cx("balance")}>-</div>
-								<div className={cx("orai2usd")}>-</div>
-							</div>
-						) : (
-							<div>
-								<div className={cx("balance")}>
-									<Skeleton className={cx("skeleton-inline")} variant='text' width={121} height={27} />
-								</div>
-								<div className={cx("orai2usd")}>
-									<Skeleton className={cx("skeleton-inline")} variant='text' width={67} height={24} />
-								</div>
-							</div>
-						)}
-						{data?.data && formatOrai(amount || 0) && (
-							<div>
-								<span className={cx("symbol")}>{denom}</span>
-								<div className={cx("orai2usd")}>
-									<ExchangeIcon /> {formatUSD()} USD
-								</div>
-							</div>
-						)}
-					</div>
+					<div className={cx("balance")}>{balanceElement}</div>
 					<div className={cx("footer")} onClick={handleRefeshAccount}>
 						<img src={require("../../../assets/wallet/refresh.svg")} style={{marginRight: 5}} /> Refresh
 					</div>
@@ -142,5 +146,4 @@ export default function() {
 			<QRCode open={isZoom} onClose={handleCloseModal} address={address} />
 		</Grid>
 	);
-	return element;
 }
