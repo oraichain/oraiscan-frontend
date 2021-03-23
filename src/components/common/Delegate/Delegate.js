@@ -4,24 +4,34 @@ import {useForm, FormProvider} from "react-hook-form";
 import {withStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
+import {Divider} from "antd";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import Keystation from "src/lib/Keystation";
 import styles from "./Delegate.scss";
+import "./Delegate.css";
 
 const cx = cn.bind(styles);
+
+const TABS = [
+	{
+		name: "Delegate",
+		id: 1,
+	},
+	{
+		name: "Reward Calculator",
+		id: 2,
+	},
+];
 
 yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	return this.test({
@@ -37,36 +47,12 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	});
 });
 
-const dialogStyles = theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2),
-	},
-	closeButton: {
-		position: "absolute",
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500],
-	},
-});
-
-const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant='h5'>{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label='close' className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	);
-});
-
 const DialogContent = withStyles(theme => ({
 	root: {
-		padding: theme.spacing(2),
+		padding: "0 30px",
+	},
+	"root:fist-child": {
+		"padding-top": "0",
 	},
 }))(MuiDialogContent);
 
@@ -87,12 +73,20 @@ const calculateAmount = (balance, percent) => {
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
+	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [balanceInfo, , , , setUrl] = useFetch();
+	const [activeTabId, setActiveTabId] = useState(1);
 	const percents = [25, 50, 75, 100];
 
 	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
 	// const balance = new BigNumber("3817852419082");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
+	const formatUSD = () => {
+		return new BigNumber(balance)
+			.dividedBy(1000000)
+			.multipliedBy(orai2usd)
+			.toFormat(2);
+	};
 
 	useEffect(() => {
 		address && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
@@ -185,6 +179,63 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 		};
 	}, []);
 
+	const renderTab = id => {
+		if (id === 1) {
+			return (
+				<form>
+					<DialogContent>
+						<div className={cx("delegate-title")}>Delegate for this validator</div>
+						<div className={cx("balance-title")}>Balance</div>
+						<div className={cx("space-between", "balance-row")}>
+							<div className={cx("left")}>
+								{" "}
+								{calculateAmount(balance, 100)} {denom}{" "}
+							</div>
+							<div className={cx("right")}>
+								{" "}
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD()} </span>
+							</div>
+						</div>
+						<Divider />
+						<div className={cx("space-between")}>
+							<label htmlFor='amount' className={cx("label")}>
+								Amount (ORAI)
+							</label>
+							<div className={cx("percent-buttons")}>
+								{percents.map(value => (
+									<button
+										type='button'
+										className={cx("btn", "btn-outline-primary", "m-2")}
+										onClick={() => {
+											setValue("amount", calculateAmount(balance, value));
+											clearErrors();
+										}}>
+										{value + "%"}
+									</button>
+								))}
+							</div>
+						</div>
+						<div className={cx("form-field")}>
+							<InputNumberOrai name='amount' required errorobj={errors} />
+						</div>
+					</DialogContent>
+					<DialogActions>
+						<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
+							Cancel
+						</button>
+						<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
+							Delegate
+						</button>
+					</DialogActions>
+				</form>
+			);
+		}
+
+		if (id === 2) {
+			return <> aaaaaaa </>;
+		}
+	};
+
 	return (
 		<div className={cx("delegate")}>
 			<button type='button' className={cx("btn", "btn-outline-primary")} onClick={openDialog} disabled={!operatorAddress || operatorAddress === "--"}>
@@ -192,44 +243,18 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			</button>
 
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
-				<FormProvider {...methods}>
-					<form>
-						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Delegate for this validator
-						</DialogTitle>
-						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
-						</DialogContent>
-						<DialogActions>
-							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
-								Cancel
+				<div className={cx("tab-wrapper")}>
+					{TABS.map(({id, name}, index) => {
+						return (
+							<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
+								<p> {name} </p>
 							</button>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Delegate
-							</button>
-						</DialogActions>
-					</form>
-				</FormProvider>
+						);
+					})}
+				</div>
+				<div className={cx("content-tab", "delegate-dialog")}>
+					<FormProvider {...methods}>{renderTab(activeTabId)}</FormProvider>
+				</div>
 			</Dialog>
 		</div>
 	);
