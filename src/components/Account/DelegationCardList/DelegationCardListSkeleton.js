@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
 import styles from "./DelegationCardList.scss";
 
-const DelegationCardListSkeleton = memo(({rows = 10}) => {
+const DelegationCardListSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
 
 	let delegationCardListItems = [];

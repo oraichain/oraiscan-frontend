@@ -1,17 +1,5 @@
 @import "src/styles/utils";
 
-.validator-header-cell,
-.height-header-cell,
-.amount-header-cell,
-.completion-time-header-cell {
-	color: #1b57f0;
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 150%;
-}
-
 .align-left {
 	text-align: left;
 }
@@ -20,7 +8,12 @@
 	text-align: right;
 }
 
-.validator-data-cell {
+.align-center {
+	text-align: center;
+}
+
+.validator-data-cell,
+.height-data-cell {
 	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
@@ -29,24 +22,24 @@
 	line-height: 150%;
 }
 
-.height-data-cell,
 .amount-data-cell {
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 150%;
+	.amount {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
 
-	& > span:nth-child(1) {
-		display: inline-block;
-		margin-right: 4px;
-		color: #181818;
-	}
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+			color: #181818;
+		}
 
-	& > span:nth-child(2) {
-		display: inline-block;
-		color: #5f51ff;
-		text-transform: uppercase;
+		&-denom {
+			display: inline-block;
+			color: #5f51ff;
+		}
 	}
 }
 
@@ -57,13 +50,21 @@
 	font-size: 12px;
 	line-height: 150%;
 
-	& > span:nth-child(1) {
-		display: block;
+	.date-time {
 		color: #181818;
 	}
 
-	& > span:nth-child(2) {
-		display: block;
+	.remaining {
 		color: #9a9a9a;
+	}
+}
+
+.skeleton {
+	&-block {
+		display: block;
+	}
+
+	&-inline-block {
+		display: inline-block;
 	}
 }

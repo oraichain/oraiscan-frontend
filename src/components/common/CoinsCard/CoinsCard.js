@@ -6,7 +6,14 @@ import DonutChart from "react-donut-chart";
 import BigNumber from "bignumber.js";
 import styles from "./CoinsCard.scss";
 
-const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom, minHeight = "220px"}) => {
+export const colors = {
+	DELEGATED: "#51ADCF",
+	UNBONDING: "#A5ECD7",
+	REWARD: "#FFBF9B",
+	AVAILABLE: "#0278AE",
+};
+
+const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom}) => {
 	const cx = classNames.bind(styles);
 
 	unbonding = new BigNumber(unbonding);
@@ -22,29 +29,24 @@ const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom, 
 	const rewardPercent = reward.dividedBy(total).multipliedBy(100);
 	const availablePercent = available.dividedBy(total).multipliedBy(100);
 
-	const delegatedColor = "#51ADCF";
-	const unbondingColor = "#A5ECD7";
-	const rewardColor = "#FFBF9B";
-	const availableColor = "#0278AE";
-
 	const calculateTotalPrice = (total, price) => {
 		return parseFloat(total) * parseFloat(price);
 	};
 
 	const totalPrice = useMemo(() => calculateTotalPrice(total / 1000000, price), [total, price]);
 	return (
-		<div className={cx("coins-card")} style={{minHeight: minHeight}}>
+		<div className={cx("coins-card")}>
 			<Grid container spacing={2}>
 				<Grid container item md={5} sm={12}>
 					<Grid item md={12} sm={6} xs={6}>
 						<div className={cx("total-orai-title")}>
-							Total <span className={cx("uppercase")}>{denom}</span>
+							Total <span className={cx("denom")}>{denom}</span>
 						</div>
 						<div className={cx("total-orai-value")}>{formatOrai(total)}</div>
 					</Grid>
 					<Grid item md={12} sm={6} xs={6}>
 						<div className={cx("unit-price")}>
-							${formatFloat(price, 2)} /<span className={cx("uppercase")}>{denom}</span>
+							${formatFloat(price, 2)} /<span className={cx("denom")}>{denom}</span>
 						</div>
 						<div className={cx("total-price")}>${formatFloat(totalPrice, 2)}</div>
 					</Grid>
@@ -64,50 +66,44 @@ const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom, 
 								{value: parseFloat(unbondingPercent), label: ""},
 								{value: parseFloat(rewardPercent), label: ""},
 							]}
-							colors={[availableColor, delegatedColor, unbondingColor, rewardColor]}
+							colors={[colors.AVAILABLE, colors.DELEGATED, colors.UNBONDING, colors.REWARD]}
 							strokeColor={false}
 						/>
 					</Grid>
-					<Grid container item md={7} xs={12} className={cx("chart-comments")}>
-						<div>
-							<div className={cx("chart-comment")}>
-								<div>
-									<div className={cx("chart-comment-color")} style={{background: availableColor}}></div>
+					<Grid container item md={7} xs={12}>
+						<div className={cx("chart-comments")}>
+							<div className={cx("chart-comment-group")}>
+								<div className={cx("chart-comment")}>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.AVAILABLE}}></div>
+									<div className={cx("chart-comment-info")}>
+										<div className={cx("chart-comment-label")}>Available</div>
+										<div className={cx("chart-comment-value")}>{formatFloat(availablePercent)}%</div>
+									</div>
 								</div>
-								<div>
-									<div className={cx("chart-comment-text")}>Available</div>
-									<div className={cx("chart-comment-value")}>{formatFloat(availablePercent)}%</div>
+
+								<div className={cx("chart-comment")}>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.DELEGATED}}></div>
+									<div className={cx("chart-comment-info")}>
+										<div className={cx("chart-comment-label")}>Delegated</div>
+										<div className={cx("chart-comment-value")}>{formatFloat(delegatedPercent)}%</div>
+									</div>
 								</div>
 							</div>
 
-							<div className={cx("chart-comment")}>
-								<div>
-									<div className={cx("chart-comment-color")} style={{background: delegatedColor}}></div>
+							<div className={cx("chart-comment-group")}>
+								<div className={cx("chart-comment")}>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.UNBONDING}}></div>
+									<div className={cx("chart-comment-info")}>
+										<div className={cx("chart-comment-label")}>Unbonding</div>
+										<div className={cx("chart-comment-value")}>{formatFloat(unbondingPercent)}%</div>
+									</div>
 								</div>
-								<div>
-									<div className={cx("chart-comment-text")}>Delegated</div>
-									<div className={cx("chart-comment-value")}>{formatFloat(delegatedPercent)}%</div>
-								</div>
-							</div>
-						</div>
-
-						<div>
-							<div className={cx("chart-comment")}>
-								<div>
-									<div className={cx("chart-comment-color")} style={{background: unbondingColor}}></div>
-								</div>
-								<div>
-									<div className={cx("chart-comment-text")}>Unbonding</div>
-									<div className={cx("chart-comment-value")}>{formatFloat(unbondingPercent)}%</div>
-								</div>
-							</div>
-							<div className={cx("chart-comment")}>
-								<div>
-									<div className={cx("chart-comment-color")} style={{background: rewardColor}}></div>
-								</div>
-								<div>
-									<div className={cx("chart-comment-text")}>Reward</div>
-									<div className={cx("chart-comment-value")}>{formatFloat(rewardPercent)}%</div>
+								<div className={cx("chart-comment")}>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.REWARD}}></div>
+									<div className={cx("chart-comment-info")}>
+										<div className={cx("chart-comment-label")}>Reward</div>
+										<div className={cx("chart-comment-value")}>{formatFloat(rewardPercent)}%</div>
+									</div>
 								</div>
 							</div>
 						</div>

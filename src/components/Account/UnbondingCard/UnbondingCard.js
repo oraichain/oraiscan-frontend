@@ -1,42 +1,65 @@
-import React, {memo} from "react";
+import React, {memo, useState} from "react";
 import {useGet} from "restful-react";
-import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import {_, reduceString} from "src/lib/scripts";
+import {_} from "src/lib/scripts";
 import UnbondingTable from "src/components/Account/UnbondingTable";
+import UnbondingTableSkeleton from "src/components/Account/UnbondingTable/UnbondingTableSkeleton";
+import UnbondingCardList from "src/components/Account/UnbondingCardList";
+import UnbondingCardListSkeleton from "src/components/Account/UnbondingCardList/UnbondingCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./UnbondingCard.scss";
 
-const UnbondingCard = memo(({account = 0, minHeight = 222}) => {
-	const cx = classNames.bind(styles);
+const cx = classNames.bind(styles);
+
+const UnbondingCard = memo(({account = ""}) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [pageId, setPageId] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 	const path = `${consts.API.UNBONDINGS}/${account}`;
 	const {data} = useGet({
 		path: path,
 	});
 
+	const onPageChange = page => {
+		setPageId(page);
+	};
+
+	let tableSection;
+	let paginationSection;
+
 	if (!data) {
-		return <Skeleton variant='rect' animation='wave' height={minHeight} />;
+		tableSection = isLargeScreen ? <UnbondingTableSkeleton /> : <UnbondingCardListSkeleton />;
+	} else {
+		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
+			setTotalPages(data.page.total_page);
+		}
+
+		if (Array.isArray(data?.data) && data.data.length > 0) {
+			tableSection = isLargeScreen ? <UnbondingTable data={data.data} /> : <UnbondingCardList data={data.data} />;
+		} else {
+			const columns = [
+				{title: "Validator", align: "left"},
+				{title: "Height", align: "right"},
+				{title: "Amount", align: "right"},
+				{title: "Completion Time", align: "right"},
+			];
+			tableSection = <EmptyTable columns={columns} />;
+		}
 	}
 
-	const totalPages = 1;
-	const currentPage = 1;
-	const onPageChange = page => {};
-	const columns = [{title: "Validator"}, {title: "Height"}, {title: "Amount"}, {title: "Completion Time"}];
+	paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("unbonding-card")}>
 			<div className={cx("unbonding-card-header")}>Unbondings</div>
-			<div className={cx("unbonding-card-body")} style={{minHeight: minHeight + "px"}}>
-				{Array.isArray(data?.data) && data.data.length > 0 ? (
-					<>
-						<UnbondingTable data={data.data} />
-						{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-					</>
-				) : (
-					<EmptyTable columns={columns} />
-				)}
+			<div className={cx("unbonding-card-body")}>
+				{tableSection}
+				{paginationSection}
 			</div>
 		</div>
 	);

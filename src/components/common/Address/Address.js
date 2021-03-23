@@ -12,7 +12,6 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 const cx = cn.bind(styles);
 
 const Address = memo(({address, showCopyIcon = true, size = "lg"}) => {
-	console.log(address);
 	const dispatch = useDispatch();
 
 	const checkPrefix = address => {
