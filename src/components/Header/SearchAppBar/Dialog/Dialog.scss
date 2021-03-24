@@ -17,6 +17,15 @@
 			font-size: 16px;
 		}
 	}
+	.new-label {
+		color: #949494;
+		font-size: 14px;
+		margin-top: 5px;
+		.open-dialog {
+			color: #008bd9;
+			cursor: pointer;
+		}
+	}
 }
 
 .transaction-content {
@@ -201,5 +210,107 @@
 	border-radius: 4px;
 	.textarea {
 		height: 400px !important;
+	}
+}
+
+.close {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	color: #f3574f;
+	margin-right: 5px;
+	margin-top: 5px;
+	margin-bottom: 1px;
+
+	&-icon {
+		display: inline-block;
+		height: 14px;
+		width: auto;
+		cursor: pointer;
+		margin: 5px;
+	}
+}
+
+.address-dialog {
+	width: 480px;
+	height: 334px;
+	padding-left: 30px;
+	font-weight: 500;
+	font-family: Roboto;
+	font-style: normal;
+	line-height: 150%;
+	color: #000000;
+	.address-dialog-header {
+		margin-bottom: 20px;
+		.title {
+			height: 36px;
+			font-size: 24px;
+		}
+	}
+	.address-dialog-label {
+		margin-bottom: 25px;
+		.label {
+			font-size: 18px;
+			margin-bottom: 10px;
+			height: 27px;
+		}
+		.input {
+			width: 420px;
+			height: 50px;
+			border: 1px solid #e7e7e7;
+			box-sizing: border-box;
+			padding-left: 15px;
+			font-size: 16px;
+			border-radius: 6px;
+			&::placeholder {
+				color: #cdcdcd;
+				opacity: 1; /* Firefox */
+			}
+
+			:-ms-input-placeholder {
+				/* Internet Explorer 10-11 */
+				color: #cdcdcd;
+			}
+
+			::-ms-input-placeholder {
+				/* Microsoft Edge */
+				color: #cdcdcd;
+			}
+		}
+	}
+	.address-dialog-value {
+		margin-bottom: 30px;
+		.address-label {
+			font-size: 18px;
+			margin-bottom: 5px;
+			height: 27px;
+		}
+		.address-value {
+			color: #181818;
+			font-size: 16px;
+			font-weight: normal;
+			height: 24px;
+		}
+	}
+	.address-dialog-footer {
+		.button-cancel {
+			cursor: pointer;
+			width: 200px;
+			height: 50px;
+			background: #ffffff;
+			border: 1px solid #008bd9;
+			box-sizing: border-box;
+			border-radius: 8px;
+			margin-right: 20px;
+			color: #008bd9;
+		}
+		.button-add {
+			cursor: pointer;
+			width: 200px;
+			height: 50px;
+			background: #00b1e9;
+			border-radius: 8px;
+			color: #ffffff;
+		}
 	}
 }

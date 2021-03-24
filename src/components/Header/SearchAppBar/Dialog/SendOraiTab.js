@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Grid from "@material-ui/core/Grid";
+import Dialog from "@material-ui/core/Dialog";
 import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
@@ -16,6 +17,7 @@ import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
+import CloseSVG from "src/assets/icons/close.svg";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
@@ -34,12 +36,64 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	});
 });
 
+const handleAddAddressToStorage = (name, address) => {
+	localStorage.setItem(address, name);
+};
+
+function AddAddressDialog(props) {
+	const {onClose, open, recipientAddress} = props;
+	const [name, setName] = useState("");
+	return (
+		<Dialog open={open}>
+			<div className={cx("close")} onClick={onClose}>
+				<img className={cx("close-icon")} src={CloseSVG} alt='Close' />
+			</div>
+			<div className={cx("address-dialog")}>
+				<div className={cx("address-dialog-header")}>
+					<div className={cx("title")}>Add address to contacts</div>
+				</div>
+
+				<div className={cx("address-dialog-label")}>
+					<div className={cx("label")}>Label</div>
+					<input
+						className={cx("input")}
+						type='text'
+						placeholder='03332...'
+						value={name}
+						onChange={e => {
+							setName(e.target.value);
+						}}
+					/>
+				</div>
+				<div className={cx("address-dialog-value")}>
+					<div className={cx("address-label")}>Address</div>
+					<div className={cx("address-value")}>{recipientAddress}</div>
+				</div>
+
+				<div className={cx("address-dialog-footer")}>
+					<button onClick={onClose} className={cx("button-cancel")}>
+						Cancel
+					</button>
+					<button
+						onClick={() => {
+							handleAddAddressToStorage(name, recipientAddress);
+							onClose();
+						}}
+						className={cx("button-add")}>
+						Add
+					</button>
+				</div>
+			</div>
+		</Dialog>
+	);
+}
+
 export default function FormDialog({address, amount, status, methods, handleInputMulti}) {
 	const [fee, setFee] = useState(0);
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
-
+	const [open, setOpen] = useState(false);
 	const {errors, setValue, getValues} = methods;
 
 	const setAmountValue = (e, rate) => {
@@ -171,6 +225,14 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 		}
 	};
 
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = value => {
+		setOpen(false);
+	};
+
 	return (
 		<form className={cx("form-dialog")}>
 			<div className={cx("switch-multisend")}>
@@ -192,7 +254,13 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</div>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
-						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
+						<InputTextWithIcon placeholder='03332...' name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
+						<div className={cx("new-label")}>
+							New address recognized!{" "}
+							<a className={cx("open-dialog")} onClick={handleClickOpen}>
+								Add them to your address book
+							</a>
+						</div>
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label", "label-right")}>
@@ -222,6 +290,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
+			<AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} />
 		</form>
 	);
 }
