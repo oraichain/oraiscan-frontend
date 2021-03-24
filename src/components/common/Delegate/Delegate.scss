@@ -1,5 +1,11 @@
 @import "src/styles/utils";
 
+@mixin font-delegate {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+}
+
 .btn {
 	display: inline-block;
 	padding: 8px 16px;
@@ -94,4 +100,124 @@
 	top: 46px;
 	left: 0;
 	color: #dc3545;
+}
+
+.delegate-title {
+	font-family: Roboto;
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.balance-title {
+	@include font-delegate;
+	margin-top: 10px;
+}
+
+.amount-reward {
+	margin-top: 10px;
+	.input {
+		font-family: Roboto;
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 2;
+	}
+}
+
+.balance-row {
+	.left {
+		font-family: Roboto;
+		font-size: 18px;
+		margin-top: 5px;
+	}
+	.uppercase {
+		text-transform: uppercase;
+	}
+	.right {
+		font-family: Roboto;
+		font-size: 18px;
+		margin-top: 5px;
+		display: flex;
+		align-items: center;
+		.dollar {
+			margin-left: 5px;
+		}
+	}
+}
+
+.amount-row {
+	margin-top: 20px;
+	.left {
+		@include font-delegate;
+	}
+	.right {
+		font-family: Roboto;
+		font-size: 18px;
+	}
+}
+
+.earning-row {
+	@include font-delegate;
+	margin-top: 25px;
+}
+
+.estimate-orai-row {
+	@include font-delegate;
+	color: #3cc526;
+	margin-top: 10px;
+}
+
+.estimate-dollar-row {
+	font-family: Roboto;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 30px;
+}
+
+.tab-wrapper {
+	display: flex;
+	flex-flow: row;
+	padding: 30px;
+
+	:nth-child(1) {
+		border-bottom-left-radius: 5px;
+		border-top-left-radius: 5px;
+	}
+
+	:nth-child(2) {
+		border-bottom-right-radius: 5px;
+		border-top-right-radius: 5px;
+	}
+
+	button {
+		width: 50%;
+		height: 100%;
+		border: solid 1px #222222;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #1b57f0;
+		cursor: pointer;
+
+		p {
+			font-family: "Open Sans", serif;
+			font-size: 18px;
+			font-weight: normal;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.36;
+			letter-spacing: normal;
+			text-align: left;
+			color: #000;
+			padding: 10px;
+			font-weight: 500;
+		}
+
+		&.selected {
+			background: #1b57f0;
+
+			p {
+				color: #ffffff;
+			}
+		}
+	}
 }
