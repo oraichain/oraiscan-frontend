@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -13,42 +13,60 @@ import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./TransactionCard.scss";
 
+const cx = classNames.bind(styles);
+const columns = [
+	{title: "TxHash", align: "left"},
+	{title: "Type", align: "left"},
+	{title: "Result", align: "center"},
+	{title: "Amount", align: "right"},
+	{title: "Fee", align: "right"},
+	{title: "Height", align: "right"},
+	{title: "Time", align: "right"},
+];
+
 const TransactionCard = memo(({account = ""}) => {
-	const cx = classNames.bind(styles);
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
 	const [pageId, setPageId] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
-	const path = `${basePath}&page_id=${pageId}`;
-
-	const {data} = useGet({
-		path: path,
-	});
+	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
+	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
+	const path = `${basePath}&page_id=${pageId}`;
+
+	const {data, loading, error} = useGet({
+		path: path,
+	});
+
 	let tableSection;
 	let paginationSection;
 
-	if (!data || typeof data === "string") {
-		return isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
+	if (loading) {
+		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
-		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
-			setTotalPages(data.page.total_page);
-		}
-
-		if (Array.isArray(data?.data) && data.data.length > 0) {
-			tableSection = isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />;
-		} else {
-			const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
+		if (error) {
+			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
-		}
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
 
-		paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
 	}
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("transaction-card")}>

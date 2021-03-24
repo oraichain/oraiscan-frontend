@@ -1,6 +1,5 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
-import Grid from "@material-ui/core/Grid";
 import styles from "./BlockMatrix.scss";
 import signedBlockIcon from "src/assets/validatorDetails/good_block.svg";
 import missedBlockIcon from "src/assets/validatorDetails/bad_block.svg";

@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -15,6 +15,15 @@ import TransactionCardListSkeleton from "src/components/ProposalDetails/Transact
 import styles from "./TransactionsCard.scss";
 
 const cx = classNames.bind(styles);
+const columns = [
+	{title: "TxHash", align: "left"},
+	{title: "Type", align: "left"},
+	{title: "Result", align: "center"},
+	{title: "Amount", align: "right"},
+	{title: "Fee", align: "right"},
+	{title: "Height", align: "right"},
+	{title: "Time", align: "right"},
+];
 
 // const voteTypes = {
 // 	ALL: 0,
@@ -29,7 +38,11 @@ const TransactionsCard = memo(({proposalId}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	// const [voteType, setVoteType] = useState(voteTypes.ALL);
 	const [pageId, setPageId] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
+	const totalPagesRef = useRef(null);
+
+	const onPageChange = page => {
+		setPageId(page);
+	};
 
 	const basePath = `${consts.API.PROPOSALS_TRANSACTIONS}/${proposalId}?limit=${consts.REQUEST.LIMIT}`;
 	let path;
@@ -39,13 +52,9 @@ const TransactionsCard = memo(({proposalId}) => {
 	// } else {
 	// 	path = `${basePath}&voteType=${voteType}&page_id=${pageId}`;
 	// }
-	const {data} = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
 	});
-
-	const onPageChange = page => {
-		setPageId(page);
-	};
 
 	let titleSection;
 	let filterSection;
@@ -54,7 +63,6 @@ const TransactionsCard = memo(({proposalId}) => {
 	let paginationSection;
 	let bodySection;
 
-	const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
 	// const filterData = [
 	// 	{
 	// 		label: "All",
@@ -84,7 +92,7 @@ const TransactionsCard = memo(({proposalId}) => {
 		titleSection = <></>;
 	}
 
-	if (!data) {
+	if (loading) {
 		// filterSection = <FilterSectionSkeleton />;
 		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
@@ -98,27 +106,25 @@ const TransactionsCard = memo(({proposalId}) => {
 		// 	/>
 		// );
 
-		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
-			setTotalPages(data.page.total_page);
-		}
-
-		if (Array.isArray(data?.txs) && data.txs.length > 0) {
-			tableSection = isLargeScreen ? <TransactionTable data={data.txs} /> : <TransactionCardList data={data.txs} />;
-		} else {
-			const columns = [
-				{title: "TxHash", align: "left"},
-				{title: "Type", align: "left"},
-				{title: "Result", align: "center"},
-				{title: "Amount", align: "right"},
-				{title: "Fee", align: "right"},
-				{title: "Height", align: "right"},
-				{title: "Time", align: "right"},
-			];
+		if (error) {
+			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.txs) && data.txs.length > 0) {
+				tableSection = isLargeScreen ? <TransactionTable data={data.txs} /> : <TransactionCardList data={data.txs} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
 		}
 	}
 
-	paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	headerSection = (
 		<div className={cx("transactions-card-header")}>
