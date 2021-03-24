@@ -37,7 +37,9 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 });
 
 const handleAddAddressToStorage = (name, address) => {
-	localStorage.setItem(address, name);
+	let storageData = JSON.parse(localStorage.getItem("address")) ?? {};
+	let newData = Object.assign(storageData, {[address]: name});
+	localStorage.setItem("address", JSON.stringify(newData));
 };
 
 function AddAddressDialog(props) {
