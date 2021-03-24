@@ -19,7 +19,7 @@ export const logoBrand = [
 	{
 		name: "QuantumSamORAI",
 		operatorAddress: "oraivaloper1znlxtk32ya99tsvgmclqk0q56a86606lsayl5x",
-		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912170/EBDBE2E3-FE99-47A7-97F5-939382C59083_-_Kyle_H_jvutzi.jpg",
+		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1616584319/ignis_swhde6.jpg",
 	},
 	{
 		name: "The_Firm_Community_Cookiefactory",
