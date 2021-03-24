@@ -80,6 +80,7 @@ export const logoBrand = [
 		name: "banana",
 		operatorAddress: "oraivaloper14nz2pqskfv9kcez8u0a9gnnsgwjerzqxpmne0y",
 		logo: aiIcon,
+		customLogo: true,
 	},
 	{
 		name: "g2_moniker",
@@ -90,5 +91,12 @@ export const logoBrand = [
 		name: "TetrisBlock",
 		operatorAddress: "oraivaloper17a8cjfd3yztf2clhecp6096394veg99elw576y",
 		logo: aiIcon,
+		customLogo: true,
+	},
+	{
+		name: "ebash.team",
+		operatorAddress: "oraivaloper1vzkxmksm22su8c9wqxp4sgepwzzc26th66rpfe",
+		logo: aiIcon,
+		customLogo: true,
 	},
 ];
