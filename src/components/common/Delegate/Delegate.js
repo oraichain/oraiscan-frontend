@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider} from "antd";
+import {Divider, Input} from "antd";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
@@ -70,22 +70,30 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress}) => {
+const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const [activeTabId, setActiveTabId] = useState(1);
+	const [rewardCalculator, setRewardCalculator] = useState({
+		amount: 0,
+		monthlyORAI: 0,
+		yearlyORAI: 0,
+	});
 	const percents = [25, 50, 75, 100];
 
 	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
 	// const balance = new BigNumber("3817852419082");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
-	const formatUSD = () => {
-		return new BigNumber(balance)
-			.dividedBy(1000000)
-			.multipliedBy(orai2usd)
-			.toFormat(2);
+	const formatUSD = (orai, divide = false) => {
+		if (divide) {
+			return new BigNumber(orai)
+				.dividedBy(1000000)
+				.multipliedBy(orai2usd)
+				.toFormat(2);
+		}
+		return new BigNumber(orai).multipliedBy(orai2usd).toFormat(2);
 	};
 
 	useEffect(() => {
@@ -179,6 +187,15 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 		};
 	}, []);
 
+	const handleRewardCalculate = e => {
+		const amount = e.target.value;
+		setRewardCalculator({
+			amount,
+			monthlyORAI: ((amount * estAPR * 30) / 365).toFixed(2),
+			yearlyORAI: (amount * estAPR).toFixed(2),
+		});
+	};
+
 	const renderTab = id => {
 		if (id === 1) {
 			return (
@@ -187,13 +204,13 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 						<div className={cx("delegate-title")}>Delegate for this validator</div>
 						<div className={cx("balance-title")}>Balance</div>
 						<div className={cx("space-between", "balance-row")}>
-							<div className={cx("left")}>
+							<div className={cx("left", "uppercase")}>
 								{" "}
 								{calculateAmount(balance, 100)} {denom}{" "}
 							</div>
 							<div className={cx("right")}>
 								{" "}
-								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD()} </span>
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(balance, true)} </span>
 							</div>
 						</div>
 						<Divider />
@@ -232,7 +249,42 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 		}
 
 		if (id === 2) {
-			return <> aaaaaaa </>;
+			const {amount, monthlyORAI, yearlyORAI} = rewardCalculator;
+			return (
+				<>
+					<DialogContent>
+						<div className={cx("delegate-title")}> Enter your ORAI amount </div>
+						<div className={cx("space-between", "amount-row")}>
+							<div className={cx("left")}>Amount (ORAI)</div>
+							<div className={cx("right")}>
+								{" "}
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(amount)} </span>
+							</div>
+						</div>
+						<div className={cx("amount-reward")}>
+							<Input className={cx("input")} onChange={handleRewardCalculate} />
+						</div>
+						<div className={cx("space-between", "earning-row")}>
+							<div className={cx("left")}> Monthly Earning </div>
+							<div className={cx("right")}> Yearly Earning </div>
+						</div>
+						<div className={cx("space-between", "estimate-orai-row")}>
+							<div className={cx("left")}> {monthlyORAI} ORAI </div>
+							<div className={cx("right")}> {yearlyORAI} ORAI </div>
+						</div>
+						<div className={cx("space-between", "estimate-dollar-row")}>
+							<div className={cx("left")}>
+								{" "}
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(monthlyORAI)} </span>{" "}
+							</div>
+							<div className={cx("right")}>
+								{" "}
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(yearlyORAI)} </span>{" "}
+							</div>
+						</div>
+					</DialogContent>
+				</>
+			);
 		}
 	};
 

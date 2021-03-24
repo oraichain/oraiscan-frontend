@@ -1,5 +1,11 @@
 @import "src/styles/utils";
 
+@mixin font-delegate {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+}
+
 .btn {
 	display: inline-block;
 	padding: 8px 16px;
@@ -103,10 +109,18 @@
 }
 
 .balance-title {
-	font-family: Roboto;
-	font-weight: 500;
-	font-size: 18px;
+	@include font-delegate;
 	margin-top: 10px;
+}
+
+.amount-reward {
+	margin-top: 10px;
+	.input {
+		font-family: Roboto;
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 2;
+	}
 }
 
 .balance-row {
@@ -114,6 +128,8 @@
 		font-family: Roboto;
 		font-size: 18px;
 		margin-top: 5px;
+	}
+	.uppercase {
 		text-transform: uppercase;
 	}
 	.right {
@@ -126,6 +142,35 @@
 			margin-left: 5px;
 		}
 	}
+}
+
+.amount-row {
+	margin-top: 20px;
+	.left {
+		@include font-delegate;
+	}
+	.right {
+		font-family: Roboto;
+		font-size: 18px;
+	}
+}
+
+.earning-row {
+	@include font-delegate;
+	margin-top: 25px;
+}
+
+.estimate-orai-row {
+	@include font-delegate;
+	color: #3cc526;
+	margin-top: 10px;
+}
+
+.estimate-dollar-row {
+	font-family: Roboto;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 30px;
 }
 
 .tab-wrapper {
