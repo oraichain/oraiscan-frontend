@@ -214,11 +214,14 @@ const ValidatorTable = memo(({data = []}) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
+			const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress);
+			const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
 					<div className={cx("logo-brand")}>
-						<img src={logoBrand.filter(it => item.operator_address === it.operatorAddress)[0]?.logo} width={32} height={32} className={cx("logo")} />
+						{logoURL && <img alt='/' src={logoURL} width={32} height={32} className={cx("logo")} />}
+						{!logoURL && <div className={cx("logo-custom")}> {logoItem.name.substring(0, 3).toUpperCase()} </div>}
 						<div className={cx("brand")}>{item.moniker}</div>
 					</div>
 				</NavLink>

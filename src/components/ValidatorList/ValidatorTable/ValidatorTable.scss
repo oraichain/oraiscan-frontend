@@ -120,6 +120,18 @@
 	align-items: center;
 }
 
+.logo-custom {
+	border-radius: 50%;
+	border: 1px solid rgb(49, 47, 47);
+	padding: 5px;
+	margin-right: 5px;
+	width: 35px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .logo {
 	border-radius: 50px;
 }
