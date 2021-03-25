@@ -3,6 +3,20 @@
 }
 
 .input-text {
+	&::placeholder {
+		color: #cdcdcd;
+		opacity: 1; /* Firefox */
+	}
+
+	:-ms-input-placeholder {
+		/* Internet Explorer 10-11 */
+		color: #cdcdcd;
+	}
+
+	::-ms-input-placeholder {
+		/* Microsoft Edge */
+		color: #cdcdcd;
+	}
 	> div {
 		border: 1px solid #e7e7e7;
 		&::before {

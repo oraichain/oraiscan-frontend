@@ -1,7 +1,6 @@
 import React from "react";
 import {useFormContext, Controller} from "react-hook-form";
 import {TextField, InputAdornment, IconButton} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import cn from "classnames/bind";
 
 import {ReactComponent as OpenInNewTab} from "src/assets/icons/open-new-tab.svg";
@@ -35,13 +34,7 @@ function FormInput(props) {
 				shrink: true,
 			}}
 			InputProps={{
-				startAdornment: (
-					<InputAdornment position='start'>
-						<IconButton>
-							<SearchIcon />
-						</IconButton>
-					</InputAdornment>
-				),
+				startAdornment: <InputAdornment position='start'></InputAdornment>,
 				endAdornment: (
 					<InputAdornment position='start'>
 						<IconButton>
