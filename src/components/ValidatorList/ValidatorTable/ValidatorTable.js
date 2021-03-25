@@ -207,10 +207,6 @@ const ValidatorTable = memo(({data = []}) => {
 			return [];
 		}
 
-		if (!data) {
-			return null;
-		}
-
 		let previousVotingPower = 0;
 
 		return data.map(item => {

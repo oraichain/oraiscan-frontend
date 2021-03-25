@@ -55,6 +55,7 @@
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "chalk": "^3.0.0",
+    "change-case": "^4.1.2",
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.3.1",
     "css-loader": "3.2.0",
