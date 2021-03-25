@@ -25,7 +25,7 @@ export default function({activeTab, setActiveTab, isBecomeValidator}) {
 				<img className={cx("tab-icon")} src={delegatedValidatorIcon} />
 				<div className={cx("tab-text")}>Delegated Validator</div>
 			</div>
-			<div className={cx("tab", activeTab === 4 ? "active" : "")} onClick={() => setActiveTab(2)}>
+			<div className={cx("tab", activeTab === 4 ? "active" : "")} onClick={() => setActiveTab(4)}>
 				<img className={cx("tab-icon")} src={contactIcon} />
 				<div className={cx("tab-text")}>Contact</div>
 			</div>

@@ -3,55 +3,27 @@ import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
+import {getHeaderRow} from "src/components/Wallet/ContactTable/ContactTable";
 import styles from "./ContactTable.scss";
 
-const TransactionTableSkeleton = memo(({rows = 10}) => {
+const ContactTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
 		for (let i = 1; i <= rows; i++) {
-			const txHashDataCell = (
+			const nameDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const typeDataCell = (
+			const addressDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const resultDataCell = (
-				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton />
-				</div>
-			);
-
-			const amountDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
-
-			const feeDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
-
-			const heightDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
-			const timeDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
-			dataRows.push([txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
+			dataRows.push([nameDataCell, addressDataCell]);
 		}
 		return dataRows;
 	};
@@ -62,4 +34,4 @@ const TransactionTableSkeleton = memo(({rows = 10}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default TransactionTableSkeleton;
+export default ContactTableSkeleton;

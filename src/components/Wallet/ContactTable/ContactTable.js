@@ -3,17 +3,10 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ContactTable.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import txTypes from "src/constants/txTypes";
-import {useSelector} from "react-redux";
+import _ from "lodash";
 
 const cx = classNames.bind(styles);
 
@@ -38,23 +31,18 @@ const ContactTable = memo(({data = []}) => {
 		}
 
 		return data.map(item => {
-			const txHashDataCell = _.isNil(item?.tx_hash) ? (
+			const nameDataCell = _.isNil(item?.name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-					{reduceString(item.tx_hash, 6, 6)}
-				</NavLink>
+				<div className={cx("name-data-cell", "align-left")}>{item?.name}</div>
 			);
 
-			const typeDataCell = _.isNil(item?.messages?.[0]?.type) ? (
+			const addressDataCell = _.isNil(item?.address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
-					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
-				</div>
+				<div className={cx("address-data-cell")}>{item?.address}</div>
 			);
-			return [txHashDataCell, typeDataCell];
+			return [nameDataCell, addressDataCell];
 		});
 	};
 

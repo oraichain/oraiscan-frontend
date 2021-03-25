@@ -6,7 +6,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
 import styles from "./TransactionTable.scss";
 
-const TransactionTableSkeleton = memo(({rows = 10}) => {
+const TransactionTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];

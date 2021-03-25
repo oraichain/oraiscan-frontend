@@ -1,46 +1,62 @@
-import React, {memo, useState} from "react";
-import {useGet} from "restful-react";
+import React, {memo, useMemo, useState} from "react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import TransactionTable from "src/components/TxList/TransactionTable";
-import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
-import TransactionCardList from "src/components/TxList/TransactionCardList";
-import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
+import ContactTable from "src/components/Wallet/ContactTable/ContactTable";
+import ContactTableSkeleton from "src/components/Wallet/ContactTable/ContactTableSkeleton";
+import ContactCardList from "src/components/Wallet/ContactCardList/ContactCardList";
+import ContactCardListSkeleton from "src/components/Wallet/ContactCardList/ContactCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./Contact.scss";
 
 const cx = classNames.bind(styles);
 
-const Transaction = memo(({account = "", minHeight = 222}) => {
+const Contact = memo(() => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
-	const [path, setPath] = useState(`${basePath}&page_id=1`);
-	const {data} = useGet({
-		path: path,
-	});
+	const storageData = JSON.parse(localStorage.getItem("address")) ?? {};
+	let dataLength = Object.values(storageData).length;
+	const totalPages = dataLength / 5 === Math.ceil(dataLength / 5) ? dataLength / 5 : Math.ceil(dataLength / 5) ?? 0;
+	const [currentPage, setPage] = useState(1);
 
-	if (!data || typeof data === "string") {
-		return isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
+	const getAllPageData = data => {
+		let allPageData = {};
+		let tempPageNumber = 1;
+		Object.values(data).forEach((contact, index, arr) => {
+			allPageData[tempPageNumber] = allPageData[tempPageNumber] ? allPageData[tempPageNumber] : {};
+			allPageData[tempPageNumber] = Object.assign(allPageData[tempPageNumber], {
+				[contact?.address]: {
+					address: contact?.address,
+					name: contact?.name,
+				},
+			});
+			if ((index + 1) % 5 === 0) {
+				tempPageNumber += 1;
+			}
+		});
+		return allPageData;
+	};
+
+	const allPageData = useMemo(() => getAllPageData(storageData), []);
+	let currentPageData = Object.values(allPageData[currentPage]) ?? [];
+
+	if (!storageData) {
+		return isLargeScreen ? <ContactTableSkeleton /> : <ContactCardListSkeleton />;
 	}
 
-	const totalPages = data?.page?.total_page ?? 0;
-	const currentPage = data?.page?.page_id ?? 1;
-
 	const onPageChange = page => {
-		setPath(`${basePath}&page_id=${page}`);
+		setPage(page);
 	};
 
 	const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
 
 	return (
-		<div className={cx("contact")}>
-			{Array.isArray(data?.data) && data.data.length > 0 ? (
+		<div className={cx("Contact")}>
+			<div className={cx("title")}>Contact</div>
+			{Array.isArray(currentPageData) && currentPageData.length > 0 ? (
 				<>
-					{isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />}
+					{isLargeScreen ? <ContactTable data={currentPageData} /> : <ContactCardList data={currentPageData} />}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (
@@ -50,4 +66,4 @@ const Transaction = memo(({account = "", minHeight = 222}) => {
 	);
 });
 
-export default Transaction;
+export default Contact;
