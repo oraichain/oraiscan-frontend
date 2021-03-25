@@ -96,7 +96,7 @@ const Account = props => {
 					available={coinsData.available}
 					delegated={coinsData.delegated}
 					unbonding={coinsData.unbonding}
-					reward={coinsData.reward + coinsData.commission}
+					reward={coinsData.reward}
 					denom={consts.DENOM}
 				/>
 			);
