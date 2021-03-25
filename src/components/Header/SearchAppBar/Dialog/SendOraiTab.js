@@ -38,7 +38,7 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 
 const handleAddAddressToStorage = (name, address) => {
 	let storageData = JSON.parse(localStorage.getItem("address")) ?? {};
-	let newData = Object.assign(storageData, {[address]: name});
+	let newData = Object.assign(storageData, {[address]: {address: address, name: name}});
 	localStorage.setItem("address", JSON.stringify(newData));
 };
 
