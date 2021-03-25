@@ -1,6 +1,6 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import cn from "classnames/bind";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
@@ -8,6 +8,8 @@ import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden}
 import {ArrowDropDown, DriveEta} from "@material-ui/icons";
 import Alert from "src/components/common/Alert/Alert";
 import copy from "copy-to-clipboard";
+import Skeleton from "react-skeleton-loader";
+import {useGet} from "restful-react";
 
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
@@ -43,22 +45,20 @@ const handleClickConnectWallet = () => {
 	}, 500);
 };
 
-export default function({data}) {
-	const {path, title, handleClick, init} = data;
+export default function({data: props}) {
+	const {path, title, handleClick, init} = props;
 	const history = useHistory();
 	const {account} = useSelector(state => state.wallet);
 	const status = useSelector(state => state.blockchain.status);
 	const dispatch = useDispatch();
 	const [showTransactionModal, setShowTransactionModal] = useState(false);
-	const [balance, , , , setUrl] = useFetch();
-	const [reFetchAmount, setReFetchAmount] = useState(0);
-	const amount = balance?.data?.balances?.[0]?.amount ?? 0;
+	const {data, loading, error, refetch} = useGet({
+		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
+	});
+	const [showDropDown, setShowDropDown] = useState(false);
+	const amount = data?.balances?.[0]?.amount ?? "-";
 	// const amount = "927900393543589";
-	const denom = balance?.data?.balances?.[0]?.denom ?? "ORAI";
-
-	useEffect(() => {
-		title && !init && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}?t=${Date.now()}`);
-	}, [title, reFetchAmount]);
+	const denom = data?.balances?.[0]?.denom ?? "ORAI";
 
 	if (title === "") {
 		return (
@@ -73,23 +73,34 @@ export default function({data}) {
 		.multipliedBy(status?.price || 0)
 		.toFormat(2);
 
+	const classNameDropdown = showDropDown ? "show" : "hide";
+
+	const handleShowDropDown = () => {
+		setShowDropDown(true);
+		refetch();
+	};
+
+	const handleHideDropDown = () => {
+		setShowDropDown(false);
+	};
+
 	return (
-		<div className={cx("dropdown")}>
+		<div className={cx("dropdown")} onMouseEnter={handleShowDropDown} onMouseLeave={handleHideDropDown}>
 			<Dialog
 				show={showTransactionModal}
 				handleClose={() => setShowTransactionModal(false)}
 				address={title}
 				account={account}
 				amount={amount}
-				reFetchAmount={() => setReFetchAmount(prev => prev + 1)}
+				reFetchAmount={refetch}
 			/>
-			<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()}>
+			<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
 				<ListItem button>
 					<AccountCircleIcon />
 					<ArrowDropDown />
 				</ListItem>
 			</a>
-			<div className={cx("dropdown-content")}>
+			<div className={cx("dropdown-content", classNameDropdown)}>
 				<div className={cx("orai-profile")}>
 					<div className={cx("wallet-name")}>
 						{" "}
@@ -117,9 +128,9 @@ export default function({data}) {
 
 					<div className={cx("wallet-address-title")}> Balance </div>
 					<div className={cx("wallet-address-detail")}>
-						{formatOrai(amount || 0, 1000000, 2) + " "}
-						<span className={cx("denom")}>{denom}</span>
-						<span>{status?.price ? " ($" + priceInUSD + ")" : ""}</span>
+						{loading ? <Skeleton /> : formatOrai(amount || 0, 1000000, 2) + " "}
+						{loading ? <Skeleton /> : <span className={cx("denom")}>{denom}</span>}
+						{loading ? <Skeleton /> : <span> {status?.price ? " ($" + priceInUSD + ")" : ""}</span>}
 					</div>
 
 					<div className={cx("btn-action-group")}>
