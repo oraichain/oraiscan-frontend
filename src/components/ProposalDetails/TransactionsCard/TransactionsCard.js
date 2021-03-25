@@ -1,9 +1,12 @@
-import React, {memo, useState, useRef} from "react";
+import React, {memo, useMemo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
+import {sentenceCase, constantCase} from "change-case";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import {formatInteger} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
 import Pagination from "src/components/common/Pagination";
@@ -25,36 +28,112 @@ const columns = [
 	{title: "Time", align: "right"},
 ];
 
-// const voteTypes = {
-// 	ALL: 0,
-// 	YES: 1,
-// 	NO: 2,
-// 	NO_WITH_VETO: 3,
-// 	ABSTAIN: 4,
-// };
-
 const TransactionsCard = memo(({proposalId}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	// const [voteType, setVoteType] = useState(voteTypes.ALL);
+	const [firstLoadTransactionCompleted, setFirstLoadTransactionCompleted] = useState(false);
+	const [loadTransactionCompleted, setLoadTransactionCompleted] = useState(false);
+	const [loadTotalTxsCompleted, setLoadTotalTxsCompleted] = useState(false);
 	const [pageId, setPageId] = useState(1);
+	const voteTypesRef = useRef({
+		ALL: 0,
+	});
+	const totalTxsRef = useRef({});
+	const [voteType, setVoteType] = useState(voteTypesRef.current["ALL"]);
 	const totalPagesRef = useRef(null);
 
+	let transactionTimerId = useRef(null);
+	let totalTxsTimerId = useRef(null);
+
+	const cleanUpTransaction = () => {
+		if (transactionTimerId) {
+			clearTimeout(transactionTimerId.current);
+		}
+	};
+
+	const cleanUpTotalTxs = () => {
+		if (totalTxsTimerId) {
+			clearTimeout(totalTxsTimerId.current);
+		}
+	};
+
+	const getFilterData = (voteTypes, totalTxs) => {
+		const filterData = [];
+		for (let key in voteTypes) {
+			const label = `${sentenceCase(key)}(${!isNaN(totalTxs?.[key]) ? formatInteger(totalTxs[key]) : "-"})`;
+			const value = voteTypes[key];
+			filterData.push({
+				label: label,
+				value: value,
+			});
+		}
+		return filterData;
+	};
+
 	const onPageChange = page => {
+		cleanUpTransaction();
+		setFirstLoadTransactionCompleted(false);
+		setLoadTransactionCompleted(false);
 		setPageId(page);
 	};
 
-	const basePath = `${consts.API.PROPOSALS_TRANSACTIONS}/${proposalId}?limit=${consts.REQUEST.LIMIT}`;
-	let path;
-	path = `${basePath}&page_id=${pageId}`;
-	// if (voteType === voteTypes.ALL) {
-	// 	path = `${basePath}&page_id=${pageId}`;
-	// } else {
-	// 	path = `${basePath}&voteType=${voteType}&page_id=${pageId}`;
-	// }
-	const {data, loading, error} = useGet({
-		path: path,
+	const votePath = `${consts.API.PROPOSAL_VOTES}`;
+	const {data: voteData} = useGet({
+		path: votePath,
 	});
+	if (voteData) {
+		const voteTypes = {};
+		voteTypes["ALL"] = 0;
+		for (let key in voteData) {
+			voteTypes[constantCase(key)] = voteData[key];
+		}
+		voteTypesRef.current = voteTypes;
+	}
+
+	const totalTxsPath = `${consts.API.PROPOSALS_TOTAL_TXS}/${proposalId}`;
+	const {data: totalTxsData, refetch: refetchTotalTxs} = useGet({
+		path: totalTxsPath,
+	});
+	if (totalTxsData) {
+		const totalTxs = {};
+		for (let key in totalTxsData) {
+			totalTxs[constantCase(key)] = totalTxsData[key];
+		}
+		totalTxsRef.current = totalTxs;
+	}
+
+	const transactionBasePath = `${consts.API.PROPOSALS_TRANSACTIONS}/${proposalId}?limit=${consts.REQUEST.LIMIT}`;
+	let transactionPath = `${transactionBasePath}&page_id=${pageId}`;
+	if (!_.isNil(voteType) && voteType != voteTypesRef.current["ALL"]) {
+		transactionPath = `${transactionPath}&vote=${voteType}`;
+	}
+	const {data: transactionData, loading: transactionLoading, error: transactionError, refetch: refetchTransaction} = useGet({
+		path: transactionPath,
+	});
+
+	useEffect(() => {
+		if (loadTotalTxsCompleted) {
+			totalTxsTimerId.current = setTimeout(() => {
+				refetchTotalTxs();
+				setLoadTotalTxsCompleted(false);
+			}, consts.REQUEST.TIMEOUT);
+			return () => {
+				cleanUpTotalTxs();
+			};
+		}
+	}, [loadTotalTxsCompleted]);
+
+	useEffect(() => {
+		if (loadTransactionCompleted) {
+			transactionTimerId.current = setTimeout(() => {
+				refetchTransaction();
+				setLoadTransactionCompleted(false);
+			}, consts.REQUEST.TIMEOUT);
+			return () => {
+				cleanUpTransaction();
+			};
+		}
+	}, [loadTransactionCompleted]);
 
 	let titleSection;
 	let filterSection;
@@ -63,61 +142,42 @@ const TransactionsCard = memo(({proposalId}) => {
 	let paginationSection;
 	let bodySection;
 
-	// const filterData = [
-	// 	{
-	// 		label: "All",
-	// 		value: voteTypes.ALL,
-	// 	},
-	// 	{
-	// 		label: "Yes",
-	// 		value: voteTypes.YES,
-	// 	},
-	// 	{
-	// 		label: "No",
-	// 		value: voteTypes.NO,
-	// 	},
-	// 	{
-	// 		label: "NoWithVeto",
-	// 		value: voteTypes.NO_WITH_VETO,
-	// 	},
-	// 	{
-	// 		label: "Abstain",
-	// 		value: voteTypes.ABSTAIN,
-	// 	},
-	// ];
-
 	if (isLargeScreen) {
 		titleSection = <div className={cx("title")}>Transactions</div>;
 	} else {
 		titleSection = <></>;
 	}
 
-	if (loading) {
-		// filterSection = <FilterSectionSkeleton />;
-		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
-	} else {
-		// filterSection = (
-		// 	<FilterSection
-		// 		data={filterData}
-		// 		value={status}
-		// 		onChange={value => {
-		// 			setStatus(value);
-		// 		}}
-		// 	/>
-		// );
+	const filterData = useMemo(() => getFilterData(voteTypesRef.current, totalTxsRef.current), [voteTypesRef.current, totalTxsRef.current]);
+	filterSection = (
+		<FilterSection
+			data={filterData}
+			value={voteType}
+			onChange={value => {
+				setVoteType(value);
+			}}
+		/>
+	);
 
-		if (error) {
+	if (transactionLoading) {
+		if (firstLoadTransactionCompleted) {
+			tableSection = isLargeScreen ? <TransactionTable data={transactionData.txs} /> : <TransactionCardList data={transactionData.txs} />;
+		} else {
+			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
+		}
+	} else {
+		if (transactionError) {
 			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
+			if (!isNaN(transactionData?.page?.total_page)) {
+				totalPagesRef.current = transactionData.page.total_page;
 			} else {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(data?.txs) && data.txs.length > 0) {
-				tableSection = isLargeScreen ? <TransactionTable data={data.txs} /> : <TransactionCardList data={data.txs} />;
+			if (Array.isArray(transactionData?.txs) && transactionData.txs.length > 0) {
+				tableSection = isLargeScreen ? <TransactionTable data={transactionData.txs} /> : <TransactionCardList data={transactionData.txs} />;
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}

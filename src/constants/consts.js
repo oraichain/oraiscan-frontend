@@ -77,6 +77,8 @@ export default Object.freeze({
 		PROPOSAL_STATUS: "proposal/status",
 		PROPOSALS_TRANSACTIONS: "/proposals/transactions",
 		VALIDATOR_ANALYTICS: "/validator-analytics",
+		PROPOSAL_VOTES: "/proposal/votes",
+		PROPOSALS_TOTAL_TXS: "/proposals/total_txs",
 		WALLET: {
 			CLAIM_REWARD: "/wallet/claim_reward",
 			WITHDRAW: "/wallet/withdraw",
