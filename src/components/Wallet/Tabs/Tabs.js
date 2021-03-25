@@ -6,6 +6,7 @@ import styles from "./Tabs.scss";
 import txIcon from "src/assets/wallet/tx.svg";
 import validatorIcon from "src/assets/wallet/validator.svg";
 import delegatedValidatorIcon from "src/assets/wallet/delegated-validator.svg";
+import contactIcon from "src/assets/wallet/contact.svg";
 
 const cx = cn.bind(styles);
 
@@ -23,6 +24,10 @@ export default function({activeTab, setActiveTab, isBecomeValidator}) {
 			<div className={cx("tab", activeTab === 2 ? "active" : "")} onClick={() => setActiveTab(2)}>
 				<img className={cx("tab-icon")} src={delegatedValidatorIcon} />
 				<div className={cx("tab-text")}>Delegated Validator</div>
+			</div>
+			<div className={cx("tab", activeTab === 4 ? "active" : "")} onClick={() => setActiveTab(4)}>
+				<img className={cx("tab-icon")} src={contactIcon} />
+				<div className={cx("tab-text")}>Contact</div>
 			</div>
 		</div>
 	);
