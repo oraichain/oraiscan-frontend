@@ -43,7 +43,6 @@ const BlockList = props => {
 	const cleanUp = () => {
 		if (timerIdRef) {
 			clearTimeout(timerIdRef.current);
-			setLoadCompleted(false);
 		}
 	};
 
