@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -9,46 +9,63 @@ import DelegationTableSkeleton from "src/components/Account/DelegationTable/Dele
 import DelegationCardList from "src/components/Account/DelegationCardList/DelegationCardList";
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import NoResult from "src/components/common/NoResult";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./DelegationCard.scss";
 
 const cx = classNames.bind(styles);
+const columns = [
+	{title: "Validator", align: "left"},
+	{title: "Amount", align: "right"},
+	{title: "Reward", align: "right"},
+];
 
 const DelegationCard = memo(({account = ""}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [pageId, setPageId] = useState(1);
+	const totalPagesRef = useRef(null);
+
+	const onPageChange = page => {
+		setPageId(page);
+	};
 
 	const path = `${consts.API.DELEGATIONS}/${account}`;
-	const {data} = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
 	});
 
-	const totalPages = 1;
-	const currentPage = 1;
-	const onPageChange = page => {};
-
 	let tableSection;
-	let paginationSection = null;
-	const columns = [{title: "Validator"}, {title: "Amount"}, {title: "Reward"}];
+	let paginationSection;
 
-	if (!data) {
+	if (loading) {
 		tableSection = isLargeScreen ? <DelegationTableSkeleton /> : <DelegationCardListSkeleton />;
 	} else {
-		if (Array.isArray(data?.data) && data.data.length > 0) {
-			tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
-			paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />;
-		} else {
+		if (error) {
+			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
 		}
 	}
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("delegation-card")}>
 			<div className={cx("delegation-card-header")}>Delegations</div>
 			<div className={cx("delegation-card-body")}>
 				{tableSection}
-				{paginationSection && paginationSection}
+				{paginationSection}
 			</div>
 		</div>
 	);

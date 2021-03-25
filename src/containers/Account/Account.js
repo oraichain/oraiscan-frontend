@@ -14,6 +14,7 @@ import StatusBox from "src/components/common/StatusBox";
 import AddressCard from "src/components/common/AddressCard";
 import AddressCardSkeleton from "src/components/common/AddressCard/AddressCardSkeleton";
 import CoinsCard from "src/components/common/CoinsCard";
+import EmptyCoinsCard from "src/components/common/CoinsCard/EmptyCoinsCard";
 import CoinsCardSkeleton from "src/components/common/CoinsCard/CoinsCardSkeleton";
 import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
@@ -26,13 +27,9 @@ const Account = props => {
 
 	const cx = cn.bind(styles);
 	const account = props?.match?.params?.account ?? 0;
-	const addressPath = `${consts.API.ACCOUNT}/${account}`;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
-	const {data: addressData} = useGet({
-		path: addressPath,
-	});
 
-	const {data: coinsData} = useGet({
+	const {data: coinsData, loading: coinsLoading, error: coinsError} = useGet({
 		path: coinsPath,
 	});
 
@@ -47,7 +44,7 @@ const Account = props => {
 		);
 	};
 
-	const addresses = [
+	let addresses = [
 		{
 			title: "Address",
 			icon: copyIcon,
@@ -80,26 +77,30 @@ const Account = props => {
 		</TitleWrapper>
 	);
 
-	if (addressData) {
+	if (addresses) {
 		addressCard = <AddressCard headerTitle='QR Code' addresses={addresses} />;
 	} else {
 		addressCard = <AddressCardSkeleton />;
 	}
 
-	if (coinsData) {
-		coinsCard = (
-			<CoinsCard
-				total={coinsData.total}
-				price={coinsData.price}
-				available={coinsData.available}
-				delegated={coinsData.delegated}
-				unbonding={coinsData.unbonding}
-				reward={coinsData.reward + coinsData.commission}
-				denom={consts.DENOM}
-			/>
-		);
-	} else {
+	if (coinsLoading) {
 		coinsCard = <CoinsCardSkeleton />;
+	} else {
+		if (coinsError) {
+			coinsCard = <EmptyCoinsCard denom={consts.DENOM} />;
+		} else {
+			coinsCard = (
+				<CoinsCard
+					total={coinsData.total}
+					price={coinsData.price}
+					available={coinsData.available}
+					delegated={coinsData.delegated}
+					unbonding={coinsData.unbonding}
+					reward={coinsData.reward}
+					denom={consts.DENOM}
+				/>
+			);
+		}
 	}
 
 	delegationCard = <DelegationCard account={account} />;
