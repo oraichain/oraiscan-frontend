@@ -84,3 +84,9 @@
 	padding-top: 18px !important;
 	padding-bottom: 0 !important;
 }
+
+.skeleton {
+	&-inline-block {
+		display: inline-block;
+	}
+}

@@ -29,9 +29,9 @@ const ValidatorDetails = ({match}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
-	const validatorPath = `${consts.API.VALIDATOR}/${validatorAddress}`;
-	const {data: validatorData} = useGet({
-		path: validatorPath,
+	const path = `${consts.API.VALIDATOR}/${validatorAddress}`;
+	const {data, loading, error} = useGet({
+		path: path,
 	});
 
 	const titleSection = isLargeScreen ? (
@@ -52,18 +52,17 @@ const ValidatorDetails = ({match}) => {
 	let missedBlocksCard;
 	let delegatorsCard;
 
-	if (validatorData) {
-		addressCard = (
-			<AddressCard
-				moniker={validatorData?.moniker ?? "-"}
-				operatorAddress={validatorData?.operator_address ?? "-"}
-				address={validatorData?.account_address ?? "-"}
-			/>
-		);
-		detailCard = <DetailCard data={validatorData} />;
-	} else {
+	if (loading) {
 		addressCard = <AddressCardSkeleton />;
 		detailCard = <DetailCardSkeleton />;
+	} else {
+		if (error) {
+			addressCard = <AddressCard moniker='-' operatorAddress='-' address='-' />;
+			detailCard = <DetailCard data={{}} />;
+		} else {
+			addressCard = <AddressCard moniker={data?.moniker ?? "-"} operatorAddress={data?.operator_address ?? "-"} address={data?.account_address ?? "-"} />;
+			detailCard = <DetailCard data={data} />;
+		}
 	}
 
 	missedBlocksCard = <MissedBlocksCard validatorAddress={validatorAddress} />;

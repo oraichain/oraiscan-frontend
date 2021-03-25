@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
-import DonutChart from "react-donut-chart";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
@@ -26,7 +25,7 @@ export default function(props) {
 	const proposalId = props?.match?.params?.id;
 
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
-	const {data} = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
 	});
 
@@ -44,12 +43,17 @@ export default function(props) {
 		<TogglePageBar type='proposals' />
 	);
 
-	if (data) {
-		detailsCard = <DetailsCard data={data} />;
-		chartCard = <ChartCard data={data} />;
-	} else {
+	if (loading) {
 		detailsCard = <DetailsCardSkeleton />;
 		chartCard = <ChartCardSkeleton />;
+	} else {
+		if (error) {
+			detailsCard = <DetailsCard data={{}} />;
+			chartCard = <ChartCard data={{}} />;
+		} else {
+			detailsCard = <DetailsCard data={data} />;
+			chartCard = <ChartCard data={data} />;
+		}
 	}
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;

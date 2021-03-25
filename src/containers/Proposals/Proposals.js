@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -22,21 +22,33 @@ import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/
 import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
+const columns = [
+	{title: "#ID", align: "center"},
+	{title: "Title", align: "left"},
+	{title: "Status", align: "center"},
+	{title: "Voting Start", align: "right"},
+	{title: "Submit Time", align: "right"},
+	{title: "Total Deposit", align: "right"},
+];
 
 export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
 	const [pageId, setPageId] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
+	const totalPagesRef = useRef(null);
+
+	const onPageChange = page => {
+		setPageId(page);
+	};
 
 	const topPath = `${consts.API.PROPOSALS}?status&limit=4&page_id=1`;
-	const {data: topData} = useGet({
+	const {data: topData, loading: topLoading, error: topError} = useGet({
 		path: topPath,
 	});
 
 	const statusPath = consts.API.PROPOSAL_STATUS;
-	const {data: statusData} = useGet({
+	const {data: statusData, loading: statusLoading, error: statusError} = useGet({
 		path: statusPath,
 	});
 
@@ -47,13 +59,9 @@ export default function(props) {
 	} else {
 		path = `${basePath}&status=${status}&page_id=${pageId}`;
 	}
-	const {data} = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
 	});
-
-	const onPageChange = page => {
-		setPageId(page);
-	};
 
 	let titleSection;
 	let topProposalCardList;
@@ -72,27 +80,41 @@ export default function(props) {
 		titleSection = <TogglePageBar type='proposals' />;
 	}
 
-	if (!topData) {
+	if (topLoading) {
 		topProposalCardList = <TopProposalCardListSkeleton />;
 	} else {
-		topProposalCardList = <TopProposalCardList data={topData.data} />;
+		if (topError) {
+			topProposalCardList = <TopProposalCardList data={[]} />;
+		} else {
+			topProposalCardList = <TopProposalCardList data={topData.data} />;
+		}
 	}
 
-	if (!Array.isArray(statusData)) {
+	if (statusLoading) {
 		filterSection = <FilterSectionSkeleton />;
 	} else {
-		const filterData = statusData.map(value => {
-			const filterItem = {
-				label: value.replace("PROPOSAL_STATUS_", "").replace("_", " "),
-				value: value,
-			};
-			return filterItem;
-		});
+		let filterData;
+		if (statusError) {
+			filterData = [
+				{
+					label: "ALL",
+					value: "PROPOSAL_STATUS_ALL",
+				},
+			];
+		} else {
+			filterData = statusData.map(value => {
+				const filterItem = {
+					label: value.replace("PROPOSAL_STATUS_", "").replace("_", " "),
+					value: value,
+				};
+				return filterItem;
+			});
 
-		filterData.unshift({
-			label: "ALL",
-			value: "PROPOSAL_STATUS_ALL",
-		});
+			filterData.unshift({
+				label: "ALL",
+				value: "PROPOSAL_STATUS_ALL",
+			});
+		}
 
 		filterSection = (
 			<FilterSection
@@ -105,29 +127,28 @@ export default function(props) {
 		);
 	}
 
-	if (!data) {
+	if (loading) {
 		tableSection = isLargeScreen ? <ProposalsTableSkeleton /> : <ProposalCardListSkeleton />;
 	} else {
-		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
-			setTotalPages(data.page.total_page);
-		}
-
-		if (Array.isArray(data?.data) && data.data.length > 0) {
-			tableSection = isLargeScreen ? <ProposalsTable data={data.data} /> : <ProposalCardList data={data.data} />;
-		} else {
-			const columns = [
-				{title: "#ID", align: "center"},
-				{title: "Title", align: "left"},
-				{title: "Status", align: "center"},
-				{title: "Voting Start", align: "right"},
-				{title: "Submit Time", align: "right"},
-				{title: "Total Deposit", align: "right"},
-			];
+		if (error) {
+			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <ProposalsTable data={data.data} /> : <ProposalCardList data={data.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
 		}
 	}
 
-	paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<Container fixed className={cx("proposals")}>

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from "react";
-import {useHistory} from "react-router-dom";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
@@ -13,6 +12,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
+import EmptyTable from "src/components/common/EmptyTable";
 import BlockTable from "src/components/BlockList/BlockTable";
 import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/BlockList/BlockCardList";
@@ -20,49 +20,50 @@ import BlockCardListSkeleton from "src/components/BlockList/BlockCardList/BlockC
 import styles from "./BlockList.scss";
 
 const cx = cn.bind(styles);
+const columns = [
+	{title: "Height", align: "center"},
+	{title: "Parent Hash", align: "left"},
+	{title: "Proposer", align: "left"},
+	{title: "Txs", align: "right"},
+	{title: "Time", align: "right"},
+];
 
 const BlockList = props => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const history = useHistory();
-	const getPaginationPath = (pathname, page) => {
-		return pathname + "?page=" + page;
-	};
-	const redirectToFirstPage = pathname => {
-		history.push(getPaginationPath(pathname, 1));
-	};
-
-	const [total, setTotal] = useState(-1);
-	const searchParams = new URLSearchParams(props.location.search);
-	let page = parseFloat(searchParams.get("page"));
-	let isPageValid = true;
-	if (!Number.isInteger(page) || page < 1 || (total !== -1 && page > Math.ceil(total / consts.REQUEST.LIMIT))) {
-		page = 1;
-		isPageValid = false;
-	}
-
-	const [showLoading, setShowLoading] = useState(true);
-	const [loadCompleted, setLoadCompleted] = useState(false);
-	let timerID = useRef(null);
-
 	const basePath = `${consts.API.BLOCKLIST}?limit=${consts.REQUEST.LIMIT}`;
-	let path = basePath;
-	if (total !== -1 && isPageValid) {
-		path = basePath + "&before=" + calculateBefore(total, consts.REQUEST.LIMIT, page);
-	}
+	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
+	const [loadCompleted, setLoadCompleted] = useState(false);
+	const [pageId, setPageId] = useState(1);
+	const totalItemsRef = useRef(null);
+	const totalPagesRef = useRef(null);
+
+	let timerIdRef = useRef(null);
 
 	const cleanUp = () => {
-		if (timerID) {
-			clearTimeout(timerID);
+		if (timerIdRef) {
+			clearTimeout(timerIdRef.current);
 			setLoadCompleted(false);
 		}
 	};
 
-	const {data, loading, refetch} = useGet({
+	const onPageChange = page => {
+		cleanUp();
+		setFirstLoadCompleted(false);
+		setLoadCompleted(false);
+		setPageId(page);
+	};
+
+	let path = basePath;
+	if (totalItemsRef.current) {
+		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
+	}
+
+	const {data, loading, error, refetch} = useGet({
 		path: path,
 		resolve: data => {
-			if (showLoading) {
-				setShowLoading(false);
+			if (!firstLoadCompleted) {
+				setFirstLoadCompleted(true);
 			}
 			setLoadCompleted(true);
 			return data;
@@ -71,7 +72,7 @@ const BlockList = props => {
 
 	useEffect(() => {
 		if (loadCompleted) {
-			timerID = setTimeout(() => {
+			timerIdRef.current = setTimeout(() => {
 				refetch();
 				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
@@ -81,49 +82,53 @@ const BlockList = props => {
 		}
 	}, [loadCompleted]);
 
-	useEffect(() => {
-		if (!isPageValid) {
-			redirectToFirstPage(props.location.pathname);
+	let titleSection;
+	let tableSection;
+	let paginationSection;
+
+	titleSection = isLargeScreen ? (
+		<TitleWrapper>
+			<PageTitle title={"Blocks"} />
+			<StatusBox />
+		</TitleWrapper>
+	) : (
+		<TogglePageBar type='blocks' />
+	);
+
+	if (loading) {
+		if (firstLoadCompleted) {
+			tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+		} else {
+			tableSection = isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />;
 		}
-	}, [total]);
+	} else {
+		if (error) {
+			totalItemsRef.current = null;
+			totalPagesRef.current = null;
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.paging?.total)) {
+				totalItemsRef.current = data.paging.total;
+				totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
+			} else {
+				totalItemsRef.current = null;
+				totalPagesRef.current = null;
+			}
 
-	if (!data || (loading && showLoading)) {
-		return (
-			<Container fixed className={cx("block-list")}>
-				<TitleWrapper>
-					<PageTitle title={"Blocks"} />
-				</TitleWrapper>
-				{isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />}
-			</Container>
-		);
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
 	}
-
-	const totalItems = _.isNil(data?.paging?.total) ? 0 : Math.ceil(parseInt(data.paging.total));
-	const totalPages = Math.ceil(totalItems / consts.REQUEST.LIMIT);
-
-	if (total !== totalItems) {
-		setTotal(totalItems);
-	}
-
-	const onPageChange = page => {
-		cleanUp();
-		setShowLoading(true);
-		history.push(getPaginationPath(props.location.pathname, page));
-	};
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<Container fixed className={cx("block-list")}>
-			{isLargeScreen ? (
-				<TitleWrapper>
-					<PageTitle title={"Blocks"} />
-					<StatusBox />
-				</TitleWrapper>
-			) : (
-				<TogglePageBar type='blocks' />
-			)}
-
-			{isLargeScreen ? <BlockTable data={data.data} /> : <BlockCardList data={data.data} />}
-			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
+			{titleSection}
+			{tableSection}
+			{paginationSection}
 		</Container>
 	);
 };
