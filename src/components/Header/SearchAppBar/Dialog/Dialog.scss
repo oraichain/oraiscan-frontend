@@ -314,3 +314,52 @@
 		}
 	}
 }
+
+.choose-fee {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 8px;
+
+	.fee-item {
+		width: 31%;
+		padding: 8px 10px;
+		border: 1px solid #e7e7e7;
+		border-radius: 6px;
+		cursor: pointer;
+		.title {
+			font-family: Roboto;
+			font-size: 16px;
+			line-height: 150%;
+		}
+		.amount {
+			font-family: Roboto;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+
+	.active {
+		border: 1px solid #008bd9;
+	}
+}
+
+.select-gas {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	padding: 8px;
+
+	.gas-span {
+		margin-right: 5px;
+	}
+
+	.input-text {
+		width: 20%;
+	}
+
+	.input-range {
+		margin-left: 10px;
+	}
+}
