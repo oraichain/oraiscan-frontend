@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -14,45 +14,53 @@ import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./UnbondingCard.scss";
 
 const cx = classNames.bind(styles);
+const columns = [
+	{title: "Validator", align: "left"},
+	{title: "Height", align: "right"},
+	{title: "Amount", align: "right"},
+	{title: "Completion Time", align: "right"},
+];
 
 const UnbondingCard = memo(({account = ""}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
-	const path = `${consts.API.UNBONDINGS}/${account}`;
-	const {data} = useGet({
-		path: path,
-	});
+	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
+	const path = `${consts.API.UNBONDINGS}/${account}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
+
 	let tableSection;
 	let paginationSection;
 
-	if (!data) {
+	if (loading) {
 		tableSection = isLargeScreen ? <UnbondingTableSkeleton /> : <UnbondingCardListSkeleton />;
 	} else {
-		if (!isNaN(data?.page?.total_page) && data.page.total_page != totalPages) {
-			setTotalPages(data.page.total_page);
-		}
-
-		if (Array.isArray(data?.data) && data.data.length > 0) {
-			tableSection = isLargeScreen ? <UnbondingTable data={data.data} /> : <UnbondingCardList data={data.data} />;
-		} else {
-			const columns = [
-				{title: "Validator", align: "left"},
-				{title: "Height", align: "right"},
-				{title: "Amount", align: "right"},
-				{title: "Completion Time", align: "right"},
-			];
+		if (error) {
+			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <UnbondingTable data={data.data} /> : <UnbondingCardList data={data.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
 		}
 	}
 
-	paginationSection = totalPages > 1 ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("unbonding-card")}>
