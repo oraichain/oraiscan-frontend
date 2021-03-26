@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
@@ -13,7 +14,7 @@ import ProposedBlocksCardListSkeleton from "src/components/ValidatorDetails/Prop
 import Pagination from "src/components/common/Pagination";
 import styles from "./ProposedBlocksCard.scss";
 import blockIcon from "src/assets/validatorDetails/blocks.svg";
-import {isArray} from "lodash-es";
+// import {isArray} from "lodash-es";
 
 const cx = classNames.bind(styles);
 
@@ -75,7 +76,7 @@ const ProposedBlocksCard = memo(({validatorAddress}) => {
 			<div className={cx("proposed-blocks-card-header")}>
 				<div className={cx("title")}>Proposed Blocks</div>
 				<div className={cx("total")}>
-					<img className={cx("total-icon")} src={blockIcon} />
+					<img alt='/' className={cx("total-icon")} src={blockIcon} />
 					<span className={cx("total-icon")}>Total : {totalBlocks} blocks</span>
 				</div>
 			</div>

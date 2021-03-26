@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
@@ -12,7 +13,6 @@ import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import txTypes from "src/constants/txTypes";
 import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);

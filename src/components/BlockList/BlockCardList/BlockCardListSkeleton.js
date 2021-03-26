@@ -1,9 +1,7 @@
-import React, {memo, useMemo} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import Skeleton from "react-loading-skeleton";
-import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import styles from "./BlockCardList.scss";
 
 const BlockCardListSkeleton = memo(({rows = 10}) => {

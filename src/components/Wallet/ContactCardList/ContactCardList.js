@@ -1,9 +1,6 @@
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+// @ts-nocheck
+import React, {memo} from "react";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import styles from "./ContactCardList.scss";
 
 const TransactionCardList = memo(({data = []}) => {

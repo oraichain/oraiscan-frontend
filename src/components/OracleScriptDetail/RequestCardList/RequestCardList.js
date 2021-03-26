@@ -1,8 +1,7 @@
-import React, {memo, useMemo} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import styles from "./RequestCardList.scss";
 import successIcon from "src/assets/oracleScripts/success_ic.svg";

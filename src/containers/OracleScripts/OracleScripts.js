@@ -1,25 +1,20 @@
-import React, {useState, useRef, useEffect} from "react";
-import {useHistory} from "react-router-dom";
+import React from "react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import {useGet} from "restful-react";
-import consts from "src/constants/consts";
-import {replaceQueryString} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import Pagination from "src/components/common/Pagination";
-import SearchInput from "src/components/common/SearchInput";
+// import Pagination from "src/components/common/Pagination";
+// import SearchInput from "src/components/common/SearchInput";
 import ComingSoon from "src/components/common/ComingSoon";
-import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
-import TopOracleScripts from "src/components/OracleScripts/TopOracleScripts";
-import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
-import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
-import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
+// import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
+// import TopOracleScripts from "src/components/OracleScripts/TopOracleScripts";
+// import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
+// import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
+// import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
 import styles from "./OracleScripts.scss";
 
 const cx = cn.bind(styles);
@@ -28,7 +23,7 @@ const OracleScripts = props => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	// const history = useHistory();
-	const [keyword, setKeyword] = useState("");
+	// const [keyword, setKeyword] = useState("");
 
 	// const getPaginationPath = (pathname, page) => {
 	// 	return pathname + "?page=" + page;
@@ -95,10 +90,10 @@ const OracleScripts = props => {
 	// }, [total]);
 
 	let titleSection;
-	let topSection;
-	let filterSection;
-	let tableSection;
-	let paginationSection;
+	// let topSection;
+	// let filterSection;
+	// let tableSection;
+	// let paginationSection;
 
 	if (isLargeScreen) {
 		titleSection = (

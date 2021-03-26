@@ -1,4 +1,5 @@
-import React, {useEffect} from "react";
+// @ts-nocheck
+import React from "react";
 import {useDropzone} from "react-dropzone";
 import cn from "classnames/bind";
 import {useDispatch} from "react-redux";

@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useMemo} from "react";
+// @ts-nocheck
+import React, {useState, useMemo} from "react";
 import Dialog from "@material-ui/core/Dialog";
-import _ from "lodash";
 import cn from "classnames/bind";
 import CloseSVG from "src/assets/icons/close.svg";
 import styles from "./Dialog.scss";
@@ -10,7 +10,7 @@ import {showAlert} from "src/store/modules/global";
 const cx = cn.bind(styles);
 
 export default function AddAddressDialog(props) {
-	const {onClose, open, recipientAddress, isEdit} = props;
+	const {onSubmit, onClose, open, recipientAddress, isEdit} = props;
 	const dispatch = useDispatch();
 
 	const getStorageData = () => {
@@ -28,6 +28,7 @@ export default function AddAddressDialog(props) {
 				autoHideDuration: 1500,
 			})
 		);
+		onSubmit();
 	};
 
 	const storageData = useMemo(() => getStorageData(), []);

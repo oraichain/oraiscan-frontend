@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
@@ -9,11 +10,8 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
-import {showAlert} from "src/store/modules/global";
-import Keystation from "src/lib/Keystation";
 import WithdrawBtn from "./WithdrawBtn";
 import styles from "./WithdrawTable.scss";
-import aiIcon from "src/assets/common/ai_ic.svg";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 
 const cx = classNames.bind(styles);
@@ -45,8 +43,8 @@ const BtnComponent = ({handleClick}) => {
 };
 
 const WithdrawTable = memo(({data}) => {
-	const {address, account} = useSelector(state => state.wallet);
-	const dispatch = useDispatch();
+	// const {address, account} = useSelector(state => state.wallet);
+	// const dispatch = useDispatch();
 
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -54,13 +52,16 @@ const WithdrawTable = memo(({data}) => {
 		}
 
 		return data.map((item, index) => {
-			console.log(item);
-			const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
+			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator) || {};
+			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoName = item.validator || "";
 
 			const validatorDataCell = item?.validator ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator}`}>
 					<div className={cx("validator")}>
-						<img className={cx("validator-icon")} src={validatorIcon} />
+						{logoURL && <img alt='/' className={cx("validator-icon")} src={logoURL} />}
+						{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
 						<span className={cx("validator-name")}>{item.validator}</span>
 					</div>
 				</NavLink>

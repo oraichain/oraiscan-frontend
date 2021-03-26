@@ -1,4 +1,5 @@
-import React, {memo, useState, useRef} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
@@ -7,7 +8,7 @@ import {useDispatch} from "react-redux";
 
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
-import toggleIcon from "src/assets/header/toggle_ic.svg";
+// import toggleIcon from "src/assets/header/toggle_ic.svg";
 import blocksSVG from "src/assets/header/blocks.svg";
 import dashboardSVG from "src/assets/header/dashboard_black.svg";
 import validatorsSVG from "src/assets/header/validators.svg";

@@ -1,4 +1,5 @@
-import React, {memo} from "react";
+// @ts-nocheck
+import React from "react";
 import classNames from "classnames/bind";
 import {useDispatch} from "react-redux";
 

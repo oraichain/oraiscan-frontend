@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import cn from "classnames/bind";
 import styles from "./Dialog.scss";
 
@@ -16,7 +17,7 @@ export default function Fee({fee: {estimate_fee}, handleChooseFee}) {
 			{type: "Average", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
 			{type: "Fast", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
 		]);
-	}, [estimate_fee]);
+	}, [estimate_fee, orai2usd]);
 
 	const handleClickFeeType = type => {
 		setFeeChooseType(type);

@@ -1,4 +1,5 @@
-import React, {memo, useMemo} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";

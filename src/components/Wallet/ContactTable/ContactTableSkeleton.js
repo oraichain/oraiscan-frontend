@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";

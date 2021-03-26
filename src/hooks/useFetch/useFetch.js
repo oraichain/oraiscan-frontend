@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {useCallback, useEffect, useReducer, useState} from "react";
 import axios from "axios";
 import {_, empty} from "src/lib/scripts";
@@ -22,7 +23,7 @@ export default function useFetch(inputUrl, method = "get", refineFunction = res 
 			.then(res => {
 				if (!unmounted) {
 					const data = _.omitBy(refineFunction(res), _.isNil);
-					const keys = _.keys(data);
+					// const keys = _.keys(data);
 					// if (!empty(state.data) && _.isEqual(data[keys[0]], state.data[keys[0]])) return;
 					dispatch({type: SUCCESS, payload: {data}});
 				}

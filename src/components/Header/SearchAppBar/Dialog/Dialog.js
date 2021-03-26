@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {useState, useEffect} from "react";
 import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
@@ -7,21 +8,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {useForm, FormProvider} from "react-hook-form";
 import {useHistory} from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
-import _, {add, constant} from "lodash";
+import _ from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
 import axios from "axios";
-import {reduceString} from "src/lib/scripts";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
-import {formatOrai} from "src/helpers/helper";
-import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendTrasactionTab from "./SendTrasactionTab";
@@ -56,9 +53,9 @@ const TABS = [
 	},
 ];
 
-const reduceAddress = address => {
-	return address.substr(0, 10) + "..." + address.substr(30);
-};
+// const reduceAddress = address => {
+// 	return address.substr(0, 10) + "..." + address.substr(30);
+// };
 
 export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
 	const [isLoading, setIsLoading] = useState(false);

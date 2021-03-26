@@ -11,9 +11,9 @@ const ButtonGroup = memo(({data = [], value, onChange}) => {
 			{data.map((item, index) => (
 				<button
 					key={"button-" + index}
-					className={cx("button", {active: item.value == value})}
+					className={cx("button", {active: item.value === value})}
 					onClick={() => {
-						if (item.value != value) {
+						if (item.value !== value) {
 							onChange(item.value);
 						}
 					}}>

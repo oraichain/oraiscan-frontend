@@ -1,5 +1,6 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useRef, useState} from "react";
+import React from "react";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";

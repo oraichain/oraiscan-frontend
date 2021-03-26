@@ -1,10 +1,10 @@
-import React, {memo, useState, useRef, useEffect} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {useSelector} from "react-redux";
 import cn from "classnames/bind";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import consts from "src/constants/consts";
-import {formatInteger, formatSeconds, formatOrai, formatFloat} from "src/helpers/helper";
+import {formatInteger, formatSeconds, formatFloat} from "src/helpers/helper";
 import StatusCard from "src/components/common/StatusCard";
 import styles from "./StatusCardList.scss";
 import heightIcon from "src/assets/validators/height_ic.svg";

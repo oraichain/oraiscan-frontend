@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {sentenceCase, constantCase} from "change-case";
@@ -8,7 +9,6 @@ import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
-import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import TransactionTable from "src/components/ProposalDetails/TransactionTable";
@@ -104,7 +104,7 @@ const TransactionsCard = memo(({proposalId}) => {
 
 	const transactionBasePath = `${consts.API.PROPOSALS_TRANSACTIONS}/${proposalId}?limit=${consts.REQUEST.LIMIT}`;
 	let transactionPath = `${transactionBasePath}&page_id=${pageId}`;
-	if (!_.isNil(voteType) && voteType != voteTypesRef.current["ALL"]) {
+	if (!_.isNil(voteType) && voteType !== voteTypesRef.current["ALL"]) {
 		transactionPath = `${transactionPath}&vote=${voteType}`;
 	}
 	const {data: transactionData, loading: transactionLoading, error: transactionError, refetch: refetchTransaction} = useGet({

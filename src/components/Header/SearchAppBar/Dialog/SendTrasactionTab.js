@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+// @ts-nocheck
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {reduceString} from "src/lib/scripts";

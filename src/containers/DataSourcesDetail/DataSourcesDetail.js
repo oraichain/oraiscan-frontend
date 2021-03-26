@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useParams} from "react-router-dom";
