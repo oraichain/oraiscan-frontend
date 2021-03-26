@@ -268,8 +268,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</Grid>
 					<div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>
-						<Input value={gas} className={cx("input-text")} onChange={e => onChangeGas(e.target.value)} />
-						<InputRange maxValue={200000} minValue={0} value={gas} onChange={onChangeGas} />
+						<Input min={100000} value={gas} className={cx("input-text")} onChange={e => onChangeGas(e.target.value)} />
+						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
 					</div>
 				</Grid>
 			)}
