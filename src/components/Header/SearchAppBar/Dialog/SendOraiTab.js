@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from "react";
+import React, {useState, useEffect, useMemo, useRef} from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
@@ -6,6 +6,7 @@ import BigNumber from "bignumber.js";
 import {Switch, Input, InputNumber} from "antd";
 import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
+import {EditOutlined} from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
 
 import consts from "src/constants/consts";
@@ -47,14 +48,15 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const {errors, setValue, getValues, watch} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
-	const storageData = useMemo(() => {
-		return JSON.parse(localStorage.getItem("address")) ?? {};
-	}, []);
+	const [storageData, setStorageData] = useState(JSON.parse(localStorage.getItem("address")) ?? {});
 
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
-		console.log(existName);
-	}, [inputAddress]);
+	}, [inputAddress, storageData]);
+
+	const onSubmit = () => {
+		setStorageData(JSON.parse(localStorage.getItem("address")) ?? {});
+	};
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -227,10 +229,11 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						<div className={cx("label")}> Add Recipient </div>
 						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 						{existName ? (
-							<div className={cx("new-label")}>
-								Already in your contact: {existName + " "}
-								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
-									Edit name
+							<div className={cx("label-exist")}>
+								<span className={cx("label-exist-name")}>{existName}</span>
+
+								<a href='/' className={cx("label-exist-icon")} onClick={handleClickOpen}>
+									<EditOutlined />
 								</a>
 							</div>
 						) : (
@@ -284,7 +287,17 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
-			{open ? <AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} isEdit={existName ? true : false} /> : ""}
+			{open ? (
+				<AddAddressDialog
+					onSubmit={onSubmit}
+					onClose={handleClose}
+					open={open}
+					recipientAddress={getValues("recipientAddress")}
+					isEdit={existName ? true : false}
+				/>
+			) : (
+				""
+			)}
 		</form>
 	);
 }

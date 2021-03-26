@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden} from "@material-ui/core";
-import {ArrowDropDown, DriveEta} from "@material-ui/icons";
+import {ExpandMore, DriveEta} from "@material-ui/icons";
 import cn from "classnames/bind";
 import Wallet from "./Wallet";
 import {initWallet} from "src/store/modules/wallet";
@@ -79,8 +79,8 @@ export default function(props) {
 										<div className={cx("dropdown")} key={"nav-dropdown-" + index}>
 											<a href='/'>
 												<ListItem button>
-													<ListItemText primary={title} />
-													<ArrowDropDown />
+													<ListItemText className={cx("header-text")} primary={title} />
+													<ExpandMore className={cx("icon")} />
 												</ListItem>
 											</a>
 											<div className={cx("dropdown-content")}>
@@ -113,10 +113,10 @@ export default function(props) {
 								if (children) {
 									return (
 										<div className={cx("dropdown")} key={"sidenav-dropdown-" + index}>
-											<a className={cx("dropdown-btn")}>
+											<a>
 												<ListItem button>
-													<ListItemText primary={title} />
-													<ArrowDropDown />
+													<ListItemText className={cx("header-text")} primary={title} />
+													<ExpandMore className={cx("icon")} />
 												</ListItem>
 											</a>
 											<div className={cx("dropdown-content")}>
