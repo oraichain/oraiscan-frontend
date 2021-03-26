@@ -55,7 +55,6 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	}, [inputAddress, storageData]);
 
 	const onSubmit = () => {
-		console.log("SET STATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		setStorageData(JSON.parse(localStorage.getItem("address")) ?? {});
 	};
 
