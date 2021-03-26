@@ -10,7 +10,7 @@ import {showAlert} from "src/store/modules/global";
 const cx = cn.bind(styles);
 
 export default function AddAddressDialog(props) {
-	const {onClose, open, recipientAddress} = props;
+	const {onClose, open, recipientAddress, isEdit} = props;
 	const dispatch = useDispatch();
 
 	const getStorageData = () => {
@@ -71,7 +71,7 @@ export default function AddAddressDialog(props) {
 							onClose();
 						}}
 						className={cx("button-add")}>
-						Add
+						{isEdit ? "Edit" : "Add"}
 					</button>
 				</div>
 			</div>

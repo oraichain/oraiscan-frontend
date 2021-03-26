@@ -1,24 +1,22 @@
-import React, {useState, useEffect} from "react";
-import Grid from "@material-ui/core/Grid";
-import Dialog from "@material-ui/core/Dialog";
+import React, {useState, useEffect, useMemo} from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import BigNumber from "bignumber.js";
 import {Switch, Input} from "antd";
 import InputRange from "react-input-range";
-
+import Grid from "@material-ui/core/Grid";
+import consts from "src/constants/consts";
 import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
-import consts from "src/constants/consts";
+import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
-import AddAddressDialog from "./AddAddressDialog";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
@@ -44,7 +42,17 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
-	const {errors, setValue, getValues} = methods;
+	const {errors, setValue, getValues, watch} = methods;
+	const inputAddress = watch("recipientAddress");
+	const [existName, setExistName] = useState(null);
+	const storageData = useMemo(() => {
+		return JSON.parse(localStorage.getItem("address")) ?? {};
+	}, []);
+
+	useEffect(() => {
+		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
+		console.log(existName);
+	}, [inputAddress]);
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -216,12 +224,21 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
 						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
-						<div className={cx("new-label")}>
-							New address recognized!{" "}
-							<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
-								Add them to your address book
-							</a>
-						</div>
+						{existName ? (
+							<div className={cx("new-label")}>
+								Already in your contact: {existName + " "}
+								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
+									Edit name
+								</a>
+							</div>
+						) : (
+							<div className={cx("new-label")}>
+								New address recognized!{" "}
+								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
+									Add them to your address book
+								</a>
+							</div>
+						)}
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label", "label-right")}>
@@ -257,7 +274,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
-			{open ? <AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} /> : ""}
+			{open ? <AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} isEdit={existName ? true : false} /> : ""}
 		</form>
 	);
 }
