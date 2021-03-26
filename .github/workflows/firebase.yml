@@ -15,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v2    
@@ -40,7 +40,7 @@ jobs:
         REACT_APP_LCD_API: https://lcd.orai.io
         REACT_APP_BUILD_ENV: prod 
         NODE_ENV: production
-      run: node scripts/build.js
+      run: yarn build:prod
     - name: Deploy to firebase
       run: yarn firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
         
