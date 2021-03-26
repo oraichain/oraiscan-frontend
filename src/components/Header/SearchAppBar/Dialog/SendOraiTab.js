@@ -6,6 +6,7 @@ import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import BigNumber from "bignumber.js";
 import {Switch, Input} from "antd";
+import InputRange from "react-input-range";
 
 import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
@@ -14,6 +15,7 @@ import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
 import consts from "src/constants/consts";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
+import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
 import AddAddressDialog from "./AddAddressDialog";
@@ -35,12 +37,13 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	});
 });
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti}) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minGas, handleChangeGas}) {
 	const [fee, setFee] = useState(0);
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
+	const [gas, setGas] = useState(200000);
 	const {errors, setValue, getValues} = methods;
 
 	const setAmountValue = (e, rate) => {
@@ -165,9 +168,10 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 		const form = getValues();
 		if (form.recipientAddress) {
 			const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
-			const newWindow = window.open(url, "_blank");
+			let newWindow = window.open(url);
 			if (newWindow) {
 				newWindow.opener = null;
+				newWindow = null;
 			}
 		}
 	};
@@ -179,6 +183,15 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	const handleClose = value => {
 		setOpen(false);
+	};
+
+	const handleChooseFee = fee => {
+		setFee(fee);
+	};
+
+	const onChangeGas = value => {
+		handleChangeGas(value);
+		setGas(value);
 	};
 
 	return (
@@ -202,10 +215,10 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</div>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
-						<InputTextWithIcon placeholder='03332...' name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
+						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 						<div className={cx("new-label")}>
 							New address recognized!{" "}
-							<a className={cx("open-dialog")} onClick={handleClickOpen}>
+							<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
 								Add them to your address book
 							</a>
 						</div>
@@ -227,14 +240,20 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						</div>
 						<TextArea name='memo' placeholder='Insert memo here' rows={5} />
 					</Grid>
+					<Fee handleChooseFee={handleChooseFee} fee={minGas} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
-							Tx Fee:
-							<span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
-							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(fee))).toFixed(6) + ")" : ""}</span>
+							Minimin Tx Fee:
+							<span className={cx("fee")}> {formatOrai(minGas || 0)} ORAI </span>{" "}
+							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(minGas))).toFixed(6) + ")" : ""}</span>
 						</div>
 					</Grid>
+					<div className={cx("select-gas", "select-gas-custom")}>
+						<span className={cx("gas-span")}> Gas </span>
+						<Input value={gas} className={cx("input-text")} onChange={e => onChangeGas(e.target.value)} />
+						<InputRange maxValue={200000} minValue={0} value={gas} onChange={onChangeGas} />
+					</div>
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}

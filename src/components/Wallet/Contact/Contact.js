@@ -39,7 +39,7 @@ const Contact = memo(() => {
 	};
 
 	const allPageData = useMemo(() => getAllPageData(storageData), []);
-	let currentPageData = Object.values(allPageData[currentPage]) ?? [];
+	let currentPageData = Object.values(allPageData[currentPage] || {}) ?? [];
 
 	if (!storageData) {
 		return isLargeScreen ? <ContactTableSkeleton /> : <ContactCardListSkeleton />;

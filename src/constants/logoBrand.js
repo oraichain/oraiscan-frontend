@@ -99,4 +99,10 @@ export const logoBrand = [
 		logo: aiIcon,
 		customLogo: true,
 	},
+	{
+		name: "mortys_node",
+		operatorAddress: "oraivaloper16e6cpk6ycddk6208fpaya7tmmardhvr7h40yqy",
+		logo: aiIcon,
+		customLogo: true,
+	},
 ];
