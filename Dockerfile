@@ -14,13 +14,13 @@ COPY .env.example .env
 
 RUN npm run build:prod
 
-FROM node:14.16.0-alpine3.10
+FROM nginx:1.19-alpine
 
 WORKDIR /app/src
-RUN yarn global add serve
 
-COPY --from=builder /app/src/build /app/src/build
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/src/build /var/www/html
 
 EXPOSE 5000
 
-CMD [ "serve", "-s","-l","tcp://0.0.0.0", "build" ]
+# CMD [ "serve", "-s","-l","tcp://0.0.0.0", "build" ]
