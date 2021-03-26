@@ -43,7 +43,7 @@ jobs:
         REACT_APP_SITE_KEYWORDS: Oraichain, Oraiscan, AI Oracle
         REACT_APP_LCD_API: https://lcd.orai.io
       with:
-        cmd: build 
+        cmd: build:prod 
     - uses: borales/actions-yarn@v2.0.0
       with:  
         cmd: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
