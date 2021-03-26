@@ -19,11 +19,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2    
-    - uses: actions/cache@v2
+    - name: Cache Node Modules
+      id: cache-node-modules
+      uses: actions/cache@v2
       with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-    - name: Install packages
+        path: node_modules
+        key: node-modules-${{ hashFiles('yarn.lock') }}
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
     - name: Build Production
       env:
@@ -35,7 +38,9 @@ jobs:
         REACT_APP_SITE_DESC: AI-Powered Data Oracle
         REACT_APP_SITE_KEYWORDS: Oraichain, Oraiscan, AI Oracle
         REACT_APP_LCD_API: https://lcd.orai.io
-      run: yarn build:prod 
+        REACT_APP_BUILD_ENV: prod 
+        NODE_ENV: production
+      run: node scripts/build.js
     - name: Deploy to firebase
       run: yarn firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
         
