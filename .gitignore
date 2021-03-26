@@ -26,8 +26,8 @@ yarn.lock
 .env.development.local
 .env.test.local
 .env.production.local
-.firebaserc
-firebase.json
+#.firebaserc
+#firebase.json
 functions/.eslintrc.json
 functions/.gitignore
 functions/index.js
