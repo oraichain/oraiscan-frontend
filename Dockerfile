@@ -1,4 +1,4 @@
-FROM node:14.16.0-alpine3.10
+FROM node:14.16.0-alpine3.10 as builder
 
 WORKDIR /app/src
 
@@ -13,6 +13,13 @@ COPY . .
 COPY .env.example .env
 
 RUN npm run build:prod
+
+FROM node:14.16.0-alpine3.10
+
+WORKDIR /app/src
+RUN yarn global add serve
+
+COPY --from=builder /app/src/build /app/src/build
 
 EXPOSE 5000
 
