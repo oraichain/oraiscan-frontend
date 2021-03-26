@@ -363,3 +363,24 @@
 		margin-left: 10px;
 	}
 }
+
+.label-exist {
+	display: flex;
+	flex-direction: row;
+	justify-self: flex-start;
+	align-items: center;
+	font-weight: 500;
+	font-size: 18px;
+	padding-left: 2px;
+	&-name {
+		display: inline-block;
+		margin-right: 8px;
+	}
+	&-icon {
+		color: #008bd9;
+		display: inline-flex;
+		flex-direction: row;
+		justify-self: flex-start;
+		align-items: center;
+	}
+}
