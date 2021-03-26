@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-
+    
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
@@ -36,6 +36,9 @@ jobs:
           **/node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
+    - name: Install firebase tools
+      run: npm install -g firebase-tools
+      
     - name: Install dependencies
       run: npm install
       
@@ -54,5 +57,5 @@ jobs:
       run: npm run build:prod
 
     - name: Deploy to firebase
-      run: npm run firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+      run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
         
