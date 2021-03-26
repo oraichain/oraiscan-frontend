@@ -5,7 +5,7 @@ import cn from "classnames/bind";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import {Toolbar, List, ListItem, ListItemText, Button, MenuItem, Drawer, Hidden} from "@material-ui/core";
-import {ArrowDropDown, DriveEta} from "@material-ui/icons";
+import {ExpandMore, DriveEta} from "@material-ui/icons";
 import Alert from "src/components/common/Alert/Alert";
 import copy from "copy-to-clipboard";
 import Skeleton from "react-skeleton-loader";
@@ -22,6 +22,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import {ReactComponent as ShareIcon} from "src/assets/icons/share.svg";
 import {ReactComponent as WalletIcon} from "src/assets/icons/wallet.svg";
 import {ReactComponent as CopyIcon} from "src/assets/common/copy_ic.svg";
+import accountIcon from "src/assets/header/account.svg";
 
 import Dialog from "./Dialog";
 import styles from "./SearchAppBar.scss";
@@ -96,8 +97,8 @@ export default function({data: props}) {
 			/>
 			<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
 				<ListItem button>
-					<AccountCircleIcon />
-					<ArrowDropDown />
+					<img src={accountIcon} className={cx("account-icon")} />
+					<ExpandMore className={cx("icon")} />
 				</ListItem>
 			</a>
 			<div className={cx("dropdown-content", classNameDropdown)}>
