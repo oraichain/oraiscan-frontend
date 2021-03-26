@@ -1,9 +1,9 @@
-import React, {isValidElement, memo, useState, useEffect} from "react";
+// @ts-nocheck
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
 import {useForm, FormProvider} from "react-hook-form";
-import {ErrorMessage} from "@hookform/error-message";
 import {withStyles} from "@material-ui/core/styles";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -17,7 +17,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 import Keystation from "src/lib/Keystation";
-import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {InputNumberOrai} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 
 const cx = cn.bind(styles);
@@ -122,12 +122,12 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
 		data.amount = data.amount * 100 + "";
 		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
-		if (data.amount == 0) {
+		if (data.amount === 0 || data.amount === "0") {
 			setError("amount", {
 				type: "zero",
 				message: "Withdraw amount must be greater than 0 and less than withdrawable amount",

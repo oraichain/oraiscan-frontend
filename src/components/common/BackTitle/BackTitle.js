@@ -10,7 +10,7 @@ const BackTitle = memo(({title, to}) => {
 	return (
 		<div className={cx("back-title")}>
 			<NavLink className={cx("back-title-link")} to={to}>
-				<img className={cx("back-title-icon")} src={backIcon} />
+				<img alt='/' className={cx("back-title-icon")} src={backIcon} />
 			</NavLink>
 
 			<span className={cx("back-title-text")}>{title}</span>

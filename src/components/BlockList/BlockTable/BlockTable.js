@@ -10,7 +10,6 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
 import {logoBrand} from "src/constants/logoBrand";
-import aiIcon from "src/assets/common/ai_ic.svg";
 
 const cx = classNames.bind(styles);
 

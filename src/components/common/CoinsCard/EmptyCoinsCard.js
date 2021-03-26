@@ -1,4 +1,5 @@
-import React, {memo, useMemo} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
 import DonutChart from "react-donut-chart";

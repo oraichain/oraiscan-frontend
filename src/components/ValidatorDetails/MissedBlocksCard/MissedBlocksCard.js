@@ -1,4 +1,5 @@
-import React, {memo, useState} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {useGet} from "restful-react";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";

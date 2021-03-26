@@ -12,7 +12,6 @@ import ThemedTable from "src/components/common/ThemedTable";
 import Keystation from "src/lib/Keystation";
 import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimTable.scss";
-import aiIcon from "src/assets/common/ai_ic.svg";
 import giftIcon from "src/assets/wallet/gift.svg";
 
 const cx = classNames.bind(styles);

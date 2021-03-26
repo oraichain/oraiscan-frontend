@@ -13,7 +13,6 @@ export default function(txType) {
 			return "Cancel Order";
 
 		case "TRANSFER":
-
 		case COSMOS_SDK.SEND:
 		case COSMOS_SDK.MSG_SEND:
 			return "Transfer";

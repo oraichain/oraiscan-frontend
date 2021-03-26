@@ -1,8 +1,9 @@
-import React, {isValidElement, memo, useState, useEffect} from "react";
+// @ts-nocheck
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
 import {useForm, FormProvider} from "react-hook-form";
 import {withStyles} from "@material-ui/core/styles";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
@@ -12,7 +13,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
-import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {InputNumberOrai} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
@@ -118,12 +119,12 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
 		data.amount = data.amount * 100 + "";
 		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
-		if (data.amount == 0) {
+		if (data.amount === 0 || data.amount === "0") {
 			setError("amount", {
 				type: "zero",
 				message: "Transfer amount must be greater than 0 and less than your account's amount",

@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React from "react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import _ from "lodash";
 import RequestCard from "src/components/OracleScriptDetail/RequestCard";
 import DetailsCard from "src/components/OracleScriptDetail/DetailsCard";
 import TogglePageBar from "src/components/common/TogglePageBar";

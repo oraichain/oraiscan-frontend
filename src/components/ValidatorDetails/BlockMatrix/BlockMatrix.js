@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import styles from "./BlockMatrix.scss";
@@ -20,13 +21,13 @@ const BlockMatrix = memo(({lastestHeight, signedBlocks}) => {
 		if (signedBlocks.includes(value)) {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<img className={cx("block-icon")} src={signedBlockIcon} />
+					<img alt='/' className={cx("block-icon")} src={signedBlockIcon} />
 				</div>
 			);
 		} else {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<img className={cx("block-icon")} src={missedBlockIcon} />
+					<img alt='/' className={cx("block-icon")} src={missedBlockIcon} />
 				</div>
 			);
 		}

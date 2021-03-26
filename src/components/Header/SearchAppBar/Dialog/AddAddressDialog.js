@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useMemo} from "react";
+// @ts-nocheck
+import React, {useState, useMemo} from "react";
 import Dialog from "@material-ui/core/Dialog";
-import _ from "lodash";
 import cn from "classnames/bind";
 import CloseSVG from "src/assets/icons/close.svg";
 import styles from "./Dialog.scss";

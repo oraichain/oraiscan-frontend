@@ -1,5 +1,5 @@
+// @ts-nocheck
 import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -18,11 +18,11 @@ const DetailsCard = memo(({data}) => {
 	let statusStateClassName;
 	let statusIcon;
 	let statusText;
-	if (data?.status == "PROPOSAL_STATUS_PASSED") {
+	if (data?.status === "PROPOSAL_STATUS_PASSED") {
 		statusStateClassName = "status-passed";
 		statusIcon = passedIcon;
 		statusText = "Passed";
-	} else if (data?.status == "PROPOSAL_STATUS_REJECTED") {
+	} else if (data?.status === "PROPOSAL_STATUS_REJECTED") {
 		statusStateClassName = "status-rejected";
 		statusIcon = rejectedIcon;
 		statusText = "Rejected";

@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React from "react";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import NoResult from "src/components/common/NoResult";
 import ClaimTable from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTable";
 import ClaimTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTableSkeleton";
 import ClaimCardList from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";

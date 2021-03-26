@@ -9,7 +9,7 @@ import styles from "./Router.scss";
 const cx = cn.bind(styles);
 
 const Dashboard = lazy(() => import(`src/containers/Dashboard`));
-const Validator = lazy(() => import(`src/containers/Validator`));
+// const Validator = lazy(() => import(`src/containers/Validator`));
 const ValidatorList = lazy(() => import(`src/containers/ValidatorList`));
 const ValidatorDetails = lazy(() => import(`src/containers/ValidatorDetails`));
 const Block = lazy(() => import(`src/containers/Block`));
