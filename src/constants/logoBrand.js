@@ -102,7 +102,6 @@ export const logoBrand = [
 	{
 		name: "mortys_node",
 		operatorAddress: "oraivaloper16e6cpk6ycddk6208fpaya7tmmardhvr7h40yqy",
-		logo: aiIcon,
-		customLogo: true,
+		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1616749893/photo_2021-03-25_18-39-37_tqfsof.jpg",
 	},
 ];
