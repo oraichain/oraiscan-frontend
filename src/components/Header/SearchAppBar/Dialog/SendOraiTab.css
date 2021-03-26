@@ -27968,3 +27968,7 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .select-gas-custom .input-range .input-range__track {
 	background: #f7f7f7;
 }
+
+.MuiDialogContent-root {
+	overflow-y: unset !important;
+}
