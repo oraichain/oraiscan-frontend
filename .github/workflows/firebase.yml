@@ -51,6 +51,7 @@ jobs:
         REACT_APP_LCD_API: https://lcd.orai.io
         REACT_APP_BUILD_ENV: prod 
         NODE_ENV: production
+        CI: false
       run: npm run build:prod
 
     - name: Deploy to firebase
