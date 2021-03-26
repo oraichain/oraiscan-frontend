@@ -4,7 +4,6 @@ import Dialog from "@material-ui/core/Dialog";
 import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
-import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
 import {Switch, Input} from "antd";
 import InputRange from "react-input-range";
@@ -19,8 +18,7 @@ import SelectFile from "./SelectFile";
 import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
-import CloseSVG from "src/assets/icons/close.svg";
-import "react-input-range/lib/css/index.css";
+import AddAddressDialog from "./AddAddressDialog";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
@@ -38,59 +36,6 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 		},
 	});
 });
-
-const handleAddAddressToStorage = (name, address) => {
-	let storageData = JSON.parse(localStorage.getItem("address")) ?? {};
-	let newData = Object.assign(storageData, {[address]: {address: address, name: name}});
-	localStorage.setItem("address", JSON.stringify(newData));
-};
-
-function AddAddressDialog(props) {
-	const {onClose, open, recipientAddress} = props;
-	const [name, setName] = useState("");
-	return (
-		<Dialog open={open}>
-			<div className={cx("close")} onClick={onClose}>
-				<img className={cx("close-icon")} src={CloseSVG} alt='Close' />
-			</div>
-			<div className={cx("address-dialog")}>
-				<div className={cx("address-dialog-header")}>
-					<div className={cx("title")}>Add address to contacts</div>
-				</div>
-
-				<div className={cx("address-dialog-label")}>
-					<div className={cx("label")}>Label</div>
-					<input
-						className={cx("input")}
-						type='text'
-						value={name}
-						onChange={e => {
-							setName(e.target.value);
-						}}
-					/>
-				</div>
-				<div className={cx("address-dialog-value")}>
-					<div className={cx("address-label")}>Address</div>
-					<div className={cx("address-value")}>{recipientAddress}</div>
-				</div>
-
-				<div className={cx("address-dialog-footer")}>
-					<button onClick={onClose} className={cx("button-cancel")}>
-						Cancel
-					</button>
-					<button
-						onClick={() => {
-							handleAddAddressToStorage(name, recipientAddress);
-							onClose();
-						}}
-						className={cx("button-add")}>
-						Add
-					</button>
-				</div>
-			</div>
-		</Dialog>
-	);
-}
 
 export default function FormDialog({address, amount, status, methods, handleInputMulti, minGas, handleChangeGas}) {
 	const [fee, setFee] = useState(0);
@@ -312,7 +257,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
-			<AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} />
+			{open ? <AddAddressDialog onClose={handleClose} open={open} recipientAddress={getValues("recipientAddress")} /> : ""}
 		</form>
 	);
 }
