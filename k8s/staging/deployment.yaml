@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: oraiscan-frontend
-        image: thao1996/oraiscan-frontend:73755a71bcdf73eb7932ce5cbb631b5e24a3297d
+        image: thao1996/oraiscan-frontend:190546e41ae362a53480dca99ae7f9d400e9d3b4
         imagePullPolicy: Always
         env:
           - name: "REACT_APP_SITE_TITLE"
