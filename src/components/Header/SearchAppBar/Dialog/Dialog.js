@@ -75,10 +75,10 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
-		sendAmount: yup
-			.number()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(amount / 1000000, "lessThanNumber"),
+		// sendAmount: yup
+		// 	.number()
+		// 	.required("Send Amount Field is Required")
+		// 	.lessThanNumber(amount / 1000000, "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -87,7 +87,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	});
 
 	const methods = useForm({
-		// resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
+		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
 	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
