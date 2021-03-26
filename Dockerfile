@@ -2,13 +2,17 @@ FROM node:14.16.0-alpine3.10
 
 WORKDIR /app/src
 
-COPY package*.json ./
-RUN npm install
+RUN apk add --no-cache python make g++
+RUN yarn global add serve
+
+COPY package.json package.json
+
+RUN yarn install
 
 COPY . .
-CP .env.example .env
+COPY .env.example .env
+
 RUN npm run build:prod
-RUN npm install -g serve
 
 EXPOSE 5000
 
