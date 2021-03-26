@@ -3,9 +3,11 @@ import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import BigNumber from "bignumber.js";
-import {Switch, Input} from "antd";
+import {Switch, Input, InputNumber} from "antd";
 import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
+import "react-input-range/lib/css/index.css";
+
 import consts from "src/constants/consts";
 import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
@@ -268,7 +270,15 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</Grid>
 					<div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>
-						<Input min={100000} value={gas} className={cx("input-text")} onChange={e => onChangeGas(e.target.value)} />
+						<InputNumber
+							value={gas}
+							className={cx("input-text")}
+							formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							parser={value => value.replace(/\s?|(,*)/g, "")}
+							onChange={onChangeGas}
+							min={100000}
+							max={1000000}
+						/>
 						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
 					</div>
 				</Grid>
