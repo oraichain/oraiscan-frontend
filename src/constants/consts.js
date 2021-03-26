@@ -159,4 +159,7 @@ export default Object.freeze({
 		VALIDATOR: "oraivaloper1",
 		ACCOUNT: "orai1",
 	},
+	ANIMATION: {
+		DELAY: 100,
+	},
 });

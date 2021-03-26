@@ -33,7 +33,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const BlockTable = memo(({data = []}) => {
+const BlockTable = memo(({data = [], rowMotions = []}) => {
 	const validators = useSelector(state => state.blockchain.validators);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -92,7 +92,15 @@ const BlockTable = memo(({data = []}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			rowMotions={rowMotions}
+		/>
+	);
 });
 
 export default BlockTable;
