@@ -267,8 +267,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
-							<span className={cx("fee")}> {formatOrai(minGas || 0)} ORAI </span>{" "}
-							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(minGas))).toFixed(6) + ")" : ""}</span>
+							<span className={cx("fee")}> {formatOrai(minGas?.estimate_fee * 1000000 || 0)} ORAI </span>{" "}
+							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(minGas?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span>
 						</div>
 					</Grid>
 					<div className={cx("select-gas", "select-gas-custom")}>
