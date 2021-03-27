@@ -107,6 +107,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		let payload;
 		if (activeTabId === 1) {
 			let msg = [];
+			const minGasFee = (minGas?.estimate_fee * 1000000 + "").split(".")[0];
 			if (multiSendData) {
 				console.log(multiSendData);
 				msg = multiSendData.map(v => {
@@ -146,7 +147,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				value: {
 					msg,
 					fee: {
-						amount: [minGas?.estimate_fee],
+						amount: [minGasFee],
 						gas,
 					},
 					signatures: null,
