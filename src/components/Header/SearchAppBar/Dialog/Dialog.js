@@ -62,11 +62,12 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
 	const [gas, setGas] = useState(200000);
+	const [fee, setFee] = useState(0);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
 	const path = `${consts.API.MIN_GAS}`;
-	const {data: minGas, loading, error} = useGet({
+	const {data: minFee, loading, error} = useGet({
 		path: path,
 	});
 
@@ -107,7 +108,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		let payload;
 		if (activeTabId === 1) {
 			let msg = [];
-			const minGasFee = (minGas?.estimate_fee * 1000000 + "").split(".")[0];
+			const minGasFee = (fee * 1000000 + "").split(".")[0];
 			if (multiSendData) {
 				console.log(multiSendData);
 				msg = multiSendData.map(v => {
@@ -219,8 +220,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 					status={status}
 					methods={methods}
 					handleInputMulti={handleInputMulti}
-					minGas={minGas}
+					minFee={minFee}
 					handleChangeGas={setGas}
+					handleChangeFee={setFee}
 				/>
 			);
 		}
