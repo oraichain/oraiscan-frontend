@@ -90,8 +90,7 @@ export const logoBrand = [
 	{
 		name: "TetrisBlock",
 		operatorAddress: "oraivaloper17a8cjfd3yztf2clhecp6096394veg99elw576y",
-		logo: aiIcon,
-		customLogo: true,
+		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1617003009/tetris-block_uqsx3a.png",
 	},
 	{
 		name: "ebash.team",
@@ -103,5 +102,10 @@ export const logoBrand = [
 		name: "mortys_node",
 		operatorAddress: "oraivaloper16e6cpk6ycddk6208fpaya7tmmardhvr7h40yqy",
 		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1616749893/photo_2021-03-25_18-39-37_tqfsof.jpg",
+	},
+	{
+		name: "lux8.net",
+		operatorAddress: "oraivaloper1kh9vejqxqqccavtv2nf683mx0z85mfpd7q566q",
+		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1616994377/lux_logo_small_1_nvwpdi.png",
 	},
 ];
