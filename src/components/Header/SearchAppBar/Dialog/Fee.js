@@ -6,14 +6,14 @@ import styles from "./Dialog.scss";
 
 const cx = cn.bind(styles);
 
-export default function Fee({fee: {estimate_fee}, handleChooseFee}) {
-	const [feeChooseType, setFeeChooseType] = useState("");
+export default function Fee({minFee: {estimate_fee}, handleChooseFee}) {
+	const [feeChooseType, setFeeChooseType] = useState("Slow");
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [fees, setFees] = useState([]);
 
 	useEffect(() => {
 		setFees([
-			{type: "Slow", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
+			{type: "Slow", amount: 0, amountUSD: 0},
 			{type: "Average", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
 			{type: "Fast", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
 		]);
