@@ -5,7 +5,7 @@ import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {calculateBefore} from "src/helpers/helper";
+import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -37,6 +37,7 @@ const BlockList = props => {
 	const [pageId, setPageId] = useState(1);
 	const totalItemsRef = useRef(null);
 	const totalPagesRef = useRef(null);
+	const prevDataRef = useRef(null);
 
 	let timerIdRef = useRef(null);
 
@@ -52,6 +53,10 @@ const BlockList = props => {
 		setLoadCompleted(false);
 		setPageId(page);
 	};
+
+	if (!firstLoadCompleted) {
+		prevDataRef.current = null;
+	}
 
 	let path = basePath;
 	if (totalItemsRef.current) {
@@ -115,7 +120,25 @@ const BlockList = props => {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, data.data)) {
+					const key = "height";
+					const mergedData = mergeArrays(data.data, prevDataRef.current, key);
+					const rowMotions = mergedData.map((mergedItem, index) => {
+						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !data.data.find(item => mergedItem[key] == item[key])) {
+							return -1;
+						}
+
+						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && data.data.find(item => mergedItem[key] == item[key])) {
+							return 1;
+						}
+
+						return 0;
+					});
+					tableSection = isLargeScreen ? <BlockTable data={mergedData} rowMotions={rowMotions} /> : <BlockCardList data={data?.data} />;
+				} else {
+					tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+				}
+				prevDataRef.current = [...data.data];
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}
