@@ -46,3 +46,35 @@
 		}
 	}
 }
+
+@keyframes fadeIn {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.effect {
+	&-in {
+		animation-name: fadeIn;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+
+	&-out {
+		animation-name: fadeOut;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+}

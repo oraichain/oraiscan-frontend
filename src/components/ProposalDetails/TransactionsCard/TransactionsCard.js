@@ -6,6 +6,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import {arraysEqual, mergeArrays} from "src/helpers/helper";
 import {formatInteger} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
@@ -41,6 +42,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	const totalTxsRef = useRef({});
 	const [voteType, setVoteType] = useState(voteTypesRef.current["ALL"]);
 	const totalPagesRef = useRef(null);
+	const prevDataRef = useRef([]);
 
 	let transactionTimerId = useRef(null);
 	let totalTxsTimerId = useRef(null);
@@ -76,6 +78,10 @@ const TransactionsCard = memo(({proposalId}) => {
 		setLoadTransactionCompleted(false);
 		setPageId(page);
 	};
+
+	if (!firstLoadTransactionCompleted) {
+		prevDataRef.current = null;
+	}
 
 	const votePath = `${consts.API.PROPOSAL_VOTES}`;
 	const {data: voteData} = useGet({
@@ -177,7 +183,25 @@ const TransactionsCard = memo(({proposalId}) => {
 			}
 
 			if (Array.isArray(transactionData?.txs) && transactionData.txs.length > 0) {
-				tableSection = isLargeScreen ? <TransactionTable data={transactionData.txs} /> : <TransactionCardList data={transactionData.txs} />;
+				if (firstLoadTransactionCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, transactionData.txs)) {
+					const key = "height";
+					const mergedData = mergeArrays(transactionData.txs, prevDataRef.current, key);
+					const rowMotions = mergedData.map((mergedItem, index) => {
+						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !transactionData.txs.find(item => mergedItem[key] == item[key])) {
+							return -1;
+						}
+
+						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && transactionData.txs.find(item => mergedItem[key] == item[key])) {
+							return 1;
+						}
+
+						return 0;
+					});
+					tableSection = isLargeScreen ? <TransactionTable data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList data={transactionData?.txs} />;
+				} else {
+					tableSection = isLargeScreen ? <TransactionTable data={transactionData?.txs} /> : <TransactionCardList data={transactionData?.txs} />;
+				}
+				prevDataRef.current = [...transactionData.txs];
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}
