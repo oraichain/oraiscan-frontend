@@ -1,0 +1,82 @@
+// @ts-nocheck
+import React, {memo} from "react";
+import {NavLink} from "react-router-dom";
+import classNames from "classnames/bind";
+import consts from "src/constants/consts";
+import getTxType from "src/constants/getTxType";
+import {_, reduceString, setAgoTime} from "src/lib/scripts";
+import {formatFloat, formatOrai} from "src/helpers/helper";
+import styles from "./TransactionCardList.scss";
+import successIcon from "src/assets/transactions/success_ic.svg";
+import failureIcon from "src/assets/transactions/fail_ic.svg";
+import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import {useSelector} from "react-redux";
+
+const TransactionCardList = memo(({data = [], account}) => {
+	const cx = classNames.bind(styles);
+	const status = useSelector(state => state.blockchain.status);
+
+	return (
+		<div className='transaction-card-list'>
+			{data.map((item, index) => {
+				return (
+					<div className={cx("transaction-card-list-item")} key={"transaction-card-list-item-" + index}>
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div className={cx("item-title")}>TxHash</div>
+									</td>
+									<td>
+										{_.isNil(item?.tx_hash) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+												{reduceString(item.tx_hash, 6, 6)}
+											</NavLink>
+										)}
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Type</div>
+									</td>
+									<td>
+										{_.isNil(item?.messages?.[0]?.type) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<div className={cx("type-data-cell")}>
+												<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
+												{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
+											</div>
+										)}
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Height</div>
+										{_.isNil(item?.height) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
+												{item.height}
+											</NavLink>
+										)}
+									</td>
+									<td>
+										<div className={cx("item-title")}>Time</div>
+										{_.isNil(item?.timestamp) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{setAgoTime(item.timestamp)}</div>}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				);
+			})}
+		</div>
+	);
+});
+
+export default TransactionCardList;

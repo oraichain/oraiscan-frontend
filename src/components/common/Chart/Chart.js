@@ -55,7 +55,6 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 			...options,
 		};
 	}, [options, data, displayMax, showAxis]);
-	console.log(data);
 	// console.log(graphOptions);
 	// return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
 	return <HighchartsReact highcharts={highcharts} options={graphOptions} />;
