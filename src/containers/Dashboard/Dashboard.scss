@@ -1,8 +1,9 @@
 @import "src/styles/utils";
 
-.Dashboard {
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
-	overflow-x: visible;
+.dashboard {
+	margin-top: 0;
+	margin-bottom: 30px;
+	@media (min-width: 1279px) {
+		margin-top: 30px;
+	}
 }
