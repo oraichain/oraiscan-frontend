@@ -41,7 +41,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], account}) => {
+const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -148,7 +148,15 @@ const TransactionTable = memo(({data = [], account}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			rowMotions={rowMotions}
+		/>
+	);
 });
 
 export default TransactionTable;

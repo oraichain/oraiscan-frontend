@@ -38,8 +38,7 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	});
 });
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minGas, handleChangeGas}) {
-	const [fee, setFee] = useState(0);
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
@@ -198,7 +197,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	};
 
 	const handleChooseFee = fee => {
-		setFee(fee);
+		handleChangeFee(fee);
 	};
 
 	const onChangeGas = value => {
@@ -262,13 +261,14 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						</div>
 						<TextArea name='memo' placeholder='Insert memo here' rows={5} />
 					</Grid>
-					<Fee handleChooseFee={handleChooseFee} fee={minGas} />
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
-							<span className={cx("fee")}> {formatOrai(minGas?.estimate_fee * 1000000 || 0)} ORAI </span>{" "}
-							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(minGas?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span>
+							{/* <span className={cx("fee")}> {formatOrai(minFee?.estimate_fee * 1000000 || 0)} ORAI </span>{" "} */}
+							{/* <span>{status?.price ? "($" + (status?.price * Number(formatOrai(minFee?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span> */}
+							<span className={cx("fee")}> 0 ORAI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
 					<div className={cx("select-gas", "select-gas-custom")}>

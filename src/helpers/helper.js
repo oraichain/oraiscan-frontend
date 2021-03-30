@@ -122,3 +122,13 @@ export const formatDateTime = inputString => {
 	const m = moment(inputString);
 	return m.format("YYYY-MM-DD HH:mm:ss");
 };
+
+export const arraysEqual = (array1, array2) => {
+	return JSON.stringify(array1) == JSON.stringify(array2);
+};
+
+export const mergeArrays = (array1, array2, key) => {
+	const uniqueValues = new Set(array1.map(item => item[key]));
+	const mergedArray = [...array1, ...array2.filter(item => !uniqueValues.has(item[key]))];
+	return mergedArray;
+};
