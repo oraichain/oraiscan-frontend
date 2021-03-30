@@ -114,8 +114,11 @@ const TxList = props => {
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
 			if (!isNaN(data?.paging?.total)) {
-				totalItemsRef.current = data.paging.total;
-				totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
+				if (totalItemsRef.current != data.paging.total) {
+					totalItemsRef.current = data.paging.total;
+					totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
+					setLoadCompleted(false);
+				}
 			} else {
 				totalItemsRef.current = null;
 				totalPagesRef.current = null;

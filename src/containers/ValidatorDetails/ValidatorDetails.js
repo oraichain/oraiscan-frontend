@@ -1,6 +1,7 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import {useSelector} from "react-redux";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import consts from "src/constants/consts";
+import {logoBrand} from "src/constants/logoBrand";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -25,7 +27,14 @@ import DelegatorsCard from "src/components/ValidatorDetails/DelegatorsCard";
 const cx = cn.bind(styles);
 
 const ValidatorDetails = ({match}) => {
-	const validatorAddress = match.params.validator;
+	const validatorParam = match.params.validator;
+
+	let validatorAddress;
+	if (validatorParam.startsWith("oraivaloper1")) {
+		validatorAddress = validatorParam;
+	} else {
+		validatorAddress = logoBrand.find(item => item.name === validatorParam)?.operatorAddress ?? "";
+	}
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -55,6 +64,7 @@ const ValidatorDetails = ({match}) => {
 
 	if (loading) {
 		addressCard = <AddressCardSkeleton />;
+
 		detailCard = <DetailCardSkeleton />;
 	} else {
 		if (error) {
