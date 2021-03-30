@@ -291,7 +291,7 @@ export default function({path, pageSize = 20, pagingProperty = "height", limit =
 //  get query params to query from server
 const getQueryParams = (arr, after, pagingProperty, path, limit) => {
 	const baseIndex = after ? arr[0]?.[pagingProperty] : arr[arr.length - 1]?.[pagingProperty];
-	if (_.isNil(baseIndex)) return throw new Error("First or last element in array does not have baseProperty set");
+	if (_.isNil(baseIndex)) throw new Error("First or last element in array does not have baseProperty set");
 	return `${path}?limit=${limit}&${after ? "after" : "before"}=${baseIndex}`;
 };
 

@@ -16,7 +16,7 @@ import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 
@@ -134,13 +134,6 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 			});
 			return;
 		}
-
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		const payload = {
 			type: "cosmos-sdk/MsgUndelegate",

@@ -19,7 +19,7 @@ import axios from "axios";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendTrasactionTab from "./SendTrasactionTab";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
@@ -98,12 +98,6 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		// 	});
 		// 	return;
 		// }
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		let payload;
 		if (activeTabId === 1) {

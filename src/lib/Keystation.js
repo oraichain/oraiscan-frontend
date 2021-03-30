@@ -1,3 +1,5 @@
+import config from "src/config.js";
+
 // Find Left Boundry of the Screen/Monitor
 function FindLeftScreenBoundry() {
 	// Check if the window is off the primary monitor in a positive axis
@@ -97,3 +99,10 @@ export default class Keystation {
 		);
 	}
 }
+
+export const myKeystation = new Keystation({
+	client: config.walletapi,
+	lcd: "https://lcd.orai.io",
+	path: "44/118/0/0/0",
+	keystationUrl: config.walletapi,
+});

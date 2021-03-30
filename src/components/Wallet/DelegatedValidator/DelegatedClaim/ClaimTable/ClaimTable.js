@@ -9,7 +9,7 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
@@ -44,12 +44,6 @@ const ClaimTable = memo(({data}) => {
 				})
 			);
 		}
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		const payload = {
 			type: "cosmos-sdk/MsgWithdrawDelegationReward",

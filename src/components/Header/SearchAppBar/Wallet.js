@@ -13,7 +13,7 @@ import {useGet} from "restful-react";
 
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import {useFetch} from "src/hooks";
 import consts from "src/constants/consts";
@@ -30,13 +30,6 @@ import styles from "./SearchAppBar.scss";
 const cx = cn.bind(styles);
 
 const handleClickConnectWallet = () => {
-	const myKeystation = new Keystation({
-		client: process.env.REACT_APP_WALLET_API,
-		lcd: "https://lcd.orai.io",
-		path: "44/118/0/0/0",
-		keystationUrl: process.env.REACT_APP_WALLET_API,
-	});
-
 	const prefix = "orai";
 	const popup = myKeystation.openWindow("signin", prefix);
 	let popupTick = setInterval(function() {

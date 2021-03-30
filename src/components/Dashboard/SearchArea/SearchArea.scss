@@ -73,6 +73,15 @@
 			// }
 		}
 
+		.btn-mainnet {
+			font-family: Roboto;
+			font-weight: 500;
+			font-size: 18px;
+			box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+			border-radius: 8px;
+			height: 42px;
+		}
+
 		.search-wrapper {
 			width: 60%;
 			margin: 30px 0;
@@ -200,4 +209,11 @@
 			}
 		}
 	}
+}
+
+.item-mainnet {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+	padding-top: 7px;
 }

@@ -15,7 +15,7 @@ import styles from "./Claim.scss";
 import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 
 const cx = cn.bind(styles);
 
@@ -94,12 +94,6 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 			});
 			return;
 		}
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		const payload = {
 			type: "cosmos-sdk/MsgDelegate",
