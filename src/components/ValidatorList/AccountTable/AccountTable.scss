@@ -1,0 +1,100 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: #546a8a;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.skeleton-data-cell {
+	box-sizing: border-box;
+	height: 32px;
+}
+
+.rank-data-cell {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.address-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	color: #1b57f0;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.name-tag-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	color: #181818;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.balance-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	color: #181818;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.percentage-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	color: #181818;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.txn-count-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	color: #181818;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}

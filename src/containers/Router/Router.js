@@ -12,6 +12,7 @@ const Dashboard = lazy(() => import(`src/containers/Dashboard`));
 // const Validator = lazy(() => import(`src/containers/Validator`));
 const ValidatorList = lazy(() => import(`src/containers/ValidatorList`));
 const ValidatorDetails = lazy(() => import(`src/containers/ValidatorDetails`));
+const AccountList = lazy(() => import(`src/containers/AccountList`));
 const Block = lazy(() => import(`src/containers/Block`));
 const BlockList = lazy(() => import(`src/containers/BlockList`));
 const TxList = lazy(() => import(`src/containers/TxList`));
@@ -46,6 +47,7 @@ export default function(props) {
 					<Route path='/txs/:tx' render={props => <Tx {...props} />} />
 					<Route path='/txs' render={props => <TxList {...props} />} />
 					<Route path='/account/:account' render={props => <Account {...props} />} />
+					<Route path='/accounts' component={AccountList} />
 					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 					<Route path='/data-sources' component={DataSources} />
 					<Route path='/test-cases' component={TestCases} />
