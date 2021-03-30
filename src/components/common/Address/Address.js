@@ -8,10 +8,12 @@ import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
 import styles from "./Address.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
+import {Tooltip} from "@material-ui/core";
+import "./Address.css";
 
 const cx = cn.bind(styles);
 
-const Address = memo(({address, showCopyIcon = true, size = "lg"}) => {
+const Address = memo(({address, showCopyIcon = true, size = "lg", name}) => {
 	const dispatch = useDispatch();
 
 	const checkPrefix = address => {
@@ -40,10 +42,17 @@ const Address = memo(({address, showCopyIcon = true, size = "lg"}) => {
 
 	return (
 		<div className={cx("address")}>
-			<NavLink className={cx(["address-link", "address-link-" + size])} to={url}>
-				{address}
-			</NavLink>
-
+			{name ? (
+				<Tooltip title={`${name} (${address})`} arrow placement='top-start'>
+					<NavLink className={cx(["address-link", "address-link-" + size])} to={url}>
+						{name ? name : address}
+					</NavLink>
+				</Tooltip>
+			) : (
+				<NavLink className={cx(["address-link", "address-link-" + size])} to={url}>
+					{address}
+				</NavLink>
+			)}
 			{showCopyIcon && (
 				<img
 					src={copyIcon}

@@ -19,7 +19,7 @@ const cx = cn.bind(styles);
 export default function({msg, txData}) {
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
-
+	const storageData = useSelector(state => state.contact);
 	const {type, value} = msg;
 	const {memo} = txData;
 	const MsgGridRender = React.useMemo(() => {
@@ -72,9 +72,13 @@ export default function({msg, txData}) {
 			</InfoRow>
 		);
 
+		const getNameByAddress = address => {
+			return storageData?.[address]?.name;
+		};
+
 		const getAddressRow = (label, address) => (
 			<InfoRow label={label}>
-				<Address address={address} showCopyIcon={true} size='md' />
+				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='md' />
 			</InfoRow>
 		);
 
@@ -328,7 +332,7 @@ export default function({msg, txData}) {
 				)}
 			</div>
 		);
-	}, [type, value]);
+	}, [type, value, storageData]);
 
 	const toolTippedImg = React.useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";

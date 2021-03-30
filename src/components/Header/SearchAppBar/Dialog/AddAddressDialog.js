@@ -6,6 +6,7 @@ import CloseSVG from "src/assets/icons/close.svg";
 import styles from "./Dialog.scss";
 import {useDispatch} from "react-redux";
 import {showAlert} from "src/store/modules/global";
+import {addContact} from "src/store/modules/contact";
 
 const cx = cn.bind(styles);
 
@@ -28,6 +29,7 @@ export default function AddAddressDialog(props) {
 				autoHideDuration: 1500,
 			})
 		);
+		dispatch(addContact({[address]: {address, name}}));
 		onSubmit();
 	};
 
