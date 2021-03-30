@@ -1,104 +1,85 @@
 import React, {useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
-import Skeleton from "react-loading-skeleton";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import {formatInteger, formatSeconds, formatOrai, replaceQueryString, formatFloat} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import StatusCardList from "src/components/common/StatusCardList";
-// import ButtonGroup from "src/components/common/ButtonGroup";
+import StatusCardList from "src/components/TxList/StatusCardList";
 import SearchInput from "src/components/common/SearchInput";
+import EmptyTable from "src/components/common/EmptyTable";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import ValidatorCardList from "src/components/ValidatorList/ValidatorCardList";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
 import ValidatorCardListSkeleton from "src/components/ValidatorList/ValidatorCardList/ValidatorCardListSkeleton";
 import styles from "./ValidatorList.scss";
-import heightIcon from "src/assets/validators/height_ic.svg";
-import validatorsIcon from "src/assets/validators/validators_ic.svg";
-import bondedTokensIcon from "src/assets/validators/bonded_tokens_ic.svg";
-import blockTimeIcon from "src/assets/validators/clock.svg";
 
 const cx = cn.bind(styles);
+const columns = [
+	{title: "Rank", align: "center"},
+	{title: "Validator", align: "left"},
+	{title: "Voting power", align: "right"},
+	{title: "Cumulative Share %", align: "right"},
+	{title: "Uptime", align: "right"},
+	{title: "Commission", align: "right"},
+	{title: "Est APR", align: "right"},
+	{title: "Delegate", align: "right"},
+];
 
 const ValidatorList = props => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const baseValidatorsPath = `${consts.API.VALIDATORS}`;
-	const statusPath = consts.API.STATUS;
-	// const [currentPage, setCurrentPage] = useState(1);
+	const basePath = `${consts.API.VALIDATORS}`;
 	const [keyword, setKeyword] = useState("");
-	const [showLoadingValidators, setShowLoadingValidators] = useState(true);
-	// const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1&limit=${consts.REQUEST.LIMIT}`);
-	const [validatorsPath, setValidatorsPath] = useState(`${baseValidatorsPath}?page_id=1`);
-	const [loadValidatorsCompleted, setLoadValidatorsCompleted] = useState(false);
+	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
+	const [loadCompleted, setLoadCompleted] = useState(false);
 
-	let timerID = useRef(null);
+	let timerIdRef = useRef(null);
 
 	const cleanUp = () => {
-		if (timerID.current) {
-			clearTimeout(timerID.current);
-			setLoadValidatorsCompleted(false);
+		if (timerIdRef.current) {
+			clearTimeout(timerIdRef.current);
+			setLoadCompleted(false);
 		}
 	};
 
-	const toggleData = (data, selectedIndex) => {
-		return data.map((item, index) => {
-			if (selectedIndex === index) {
-				return Object.assign({}, item, {active: true});
-			}
-			return Object.assign({}, item, {active: false});
-		});
-	};
+	let path = `${basePath}?page_id=1`;
+	if (keyword !== "") {
+		path += `&moniker=${keyword}`;
+	}
 
-	const {data: validators, loading: loadingValidators, refetch: refetchValidators} = useGet({
-		path: validatorsPath,
+	const {data, loading, error, refetch} = useGet({
+		path: path,
 		resolve: data => {
-			if (showLoadingValidators) {
-				setShowLoadingValidators(false);
+			if (!firstLoadCompleted) {
+				setFirstLoadCompleted(true);
 			}
-			setLoadValidatorsCompleted(true);
+			setLoadCompleted(true);
 			return data;
 		},
 	});
 
-	const {data: status} = useGet({
-		path: statusPath,
-	});
-
-	const {data: dataPrice} = useGet({
-		path: consts.API.ORAICHAIN_INFO,
-	});
-
 	useEffect(() => {
-		if (loadValidatorsCompleted) {
-			timerID.current = setTimeout(() => {
-				refetchValidators();
-				setLoadValidatorsCompleted(false);
+		if (loadCompleted) {
+			timerIdRef.current = setTimeout(() => {
+				refetch();
+				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
 			return () => {
 				cleanUp();
 			};
 		}
-	}, [loadValidatorsCompleted, refetchValidators]);
-
-	// const onPageChange = (path, key, value) => {
-	// 	cleanUp();
-	// 	setCurrentPage(value);
-	// 	setShowLoadingValidators(true);
-	// 	setValidatorsPath(replaceQueryString(path, key, value));
-	// };
+	}, [loadCompleted, refetch]);
 
 	let titleSection;
-	let statusSection;
+	let statusCardList;
 	let filterSection;
 	let tableSection;
-	// let paginationSection;
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -111,111 +92,43 @@ const ValidatorList = props => {
 		titleSection = <TogglePageBar type='validators' />;
 	}
 
-	if (status) {
-		statusSection = (
-			<StatusCardList
-				data={[
-					{
-						icon: heightIcon,
-						label: "Height",
-						value: status?.latest_block_height ? formatInteger(status.latest_block_height) : "-",
-					},
-					{
-						icon: validatorsIcon,
-						label: "Validators",
-						value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "-",
-					},
-					{
-						icon: bondedTokensIcon,
-						label: "Bonded Tokens",
-						value: (
-							<div style={{marginBottom: "-45px"}}>
-								<div>{status?.bonded_tokens ? formatFloat(status.bonded_tokens / 1000000) + " ORAI " : "-"}</div>
-								<div style={{fontSize: "12px", marginTop: "-10px"}}>
-									{dataPrice?.price ? formatFloat(dataPrice.price * (status.bonded_tokens / 1000000)) + " USD" : "-"}
-								</div>
-							</div>
-						),
-					},
-					{
-						icon: blockTimeIcon,
-						label: "Block Time",
-						value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
-					},
-				]}
-				minHeight={125}
+	statusCardList = <StatusCardList />;
+
+	filterSection = (
+		<div className={cx("filter-section")}>
+			<SearchInput
+				className={cx("search-validators")}
+				placeholder='Search validators'
+				value={keyword}
+				readOnly={_.isNil(data) ? true : false}
+				onChange={e => {
+					cleanUp();
+					setKeyword(e.target.value);
+				}}
 			/>
-		);
+		</div>
+	);
+
+	if (loading) {
+		if (firstLoadCompleted) {
+			tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
+		} else {
+			tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
+		}
 	} else {
-		statusSection = (
-			<StatusCardList
-				data={[
-					{
-						icon: heightIcon,
-						label: "Height",
-						value: <Skeleton />,
-					},
-					{
-						icon: validatorsIcon,
-						label: "Validators",
-						value: <Skeleton />,
-					},
-					{
-						icon: bondedTokensIcon,
-						label: "Bonded Tokens",
-						value: <Skeleton />,
-					},
-					{
-						icon: blockTimeIcon,
-						label: "Block Time",
-						value: <Skeleton />,
-					},
-				]}
-				minHeight={105}
-			/>
-		);
-	}
-
-	if (!validators || (loadingValidators && showLoadingValidators)) {
-		filterSection = (
-			<div className={cx("filter-section")}>
-				<SearchInput value={keyword} rootClassName={cx("search-validators")} placeholder='Search validators' onChange={e => {}} />
-				<div className={cx("filter-section-overlay")}></div>
-			</div>
-		);
-		tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
-	} else {
-		// const totalPages = validators?.page?.total_page ?? 0;
-
-		filterSection = (
-			<div className={cx("filter-section")}>
-				<SearchInput
-					value={keyword}
-					placeholder='Search validators'
-					rootClassName={cx("search-validators")}
-					onChange={e => {
-						cleanUp();
-						setKeyword(e.target.value);
-						setValidatorsPath(replaceQueryString(validatorsPath, "moniker", e.target.value));
-					}}
-				/>
-			</div>
-		);
-
-		const tableData = validators?.data ?? [];
-		tableSection = isLargeScreen ? <ValidatorTable data={tableData} /> : <ValidatorCardList data={tableData} />;
-
-		// paginationSection =
-		// 	totalPages > 0 ? <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(validatorsPath, "page_id", page)} /> : <></>;
+		if (error) {
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
+		}
 	}
 
 	return (
 		<Container fixed className={cx("validator-list")}>
 			{titleSection}
-			{statusSection}
+			{statusCardList}
 			{filterSection}
 			{tableSection}
-			{/* {paginationSection} */}
 		</Container>
 	);
 };

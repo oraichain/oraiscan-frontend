@@ -1,9 +1,8 @@
-import React, {memo, useMemo} from "react";
+// @ts-nocheck
+import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatOrai} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import styles from "./OracleScriptCardList.scss";
 

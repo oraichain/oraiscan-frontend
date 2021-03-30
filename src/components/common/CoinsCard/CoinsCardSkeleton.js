@@ -7,7 +7,7 @@ import styles from "./CoinsCard.scss";
 
 const cx = classNames.bind(styles);
 
-const CoinsCardSkeleton = memo(({}) => {
+const CoinsCardSkeleton = memo(() => {
 	return (
 		<div className={cx("coins-card")}>
 			<Grid container spacing={2}>

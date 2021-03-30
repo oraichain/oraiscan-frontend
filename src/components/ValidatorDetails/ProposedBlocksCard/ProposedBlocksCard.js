@@ -1,9 +1,12 @@
-import React, {memo, useState} from "react";
+// @ts-nocheck
+import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import EmptyTable from "src/components/common/EmptyTable";
 import ProposedBlocksTable from "src/components/ValidatorDetails/ProposedBlocksTable/ProposedBlocksTable";
 import ProposedBlocksTableSkeleton from "src/components/ValidatorDetails/ProposedBlocksTable/ProposedBlocksTableSkeleton";
 import ProposedBlocksCardList from "src/components/ValidatorDetails/ProposedBlocksCardList";
@@ -11,47 +14,69 @@ import ProposedBlocksCardListSkeleton from "src/components/ValidatorDetails/Prop
 import Pagination from "src/components/common/Pagination";
 import styles from "./ProposedBlocksCard.scss";
 import blockIcon from "src/assets/validatorDetails/blocks.svg";
+// import {isArray} from "lodash-es";
 
 const cx = classNames.bind(styles);
 
 const ProposedBlocksCard = memo(({validatorAddress}) => {
+	const columns = [
+		{title: "Height", align: "right"},
+		{title: "Blockhash", align: "left"},
+		{title: "Txs", align: "right"},
+		{title: "Time", align: "right"},
+	];
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [pageId, setPageId] = useState(1);
+	const totalPagesRef = useRef(null);
+
+	const onPageChange = page => {
+		setPageId(page);
+	};
+
 	const basePath = `${consts.API_BASE}${consts.API.PROPOSED_BLOCKS}/${validatorAddress}?limit=${consts.REQUEST.PROPOSED_BLOCKS_LIMIT}`;
-	const [path, setPath] = useState(`${basePath}&page_id=1`);
-	const {data} = useGet({
+	const path = `${basePath}&page_id=${pageId}`;
+	const {data, loading, error} = useGet({
 		path: path,
 	});
 
-	const totalPages = data?.page?.total_page ?? 0;
-	const currentPage = data?.page?.page_id ?? 1;
-	const totalBlocks = data?.page.total_item ?? "-";
-
-	const onPageChange = page => {
-		setPath(`${basePath}&page_id=${page}`);
-	};
-
 	let tableSection;
+	let totalBlocks;
 	let paginationSection;
 
-	if (data) {
-		tableSection = isLargeScreen ? <ProposedBlocksTable data={data.data} /> : <ProposedBlocksCardList data={data.data} />;
-		paginationSection =
-			totalPages > 0 ? (
-				<Pagination pages={totalPages} page={currentPage} itemClassName={cx("pagination-item")} onChange={(e, page) => onPageChange(page)} />
-			) : (
-				<></>
-			);
-	} else {
+	if (loading) {
+		totalBlocks = <Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={20} />;
 		tableSection = isLargeScreen ? <ProposedBlocksTableSkeleton /> : <ProposedBlocksCardListSkeleton />;
+	} else {
+		if (error) {
+			totalBlocks = "-";
+			totalPagesRef.current = null;
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page) && !isNaN(data?.page?.total_item)) {
+				totalBlocks = data.page.total_item;
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalBlocks = "-";
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <ProposedBlocksTable data={data.data} /> : <ProposedBlocksCardList data={data.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
 	}
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("proposed-blocks-card")}>
 			<div className={cx("proposed-blocks-card-header")}>
 				<div className={cx("title")}>Proposed Blocks</div>
 				<div className={cx("total")}>
-					<img className={cx("total-icon")} src={blockIcon} />
+					<img alt='/' className={cx("total-icon")} src={blockIcon} />
 					<span className={cx("total-icon")}>Total : {totalBlocks} blocks</span>
 				</div>
 			</div>

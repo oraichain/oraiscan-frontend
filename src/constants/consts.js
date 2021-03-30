@@ -77,12 +77,15 @@ export default Object.freeze({
 		PROPOSAL_STATUS: "proposal/status",
 		PROPOSALS_TRANSACTIONS: "/proposals/transactions",
 		VALIDATOR_ANALYTICS: "/validator-analytics",
+		PROPOSAL_VOTES: "/proposal/votes",
+		PROPOSALS_TOTAL_TXS: "/proposals/total_txs",
 		WALLET: {
 			CLAIM_REWARD: "/wallet/claim_reward",
 			WITHDRAW: "/wallet/withdraw",
 			DELEGATOR: "/wallet/delegator",
 			VALIDATOR: "/wallet/validator",
 		},
+		MIN_GAS: "min_gas",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -155,5 +158,8 @@ export default Object.freeze({
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
 		ACCOUNT: "orai1",
+	},
+	ANIMATION: {
+		DELAY: 100,
 	},
 });

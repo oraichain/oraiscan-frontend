@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
@@ -19,7 +20,7 @@ const DelegatorCardList = memo(({data = [], address = ""}) => {
 			{data.map((item, index) => {
 				let ownerBadge = null;
 
-				if (item?.address && item.address == address) {
+				if (item?.address && item.address === address) {
 					ownerBadge = <span className={cx("owner-badge")}>Owner</span>;
 				}
 

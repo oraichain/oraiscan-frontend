@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import {Button} from "@material-ui/core";
@@ -25,7 +26,7 @@ export default function() {
 			<Grid container spacing={3} className={cx("row")}>
 				<Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
 					<div className={cx("label")}>
-						Validator Address <img src={require("../../../assets/wallet/copy.svg")} style={{marginLeft: 7.5, cursor: "pointer"}} />
+						Validator Address <img alt='/' src={require("../../../assets/wallet/copy.svg")} style={{marginLeft: 7.5, cursor: "pointer"}} />
 					</div>
 					<div className={cx("content", "address")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
 				</Grid>
@@ -37,7 +38,7 @@ export default function() {
 			<Grid container spacing={3} className={cx("row")}>
 				<Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
 					<div className={cx("label")}>
-						Validator Contract <img src={require("../../../assets/wallet/copy.svg")} style={{marginLeft: 7.5, cursor: "pointer"}} />
+						Validator Contract <img alt='/' src={require("../../../assets/wallet/copy.svg")} style={{marginLeft: 7.5, cursor: "pointer"}} />
 					</div>
 					<div className={cx("content", "address")}>0x09470B5978C978eB28df8C3cB8421520339c1E2a</div>
 				</Grid>

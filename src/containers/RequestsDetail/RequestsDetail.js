@@ -1,12 +1,11 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useParams} from "react-router-dom";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
 import styles from "./RequestsDetail.scss";
 // import {ProposalsListDetalTable} from "src/components/Proposals";
 import DonutChart from "react-donut-chart";
@@ -25,13 +24,13 @@ const SuccessIcon = () => {
 };
 
 export default function(props) {
-	const {detailId} = useParams();
-	const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
-	const [state, , , , setUrl] = useFetch(`${url}`);
-	const pages = parseInt(state?.data?.result?.count || 0);
-	const onPageChange = page => {
-		setUrl(`${url}`);
-	};
+	// const {detailId} = useParams();
+	// const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
+	// const [state, , , , setUrl] = useFetch(`${url}`);
+	// const pages = parseInt(state?.data?.result?.count || 0);
+	// const onPageChange = page => {
+	// 	setUrl(`${url}`);
+	// };
 	const dataForStatusBox = [
 		{
 			label: "Price",
@@ -51,17 +50,17 @@ export default function(props) {
 		},
 	];
 
-	const switchList = ["All(454)", "Yes(454)", "No(454)", "NoWithVeto(454)", "Abstain(454)"];
-	const [activeSwitchItem, setActiveSwitchItem] = useState("All");
-	const onActiveSwitchItem = item => {
-		setActiveSwitchItem(item);
-	};
+	// const switchList = ["All(454)", "Yes(454)", "No(454)", "NoWithVeto(454)", "Abstain(454)"];
+	// const [activeSwitchItem, setActiveSwitchItem] = useState("All");
+	// const onActiveSwitchItem = item => {
+	// 	setActiveSwitchItem(item);
+	// };
 
-	const [showTenLine, setShowTenLine] = useState(false);
+	// 	const [showTenLine, setShowTenLine] = useState(false);
 
-	const onShowMore = () => {
-		setShowTenLine(!showTenLine);
-	};
+	// const onShowMore = () => {
+	// 	setShowTenLine(!showTenLine);
+	// };
 
 	return (
 		<Container fixed className={cx("validator-list")}>

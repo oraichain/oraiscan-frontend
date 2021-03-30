@@ -98,6 +98,12 @@ export default function({msg, txData}) {
 
 		const getTitleRow = label => <InfoRow label={label}></InfoRow>;
 
+		if (type === "websocket/AddReport") {
+			return null;
+		}
+
+		console.log(type);
+
 		return (
 			<div className={cx("grid")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
@@ -187,6 +193,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
 					</>
 				)}
 

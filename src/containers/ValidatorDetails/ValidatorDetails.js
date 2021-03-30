@@ -1,5 +1,7 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useRef, useState} from "react";
+import React from "react";
+import {useSelector} from "react-redux";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -7,6 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import consts from "src/constants/consts";
+import {logoBrand} from "src/constants/logoBrand";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -24,14 +27,21 @@ import DelegatorsCard from "src/components/ValidatorDetails/DelegatorsCard";
 const cx = cn.bind(styles);
 
 const ValidatorDetails = ({match}) => {
-	const validatorAddress = match.params.validator;
+	const validatorParam = match.params.validator;
+
+	let validatorAddress;
+	if (validatorParam.startsWith("oraivaloper1")) {
+		validatorAddress = validatorParam;
+	} else {
+		validatorAddress = logoBrand.find(item => item.name === validatorParam)?.operatorAddress ?? "";
+	}
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
-	const validatorPath = `${consts.API.VALIDATOR}/${validatorAddress}`;
-	const {data: validatorData} = useGet({
-		path: validatorPath,
+	const path = `${consts.API.VALIDATOR}/${validatorAddress}`;
+	const {data, loading, error} = useGet({
+		path: path,
 	});
 
 	const titleSection = isLargeScreen ? (
@@ -52,18 +62,18 @@ const ValidatorDetails = ({match}) => {
 	let missedBlocksCard;
 	let delegatorsCard;
 
-	if (validatorData) {
-		addressCard = (
-			<AddressCard
-				moniker={validatorData?.moniker ?? "-"}
-				operatorAddress={validatorData?.operator_address ?? "-"}
-				address={validatorData?.account_address ?? "-"}
-			/>
-		);
-		detailCard = <DetailCard data={validatorData} />;
-	} else {
+	if (loading) {
 		addressCard = <AddressCardSkeleton />;
+
 		detailCard = <DetailCardSkeleton />;
+	} else {
+		if (error) {
+			addressCard = <AddressCard moniker='-' operatorAddress='-' address='-' />;
+			detailCard = <DetailCard data={{}} />;
+		} else {
+			addressCard = <AddressCard moniker={data?.moniker ?? "-"} operatorAddress={data?.operator_address ?? "-"} address={data?.account_address ?? "-"} />;
+			detailCard = <DetailCard data={data} />;
+		}
 	}
 
 	missedBlocksCard = <MissedBlocksCard validatorAddress={validatorAddress} />;

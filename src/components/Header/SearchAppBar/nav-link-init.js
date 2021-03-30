@@ -1,7 +1,6 @@
 export const navLinkInit = [
-	{title: `ORAI Homepage`, path: `https://orai.io/`},
 	{
-		title: `Products`,
+		title: `Product`,
 		children: [
 			// {title: `Liquidity`, path: `https://liquidity.orai.io/`},
 			// {title: `Testnet`, path: `https://scan.orai.io/`},
@@ -9,7 +8,7 @@ export const navLinkInit = [
 			{title: `Marketplace`, path: `https://market.orai.io/oscript`},
 		],
 	},
-	{title: `Tokenomics`, path: `https://orai.io/tokenomics`},
+	{title: `Tokenomic`, path: `https://orai.io/tokenomics`},
 	{
 		title: `About`,
 		children: [

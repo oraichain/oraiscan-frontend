@@ -1,8 +1,11 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
+import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+// import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
@@ -12,8 +15,6 @@ import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import txTypes from "src/constants/txTypes";
-import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -41,7 +42,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], account}) => {
+const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -157,7 +158,15 @@ const TransactionTable = memo(({data = [], account}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			rowMotions={rowMotions}
+		/>
+	);
 });
 
 export default TransactionTable;

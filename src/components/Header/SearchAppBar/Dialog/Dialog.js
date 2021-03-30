@@ -1,4 +1,6 @@
+// @ts-nocheck
 import React, {useState, useEffect} from "react";
+import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -6,21 +8,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {useForm, FormProvider} from "react-hook-form";
 import {useHistory} from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
-import _, {add, constant} from "lodash";
+import _ from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
 import axios from "axios";
-import {reduceString} from "src/lib/scripts";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
-import {formatOrai} from "src/helpers/helper";
-import Alert from "src/components/common/Alert/Alert";
 import Keystation from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendTrasactionTab from "./SendTrasactionTab";
@@ -55,24 +53,30 @@ const TABS = [
 	},
 ];
 
-const reduceAddress = address => {
-	return address.substr(0, 10) + "..." + address.substr(30);
-};
+// const reduceAddress = address => {
+// 	return address.substr(0, 10) + "..." + address.substr(30);
+// };
 
 export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
-	const [fee, setFee] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
+	const [gas, setGas] = useState(200000);
+	const [fee, setFee] = useState(0);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
+	const path = `${consts.API.MIN_GAS}`;
+	const {data: minFee, loading, error} = useGet({
+		path: path,
+	});
+
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
-		sendAmount: yup
-			.number()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(amount / 1000000, "lessThanNumber"),
+		// sendAmount: yup
+		// 	.number()
+		// 	.required("Send Amount Field is Required")
+		// 	.lessThanNumber(amount / 1000000, "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -81,7 +85,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	});
 
 	const methods = useForm({
-		// resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
+		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
 	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
@@ -104,6 +108,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		let payload;
 		if (activeTabId === 1) {
 			let msg = [];
+			const minGasFee = (fee * 1000000 + "").split(".")[0];
 			if (multiSendData) {
 				console.log(multiSendData);
 				msg = multiSendData.map(v => {
@@ -143,8 +148,8 @@ export default function FormDialog({show, handleClose, address, account, amount,
 				value: {
 					msg,
 					fee: {
-						amount: [fee],
-						gas: 200000,
+						amount: [minGasFee],
+						gas,
 					},
 					signatures: null,
 					memo: (data && data.memo) || "",
@@ -208,7 +213,18 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const renderTab = id => {
 		if (id === 1) {
-			return <SendOraiTab address={address} amount={amount} status={status} methods={methods} handleInputMulti={handleInputMulti} />;
+			return (
+				<SendOraiTab
+					address={address}
+					amount={amount}
+					status={status}
+					methods={methods}
+					handleInputMulti={handleInputMulti}
+					minFee={minFee}
+					handleChangeGas={setGas}
+					handleChangeFee={setFee}
+				/>
+			);
 		}
 
 		if (id === 2) {

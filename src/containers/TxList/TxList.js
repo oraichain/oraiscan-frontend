@@ -1,18 +1,18 @@
 import React, {useState, useEffect, useRef} from "react";
-import {useHistory} from "react-router-dom";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {calculateBefore} from "src/helpers/helper";
+import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
+import EmptyTable from "src/components/common/EmptyTable";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
@@ -20,49 +20,56 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import styles from "./TxList.scss";
 
 const cx = cn.bind(styles);
+const columns = [
+	{title: "TxHash", align: "left"},
+	{title: "Type", align: "left"},
+	{title: "Result", align: "center"},
+	{title: "Amount", align: "right"},
+	{title: "Fee", align: "right"},
+	{title: "Height", align: "right"},
+	{title: "Time", align: "right"},
+];
 
 const TxList = props => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const history = useHistory();
-	const getPaginationPath = (pathname, page) => {
-		return pathname + "?page=" + page;
-	};
-	const redirectToFirstPage = pathname => {
-		history.push(getPaginationPath(pathname, 1));
-	};
-
-	const [total, setTotal] = useState(-1);
-	const searchParams = new URLSearchParams(props.location.search);
-	let page = parseFloat(searchParams.get("page"));
-	let isPageValid = true;
-	if (!Number.isInteger(page) || page < 1 || (total !== -1 && page > Math.ceil(total / consts.REQUEST.LIMIT))) {
-		page = 1;
-		isPageValid = false;
-	}
-
-	const [showLoading, setShowLoading] = useState(true);
-	const [loadCompleted, setLoadCompleted] = useState(false);
-	let timerID = useRef(null);
-
 	const basePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
-	let path = basePath;
-	if (total !== -1 && isPageValid) {
-		path = basePath + "&before=" + calculateBefore(total, consts.REQUEST.LIMIT, page);
-	}
+	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
+	const [loadCompleted, setLoadCompleted] = useState(false);
+	const [pageId, setPageId] = useState(1);
+	const totalItemsRef = useRef(null);
+	const totalPagesRef = useRef(null);
+	const prevDataRef = useRef([]);
+
+	let timerIdRef = useRef(null);
 
 	const cleanUp = () => {
-		if (timerID) {
-			clearTimeout(timerID);
-			setLoadCompleted(false);
+		if (timerIdRef) {
+			clearTimeout(timerIdRef.current);
 		}
 	};
 
-	const {data, loading, refetch} = useGet({
+	const onPageChange = page => {
+		cleanUp();
+		setFirstLoadCompleted(false);
+		setLoadCompleted(false);
+		setPageId(page);
+	};
+
+	if (!firstLoadCompleted) {
+		prevDataRef.current = null;
+	}
+
+	let path = basePath;
+	if (totalItemsRef.current) {
+		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
+	}
+
+	const {data, loading, error, refetch} = useGet({
 		path: path,
 		resolve: data => {
-			if (showLoading) {
-				setShowLoading(false);
+			if (!firstLoadCompleted) {
+				setFirstLoadCompleted(true);
 			}
 			setLoadCompleted(true);
 			return data;
@@ -71,7 +78,7 @@ const TxList = props => {
 
 	useEffect(() => {
 		if (loadCompleted) {
-			timerID = setTimeout(() => {
+			timerIdRef.current = setTimeout(() => {
 				refetch();
 				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
@@ -81,52 +88,74 @@ const TxList = props => {
 		}
 	}, [loadCompleted]);
 
-	useEffect(() => {
-		if (!isPageValid) {
-			redirectToFirstPage(props.location.pathname);
+	let titleSection;
+	let tableSection;
+	let paginationSection;
+
+	titleSection = isLargeScreen ? (
+		<TitleWrapper>
+			<PageTitle title={"Transactions"} />
+			<StatusBox />
+		</TitleWrapper>
+	) : (
+		<TogglePageBar type='transactions' />
+	);
+
+	if (loading) {
+		if (firstLoadCompleted) {
+			tableSection = isLargeScreen ? <TransactionTable data={data?.data} /> : <TransactionCardList data={data?.data} />;
+		} else {
+			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 		}
-	}, [total]);
+	} else {
+		if (error) {
+			totalItemsRef.current = null;
+			totalPagesRef.current = null;
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.paging?.total)) {
+				if (totalItemsRef.current != data.paging.total) {
+					totalItemsRef.current = data.paging.total;
+					totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
+					setLoadCompleted(false);
+				}
+			} else {
+				totalItemsRef.current = null;
+				totalPagesRef.current = null;
+			}
 
-	if (!data || (loading && showLoading)) {
-		return (
-			<Container fixed className={cx("tx-list")}>
-				{isLargeScreen ? (
-					<TitleWrapper>
-						<PageTitle title={"Transactions"} />
-					</TitleWrapper>
-				) : (
-					<TogglePageBar type='transactions' />
-				)}
-				{isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />}
-			</Container>
-		);
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, data.data)) {
+					const key = "height";
+					const mergedData = mergeArrays(data.data, prevDataRef.current, key);
+					const rowMotions = mergedData.map((mergedItem, index) => {
+						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !data.data.find(item => mergedItem[key] == item[key])) {
+							return -1;
+						}
+
+						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && data.data.find(item => mergedItem[key] == item[key])) {
+							return 1;
+						}
+
+						return 0;
+					});
+					tableSection = isLargeScreen ? <TransactionTable data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList data={data?.data} />;
+				} else {
+					tableSection = isLargeScreen ? <TransactionTable data={data?.data} /> : <TransactionCardList data={data?.data} />;
+				}
+				prevDataRef.current = [...data.data];
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
 	}
-
-	const totalItems = _.isNil(data?.paging?.total) ? 0 : Math.ceil(parseInt(data.paging.total));
-	const totalPages = Math.ceil(totalItems / consts.REQUEST.LIMIT);
-
-	if (total !== totalItems) {
-		setTotal(totalItems);
-	}
-
-	const onPageChange = page => {
-		cleanUp();
-		setShowLoading(true);
-		history.push(getPaginationPath(props.location.pathname, page));
-	};
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<Container fixed className={cx("tx-list")}>
-			{isLargeScreen ? (
-				<TitleWrapper>
-					<PageTitle title={"Transactions"} />
-					<StatusBox />
-				</TitleWrapper>
-			) : (
-				<TogglePageBar type='transactions' />
-			)}
-			{isLargeScreen ? <TransactionTable data={data.data} /> : <TransactionCardList data={data.data} />}
-			{totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />}
+			{titleSection}
+			{tableSection}
+			{paginationSection}
 		</Container>
 	);
 };

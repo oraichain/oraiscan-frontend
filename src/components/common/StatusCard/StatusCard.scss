@@ -5,11 +5,27 @@
 	background: #ffffff;
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
+	height: 100%;
 
+	&-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		height: 24px;
+		margin-bottom: 5px;
+	}
+
+	&-body {
+	}
+}
+
+.status {
 	&-icon {
-		margin-right: 5px;
-		vertical-align: text-bottom;
-		width: 7%;
+		display: inline-block;
+		margin-right: 8px;
+		width: auto;
+		max-height: 20px;
 	}
 
 	&-label {
@@ -27,6 +43,16 @@
 		font-style: normal;
 		font-weight: 500;
 		font-size: 24px;
+		line-height: 150%;
+	}
+
+	&-comment {
+		margin-top: 5px;
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
 		line-height: 150%;
 	}
 }

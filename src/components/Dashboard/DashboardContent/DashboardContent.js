@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+// @ts-nocheck
+import React from "react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
-import {_} from "src/lib/scripts";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import GraphDisplay from "./GraphDisplay";

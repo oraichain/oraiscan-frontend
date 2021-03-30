@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+// @ts-nocheck
 import React, {useCallback, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import {Grid} from "@material-ui/core";

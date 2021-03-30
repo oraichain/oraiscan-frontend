@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
@@ -8,7 +10,6 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
 import {logoBrand} from "src/constants/logoBrand";
-import aiIcon from "src/assets/common/ai_ic.svg";
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +33,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const BlockTable = memo(({data = []}) => {
+const BlockTable = memo(({data = [], rowMotions = []}) => {
 	const validators = useSelector(state => state.blockchain.validators);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -40,6 +41,10 @@ const BlockTable = memo(({data = []}) => {
 		}
 
 		return data.map(item => {
+			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || {customLogo: ""};
+			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoName = item?.moniker || "";
+
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -52,7 +57,6 @@ const BlockTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item.height}`}>
-					{console.log("black_hask", item.block_hash)}
 					{reduceString(item.block_hash, 16, 16)}
 				</NavLink>
 			);
@@ -60,14 +64,11 @@ const BlockTable = memo(({data = []}) => {
 			const proposerDataCell = _.isNil(item?.moniker) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
-					<img
-						src={logoBrand.filter(it => validators[item?.moniker]?.operatorAddr === it.operatorAddress)[0]?.logo}
-						height={32}
-						width={32}
-						alt=''
-						className={cx("logo")}
-					/>
+				<NavLink
+					className={cx("data-cell", "color-blue", "align-left", "logo-brand-custom")}
+					to={`${consts.PATH.VALIDATORS}/${validators[item?.moniker]?.operatorAddr ?? 0}`}>
+					{logoURL && <img src={logoURL} height={32} width={32} alt='/' className={cx("logo")} />}
+					{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
 					{item.moniker}
 				</NavLink>
 			);
@@ -91,7 +92,15 @@ const BlockTable = memo(({data = []}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			rowMotions={rowMotions}
+		/>
+	);
 });
 
 export default BlockTable;

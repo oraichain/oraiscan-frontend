@@ -1,6 +1,6 @@
+// @ts-nocheck
 import React, {memo} from "react";
 import classNames from "classnames/bind";
-import Grid from "@material-ui/core/Grid";
 import styles from "./BlockMatrix.scss";
 import signedBlockIcon from "src/assets/validatorDetails/good_block.svg";
 import missedBlockIcon from "src/assets/validatorDetails/bad_block.svg";
@@ -21,13 +21,13 @@ const BlockMatrix = memo(({lastestHeight, signedBlocks}) => {
 		if (signedBlocks.includes(value)) {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<img className={cx("block-icon")} src={signedBlockIcon} />
+					<img alt='/' className={cx("block-icon")} src={signedBlockIcon} />
 				</div>
 			);
 		} else {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<img className={cx("block-icon")} src={missedBlockIcon} />
+					<img alt='/' className={cx("block-icon")} src={missedBlockIcon} />
 				</div>
 			);
 		}

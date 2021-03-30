@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import cn from "classnames/bind";
@@ -13,7 +14,7 @@ import consts from "src/constants/consts";
 import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import styles from "./YourValidatorCard.scss";
 import editIcon from "src/assets/icons/edit.svg";
-import roleIcon from "src/assets/wallet/role.svg";
+// import roleIcon from "src/assets/wallet/role.svg";
 import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
@@ -80,6 +81,7 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 			<div className={cx("validator-title")}>
 				Validator address
 				<img
+					alt='/'
 					className={cx("validator-icon", "validator-icon-clickable", "validator-icon-right")}
 					src={copyIcon}
 					onClick={() => {

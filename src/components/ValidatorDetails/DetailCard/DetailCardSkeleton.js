@@ -8,7 +8,7 @@ import styles from "./DetailCard.scss";
 
 const cx = classNames.bind(styles);
 
-const DetailCard = memo(({}) => {
+const DetailCard = memo(() => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 

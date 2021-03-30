@@ -9,17 +9,20 @@ import checkIcon from "src/assets/validatorDetails/check.svg";
 const cx = classNames.bind(styles);
 
 const AddressCard = memo(({moniker, operatorAddress, address}) => {
-	const logoIcon = logoBrand.find(item => operatorAddress === item.operatorAddress)?.logo ?? aiIcon;
+	const logoItem = logoBrand.find(it => operatorAddress === it.operatorAddress) || {};
+	const logoURL = logoItem.customLogo ? false : logoItem.logo;
+	const logoName = moniker || "";
 
 	return (
 		<div className={cx("address-card")}>
 			<div className={cx("address-card-header")}>
 				<div className={cx("validator-account")}>
-					<img className={cx("validator-account-icon")} src={logoIcon} />
+					{logoURL && <img alt='/' className={cx("validator-account-icon")} src={logoURL} />}
+					{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
 					<span className={cx("validator-account-name")}>{moniker}</span>
 				</div>
 				<div className={cx("validator-status")}>
-					<img className={cx("validator-status-icon")} src={checkIcon} />
+					<img alt='/' className={cx("validator-status-icon")} src={checkIcon} />
 					<span className={cx("validator-status-text")}>Active</span>
 				</div>
 			</div>

@@ -1,19 +1,23 @@
-import React, {useState, useEffect} from "react";
-import Grid from "@material-ui/core/Grid";
+import React, {useState, useEffect, useMemo, useRef} from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
-import {useDispatch, useSelector} from "react-redux";
 import BigNumber from "bignumber.js";
-import {Switch, Input} from "antd";
+import {Switch, Input, InputNumber} from "antd";
+import InputRange from "react-input-range";
+import Grid from "@material-ui/core/Grid";
+import {EditOutlined} from "@material-ui/icons";
+import "react-input-range/lib/css/index.css";
 
+import consts from "src/constants/consts";
 import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
-import consts from "src/constants/consts";
+import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
+import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
 
@@ -34,13 +38,24 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 	});
 });
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti}) {
-	const [fee, setFee] = useState(0);
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
+	const [open, setOpen] = useState(false);
+	const [gas, setGas] = useState(200000);
+	const {errors, setValue, getValues, watch} = methods;
+	const inputAddress = watch("recipientAddress");
+	const [existName, setExistName] = useState(null);
+	const [storageData, setStorageData] = useState(JSON.parse(localStorage.getItem("address")) ?? {});
 
-	const {errors, setValue, getValues} = methods;
+	useEffect(() => {
+		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
+	}, [inputAddress, storageData]);
+
+	const onSubmit = () => {
+		setStorageData(JSON.parse(localStorage.getItem("address")) ?? {});
+	};
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -164,11 +179,30 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 		const form = getValues();
 		if (form.recipientAddress) {
 			const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
-			const newWindow = window.open(url, "_blank");
+			let newWindow = window.open(url);
 			if (newWindow) {
 				newWindow.opener = null;
+				newWindow = null;
 			}
 		}
+	};
+
+	const handleClickOpen = e => {
+		e.preventDefault();
+		setOpen(true);
+	};
+
+	const handleClose = value => {
+		setOpen(false);
+	};
+
+	const handleChooseFee = fee => {
+		handleChangeFee(fee);
+	};
+
+	const onChangeGas = value => {
+		handleChangeGas(value);
+		setGas(value);
 	};
 
 	return (
@@ -193,6 +227,22 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
 						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
+						{existName ? (
+							<div className={cx("label-exist")}>
+								<span className={cx("label-exist-name")}>{existName}</span>
+
+								<a href='/' className={cx("label-exist-icon")} onClick={handleClickOpen}>
+									<EditOutlined />
+								</a>
+							</div>
+						) : (
+							<div className={cx("new-label")}>
+								New address recognized!{" "}
+								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
+									Add them to your address book
+								</a>
+							</div>
+						)}
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label", "label-right")}>
@@ -211,17 +261,43 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						</div>
 						<TextArea name='memo' placeholder='Insert memo here' rows={5} />
 					</Grid>
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
-							Tx Fee:
-							<span className={cx("fee")}> {formatOrai(fee || 0)} ORAI </span>{" "}
-							<span>{status?.price ? "($" + (status?.price * Number(formatOrai(fee))).toFixed(6) + ")" : ""}</span>
+							Minimin Tx Fee:
+							{/* <span className={cx("fee")}> {formatOrai(minFee?.estimate_fee * 1000000 || 0)} ORAI </span>{" "} */}
+							{/* <span>{status?.price ? "($" + (status?.price * Number(formatOrai(minFee?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span> */}
+							<span className={cx("fee")}> 0 ORAI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
+					<div className={cx("select-gas", "select-gas-custom")}>
+						<span className={cx("gas-span")}> Gas </span>
+						<InputNumber
+							value={gas}
+							className={cx("input-text")}
+							formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							parser={value => value.replace(/\s?|(,*)/g, "")}
+							onChange={onChangeGas}
+							min={100000}
+							max={1000000}
+						/>
+						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
+					</div>
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
+			{open ? (
+				<AddAddressDialog
+					onSubmit={onSubmit}
+					onClose={handleClose}
+					open={open}
+					recipientAddress={getValues("recipientAddress")}
+					isEdit={existName ? true : false}
+				/>
+			) : (
+				""
+			)}
 		</form>
 	);
 }
