@@ -4,7 +4,7 @@ import {FormControl, InputLabel, Input, Button, FormHelperText, Tooltip} from "@
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import styles from "./Register.scss";
 
 const cx = cn.bind(styles);
@@ -84,13 +84,6 @@ export default class Register extends React.Component {
 		});
 
 		const {account, address} = this.props;
-
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		const payload = {
 			type: "cosmos-sdk/MsgCreateValidator",

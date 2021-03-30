@@ -9,7 +9,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as bech32 from "bech32-buffer";
 
 import {InputNumberFormat, TextArea, InputTextWithIcon, InputText} from "src/components/common/form-controls";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import styles from "./Register.scss";
 
 const cx = cn.bind(styles);
@@ -34,13 +34,6 @@ export default function({address, account}) {
 	const {handleSubmit, errors, register, setValue, getValues} = methods;
 
 	const onSubmit = data => {
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
-
 		const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount} = data;
 
 		const payload = {

@@ -17,7 +17,7 @@ import {InputNumberOrai} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import styles from "./Delegate.scss";
 import "./Delegate.css";
 
@@ -131,13 +131,6 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			});
 			return;
 		}
-
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
 
 		const payload = {
 			type: "cosmos-sdk/MsgDelegate",

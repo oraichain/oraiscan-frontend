@@ -13,7 +13,7 @@ import styles from "./DelegatedTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
-import Keystation from "src/lib/Keystation";
+import {myKeystation} from "src/lib/Keystation";
 import GiftIcon from "./Gift";
 
 const cx = classNames.bind(styles);
@@ -41,13 +41,6 @@ const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 	const {address, account} = useSelector(state => state.wallet);
 
 	const handleClickClaim = validatorAddress => {
-		const myKeystation = new Keystation({
-			client: process.env.REACT_APP_WALLET_API,
-			lcd: "https://lcd.orai.io",
-			path: "44/118/0/0/0",
-			keystationUrl: process.env.REACT_APP_WALLET_API,
-		});
-
 		const payload = {
 			type: "cosmos-sdk/MsgWithdrawDelegationReward",
 			value: {
