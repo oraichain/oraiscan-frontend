@@ -1,9 +1,12 @@
 import React from "react";
 import cn from "classnames/bind";
+import {useDispatch} from "react-redux";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import {themeIds, themes} from "src/constants/themes";
+import {setActiveThemeId} from "src/store/modules/activeThemeId";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -18,6 +21,7 @@ const cx = cn.bind(styles);
 export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const dispatch = useDispatch();
 
 	let titleSection;
 	let infoCard;
@@ -42,6 +46,20 @@ export default function(props) {
 			{titleSection}
 			<Grid container spacing={2}>
 				<Grid item lg={12} xs={12}>
+					<button
+						type='button'
+						onClick={() => {
+							dispatch(setActiveThemeId(themeIds.LIGHT));
+						}}>
+						Light theme
+					</button>
+					<button
+						type='button'
+						onClick={() => {
+							dispatch(setActiveThemeId(themeIds.DARK));
+						}}>
+						Dark theme
+					</button>
 					{infoCard}
 				</Grid>
 				<Grid item lg={6} xs={12}>
