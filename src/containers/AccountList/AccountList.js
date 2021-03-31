@@ -28,7 +28,7 @@ const columns = [
 	{title: "Txn Count", align: "left"},
 ];
 
-const AccountList = memo(({account = ""}) => {
+const AccountList = memo(() => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -38,7 +38,7 @@ const AccountList = memo(({account = ""}) => {
 		setPageId(page);
 	};
 
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
+	const basePath = `${consts.API.ACCOUNTS}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
 	const {data, loading, error} = useGet({
@@ -72,7 +72,7 @@ const AccountList = memo(({account = ""}) => {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <AccountTable data={data.data} account={account} /> : <AccountCardList data={data.data} account={account} />;
+				tableSection = isLargeScreen ? <AccountTable data={data.data} /> : <AccountCardList data={data.data} />;
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}
