@@ -48,6 +48,7 @@ export default Object.freeze({
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
 		ACCOUNT: "/account",
+		ACCOUNTS: "/accounts",
 		ACCOUNT_TXS: acc => `/account/txs/${acc}?page=1&rows=20`,
 		TXLIST: "/txs",
 		TX: "/txs",

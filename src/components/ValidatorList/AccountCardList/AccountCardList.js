@@ -3,18 +3,13 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatFloat, formatOrai} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
 import styles from "./AccountCardList.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 import {useSelector} from "react-redux";
 
-const AccountCardList = memo(({data = [], account}) => {
+const AccountCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
-	const status = useSelector(state => state.blockchain.status);
 
 	return (
 		<div className='account-card-list'>
@@ -38,7 +33,7 @@ const AccountCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.address) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item?.address}`}>
+											<NavLink className={cx("item-link")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
 												{item?.address}
 											</NavLink>
 										)}
@@ -50,12 +45,10 @@ const AccountCardList = memo(({data = [], account}) => {
 										<div className={cx("item-title")}>Name Tag</div>
 									</td>
 									<td>
-										{_.isNil(item?.nameTag) ? (
+										{_.isNil(item?.name_tag) || item?.name_tag === "" ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
-											<div className={cx("fee-data-cell", "align-right")}>
-												<div className={cx("item-text")}>{item?.nameTag}</div>
-											</div>
+											<div className={cx("item-text")}>{item?.name_tag}</div>
 										)}
 									</td>
 								</tr>
@@ -68,9 +61,7 @@ const AccountCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.balance) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
-											<div className={cx("fee-data-cell", "align-right")}>
-												<div className={cx("item-text")}>{item?.balance}</div>
-											</div>
+											<div className={cx("item-text")}>{`${formatOrai(item?.balance)} ORAI`}</div>
 										)}
 									</td>
 								</tr>
@@ -80,14 +71,14 @@ const AccountCardList = memo(({data = [], account}) => {
 										<div className={cx("item-title")}>Percentage</div>
 									</td>
 									<td>
-										{_.isNil(item?.percentage) ? (
-											<div className={cx("item-text")}>-</div>
-										) : (
-											<div className={cx("fee-data-cell", "align-right")}>
-												<div className={cx("item-text")}>{item?.percentage}</div>
-											</div>
-										)}
+										{_.isNil(item?.percentage) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{`${item?.percentage}%`}</div>}
 									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Txn Count</div>
+									</td>
+									<td>{_.isNil(item?.txn_count) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.txn_count}</div>}</td>
 								</tr>
 							</tbody>
 						</table>
