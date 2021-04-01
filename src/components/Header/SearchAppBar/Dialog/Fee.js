@@ -14,8 +14,8 @@ export default function Fee({minFee: {estimate_fee}, handleChooseFee}) {
 	useEffect(() => {
 		setFees([
 			{type: "Slow", amount: 0, amountUSD: 0},
-			{type: "Average", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
-			{type: "Fast", amount: estimate_fee, amountUSD: (estimate_fee * orai2usd).toFixed(2)},
+			{type: "Average", amount: estimate_fee.toFixed(6), amountUSD: (estimate_fee * orai2usd).toFixed(2)},
+			{type: "Fast", amount: estimate_fee.toFixed(6), amountUSD: (estimate_fee * orai2usd).toFixed(2)},
 		]);
 	}, [estimate_fee, orai2usd]);
 
