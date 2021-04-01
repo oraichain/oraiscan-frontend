@@ -113,6 +113,10 @@
 			}
 		}
 
+		&-icon-expand {
+			width: 18px;
+		}
+
 		&-title {
 			display: inline-block;
 			color: #181818;
@@ -140,4 +144,20 @@
 		cursor: default;
 		background-color: #1b57f0;
 	}
+}
+
+.dropdown-tx {
+	cursor: pointer;
+	margin-left: 5px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+}
+
+.tab-tx-item {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 14px;
+	color: #181818;
+	padding: 10px;
 }

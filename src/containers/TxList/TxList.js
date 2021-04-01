@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
+import queryString from "query-string";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
@@ -17,6 +18,7 @@ import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
+import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./TxList.scss";
 
 const cx = cn.bind(styles);
@@ -30,9 +32,12 @@ const columns = [
 	{title: "Time", align: "right"},
 ];
 
-const TxList = props => {
+const TxList = ({history}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const queryStringParse = queryString.parse(history.location.search) || {};
+	// const basePathPending = "http://23.100.40.156:26657/unconfirmed_txs?limit=10";
+	// const basePath = queryStringParse.type === "pending" ? basePathPending : `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const basePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
@@ -150,6 +155,15 @@ const TxList = props => {
 		}
 	}
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+
+	if (queryStringParse.type === "pending") {
+		return (
+			<Container fixed className={cx("tx-list")}>
+				{titleSection}
+				<ComingSoon />
+			</Container>
+		);
+	}
 
 	return (
 		<Container fixed className={cx("tx-list")}>

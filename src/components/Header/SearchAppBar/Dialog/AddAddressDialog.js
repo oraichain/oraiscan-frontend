@@ -6,21 +6,15 @@ import CloseSVG from "src/assets/icons/close.svg";
 import styles from "./Dialog.scss";
 import {useDispatch} from "react-redux";
 import {showAlert} from "src/store/modules/global";
+import {addContact} from "src/store/modules/contact";
 
 const cx = cn.bind(styles);
 
 export default function AddAddressDialog(props) {
-	const {onSubmit, onClose, open, recipientAddress, isEdit} = props;
+	const {onClose, open, recipientAddress, isEdit, storageData} = props;
 	const dispatch = useDispatch();
 
-	const getStorageData = () => {
-		return JSON.parse(localStorage.getItem("address")) ?? {};
-	};
-
 	const handleAddAddressToStorage = (name, address) => {
-		let storageData = JSON.parse(localStorage.getItem("address")) ?? {};
-		let newData = Object.assign(storageData, {[address]: {address: address, name: name}});
-		localStorage.setItem("address", JSON.stringify(newData));
 		dispatch(
 			showAlert({
 				show: true,
@@ -28,10 +22,9 @@ export default function AddAddressDialog(props) {
 				autoHideDuration: 1500,
 			})
 		);
-		onSubmit();
+		dispatch(addContact({[address]: {address, name}}));
 	};
 
-	const storageData = useMemo(() => getStorageData(), []);
 	const existName = storageData?.[recipientAddress] ? storageData?.[recipientAddress]?.name : "";
 	const [name, setName] = useState(existName);
 

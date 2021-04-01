@@ -7,20 +7,21 @@
 	height: fit-content;
 	display: flex;
 	flex-flow: column;
-	@include media("<medium") {
+	@include media("<large") {
 		margin: 0;
-		max-width: map_get($breakpoints, medium);
+		max-width: map_get($breakpoints, large);
 		height: unset;
 		padding: 15px;
 		background: #ffffff;
 		padding-bottom: 0px;
+		border-right: none;
 	}
 	.iconBlockTime-wrapper {
 		display: flex;
 		flex-flow: row;
 		justify-content: space-between;
 		border-bottom: 1px solid #e7e7e7;
-		@include media("<medium") {
+		@include media("<large") {
 			border-bottom: none;
 		}
 		padding-bottom: 12px;
@@ -147,7 +148,7 @@
 		}
 
 		margin-bottom: 17px;
-		@include media("<medium", ">=small") {
+		@include media("<large", ">=small") {
 			margin-bottom: 33px;
 		}
 	}

@@ -54,6 +54,14 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
+			case "accounts": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<TransactionIcon /> Accounts
+					</div>
+				);
+			}
 			case "proposals": {
 				return (
 					<div className={cx("title")}>

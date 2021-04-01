@@ -1,0 +1,9 @@
+@import "src/styles/utils";
+
+.account-list {
+	margin-top: 0;
+	margin-bottom: 30px;
+	@media (min-width: 1279px) {
+		margin-top: 30px;
+	}
+}
