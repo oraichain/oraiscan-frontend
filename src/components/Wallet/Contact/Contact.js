@@ -8,6 +8,7 @@ import ContactCardList from "src/components/Wallet/ContactCardList/ContactCardLi
 import ContactCardListSkeleton from "src/components/Wallet/ContactCardList/ContactCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
+import {useSelector} from "src/hooks";
 import styles from "./Contact.scss";
 
 const cx = classNames.bind(styles);
@@ -15,8 +16,8 @@ const cx = classNames.bind(styles);
 const Contact = memo(() => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const storageData = JSON.parse(localStorage.getItem("address")) ?? {};
-	let dataLength = Object.values(storageData).length;
+	const contactStorageData = useSelector(state => state.contact);
+	let dataLength = Object.values(contactStorageData).length;
 	const totalPages = dataLength / 5 === Math.ceil(dataLength / 5) ? dataLength / 5 : Math.ceil(dataLength / 5) ?? 0;
 	const [currentPage, setPage] = useState(1);
 
@@ -38,10 +39,10 @@ const Contact = memo(() => {
 		return allPageData;
 	};
 
-	const allPageData = useMemo(() => getAllPageData(storageData), []);
+	const allPageData = useMemo(() => getAllPageData(contactStorageData), [contactStorageData]);
 	let currentPageData = Object.values(allPageData[currentPage] || {}) ?? [];
 
-	if (!storageData) {
+	if (!contactStorageData) {
 		return isLargeScreen ? <ContactTableSkeleton /> : <ContactCardListSkeleton />;
 	}
 
