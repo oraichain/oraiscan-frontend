@@ -6,13 +6,14 @@ import {_, compareProperty} from "src/lib/scripts";
 import {multiply} from "src/lib/Big";
 import txTypes from "src/constants/txTypes";
 
-const [GET_BASIC_DATA, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE] = [
+const [GET_BASIC_DATA, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE] = [
 	"GET_BASIC_DATA",
 	"GET_STATUS",
 	"GET_ASSETS",
 	"GET_FEES",
 	"GET_VALIDATORS",
 	"GET_FASTEST_NODE",
+	"GET_MIN_FEE",
 ];
 
 export const getCyptoAcceleratedNode = createAction(GET_FASTEST_NODE, () => api.getFastestNode(consts.API_BINANCE_ACCELERATED));
@@ -21,6 +22,7 @@ export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getSt
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
 export const setStatusBox = createAction("SET_STATUS_BOX");
+export const getMinFee = createAction(GET_MIN_FEE, cancelToken => api.getMinFee(cancelToken));
 
 const initState = {
 	status: {
@@ -166,6 +168,13 @@ const handlers = {
 		state.statusBox = action.payload;
 		return {...state};
 	},
+	...pender({
+		type: GET_MIN_FEE,
+		onSuccess: (state, action) => {
+			return {...state, minFee: action.payload.data};
+		},
+		onFailure: state => ({...state}),
+	}),
 };
 
 const flatTxTypes = Object.freeze({

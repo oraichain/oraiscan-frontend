@@ -76,6 +76,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
+	const minFee = useSelector(state => state.blockchain.minFee);
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [rewardCalculator, setRewardCalculator] = useState({

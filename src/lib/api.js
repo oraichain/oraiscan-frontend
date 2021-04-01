@@ -31,6 +31,10 @@ export const getFees = cancelToken => {
 	return axios.get(`${consts.API_BASE}${consts.API.FEE}`, {cancelToken});
 };
 
+export const getMinFee = cancelToken => {
+	return axios.get(`${consts.API_BASE}/${consts.API.MIN_FEE}`, {cancelToken});
+};
+
 export const getValidators = cancelToken => {
 	return axios.get(`${consts.API_BASE}${consts.API.VALIDATORS}?limit=100`, {cancelToken});
 };
