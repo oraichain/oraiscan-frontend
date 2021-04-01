@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {memo} from "react";
+import React, {memo, useState} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import {Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList} from "@material-ui/core";
@@ -28,13 +28,6 @@ import "./Tabs.css";
 const cx = cn.bind(styles);
 
 const Tabs = memo(() => {
-	const useStyles = makeStyles({
-		root: {
-			top: "20px",
-		},
-	});
-
-	const classes = useStyles();
 	const {pathname} = useLocation();
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -49,10 +42,9 @@ const Tabs = memo(() => {
 	const handleClose = () => {
 		setOpen(false);
 	};
-
-	const renderValidatorComponent = ({name, img, route, index}) => (
+	const renderValidatorComponent = ({name, img, index}) => (
 		<button
-			className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
+			className={cx("tab", {"active-dropdown": pathname === "/accounts" || pathname === "/validators"})}
 			ref={anchorRef}
 			onClick={() => {
 				handleOpen();
@@ -66,7 +58,7 @@ const Tabs = memo(() => {
 						},
 					},
 				}}
-				className={cx("tabs-custom")}
+				className={cx("dropdown-validators")}
 				open={open}
 				anchorEl={anchorRef.current}
 				transition>

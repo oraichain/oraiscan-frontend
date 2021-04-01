@@ -7,13 +7,14 @@ import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input} from "antd";
+import {Divider, Input, Spin} from "antd";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
 import {InputNumberOrai} from "src/components/common/form-controls";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
@@ -71,7 +72,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0}) => {
+const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
@@ -98,8 +99,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	};
 
 	useEffect(() => {
-		address && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
-	}, [address, setUrl]);
+		open && address && setUrl(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
+	}, [address, setUrl, open]);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -195,7 +196,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			return (
 				<form>
 					<DialogContent>
-						<div className={cx("delegate-title")}>Delegate for this validator</div>
+						<div className={cx("delegate-title")}> {delegateText} </div>
 						<div className={cx("balance-title")}>Balance</div>
 						<div className={cx("space-between", "balance-row")}>
 							<div className={cx("left", "uppercase")}>
@@ -281,6 +282,10 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			);
 		}
 	};
+
+	if (balanceInfo.loading && open) {
+		return <LoadingOverlay />;
+	}
 
 	return (
 		<div className={cx("delegate")}>

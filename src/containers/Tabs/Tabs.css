@@ -1,4 +1,4 @@
-.tabs-custom .MuiButtonBase-root {
+.dropdown-validators .MuiButtonBase-root {
 	padding: 20px 40px;
 	color: #181818;
 	font-family: Roboto;
@@ -9,11 +9,11 @@
 	justify-content: center;
 }
 
-.tabs-custom .MuiList-padding {
+.dropdown-validators .MuiList-padding {
 	padding: 0;
 }
 
-.tabs-custom .MuiPaper-root {
+.dropdown-validators .MuiPaper-root {
 	width: 130px;
 	height: auto;
 	color: #181818;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
@@ -271,7 +272,7 @@ const ValidatorTable = memo(({data = []}) => {
 
 			const delegateDataCell = (
 				<div className={cx("commission-data-cell", "align-center")}>
-					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' estAPR={estAPR / 100} />
+					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' delegateText={`Delegate for "${item?.moniker}"`} estAPR={estAPR / 100} />
 				</div>
 			);
 
