@@ -20,6 +20,7 @@ import SelectFile from "./SelectFile";
 import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
+import {useSelector} from "src/hooks";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
@@ -47,15 +48,11 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const {errors, setValue, getValues, watch} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
-	const [storageData, setStorageData] = useState(JSON.parse(localStorage.getItem("address")) ?? {});
+	const storageData = useSelector(state => state.contact);
 
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
 	}, [inputAddress, storageData]);
-
-	const onSubmit = () => {
-		setStorageData(JSON.parse(localStorage.getItem("address")) ?? {});
-	};
 
 	const setAmountValue = (e, rate) => {
 		e.preventDefault();
@@ -289,11 +286,11 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			{isMulti && renderSelectMulti()}
 			{open ? (
 				<AddAddressDialog
-					onSubmit={onSubmit}
 					onClose={handleClose}
 					open={open}
 					recipientAddress={getValues("recipientAddress")}
 					isEdit={existName ? true : false}
+					storageData={storageData}
 				/>
 			) : (
 				""
