@@ -13,6 +13,7 @@ const config = Object.freeze({
 	walletapi: isTestnetStorage
 		? process.env.REACT_APP_WALLET_API_TESTNET || "https://api-binance-mainnet.cosmostation.io/v1"
 		: process.env.REACT_APP_WALLET_API || "https://api.wallet.orai.io/",
+	hasTestnetNetwork: process.env.REACT_APP_API_TESTNET && process.env.REACT_APP_WALLET_API_TESTNET,
 });
 
 export default config;

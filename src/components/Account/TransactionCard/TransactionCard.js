@@ -35,7 +35,7 @@ const TransactionCard = memo(({account = ""}) => {
 		setPageId(page);
 	};
 
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}&TxType=cosmos-sdk/MsgSend`;
+	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
 	const {data, loading, error} = useGet({

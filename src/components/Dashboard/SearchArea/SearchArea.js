@@ -2,9 +2,9 @@ import * as React from "react";
 import cn from "classnames/bind";
 import {Menu, Dropdown, Button, message, Space, Tooltip} from "antd";
 import {DownOutlined, UserOutlined} from "@ant-design/icons";
-import styles from "./SearchArea.scss";
-//  components
 import SearchArea from "src/components/common/SearchArea";
+import config from "src/config";
+import styles from "./SearchArea.scss";
 // import consts from "src/constants/consts";
 // import LinkCard from "src/components/Dashboard/LinkCard";
 //  assets
@@ -44,11 +44,13 @@ export default function() {
 		<div className={cx("SearchArea")}>
 			<div className={cx("wrapper")}>
 				<div className={cx("title")}>Oraichain Explorer</div>
-				<Dropdown overlay={menu} trigger={["click"]}>
-					<Button className={cx("btn-mainnet")}>
-						{isTestnet ? "Testnet" : "Mainnet"} <DownOutlined />
-					</Button>
-				</Dropdown>
+				{config.hasTestnetNetwork && (
+					<Dropdown overlay={menu} trigger={["click"]}>
+						<Button className={cx("btn-mainnet")}>
+							{isTestnet ? "Testnet" : "Mainnet"} <DownOutlined />
+						</Button>
+					</Dropdown>
+				)}
 				<div className={cx("search-wrapper")}>
 					<SearchArea propCx={cx} dropdownStyle={{position: "fixed", zIndex: 15}} interactiveWidth={true} />
 				</div>
