@@ -217,11 +217,11 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 							</div>
 						</DialogContent>
 						<DialogActions>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Withdraw
-							</button>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
 								Cancel
+							</button>
+							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
+								Withdraw
 							</button>
 						</DialogActions>
 					</form>
