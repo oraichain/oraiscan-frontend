@@ -1,6 +1,7 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
+import {Tooltip} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -10,6 +11,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./AccountTable.scss";
 import {useSelector} from "react-redux";
+import "./AccountTable.css";
 
 const cx = classNames.bind(styles);
 
@@ -36,7 +38,7 @@ export const getHeaderRow = () => {
 };
 
 const AccountTable = memo(({data = []}) => {
-	const status = useSelector(state => state.blockchain.status);
+	const contactStorageData = useSelector(state => state.contact);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -49,13 +51,23 @@ const AccountTable = memo(({data = []}) => {
 				<div className={cx("rank-data-cell", "align-center")}>{item?.rank}</div>
 			);
 
-			const addressDataCell = _.isNil(item?.address) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
-					{item?.address}
-				</NavLink>
-			);
+			let addressDataCell = <div></div>;
+			if (!item?.address) {
+				addressDataCell = <div className={cx("align-left")}>-</div>;
+			} else {
+				let name = contactStorageData?.[item?.address] ? contactStorageData?.[item?.address]?.name : null;
+				addressDataCell = name ? (
+					<Tooltip title={`${name} (${item?.address})`} arrow placement='top-start'>
+						<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
+							{name ? name : item?.address}
+						</NavLink>
+					</Tooltip>
+				) : (
+					<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
+						{item?.address}
+					</NavLink>
+				);
+			}
 
 			const nameTagDataCell = !item?.name_tag ? <div className={cx("align-center")}>-</div> : <div className={cx("nameTag-data-cell")}>{item?.name_tag}</div>;
 

@@ -144,6 +144,24 @@
 		cursor: default;
 		background-color: #1b57f0;
 	}
+
+	.active-dropdown {
+		color: white;
+		background-color: #1b57f0;
+
+		.tab-icon {
+			filter: invert(1);
+		}
+
+		.tab-title {
+			color: white;
+		}
+	}
+
+	.active-dropdown:hover {
+		cursor: pointer;
+		background-color: #1b57f0;
+	}
 }
 
 .dropdown-tx {
