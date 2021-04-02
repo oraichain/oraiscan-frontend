@@ -15,6 +15,7 @@ import BigNumber from "bignumber.js";
 
 import {InputNumberOrai} from "src/components/common/form-controls";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import {Fee, Gas} from "src/components/common/Fee";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
@@ -79,6 +80,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const [activeTabId, setActiveTabId] = useState(1);
+	const [fee, setFee] = useState(0);
+	const [gas, setGas] = useState(200000);
 	const [rewardCalculator, setRewardCalculator] = useState({
 		amount: 0,
 		monthlyORAI: 0,
@@ -134,6 +137,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 			return;
 		}
 
+		const minFee = (fee * 1000000 + "").split(".")[0];
+
 		const payload = {
 			type: "cosmos-sdk/MsgDelegate",
 			value: {
@@ -151,8 +156,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 					},
 				],
 				fee: {
-					amount: [0],
-					gas: 200000,
+					amount: [minFee],
+					gas,
 				},
 				signatures: null,
 				memo: data.memo || "",
@@ -231,6 +236,9 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 						<div className={cx("form-field")}>
 							<InputNumberOrai name='amount' required errorobj={errors} />
 						</div>
+						<div className={cx("balance-title")}> Fee </div>
+						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
+						<Gas gas={gas} onChangeGas={setGas} />
 					</DialogContent>
 					<DialogActions>
 						<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

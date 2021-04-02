@@ -6,7 +6,7 @@ import styles from "./Fee.scss";
 
 const cx = cn.bind(styles);
 
-export default function Fee({minFee: {estimate_fee}, handleChooseFee}) {
+export default function Fee({minFee: {estimate_fee}, handleChooseFee, className}) {
 	const [feeChooseType, setFeeChooseType] = useState("Slow");
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [fees, setFees] = useState([]);
@@ -26,7 +26,7 @@ export default function Fee({minFee: {estimate_fee}, handleChooseFee}) {
 	};
 
 	return (
-		<div className={cx("choose-fee")}>
+		<div className={cx("choose-fee", className)}>
 			{fees.map(({type, amount, amountUSD}, index) => {
 				return (
 					<div className={cx(type === feeChooseType ? "active" : "", "fee-item")} key={index} onClick={() => handleClickFeeType(type)}>
