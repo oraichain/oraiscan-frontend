@@ -80,7 +80,7 @@ const AccountTable = memo(({data = []}) => {
 			const percentageDataCell = _.isNil(item?.percentage) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("percentage-data-cell")}>{`${item?.percentage}%`}</div>
+				<div className={cx("percentage-data-cell")}>{`${item?.percentage?.toFixed(6)}%`}</div>
 			);
 
 			const txnCountDataCell = _.isNil(item?.txnCount) ? (

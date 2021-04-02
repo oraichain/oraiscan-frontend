@@ -2,11 +2,11 @@
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ContactTable.scss";
 import _ from "lodash";
+import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +34,9 @@ const ContactTable = memo(({data = []}) => {
 			const nameDataCell = _.isNil(item?.name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("name-data-cell", "align-left")}>{item?.name}</div>
+				<NavLink className={cx("name-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item?.address}`}>
+					{item?.name}
+				</NavLink>
 			);
 
 			const addressDataCell = _.isNil(item?.address) ? (
