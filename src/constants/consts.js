@@ -141,7 +141,7 @@ export default Object.freeze({
 		},
 	],
 	REQUEST: {
-		LIMIT: 10, // Number of records per page
+		LIMIT: 20, // Number of records per page
 		TIMEOUT: 10000,
 		PROPOSED_BLOCKS_LIMIT: 9,
 	},
