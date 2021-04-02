@@ -54,7 +54,7 @@ const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCe
 
 							if (typeof effectIn === "boolean") {
 								const effectClassName = effectIn ? "effect-in" : "effect-out";
-								const animationDelay = consts.ANIMATION.DELAY * (dataRows.length - rowIndex) + "ms";
+								const animationDelay = effectIn ? "500ms" : "0ms";
 								return (
 									<TableRow
 										className={cx("data-row", effectClassName)}

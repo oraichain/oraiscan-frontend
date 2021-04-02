@@ -86,7 +86,7 @@ export default Object.freeze({
 			DELEGATOR: "/wallet/delegator",
 			VALIDATOR: "/wallet/validator",
 		},
-		MIN_GAS: "min_gas",
+		MIN_FEE: "min_gas",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -141,7 +141,7 @@ export default Object.freeze({
 		},
 	],
 	REQUEST: {
-		LIMIT: 10, // Number of records per page
+		LIMIT: 20, // Number of records per page
 		TIMEOUT: 10000,
 		PROPOSED_BLOCKS_LIMIT: 9,
 	},

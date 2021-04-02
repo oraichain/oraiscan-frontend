@@ -66,10 +66,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
-	const path = `${consts.API.MIN_GAS}`;
-	const {data: minFee, loading, error} = useGet({
-		path: path,
-	});
+	const minFee = useSelector(state => state.blockchain.minFee);
+	// const path = `${consts.API.MIN_GAS}`;
+	// const {data: minFee, loading, error} = useGet({
+	// 	path: path,
+	// });
 
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),

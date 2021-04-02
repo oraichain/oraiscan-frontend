@@ -44,6 +44,7 @@ const TxList = ({history}) => {
 	const [pageId, setPageId] = useState(1);
 	const totalItemsRef = useRef(null);
 	const totalPagesRef = useRef(null);
+	const canRefetchRef = useRef(true);
 	const prevDataRef = useRef([]);
 
 	let timerIdRef = useRef(null);
@@ -84,7 +85,10 @@ const TxList = ({history}) => {
 	useEffect(() => {
 		if (loadCompleted) {
 			timerIdRef.current = setTimeout(() => {
-				refetch();
+				if (canRefetchRef.current) {
+					refetch();
+				}
+
 				setLoadCompleted(false);
 			}, consts.REQUEST.TIMEOUT);
 			return () => {
@@ -122,7 +126,9 @@ const TxList = ({history}) => {
 				if (totalItemsRef.current != data.paging.total) {
 					totalItemsRef.current = data.paging.total;
 					totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
-					setLoadCompleted(false);
+					canRefetchRef.current = false;
+				} else {
+					canRefetchRef.current = true;
 				}
 			} else {
 				totalItemsRef.current = null;
