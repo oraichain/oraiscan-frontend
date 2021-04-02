@@ -86,7 +86,7 @@ export default Object.freeze({
 			DELEGATOR: "/wallet/delegator",
 			VALIDATOR: "/wallet/validator",
 		},
-		MIN_GAS: "min_gas",
+		MIN_FEE: "min_gas",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",

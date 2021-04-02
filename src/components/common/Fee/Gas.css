@@ -1,0 +1,20 @@
+.select-gas-custom .input-range {
+	margin-left: 10px;
+}
+
+.select-gas-custom .input-range .input-range__label-container {
+	display: none;
+}
+
+.select-gas-custom .input-range .input-range__slider {
+	background: #00b1e9;
+	border: 1px solid #00b1e9;
+}
+
+.select-gas-custom .input-range .input-range__track--active {
+	background: #00b1e9;
+}
+
+.select-gas-custom .input-range .input-range__track {
+	background: #f7f7f7;
+}

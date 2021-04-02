@@ -14,10 +14,10 @@ import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
+import {Fee, Gas} from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
-import Fee from "./Fee";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
 import {useSelector} from "src/hooks";
@@ -268,7 +268,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 							<span className={cx("fee")}> 0 ORAI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
-					<div className={cx("select-gas", "select-gas-custom")}>
+					<Gas gas={gas} onChangeGas={onChangeGas} />
+					{/* <div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>
 						<InputNumber
 							value={gas}
@@ -280,7 +281,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 							max={1000000}
 						/>
 						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
-					</div>
+					</div> */}
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}

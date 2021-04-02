@@ -70,27 +70,36 @@ export default function({data: props}) {
 	const classNameDropdown = showDropDown ? "show" : "hide";
 
 	const handleShowDropDown = () => {
+		if (showTransactionModal) {
+			return;
+		}
 		setShowDropDown(true);
 		refetch();
 	};
 
 	const handleHideDropDown = () => {
+		if (showTransactionModal) {
+			return;
+		}
 		setShowDropDown(false);
+	};
+
+	const handleClickSendBtn = () => {
+		setShowTransactionModal(true);
+		setShowDropDown(false);
+	};
+
+	const handleCloseModal = () => {
+		setShowTransactionModal(false);
+		setTimeout(() => setShowDropDown(false), 100);
 	};
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={handleShowDropDown} onMouseLeave={handleHideDropDown}>
-			<Dialog
-				show={showTransactionModal}
-				handleClose={() => setShowTransactionModal(false)}
-				address={title}
-				account={account}
-				amount={amount}
-				reFetchAmount={refetch}
-			/>
+			<Dialog show={showTransactionModal} handleClose={handleCloseModal} address={title} account={account} amount={amount} reFetchAmount={refetch} />
 			<a href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
 				<ListItem button>
-					<img src={accountIcon} className={cx("account-icon")} />
+					<img alt='/' src={accountIcon} className={cx("account-icon")} />
 					<ExpandMore className={cx("icon")} />
 				</ListItem>
 			</a>
@@ -131,7 +140,7 @@ export default function({data: props}) {
 						<div className={cx("btn-send", "btn-wallet")} onClick={() => history.push("/wallet/")}>
 							My Wallet
 						</div>
-						<div className={cx("btn-send")} onClick={() => setShowTransactionModal(true)}>
+						<div className={cx("btn-send")} onClick={handleClickSendBtn}>
 							Send
 						</div>
 						<div className={cx("btn-close")} onClick={() => dispatch(initWallet({}))}>
