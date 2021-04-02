@@ -7,9 +7,6 @@ import cn from "classnames/bind";
 import {closePageBar} from "src/store/modules/global";
 import {useDispatch} from "react-redux";
 import {ExpandMore} from "@material-ui/icons";
-import {makeStyles} from "@material-ui/core/styles";
-import {DownOutlined} from "@ant-design/icons";
-import {Menu, Dropdown} from "antd";
 
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
@@ -32,22 +29,33 @@ const Tabs = memo(() => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const [open, setOpen] = React.useState(false);
-	const anchorRef = React.useRef(null);
+	const [openValidators, setOpenValidators] = React.useState(false);
+	const [openTransactions, setOpenTransactions] = React.useState(false);
+	const validatorsAnchorRef = React.useRef(null);
+	const transactionsAnchorRef = React.useRef(null);
 
-	const handleOpen = () => {
-		setOpen(true);
+	const handleOpenValidators = () => {
+		setOpenValidators(true);
 	};
 
-	const handleClose = () => {
-		setOpen(false);
+	const handleCloseValidators = () => {
+		setOpenValidators(false);
 	};
+
+	const handleOpenTransactions = () => {
+		setOpenTransactions(true);
+	};
+
+	const handleCloseTransactions = () => {
+		setOpenTransactions(false);
+	};
+
 	const renderValidatorComponent = ({name, img, index}) => (
 		<button
 			className={cx("tab", {"active-dropdown": pathname === "/accounts" || pathname === "/validators"})}
-			ref={anchorRef}
+			ref={validatorsAnchorRef}
 			onClick={() => {
-				handleOpen();
+				handleOpenValidators();
 			}}
 			key={index}>
 			<Popper
@@ -59,17 +67,17 @@ const Tabs = memo(() => {
 					},
 				}}
 				className={cx("dropdown-validators")}
-				open={open}
-				anchorEl={anchorRef.current}
+				open={openValidators}
+				anchorEl={validatorsAnchorRef.current}
 				transition>
 				{({TransitionProps, placement}) => (
 					<Grow {...TransitionProps}>
 						<Paper>
-							<ClickAwayListener onClickAway={handleClose}>
-								<MenuList autoFocusItem={open}>
+							<ClickAwayListener onClickAway={handleCloseValidators}>
+								<MenuList autoFocusItem={openValidators}>
 									<MenuItem
 										onClick={e => {
-											handleClose();
+											handleCloseValidators();
 											history.push("/validators");
 											dispatch(closePageBar());
 											e.stopPropagation();
@@ -78,7 +86,7 @@ const Tabs = memo(() => {
 									</MenuItem>
 									<MenuItem
 										onClick={e => {
-											handleClose();
+											handleCloseValidators();
 											history.push("/accounts");
 											dispatch(closePageBar());
 											e.stopPropagation();
@@ -97,37 +105,60 @@ const Tabs = memo(() => {
 		</button>
 	);
 
-	const renderTransactionComponent = ({name, img, route, index}) => {
-		const menu = (
-			<Menu>
-				<Menu.Item
-					className={cx("tab-tx-item")}
-					onClick={e => {
-						e.domEvent.stopPropagation();
-						history.push(`${route}?type=pending`);
-						dispatch(closePageBar());
-					}}>
-					Pending transaction
-				</Menu.Item>
-			</Menu>
-		);
-
-		return (
-			<div
-				className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
-				onClick={() => {
-					history.push(route);
-					dispatch(closePageBar());
+	const renderTransactionComponent = ({name, img, route, index}) => (
+		<button
+			className={cx("tab", {"active-dropdown": pathname === "/txs"})}
+			ref={transactionsAnchorRef}
+			onClick={() => {
+				handleOpenTransactions();
+			}}
+			key={index}>
+			<Popper
+				popperOptions={{
+					modifiers: {
+						offset: {
+							offset: "0,6",
+						},
+					},
 				}}
-				key={index}>
-				<img src={img} alt='' className={cx("tab-icon")} />
-				<span className={cx("tab-title")}>{name}</span>
-				<Dropdown overlay={menu} className={cx("dropdown-tx")} placement='bottomRight'>
-					<DownOutlined />
-				</Dropdown>
-			</div>
-		);
-	};
+				className={cx("dropdown-validators")}
+				open={openTransactions}
+				anchorEl={transactionsAnchorRef.current}
+				transition>
+				{({TransitionProps, placement}) => (
+					<Grow {...TransitionProps}>
+						<Paper>
+							<ClickAwayListener onClickAway={handleCloseTransactions}>
+								<MenuList autoFocusItem={openTransactions}>
+									<MenuItem
+										onClick={e => {
+											handleCloseTransactions();
+											history.push(route);
+											dispatch(closePageBar());
+											e.stopPropagation();
+										}}>
+										Transactions
+									</MenuItem>
+									<MenuItem
+										onClick={e => {
+											handleCloseTransactions();
+											history.push(`${route}?type=pending`);
+											dispatch(closePageBar());
+											e.stopPropagation();
+										}}>
+										Pending transaction
+									</MenuItem>
+								</MenuList>
+							</ClickAwayListener>
+						</Paper>
+					</Grow>
+				)}
+			</Popper>
+			<img src={img} alt='' className={cx("tab-icon")} />
+			<span className={cx("tab-title")}>{name}</span>
+			<ExpandMore className={cx("tab-icon-expand")} />
+		</button>
+	);
 
 	const tabs = [
 		{
