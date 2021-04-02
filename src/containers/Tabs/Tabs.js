@@ -50,12 +50,16 @@ const Tabs = memo(() => {
 		setOpenTransactions(false);
 	};
 
-	const renderValidatorComponent = ({name, img, index}) => (
+	const renderValidatorComponent = ({name, img, route, index}) => (
 		<button
 			className={cx("tab", {"active-dropdown": pathname === "/accounts" || pathname === "/validators"})}
 			ref={validatorsAnchorRef}
+			onMouseEnter={handleOpenValidators}
+			onMouseLeave={handleCloseValidators}
 			onClick={() => {
-				handleOpenValidators();
+				handleCloseValidators();
+				history.push(route);
+				dispatch(closePageBar());
 			}}
 			key={index}>
 			<Popper
@@ -74,7 +78,7 @@ const Tabs = memo(() => {
 					<Grow {...TransitionProps}>
 						<Paper>
 							<ClickAwayListener onClickAway={handleCloseValidators}>
-								<MenuList autoFocusItem={openValidators}>
+								<MenuList>
 									<MenuItem
 										onClick={e => {
 											handleCloseValidators();
@@ -109,8 +113,12 @@ const Tabs = memo(() => {
 		<button
 			className={cx("tab", {"active-dropdown": pathname === "/txs"})}
 			ref={transactionsAnchorRef}
+			onMouseEnter={handleOpenTransactions}
+			onMouseLeave={handleCloseTransactions}
 			onClick={() => {
-				handleOpenTransactions();
+				handleCloseTransactions();
+				history.push(route);
+				dispatch(closePageBar());
 			}}
 			key={index}>
 			<Popper
@@ -129,7 +137,7 @@ const Tabs = memo(() => {
 					<Grow {...TransitionProps}>
 						<Paper>
 							<ClickAwayListener onClickAway={handleCloseTransactions}>
-								<MenuList autoFocusItem={openTransactions}>
+								<MenuList>
 									<MenuItem
 										onClick={e => {
 											handleCloseTransactions();
