@@ -10,6 +10,10 @@ import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ProposalsTable.scss";
 import passedIcon from "src/assets/proposals/passed.svg";
 import rejectedIcon from "src/assets/proposals/rejected.svg";
+import unspecifiedIcon from "src/assets/proposals/unspecified.svg";
+import votingPeriodIcon from "src/assets/proposals/voting_period.svg";
+import depositPeriodIcon from "src/assets/proposals/deposit_period.svg";
+import failedIcon from "src/assets/proposals/fail.svg";
 
 const cx = classNames.bind(styles);
 
@@ -59,14 +63,40 @@ const ProposalsTable = memo(({data = []}) => {
 			let statusStateClassName;
 			let statusIcon;
 			let statusText;
-			if (item?.status == "PROPOSAL_STATUS_PASSED") {
-				statusStateClassName = "status-passed";
-				statusIcon = passedIcon;
-				statusText = "Passed";
-			} else if (item?.status == "PROPOSAL_STATUS_REJECTED") {
-				statusStateClassName = "status-rejected";
-				statusIcon = rejectedIcon;
-				statusText = "Rejected";
+
+			switch (item?.status) {
+				case "PROPOSAL_STATUS_PASSED":
+					statusStateClassName = "status-passed";
+					statusIcon = passedIcon;
+					statusText = "Passed";
+					break;
+				case "PROPOSAL_STATUS_REJECTED":
+					statusStateClassName = "status-rejected";
+					statusIcon = rejectedIcon;
+					statusText = "Rejected";
+					break;
+				case "PROPOSAL_STATUS_FAILED":
+					statusStateClassName = "status-failed";
+					statusIcon = failedIcon;
+					statusText = "Failed";
+					break;
+				case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
+					statusStateClassName = "status-deposit-period";
+					statusIcon = depositPeriodIcon;
+					statusText = "Deposit Period";
+					break;
+				case "PROPOSAL_STATUS_VOTING_PERIOD":
+					statusStateClassName = "status-voting-period";
+					statusIcon = votingPeriodIcon;
+					statusText = "Voting Period";
+					break;
+				case "PROPOSAL_STATUS_REJECTED":
+					statusStateClassName = "status-unspecified";
+					statusIcon = unspecifiedIcon;
+					statusText = "Unspecified";
+					break;
+				default:
+					break;
 			}
 
 			const statusDataCell = _.isNil(item?.status) ? (
