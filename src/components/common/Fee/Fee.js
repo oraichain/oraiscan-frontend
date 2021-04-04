@@ -31,7 +31,10 @@ export default function Fee({minFee: {estimate_fee}, handleChooseFee, className}
 				return (
 					<div className={cx(type === feeChooseType ? "active" : "", "fee-item")} key={index} onClick={() => handleClickFeeType(type)}>
 						<div className={cx("title")}> {type} </div>
-						<div className={cx("amount")}> {amount} ORAI </div>
+						<div className={cx("amount")}>
+							{" "}
+							<span className={cx("amount-number")}> {amount} </span> ORAI{" "}
+						</div>
 						<div className={cx("amount")}> $ {amountUSD} </div>
 					</div>
 				);

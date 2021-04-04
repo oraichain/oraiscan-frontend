@@ -201,6 +201,10 @@
 	display: flex;
 	flex-flow: row;
 	padding: 30px;
+	@include media("<medium") {
+		align-items: center;
+		height: 110px;
+	}
 
 	:nth-child(1) {
 		border-bottom-left-radius: 5px;
@@ -236,6 +240,7 @@
 			font-weight: 500;
 			@include media("<medium") {
 				font-size: 14px;
+				text-align: center;
 			}
 		}
 
