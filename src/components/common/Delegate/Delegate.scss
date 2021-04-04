@@ -4,6 +4,9 @@
 	font-family: Roboto;
 	font-weight: 500;
 	font-size: 18px;
+	@include media("<medium") {
+		font-size: 14px;
+	}
 }
 
 .btn {
@@ -17,6 +20,9 @@
 	line-height: 150%;
 	cursor: pointer;
 	user-select: none;
+	@include media("<medium") {
+		font-size: 14px;
+	}
 }
 
 .btn-primary {
@@ -57,6 +63,9 @@
 	font-weight: 500;
 	font-size: 18px;
 	line-height: 150%;
+	@include media("<medium") {
+		font-size: 14px;
+	}
 }
 
 .text-field {
@@ -106,6 +115,9 @@
 	font-family: Roboto;
 	font-size: 20px;
 	font-weight: 500;
+	@include media("<medium") {
+		font-size: 16px;
+	}
 }
 
 .balance-title {
@@ -120,6 +132,9 @@
 		font-weight: normal;
 		font-size: 18px;
 		line-height: 2;
+		@include media("<medium") {
+			font-size: 14px;
+		}
 	}
 }
 
@@ -128,6 +143,9 @@
 		font-family: Roboto;
 		font-size: 18px;
 		margin-top: 5px;
+		@include media("<medium") {
+			font-size: 14px;
+		}
 	}
 	.uppercase {
 		text-transform: uppercase;
@@ -140,6 +158,9 @@
 		align-items: center;
 		.dollar {
 			margin-left: 5px;
+		}
+		@include media("<medium") {
+			font-size: 14px;
 		}
 	}
 }
@@ -171,6 +192,9 @@
 	font-size: 16px;
 	margin-top: 5px;
 	margin-bottom: 30px;
+	@include media("<medium") {
+		font-size: 14px;
+	}
 }
 
 .tab-wrapper {
@@ -210,6 +234,9 @@
 			color: #000;
 			padding: 10px;
 			font-weight: 500;
+			@include media("<medium") {
+				font-size: 14px;
+			}
 		}
 
 		&.selected {

@@ -53,6 +53,7 @@ const ValidatorCardList = memo(({data = []}) => {
 
 				const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 				previousVotingPower += currentVotingPower;
+				const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
 
 				const validatorCardListItem = (
 					<div className={cx("validator-card-list-item")} key={"validator-card-list-item-" + index}>
@@ -123,11 +124,10 @@ const ValidatorCardList = memo(({data = []}) => {
 								<tr>
 									<td colSpan={2}>
 										<Delegate
+											operatorAddress={item.operator_address}
 											openButtonText='Delegate'
-											balance={100}
-											onDelegate={data => {
-												console.log(data);
-											}}
+											delegateText={`Delegate for "${item?.moniker}"`}
+											estAPR={estAPR / 100}
 										/>
 									</td>
 								</tr>
