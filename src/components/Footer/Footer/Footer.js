@@ -1,9 +1,7 @@
 import React, {memo} from "react";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useTheme} from "@material-ui/core/styles";
-
 import classNames from "classnames/bind";
 import styles from "./Footer.scss";
 import iconTwitter from "src/assets/footer/icon-twitter 1.svg";
@@ -11,6 +9,7 @@ import iconTelegram from "src/assets/footer/icon-telegram 1.svg";
 import iconCoinGecko from "src/assets/footer/icon-coingecko 1.svg";
 import iconMedium from "src/assets/footer/icon-medium 1.svg";
 import iconCoinMarketCap from "src/assets/footer/icon-coinmarketcap 1.svg";
+import ModeSwitch from "src/components/common/ModeSwitch";
 
 const Footer = memo(() => {
 	const cx = classNames.bind(styles);
@@ -78,6 +77,7 @@ const Footer = memo(() => {
 										<p>We can be mailed at:</p>
 										<p>Oraichain Pte. Ltd.</p>
 										<p>68 Circular Road, #02-01, 049422, Singapore</p>
+										<ModeSwitch />
 									</div>
 								</div>
 							</div>
