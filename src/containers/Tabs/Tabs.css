@@ -1,12 +1,12 @@
 .dropdown-validators .MuiButtonBase-root {
-	padding: 20px 40px;
+	padding: 20px 15px;
 	color: #181818;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 150%;
-	justify-content: center;
+	justify-content: flex-start;
 }
 
 .dropdown-validators .MuiList-padding {
@@ -14,9 +14,37 @@
 }
 
 .dropdown-validators .MuiPaper-root {
-	width: 130px;
+	min-width: 138px;
 	height: auto;
 	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	padding: 0;
+}
+
+.dropdown-transactions .MuiButtonBase-root {
+	padding: 20px 15px;
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	justify-content: flex-start;
+}
+
+.dropdown-transactions .MuiList-padding {
+	padding: 0;
+}
+
+.dropdown-transactions .MuiPaper-root {
+	min-width: 165px;
+	height: auto;
+	color: #181818;
+	margin-left: 27px;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;

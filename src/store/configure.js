@@ -11,7 +11,7 @@ import * as modules from "./modules";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["wallet", "contact"],
+	whitelist: ["wallet", "contact", "activeThemeId"],
 };
 
 // add all reducers

@@ -1,0 +1,27 @@
+@import "src/styles/utils";
+
+.mode-switch {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 16px;
+	padding: 8px;
+	border-radius: 4px;
+
+	&-light {
+		background-color: #acc7f2;
+		color: white;
+	}
+
+	&-dark {
+		background-color: black;
+		color: white;
+	}
+
+	&-icon {
+		display: inline-block;
+		width: 24px;
+		height: auto;
+	}
+}

@@ -96,6 +96,38 @@
 		}
 
 		&-rejected {
+			border: 1px solid #d115be;
+
+			.status-text {
+				color: #d115be;
+			}
+		}
+
+		&-unspecified {
+			border: 1px solid #f59338;
+
+			.status-text {
+				color: #f59338;
+			}
+		}
+
+		&-deposit-period {
+			border: 1px solid #287dcc;
+
+			.status-text {
+				color: #287dcc;
+			}
+		}
+
+		&-voting-period {
+			border: 1px solid #22b59a;
+
+			.status-text {
+				color: #22b59a;
+			}
+		}
+
+		&-failed {
 			border: 1px solid #f3574f;
 
 			.status-text {

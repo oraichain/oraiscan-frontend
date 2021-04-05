@@ -53,7 +53,7 @@ const WithdrawTable = memo(({data}) => {
 
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator) || {};
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {};
 			const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item.validator || "";
 

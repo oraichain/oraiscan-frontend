@@ -1,13 +1,9 @@
 @import "src/styles/utils";
 
-.SearchArea {
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	height: fit-content;
-	padding: var(--heightHeader) 0 0 0;
+.search-area {
 	position: relative;
-	overflow: hidden;
+	width: 100%;
+	height: fit-content;
 
 	// @include media(">1880px") {
 	// 	background-size: cover;

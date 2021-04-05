@@ -129,7 +129,7 @@ const Tabs = memo(() => {
 						},
 					},
 				}}
-				className={cx("dropdown-validators")}
+				className={cx("dropdown-transactions")}
 				open={openTransactions}
 				anchorEl={transactionsAnchorRef.current}
 				transition>
