@@ -4,16 +4,15 @@ import React, {useEffect, useState, useRef} from "react";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {Container} from "@material-ui/core";
 import cn from "classnames/bind";
 import {initWallet} from "src/store/modules/wallet";
 import Wallet from "./Wallet/Wallet";
+import DownAngleIcon from "src/icons/DownAngleIcon";
+import RightArrowIcon from "src/icons/RightArrowIcon";
+import SearchIcon from "src/icons/SearchIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
-import whiteArrowDownIcon from "src/assets/header/white_arrow_down.svg";
-import greyArrowDownIcon from "src/assets/header/grey_arrow_down.svg";
 
 const cx = cn.bind(styles);
 
@@ -40,17 +39,17 @@ const initialNavLinks = [
 	{title: "Connect Wallet", path: null, type: "wallet", init: true},
 ];
 
-const NavBar = () => {
-	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+const NavBar = ({toggleSearchArea}) => {
 	const dispatch = useDispatch();
 	const {address} = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const navbarCollapseRef = useRef(null);
+	const navbarOverlayRef = useRef(null);
 
 	const expand = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
 			navbarCollapseRef.current.style.display = "block";
+			navbarOverlayRef.current.style.display = "block";
 		}
 	};
 
@@ -58,6 +57,7 @@ const NavBar = () => {
 		e.preventDefault();
 		if (navbarCollapseRef && navbarCollapseRef.current) {
 			navbarCollapseRef.current.style.display = "none";
+			navbarOverlayRef.current.style.display = "none";
 		}
 	};
 
@@ -94,12 +94,18 @@ const NavBar = () => {
 						<img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
 						<span className={cx("navbar-brand-text")}>Oraiscan</span>
 					</NavLink>
-					<div className={cx("navbar-toggler")} onClick={expand}>
-						<span className={cx("navbar-toggler-icon")}>&#9776;</span>
+					<div className={cx("navbar-right")}>
+						<div className={cx("navbar-search")} onClick={toggleSearchArea}>
+							<SearchIcon className={cx("navbar-search-icon")} />
+						</div>
+						<div className={cx("navbar-toggler")} onClick={expand}>
+							<span className={cx("navbar-toggler-icon")}>&#9776;</span>
+						</div>
 					</div>
+					<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
 					<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
 						<div className={cx("navbar-close")} onClick={collapse}>
-							<span className={cx("navbar-close-icon")}>&times;</span>
+							<RightArrowIcon className={cx("navbar-close-icon")} />
 						</div>
 						<ul className={cx("navbar-nav")}>
 							{navLinks.map((item, index) => {
@@ -109,7 +115,7 @@ const NavBar = () => {
 										<li className={cx("nav-item", "dropdown")} key={"nav-item" + index}>
 											<span className={cx("nav-link", "dropdown-toggle")}>
 												<span className={cx("dropdown-toggle-text")}>{title}</span>
-												<img className={cx("dropdown-toggle-icon")} src={isLargeScreen ? whiteArrowDownIcon : greyArrowDownIcon} alt='' />
+												<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 											</span>
 											<div className={cx("dropdown-menu")}>
 												{children.map(({title, path}, idx) => (
@@ -141,7 +147,9 @@ const NavBar = () => {
 	);
 };
 
-NavBar.propTypes = {};
+NavBar.propTypes = {
+	toggleSearchArea: PropTypes.func,
+};
 NavBar.defaultProps = {};
 
 export default NavBar;

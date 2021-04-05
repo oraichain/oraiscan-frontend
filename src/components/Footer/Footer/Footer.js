@@ -9,7 +9,7 @@ import iconTelegram from "src/assets/footer/icon-telegram 1.svg";
 import iconCoinGecko from "src/assets/footer/icon-coingecko 1.svg";
 import iconMedium from "src/assets/footer/icon-medium 1.svg";
 import iconCoinMarketCap from "src/assets/footer/icon-coinmarketcap 1.svg";
-import ModeSwitch from "src/components/common/ModeSwitch";
+// import ModeSwitch from "src/components/common/ModeSwitch";
 
 const Footer = memo(() => {
 	const cx = classNames.bind(styles);
@@ -38,6 +38,7 @@ const Footer = memo(() => {
 							<p>68 Circular Road, #02-01,</p>
 							<p>049422, Singapore</p>
 						</div>
+						{/* <ModeSwitch /> */}
 					</div>
 				</div>
 				<div className={cx("footer-mobile")}>
@@ -77,7 +78,7 @@ const Footer = memo(() => {
 										<p>We can be mailed at:</p>
 										<p>Oraichain Pte. Ltd.</p>
 										<p>68 Circular Road, #02-01, 049422, Singapore</p>
-										<ModeSwitch />
+										{/* <ModeSwitch /> */}
 									</div>
 								</div>
 							</div>

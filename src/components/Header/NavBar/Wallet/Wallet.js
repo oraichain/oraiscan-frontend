@@ -8,6 +8,7 @@ import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {Grid} from "@material-ui/core";
 import copy from "copy-to-clipboard";
 import Skeleton from "react-skeleton-loader";
 import {showAlert} from "src/store/modules/global";
@@ -16,14 +17,12 @@ import {myKeystation} from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import consts from "src/constants/consts";
 import BigNumber from "bignumber.js";
-import {ReactComponent as WalletIcon} from "src/assets/icons/wallet.svg";
-import {ReactComponent as CopyIcon} from "src/assets/common/copy_ic.svg";
 import Dialog from "../Dialog";
+import DownAngleIcon from "src/icons/DownAngleIcon";
+import AccountIcon from "src/icons/AccountIcon";
+import WalletIcon from "src/icons/WalletIcon";
+import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
-import whiteArrowDownIcon from "src/assets/header/white_arrow_down.svg";
-import greyArrowDownIcon from "src/assets/header/grey_arrow_down.svg";
-import whiteAccountIcon from "src/assets/header/white_account.svg";
-import greyAccountIcon from "src/assets/header/grey_account.svg";
 
 const cx = cn.bind(styles);
 
@@ -90,53 +89,60 @@ const Wallet = ({data: props}) => {
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
 			<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} reFetchAmount={refetch} />
 			<a className={cx("dropdown-toggle")} href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
-				<img className={cx("dropdown-toggle-text")} src={isLargeScreen ? whiteAccountIcon : greyAccountIcon} alt='' />
-				<img className={cx("dropdown-toggle-icon")} src={isLargeScreen ? whiteArrowDownIcon : greyArrowDownIcon} alt='' />
+				<AccountIcon className={cx("dropdown-toggle-text")} />
+				<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 			</a>
 			<div className={cx("dropdown-content", classNameDropdown)}>
-				<div className={cx("orai-profile")}>
-					<div className={cx("wallet-name")}>
-						<WalletIcon /> <span className={cx("wallet-account")}> {account} </span>{" "}
-					</div>
-					<div className={cx("wallet-address-title")}>
-						{" "}
-						Address{" "}
-						<CopyIcon
-							onClick={() => {
-								copy(title);
-								dispatch(
-									showAlert({
-										show: true,
-										message: "Copied",
-										autoHideDuration: 1500,
-									})
-								);
-							}}
-						/>{" "}
-					</div>
-					<NavLink className={cx("wallet-address-detail")} to='/wallet'>
-						{title}
-					</NavLink>
-
-					<div className={cx("wallet-address-title")}> Balance </div>
-					<div className={cx("wallet-address-detail")}>
-						{loading ? <Skeleton /> : formatOrai(amount || 0, 1000000, 2) + " "}
-						{loading ? <Skeleton /> : <span className={cx("denom")}>{denom}</span>}
-						{loading ? <Skeleton /> : <span> {status?.price ? " ($" + priceInUSD + ")" : ""}</span>}
-					</div>
-
-					<div className={cx("btn-action-group")}>
-						<div className={cx("btn-send", "btn-wallet")} onClick={() => history.push("/wallet/")}>
-							My Wallet
+				<Grid container spacing={0} className={cx("wallet")}>
+					<Grid item lg={8} xs={12}>
+						<div className={cx("wallet-name")}> {account} </div>
+						<div className={cx("wallet-address")}>
+							<div className={cx("wallet-address-title")}>
+								<span className={cx("wallet-address-title-text")}>Address</span>
+								<span
+									onClick={() => {
+										copy(title);
+										dispatch(
+											showAlert({
+												show: true,
+												message: "Copied",
+												autoHideDuration: 1500,
+											})
+										);
+									}}>
+									<CopyIcon className={cx("wallet-address-title-icon")} />
+								</span>
+							</div>
+							<div className={cx("wallet-address-value")}>{title}</div>
 						</div>
-						<div className={cx("btn-send")} onClick={showTransactionModal}>
+						<div className={cx("wallet-balance")}>
+							<div className={cx("wallet-balance-title")}>Balance</div>
+							<div className={cx("wallet-balance-value")}>
+								{loading ? <Skeleton /> : formatOrai(amount || 0, 1000000, 2) + " "}
+								{loading ? <Skeleton /> : <span className={cx("denom")}>{denom}</span>}
+								{loading ? <Skeleton /> : <span> {status?.price ? " ($" + priceInUSD + ")" : ""}</span>}
+							</div>
+						</div>
+					</Grid>
+					<Grid item lg={4} xs={12}>
+						<div className={cx("wallet-button")} onClick={() => history.push("/wallet/")}>
+							<WalletIcon className={cx("wallet-button-icon")} />
+							<span className={cx("wallet-button-text")}>MY WALLET</span>
+						</div>
+					</Grid>
+				</Grid>
+				<Grid container className={cx("button-group")} spacing={2}>
+					<Grid item lg={6} xs={12}>
+						<div className={cx("button", "button-fill")} onClick={showTransactionModal}>
 							Send
 						</div>
-						<div className={cx("btn-close")} onClick={() => dispatch(initWallet({}))}>
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						<div className={cx("button", "button-outline")} onClick={() => dispatch(initWallet({}))}>
 							Close Wallet
 						</div>
-					</div>
-				</div>
+					</Grid>
+				</Grid>
 			</div>
 		</div>
 	);
