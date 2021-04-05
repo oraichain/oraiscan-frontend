@@ -1,15 +1,10 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import {Menu, Dropdown, Button, message, Space, Tooltip} from "antd";
-import {DownOutlined, UserOutlined} from "@ant-design/icons";
-import SearchArea from "src/components/common/SearchArea";
+import {Menu, Dropdown, Button} from "antd";
+import {DownOutlined} from "@ant-design/icons";
 import config from "src/config";
+import SearchArea from "src/components/common/SearchArea";
 import styles from "./SearchArea.scss";
-// import consts from "src/constants/consts";
-// import LinkCard from "src/components/Dashboard/LinkCard";
-//  assets
-// import iosIcon from "src/assets/dashboard/appstore_img.svg";
-// import googleIcon from "src/assets/dashboard/playstore.svg";
 
 const cx = cn.bind(styles);
 
@@ -18,7 +13,7 @@ const isTestnetStorage = localStorage.getItem("isTestnet");
 export default function() {
 	const [isTestnet, setIsTestnet] = React.useState(!!isTestnetStorage);
 
-	const handleChangeNet = net => {
+	const setNet = net => {
 		if (net === "testnet") {
 			setIsTestnet(true);
 			localStorage.setItem("isTestnet", "true");
@@ -32,16 +27,16 @@ export default function() {
 
 	const menu = (
 		<Menu>
-			<Menu.Item key='1' className={cx("item-mainnet")} onClick={() => handleChangeNet("mainnet")}>
+			<Menu.Item key='1' className={cx("item-mainnet")} onClick={() => setNet("mainnet")}>
 				Mainnet
 			</Menu.Item>
-			<Menu.Item key='2' className={cx("item-mainnet")} onClick={() => handleChangeNet("testnet")}>
+			<Menu.Item key='2' className={cx("item-mainnet")} onClick={() => setNet("testnet")}>
 				Testnet
 			</Menu.Item>
 		</Menu>
 	);
 	return (
-		<div className={cx("SearchArea")}>
+		<div className={cx("search-area")}>
 			<div className={cx("wrapper")}>
 				<div className={cx("title")}>Oraichain Explorer</div>
 				{config.hasTestnetNetwork && (

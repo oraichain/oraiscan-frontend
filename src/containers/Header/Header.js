@@ -1,24 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
+import PropTypes from "prop-types";
+import cn from "classnames/bind";
+import NavBar from "src/components/Header/NavBar/NavBar";
+import styles from "./Header.module.scss";
+const cx = cn.bind(styles);
 
-import {AppBar} from "@material-ui/core";
-
-import SearchAppBar from "src/components/Header/SearchAppBar/SearchAppBar";
-import SubHeader from "src/components/Header/SubHeader/SubHeader";
-
-export default function(props) {
-	const [navBarOpen, setNavBarOpen] = useState(false);
-	const [currentRoute, setCurrentRoute] = useState("");
-
-	const hamburgerClick = () => setNavBarOpen(v => !v);
-
-	useEffect(() => {
-		if (navBarOpen) console.log("open nav bar");
-	}, [navBarOpen]);
-
+const Header = () => {
 	return (
-		<AppBar position={"fixed"}>
-			<SearchAppBar hamburgerClick={hamburgerClick} />
-			{/* <SubHeader navBarOpen={navBarOpen} setNavBarOpen={setNavBarOpen} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} /> */}
-		</AppBar>
+		<>
+			<div className={cx("clear-fixed")}></div>
+			<div className={cx("header")}>
+				<NavBar />
+			</div>
+		</>
 	);
-}
+};
+
+Header.propTypes = {};
+Header.defaultProps = {};
+
+export default Header;
