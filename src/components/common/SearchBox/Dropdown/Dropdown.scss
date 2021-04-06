@@ -13,16 +13,16 @@
 	}
 	li {
 		cursor: pointer;
-		
+
 		&.selected {
 			background-color: #f5f5f5;
 		}
-		
+
 		display: flex;
 		align-items: center;
 		height: 40px;
 		width: 100%;
-		>:first-child {
+		> :first-child {
 			margin-right: 8px;
 		}
 		.content {
@@ -35,7 +35,7 @@
 			letter-spacing: normal;
 			text-align: left;
 			color: #222222;
-			
+
 			display: flex;
 			.name {
 				margin-left: 3px;

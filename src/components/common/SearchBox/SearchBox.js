@@ -1,25 +1,21 @@
 import React from "react";
-import cn from "classnames/bind";
-import styles from "./SearchArea.scss";
-//  redux
 import {useSelector} from "react-redux";
-//  hooks
-import {useCheckOutsideClick, useDelayedInput, useHistory, useSearch} from "src/hooks";
-//components
+import cn from "classnames/bind";
 import {InputBase} from "@material-ui/core";
-import Dropdown from "./Dropdown";
+import consts from "src/constants/consts";
+import {useCheckOutsideClick, useDelayedInput, useHistory, useSearch} from "src/hooks";
 import useWindowSize from "src/hooks/useWindowSize";
 import {_, compareProperty, empty, searchProperties, stringNumCheck} from "src/lib/scripts";
-import consts from "src/constants/consts";
-//  assests
-import SearchIcon from "src/assets/icons/search.svg";
+import SearchIcon from "src/icons/SearchIcon";
+import Dropdown from "./Dropdown";
+import styles from "./SearchBox.scss";
 
 const cx = cn.bind(styles);
 
-export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) {
-	const history = useHistory();
+const dropdownStyle = {position: "fixed", zIndex: 15};
 
-	//  redux
+export default function({interactiveWidth = false}) {
+	const history = useHistory();
 	const bep2 = useSelector(state => state.assets.assets);
 	const bep8 = useSelector(state => state.assets.bep8);
 
@@ -29,7 +25,7 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 	}, [bep2, bep8]);
 
 	//  search related
-	const SearchRef = React.useRef(null);
+	const searchInputRef = React.useRef(null);
 	const [input, setInput] = React.useState("");
 	const [value, setValue] = React.useState("");
 	const delayedSetValue = useDelayedInput(setInput, 200);
@@ -49,9 +45,9 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 	);
 
 	React.useEffect(() => {
-		if (_.isNil(SearchRef?.current)) return;
-		setRef(SearchRef);
-	}, [setRef, SearchRef]);
+		if (_.isNil(searchInputRef?.current)) return;
+		setRef(searchInputRef);
+	}, [setRef, searchInputRef]);
 
 	React.useEffect(() => {
 		delayedSetValue(_.trim(value));
@@ -60,12 +56,12 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 
 	React.useEffect(() => {
 		if (!interactiveWidth) return;
-		setWidthDropdown(SearchRef.current?.getBoundingClientRect()?.width);
+		setWidthDropdown(searchInputRef.current?.getBoundingClientRect()?.width);
 	}, [interactiveWidth]);
 
 	React.useEffect(() => {
 		if (!interactiveWidth) return;
-		if (SearchRef.current?.getBoundingClientRect()?.width !== widthDropdown) setWidthDropdown(SearchRef.current?.getBoundingClientRect()?.width);
+		if (searchInputRef.current?.getBoundingClientRect()?.width !== widthDropdown) setWidthDropdown(searchInputRef.current?.getBoundingClientRect()?.width);
 	}, [interactiveWidth, widthDropdown, windowSize.width]);
 
 	//  return found Assets
@@ -149,10 +145,10 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 		if (isClickedOutside) onBlur();
 	}, [isClickedOutside, onBlur]);
 
-	const renderInputBase = React.useMemo(
+	const inputElement = React.useMemo(
 		() => (
 			<InputBase
-				className={propCx("input")}
+				className={cx("input")}
 				placeholder='Search by Block, transaction or address...'
 				onKeyDown={onKeyDown}
 				onKeyPress={onKeyPress}
@@ -161,10 +157,10 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 				onFocus={() => onFocus(true)}
 			/>
 		),
-		[onChange, onFocus, onKeyDown, onKeyPress, propCx, value]
+		[onChange, onFocus, onKeyDown, onKeyPress, cx, value]
 	);
 
-	const dropdownRender = React.useMemo(
+	const dropdownElement = React.useMemo(
 		() => (
 			<Dropdown
 				foundAssets={foundAssets}
@@ -180,25 +176,25 @@ export default function({propCx, dropdownStyle = {}, interactiveWidth = false}) 
 		[clickSearch, dropdownState, dropdownStyle, foundAssets, input, interactiveWidth, searchType, setSelected, widthDropdown]
 	);
 
-	const buttonRender = React.useMemo(
+	const buttonElement = React.useMemo(
 		() => (
-			<button className={propCx("searchBtn")} onClick={clickSearch}>
-				<img className={propCx("searchIcon")} src={SearchIcon} alt={"search"} />
+			<button className={cx("search-button")} onClick={clickSearch}>
+				<SearchIcon className={cx("search-button-icon")} />
 			</button>
 		),
-		[clickSearch, propCx]
+		[clickSearch]
 	);
 	return React.useMemo(
 		() => (
-			<div className={propCx("search")}>
-				<div className={cx("SearchArea-wrapper")} ref={SearchRef}>
-					{renderInputBase}
-					{dropdownRender}
+			<div className={cx("search-box")}>
+				<div className={cx("search-input")} ref={searchInputRef}>
+					{inputElement}
+					{dropdownElement}
 				</div>
-				{buttonRender}
+				{buttonElement}
 			</div>
 		),
-		[propCx, renderInputBase, dropdownRender, buttonRender]
+		[inputElement, dropdownElement, buttonElement]
 	);
 }
 
