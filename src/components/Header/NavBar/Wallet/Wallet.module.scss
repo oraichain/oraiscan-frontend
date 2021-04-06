@@ -1,5 +1,21 @@
 @import "src/styles/utils";
 
+.nav-link {
+	display: inline-block;
+	padding: 22px 15px;
+	color: white;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 26px;
+	cursor: pointer;
+
+	@include media(">=large") {
+		color: #ffffff;
+	}
+}
+
 .dropdown {
 	position: relative;
 	color: white;
@@ -14,37 +30,34 @@
 		padding-left: 16px;
 
 		&-text {
-			display: inline-block;
+			margin-right: 8px;
 		}
 
 		&-icon {
-			display: inline-block;
-			margin-left: 12px;
 		}
 	}
 
 	.dropdown-content {
-		position: absolute;
-		top: 70px;
-		right: 0px;
+		position: fixed;
+		top: 15px;
+		left: 15px;
+		right: initial;
+		width: calc(100vw - 2 * 15px);
 		display: none;
-		min-width: 160px;
+		padding: 20px;
+		padding-left: 16px;
+		padding-right: 16px;
 		background-color: #f9f9f9;
 		box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 		z-index: 1;
 		border-radius: 0px 0px 8px 8px;
 
-		a {
-			text-decoration: none;
-			color: black;
-			font-style: normal;
-			font-weight: 300;
-			font-size: 16px;
-			padding: 15px;
-		}
-
-		a:hover {
-			background-color: #dad6d6;
+		@include media(">=large") {
+			position: absolute;
+			top: 70px;
+			left: initial;
+			right: 0px;
+			width: 500px;
 		}
 	}
 
@@ -55,164 +68,123 @@
 	}
 }
 
-.orai-profile {
-	width: 528px;
-	padding-left: 30px;
-	padding-top: 20px;
-	padding-right: 20px;
-	.wallet-name {
-		font-weight: bold;
-		line-height: 21px;
-		color: #727286;
-		svg {
-			vertical-align: middle;
-			display: inline-block;
-		}
-		.wallet-account {
-			font-family: Roboto;
-			font-weight: 500;
-			font-size: 20px;
-			color: #1b57f0;
-			padding-left: 10px;
-			vertical-align: middle;
-			display: inline-block;
-		}
-	}
-	.wallet-address-title {
+.wallet {
+	&-name {
+		margin-bottom: 15px;
+		color: #000000;
+		font-family: Roboto;
+		font-style: normal;
 		font-weight: 500;
-		font-size: 18px;
-		color: #000;
-		margin-top: 15px;
-		svg {
-			cursor: pointer;
-		}
+		font-size: 20px;
+		line-height: 150%;
 	}
-	.wallet-address-detail {
-		font-size: 16px;
-		color: #000;
-		padding: 0 !important;
-		background: none !important;
 
-		.denom {
-			text-transform: uppercase;
+	&-address {
+		margin-bottom: 10px;
+
+		&-title {
+			&-text {
+				display: inline-block;
+				margin-right: 8px;
+				color: #000000;
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 18px;
+				line-height: 150%;
+			}
+
+			&-icon {
+				color: #008bd9;
+			}
+		}
+
+		&-value {
+			color: #000000;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
 		}
 	}
-	.wallet-address-detail:hover {
-		cursor: pointer;
-		color: #3247e6 !important;
+
+	&-balance {
+		margin-bottom: 10px;
+
+		&-title {
+			display: inline-block;
+			margin-right: 8px;
+			color: #000000;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+		}
+
+		&-value {
+			color: #000000;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
 	}
-	.wallet-link {
-		margin-top: 10px;
-		display: flex;
+
+	&-button {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
 		align-items: center;
-		.wallet-amount {
-			color: red;
-			padding-left: 15px;
-		}
-		a {
-			text-decoration: underline;
-			margin-right: 10px;
-		}
-		.wallet-copy {
-			margin-right: 10px;
-			cursor: pointer;
-		}
-		.wallet-share {
-			cursor: pointer;
-		}
-	}
-	.btn-orai {
-		display: inline-block;
+		color: #00b1e9;
 		cursor: pointer;
-		font-weight: 400;
-		color: #212529;
-		text-align: center;
-		vertical-align: middle;
-		-webkit-user-select: none;
-		user-select: none;
-		background-color: transparent;
-		border: 1px solid transparent;
-		padding: 0.375rem 0.75rem;
-		font-size: 1rem;
-		line-height: 1.5;
-		border-radius: 0.25rem;
-		transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-		border: 1px solid #727286;
-		box-sizing: border-box;
-		border-radius: 8px;
-	}
-	.orai-btn-group {
-		margin-top: 10px;
-		padding-left: 15px;
-		.change-wallet {
-			margin-right: 10px;
-			padding: 10px 15px;
-			color: #000;
+
+		&-icon {
+			width: auto;
+			height: 16px;
 		}
-		.close-wallet {
-			padding: 10px 15px;
-			color: #fff;
-			background-color: #3247e6;
+
+		&-text {
+			display: inline-block;
+			margin-left: 8px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
 		}
 	}
 }
 
-.btn-action-group {
+.button-group {
+}
+
+.button {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	width: 100%;
-	padding-bottom: 20px;
-	padding-top: 15px;
-	button {
-		width: 50%;
-	}
-}
-
-.btn-wallet {
-	margin-right: 10px;
-}
-
-.btn-send {
-	background-color: #008bd9;
 	border-radius: 6px;
-	text-transform: none;
-	font-size: 16px;
-	span:first-child {
-		color: #ffffff;
-	}
-	width: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-}
-
-.btn-close {
-	color: #008bd9;
-	border: 1px solid #008bd9;
-	border-radius: 6px;
-	padding: 11px 0px;
-	text-transform: none;
-	font-size: 16px;
-	width: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-left: 15px;
-	cursor: pointer;
-}
-
-.nav-link {
-	display: inline-block;
-	padding: 22px 15px;
-	color: #818181;
 	font-family: Roboto;
 	font-style: normal;
-	font-weight: 500;
-	font-size: 18px;
-	line-height: 26px;
+	font-weight: normal;
+	font-size: 16px;
+	height: 40px;
+	text-align: center;
+	cursor: pointer;
 
-	@include media(">=large") {
+	&-fill {
 		color: #ffffff;
+		background: #00b1e9;
+	}
+
+	&-outline {
+		color: #00b1e9;
+		background: #ffffff;
+		border: 1px solid #00b1e9;
 	}
 }
