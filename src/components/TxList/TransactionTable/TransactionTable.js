@@ -16,6 +16,10 @@ import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 
+import MoreIcon from "src/icons/MoreIcon";
+import SuccessIcon from "src/icons/SuccessIcon";
+import FailedIcon from "src/icons/FailedIcon";
+
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
@@ -73,12 +77,12 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				<div className={cx("result-data-cell")}>
 					{item?.result ? (
 						<div className={cx("result")}>
-							<img className={cx("result-icon")} src={successIcon} alt='success' />
+							<SuccessIcon className={cx("result-icon-success")}></SuccessIcon>
 							<span className={cx("result-text")}>Success</span>
 						</div>
 					) : (
 						<div className={cx("result")}>
-							<img className={cx("result-icon")} src={failureIcon} alt='failure' />
+							<FailedIcon className={cx("result-icon-failed")}></FailedIcon>
 							<span className={cx("result-text")}>Failure</span>
 						</div>
 					)}
@@ -106,7 +110,7 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 					<div className={cx("amount-data-cell")}>
 						<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
 							<span className={cx("more-text")}>More</span>
-							<img className={cx("more-icon")} src={moreIcon} alt='more' />
+							<MoreIcon className={cx("more-icon")}></MoreIcon>
 						</NavLink>
 					</div>
 				) : (

@@ -8,7 +8,7 @@
 
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 	}
@@ -21,7 +21,7 @@
 
 		.title {
 			display: inline-block;
-			color: #000000;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -35,9 +35,9 @@
 			justify-content: center;
 			align-items: center;
 			padding: 2px 8px;
-			color: #1b57f0;
-			background: #ffffff;
-			border: 1px solid #1b57f0;
+			color: var(--common-textColor);
+			background: var(--common-linkColor);
+			border: 1px solid var(--common-linkColor);
 			box-sizing: border-box;
 			border-radius: 4px;
 			font-family: Roboto;

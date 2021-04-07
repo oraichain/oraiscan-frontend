@@ -45,8 +45,8 @@
 		display: none;
 		width: 220px;
 		height: 60px;
-		background-color: #fff;
-		border-bottom: 1px solid #e7e7e7;
+		background-color: var(--common-containerBackgroundColor);
+		border-bottom: 1px solid var(--common-borderColor);
 
 		@include media("<large") {
 			display: flex;
@@ -68,7 +68,7 @@
 		justify-content: center;
 		flex: 1;
 		height: 60px;
-		background-color: #fff;
+		background-color: var(--common-containerBackgroundColor);
 
 		@include media("<large") {
 			width: 220px;
@@ -77,12 +77,12 @@
 
 		&:hover {
 			cursor: pointer;
-			background-color: rgb(224, 224, 224);
+			background-color: var(--common-blockItemBackgroundColor);
 		}
 
 		&:visited {
 			cursor: pointer;
-			background-color: #1b57f0;
+			background-color: var(--common-activeTabColor);
 		}
 
 		&:nth-child(2) {
@@ -106,10 +106,12 @@
 		&-icon {
 			display: inline-block;
 			margin: 0;
-			margin-right: 10px;
+			margin-right: 5px;
+			color: var(--common-textColor);
 
 			@include media("<large") {
 				margin-left: 10px;
+				color: var(--common-textColor);
 			}
 		}
 
@@ -119,7 +121,7 @@
 
 		&-title {
 			display: inline-block;
-			color: #181818;
+			color: var(--common-textColor);
 			font-style: normal;
 			font-weight: 500;
 			font-size: 14px;
@@ -128,39 +130,39 @@
 	}
 
 	.active {
-		color: white;
-		background-color: #1b57f0;
+		color: var(--common-textColor);
+		background-color: var(--common-activeTabColor);
 
 		.tab-icon {
 			filter: invert(1);
 		}
 
 		.tab-title {
-			color: white;
+			color: var(--common-textColor);
 		}
 	}
 
 	.active:hover {
 		cursor: default;
-		background-color: #1b57f0;
+		background-color: var(--common-activeTabColor);
 	}
 
 	.active-dropdown {
-		color: white;
-		background-color: #1b57f0;
+		color: var(--common-textColor);
+		background-color: var(--common-activeTabColor);
 
 		.tab-icon {
 			filter: invert(1);
 		}
 
 		.tab-title {
-			color: white;
+			color: var(--common-textColor);
 		}
 	}
 
 	.active-dropdown:hover {
 		cursor: pointer;
-		background-color: #1b57f0;
+		background-color: var(--common-activeTabColor);
 	}
 }
 
@@ -176,6 +178,6 @@
 	font-family: Roboto;
 	font-weight: 500;
 	font-size: 14px;
-	color: #181818;
+	color: var(--common-textColor);
 	padding: 10px;
 }

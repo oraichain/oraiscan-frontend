@@ -44,22 +44,8 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("dashboard")}>
 			{titleSection}
-			<Grid container spacing={2}>
+			<Grid container spacing={4}>
 				<Grid item lg={12} xs={12}>
-					<button
-						type='button'
-						onClick={() => {
-							dispatch(setActiveThemeId(themeIds.LIGHT));
-						}}>
-						Light theme
-					</button>
-					<button
-						type='button'
-						onClick={() => {
-							dispatch(setActiveThemeId(themeIds.DARK));
-						}}>
-						Dark theme
-					</button>
 					{infoCard}
 				</Grid>
 				<Grid item lg={6} xs={12}>

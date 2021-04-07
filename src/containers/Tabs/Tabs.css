@@ -1,6 +1,6 @@
 .dropdown-validators .MuiButtonBase-root {
 	padding: 20px 15px;
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -16,7 +16,8 @@
 .dropdown-validators .MuiPaper-root {
 	min-width: 138px;
 	height: auto;
-	color: #181818;
+	background-color: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -27,7 +28,7 @@
 
 .dropdown-transactions .MuiButtonBase-root {
 	padding: 20px 15px;
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -43,7 +44,8 @@
 .dropdown-transactions .MuiPaper-root {
 	min-width: 165px;
 	height: auto;
-	color: #181818;
+	background-color: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
 	margin-left: 27px;
 	font-family: Roboto;
 	font-style: normal;
@@ -51,4 +53,12 @@
 	font-size: 14px;
 	line-height: 150%;
 	padding: 0;
+}
+
+.dropdown-transactions .MuiButtonBase-root:hover {
+	background-color: var(--common-blockItemBackgroundColor);
+}
+
+.dropdown-validators .MuiButtonBase-root:hover {
+	background-color: var(--common-blockItemBackgroundColor);
 }

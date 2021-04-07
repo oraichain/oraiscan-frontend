@@ -1,170 +1,182 @@
 import {createGlobalStyle} from "styled-components";
 
-let common = `
-  --common-textColor: ${({theme}) => theme?.data?.common};
-  --common-linkColor: ${({theme}) => theme?.data?.common};
-  --common-activeTabColor: ${({theme}) => theme?.data?.common};
-  --common-backgroundColor: ${({theme}) => theme?.data?.common};
-  --common-containerBackgroundColor: ${({theme}) => theme?.data?.common};
-  --common-blockItemBackgroundColor: ${({theme}) => theme?.data?.common};
-  --common-borderColor: ${({theme}) => theme?.data?.common};
-  --common-resultIconSuccessColor: ${({theme}) => theme?.data?.common};
-  --common-resultIconFailureColor: ${({theme}) => theme?.data?.common};
-  --common-themedTable-headerBackgroundColor: ${({theme}) => theme?.data?.common};
-  --common-themedTable-oddRowBackgroundColor: ${({theme}) => theme?.data?.common};
-  --common-themedTable-evenRowBackgroundColor: ${({theme}) => theme?.data?.common};
-  --common-transactions-moreIconColor: ${({theme}) => theme?.data?.common};
-  --common-transactions-transactionTypeLabelColor: ${({theme}) => theme?.data?.common};
-  --common-transactions-amountTransactionLabelInColor: ${({theme}) => theme?.data?.common};
-  --common-transactions-amountTransactionLabelOutColor: ${({theme}) => theme?.data?.common};
+let common = theme => {
+	return `
+  --common-textColor: ${theme?.data?.common?.textColor};
+  --common-linkColor: ${theme?.data?.common?.linkColor};
+  --common-activeTabColor: ${theme?.data?.common?.activeTabColor};
+  --common-backgroundColor: ${theme?.data?.common?.backgroundColor};
+  --common-containerBackgroundColor: ${theme?.data?.common?.containerBackgroundColor};
+  --common-blockItemBackgroundColor: ${theme?.data?.common?.blockItemBackgroundColor};
+  --common-borderColor: ${theme?.data?.common?.borderColor};
+  --common-paginationTextColor: ${theme?.data?.common?.paginationTextColor};
+  --common-resultIconSuccessColor: ${theme?.data?.common?.resultIconSuccessColor};
+  --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
+  --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
+  --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};
+  --common-themedTable-evenRowBackgroundColor: ${theme?.data?.common?.themedTable?.evenRowBackgroundColor};
+  --common-transactions-moreIconColor: ${theme?.data?.common?.transactions?.moreIconColor};
+  --common-transactions-transactionTypeLabelColor: ${theme?.data?.common?.transactions?.transactionTypeLabelColor};
+  --common-transactions-amountTransactionLabelInColor: ${theme?.data?.common?.transactions?.amountTransactionLabelInColor};
+  --common-transactions-amountTransactionLabelOutColor: ${theme?.data?.common?.transactions?.amountTransactionLabelOutColor};
 `;
+};
 
 // All tabs
-let dashboard = `
-  --dashboard-highChartMixedColor_1: ${({theme}) => theme?.data?.tabs?.dashboard};
-  --dashboard-highChartMixedColor_2: ${({theme}) => theme?.data?.tabs?.dashboard};
-  --dashboard-highChartLinearBorderColor_1: ${({theme}) => theme?.data?.tabs?.dashboard};
-  --dashboard-highChartLinearBorderColor_2: ${({theme}) => theme?.data?.tabs?.dashboard};
+let dashboard = theme => {
+	return `
+  --dashboard-detailsFooterTextColor: ${theme?.data?.tabs?.dashboard?.detailsFooterTextColor};
+  --dashboard-xAxisChartTextColor: ${theme?.data?.tabs?.dashboard?.xAxisChartTextColor};
+  --dashboard-yAxisChartTextColor: ${theme?.data?.tabs?.dashboard?.yAxisChartTextColor};
+  --dashboard-blockTimeCoinGeckoTextColor: ${theme?.data?.tabs?.dashboard?.blockTimeCoinGeckoTextColor};
+  --dashboard-iconBlockTimesColor: ${theme?.data?.tabs?.dashboard?.iconBlockTimesColor};
+  --dashboard-highChartMixedColor_1: ${theme?.data?.tabs?.dashboard?.highChartMixedColor_1};
+  --dashboard-highChartMixedColor_2: ${theme?.data?.tabs?.dashboard?.highChartMixedColor_2};
+  --dashboard-highChartLinearBorderColor_1: ${theme?.data?.tabs?.dashboard?.highChartLinearBorderColor_1};
+  --dashboard-highChartLinearBorderColor_2: ${theme?.data?.tabs?.dashboard?.highChartLinearBorderColor_2};
 `;
-
-let validators = {
-	validators: `
-    --validators-cumulativeShareBarColor_1: ${({theme}) => theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
-    --validators-cumulativeShareBarColor_2: ${({theme}) => theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};`,
-	validatorDetails: `
-    --validators-validatorDetails-binanceStacking-activeLabelColor: ${({theme}) =>
-			theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelColor};
-    --validators-validatorDetails-delegatorsTable-oraiTextColor: ${({theme}) =>
-			theme?.data?.tabs?.validators?.validatorDetails?.delegatorsTable?.oraiTextColor};
-    --validators-validatorDetails-missedBlocksTable-failedColor: ${({theme}) =>
-			theme?.data?.tabs?.validators?.validatorDetails?.missedBlocksTable?.failedColor};
-    --validators-validatorDetails-missedBlocksTable-successColor: ${({theme}) =>
-			theme?.data?.tabs?.validators?.validatorDetails?.missedBlocksTable?.successColor};
-  `,
 };
 
-let proposals = {
-	topProposalCard: `
-    --proposals-topProposalCard-statusPassedColor: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedColor};
-    --proposals-topProposalCard-statusRejectedColor: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedColor};
-    --proposals-topProposalCard-graphColor_yes: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_yes};
-    --proposals-topProposalCard-graphColor_no: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
-    --proposals-topProposalCard-graphColor_abstain: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
-    --proposals-topProposalCard-graphColor_nowithveto: ${({theme}) => theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_nowithveto};
-  `,
-	proposalTable: `
-    --proposals-proposalTable-statusPassedColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalTable?.statusPassedColor};
-    --proposals-proposalTable-statusFailedColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalTable?.statusFailedColor};
-    --proposals-proposalTable-statusDepositPeriodColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodColor};
-    --proposals-proposalTable-statusUnspecifiedColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedColor};
-    --proposals-proposalTable-statusVotingPeriodColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodColor};
-  `,
-	proposalDetails: `
-    --proposals-proposalDetails-graphColor_yes: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_yes};
-    --proposals-proposalDetails-graphColor_no: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_no};
-    --proposals-proposalDetails-graphColor_abstain: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_abstain};
-    --proposals-proposalDetails-graphColor_nowithveto: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_nowithveto};
-    --proposals-proposalDetails-oraiTextColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.oraiTextColor};
-    --proposals-proposalDetails-labelPassedColor: ${({theme}) => theme?.data?.tabs?.proposals?.proposalDetails?.labelPassedColor};
-  `,
+let validators = theme => {
+	return {
+		validators: `
+      --validators-cumulativeShareBarColor_1: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
+      --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};`,
+		validatorDetails: `
+      --validators-validatorDetails-binanceStacking-activeLabelColor: ${theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelColor};
+      --validators-validatorDetails-delegatorsTable-oraiTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.delegatorsTable?.oraiTextColor};
+      --validators-validatorDetails-missedBlocksTable-failedColor: ${theme?.data?.tabs?.validators?.validatorDetails?.missedBlocksTable?.failedColor};
+      --validators-validatorDetails-missedBlocksTable-successColor: ${theme?.data?.tabs?.validators?.validatorDetails?.missedBlocksTable?.successColor};
+    `,
+	};
 };
 
-let dataSources = {
-	dataSourceDetails: `
-    --dataSources-dataSourceDetails-requestTable-statusSuccessColor: ${({theme}) =>
-			theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.statusSuccessColor};
-    --dataSources-dataSourceDetails-requestTable-statusPendingColor: ${({theme}) =>
-			theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.statusPendingColor};
-    --dataSources-dataSourceDetails-requestTable-ownerTextColor: ${({theme}) =>
-			theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.ownerTextColor};
-  `,
-	dataSourceTable: ``,
+let proposals = theme => {
+	return {
+		topProposalCard: `
+      --proposals-topProposalCard-statusPassedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedColor};
+      --proposals-topProposalCard-statusRejectedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedColor};
+      --proposals-topProposalCard-graphColor_yes: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_yes};
+      --proposals-topProposalCard-graphColor_no: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
+      --proposals-topProposalCard-graphColor_abstain: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
+      --proposals-topProposalCard-graphColor_nowithveto: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_nowithveto};
+    `,
+		proposalTable: `
+      --proposals-proposalTable-statusPassedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedColor};
+      --proposals-proposalTable-statusFailedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedColor};
+      --proposals-proposalTable-statusDepositPeriodColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodColor};
+      --proposals-proposalTable-statusUnspecifiedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedColor};
+      --proposals-proposalTable-statusVotingPeriodColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodColor};
+    `,
+		proposalDetails: `
+      --proposals-proposalDetails-graphColor_yes: ${theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_yes};
+      --proposals-proposalDetails-graphColor_no: ${theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_no};
+      --proposals-proposalDetails-graphColor_abstain: ${theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_abstain};
+      --proposals-proposalDetails-graphColor_nowithveto: ${theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_nowithveto};
+      --proposals-proposalDetails-oraiTextColor: ${theme?.data?.tabs?.proposals?.proposalDetails?.oraiTextColor};
+      --proposals-proposalDetails-labelPassedColor: ${theme?.data?.tabs?.proposals?.proposalDetails?.labelPassedColor};
+    `,
+	};
 };
 
-let oracleScripts = {
-	oracleScriptDetails: `
-    --oracleScripts-oracleScriptDetails-requestTable-statusSuccessColor: ${({theme}) =>
-			theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.statusSuccessColor};
-    --oracleScripts-oracleScriptDetails-requestTable-statusPendingColor: ${({theme}) =>
-			theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.statusPendingColor};
-    --oracleScripts-oracleScriptDetails-requestTable-ownerTextColor: ${({theme}) =>
-			theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.ownerTextColor};
-  `,
-	oracleScriptTable: ``,
+let dataSources = theme => {
+	return {
+		dataSourceDetails: `
+      --dataSources-dataSourceDetails-requestTable-statusSuccessColor: ${theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.statusSuccessColor};
+      --dataSources-dataSourceDetails-requestTable-statusPendingColor: ${theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.statusPendingColor};
+      --dataSources-dataSourceDetails-requestTable-ownerTextColor: ${theme?.data?.tabs?.dataSources?.dataSourceDetails?.requestTable?.ownerTextColor};
+    `,
+		dataSourceTable: ``,
+	};
 };
 
-let requests = {
-	requests: `
-    --requests-statusSuccessColor: ${({theme}) => theme?.data?.tabs?.requests?.statusSuccessColor};
-    --requests-statusPendingColor: ${({theme}) => theme?.data?.tabs?.requests?.statusPendingColor};
-  `,
-	requestDetails: `
-    --requests-requestDetails-oraiTextColor: ${({theme}) => theme?.data?.tabs?.requests?.requestDetails?.oraiTextColor};
-  `,
-	requestTable: `
-    --requests-requestTable-ownerTextColor: ${({theme}) => theme?.data?.tabs?.requests?.requestTable?.ownerTextColor};
-  `,
+let oracleScripts = theme => {
+	return {
+		oracleScriptDetails: `
+      --oracleScripts-oracleScriptDetails-requestTable-statusSuccessColor: ${theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.statusSuccessColor};
+      --oracleScripts-oracleScriptDetails-requestTable-statusPendingColor: ${theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.statusPendingColor};
+      --oracleScripts-oracleScriptDetails-requestTable-ownerTextColor: ${theme?.data?.tabs?.oracleScripts?.oracleScriptDetails?.requestTable?.ownerTextColor};
+    `,
+		oracleScriptTable: ``,
+	};
 };
 
-let accounts = {
-	accountDetails: `
-    --accounts-accountDetails-graphColor_available: ${({theme}) => theme?.data?.tabs?.accounts?.accountDetails?.graphColor_available};
-    --accounts-accountDetails-graphColor_delegated: ${({theme}) => theme?.data?.tabs?.accounts?.accountDetails?.graphColor_delegated};
-    --accounts-accountDetails-graphColor_reward: ${({theme}) => theme?.data?.tabs?.accounts?.accountDetails?.graphColor_reward};
-    --accounts-accountDetails-graphColor_unbonding: ${({theme}) => theme?.data?.tabs?.accounts?.accountDetails?.graphColor_unbonding};
-  `,
-	accountTable: ``,
+let requests = theme => {
+	return {
+		requests: `
+      --requests-statusSuccessColor: ${theme?.data?.tabs?.requests?.statusSuccessColor};
+      --requests-statusPendingColor: ${theme?.data?.tabs?.requests?.statusPendingColor};
+    `,
+		requestDetails: `
+      --requests-requestDetails-oraiTextColor: ${theme?.data?.tabs?.requests?.requestDetails?.oraiTextColor};
+    `,
+		requestTable: `
+      --requests-requestTable-ownerTextColor: ${theme?.data?.tabs?.requests?.requestTable?.ownerTextColor};
+    `,
+	};
 };
 
-let wallet = {
-	transactionTable: `
-    --wallet-transactionTable-headerTextColor: ${({theme}) => theme?.data?.wallet?.transactionTable?.headerTextColor};
-    --wallet-transactionTable-graphColor_delegated: ${({theme}) => theme?.data?.wallet?.transactionTable?.graphColor_delegated};
-    --wallet-transactionTable-graphColor_reward: ${({theme}) => theme?.data?.wallet?.transactionTable?.graphColor_reward};
-    --wallet-transactionTable-graphColor_unbonding: ${({theme}) => theme?.data?.wallet?.transactionTable?.graphColor_unbonding};
-  `,
-	becomeValidator: `
-    --wallet-becomeValidator-registerForm-inputBorderColor: ${({theme}) => theme?.data?.wallet?.becomeValidator?.registerForm?.inputBorderColor};
-    --wallet-becomeValidator-registerForm-iconInformationColor: ${({theme}) => theme?.data?.wallet?.becomeValidator?.registerForm?.iconInformationColor};
-    --wallet-becomeValidator-registerForm-buttonNextColor: ${({theme}) => theme?.data?.wallet?.becomeValidator?.registerForm?.buttonNextColor};
-    --wallet-becomeValidator-registerSuccessForm-validatorNameColor: ${({theme}) =>
-			theme?.data?.wallet?.becomeValidator?.registerSuccessForm?.validatorNameColor};
-    --wallet-becomeValidator-registerSuccessForm-statusActiveColor: ${({theme}) =>
-			theme?.data?.wallet?.becomeValidator?.registerSuccessForm?.statusActiveColor};
-    --wallet-becomeValidator-delegatorTable-addressLabelColor: ${({theme}) => theme?.data?.wallet?.becomeValidator?.delegatorTable?.addressLabelColor};
-  `,
-	delegatedValidator: ``,
-	contact: ``,
+let accounts = theme => {
+	return {
+		accountDetails: `
+      --accounts-accountDetails-graphColor_available: ${theme?.data?.tabs?.accounts?.accountDetails?.graphColor_available};
+      --accounts-accountDetails-graphColor_delegated: ${theme?.data?.tabs?.accounts?.accountDetails?.graphColor_delegated};
+      --accounts-accountDetails-graphColor_reward: ${theme?.data?.tabs?.accounts?.accountDetails?.graphColor_reward};
+      --accounts-accountDetails-graphColor_unbonding: ${theme?.data?.tabs?.accounts?.accountDetails?.graphColor_unbonding};
+    `,
+		accountTable: ``,
+	};
+};
+
+let wallet = theme => {
+	return {
+		transactionTable: `
+      --wallet-transactionTable-headerTextColor: ${theme?.data?.wallet?.transactionTable?.headerTextColor};
+      --wallet-transactionTable-graphColor_delegated: ${theme?.data?.wallet?.transactionTable?.graphColor_delegated};
+      --wallet-transactionTable-graphColor_reward: ${theme?.data?.wallet?.transactionTable?.graphColor_reward};
+      --wallet-transactionTable-graphColor_unbonding: ${theme?.data?.wallet?.transactionTable?.graphColor_unbonding};
+    `,
+		becomeValidator: `
+      --wallet-becomeValidator-registerForm-inputBorderColor: ${theme?.data?.wallet?.becomeValidator?.registerForm?.inputBorderColor};
+      --wallet-becomeValidator-registerForm-iconInformationColor: ${theme?.data?.wallet?.becomeValidator?.registerForm?.iconInformationColor};
+      --wallet-becomeValidator-registerForm-buttonNextColor: ${theme?.data?.wallet?.becomeValidator?.registerForm?.buttonNextColor};
+      --wallet-becomeValidator-registerSuccessForm-validatorNameColor: ${theme?.data?.wallet?.becomeValidator?.registerSuccessForm?.validatorNameColor};
+      --wallet-becomeValidator-registerSuccessForm-statusActiveColor: ${theme?.data?.wallet?.becomeValidator?.registerSuccessForm?.statusActiveColor};
+      --wallet-becomeValidator-delegatorTable-addressLabelColor: ${theme?.data?.wallet?.becomeValidator?.delegatorTable?.addressLabelColor};
+    `,
+		delegatedValidator: ``,
+		contact: ``,
+	};
 };
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    ${common}
-    ${dashboard}
+    ${({theme}) => common(theme)}
+    ${({theme}) => dashboard(theme)}
 
-    ${validators?.validators}
-    ${validators?.validatorDetails}
+    ${({theme}) => validators(theme)?.validators}
+    ${({theme}) => validators(theme)?.validatorDetails}
 
-    ${proposals?.proposalDetails}
-    ${proposals?.proposalTable}
-    ${proposals?.topProposalCard}
+    ${({theme}) => proposals(theme)?.proposalDetails}
+    ${({theme}) => proposals(theme)?.proposalTable}
+    ${({theme}) => proposals(theme)?.topProposalCard}
 
-    ${dataSources?.dataSourceDetails}
-    ${dataSources?.dataSourceTable}
+    ${({theme}) => dataSources(theme)?.dataSourceDetails}
+    ${({theme}) => dataSources(theme)?.dataSourceTable}
 
-    ${oracleScripts?.oracleScriptDetails}
-    ${oracleScripts?.oracleScriptTable}
+    ${({theme}) => oracleScripts(theme)?.oracleScriptDetails}
+    ${({theme}) => oracleScripts(theme)?.oracleScriptTable}
 
-    ${requests?.requests}
-    ${requests?.requestDetails}
-    ${requests?.requestTable}
+    ${({theme}) => requests(theme)?.requestDetails}
+    ${({theme}) => requests(theme)?.requestTable}
+    ${({theme}) => requests(theme)?.requests}
 
-    ${accounts?.accountDetails}
-    ${accounts?.accountTable}
+    ${({theme}) => accounts(theme)?.accountDetails}
+    ${({theme}) => accounts(theme)?.accountTable}
 
-    ${wallet?.becomeValidator}
-    ${wallet?.contact}
-    ${wallet?.delegatedValidator}
-    ${wallet?.transactionTable}
+    ${({theme}) => wallet(theme)?.becomeValidator}
+    ${({theme}) => wallet(theme)?.delegatedValidator}
+    ${({theme}) => wallet(theme)?.transactionTable}
+    ${({theme}) => wallet(theme)?.contact}
   }
 `;

@@ -4,7 +4,7 @@
 	&-item {
 		padding: 15px;
 		margin-bottom: 15px;
-		background-color: #ffffff;
+		background-color: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 
@@ -32,7 +32,7 @@
 		}
 
 		.item-title {
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -41,7 +41,7 @@
 		}
 
 		.item-text {
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -50,7 +50,7 @@
 		}
 
 		.item-link {
-			color: #1b57f0;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -67,10 +67,10 @@
 			.first-message-type {
 				padding: 6px 10px;
 				margin-right: 5px;
-				border: 1px solid #5f51ff;
+				border: 1px solid var(--common-transactions-transactionTypeLabelColor);
 				box-sizing: border-box;
 				border-radius: 4px;
-				color: #5f51ff;
+				color: var(--common-transactions-transactionTypeLabelColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -79,7 +79,7 @@
 			}
 
 			.number-of-message {
-				color: #5f51ff;
+				color: var(--common-transactions-transactionTypeLabelColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -99,7 +99,7 @@
 				}
 
 				&-text {
-					color: #8b8b8b;
+					color: var(--common-textColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
@@ -128,7 +128,7 @@
 				&-text {
 					display: inline-block;
 					margin-right: 8px;
-					color: #8b8b8b;
+					color: var(--common-textColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
@@ -142,7 +142,7 @@
 			}
 
 			.amount {
-				color: #181818;
+				color: var(--common-textColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -166,7 +166,7 @@
 				display: block;
 				padding: 7px;
 				border-radius: 4px;
-				background: #ffffff;
+				background: var(--common-containerBackgroundColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: bold;
@@ -187,7 +187,7 @@
 
 		.fee-data-cell {
 			.fee {
-				color: #181818;
+				color: var(--common-textColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;

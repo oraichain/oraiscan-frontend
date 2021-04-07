@@ -23,11 +23,11 @@
 	.card {
 		text-align: center;
 		padding: 20px 12px;
-		background: #f9f9f9;
+		background: var(--common-blockItemBackgroundColor);
 		border-radius: 6px;
 		width: 152px;
 		@include media("<medium") {
-			background-color: #fff;
+			background-color: var(--common-blockItemBackgroundColor);
 			width: 49%;
 			padding-bottom: 0px;
 			margin-top: 15px;
@@ -38,14 +38,14 @@
 			font-size: 14px;
 			line-height: 150%;
 			text-align: center;
-			color: #181818;
+			color: var(--common-textColor);
 		}
 
 		.content {
 			font-weight: 500;
 			font-size: 24px;
 			line-height: 150%;
-			color: #181818;
+			color: var(--common-textColor);
 			margin-bottom: 10px;
 		}
 
@@ -54,7 +54,7 @@
 			font-size: 12px;
 			line-height: 150%;
 			text-align: center;
-			color: #5c5959;
+			color: var(--dashboard-detailsFooterTextColor);
 			width: 89px;
 			margin: 0 auto;
 		}

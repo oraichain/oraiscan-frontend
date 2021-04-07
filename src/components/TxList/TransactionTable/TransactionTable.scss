@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -26,7 +26,7 @@
 }
 
 .tx-hash-data-cell {
-	color: #1b57f0;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -43,10 +43,11 @@
 	.first-message-type {
 		padding: 6px 10px;
 		margin-right: 5px;
-		border: 1px solid #5f51ff;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		background-color: var(--common-transactions-transactionTypeLabelColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		color: #5f51ff;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +56,7 @@
 	}
 
 	.number-of-message {
-		color: #5f51ff;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -71,11 +72,18 @@
 		justify-content: center;
 
 		&-icon {
-			margin-right: 9px;
+			&-success {
+				margin-right: 5px;
+				color: var(--common-resultIconSuccessColor);
+			}
+			&-failed {
+				margin-right: 5px;
+				color: var(--common-resultIconFailureColor);
+			}
 		}
 
 		&-text {
-			color: #8b8b8b;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -104,21 +112,22 @@
 		&-text {
 			display: inline-block;
 			margin-right: 8px;
-			color: #8b8b8b;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
-			line-height: 150%;
+			line-height: 20px;
 		}
 
 		&-icon {
 			display: inline-block;
+			color: var(--common-transactions-moreIconColor);
 		}
 	}
 
 	.amount {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -163,7 +172,7 @@
 
 .fee-data-cell {
 	.fee {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -187,7 +196,7 @@
 .time-data-cell,
 .height-data-cell {
 	display: block;
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

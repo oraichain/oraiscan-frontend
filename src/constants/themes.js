@@ -32,6 +32,7 @@ const colors = {
 	MAGIC_MINT: "#A5ECD7",
 	VIOLET_RED: "#D115BE",
 	PELOROUS: "#287DCC",
+	LIGHT_GREY: "#D7D7D7",
 };
 
 export const themes = {
@@ -39,6 +40,7 @@ export const themes = {
 		[themeIds.DARK]: {
 			id: themeIds.DARK,
 			data: {
+				test: "#287DCC",
 				common: {
 					textColor: colors.HAWKES_BLUE,
 					linkColor: colors.DODGER_BLUE,
@@ -47,6 +49,7 @@ export const themes = {
 					containerBackgroundColor: colors.REGAL_BLUE_1,
 					blockItemBackgroundColor: colors.REGAL_BLUE_2,
 					borderColor: colors.VENICE_BLUE,
+					paginationTextColor: colors.BERMUDA_GREY,
 					resultIconSuccessColor: colors.DODGER_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
 					themedTable: {
@@ -63,6 +66,11 @@ export const themes = {
 				},
 				tabs: {
 					dashboard: {
+						blockTimeCoinGeckoTextColor: colors.SUNSET_ORANGE,
+						iconBlockTimesColor: colors.LIGHT_GREY,
+						detailsFooterTextColor: colors.LIGHT_GREY,
+						xAxisChartTextColor: colors.BERMUDA_GREY,
+						yAxisChartTextColor: colors.BERMUDA_GREY,
 						highChartMixedColor_1: colors.SUMMER_SKY,
 						highChartMixedColor_2: colors.REGAL_BLUE_3,
 						highChartLinearBorderColor_1: colors.MAYA_BLUE,
