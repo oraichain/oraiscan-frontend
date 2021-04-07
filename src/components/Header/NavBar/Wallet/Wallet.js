@@ -130,7 +130,7 @@ const Wallet = ({data: props}) => {
 			</a>
 			<div className={cx("dropdown-content", classNameDropdown)}>
 				<Grid container spacing={0} className={cx("wallet")}>
-					<Grid item lg={8} xs={12}>
+					<Grid item lg={9} xs={12}>
 						<div className={cx("wallet-name")}> {account} </div>
 						<div className={cx("wallet-address")}>
 							<div className={cx("wallet-address-title")}>
@@ -160,7 +160,7 @@ const Wallet = ({data: props}) => {
 							</div>
 						</div>
 					</Grid>
-					<Grid item lg={4} xs={12}>
+					<Grid item lg={3} xs={12}>
 						<NavLink className={cx("wallet-button")} to='/wallet/'>
 							<WalletIcon className={cx("wallet-button-icon")} />
 							<span className={cx("wallet-button-text")}>MY WALLET</span>

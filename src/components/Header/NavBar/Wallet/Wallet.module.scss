@@ -107,6 +107,10 @@
 			font-size: 16px;
 			line-height: 150%;
 			word-break: break-all;
+
+			@include media(">=large") {
+				word-break: keep-all;
+			}
 		}
 	}
 
