@@ -63,14 +63,15 @@ checkBrowsers(paths.appPath, isInteractive)
 	})
 	.then(
 		({stats, previousFileSizes, warnings}) => {
-			if (warnings.length) {
-				console.log(chalk.yellow("Compiled with warnings.\n"));
-				console.log(warnings.join("\n\n"));
-				console.log("\nSearch for the " + chalk.underline(chalk.yellow("keywords")) + " to learn more about each warning.");
-				console.log("To ignore, add " + chalk.cyan("// eslint-disable-next-line") + " to the line before.\n");
-			} else {
-				console.log(chalk.green("Compiled successfully.\n"));
-			}
+// 			if (warnings.length) {
+// 				console.log(chalk.yellow("Compiled with warnings.\n"));
+// 				console.log(warnings.join("\n\n"));
+// 				console.log("\nSearch for the " + chalk.underline(chalk.yellow("keywords")) + " to learn more about each warning.");
+// 				console.log("To ignore, add " + chalk.cyan("// eslint-disable-next-line") + " to the line before.\n");
+// 			} else {
+// 				console.log(chalk.green("Compiled successfully.\n"));
+// 			}
+			console.log(chalk.green("Compiled successfully.\n"));
 
 			console.log("File sizes after gzip:\n");
 			printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild, WARN_AFTER_BUNDLE_GZIP_SIZE, WARN_AFTER_CHUNK_GZIP_SIZE);
