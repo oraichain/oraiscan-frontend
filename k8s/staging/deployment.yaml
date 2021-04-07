@@ -23,27 +23,6 @@ spec:
       - name: oraiscan-frontend
         image: thao1996/oraiscan-frontend:b093ffcb4d8b321b021d52de7f9e4acd996c386d
         imagePullPolicy: Always
-        env:
-          - name: "REACT_APP_SITE_TITLE"
-            value: "Oraiscan - Oraichain explorer by Cosmostation"
-          - name: "REACT_APP_SITE_DESC"
-            value: "AI-Powered Data Oracle"
-          - name: "REACT_APP_SITE_URL"
-            value: "https://scan.orai.io"
-          - name: "REACT_APP_SITE_TITLE_FOR_SHARE"
-            value: "AI-Powered Data Oracle"
-          - name: "REACT_APP_API_DEV"
-            value: "Oraiscan - Oraichain explorer by Cosmostation"
-          - name: "REACT_APP_SITE_DESC"
-            value: "https://api.scan.orai.io/v1"
-          - name: "REACT_APP_API_PROD"
-            value: "https://api.scan.orai.io/v1"
-          - name: "REACT_APP_WALLET_API"
-            value: "https://api.wallet.orai.io/"
-          - name: "REACT_APP_LCD_API"
-          value: "https://lcd.orai.io"
-          - name: "REACT_APP_CONVERT_TO_USDT_API"
-          value: "https://api.coingecko.com/api/v3/simple/price?ids=oraichain-token&vs_currencies=usd"
         ports:
         - containerPort: 5000
       imagePullSecrets:
