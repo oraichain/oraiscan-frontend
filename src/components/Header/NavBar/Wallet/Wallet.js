@@ -2,17 +2,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {Grid} from "@material-ui/core";
 import copy from "copy-to-clipboard";
-import Skeleton from "react-skeleton-loader";
+import Skeleton from "@material-ui/lab/Skeleton";
 import {showAlert} from "src/store/modules/global";
 import {formatOrai} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import {myKeystation} from "src/lib/Keystation";
 import {initWallet} from "src/store/modules/wallet";
 import consts from "src/constants/consts";
@@ -38,11 +37,8 @@ const connectWallet = () => {
 
 const Wallet = ({data: props}) => {
 	const {path, title, handleClick, init} = props;
-	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const history = useHistory();
 	const {account} = useSelector(state => state.wallet);
-	const status = useSelector(state => state.blockchain.status);
+	const price = useSelector(state => state?.blockchain?.status?.price);
 	const dispatch = useDispatch();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -50,8 +46,9 @@ const Wallet = ({data: props}) => {
 	const {data, loading, error, refetch} = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
 	});
-	const amount = data?.balances?.[0]?.amount ?? "-";
-	const denom = data?.balances?.[0]?.denom ?? "ORAI";
+
+	const amount = data?.balances?.[0]?.amount;
+	const denom = data?.balances?.[0]?.denom;
 
 	if (title === "") {
 		return (
@@ -78,23 +75,62 @@ const Wallet = ({data: props}) => {
 		setIsTransactionModalVisible(false);
 	};
 
-	const priceInUSD = new BigNumber(amount)
-		.dividedBy(1000000)
-		.multipliedBy(status?.price || 0)
-		.toFormat(2);
+	let amountElement;
+	let denomElement;
+	let priceElement;
+
+	if (loading) {
+		amountElement = (
+			<span className={cx("amount")}>
+				<Skeleton variant='text' width={60} height={24} />
+			</span>
+		);
+		denomElement = (
+			<span className={cx("denom")}>
+				<Skeleton variant='text' width={20} height={24} />
+			</span>
+		);
+		priceElement = (
+			<span className={cx("price")}>
+				<Skeleton variant='text' width={50} height={24} />
+			</span>
+		);
+	} else {
+		if (error) {
+			amountElement = <span className={cx("amount")}>-</span>;
+			denomElement = <span className={cx("denom")}>-</span>;
+			priceElement = <span className={cx("price")}>-</span>;
+		} else {
+			amountElement = <span className={cx("amount")}>{isNaN(amount) ? "-" : formatOrai(amount || 0, 1000000, 2) + " "}</span>;
+			denomElement = <span className={cx("denom")}>{_.isNil(denom) ? "-" : denom}</span>;
+			priceElement = (
+				<span className={cx("price")}>
+					{isNaN(price) || isNaN(amount)
+						? `($-)`
+						: `($${new BigNumber(amount)
+								.dividedBy(1000000)
+								.multipliedBy(price)
+								.toFormat(2)})`}
+				</span>
+			);
+		}
+	}
 
 	const classNameDropdown = isDropdownVisible ? "show" : "hide";
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-			<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} reFetchAmount={refetch} />
+			{!_.isNil(account) && !_.isNil(amount) && (
+				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} reFetchAmount={refetch} />
+			)}
+
 			<a className={cx("dropdown-toggle")} href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
 				<AccountIcon className={cx("dropdown-toggle-text")} />
 				<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 			</a>
 			<div className={cx("dropdown-content", classNameDropdown)}>
 				<Grid container spacing={0} className={cx("wallet")}>
-					<Grid item lg={8} xs={12}>
+					<Grid item lg={9} xs={12}>
 						<div className={cx("wallet-name")}> {account} </div>
 						<div className={cx("wallet-address")}>
 							<div className={cx("wallet-address-title")}>
@@ -118,17 +154,17 @@ const Wallet = ({data: props}) => {
 						<div className={cx("wallet-balance")}>
 							<div className={cx("wallet-balance-title")}>Balance</div>
 							<div className={cx("wallet-balance-value")}>
-								{loading ? <Skeleton /> : formatOrai(amount || 0, 1000000, 2) + " "}
-								{loading ? <Skeleton /> : <span className={cx("denom")}>{denom}</span>}
-								{loading ? <Skeleton /> : <span> {status?.price ? " ($" + priceInUSD + ")" : ""}</span>}
+								{amountElement}
+								{denomElement}
+								{priceElement}
 							</div>
 						</div>
 					</Grid>
-					<Grid item lg={4} xs={12}>
-						<div className={cx("wallet-button")} onClick={() => history.push("/wallet/")}>
+					<Grid item lg={3} xs={12}>
+						<NavLink className={cx("wallet-button")} to='/wallet/'>
 							<WalletIcon className={cx("wallet-button-icon")} />
 							<span className={cx("wallet-button-text")}>MY WALLET</span>
-						</div>
+						</NavLink>
 					</Grid>
 				</Grid>
 				<Grid container className={cx("button-group")} spacing={2}>
