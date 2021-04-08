@@ -15,86 +15,10 @@
 	overflow: hidden;
 }
 
-.title {
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	font-family: Kiona;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 60px;
-	line-height: 72px;
-	text-align: center;
-	color: #ffffff;
-}
+.dialog {
+	top: 10px;
 
-.remain {
-	position: absolute;
-	top: 55%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	font-family: Kiona;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 120px;
-	line-height: 144px;
-	text-align: center;
-	color: #47ffd3;
-}
-
-.join-us {
-	position: absolute;
-	top: 80%;
-	left: 47%;
-	transform: translate(-45%, -50%);
-	font-family: Kiona;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 24px;
-	line-height: 130%;
-	text-align: center;
-	color: #ffffff;
-}
-
-.menu {
-	color: #fff;
-	display: flex;
-	margin-top: 15px;
-
-	.menu-left {
-		width: 7%;
-		margin-left: 18%;
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		.logo {
-			max-width: 90%;
-		}
-		.name {
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: 500;
-			font-size: 18px;
-			line-height: 150%;
-			color: #ffffff;
-			margin-left: 15px;
-		}
-	}
-	.menu-right {
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		margin-left: 30%;
-		div {
-			margin-left: 20px;
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: 500;
-			font-size: 18px;
-			line-height: 150%;
-			color: #ffffff;
-			margin-left: 40px;
-		}
+	&-title {
+		text-align: right;
 	}
 }

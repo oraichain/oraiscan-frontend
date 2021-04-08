@@ -1,0 +1,51 @@
+@import "src/styles/utils";
+
+.search-box {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+}
+
+.search-input {
+	flex-basis: auto;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+.input {
+	width: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 50px;
+	color: var(--common-textColor) !important;
+	background: var(--common-blockItemBackgroundColor);
+	font-size: var(--fontSizeMain);
+	border: 1px solid var(--common-borderColor);
+	border-radius: 8px;
+
+	&::placeholder {
+		font-size: var(--fontSizeMain);
+		color: var(--common-textColor) !important;
+	}
+}
+
+.search-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-basis: 64px;
+	height: 50px;
+	margin-left: 8px;
+	border-radius: 8px;
+	background: var(--common-linkColor);
+	cursor: pointer;
+
+	&-icon {
+		color: var(--common-textColor);
+		width: auto;
+		height: 20px;
+	}
+}

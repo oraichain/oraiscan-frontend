@@ -25,12 +25,14 @@
 
 	.label {
 		@include gridLabel;
+		color: var(--common-textColor);
 	}
 	.value {
 		@include gridValue;
+		color: var(--common-textColor);
 	}
 	.value-link {
 		cursor: pointer;
-		color: #4472de;
+		color: var(--common-linkColor);
 	}
 }

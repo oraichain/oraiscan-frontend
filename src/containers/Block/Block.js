@@ -16,6 +16,7 @@ import ErrorPage from "src/components/common/ErrorPage";
 import BlockTitle from "src/components/Block/BlockTitle";
 import BlockHeader from "src/components/Block/BlockHeader";
 import BlockTxs from "src/components/Block/BlockTxs";
+import "./Block.css";
 
 const cx = cn.bind(styles);
 

@@ -18,7 +18,7 @@
 	font-weight: bold;
 	font-size: 14px;
 	line-height: 150%;
-	color: #546a8a;
+	color: var(--common-textColor);
 }
 
 .skeleton-data-cell {
@@ -35,11 +35,11 @@
 }
 
 .color-blue {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 }
 
 .color-black {
-	color: #181818;
+	color: var(--common-textColor);
 }
 
 .ai-icon {
