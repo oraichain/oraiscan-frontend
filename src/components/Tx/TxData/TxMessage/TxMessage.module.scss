@@ -1,0 +1,90 @@
+@import "src/styles/utils";
+
+.card {
+	border: 1px solid #e7e7e7;
+	box-sizing: border-box;
+	border-radius: 6px;
+	margin-bottom: 16px;
+
+	&-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 8px 16px;
+		border-bottom: 1px solid #e7e7e7;
+
+		&-root {
+			padding-top: 0;
+		}
+	}
+
+	&-body {
+		padding: 16px;
+	}
+}
+
+.icon {
+	display: inline-block;
+	width: auto;
+	max-height: 32px;
+	margin-right: 8px;
+}
+
+.title {
+	display: inline-block;
+	color: #5f51ff;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}
+
+.amount {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+
+	&-value {
+		display: inline-block;
+		margin-right: 4px;
+		color: #181818;
+	}
+
+	&-denom {
+		display: inline-block;
+		margin-right: 8px;
+		text-transform: uppercase;
+		color: #181818;
+	}
+
+	&-usd {
+		display: inline-block;
+		color: #9a9a9a;
+	}
+}
+
+.text {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}
+
+.responsive-image {
+	max-width: 100%;
+	height: auto;
+}
+
+.link {
+	color: #37cc6e;
+}
