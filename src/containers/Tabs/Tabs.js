@@ -11,15 +11,15 @@ import {ExpandMore} from "@material-ui/icons";
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
 
-import OracleScriptsTabIcon from "src/icons/OracleScriptsTabIcon";
-import BlocksTabIcon from "src/icons/BlocksTabIcon";
-import DataSourcesTabIcon from "src/icons/DataSourcesTabIcon";
-import DashBoardTabIcon from "src/icons/DashBoardTabIcon";
-import ProposalsTabIcon from "src/icons/ProposalsTabIcon";
-import ValidatorsTabIcon from "src/icons/ValidatorsTabIcon";
-import TestCaseTabIcon from "src/icons/TestCaseTabIcon";
-import RequestsTabIcon from "src/icons/RequestsTabIcon";
-import TransactionsTabIcon from "src/icons/TransactionsTabIcon";
+import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
+import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
+import DataSourcesTabIcon from "src/icons/Tabs/DataSourcesTabIcon";
+import DashBoardTabIcon from "src/icons/Tabs/DashBoardTabIcon";
+import ProposalsTabIcon from "src/icons/Tabs/ProposalsTabIcon";
+import ValidatorsTabIcon from "src/icons/Tabs/ValidatorsTabIcon";
+import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
+import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
+import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
 
 import "./Tabs.css";
 

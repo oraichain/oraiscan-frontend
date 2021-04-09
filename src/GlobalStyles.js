@@ -10,6 +10,7 @@ let common = theme => {
   --common-blockItemBackgroundColor: ${theme?.data?.common?.blockItemBackgroundColor};
   --common-borderColor: ${theme?.data?.common?.borderColor};
   --common-paginationTextColor: ${theme?.data?.common?.paginationTextColor};
+  --common-placeholderTextColor: ${theme?.data?.common?.placeholderTextColor};
   --common-resultIconSuccessColor: ${theme?.data?.common?.resultIconSuccessColor};
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
@@ -41,8 +42,10 @@ let validators = theme => {
 	return {
 		validators: `
       --validators-cumulativeShareBarColor_1: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
-      --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};`,
+      --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_2};`,
 		validatorDetails: `
+      --validators-validatorDetails-totalBlocksLabel: ${theme?.data?.tabs?.validators?.validatorDetails?.totalBlocksLabel};
+      --validators-validatorDetails-binanceStacking-activeLabelTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelTextColor};
       --validators-validatorDetails-binanceStacking-activeLabelColor: ${theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelColor};
       --validators-validatorDetails-delegatorsTable-oraiTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.delegatorsTable?.oraiTextColor};
       --validators-validatorDetails-missedBlocksTable-failedColor: ${theme?.data?.tabs?.validators?.validatorDetails?.missedBlocksTable?.failedColor};

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const RequestsTabIcon = ({className}) => {
+const TestCaseTabIcon = ({className}) => {
 	return (
 		<svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
@@ -12,11 +12,11 @@ const RequestsTabIcon = ({className}) => {
 	);
 };
 
-RequestsTabIcon.propTypes = {
+TestCaseTabIcon.propTypes = {
 	className: PropTypes.string,
 };
 
-RequestsTabIcon.defaultProps = {
+TestCaseTabIcon.defaultProps = {
 	className: "",
 };
-export default RequestsTabIcon;
+export default TestCaseTabIcon;

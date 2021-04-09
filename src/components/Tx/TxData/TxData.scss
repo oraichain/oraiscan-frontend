@@ -6,8 +6,10 @@
 	@include media("<large") {
 		margin-bottom: 40px;
 	}
+	background-color: var(--common-containerBackgroundColor);
 	.title {
 		@include Card-title;
 		padding: 18px 0 0 20px;
+		color: var(--common-textColor);
 	}
 }

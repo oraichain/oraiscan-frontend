@@ -26,14 +26,14 @@
 }
 
 .btn-primary {
-	color: #ffffff;
-	background: #00b1e9;
+	color: var(--common-textColor);
+	background: var(--common-linkColor);
 }
 
 .btn-outline-primary {
-	color: #008bd9;
-	background: #ffffff;
-	border: 1px solid #008bd9;
+	color: var(--common-textColor);
+	background: var(--common-linkColor);
+	border: 1px solid var(--common-linkColor);
 
 	&:hover {
 		color: #ffffff;

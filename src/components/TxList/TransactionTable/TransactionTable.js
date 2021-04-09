@@ -12,13 +12,10 @@ import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 
-import MoreIcon from "src/icons/MoreIcon";
-import SuccessIcon from "src/icons/SuccessIcon";
-import FailedIcon from "src/icons/FailedIcon";
+import MoreIcon from "src/icons/Transactions/MoreIcon";
+import SuccessIcon from "src/icons/Transactions/SuccessIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
 
 const cx = classNames.bind(styles);
 

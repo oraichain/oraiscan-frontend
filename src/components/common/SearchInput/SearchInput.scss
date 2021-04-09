@@ -4,12 +4,13 @@
 	position: relative;
 	display: inline-block;
 	padding: 10px 20px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 
 	input {
-		background-color: transparent;
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
 		border: none;
 		outline: none;
 
@@ -19,7 +20,7 @@
 		}
 
 		&::placeholder {
-			color: #9a9a9a;
+			color: var(--common-placeholderTextColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;

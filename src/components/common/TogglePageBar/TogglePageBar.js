@@ -5,16 +5,17 @@ import {useDispatch} from "react-redux";
 
 import {openPageBar} from "src/store/modules/global";
 import styles from "./TogglePageBar.scss";
-import {ReactComponent as DashBoardIcon} from "src/assets/dashboard/dashboard.svg";
-import {ReactComponent as ValidatorIcon} from "src/assets/icons/validators.svg";
-import {ReactComponent as BlockIcon} from "src/assets/icons/blocks.svg";
-import {ReactComponent as TransactionIcon} from "src/assets/icons/transactions.svg";
+
 import {ReactComponent as TogglePageIcon} from "src/assets/icons/toggle-page.svg";
-import {ReactComponent as DataSourceIcon} from "src/assets/icons/data-source.svg";
-import {ReactComponent as ProposalsIcon} from "src/assets/icons/proposals.svg";
-import {ReactComponent as TestCaseIcon} from "src/assets/header/test_case.svg";
-import {ReactComponent as OracleScriptIcon} from "src/assets/icons/oracle-script.svg";
-import {ReactComponent as RequestIcon} from "src/assets/icons/request.svg";
+import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
+import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
+import DataSourcesTabIcon from "src/icons/Tabs/DataSourcesTabIcon";
+import DashBoardTabIcon from "src/icons/Tabs/DashBoardTabIcon";
+import ProposalsTabIcon from "src/icons/Tabs/ProposalsTabIcon";
+import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
+import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
+import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
+import ValidatorsIcon from "src/icons/Validators/ValidatorsIcon";
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +27,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<DashBoardIcon /> Dashboard
+						<DashBoardTabIcon className={cx("title-icon")} /> Dashboard
 					</div>
 				);
 			}
@@ -34,7 +35,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<ValidatorIcon /> Validators
+						<ValidatorsIcon className={cx("title-icon")} /> Validators
 					</div>
 				);
 			}
@@ -42,7 +43,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<BlockIcon /> Blocks
+						<BlocksTabIcon className={cx("title-icon")} /> Blocks
 					</div>
 				);
 			}
@@ -50,7 +51,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<TransactionIcon /> Transactions
+						<TransactionsTabIcon className={cx("title-icon")} /> Transactions
 					</div>
 				);
 			}
@@ -58,7 +59,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<TransactionIcon /> Accounts
+						<ValidatorsIcon className={cx("title-icon")} /> Accounts
 					</div>
 				);
 			}
@@ -66,7 +67,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<ProposalsIcon /> Proposals
+						<ProposalsTabIcon className={cx("title-icon")} /> Proposals
 					</div>
 				);
 			}
@@ -74,7 +75,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<DataSourceIcon /> Data Sources
+						<DataSourcesTabIcon className={cx("title-icon")} /> Data Sources
 					</div>
 				);
 			}
@@ -82,7 +83,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<TestCaseIcon /> Test Cases
+						<TestCaseTabIcon className={cx("title-icon")} /> Test Cases
 					</div>
 				);
 			}
@@ -90,7 +91,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<OracleScriptIcon /> Oracle Scripts
+						<OracleScriptsTabIcon className={cx("title-icon")} /> Oracle Scripts
 					</div>
 				);
 			}
@@ -98,7 +99,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<RequestIcon /> All requests
+						<RequestsTabIcon className={cx("title-icon")} /> All requests
 					</div>
 				);
 			}

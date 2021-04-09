@@ -3,11 +3,11 @@
 .grid-wrapper {
 	margin: 20px;
 	border-radius: 5px;
-	border: solid 1px #e6e6e6;
+	border: solid 1px var(--common-borderColor);
 
 	.type-wrapper {
 		height: 48px;
-		border-bottom: solid 1px #e6e6e6;
+		border-bottom: solid 1px var(--common-borderColor);
 		display: flex;
 		align-items: center;
 		padding-left: 15px;
@@ -20,7 +20,7 @@
 		line-height: 2.67;
 		letter-spacing: normal;
 		text-align: left;
-		color: #222222;
+		color: var(--common-textColor);
 
 		.txType-img {
 			height: 32px;
@@ -70,8 +70,8 @@
 				width: 200px;
 				height: fit-content;
 				border-radius: 5px;
-				border: solid 1px #e6e6e6;
-				background-color: #f9fafc;
+				border: solid 1px var(--common-borderColor);
+				background-color: var(--common-containerBackgroundColor);
 
 				padding: 10px 15px 10px 10px;
 
@@ -81,7 +81,7 @@
 				font-family: "Montserrat", serif;
 				font-weight: 500;
 				line-height: 1.27;
-				color: #222222;
+				color: var(--common-textColor);
 				> :first-child {
 					font-size: 15px;
 					> :first-child {
@@ -134,7 +134,7 @@
 
 		width: calc(100% - 203px);
 		border-radius: 5px;
-		background-color: #f9fafc;
+		background-color: var(--common-containerBackgroundColor);
 		.row-content {
 			max-height: calc(300px - 55px);
 			overflow-y: auto;
@@ -159,14 +159,14 @@
 				line-height: 2.31;
 				letter-spacing: normal;
 				text-align: left;
-				color: #89909b;
+				color: var(--common-placeholderTextColor);
 				margin-bottom: 10px;
 			}
 
 			.value {
 				@include gridValue;
 				min-width: 50px;
-				color: #222222;
+				color: var(--common-textColor);
 				word-break: break-word;
 
 				.decimal {
@@ -235,14 +235,14 @@
 		font-style: normal;
 		letter-spacing: normal;
 		text-align: left;
-		color: #4472de;
+		color: var(--common-linkColor);
 
 		margin-right: 3.5px;
 	}
 }
 
 .blueColor {
-	color: #4472de;
+	color: var(--common-linkColor);
 	text-transform: none;
 	cursor: pointer;
 }

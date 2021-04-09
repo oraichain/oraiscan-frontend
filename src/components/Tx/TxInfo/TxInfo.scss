@@ -2,13 +2,15 @@
 
 .TxInfo-wrapper {
 	@include card-wrapper(15px);
+	background-color: var(--common-containerBackgroundColor);
 	padding-bottom: 0;
 	@include media("<medium") {
 		padding-bottom: 0;
 	}
 	.title {
-		border-bottom: var(--border);
 		@include Card-title;
+		color: var(--common-textColor);
+		border-bottom: 1px solid var(--common-borderColor);
 	}
 	.grid-wrapper {
 		margin: 15.5px 0 20px;
@@ -24,7 +26,7 @@
 }
 
 .blueColor {
-	color: #4472de;
+	color: var(--common-linkColor);
 }
 
 .BNBcolor {

@@ -9,9 +9,9 @@ import {formatFloat, formatOrai} from "src/helpers/helper";
 import styles from "./TransactionCardList.scss";
 import {useSelector} from "react-redux";
 
-import MoreIcon from "src/icons/MoreIcon";
-import SuccessIcon from "src/icons/SuccessIcon";
-import FailedIcon from "src/icons/FailedIcon";
+import MoreIcon from "src/icons/Transactions/MoreIcon";
+import SuccessIcon from "src/icons/Transactions/SuccessIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
 
 const TransactionCardList = memo(({data = [], account}) => {
 	const cx = classNames.bind(styles);

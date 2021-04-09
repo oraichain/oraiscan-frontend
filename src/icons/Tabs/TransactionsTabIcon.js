@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const MoreIcon = ({className}) => {
+const TransactionsTabIcon = ({className}) => {
 	return (
 		<svg className={className} width='17' height='16' viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
@@ -24,11 +24,11 @@ const MoreIcon = ({className}) => {
 	);
 };
 
-MoreIcon.propTypes = {
+TransactionsTabIcon.propTypes = {
 	className: PropTypes.string,
 };
 
-MoreIcon.defaultProps = {
+TransactionsTabIcon.defaultProps = {
 	className: "",
 };
-export default MoreIcon;
+export default TransactionsTabIcon;

@@ -5,10 +5,11 @@
 	.title {
 		font-weight: 500;
 		font-size: 20px;
-		color: #181818;
+		color: var(--common-textColor);
 		display: flex;
 		align-items: center;
-		svg {
+		&-icon {
+			color: var(--common-textColor);
 			display: block;
 			margin-right: 10px;
 		}

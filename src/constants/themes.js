@@ -52,6 +52,7 @@ export const themes = {
 					paginationTextColor: colors.BERMUDA_GREY,
 					resultIconSuccessColor: colors.DODGER_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
+					placeholderTextColor: colors.LIGHT_GREY,
 					themedTable: {
 						headerBackgroundColor: colors.REGAL_BLUE_1,
 						oddRowBackgroundColor: colors.REGAL_BLUE_2,
@@ -80,7 +81,9 @@ export const themes = {
 						cumulativeShareBarColor_1: colors.DODGER_BLUE,
 						cumulativeShareBarColor_2: colors.VIKING,
 						validatorDetails: {
+							totalBlocksLabel: colors.DODGER_BLUE,
 							binanceStaking: {
+								activeLabelTextColor: colors.REGAL_BLUE_1,
 								activeLabelColor: colors.CARIBBEAN_GREEN,
 							},
 							delegatorsTable: {

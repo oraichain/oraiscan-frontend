@@ -22,7 +22,7 @@ export default function({txData}) {
 	const dispatch = useDispatch();
 	return (
 		<div className={cx("TxInfo-wrapper")}>
-			<h2 className={cx("title")}>Information</h2>
+			<div className={cx("title")}>Information</div>
 			<div className={cx("grid-wrapper")}>
 				<InfoRow label='TxHash'>
 					<DisplayLongString inputString={txData.tx_hash} showCopyIcon={true} long />

@@ -8,7 +8,7 @@ const cx = cn.bind(styles);
 const StatusCard = memo(({icon, label, value, comment}) => (
 	<div className={cx("status-card")}>
 		<div className={cx("status-card-header")}>
-			<img src={icon} className={cx("status-icon")} alt='' />
+			<div className={cx("status-icon")}>{icon}</div>
 			<span className={cx("status-label")}>{label}</span>
 		</div>
 		<div className={cx("status-card-body")}>

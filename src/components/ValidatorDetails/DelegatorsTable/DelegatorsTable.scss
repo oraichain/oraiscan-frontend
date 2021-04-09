@@ -9,7 +9,7 @@
 }
 
 .header-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -18,7 +18,7 @@
 }
 
 .delegator-address-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -38,19 +38,19 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: #181818;
+			color: var(--common-textColor);
 		}
 
 		&-denom {
 			display: inline-block;
-			color: #5f51ff;
+			color: var(--validators-validatorDetails-delegatorsTable-oraiTextColor);
 			text-transform: uppercase;
 		}
 	}
 }
 
 .shares-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
