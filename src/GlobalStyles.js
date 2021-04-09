@@ -9,6 +9,7 @@ let common = theme => {
   --common-containerBackgroundColor: ${theme?.data?.common?.containerBackgroundColor};
   --common-blockItemBackgroundColor: ${theme?.data?.common?.blockItemBackgroundColor};
   --common-borderColor: ${theme?.data?.common?.borderColor};
+  --common-headerTextColor: ${theme?.data?.common?.headerTextColor};
   --common-paginationTextColor: ${theme?.data?.common?.paginationTextColor};
   --common-placeholderTextColor: ${theme?.data?.common?.placeholderTextColor};
   --common-resultIconSuccessColor: ${theme?.data?.common?.resultIconSuccessColor};
@@ -59,6 +60,7 @@ let proposals = theme => {
 		topProposalCard: `
       --proposals-topProposalCard-statusPassedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedColor};
       --proposals-topProposalCard-statusRejectedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedColor};
+      --proposals-topProposalCard-statusTextColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusTextColor};
       --proposals-topProposalCard-graphColor_yes: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_yes};
       --proposals-topProposalCard-graphColor_no: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
       --proposals-topProposalCard-graphColor_abstain: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
@@ -66,6 +68,7 @@ let proposals = theme => {
     `,
 		proposalTable: `
       --proposals-proposalTable-statusPassedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedColor};
+      --proposals-proposalTable-statusRejectedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusRejectedColor};
       --proposals-proposalTable-statusFailedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedColor};
       --proposals-proposalTable-statusDepositPeriodColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodColor};
       --proposals-proposalTable-statusUnspecifiedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedColor};

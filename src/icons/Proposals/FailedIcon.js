@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const CheckIcon = ({className}) => {
+const FailedIcon = ({className}) => {
 	return (
 		<svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
@@ -12,11 +12,11 @@ const CheckIcon = ({className}) => {
 	);
 };
 
-CheckIcon.propTypes = {
+FailedIcon.propTypes = {
 	className: PropTypes.string,
 };
 
-CheckIcon.defaultProps = {
+FailedIcon.defaultProps = {
 	className: "",
 };
-export default CheckIcon;
+export default FailedIcon;

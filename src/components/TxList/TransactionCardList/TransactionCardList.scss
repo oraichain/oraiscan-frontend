@@ -181,8 +181,9 @@
 			.transfer-status {
 				display: block;
 				padding: 7px;
+				min-width: 40px;
+				text-align: center;
 				border-radius: 4px;
-				background: var(--common-containerBackgroundColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: bold;
@@ -190,13 +191,15 @@
 				line-height: 150%;
 
 				&-in {
-					color: #3fcc28;
-					border: 1px solid #3fcc28;
+					background: var(--common-transactions-amountTransactionLabelInColor);
+					color: var(--common-textColor);
+					border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
 				}
 
 				&-out {
-					color: #f98442;
-					border: 1px solid #f98442;
+					background: var(--common-transactions-amountTransactionLabelOutColor);
+					color: var(--common-textColor);
+					border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
 				}
 			}
 		}

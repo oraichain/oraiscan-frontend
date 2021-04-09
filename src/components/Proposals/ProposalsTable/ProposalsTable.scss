@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -23,7 +23,7 @@
 .id-data-cell,
 .voting-start-data-cell,
 .submit-time-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -32,7 +32,7 @@
 }
 
 .title-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -51,7 +51,7 @@
 		&-value {
 			display: inline-block;
 			margin-right: 8px;
-			color: #181818;
+			color: var(--common-textColor);
 		}
 
 		&-denom {
@@ -88,50 +88,50 @@
 		}
 
 		&-passed {
-			border: 1px solid #3fcc28;
-
+			border: 1px solid var(--proposals-proposalTable-statusPassedColor);
+			background-color: var(--proposals-proposalTable-statusPassedColor);
 			.status-text {
-				color: #12c90e;
+				color: var(--common-textColor);
 			}
 		}
 
 		&-rejected {
-			border: 1px solid #d115be;
-
+			border: 1px solid var(--proposals-proposalTable-statusRejectedColor);
+			background-color: var(--proposals-proposalTable-statusRejectedColor);
 			.status-text {
-				color: #d115be;
+				color: var(--common-textColor);
 			}
 		}
 
 		&-unspecified {
-			border: 1px solid #f59338;
-
+			border: 1px solid var(--proposals-proposalTable-statusUnspecifiedColor);
+			background-color: var(--proposals-proposalTable-statusnspecifiedColor);
 			.status-text {
-				color: #f59338;
+				color: var(--proposals-proposalTable-statusUnspecifiedColor);
 			}
 		}
 
 		&-deposit-period {
-			border: 1px solid #287dcc;
-
+			border: 1px solid var(--proposals-proposalTable-statusDepositPeriodColor);
+			background-color: var(--proposals-proposalTable-statusDepositPeriodColor);
 			.status-text {
-				color: #287dcc;
+				color: var(--common-textColor);
 			}
 		}
 
 		&-voting-period {
-			border: 1px solid #22b59a;
-
+			border: 1px solid var(--proposals-proposalTable-statusVotingPeriodColor);
+			background-color: var(--proposals-proposalTable-statusVotingPeriodColor);
 			.status-text {
-				color: #22b59a;
+				color: var(--common-textColor);
 			}
 		}
 
 		&-failed {
-			border: 1px solid #f3574f;
-
+			border: 1px solid var(--proposals-proposalTable-statusFailedColor);
+			background-color: var(--proposals-proposalTable-statusFailedColor);
 			.status-text {
-				color: #f3574f;
+				color: var(--common-textColor);
 			}
 		}
 	}

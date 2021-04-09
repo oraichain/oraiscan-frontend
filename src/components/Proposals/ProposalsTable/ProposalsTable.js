@@ -8,12 +8,13 @@ import {formatDateTime, formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ProposalsTable.scss";
-import passedIcon from "src/assets/proposals/passed.svg";
-import rejectedIcon from "src/assets/proposals/rejected.svg";
-import unspecifiedIcon from "src/assets/proposals/unspecified.svg";
-import votingPeriodIcon from "src/assets/proposals/voting_period.svg";
-import depositPeriodIcon from "src/assets/proposals/deposit_period.svg";
-import failedIcon from "src/assets/proposals/fail.svg";
+
+import PassedIcon from "src/icons/Proposals/PassedIcon";
+import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
+import FailedIcon from "src/icons/Proposals/FailedIcon";
+import RejectedIcon from "src/icons/Proposals/RejectedIcon";
+import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
+import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 
 const cx = classNames.bind(styles);
 
@@ -67,32 +68,32 @@ const ProposalsTable = memo(({data = []}) => {
 			switch (item?.status) {
 				case "PROPOSAL_STATUS_PASSED":
 					statusStateClassName = "status-passed";
-					statusIcon = passedIcon;
+					statusIcon = <PassedIcon className={cx("status-icon")}></PassedIcon>;
 					statusText = "Passed";
 					break;
 				case "PROPOSAL_STATUS_REJECTED":
 					statusStateClassName = "status-rejected";
-					statusIcon = rejectedIcon;
+					statusIcon = <RejectedIcon className={cx("status-icon")}></RejectedIcon>;
 					statusText = "Rejected";
 					break;
 				case "PROPOSAL_STATUS_FAILED":
 					statusStateClassName = "status-failed";
-					statusIcon = failedIcon;
+					statusIcon = <FailedIcon className={cx("status-icon")}></FailedIcon>;
 					statusText = "Failed";
 					break;
 				case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
 					statusStateClassName = "status-deposit-period";
-					statusIcon = depositPeriodIcon;
+					statusIcon = <DepositPeriodIcon className={cx("status-icon")}></DepositPeriodIcon>;
 					statusText = "Deposit Period";
 					break;
 				case "PROPOSAL_STATUS_VOTING_PERIOD":
 					statusStateClassName = "status-voting-period";
-					statusIcon = votingPeriodIcon;
+					statusIcon = <VotingPeriodIcon className={cx("status-icon")}></VotingPeriodIcon>;
 					statusText = "Voting Period";
 					break;
 				case "PROPOSAL_STATUS_REJECTED":
 					statusStateClassName = "status-unspecified";
-					statusIcon = unspecifiedIcon;
+					statusIcon = <UnspecifiedIcon className={cx("status-icon")}></UnspecifiedIcon>;
 					statusText = "Unspecified";
 					break;
 				default:
@@ -104,7 +105,7 @@ const ProposalsTable = memo(({data = []}) => {
 			) : (
 				<div className={cx("status-data-cell", "align-center")}>
 					<div className={cx("status", statusStateClassName)}>
-						<img className={cx("status-icon")} src={statusIcon} alt='' />
+						{statusIcon}
 						<span className={cx("status-text")}>{statusText}</span>
 					</div>
 				</div>

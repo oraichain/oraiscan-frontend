@@ -4,8 +4,13 @@ import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import styles from "./ProposalCardList.scss";
-import passedIcon from "src/assets/proposals/passed.svg";
-import rejectedIcon from "src/assets/proposals/rejected.svg";
+
+import PassedIcon from "src/icons/Proposals/PassedIcon";
+import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
+import FailedIcon from "src/icons/Proposals/FailedIcon";
+import RejectedIcon from "src/icons/Proposals/RejectedIcon";
+import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
+import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 
 const cx = classNames.bind(styles);
 
@@ -20,14 +25,39 @@ const ProposalCardList = memo(({data = []}) => {
 				let statusStateClassName;
 				let statusIcon;
 				let statusText;
-				if (item?.status === "PROPOSAL_STATUS_PASSED") {
-					statusStateClassName = "status-passed";
-					statusIcon = passedIcon;
-					statusText = "Passed";
-				} else if (item?.status === "PROPOSAL_STATUS_REJECTED") {
-					statusStateClassName = "status-rejected";
-					statusIcon = rejectedIcon;
-					statusText = "Rejected";
+				switch (item?.status) {
+					case "PROPOSAL_STATUS_PASSED":
+						statusStateClassName = "status-passed";
+						statusIcon = <PassedIcon className={cx("status-icon")}></PassedIcon>;
+						statusText = "Passed";
+						break;
+					case "PROPOSAL_STATUS_REJECTED":
+						statusStateClassName = "status-rejected";
+						statusIcon = <RejectedIcon className={cx("status-icon")}></RejectedIcon>;
+						statusText = "Rejected";
+						break;
+					case "PROPOSAL_STATUS_FAILED":
+						statusStateClassName = "status-failed";
+						statusIcon = <FailedIcon className={cx("status-icon")}></FailedIcon>;
+						statusText = "Failed";
+						break;
+					case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
+						statusStateClassName = "status-deposit-period";
+						statusIcon = <DepositPeriodIcon className={cx("status-icon")}></DepositPeriodIcon>;
+						statusText = "Deposit Period";
+						break;
+					case "PROPOSAL_STATUS_VOTING_PERIOD":
+						statusStateClassName = "status-voting-period";
+						statusIcon = <VotingPeriodIcon className={cx("status-icon")}></VotingPeriodIcon>;
+						statusText = "Voting Period";
+						break;
+					case "PROPOSAL_STATUS_REJECTED":
+						statusStateClassName = "status-unspecified";
+						statusIcon = <UnspecifiedIcon className={cx("status-icon")}></UnspecifiedIcon>;
+						statusText = "Unspecified";
+						break;
+					default:
+						break;
 				}
 
 				return (
@@ -58,7 +88,7 @@ const ProposalCardList = memo(({data = []}) => {
 										) : (
 											<div className={cx("status-data-cell")}>
 												<div className={cx("status", statusStateClassName)}>
-													<img className={cx("status-icon")} src={statusIcon} alt='' />
+													{statusIcon}
 													<span className={cx("status-text")}>{statusText}</span>
 												</div>
 											</div>

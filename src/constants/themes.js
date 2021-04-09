@@ -49,6 +49,7 @@ export const themes = {
 					containerBackgroundColor: colors.REGAL_BLUE_1,
 					blockItemBackgroundColor: colors.REGAL_BLUE_2,
 					borderColor: colors.VENICE_BLUE,
+					headerTextColor: colors.HAWKES_BLUE,
 					paginationTextColor: colors.BERMUDA_GREY,
 					resultIconSuccessColor: colors.DODGER_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
@@ -105,12 +106,14 @@ export const themes = {
 						topProposalCard: {
 							statusPassedColor: colors.CARIBBEAN_GREEN,
 							statusRejectedColor: colors.SUNSET_ORANGE,
+							statusTextColor: colors.REGAL_BLUE_1,
 							graphColor_yes: colors.CERULEAN, // not sure, lack of design
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
 						},
 						proposalTable: {
+							statusRejectedColor: colors.VIOLET_RED,
 							statusPassedColor: colors.DODGER_BLUE,
 							statusFailedColor: colors.SUNSET_ORANGE,
 							statusDepositPeriodColor: colors.PELOROUS,
