@@ -10,7 +10,7 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
-import WithdrawBtn from "./WithdrawBtn";
+import WithdrawBtn from "../WithdrawBtn";
 import styles from "./WithdrawTable.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 

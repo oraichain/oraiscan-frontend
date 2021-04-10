@@ -5,10 +5,20 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
+import WithdrawBtn from "../WithdrawBtn";
 import styles from "./WithdrawCardList.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 
 const cx = classNames.bind(styles);
+
+const BtnComponent = ({handleClick}) => {
+	return (
+		<button className={cx("button")} onClick={handleClick}>
+			Withdraw
+			<img alt='/' className={cx("button-icon")} src={arrowIcon} />
+		</button>
+	);
+};
 
 const WithdrawCardList = memo(({data = []}) => {
 	if (!Array.isArray(data)) {
@@ -78,10 +88,11 @@ const WithdrawCardList = memo(({data = []}) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("withdraw-data-cell")}>
-											<button className={cx("button")}>
+											{/* <button className={cx("button")}>
 												Withdraw
 												<img className={cx("button-icon")} src={arrowIcon} />
-											</button>
+											</button> */}
+											<WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={BtnComponent} />
 										</div>
 									</td>
 								</tr>
