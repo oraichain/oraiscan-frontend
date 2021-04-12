@@ -69,141 +69,124 @@
 	.result {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: flex-start;
+		align-items: center;
 
 		&-icon {
+			margin-right: 9px;
+			width: 16px;
+			height: auto;
+
 			&-success {
-				margin-right: 5px;
 				color: var(--common-resultIconSuccessColor);
 			}
 			&-failed {
-				margin-right: 5px;
-				margin-top: 6px;
 				color: var(--common-resultIconFailureColor);
+
+				&-pending {
+					color: #f59338;
+				}
+			}
+
+			&-text {
+				color: var(--common-textColor);
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
 			}
 		}
+	}
 
-		&-text {
+	.amount-data-cell {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+
+		&-with-transfer-status {
+			justify-content: space-between;
+		}
+
+		.amount {
 			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
+
+			&-value {
+				padding-right: 4px;
+			}
+
+			&-denom {
+				text-transform: uppercase;
+			}
+
+			&-usd {
+				text-align: right;
+			}
+		}
+
+		.transfer-status {
+			display: block;
+			min-width: 40px;
+			text-align: center;
+			padding: 7px;
+			border-radius: 4px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 11px;
+			line-height: 150%;
+
+			&-in {
+				background: var(--common-transactions-amountTransactionBackgroundInColor);
+				color: var(--common-transactions-amountTransactionTextInColor);
+				border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
+			}
+
+			&-out {
+				background: var(--common-transactions-amountTransactionBackgroundOutColor);
+				color: var(--common-transactions-amountTransactionTextOutColor);
+				border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
+			}
 		}
 	}
-}
 
-.amount-data-cell {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-
-	&-with-transfer-status {
-		justify-content: space-between;
-	}
-
-	.more {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-
-		&-text {
-			display: inline-block;
-			margin-right: 8px;
+	.fee-data-cell {
+		.fee {
 			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
-			line-height: 20px;
-		}
+			line-height: 150%;
 
-		&-icon {
-			display: inline-block;
-			color: var(--common-transactions-moreIconColor);
-		}
-	}
+			&-value {
+				padding-right: 4px;
+			}
 
-	.amount {
-		color: var(--common-textColor);
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		line-height: 150%;
+			&-denom {
+				text-transform: uppercase;
+			}
 
-		&-value {
-			padding-right: 4px;
-		}
-
-		&-denom {
-			text-transform: uppercase;
-		}
-
-		&-usd {
-			padding-left: 4px;
+			&-usd {
+				text-align: right;
+			}
 		}
 	}
 
-	.transfer-status {
+	.time-data-cell,
+	.height-data-cell {
 		display: block;
-		min-width: 40px;
-		text-align: center;
-		padding: 7px;
-		border-radius: 4px;
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: bold;
-		font-size: 11px;
-		line-height: 150%;
-
-		&-in {
-			background: var(--common-transactions-amountTransactionBackgroundInColor);
-			color: var(--common-transactions-amountTransactionTextInColor);
-			border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
-		}
-
-		&-out {
-			background: var(--common-transactions-amountTransactionBackgroundOutColor);
-			color: var(--common-transactions-amountTransactionTextOutColor);
-			border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
-		}
-	}
-}
-
-.fee-data-cell {
-	.fee {
 		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 150%;
-
-		&-value {
-			padding-right: 4px;
-		}
-
-		&-denom {
-			text-transform: uppercase;
-		}
-
-		&-usd {
-			padding-left: 4px;
-		}
 	}
-}
-
-.time-data-cell,
-.height-data-cell {
-	display: block;
-	color: var(--common-textColor);
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 150%;
 }

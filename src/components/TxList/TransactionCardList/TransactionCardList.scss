@@ -101,6 +101,7 @@
 				display: flex;
 				flex-direction: row;
 				justify-content: flex-start;
+				align-items: center;
 
 				&-icon {
 					&-success {
@@ -112,6 +113,10 @@
 						margin-top: 6px;
 						color: var(--common-resultIconFailureColor);
 					}
+
+					&-pending {
+						color: #f59338;
+					}
 				}
 
 				&-text {
@@ -119,7 +124,7 @@
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
-					font-size: 16px;
+					font-size: 14px;
 					line-height: 150%;
 				}
 			}
@@ -157,7 +162,6 @@
 					color: var(--common-transactions-moreIconColor);
 				}
 			}
-
 			.amount {
 				color: var(--common-textColor);
 				font-family: Roboto;

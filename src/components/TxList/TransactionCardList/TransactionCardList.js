@@ -1,13 +1,17 @@
 // @ts-nocheck
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
+import PropTypes from "prop-types";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
+import CheckIcon from "src/icons/CheckIcon";
+import TimesIcon from "src/icons/TimesIcon";
+import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
-import {useSelector} from "react-redux";
 
 import MoreIcon from "src/icons/Transactions/MoreIcon";
 import SuccessIcon from "src/icons/Transactions/SuccessIcon";
@@ -34,6 +38,40 @@ const TransactionCardList = memo(({data = [], account}) => {
 					} else if (account === item.messages[0].value.to_address) {
 						transferStatus = <span className={cx("transfer-status", "transfer-status-in")}>IN</span>;
 					}
+				}
+
+				let resultDataCellContent;
+				if (item.result === true) {
+					resultDataCellContent = (
+						<div className={cx("result")}>
+							<CheckIcon className={cx("result-icon", "result-icon-success")} />
+							<span className={cx("result-text")}>Success</span>
+						</div>
+					);
+				} else if (item.result === false) {
+					resultDataCellContent = (
+						<div className={cx("result")}>
+							<TimesIcon className={cx("result-icon", "result-icon-fail")} />
+							<span className={cx("result-text")}>Failure</span>
+						</div>
+					);
+				} else if (item.result === "pending") {
+					resultDataCellContent = (
+						<div className={cx("result")}>
+							<RedoIcon className={cx("result-icon", "result-icon-pending")} />
+							<span className={cx("result-text")}>Pending</span>
+						</div>
+					);
+				}
+
+				let amount;
+				let denom;
+				if (!_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount)) {
+					amount = item.messages[0].value.amount[0].amount;
+					denom = item.messages[0].value.amount[0].denom;
+				} else if (!_.isNil(item?.messages?.[0]?.value?.amount?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.amount)) {
+					amount = item.messages[0].value.amount.amount;
+					denom = item.messages[0].value.amount.denom;
 				}
 
 				return (
@@ -94,22 +132,21 @@ const TransactionCardList = memo(({data = [], account}) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Amount</div>
-										{_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) || _.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount) ? (
+										{_.isNil(denom) || _.isNil(amount) ? (
 											<div className={cx("amount-data-cell")}>
-												<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
-													<span className={cx("more-text")}>More</span>
-													<MoreIcon className={cx("more-icon")}></MoreIcon>
-												</NavLink>
+												<div className={cx("amount")}>
+													<span className={cx("amount-value")}>0</span>
+													<span className={cx("amount-denom")}>ORAI</span>
+													<div className={cx("amount-usd")}>($0)</div>
+												</div>
 											</div>
 										) : (
 											<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
 												{transferStatus && transferStatus}
 												<div className={cx("amount")}>
-													<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)} </span>
-													<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
-													<span className={cx("amount-usd")}>
-														{status?.price ? "($" + formatFloat(status?.price * (item.messages[0].value.amount[0].amount / 1000000), 4) + ")" : ""}
-													</span>
+													<span className={cx("amount-value")}>{formatOrai(amount)} </span>
+													<span className={cx("amount-denom")}>{denom}</span>
+													<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
 												</div>
 											</div>
 										)}
@@ -161,5 +198,16 @@ const TransactionCardList = memo(({data = [], account}) => {
 		</div>
 	);
 });
+
+TransactionCardList.propTypes = {
+	data: PropTypes.array,
+	account: PropTypes.string,
+	pending: PropTypes.bool,
+};
+
+TransactionCardList.defaultProps = {
+	data: [],
+	pending: false,
+};
 
 export default TransactionCardList;

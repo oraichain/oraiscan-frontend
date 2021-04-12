@@ -1,270 +1,125 @@
 @import "src/styles/utils";
 
 .footer {
-	&-top {
-		padding: 60px 0;
-		@include media("<medium") {
-			padding: 0px;
-		}
-		background: #000d20;
+}
 
-		.content {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: flex-start;
+.top-section {
+	padding: 40px 0;
+	background-color: #000d20;
 
-			@include media("<medium") {
-				flex-direction: column;
-				justify-content: flex-start;
-				align-items: flex-start;
-			}
+	.email {
+		margin-bottom: 16px;
 
-			.contact {
-				display: flex;
-				flex-basis: 50%;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: flex-start;
-
-				@include media("<medium") {
-					width: 100%;
-				}
-
-				@include media("<small") {
-					flex-direction: column;
-					justify-content: flex-start;
-					align-items: flex-start;
-					margin-bottom: 30px;
-				}
-
-				.emails {
-					flex-basis: 60%;
-
-					@include media("<small") {
-						width: 100%;
-						text-align: center;
-					}
-
-					.email {
-						margin-bottom: 15px;
-
-						&-function {
-							color: #e7eef8;
-							font-family: Roboto;
-							font-style: normal;
-							font-weight: 500;
-							font-size: 14px;
-							line-height: 150%;
-						}
-
-						&-address {
-							color: #e7eef8;
-							font-family: Roboto;
-							font-style: normal;
-							font-weight: normal;
-							font-size: 14px;
-							line-height: 150%;
-							text-decoration: underline;
-						}
-					}
-				}
-
-				.address {
-					flex-basis: 60%;
-
-					@include media("<small") {
-						width: 100%;
-					}
-
-					color: #acc7f2;
-					font-family: Roboto;
-					font-style: normal;
-					font-weight: normal;
-					font-size: 14px;
-					line-height: 150%;
-
-					text-align: left;
-
-					@include media("<medium") {
-						text-align: right;
-					}
-
-					@include media("<small") {
-						text-align: center;
-					}
-				}
-			}
-
-			.navs {
-				display: flex;
-				flex-basis: 50%;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: flex-start;
-
-				@include media("<medium") {
-					width: 100%;
-				}
-
-				@include media("<small") {
-					flex-direction: column;
-					justify-content: flex-start;
-					align-items: flex-start;
-					text-align: center;
-				}
-
-				.nav {
-					list-style: none;
-
-					@include media("<small") {
-						width: 100%;
-						margin-bottom: 15px;
-						&:last-child {
-							margin-bottom: 0;
-						}
-					}
-
-					&-title {
-						display: block;
-						margin-bottom: 10px;
-						color: #e7eef8;
-						font-family: Roboto;
-						font-style: normal;
-						font-weight: 500;
-						font-size: 16px;
-						line-height: 150%;
-					}
-
-					&-item {
-						& > a {
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							margin-bottom: 10px;
-							color: #9cbbec;
-							font-family: Roboto;
-							font-style: normal;
-							font-weight: 500;
-							font-size: 14px;
-							line-height: 150%;
-
-							& > img {
-								display: inline-block;
-								width: 16px;
-								height: auto;
-								margin-right: 5px;
-							}
-						}
-					}
-				}
-			}
+		&-function {
+			color: #e7eef8;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 150%;
+			text-decoration-line: underline;
 		}
 
-		.footer-mobile {
-			display: flex;
-			justify-content: space-between;
-			padding: 40px 20px;
-			&:last-child {
-				padding-top: 0px;
-			}
-			.left {
-				width: 49%;
-				.email {
-					color: #e7eef8;
-					font-size: 12px;
-					margin-top: 15px;
-					&:first-child {
-						margin-top: 0px;
-					}
-					.email-function {
-						font-weight: 500;
-					}
-					.email-address {
-						font-weight: normal;
-						text-decoration: underline;
-					}
-				}
-			}
-			.right {
-				width: 49%;
-				.contact {
-					p {
-						color: #8aa2c9;
-						font-weight: normal;
-						font-size: 12px;
-					}
-				}
-			}
-			.subpage {
-				color: #e7eef8;
-				font-weight: 500;
-				font-size: 16px;
-			}
-			.subpage-link {
-				margin-top: 10px;
-				font-weight: 500;
-				font-size: 14px;
-				color: #8aa2c9;
-				a {
-					color: #8aa2c9;
-				}
-			}
+		&-address {
+			color: #e7eef8;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+			text-decoration-line: underline;
 		}
 	}
 
-	&-bottom {
-		padding: 13px 0;
-		background: #495a75;
+	.address {
+		p {
+			color: #8aa2c9;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
 
-		.content {
+	.nav {
+		&-item {
+		}
+
+		&-title {
+			display: inline-block;
+			margin-bottom: 10px;
+			color: #e7eef8;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		&-link {
+			display: inline-block;
+			margin-bottom: 10px;
+			color: #acc7f2;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+
+		&-icon {
+			margin-right: 4px;
+		}
+	}
+}
+
+.bottom-section {
+	background-color: #495a75;
+
+	&-body {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+
+		@include media(">=large") {
+			justify-content: space-between;
+			flex-direction: row;
+		}
+
+		.copy-right {
+			padding: 13px 0;
+			color: #99aac2;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 13px;
+			line-height: 150%;
+		}
+
+		.nav {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
+			justify-content: flex-end;
 			align-items: center;
+			padding: 0;
+			margin: 0;
+			list-style: none;
 
-			@include media("<medium") {
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+			&-item {
 			}
 
-			.copyright {
+			&-link {
+				display: inline-block;
+				margin-right: 12px;
+				padding: 13px 0;
 				color: #99aac2;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: 500;
 				font-size: 13px;
 				line-height: 150%;
-
-				@include media("<medium") {
-					margin-bottom: 13px;
-				}
-			}
-
-			.nav {
-				padding: 0;
-				margin: 0;
-				list-style: none;
-
-				&-item {
-					float: left;
-
-					& > a {
-						display: inline-block;
-						padding-left: 24px;
-						color: #99aac2;
-						font-family: Roboto;
-						font-style: normal;
-						font-weight: 500;
-						font-size: 13px;
-						line-height: 150%;
-					}
-
-					&:first-child > a {
-						padding-left: 0;
-					}
-				}
 			}
 		}
 	}

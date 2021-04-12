@@ -1,16 +1,27 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./InfoRow.scss";
+import PropTypes from "prop-types";
+import styles from "./InfoRow.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function({label, children, handleClickCustom = null}) {
+const InfoRow = ({label, children, onClick}) => {
 	return (
-		<ul className={cx("infoRow-grid")}>
-			<li className={cx("label")}>{label}</li>
-			<li className={cx("value", {"value-link": !!handleClickCustom})} onClick={() => handleClickCustom && handleClickCustom()}>
+		<ul className={cx("info-row")}>
+			<li className={cx("label-column")}>{label}</li>
+			<li className={cx("value-column")} onClick={() => onClick && onClick()}>
 				{children}
 			</li>
 		</ul>
 	);
-}
+};
+
+InfoRow.propTypes = {
+	label: PropTypes.any,
+	children: PropTypes.any,
+	onClick: PropTypes.func,
+};
+
+InfoRow.defaultProps = {};
+
+export default InfoRow;

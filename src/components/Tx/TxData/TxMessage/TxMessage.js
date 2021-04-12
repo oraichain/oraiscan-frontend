@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, {useMemo} from "react";
 import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import {Fade, Tooltip} from "@material-ui/core";
 import consts from "src/constants/consts";
@@ -12,22 +13,25 @@ import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
 import BigNumber from "bignumber.js";
-import styles from "./TxMessage.scss";
+import styles from "./TxMessage.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function({msg, txData}) {
+const TxMessage = ({msg, data}) => {
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const {type, value} = msg;
-	const {memo} = txData;
-	const MsgGridRender = React.useMemo(() => {
-		const getInfoRow = (label, value, classNames) => (
-			<InfoRow label={label}>{_.isNil(value) ? <span>-</span> : <span className={cx(classNames)}>{value}</span>}</InfoRow>
+	const {memo} = data;
+
+	const messageDetails = useMemo(() => {
+		const getInfoRow = (label, value) => (
+			<InfoRow label={label}>
+				<span className={cx("text")}>{_.isNil(value) ? value : "-"}</span>
+			</InfoRow>
 		);
 
-		const getCurrencyRowFromString = (label, inputString, unitClassNames) => {
+		const getCurrencyRowFromString = (label, inputString) => {
 			if (_.isNil(value)) {
 				return (
 					<InfoRow label={label}>
@@ -37,16 +41,21 @@ export default function({msg, txData}) {
 			}
 
 			const {valueString, unitString} = extractValueAndUnit(inputString);
+			const amount = parseFloat(valueString);
+			const denom = unitString;
 
 			return (
 				<InfoRow label={label}>
-					<span>{formatOrai(valueString)} </span>
-					<span className={cx(unitClassNames)}>{unitString}</span>
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<span className={cx("amount-usd")}>{!_.isNil(amount) ? " ($" + formatFloat((amount / 1000000) * status.price, 4) + ")" : ""}</span>
+					</div>
 				</InfoRow>
 			);
 		};
 
-		const getCurrencyRowFromObject = (label, inputObject, unitClassNames) => {
+		const getCurrencyRowFromObject = (label, inputObject) => {
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return (
 					<InfoRow label={label}>
@@ -56,19 +65,21 @@ export default function({msg, txData}) {
 			}
 
 			const {amount, denom} = inputObject;
-			const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
+			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			return (
 				<InfoRow label={label}>
-					<span>{formatOrai(amount) + " "}</span>
-					<span className={cx(unitClassNames)}>{denom}</span>
-					<span className={cx("usd")}>{status?.price ? " ($" + formatFloat((amount / 1000000) * status.price, 4) + ")" : ""}</span>
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount) + " "}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat((amount / 1000000) * status.price, 4) + ")" : ""}</span>
+					</div>
 				</InfoRow>
 			);
 		};
 
-		const getImageRow = (label, src, imgClassNames = "responsiveImage") => (
+		const getImageRow = (label, src) => (
 			<InfoRow label={label}>
-				<img src={src} className={cx(imgClassNames)} />
+				<img src={src} className={cx("responsive-image")} />
 			</InfoRow>
 		);
 
@@ -78,7 +89,7 @@ export default function({msg, txData}) {
 
 		const getAddressRow = (label, address) => (
 			<InfoRow label={label}>
-				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='md' />
+				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' />
 			</InfoRow>
 		);
 
@@ -93,46 +104,42 @@ export default function({msg, txData}) {
 
 			return (
 				<InfoRow label={label}>
-					<a href={href} target='_blank' className={cx("blueColor")}>
+					<a href={href} target='_blank' className={cx("link")}>
 						{href}
 					</a>
 				</InfoRow>
 			);
 		};
 
-		const getTitleRow = label => <InfoRow label={label}></InfoRow>;
-
 		if (type === "websocket/AddReport") {
 			return null;
 		}
 
-		console.log(type);
-
 		return (
-			<div className={cx("grid")}>
+			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.value, ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.value)}
 						{getInfoRow("Min Self Delegation", value?.min_self_delegation)}
-						{getTitleRow("Pubkey")}
-						<div className={cx("grid-wrapper")}>
-							<div className={cx("grid")}>
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Pubkey</div>
+							<div className={cx("card-body")}>
 								{getInfoRow("Type", value?.pubkey?.type)}
 								{getInfoRow("Value", value?.pubkey?.value)}
 							</div>
 						</div>
-						{getTitleRow("Commission")}
-						<div className={cx("grid-wrapper")}>
-							<div className={cx("grid")}>
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Commission</div>
+							<div className={cx("card-body")}>
 								{getInfoRow("Rate", formatFloat(value?.commission?.rate, 6))}
 								{getInfoRow("Max Rate", formatFloat(value?.commission?.max_rate, 6))}
 							</div>
 						</div>
-						{getTitleRow("Description")}
-						<div className={cx("grid-wrapper")}>
-							<div className={cx("grid")}>
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Description</div>
+							<div className={cx("card-body")}>
 								{getInfoRow("Details", value?.description?.details)}
 								{getInfoRow("Moniker", value?.description?.moniker)}
 								{getLinkRow("Website", value?.description?.website)}
@@ -147,7 +154,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 
@@ -155,7 +162,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 
@@ -163,7 +170,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("From Address", value?.from_address)}
 						{getAddressRow("To Address", value?.to_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount?.[0], ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
 						{getInfoRow("Memo", memo)}
 					</>
 				)}
@@ -171,9 +178,9 @@ export default function({msg, txData}) {
 				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getTitleRow("Description")}
-						<div className={cx("grid-wrapper")}>
-							<div className={cx("grid")}>
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Description</div>
+							<div className={cx("card-body")}>
 								{getInfoRow("Details", value?.description?.details)}
 								{getInfoRow("Moniker", value?.description?.moniker)}
 								{getLinkRow("Website", value?.description?.website)}
@@ -189,7 +196,7 @@ export default function({msg, txData}) {
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Dst Address", value?.validator_dst_address)}
 						{getAddressRow("Validator Src Address", value?.validator_src_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 
@@ -197,7 +204,7 @@ export default function({msg, txData}) {
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount, ["uppercase"])}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 
@@ -209,7 +216,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
 						{getAddressRow("Owner", value?.owner)}
-						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
 
@@ -219,7 +226,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
-						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee, ["uppercase"])}
+						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee)}
 						{getAddressRow("Owner", value?.owner)}
 					</>
 				)}
@@ -249,28 +256,33 @@ export default function({msg, txData}) {
 						{getInfoRow("Description", value?.description)}
 						{getAddressRow("Owner", value?.owner)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}
-						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee, ["uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
 
 				{type === txTypes.WEBSOCKET.ADD_REPORT && (
 					<>
 						{getInfoRow("Aggregated Result", atob(value?.aggregated_result))}
-						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0], ["uppercase"])}
+						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0])}
 						{getAddressRow("Report Address", value?.reporter?.reporter_address)}
 
-						{getTitleRow("Data Source Results")}
-						{Array.isArray(value?.data_source_results) &&
-							value.data_source_results.map((item, index) => (
-								<div className={cx("grid-wrapper")}>
-									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
-									<div className={cx("grid")}>
-										{getInfoRow("Data Source", item?.value?.data_source)}
-										{getInfoRow("Result", atob(item?.value?.result))}
-										{getInfoRow("Result Status", item?.value?.result_status)}
-									</div>
-								</div>
-							))}
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Data Source Results</div>
+							<div className={cx("card-body")}>
+								{Array.isArray(value?.data_source_results) &&
+									value.data_source_results.map((item, index) => (
+										<div className={cx("card")} key={"card-index"}>
+											<div className={cx("card-header")}>{item?.type ?? ""}</div>
+											<div className={cx("card-body")}>
+												{getInfoRow("Data Source", item?.value?.data_source)}
+												{getInfoRow("Result", atob(item?.value?.result))}
+												{getInfoRow("Result Status", item?.value?.result_status)}
+											</div>
+										</div>
+									))}
+							</div>
+						</div>
+
 						{getAddressRow("Reporter Address", value?.reporter?.reporter_address)}
 						{getInfoRow("Reporter Name", value?.reporter?.reporter_name)}
 						{getAddressRow("Reporter Validator", value?.reporter?.reporter_validator)}
@@ -296,7 +308,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee)}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
 				)}
@@ -307,7 +319,7 @@ export default function({msg, txData}) {
 						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
 						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee, ["uppercase"])}
+						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee)}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
 					</>
 				)}
@@ -316,25 +328,29 @@ export default function({msg, txData}) {
 					<>
 						{getInfoRow("Test Case", value?.test_case)}
 
-						{getTitleRow("Data Source Results")}
-						{Array.isArray(value?.data_source_results) &&
-							value.data_source_results.map((item, index) => (
-								<div className={cx("grid-wrapper")}>
-									<div className={cx("type-wrapper")}>{item?.type ?? ""}</div>
-									<div className={cx("grid")}>
-										{getInfoRow("Result", atob(item?.value?.result))}
-										{getInfoRow("Data Source", item?.value?.data_source)}
-										{getInfoRow("Result Status", item?.value?.result_status)}
-									</div>
-								</div>
-							))}
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Data Source Results</div>
+							<div className={cx("card-body")}>
+								{Array.isArray(value?.data_source_results) &&
+									value.data_source_results.map((item, index) => (
+										<div className={cx("card")} key={"card-" + index}>
+											<div className={cx("card-header")}>{item?.type ?? ""}</div>
+											<div className={cx("card-body")}>
+												{getInfoRow("Result", atob(item?.value?.result))}
+												{getInfoRow("Data Source", item?.value?.data_source)}
+												{getInfoRow("Result Status", item?.value?.result_status)}
+											</div>
+										</div>
+									))}
+							</div>
+						</div>
 					</>
 				)}
 			</div>
 		);
 	}, [type, value, storageData]);
 
-	const toolTippedImg = React.useMemo(() => {
+	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
 		return (
 			<Tooltip
@@ -344,19 +360,26 @@ export default function({msg, txData}) {
 				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
 				disableTouchListener
 				disableFocusListener>
-				<img className={cx("txType-img")} src={getTxTypeIcon(type)} alt={"icon"} />
+				<img className={cx("icon")} src={getTxTypeIcon(type)} alt='' />
 			</Tooltip>
 		);
 	}, [type, fees]);
 
-	// console.log(txData);
 	return (
-		<div className={cx("grid-wrapper")}>
-			<div className={cx("type-wrapper")}>
+		<div className={cx("card")}>
+			<div className={cx("card-header")}>
 				{toolTippedImg}
-				<span>{getTxType(type)}</span>
+				<span className={cx("title")}>{getTxType(type)}</span>
 			</div>
-			{MsgGridRender}
+			<div className={cx("card-body")}>{messageDetails}</div>
 		</div>
 	);
-}
+};
+
+TxMessage.propTypes = {
+	msg: PropTypes.any,
+	data: PropTypes.any,
+};
+TxMessage.defaultProps = {};
+
+export default TxMessage;
