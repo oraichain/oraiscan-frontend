@@ -46,7 +46,7 @@ const ValidatorDetails = ({match}) => {
 
 	const titleSection = isLargeScreen ? (
 		<TitleWrapper>
-			<PageTitle title={"Validators"} />
+			<PageTitle title={"Validator details"} />
 			<StatusBox />
 		</TitleWrapper>
 	) : (

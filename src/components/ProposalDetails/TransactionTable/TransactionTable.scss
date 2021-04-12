@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -26,7 +26,7 @@
 }
 
 .tx-hash-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -43,10 +43,11 @@
 	.first-message-type {
 		padding: 6px 10px;
 		margin-right: 5px;
-		border: 1px solid #5f51ff;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		color: #5f51ff;
+		color: var(--common-transactions-transactionTypeTextColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +56,7 @@
 	}
 
 	.number-of-message {
-		color: #5f51ff;
+		color: var(--common-transactions-transactionTypeTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -75,7 +76,7 @@
 		}
 
 		&-text {
-			color: #8b8b8b;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -95,8 +96,30 @@
 		justify-content: space-between;
 	}
 
+	.more {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-text {
+			display: inline-block;
+			margin-right: 8px;
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+
+		&-icon {
+			display: inline-block;
+		}
+	}
+
 	.amount {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -120,7 +143,7 @@
 		display: block;
 		padding: 7px;
 		border-radius: 4px;
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: bold;
@@ -128,20 +151,20 @@
 		line-height: 150%;
 
 		&-in {
-			color: #3fcc28;
-			border: 1px solid #3fcc28;
+			color: var(--common-transactions-amountTransactionLabelInColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
 		}
 
 		&-out {
-			color: #f98442;
-			border: 1px solid #f98442;
+			color: var(--common-transactions-amountTransactionLabelOutColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
 		}
 	}
 }
 
 .fee-data-cell {
 	.fee {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -165,7 +188,7 @@
 .time-data-cell,
 .height-data-cell {
 	display: block;
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

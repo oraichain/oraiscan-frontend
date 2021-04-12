@@ -1,0 +1,12 @@
+.highchart {
+	overflow: visible !important;
+	width: 436px;
+}
+
+.highcharts-root {
+	width: 470px;
+}
+
+.highcharts-container {
+	overflow: visible !important;
+}

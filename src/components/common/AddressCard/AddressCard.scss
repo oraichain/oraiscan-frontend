@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 .address-card {
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	height: 100%;
@@ -18,7 +18,7 @@
 
 		.header-title {
 			display: inline-block;
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -64,7 +64,7 @@
 				font-weight: 500;
 				font-size: 16px;
 				line-height: 150%;
-				color: #181818;
+				color: var(--common-textColor);
 				vertical-align: middle;
 			}
 
@@ -81,13 +81,13 @@
 			font-weight: normal;
 			font-size: 12px;
 			line-height: 150%;
-			color: #181818;
+			color: var(--common-textColor);
 		}
 	}
 }
 
 .dialog {
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
@@ -102,7 +102,7 @@
 
 	&-title {
 		padding: 0 30px;
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;

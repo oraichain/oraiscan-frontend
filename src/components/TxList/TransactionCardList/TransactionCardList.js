@@ -13,7 +13,11 @@ import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
 
-const TransactionCardList = memo(({data, account}) => {
+import MoreIcon from "src/icons/Transactions/MoreIcon";
+import SuccessIcon from "src/icons/Transactions/SuccessIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
+
+const TransactionCardList = memo(({data = [], account}) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
 
@@ -108,7 +112,23 @@ const TransactionCardList = memo(({data, account}) => {
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Result</div>
-										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("result-data-cell")}>{resultDataCellContent}</div>}
+										{_.isNil(item?.result) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<div className={cx("result-data-cell")}>
+												{item?.result ? (
+													<div className={cx("result")}>
+														<SuccessIcon className={cx("result-icon-success")}></SuccessIcon>
+														<span className={cx("result-text")}>Success</span>
+													</div>
+												) : (
+													<div className={cx("result")}>
+														<FailedIcon className={cx("result-icon-failed")}></FailedIcon>
+														<span className={cx("result-text")}>Failure</span>
+													</div>
+												)}
+											</div>
+										)}
 									</td>
 									<td>
 										<div className={cx("item-title")}>Amount</div>

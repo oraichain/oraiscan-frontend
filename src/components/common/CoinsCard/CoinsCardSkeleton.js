@@ -2,12 +2,20 @@ import React, {memo} from "react";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import {colors} from "src/components/common/CoinsCard/CoinsCard";
 import styles from "./CoinsCard.scss";
+import {themeIds} from "src/constants/themes";
+import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
 const CoinsCardSkeleton = memo(() => {
+	const activeThemeId = useSelector(state => state.activeThemeId);
+	const colors = {
+		DELEGATED: activeThemeId === themeIds.LIGHT ? "#51ADCF" : "#1A87FF",
+		UNBONDING: activeThemeId === themeIds.LIGHT ? "#A5ECD7" : "#E1E9D1",
+		REWARD: activeThemeId === themeIds.LIGHT ? "#FFBF9B" : "#7BCCC4",
+		AVAILABLE: activeThemeId === themeIds.LIGHT ? "#0278AE" : "#4EB3D3",
+	};
 	return (
 		<div className={cx("coins-card")}>
 			<Grid container spacing={2}>

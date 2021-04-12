@@ -13,7 +13,9 @@ import ProposedBlocksCardList from "src/components/ValidatorDetails/ProposedBloc
 import ProposedBlocksCardListSkeleton from "src/components/ValidatorDetails/ProposedBlocksCardList/ProposedBlocksCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import styles from "./ProposedBlocksCard.scss";
-import blockIcon from "src/assets/validatorDetails/blocks.svg";
+
+import BlockTimeIcon from "src/icons/Validators/TotalBlocksIcon";
+
 // import {isArray} from "lodash-es";
 
 const cx = classNames.bind(styles);
@@ -76,8 +78,8 @@ const ProposedBlocksCard = memo(({validatorAddress}) => {
 			<div className={cx("proposed-blocks-card-header")}>
 				<div className={cx("title")}>Proposed Blocks</div>
 				<div className={cx("total")}>
-					<img alt='/' className={cx("total-icon")} src={blockIcon} />
-					<span className={cx("total-icon")}>Total : {totalBlocks} blocks</span>
+					<BlockTimeIcon className={cx("total-icon")}></BlockTimeIcon>
+					<span className={cx("total-text")}>Total : {totalBlocks} blocks</span>
 				</div>
 			</div>
 			<div className={cx("proposed-blocks-card-body")}>

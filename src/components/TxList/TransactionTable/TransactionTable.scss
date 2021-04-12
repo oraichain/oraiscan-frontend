@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -26,7 +26,7 @@
 }
 
 .tx-hash-data-cell {
-	color: #1b57f0;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -43,10 +43,11 @@
 	.first-message-type {
 		padding: 6px 10px;
 		margin-right: 5px;
-		border: 1px solid #5f51ff;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
+		color: var(--common-transactions-transactionTypeTextColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		color: #5f51ff;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +56,7 @@
 	}
 
 	.number-of-message {
-		color: #5f51ff;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -77,113 +78,115 @@
 			height: auto;
 
 			&-success {
-				color: #12c90e;
+				color: var(--common-resultIconSuccessColor);
+			}
+			&-failed {
+				color: var(--common-resultIconFailureColor);
+
+				&-pending {
+					color: #f59338;
+				}
 			}
 
-			&-fail {
-				color: #f3574f;
-			}
-
-			&-pending {
-				color: #f59338;
+			&-text {
+				color: var(--common-textColor);
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
 			}
 		}
+	}
 
-		&-text {
-			color: #8b8b8b;
+	.amount-data-cell {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+
+		&-with-transfer-status {
+			justify-content: space-between;
+		}
+
+		.amount {
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
+
+			&-value {
+				padding-right: 4px;
+			}
+
+			&-denom {
+				text-transform: uppercase;
+			}
+
+			&-usd {
+				text-align: right;
+			}
+		}
+
+		.transfer-status {
+			display: block;
+			min-width: 40px;
+			text-align: center;
+			padding: 7px;
+			border-radius: 4px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 11px;
+			line-height: 150%;
+
+			&-in {
+				background: var(--common-transactions-amountTransactionBackgroundInColor);
+				color: var(--common-transactions-amountTransactionTextInColor);
+				border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
+			}
+
+			&-out {
+				background: var(--common-transactions-amountTransactionBackgroundOutColor);
+				color: var(--common-transactions-amountTransactionTextOutColor);
+				border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
+			}
 		}
 	}
-}
 
-.amount-data-cell {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
+	.fee-data-cell {
+		.fee {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
 
-	&-with-transfer-status {
-		justify-content: space-between;
-	}
+			&-value {
+				padding-right: 4px;
+			}
 
-	.amount {
-		color: #181818;
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		line-height: 150%;
+			&-denom {
+				text-transform: uppercase;
+			}
 
-		&-value {
-			padding-right: 4px;
-		}
-
-		&-denom {
-			text-transform: uppercase;
-		}
-
-		&-usd {
-			text-align: right;
+			&-usd {
+				text-align: right;
+			}
 		}
 	}
 
-	.transfer-status {
+	.time-data-cell,
+	.height-data-cell {
 		display: block;
-		padding: 7px;
-		border-radius: 4px;
-		background: #ffffff;
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: bold;
-		font-size: 11px;
-		line-height: 150%;
-
-		&-in {
-			color: #3fcc28;
-			border: 1px solid #3fcc28;
-		}
-
-		&-out {
-			color: #f98442;
-			border: 1px solid #f98442;
-		}
-	}
-}
-
-.fee-data-cell {
-	.fee {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 150%;
-
-		&-value {
-			padding-right: 4px;
-		}
-
-		&-denom {
-			text-transform: uppercase;
-		}
-
-		&-usd {
-			text-align: right;
-		}
 	}
-}
-
-.time-data-cell,
-.height-data-cell {
-	display: block;
-	color: #181818;
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 150%;
 }

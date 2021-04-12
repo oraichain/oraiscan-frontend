@@ -6,11 +6,8 @@ import {formatNumber} from "src/lib/scripts";
 import Skeleton from "react-skeleton-loader";
 //  redux
 import {useSelector} from "react-redux";
-import consts from "src/constants/consts";
-//  svgs
-import down_rd from "src/assets/common/arrow_down.svg";
-import up_gr from "src/assets/common/arrow_up.svg";
-import blocktimeSVG from "src/assets/dashboard/blocktime_ic.svg";
+
+import BlockTimeIcon from "src/icons/Dashboard/BlockTimeIcon";
 
 const cx = cn.bind(styles);
 
@@ -35,7 +32,7 @@ export default function(props) {
 						<div className={cx("text")}>ORAI</div>
 					</div>
 					<div className={cx("BlockTime")}>
-						<img src={blocktimeSVG} alt={"BT"} />
+						<BlockTimeIcon className={cx("BlockTime-icon")}></BlockTimeIcon>
 						<p>
 							Block time <span>{status?.block_time?.toFixed(2)}ms</span>
 						</p>

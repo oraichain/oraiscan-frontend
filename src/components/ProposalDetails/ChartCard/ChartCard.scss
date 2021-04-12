@@ -1,9 +1,10 @@
 .chart-card {
 	height: 100%;
 	padding: 20px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
+	fill: var(--common-textColor);
 
 	&-header {
 		margin-bottom: 22px;
@@ -11,7 +12,7 @@
 
 		.total-orai {
 			&-label {
-				color: #181818;
+				color: var(--common-textColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -20,7 +21,7 @@
 			}
 
 			&-value {
-				color: #181818;
+				color: var(--common-textColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: 500;
@@ -62,11 +63,11 @@
 					height: 12px;
 					margin-right: 10px;
 					border-radius: 100%;
-					background-color: #0278ae;
+					background-color: #8f9ca1;
 				}
 
 				&-label {
-					color: #181818;
+					color: var(--common-textColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
@@ -75,7 +76,7 @@
 				}
 
 				&-value {
-					color: #181818;
+					color: var(--common-textColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: 500;

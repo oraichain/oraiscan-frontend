@@ -40,18 +40,18 @@
 	flex-direction: column;
 	align-items: center;
 	min-height: calc(100vh - var(--heightHeader) - var(--heightSubHeader) - var(--heightFooter));
-	
+
 	font-family: "Montserrat", serif;
 	font-weight: 500;
 	font-stretch: normal;
 	font-style: normal;
 	letter-spacing: normal;
-	color: #222222;
+	color: var(--common-textColor);
 	.border {
 		border-radius: 5px;
 		padding: 5px 10px;
-		
-		border: 1px solid #D0D2D5;
+
+		border: 1px solid var(--common-borderColor);
 		> p {
 			font-size: 13px;
 		}
@@ -74,12 +74,12 @@
 		align-items: center;
 		cursor: pointer;
 		background-image: linear-gradient(to right, #f1bc24, #fbd839);
-		
+
 		width: 229px;
 		height: 50px;
 		border-radius: 5px;
 		//@include transition(all, ease, 0.25s);
-		
+
 		&:hover {
 			//border: solid 1px #E0B321;
 			//box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
@@ -88,7 +88,7 @@
 				@include springX;
 			}
 		}
-		
+
 		> span {
 			font-size: 15px;
 			line-height: 1.27;

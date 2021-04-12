@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 .table-container {
-	background: #ffffff;
+	background: var(--common-themedTable-headerBackgroundColor);
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 }
@@ -12,37 +12,22 @@
 .header-cell,
 .data-cell {
 	position: relative;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--common-borderColor);
+	color: var(--common-textColor);
 }
 
-.table-theme-light {
+.table-theme {
 	.header-row {
-		background: #f7f7f7;
+		background: var(--common-themedTable-headerBackgroundColor);
 	}
 
 	.data-row {
 		&:nth-child(odd) {
-			background: #ffffff;
+			background: var(--common-themedTable-oddRowBackgroundColor);
 		}
 
 		&:nth-child(even) {
-			background: #f9f9f9;
-		}
-	}
-}
-
-.table-theme-dark {
-	.header-row {
-		background: #e8eeff;
-	}
-
-	.data-row {
-		&:nth-child(odd) {
-			background: #f9f9f9;
-		}
-
-		&:nth-child(even) {
-			background: #ffffff;
+			background: var(--common-themedTable-evenRowBackgroundColor);
 		}
 	}
 }

@@ -16,7 +16,7 @@
 		font-size: 30px;
 		font-weight: 500;
 		line-height: 1.23;
-		color: var(--colorPageTitle);
+		color: var(--common-textColor);
 
 		@include media("<large") {
 			font-size: 24px;
@@ -39,7 +39,6 @@
 			img {
 				object-fit: contain;
 				cursor: pointer;
-				color: var(--dark);
 			}
 			.flip {
 				transform: rotate(180deg);

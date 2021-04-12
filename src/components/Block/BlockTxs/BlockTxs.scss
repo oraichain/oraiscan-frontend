@@ -2,9 +2,9 @@
 
 .BlockTxs-wrapper {
 	width: 100%;
-	color: var(--colorMainText);
 
 	.title {
+		color: var(--common-textColor) !important;
 		@include Card-title;
 	}
 	.table {
@@ -18,7 +18,7 @@
 			display: none;
 		}
 		> :nth-child(even) {
-			background-color: #fbfbfc;
+			background-color: var(--common-containerBackgroundColor);
 		}
 	}
 }

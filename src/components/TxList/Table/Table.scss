@@ -14,7 +14,7 @@
 		.tableHeaderCell {
 			@include tableHeaderCellWidth300;
 			@include tableElemPadding;
-			color: var(--colorMainText);
+			color: var(--common-textColor);
 		}
 		.padding-right10 {
 			padding-right: 10px;
@@ -72,7 +72,7 @@
 		}
 		.thinTableRows-wrapper {
 			> :nth-child(even) {
-				background-color: #fbfbfc;
+				background-color: var(--common-containerBackgroundColor);
 			}
 		}
 
@@ -86,5 +86,5 @@
 .tableDivider {
 	width: 100%;
 	height: 0;
-	border-bottom: solid 1px #e6e6e6;
+	border-bottom: solid 1px var(--common-borderColor);
 }

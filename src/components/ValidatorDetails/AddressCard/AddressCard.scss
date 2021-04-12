@@ -1,6 +1,6 @@
 .address-card {
 	padding: 20px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	height: 100%;
@@ -28,7 +28,8 @@
 				}
 
 				&-name {
-					color: #181818;
+					color: var(--common-textColor);
+					background: var(--common-containerBackgroundColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: 500;
@@ -43,7 +44,7 @@
 				justify-content: flex-start;
 				align-items: center;
 				padding: 6px;
-				background: #ecffe9;
+				background: var(--validators-validatorDetails-binanceStacking-activeLabelColor);
 				border-radius: 4px;
 
 				&-icon {
@@ -51,10 +52,11 @@
 					width: auto;
 					height: 16px;
 					margin-right: 4;
+					color: var(--validators-validatorDetails-binanceStacking-activeLabelTextColor);
 				}
 
 				&-text {
-					color: #12c90e;
+					color: var(--validators-validatorDetails-binanceStacking-activeLabelTextColor);
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
@@ -67,10 +69,11 @@
 
 	&-body {
 		.address {
+			color: var(--common-textColor);
 			margin-bottom: 15px;
 
 			&-type {
-				color: #181818;
+				background: var(--common-containerBackgroundColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: 500;

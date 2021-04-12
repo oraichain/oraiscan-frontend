@@ -16,6 +16,10 @@ import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionTable.scss";
 
+import MoreIcon from "src/icons/Transactions/MoreIcon";
+import SuccessIcon from "src/icons/Transactions/SuccessIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
+
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
@@ -78,7 +82,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 			} else if (item.result === false) {
 				resultDataCellContent = (
 					<div className={cx("result")}>
-						<TimesIcon className={cx("result-icon", "result-icon-fail")} />
+						<TimesIcon className={cx("result-icon", "result-icon-failed")} />
 						<span className={cx("result-text")}>Failure</span>
 					</div>
 				);

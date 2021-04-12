@@ -2,10 +2,10 @@
 
 .BlockDetail-wrapper {
 	width: 100%;
-	color: var(--colorMainText);
 
 	.title {
-		border-bottom: var(--border);
+		color: var(--common-textColor) !important;
+		border-bottom: solid 1px var(--common-borderColor);
 		@include Card-title;
 	}
 	.content {
@@ -25,7 +25,7 @@
 }
 
 .blueLink {
-	color: #4472de;
+	color: var(--common-linkColor);
 	cursor: pointer;
 	text-transform: none;
 }

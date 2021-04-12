@@ -3,13 +3,251 @@ import HighchartsReact from "highcharts-react-official";
 import highcharts from "highcharts";
 
 import {_, formatNumber, getHours, getTime} from "src/lib/scripts";
+import {useSelector} from "src/hooks";
+import {themeIds} from "src/constants/themes";
+
+import "./Chart.css";
 
 export default function({options, data, showAxis = true, displayMax = false, wrapperWidth}) {
+	const activeThemeId = useSelector(state => state.activeThemeId);
 	const myRef = useRef();
-
 	useEffect(() => {
 		// myRef.current.chart.setSize(wrapperWidth, 250);
 	}, [wrapperWidth]);
+
+	const xAxis = {
+		visible: true,
+		labels: {
+			overflow: "allow",
+			align: "center",
+			formatter: function() {
+				return getHours(this.value);
+			},
+			maxStaggerLines: 1,
+		},
+		minPadding: 0,
+		maxPadding: 0,
+		gridLineColor: activeThemeId === themeIds.LIGHT ? "#eeeeee" : "#69809D",
+		tickPosition: "outside",
+		tickColor: "transaprent",
+		endOnTick: false,
+	};
+	const yAxis = {
+		visible: true,
+		// opposite: true,
+		// endOnTick: true,
+		// gridLineColor: "#eeeeee",
+		labels: {
+			enabled: true,
+			align: "left",
+			x: -25,
+			y: 4,
+			style: {
+				color: activeThemeId === themeIds.LIGHT ? "#4b525d" : "#69809D",
+				fontSize: "11px",
+			},
+			formatter: function() {
+				return `$${this.value > 999 ? formatNumber(Math.floor(this.value), 3) : this.value}`;
+			},
+		},
+		gridLineColor: activeThemeId === themeIds.LIGHT ? "#e6e6e6" : "#2B5072",
+		title: {
+			text: "",
+		},
+		tickAmount: 5,
+		tickPosition: "inside",
+	};
+	const series =
+		activeThemeId === themeIds.LIGHT
+			? {
+					color: "#1958FA",
+					fillColor: {
+						linearGradient: {
+							x1: 0,
+							y1: 0,
+							x2: 0,
+							y2: 1,
+						},
+						stops: [
+							[
+								0,
+								highcharts
+									.color("#1958FA")
+									.setOpacity(0.6)
+									.get("rgba"),
+							],
+							[
+								0.6,
+								highcharts
+									.color("#94B2FF")
+									.setOpacity(0.4)
+									.get("rgba"),
+							],
+							[
+								0.8,
+								highcharts
+									.color("#638fff")
+									.setOpacity(0.3)
+									.get("rgba"),
+							],
+							[
+								0.9,
+								highcharts
+									.color("#85a7ff")
+									.setOpacity(0.2)
+									.get("rgba"),
+							],
+							[
+								1,
+								highcharts
+									.color("#ffffff")
+									.setOpacity(0.05)
+									.get("rgba"),
+							],
+						],
+					},
+			  }
+			: {
+					color: "#3196D3",
+					fillColor: {
+						linearGradient: {
+							x1: 0,
+							y1: 0,
+							x2: 0,
+							y2: 1,
+						},
+						stops: [
+							[
+								0,
+								highcharts
+									.color("#233D5C")
+									.setOpacity(0.6)
+									.get("rgba"),
+							],
+							[
+								0.6,
+								highcharts
+									.color("#42B6F6")
+									.setOpacity(0.4)
+									.get("rgba"),
+							],
+							[
+								0.8,
+								highcharts
+									.color("#3196D3")
+									.setOpacity(0.3)
+									.get("rgba"),
+							],
+							[
+								0.9,
+								highcharts
+									.color("#233D5C")
+									.setOpacity(0.2)
+									.get("rgba"),
+							],
+							[
+								1,
+								highcharts
+									.color("#ffffff")
+									.setOpacity(0.05)
+									.get("rgba"),
+							],
+						],
+					},
+			  };
+
+	const defaultOptions = {
+		credits: {
+			enabled: false,
+		},
+		title: {
+			text: "",
+		},
+		legend: {
+			enabled: false,
+		},
+		chart: {
+			type: "areaspline",
+			margin: [5, 15, 20, 15],
+			height: "230px",
+			width: null,
+			spacing: [20, 20, 20, 20],
+			renderTo: "container",
+			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "#1E344D",
+		},
+		plotOptions: {
+			series: {
+				states: {
+					hover: {
+						enabled: true,
+						lineWidthPlus: 0,
+						halo: {
+							size: 0,
+							opacity: 0,
+						},
+					},
+					select: {
+						enabled: false,
+					},
+				},
+				plotOptions: {
+					series: {
+						states: {
+							hover: {
+								enabled: true,
+								lineWidthPlus: 0,
+								halo: {
+									size: 0,
+									opacity: 0,
+								},
+							},
+							select: {
+								enabled: false,
+							},
+						},
+						allowPointSelect: false,
+						marker: {
+							enabled: false,
+						},
+					},
+				},
+				allowPointSelect: false,
+				marker: {
+					enabled: false,
+				},
+			},
+		},
+		tooltip: {
+			enabled: true,
+			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "#1E344D",
+			borderColor: activeThemeId === themeIds.LIGHT ? "#e6e6e6" : "#2B5072",
+			style: {
+				color: activeThemeId === themeIds.LIGHT ? "#333333" : "#F6F7FB",
+				fontSize: "25px",
+			},
+			borderRadius: 10,
+			borderWidth: 1,
+			headerShape: "callout",
+			shadow: true,
+			formatter: function() {
+				return `<p>
+				<span style='font-family: Montserrat,serif; font-size: 15px; font-weight: 500; font-stretch: normal; font-style: normal; line-height: 1.27; letter-spacing: normal; text-align: left; color:${
+					activeThemeId === themeIds.LIGHT ? "#222222" : "#F6F7FB"
+				}'>
+					$ ${this.y > 999 ? formatNumber(Math.floor(this.y), 3) : this.y}
+				</span>
+				<br />
+				<span style='font-family: "Open Sans",serif; font-size: 11px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.8; letter-spacing: normal; text-align: left; color: ${
+					activeThemeId === themeIds.LIGHT ? "#4b525d" : "#F6F7FB"
+				}'>
+					${getTime(this.x)}
+				</span>
+				</p>
+				`;
+			},
+			useHTML: false,
+		},
+	};
 
 	const graphOptions = useMemo(() => {
 		// console.log(data);
@@ -26,7 +264,6 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 		];
 		const tickPositions = [..._.map(indexes, idx => data[idx]?.[0])];
 		return {
-			...defaultOptions,
 			series: [
 				{
 					...series,
@@ -52,182 +289,11 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 					tickPositions,
 				},
 			],
-			...options,
+			// ...options,
+			...defaultOptions,
 		};
-	}, [options, data, displayMax, showAxis]);
+	}, [options, data, displayMax, showAxis, activeThemeId]);
 	// console.log(graphOptions);
 	// return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
-	return <HighchartsReact highcharts={highcharts} options={graphOptions} />;
+	return <HighchartsReact containerProps={{class: "highchart"}} highcharts={highcharts} options={graphOptions} />;
 }
-
-const xAxis = {
-	visible: true,
-	labels: {
-		overflow: "allow",
-		align: "center",
-		formatter: function() {
-			return getHours(this.value);
-		},
-		maxStaggerLines: 1,
-	},
-	minPadding: 0,
-	maxPadding: 0,
-	gridLineColor: "#eeeeee",
-	tickPosition: "outside",
-	tickColor: "transaprent",
-	endOnTick: false,
-};
-const yAxis = {
-	visible: true,
-	// opposite: true,
-	// endOnTick: true,
-	// gridLineColor: "#eeeeee",
-	labels: {
-		enabled: true,
-		align: "left",
-		x: -16,
-		y: 4,
-		style: {
-			color: "#4b525d",
-			fontSize: "11px",
-		},
-		formatter: function() {
-			return `$${this.value > 999 ? formatNumber(Math.floor(this.value), 3) : this.value}`;
-		},
-	},
-	title: {
-		text: "",
-	},
-	tickAmount: 5,
-	tickPosition: "inside",
-};
-const series = {
-	color: "#1958FA",
-	fillColor: {
-		linearGradient: {
-			x1: 0,
-			y1: 0,
-			x2: 0,
-			y2: 1,
-		},
-		stops: [
-			[
-				0,
-				highcharts
-					.color("#1958FA")
-					.setOpacity(0.6)
-					.get("rgba"),
-			],
-			[
-				0.6,
-				highcharts
-					.color("#94B2FF")
-					.setOpacity(0.4)
-					.get("rgba"),
-			],
-			[
-				0.8,
-				highcharts
-					.color("#638fff")
-					.setOpacity(0.3)
-					.get("rgba"),
-			],
-			[
-				0.9,
-				highcharts
-					.color("#85a7ff")
-					.setOpacity(0.2)
-					.get("rgba"),
-			],
-			[
-				1,
-				highcharts
-					.color("#ffffff")
-					.setOpacity(0.05)
-					.get("rgba"),
-			],
-		],
-	},
-};
-// 대시보드 그래프 옵션정리
-const defaultOptions = {
-	credits: {
-		enabled: false,
-	},
-	title: {
-		text: "",
-	},
-	legend: {
-		enabled: false,
-	},
-	chart: {
-		type: "areaspline",
-		margin: [20, 20, 20, 20],
-		height: 45,
-		width: 120,
-	},
-	plotOptions: {
-		series: {
-			states: {
-				hover: {
-					enabled: true,
-					lineWidthPlus: 0,
-					halo: {
-						size: 0,
-						opacity: 0,
-					},
-				},
-				select: {
-					enabled: false,
-				},
-			},
-			plotOptions: {
-				series: {
-					states: {
-						hover: {
-							enabled: true,
-							lineWidthPlus: 0,
-							halo: {
-								size: 0,
-								opacity: 0,
-							},
-						},
-						select: {
-							enabled: false,
-						},
-					},
-					allowPointSelect: false,
-					marker: {
-						enabled: false,
-					},
-				},
-			},
-			allowPointSelect: false,
-			marker: {
-				enabled: false,
-			},
-		},
-	},
-	tooltip: {
-		enabled: true,
-		backgroundColor: "#ffffff",
-		borderColor: "#e6e6e6",
-		borderRadius: 10,
-		borderWidth: 1,
-		headerShape: "callout",
-		shadow: true,
-		formatter: function() {
-			return `<p>
-			<span style='font-family: Montserrat,serif; font-size: 15px; font-weight: 500; font-stretch: normal; font-style: normal; line-height: 1.27; letter-spacing: normal; text-align: left; color: #222222'>
-				$ ${this.y > 999 ? formatNumber(Math.floor(this.y), 3) : this.y}
-			</span>
-			<br />
-			<span style='font-family: "Open Sans",serif; font-size: 11px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: 1.8; letter-spacing: normal; text-align: left; color: #4b525d'>
-				${getTime(this.x)}
-			</span>
-			</p>
-			`;
-		},
-		useHTML: true,
-	},
-};
