@@ -87,11 +87,11 @@ export default class Keystation {
 				// encodeURIComponent(account) +
 				// "&client=" +
 				// encodeURIComponent(this.client) +
-				// "&lcd=" +
-				// encodeURIComponent(this.lcd) +
+				"?lcd=" +
+				encodeURIComponent(this.lcd) +
 				// "&path=" +
 				// encodeURIComponent(this.path) +
-				"?payload=" +
+				"&raw_message=" +
 				encodeURIComponent(JSON.stringify(payload)) +
 				"&signInFromScan=true",
 			"",
