@@ -138,7 +138,7 @@ export const mergeArrays = (array1, array2, key) => {
 export const decodeTx = encodedTx => {
 	const uintArr = Buffer.from(encodedTx, "base64");
 	const msg = message.cosmos.tx.v1beta1.TxRaw.decode(uintArr);
-	const hash = sha256.sha256(uintArr);
+	const hash = sha256.sha256(uintArr).toUpperCase();
 	const authInfo = message.cosmos.tx.v1beta1.AuthInfo.decode(msg.auth_info_bytes);
 	const fee = authInfo?.fee;
 
