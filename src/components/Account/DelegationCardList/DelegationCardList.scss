@@ -71,7 +71,7 @@
 
 			&-denom {
 				display: inline-block;
-				color: #5f51ff;
+				color: var(common-oraiDenomTextColor);
 				text-transform: uppercase;
 			}
 		}

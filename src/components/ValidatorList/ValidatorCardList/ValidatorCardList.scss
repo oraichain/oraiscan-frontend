@@ -105,7 +105,7 @@
 				flex-basis: auto;
 				flex-grow: 1;
 				height: 20px;
-				background-color: #eeeeee;
+				background-color: var(--common-containerBackgroundColor);
 				border-radius: 6px;
 				overflow: hidden;
 
@@ -115,7 +115,7 @@
 					height: 100%;
 					left: 0;
 					top: 0;
-					background: #d6fec4;
+					background: var(--validators-cumulativeShareBarColor_1);
 				}
 
 				&-current {
@@ -124,7 +124,7 @@
 					height: 100%;
 					left: 0;
 					top: 0;
-					background: #b9f69c;
+					background: var(--validators-cumulativeShareBarColor_2);
 				}
 			}
 

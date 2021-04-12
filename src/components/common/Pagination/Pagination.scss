@@ -15,6 +15,11 @@
 
 			button {
 				cursor: pointer;
+				svg {
+					path {
+						fill: var(--common-textColor);
+					}
+				}
 			}
 			button:disabled {
 				cursor: not-allowed;
@@ -42,7 +47,7 @@
 				font-weight: bold;
 				font-size: 14px;
 				line-height: 150%;
-				color: var(--common-textColor);
+				color: var(--common-paginationActiveTextColor);
 			}
 		}
 	}

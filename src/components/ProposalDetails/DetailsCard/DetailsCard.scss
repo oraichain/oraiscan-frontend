@@ -84,7 +84,13 @@
 		&-icon {
 			display: inline-block;
 			margin-right: 1px;
-			color: var(--proposals-topProposalCard-statusTextColor);
+			&-passed {
+				color: var(--proposals-topProposalCard-statusPassedTextColor);
+			}
+
+			&-rejected {
+				color: var(--proposals-topProposalCard-statusRejectedTextColor);
+			}
 		}
 
 		&-text {
@@ -97,18 +103,18 @@
 		}
 
 		&-passed {
-			border: 1px solid var(--proposals-topProposalCard-statusPassedColor);
-			background-color: var(--proposals-topProposalCard-statusPassedColor);
+			border: 1px solid var(--proposals-topProposalCard-statusPassedBorderColor);
+			background-color: var(--proposals-topProposalCard-statusPassedBackgroundColor);
 			.status-text {
-				color: var(--proposals-topProposalCard-statusTextColor);
+				color: var(--proposals-topProposalCard-statusPassedTextColor);
 			}
 		}
 
 		&-rejected {
-			border: 1px solid var(--proposals-topProposalCard-statusRejectedColor);
-			background-color: var(--proposals-topProposalCard-statusRejectedColor);
+			border: 1px solid var(--proposals-topProposalCard-statusRejectedBorderColor);
+			background-color: var(--proposals-topProposalCard-statusRejectedBackgroundColor);
 			.status-text {
-				color: var(--proposals-topProposalCard-statusTextColor);
+				color: var(--proposals-topProposalCard-statusRejectedTextColor);
 			}
 		}
 	}
@@ -183,7 +189,7 @@
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-linkColor);
+			color: var(--common-oraiDenomTextColor);
 		}
 	}
 

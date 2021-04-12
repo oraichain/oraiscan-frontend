@@ -68,32 +68,32 @@ const ProposalsTable = memo(({data = []}) => {
 			switch (item?.status) {
 				case "PROPOSAL_STATUS_PASSED":
 					statusStateClassName = "status-passed";
-					statusIcon = <PassedIcon className={cx("status-icon")}></PassedIcon>;
+					statusIcon = <PassedIcon className={cx("status-icon-passed")}></PassedIcon>;
 					statusText = "Passed";
 					break;
 				case "PROPOSAL_STATUS_REJECTED":
 					statusStateClassName = "status-rejected";
-					statusIcon = <RejectedIcon className={cx("status-icon")}></RejectedIcon>;
+					statusIcon = <RejectedIcon className={cx("status-icon-rejected")}></RejectedIcon>;
 					statusText = "Rejected";
 					break;
 				case "PROPOSAL_STATUS_FAILED":
 					statusStateClassName = "status-failed";
-					statusIcon = <FailedIcon className={cx("status-icon")}></FailedIcon>;
+					statusIcon = <FailedIcon className={cx("status-icon-failed")}></FailedIcon>;
 					statusText = "Failed";
 					break;
 				case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
 					statusStateClassName = "status-deposit-period";
-					statusIcon = <DepositPeriodIcon className={cx("status-icon")}></DepositPeriodIcon>;
+					statusIcon = <DepositPeriodIcon className={cx("status-icon-deposit-period")}></DepositPeriodIcon>;
 					statusText = "Deposit Period";
 					break;
 				case "PROPOSAL_STATUS_VOTING_PERIOD":
 					statusStateClassName = "status-voting-period";
-					statusIcon = <VotingPeriodIcon className={cx("status-icon")}></VotingPeriodIcon>;
+					statusIcon = <VotingPeriodIcon className={cx("status-icon-voting-period")}></VotingPeriodIcon>;
 					statusText = "Voting Period";
 					break;
 				case "PROPOSAL_STATUS_REJECTED":
 					statusStateClassName = "status-unspecified";
-					statusIcon = <UnspecifiedIcon className={cx("status-icon")}></UnspecifiedIcon>;
+					statusIcon = <UnspecifiedIcon className={cx("status-icon-unspecified")}></UnspecifiedIcon>;
 					statusText = "Unspecified";
 					break;
 				default:
@@ -103,7 +103,7 @@ const ProposalsTable = memo(({data = []}) => {
 			const statusDataCell = _.isNil(item?.status) ? (
 				<div className={cx("align-center")}>-</div>
 			) : (
-				<div className={cx("status-data-cell", "align-center")}>
+				<div className={cx("status-data-cell", "align-left")}>
 					<div className={cx("status", statusStateClassName)}>
 						{statusIcon}
 						<span className={cx("status-text")}>{statusText}</span>

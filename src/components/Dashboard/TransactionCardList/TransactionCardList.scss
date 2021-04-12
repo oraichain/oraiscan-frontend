@@ -70,7 +70,8 @@
 				border: 1px solid var(--common-transactions-transactionTypeLabelColor);
 				box-sizing: border-box;
 				border-radius: 4px;
-				color: var(--common-transactions-transactionTypeLabelColor);
+				background: var(--common-transactions-transactionTypeBackgroundColor);
+				color: var(--common-transactions-transactionTypeTextColor);
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;

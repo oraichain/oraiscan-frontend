@@ -45,8 +45,8 @@
 		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		background-color: var(--common-transactions-transactionTypeLabelColor);
-		color: var(--common-textColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
+		color: var(--common-transactions-transactionTypeTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +55,7 @@
 	}
 
 	.number-of-message {
-		color: var(--common-transactions-transactionTypeLabelColor);
+		color: var(--common-transactions-transactionTypeTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;

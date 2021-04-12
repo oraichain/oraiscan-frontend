@@ -35,6 +35,7 @@
 			display: flex;
 			flex-flow: row;
 			align-self: flex-end;
+			color: var(--common-buttonTextColor);
 			:nth-child(1) {
 				border-bottom-left-radius: 5px;
 				border-top-left-radius: 5px;
@@ -49,7 +50,6 @@
 		button {
 			width: 50%;
 			height: 100%;
-			border: solid 1px #222222;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -64,14 +64,13 @@
 				line-height: 1.36;
 				letter-spacing: normal;
 				text-align: left;
-				color: var(--common-textColor);
 			}
 
 			&.selected {
 				background: var(--common-activeTabColor);
 
 				p {
-					color: var(--common-textColor);
+					color: var(--common-activeTabTextColor);
 				}
 			}
 		}

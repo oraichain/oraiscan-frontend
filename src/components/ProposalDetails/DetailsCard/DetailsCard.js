@@ -21,11 +21,11 @@ const DetailsCard = memo(({data}) => {
 	let statusText;
 	if (data?.status == "PROPOSAL_STATUS_PASSED") {
 		statusStateClassName = "status-passed";
-		statusIcon = <PassedIcon className={cx("status-icon")}></PassedIcon>;
+		statusIcon = <PassedIcon className={cx("status-icon-passed")}></PassedIcon>;
 		statusText = "Passed";
 	} else if (data?.status == "PROPOSAL_STATUS_REJECTED") {
 		statusStateClassName = "status-rejected";
-		statusIcon = <RejectedIcon className={cx("status-icon")}></RejectedIcon>;
+		statusIcon = <RejectedIcon className={cx("status-icon-rejected")}></RejectedIcon>;
 		statusText = "Rejected";
 	}
 

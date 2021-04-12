@@ -11,6 +11,8 @@ import FailedIcon from "src/icons/Proposals/FailedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
+import {NavLink} from "react-router-dom";
+import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
@@ -28,32 +30,32 @@ const ProposalCardList = memo(({data = []}) => {
 				switch (item?.status) {
 					case "PROPOSAL_STATUS_PASSED":
 						statusStateClassName = "status-passed";
-						statusIcon = <PassedIcon className={cx("status-icon")}></PassedIcon>;
+						statusIcon = <PassedIcon className={cx("status-icon-passed")}></PassedIcon>;
 						statusText = "Passed";
 						break;
 					case "PROPOSAL_STATUS_REJECTED":
 						statusStateClassName = "status-rejected";
-						statusIcon = <RejectedIcon className={cx("status-icon")}></RejectedIcon>;
+						statusIcon = <RejectedIcon className={cx("status-icon-rejected")}></RejectedIcon>;
 						statusText = "Rejected";
 						break;
 					case "PROPOSAL_STATUS_FAILED":
 						statusStateClassName = "status-failed";
-						statusIcon = <FailedIcon className={cx("status-icon")}></FailedIcon>;
+						statusIcon = <FailedIcon className={cx("status-icon-failed")}></FailedIcon>;
 						statusText = "Failed";
 						break;
 					case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
 						statusStateClassName = "status-deposit-period";
-						statusIcon = <DepositPeriodIcon className={cx("status-icon")}></DepositPeriodIcon>;
+						statusIcon = <DepositPeriodIcon className={cx("status-icon-deposit-period")}></DepositPeriodIcon>;
 						statusText = "Deposit Period";
 						break;
 					case "PROPOSAL_STATUS_VOTING_PERIOD":
 						statusStateClassName = "status-voting-period";
-						statusIcon = <VotingPeriodIcon className={cx("status-icon")}></VotingPeriodIcon>;
+						statusIcon = <VotingPeriodIcon className={cx("status-icon-voting-period")}></VotingPeriodIcon>;
 						statusText = "Voting Period";
 						break;
 					case "PROPOSAL_STATUS_REJECTED":
 						statusStateClassName = "status-unspecified";
-						statusIcon = <UnspecifiedIcon className={cx("status-icon")}></UnspecifiedIcon>;
+						statusIcon = <UnspecifiedIcon className={cx("status-icon-unspecified")}></UnspecifiedIcon>;
 						statusText = "Unspecified";
 						break;
 					default:
@@ -74,7 +76,13 @@ const ProposalCardList = memo(({data = []}) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Title</div>
-										{_.isNil(item?.title) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.title}</div>}
+										{_.isNil(item?.title) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<NavLink className={cx("item-link", "align-left")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}`}>
+												{item?.title}
+											</NavLink>
+										)}
 									</td>
 								</tr>
 

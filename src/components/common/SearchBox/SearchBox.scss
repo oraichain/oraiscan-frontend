@@ -40,11 +40,11 @@
 	height: 50px;
 	margin-left: 8px;
 	border-radius: 8px;
-	background: var(--common-linkColor);
+	background: var(--common-activeTabColor);
 	cursor: pointer;
 
 	&-icon {
-		color: var(--common-textColor);
+		color: var(--common-activeTabTextColor);
 		width: auto;
 		height: 20px;
 	}

@@ -7,7 +7,7 @@
 	.button {
 		display: inline-block;
 		padding: 10px 50px;
-		color: var(--common-placeholderTextColor);
+		color: var(--common-textColor);
 		background: var(--common-containerBackgroundColor);
 		border-top: 1px solid var(--common-borderColor);
 		border-bottom: 1px solid var(--common-borderColor);
@@ -33,7 +33,7 @@
 
 		&.active {
 			background: var(--common-activeTabColor);
-			color: var(--common-textColor);
+			color: var(--common-activeTabTextColor);
 		}
 	}
 }

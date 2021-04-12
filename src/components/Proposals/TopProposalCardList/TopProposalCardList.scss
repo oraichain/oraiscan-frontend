@@ -46,11 +46,18 @@
 				box-sizing: border-box;
 				border-radius: 4px;
 
-				&-icon {
+				&-icon-passed {
 					display: inline-block;
 					width: auto;
 					margin-right: 1px;
-					color: var(--proposals-topProposalCard-statusTextColor);
+					color: var(--proposals-topProposalCard-statusPassedTextColor);
+				}
+
+				&-icon-rejected {
+					display: inline-block;
+					width: auto;
+					margin-right: 1px;
+					color: var(--proposals-topProposalCard-statusRejectedTextColor);
 				}
 
 				&-text {
@@ -62,18 +69,18 @@
 				}
 
 				&-passed {
-					border: 1px solid var(--proposals-topProposalCard-statusPassedColor);
-					background-color: var(--proposals-topProposalCard-statusPassedColor);
+					border: 1px solid var(--proposals-topProposalCard-statusPassedBorderColor);
+					background-color: var(--proposals-topProposalCard-statusPassedBackgroundColor);
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusTextColor);
+						color: var(--proposals-topProposalCard-statusPassedTextColor);
 					}
 				}
 
 				&-rejected {
-					border: 1px solid var(--proposals-topProposalCard-statusRejectedColor);
-					background-color: var(--proposals-topProposalCard-statusRejectedColor);
+					border: 1px solid var(--proposals-topProposalCard-statusRejectedBorderColor);
+					background-color: var(--proposals-topProposalCard-statusRejectedBackgroundColor);
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusTextColor);
+						color: var(--proposals-topProposalCard-statusRejectedTextColor);
 					}
 				}
 			}

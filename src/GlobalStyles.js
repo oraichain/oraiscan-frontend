@@ -5,22 +5,34 @@ let common = theme => {
   --common-textColor: ${theme?.data?.common?.textColor};
   --common-linkColor: ${theme?.data?.common?.linkColor};
   --common-activeTabColor: ${theme?.data?.common?.activeTabColor};
+  --common-activeTabTextColor: ${theme?.data?.common?.activeTabTextColor};
+  --common-buttonTextColor: ${theme?.data?.common?.buttonTextColor};
+  --common-buttonBackgroundColor: ${theme?.data?.common?.buttonBackgroundColor};
   --common-backgroundColor: ${theme?.data?.common?.backgroundColor};
   --common-containerBackgroundColor: ${theme?.data?.common?.containerBackgroundColor};
   --common-blockItemBackgroundColor: ${theme?.data?.common?.blockItemBackgroundColor};
   --common-borderColor: ${theme?.data?.common?.borderColor};
   --common-headerTextColor: ${theme?.data?.common?.headerTextColor};
   --common-paginationTextColor: ${theme?.data?.common?.paginationTextColor};
+  --common-paginationActiveTextColor: ${theme?.data?.common?.paginationActiveTextColor};
   --common-placeholderTextColor: ${theme?.data?.common?.placeholderTextColor};
   --common-resultIconSuccessColor: ${theme?.data?.common?.resultIconSuccessColor};
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
+  --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
   --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};
   --common-themedTable-evenRowBackgroundColor: ${theme?.data?.common?.themedTable?.evenRowBackgroundColor};
   --common-transactions-moreIconColor: ${theme?.data?.common?.transactions?.moreIconColor};
   --common-transactions-transactionTypeLabelColor: ${theme?.data?.common?.transactions?.transactionTypeLabelColor};
+  --common-transactions-transactionTypeBackgroundColor: ${theme?.data?.common?.transactions?.transactionTypeBackgroundColor};
+  --common-transactions-transactionTypeTextColor: ${theme?.data?.common?.transactions?.transactionTypeTextColor};
   --common-transactions-amountTransactionLabelInColor: ${theme?.data?.common?.transactions?.amountTransactionLabelInColor};
+  --common-transactions-amountTransactionTextInColor: ${theme?.data?.common?.transactions?.amountTransactionTextInColor};
+  --common-transactions-amountTransactionBackgroundInColor: ${theme?.data?.common?.transactions?.amountTransactionBackgroundInColor};
   --common-transactions-amountTransactionLabelOutColor: ${theme?.data?.common?.transactions?.amountTransactionLabelOutColor};
+  --common-transactions-amountTransactionTextOutColor: ${theme?.data?.common?.transactions?.amountTransactionTextOutColor};
+  --common-transactions-amountTransactionBackgroundOutColor: ${theme?.data?.common?.transactions?.amountTransactionBackgroundOutColor};
+
 `;
 };
 
@@ -42,10 +54,15 @@ let dashboard = theme => {
 let validators = theme => {
 	return {
 		validators: `
+      --validators-deletegateButtonTextColor: ${theme?.data?.tabs?.validators?.deletegateButtonTextColor};
+      --validators-deletegateButtonBackgroundColor: ${theme?.data?.tabs?.validators?.deletegateButtonBackgroundColor};
+      --validators-deletegateButtonBorderColor: ${theme?.data?.tabs?.validators?.deletegateButtonBorderColor};
       --validators-cumulativeShareBarColor_1: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
       --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_2};`,
 		validatorDetails: `
       --validators-validatorDetails-totalBlocksLabel: ${theme?.data?.tabs?.validators?.validatorDetails?.totalBlocksLabel};
+      --validators-validatorDetails-totalBlocksLabelBackgroundColor: ${theme?.data?.tabs?.validators?.validatorDetails?.totalBlocksLabelBackgroundColor};
+      --validators-validatorDetails-totalBlocksLabelTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.totalBlocksLabelTextColor};
       --validators-validatorDetails-binanceStacking-activeLabelTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelTextColor};
       --validators-validatorDetails-binanceStacking-activeLabelColor: ${theme?.data?.tabs?.validators?.validatorDetails?.binanceStaking?.activeLabelColor};
       --validators-validatorDetails-delegatorsTable-oraiTextColor: ${theme?.data?.tabs?.validators?.validatorDetails?.delegatorsTable?.oraiTextColor};
@@ -58,21 +75,36 @@ let validators = theme => {
 let proposals = theme => {
 	return {
 		topProposalCard: `
-      --proposals-topProposalCard-statusPassedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedColor};
-      --proposals-topProposalCard-statusRejectedColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedColor};
-      --proposals-topProposalCard-statusTextColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusTextColor};
+      --proposals-topProposalCard-statusPassedBorderColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedBorderColor};
+      --proposals-topProposalCard-statusPassedBackgroundColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedBackgroundColor};
+      --proposals-topProposalCard-statusPassedTextColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusPassedTextColor};
+      --proposals-topProposalCard-statusRejectedBorderColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedBorderColor};
+      --proposals-topProposalCard-statusRejectedBackgroundColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedBackgroundColor};
+      --proposals-topProposalCard-statusRejectedTextColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.statusRejectedTextColor};
       --proposals-topProposalCard-graphColor_yes: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_yes};
       --proposals-topProposalCard-graphColor_no: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
       --proposals-topProposalCard-graphColor_abstain: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
       --proposals-topProposalCard-graphColor_nowithveto: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_nowithveto};
     `,
 		proposalTable: `
-      --proposals-proposalTable-statusPassedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedColor};
-      --proposals-proposalTable-statusRejectedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusRejectedColor};
-      --proposals-proposalTable-statusFailedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedColor};
-      --proposals-proposalTable-statusDepositPeriodColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodColor};
-      --proposals-proposalTable-statusUnspecifiedColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedColor};
-      --proposals-proposalTable-statusVotingPeriodColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodColor};
+      --proposals-proposalTable-statusPassedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedTextColor};
+      --proposals-proposalTable-statusPassedBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedBorderColor};
+      --proposals-proposalTable-statusPassedBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedBackgroundColor};
+      --proposals-proposalTable-statusRejectedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusRejectedTextColor};
+      --proposals-proposalTable-statusRejectedBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusRejectedBorderColor};
+      --proposals-proposalTable-statusRejectedBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusRejectedBackgroundColor};
+      --proposals-proposalTable-statusFailedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedTextColor};
+      --proposals-proposalTable-statusFailedBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedBorderColor};
+      --proposals-proposalTable-statusFailedBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusFailedBackgroundColor};
+      --proposals-proposalTable-statusDepositPeriodTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodTextColor};
+      --proposals-proposalTable-statusDepositPeriodBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodBorderColor};
+      --proposals-proposalTable-statusDepositPeriodBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusDepositPeriodBackgroundColor};
+      --proposals-proposalTable-statusUnspecifiedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedTextColor};
+      --proposals-proposalTable-statusUnspecifiedBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedBorderColor};
+      --proposals-proposalTable-statusUnspecifiedBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusUnspecifiedBackgroundColor};
+      --proposals-proposalTable-statusVotingPeriodTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodTextColor};
+      --proposals-proposalTable-statusVotingPeriodBorderColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodBorderColor};
+      --proposals-proposalTable-statusVotingPeriodBackgroundColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusVotingPeriodBackgroundColor};
     `,
 		proposalDetails: `
       --proposals-proposalDetails-graphColor_yes: ${theme?.data?.tabs?.proposals?.proposalDetails?.graphColor_yes};

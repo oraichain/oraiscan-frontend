@@ -30,11 +30,11 @@ const TopProposalCardList = memo(({data = []}) => {
 					let statusText;
 					if (item?.status == "PROPOSAL_STATUS_PASSED") {
 						statusStateClassName = "proposal-status-passed";
-						statusIcon = <PassedIcon className={cx("proposal-status-icon")}></PassedIcon>;
+						statusIcon = <PassedIcon className={cx("proposal-status-icon-passed")}></PassedIcon>;
 						statusText = "Passed";
 					} else if (item?.status == "PROPOSAL_STATUS_REJECTED") {
 						statusStateClassName = "proposal-status-rejected";
-						statusIcon = <RejectedIcon className={cx("proposal-status-icon")}></RejectedIcon>;
+						statusIcon = <RejectedIcon className={cx("proposal-status-icon-rejected")}></RejectedIcon>;
 						statusText = "Rejected";
 					}
 
