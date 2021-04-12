@@ -208,6 +208,14 @@ const TxMessage = ({msg, data}) => {
 					</>
 				)}
 
+				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATOR_REWARD && (
+					<>
+						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Validator Address", value?.validator_address)}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
+					</>
+				)}
+
 				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_VALIDATOR_COMMISSION && <>{getAddressRow("Validator Address", value?.validator_address)}</>}
 
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
