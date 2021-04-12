@@ -57,7 +57,7 @@ export default function({blockData, history}) {
 						</span>
 					</InfoRow>
 					<InfoRow label={"Number of Tx"}>{blockData?.txs.length}</InfoRow>
-					<InfoRow label={"Node"} handleClickCustom={() => blockData?.moniker && history.push(`/validators/${validators[blockData?.moniker]?.operatorAddr}`)}>
+					<InfoRow label={"Node"} onClick={() => blockData?.moniker && history.push(`/validators/${validators[blockData?.moniker]?.operatorAddr}`)}>
 						{blockData?.moniker}
 					</InfoRow>
 					{/*<InfoRow label={"Block Time"}>*/}

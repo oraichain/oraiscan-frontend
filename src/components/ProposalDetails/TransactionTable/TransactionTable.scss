@@ -95,28 +95,6 @@
 		justify-content: space-between;
 	}
 
-	.more {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-
-		&-text {
-			display: inline-block;
-			margin-right: 8px;
-			color: #8b8b8b;
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 14px;
-			line-height: 150%;
-		}
-
-		&-icon {
-			display: inline-block;
-		}
-	}
-
 	.amount {
 		color: #181818;
 		font-family: Roboto;
@@ -134,7 +112,7 @@
 		}
 
 		&-usd {
-			padding-left: 4px;
+			text-align: right;
 		}
 	}
 
@@ -179,7 +157,7 @@
 		}
 
 		&-usd {
-			padding-left: 4px;
+			text-align: right;
 		}
 	}
 }

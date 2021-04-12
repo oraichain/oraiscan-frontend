@@ -1,0 +1,114 @@
+@import "src/styles/utils";
+
+.card {
+	margin-bottom: 30px;
+	padding: 20px;
+	background: #ffffff;
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+
+	&-header {
+		padding-bottom: 10px;
+		color: #181818;
+		border-bottom: 1px solid #e7e7e7;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+
+	&-body {
+		padding-top: 20px;
+	}
+}
+
+.address {
+	&-value {
+		display: inline-block;
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		word-break: break-all;
+	}
+
+	&-copy {
+		display: inline-block;
+		margin-left: 8px;
+		color: #1b57f0;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		cursor: pointer;
+	}
+}
+
+.status {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&-icon {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		margin-right: 8px;
+
+		& > svg {
+			width: 16px;
+			height: auto;
+		}
+	}
+
+	&-text {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-success {
+		.status-icon {
+			color: #12c90e;
+		}
+	}
+
+	&-fail {
+		.status-icon {
+			color: #f3574f;
+		}
+	}
+
+	&-pending {
+		.status-icon {
+			color: #f59338;
+		}
+	}
+}
+
+.height {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}
+
+.time {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}

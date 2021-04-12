@@ -10,7 +10,7 @@ import notFoundSVG from "src/assets/misc/404_img.svg";
 import binanceHasTxSVG from "src/assets/misc/binanceHasTx.svg";
 import nextSVG from "src/assets/misc/arrow-next-gr.svg";
 import Loading from "src/components/common/Loading";
-import DisplayLongString from "src/components/common/DisplayLongString";
+import ShortenedString from "src/components/common/ShortenedString";
 
 const cx = classNames.bind(styles);
 
@@ -45,7 +45,7 @@ const NotFound = ({altText = "Coming soon"}) => {
 					<img src={binanceHasTxSVG} alt='not found' />
 					<div className={cx("border")}>
 						<p>
-							<DisplayLongString inputString={data} displayThresh={12} medium={true} />
+							<ShortenedString inputString={data} displayThresh={12} medium={true} />
 						</p>
 					</div>
 					<h2>Tx can be found in binance explorer</h2>

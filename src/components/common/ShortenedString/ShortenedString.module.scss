@@ -1,0 +1,40 @@
+@import "src/styles/utils";
+
+.shortened-string {
+	overflow-x: visible;
+	@include media("<510px") {
+		.front:after {
+			content: "...";
+		}
+
+		.middle {
+			display: none;
+		}
+	}
+
+	&-md {
+		overflow-x: visible;
+		@include media("<medium") {
+			.front:after {
+				content: "...";
+			}
+
+			.middle {
+				display: none;
+			}
+		}
+	}
+
+	&-xl {
+		overflow-x: visible;
+		@include media("<650px") {
+			.front:after {
+				content: "...";
+			}
+
+			.middle {
+				display: none;
+			}
+		}
+	}
+}
