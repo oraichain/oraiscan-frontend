@@ -70,6 +70,7 @@ export const themes = {
 					paginationActiveTextColor: colors.HAWKES_BLUE,
 					resultIconSuccessColor: colors.DODGER_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
+					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
 					themedTable: {
@@ -269,6 +270,7 @@ export const themes = {
 					paginationActiveTextColor: colors.NEON_BLUE,
 					resultIconSuccessColor: colors.LIME_GREEN,
 					resultIconFailureColor: colors.RADICAL_RED,
+					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.NEON_BLUE,
 					themedTable: {

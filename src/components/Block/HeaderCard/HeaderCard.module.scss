@@ -23,7 +23,25 @@
 	}
 }
 
-.address {
+.height {
+	color: var(--common-linkColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}
+
+.block-time {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+}
+
+.hash {
 	&-value {
 		display: inline-block;
 		color: var(--common-textColor);
@@ -48,55 +66,8 @@
 	}
 }
 
-.status {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-
-	&-icon {
-		display: inline-flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-right: 8px;
-
-		& > svg {
-			width: 16px;
-			height: auto;
-		}
-	}
-
-	&-text {
-		color: var(--common-textColor);
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 16px;
-		line-height: 150%;
-	}
-
-	&-success {
-		.status-icon {
-			color: var(--common-resultIconSuccessColor);
-		}
-	}
-
-	&-fail {
-		.status-icon {
-			color: var(--common-resultIconFailureColor);
-		}
-	}
-
-	&-pending {
-		.status-icon {
-			color: var(--common-resultIconPendingColor);
-		}
-	}
-}
-
-.height {
-	color: var(--common-linkColor);
+.tx-number {
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -104,8 +75,8 @@
 	line-height: 150%;
 }
 
-.time {
-	color: var(--common-textColor);
+.moniker {
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

@@ -14,11 +14,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
-import styles from "./TransactionTable.scss";
-
-import MoreIcon from "src/icons/Transactions/MoreIcon";
-import SuccessIcon from "src/icons/Transactions/SuccessIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -129,7 +125,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 
 			const amountDataCell =
 				_.isNil(amount) || _.isNil(denom) ? (
-					<div className={cx("amount-data-cell")}>
+					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>0</span>
 							<span className={cx("amount-denom")}>ORAI</span>
@@ -137,7 +133,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 						</div>
 					</div>
 				) : (
-					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{formatOrai(amount)}</span>

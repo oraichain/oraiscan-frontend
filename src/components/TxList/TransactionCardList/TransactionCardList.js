@@ -112,23 +112,7 @@ const TransactionCardList = memo(({data = [], account}) => {
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Result</div>
-										{_.isNil(item?.result) ? (
-											<div className={cx("item-text")}>-</div>
-										) : (
-											<div className={cx("result-data-cell")}>
-												{item?.result ? (
-													<div className={cx("result")}>
-														<SuccessIcon className={cx("result-icon-success")}></SuccessIcon>
-														<span className={cx("result-text")}>Success</span>
-													</div>
-												) : (
-													<div className={cx("result")}>
-														<FailedIcon className={cx("result-icon-failed")}></FailedIcon>
-														<span className={cx("result-text")}>Failure</span>
-													</div>
-												)}
-											</div>
-										)}
+										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("result-data-cell")}>{resultDataCellContent}</div>}
 									</td>
 									<td>
 										<div className={cx("item-title")}>Amount</div>

@@ -26,7 +26,7 @@
 }
 
 .tx-hash-data-cell {
-	color: var(--common-textColor);
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -80,113 +80,116 @@
 			&-success {
 				color: var(--common-resultIconSuccessColor);
 			}
+
 			&-failed {
 				color: var(--common-resultIconFailureColor);
-
-				&-pending {
-					color: #f59338;
-				}
 			}
 
-			&-text {
-				color: var(--common-textColor);
-				font-family: Roboto;
-				font-style: normal;
-				font-weight: normal;
-				font-size: 14px;
-				line-height: 150%;
+			&-pending {
+				color: var(--common-resultIconPendingColor);
 			}
 		}
-	}
 
-	.amount-data-cell {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-
-		&-with-transfer-status {
-			justify-content: space-between;
-		}
-
-		.amount {
+		&-text {
 			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
-
-			&-value {
-				padding-right: 4px;
-			}
-
-			&-denom {
-				text-transform: uppercase;
-			}
-
-			&-usd {
-				text-align: right;
-			}
-		}
-
-		.transfer-status {
-			display: block;
-			min-width: 40px;
-			text-align: center;
-			padding: 7px;
-			border-radius: 4px;
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: bold;
-			font-size: 11px;
-			line-height: 150%;
-
-			&-in {
-				background: var(--common-transactions-amountTransactionBackgroundInColor);
-				color: var(--common-transactions-amountTransactionTextInColor);
-				border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
-			}
-
-			&-out {
-				background: var(--common-transactions-amountTransactionBackgroundOutColor);
-				color: var(--common-transactions-amountTransactionTextOutColor);
-				border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
-			}
 		}
 	}
+}
 
-	.fee-data-cell {
-		.fee {
-			color: var(--common-textColor);
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 14px;
-			line-height: 150%;
+.amount-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
 
-			&-value {
-				padding-right: 4px;
-			}
-
-			&-denom {
-				text-transform: uppercase;
-			}
-
-			&-usd {
-				text-align: right;
-			}
-		}
+	&-with-transfer-status {
+		justify-content: space-between;
 	}
 
-	.time-data-cell,
-	.height-data-cell {
-		display: block;
+	.amount {
 		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+		}
+
+		&-denom {
+			display: inline-block;
+			text-transform: uppercase;
+		}
+
+		&-usd {
+			text-align: right;
+		}
 	}
+
+	.transfer-status {
+		display: block;
+		min-width: 40px;
+		text-align: center;
+		padding: 7px;
+		border-radius: 4px;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 11px;
+		line-height: 150%;
+
+		&-in {
+			background: var(--common-transactions-amountTransactionBackgroundInColor);
+			color: var(--common-transactions-amountTransactionTextInColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
+		}
+
+		&-out {
+			background: var(--common-transactions-amountTransactionBackgroundOutColor);
+			color: var(--common-transactions-amountTransactionTextOutColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
+		}
+	}
+}
+
+.fee-data-cell {
+	.fee {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			padding-right: 4px;
+		}
+
+		&-denom {
+			text-transform: uppercase;
+		}
+
+		&-usd {
+			text-align: right;
+		}
+	}
+}
+
+.time-data-cell,
+.height-data-cell {
+	display: block;
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
 }
