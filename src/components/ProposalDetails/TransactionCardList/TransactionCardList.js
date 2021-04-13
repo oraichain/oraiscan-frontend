@@ -7,7 +7,7 @@ import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
-import styles from "./TransactionCardList.scss";
+import styles from "./TransactionCardList.module.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 

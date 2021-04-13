@@ -18,6 +18,7 @@ let common = theme => {
   --common-placeholderTextColor: ${theme?.data?.common?.placeholderTextColor};
   --common-resultIconSuccessColor: ${theme?.data?.common?.resultIconSuccessColor};
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
+  --common-resultIconPendingColor: ${theme?.data?.common?.resultIconPendingColor};
   --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
   --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};

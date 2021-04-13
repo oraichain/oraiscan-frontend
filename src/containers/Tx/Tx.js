@@ -85,7 +85,7 @@ const Tx = () => {
 		}
 	} else {
 		if (error) {
-			return <NotFound altText={"Sorry! Tx Not Found"} />;
+			return <NotFound message={"Sorry! Tx Not Found"} />;
 		} else {
 			if (pending) {
 				let hasPendingTransaction = false;
@@ -127,7 +127,7 @@ const Tx = () => {
 					txInfo = <TxInfo data={data} />;
 					txData = <TxData data={data} />;
 				} else {
-					txInfo = <NotFound altText={"Sorry! Tx Not Found"} />;
+					txInfo = <NotFound message={"Sorry! Tx Not Found"} />;
 				}
 			}
 		}

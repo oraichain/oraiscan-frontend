@@ -104,18 +104,20 @@
 				align-items: center;
 
 				&-icon {
+					margin-right: 9px;
+					width: 16px;
+					height: auto;
+
 					&-success {
-						// margin-right: 9px;
 						color: var(--common-resultIconSuccessColor);
 					}
+
 					&-failed {
-						// margin-right: 9px;
-						margin-top: 6px;
 						color: var(--common-resultIconFailureColor);
 					}
 
 					&-pending {
-						color: #f59338;
+						color: var(--common-resultIconPendingColor);
 					}
 				}
 
