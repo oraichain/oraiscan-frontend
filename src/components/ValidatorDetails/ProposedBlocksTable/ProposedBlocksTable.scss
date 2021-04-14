@@ -9,7 +9,7 @@
 }
 
 .header-cell {
-	color: #1b57f0;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -19,7 +19,7 @@
 
 .height-data-cell,
 .block-hash-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -29,7 +29,7 @@
 
 .txs-data-cell,
 .time-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

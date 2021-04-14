@@ -72,7 +72,7 @@ const Account = props => {
 
 	titleSection = (
 		<TitleWrapper>
-			<PageTitle title={"Account Detail"} />
+			<PageTitle title={"Account Details"} />
 			<StatusBox />
 		</TitleWrapper>
 	);

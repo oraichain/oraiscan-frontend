@@ -4,10 +4,19 @@ import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {colors} from "./ChartCard";
 import styles from "./ChartCard.scss";
+import {themeIds} from "src/constants/themes";
+import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
 const ChartCardSkeleton = memo(({data}) => {
+	const activeThemeId = useSelector(state => state.activeThemeId);
+	const colors = {
+		YES: activeThemeId === themeIds.LIGHT ? "#51ADCF" : "#4EB3D3",
+		NO: activeThemeId === themeIds.LIGHT ? "#A5ECD7" : "#1A87FF",
+		NO_WITH_VETO: activeThemeId === themeIds.LIGHT ? "#FFBF9B" : "#E1E9D1",
+		ABSTAIN: activeThemeId === themeIds.LIGHT ? "#0278AE" : "#7BCCC4",
+	};
 	return (
 		<div className={cx("chart-card")}>
 			<div className={cx("chart-card-header")}>

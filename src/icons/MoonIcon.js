@@ -19,5 +19,4 @@ MoonIcon.propTypes = {
 MoonIcon.defaultProps = {
 	className: "",
 };
-
 export default MoonIcon;

@@ -2,16 +2,17 @@
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
+import {useSelector} from "react-redux";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import styles from "./TransactionCardList.scss";
+import {formatFloat, formatOrai} from "src/helpers/helper";
+import styles from "./TransactionCardList.module.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 
 const TransactionCardList = memo(({data = [], account}) => {
+	const status = useSelector(state => state.blockchain.status);
 	const cx = classNames.bind(styles);
 	// const status = useSelector(state => state.blockchain.status);
 
@@ -93,17 +94,19 @@ const TransactionCardList = memo(({data = [], account}) => {
 										<div className={cx("item-title")}>Amount</div>
 										{_.isNil(item?.amount) ? (
 											<div className={cx("amount-data-cell")}>
-												<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
-													<span className={cx("more-text")}>More</span>
-													<img className={cx("more-icon")} src={moreIcon} alt='more' />
-												</NavLink>
+												<div className={cx("amount")}>
+													<span className={cx("amount-value")}>0</span>
+													<span className={cx("amount-denom")}>ORAI</span>
+													<div className={cx("amount-usd")}>($0)</div>
+												</div>
 											</div>
 										) : (
 											<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
 												{transferStatus && transferStatus}
 												<div className={cx("amount")}>
-													<span className={cx("amount-value")}>{formatOrai(item?.amount)} </span>
+													<span className={cx("amount-value")}>{formatOrai(item.amount)} </span>
 													<span className={cx("amount-denom")}>ORAI</span>
+													<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (item.amount / 1000000), 4) + ")" : ""}</div>
 												</div>
 											</div>
 										)}

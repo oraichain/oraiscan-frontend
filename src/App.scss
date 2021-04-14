@@ -10,7 +10,7 @@
 
 .app {
 	min-height: calc(100vh - var(--heightFooter));
-	background-color: #f7f9fb;
+	background-color: var(--common-backgroundColor);
 	font-family: Roboto;
 	overflow: hidden;
 }

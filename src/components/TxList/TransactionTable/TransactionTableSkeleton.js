@@ -1,10 +1,10 @@
 import React, {memo, useMemo} from "react";
-import Skeleton from "react-loading-skeleton";
+import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
-import styles from "./TransactionTable.scss";
+import styles from "./TransactionTable.module.scss";
 
 const TransactionTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

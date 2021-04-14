@@ -5,6 +5,7 @@ import {logoBrand} from "src/constants/logoBrand";
 import styles from "./AddressCard.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import checkIcon from "src/assets/validatorDetails/check.svg";
+import CheckIcon from "src/icons/Validators/CheckIcon";
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +23,7 @@ const AddressCard = memo(({moniker, operatorAddress, address}) => {
 					<span className={cx("validator-account-name")}>{moniker}</span>
 				</div>
 				<div className={cx("validator-status")}>
-					<img alt='/' className={cx("validator-status-icon")} src={checkIcon} />
+					<CheckIcon className={cx("validator-status-icon")}></CheckIcon>
 					<span className={cx("validator-status-text")}>Active</span>
 				</div>
 			</div>

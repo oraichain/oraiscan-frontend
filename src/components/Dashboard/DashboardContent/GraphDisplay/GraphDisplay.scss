@@ -35,6 +35,7 @@
 			display: flex;
 			flex-flow: row;
 			align-self: flex-end;
+			color: var(--common-buttonTextColor);
 			:nth-child(1) {
 				border-bottom-left-radius: 5px;
 				border-top-left-radius: 5px;
@@ -49,11 +50,10 @@
 		button {
 			width: 50%;
 			height: 100%;
-			border: solid 1px #222222;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			border: 1px solid #1b57f0;
+			border: 1px solid var(--common-borderColor);
 
 			p {
 				font-family: "Open Sans", serif;
@@ -64,14 +64,13 @@
 				line-height: 1.36;
 				letter-spacing: normal;
 				text-align: left;
-				color: #1b57f0;
 			}
 
 			&.selected {
-				background: #1b57f0;
+				background: var(--common-activeTabColor);
 
 				p {
-					color: #ffffff;
+					color: var(--common-activeTabTextColor);
 				}
 			}
 		}
@@ -79,6 +78,7 @@
 
 	.Graph-wrapper {
 		width: 95%;
+		overflow: visible;
 		margin: auto;
 		@include media(">=xxsmall") {
 			width: map_get($breakpoints, xxsmall) - 40px;

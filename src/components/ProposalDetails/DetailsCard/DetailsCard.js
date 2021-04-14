@@ -6,8 +6,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import {formatDateTime, formatOrai} from "src/helpers/helper";
 import styles from "./DetailsCard.scss";
-import passedIcon from "src/assets/proposals/passed.svg";
-import rejectedIcon from "src/assets/proposals/rejected.svg";
+
+import PassedIcon from "src/icons/Proposals/PassedIcon";
+import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 
 const cx = classNames.bind(styles);
 
@@ -18,20 +19,20 @@ const DetailsCard = memo(({data}) => {
 	let statusStateClassName;
 	let statusIcon;
 	let statusText;
-	if (data?.status === "PROPOSAL_STATUS_PASSED") {
+	if (data?.status == "PROPOSAL_STATUS_PASSED") {
 		statusStateClassName = "status-passed";
-		statusIcon = passedIcon;
+		statusIcon = <PassedIcon className={cx("status-icon-passed")}></PassedIcon>;
 		statusText = "Passed";
-	} else if (data?.status === "PROPOSAL_STATUS_REJECTED") {
+	} else if (data?.status == "PROPOSAL_STATUS_REJECTED") {
 		statusStateClassName = "status-rejected";
-		statusIcon = rejectedIcon;
+		statusIcon = <RejectedIcon className={cx("status-icon-rejected")}></RejectedIcon>;
 		statusText = "Rejected";
 	}
 
 	const idElement = <span className={cx("proposal-id")}>{data?.proposal_id ? "#" + data.proposal_id : "-"}</span>;
 	const statusElement = (
 		<div className={cx("status", statusStateClassName)}>
-			<img className={cx("status-icon")} src={statusIcon} alt='' />
+			{statusIcon}
 			<span className={cx("status-text")}>{statusText}</span>
 		</div>
 	);

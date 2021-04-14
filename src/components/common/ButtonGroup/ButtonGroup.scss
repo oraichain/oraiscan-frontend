@@ -7,10 +7,10 @@
 	.button {
 		display: inline-block;
 		padding: 10px 50px;
-		color: #1b57f0;
-		background: #ffffff;
-		border-top: 1px solid #1b57f0;
-		border-bottom: 1px solid #1b57f0;
+		color: var(--common-textColor);
+		background: var(--common-containerBackgroundColor);
+		border-top: 1px solid var(--common-borderColor);
+		border-bottom: 1px solid var(--common-borderColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -20,20 +20,20 @@
 		cursor: pointer;
 
 		&:first-child {
-			border-left: 1px solid #1b57f0;
+			border-left: 1px solid var(--common-borderColor);
 			border-top-left-radius: 8px;
 			border-bottom-left-radius: 8px;
 		}
 
 		&:last-child {
-			border-right: 1px solid #1b57f0;
+			border-right: 1px solid var(--common-borderColor);
 			border-top-right-radius: 8px;
 			border-bottom-right-radius: 8px;
 		}
 
 		&.active {
-			background: #1b57f0;
-			color: #ffffff;
+			background: var(--common-activeTabColor);
+			color: var(--common-activeTabTextColor);
 		}
 	}
 }

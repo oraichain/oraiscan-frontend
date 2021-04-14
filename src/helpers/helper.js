@@ -4,6 +4,8 @@ import bigInt from "big-integer";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import moment from "moment";
+import sha256 from "js-sha256";
+import message from "src/lib/proto";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -131,4 +133,27 @@ export const mergeArrays = (array1, array2, key) => {
 	const uniqueValues = new Set(array1.map(item => item[key]));
 	const mergedArray = [...array1, ...array2.filter(item => !uniqueValues.has(item[key]))];
 	return mergedArray;
+};
+
+export const decodeTx = encodedTx => {
+	const uintArr = Buffer.from(encodedTx, "base64");
+	const msg = message.cosmos.tx.v1beta1.TxRaw.decode(uintArr);
+	const hash = sha256.sha256(uintArr).toUpperCase();
+	const authInfo = message.cosmos.tx.v1beta1.AuthInfo.decode(msg.auth_info_bytes);
+	const fee = authInfo?.fee;
+
+	const decode_body = message.cosmos.tx.v1beta1.TxBody.decode(msg.body_bytes);
+	const typeUrl = decode_body.messages[0].type_url.substring(1);
+	const urlArr = typeUrl.split(".");
+	let msgType = message;
+	for (let i = 0; i < urlArr.length; i++) {
+		msgType = msgType[urlArr[i]];
+	}
+	const value = msgType.decode(decode_body.messages[0].value);
+	return {
+		hash: hash,
+		messageType: "cosmos-sdk/" + value.constructor.name,
+		messageValue: value,
+		fee: fee,
+	};
 };

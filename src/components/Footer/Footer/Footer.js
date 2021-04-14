@@ -9,7 +9,7 @@ import TelegramIcon from "src/icons/TelegramIcon";
 import CoinGeckoIcon from "src/icons/CoinGeckoIcon";
 import MediumIcon from "src/icons/MediumIcon";
 import CoinMarketCapIcon from "src/icons/CoinMarketCapIcon";
-// import ModeSwitch from "src/components/common/ModeSwitch";
+import ModeSwitch from "src/components/common/ModeSwitch";
 
 const cx = classNames.bind(styles);
 
@@ -39,7 +39,7 @@ const Footer = memo(() => {
 									<p>68 Circular Road, #02-01,</p>
 									<p>049422, Singapore</p>
 								</div>
-								{/* <ModeSwitch /> */}
+								<ModeSwitch />
 							</Grid>
 						</Grid>
 						<Grid container item lg={6} xs={12}>

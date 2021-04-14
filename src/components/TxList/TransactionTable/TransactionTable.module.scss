@@ -1,0 +1,195 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.skeleton-data-cell {
+	box-sizing: border-box;
+	height: 32px;
+}
+
+.tx-hash-data-cell {
+	color: var(--common-linkColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.type-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	.first-message-type {
+		padding: 6px 10px;
+		margin-right: 5px;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
+		color: var(--common-transactions-transactionTypeTextColor);
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+
+	.number-of-message {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+}
+
+.result-data-cell {
+	.result {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			margin-right: 9px;
+			width: 16px;
+			height: auto;
+
+			&-success {
+				color: var(--common-resultIconSuccessColor);
+			}
+
+			&-failed {
+				color: var(--common-resultIconFailureColor);
+			}
+
+			&-pending {
+				color: var(--common-resultIconPendingColor);
+			}
+		}
+
+		&-text {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.amount-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+
+	&-with-transfer-status {
+		justify-content: space-between;
+	}
+
+	.amount {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+		}
+
+		&-denom {
+			display: inline-block;
+			text-transform: uppercase;
+		}
+
+		&-usd {
+			text-align: right;
+		}
+	}
+
+	.transfer-status {
+		display: block;
+		min-width: 40px;
+		text-align: center;
+		padding: 7px;
+		border-radius: 4px;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 11px;
+		line-height: 150%;
+
+		&-in {
+			background: var(--common-transactions-amountTransactionBackgroundInColor);
+			color: var(--common-transactions-amountTransactionTextInColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
+		}
+
+		&-out {
+			background: var(--common-transactions-amountTransactionBackgroundOutColor);
+			color: var(--common-transactions-amountTransactionTextOutColor);
+			border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
+		}
+	}
+}
+
+.fee-data-cell {
+	.fee {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			padding-right: 4px;
+		}
+
+		&-denom {
+			text-transform: uppercase;
+		}
+
+		&-usd {
+			text-align: right;
+		}
+	}
+}
+
+.time-data-cell,
+.height-data-cell {
+	display: block;
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}

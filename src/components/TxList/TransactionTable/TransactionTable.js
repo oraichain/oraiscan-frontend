@@ -3,18 +3,18 @@
 import React, {memo, useMemo} from "react";
 import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
+import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-// import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./TransactionTable.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import CheckIcon from "src/icons/CheckIcon";
+import TimesIcon from "src/icons/TimesIcon";
+import RedoIcon from "src/icons/RedoIcon";
+import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +42,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
+const TransactionTable = memo(({data, rowMotions, account}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -67,22 +67,34 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				</div>
 			);
 
+			let resultDataCellContent;
+			if (item.result === true) {
+				resultDataCellContent = (
+					<div className={cx("result")}>
+						<CheckIcon className={cx("result-icon", "result-icon-success")} />
+						<span className={cx("result-text")}>Success</span>
+					</div>
+				);
+			} else if (item.result === false) {
+				resultDataCellContent = (
+					<div className={cx("result")}>
+						<TimesIcon className={cx("result-icon", "result-icon-failed")} />
+						<span className={cx("result-text")}>Failure</span>
+					</div>
+				);
+			} else if (item.result === "pending") {
+				resultDataCellContent = (
+					<div className={cx("result")}>
+						<RedoIcon className={cx("result-icon", "result-icon-pending")} />
+						<span className={cx("result-text")}>Pending</span>
+					</div>
+				);
+			}
+
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("result-data-cell")}>
-					{item?.result ? (
-						<div className={cx("result")}>
-							<img className={cx("result-icon")} src={successIcon} alt='success' />
-							<span className={cx("result-text")}>Success</span>
-						</div>
-					) : (
-						<div className={cx("result")}>
-							<img className={cx("result-icon")} src={failureIcon} alt='failure' />
-							<span className={cx("result-text")}>Failure</span>
-						</div>
-					)}
-				</div>
+				<div className={cx("result-data-cell")}>{resultDataCellContent}</div>
 			);
 
 			let transferStatus = null;
@@ -101,25 +113,32 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				}
 			}
 
+			let amount;
+			let denom;
+			if (!_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount)) {
+				amount = item.messages[0].value.amount[0].amount;
+				denom = item.messages[0].value.amount[0].denom;
+			} else if (!_.isNil(item?.messages?.[0]?.value?.amount?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.amount)) {
+				amount = item.messages[0].value.amount.amount;
+				denom = item.messages[0].value.amount.denom;
+			}
+
 			const amountDataCell =
-				_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) || _.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount) ? (
-					<div className={cx("amount-data-cell")}>
-						<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
-							<span className={cx("more-text")}>More</span>
-							<img className={cx("more-icon")} src={moreIcon} alt='more' />
-						</NavLink>
+				_.isNil(amount) || _.isNil(denom) ? (
+					<div className={cx("amount-data-cell", "align-right")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>0</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<div className={cx("amount-usd")}>($0)</div>
+						</div>
 					</div>
 				) : (
-					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
-							<div>
-								<span className={cx("amount-value")}>{formatOrai(item.messages[0].value.amount[0].amount)}</span>
-								<span className={cx("amount-denom")}>{item.messages[0].value.amount[0].denom}</span>
-							</div>
-							<span className={cx("amount-usd")}>
-								{status?.price ? " ($" + formatFloat(status.price * (item.messages[0].value.amount[0].amount / 1000000), 4) + ")" : ""}
-							</span>
+							<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+							<span className={cx("amount-denom")}>{denom}</span>
+							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
 						</div>
 					</div>
 				);
@@ -168,5 +187,18 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 		/>
 	);
 });
+
+TransactionTable.propTypes = {
+	data: PropTypes.array,
+	rowMotions: PropTypes.array,
+	account: PropTypes.string,
+	pending: PropTypes.bool,
+};
+
+TransactionTable.defaultProps = {
+	data: [],
+	rowMotions: [],
+	pending: false,
+};
 
 export default TransactionTable;
