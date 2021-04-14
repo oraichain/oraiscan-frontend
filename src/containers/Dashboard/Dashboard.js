@@ -29,12 +29,16 @@ export default function(props) {
 	let transactionCard;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Dashboard"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Dashboard"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
-		<TogglePageBar type='dashboard' />
+		<div>
+			<TogglePageBar type='dashboard' />
+		</div>
 	);
 
 	infoCard = <InfoCard />;
@@ -42,19 +46,21 @@ export default function(props) {
 	transactionCard = <TransactionsCard />;
 
 	return (
-		<Container fixed className={cx("dashboard")}>
+		<>
 			{titleSection}
-			<Grid container spacing={4}>
-				<Grid item lg={12} xs={12}>
-					{infoCard}
+			<Container fixed className={cx("dashboard")}>
+				<Grid container spacing={4}>
+					<Grid item lg={12} xs={12}>
+						{infoCard}
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						{blocksCard}
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						{transactionCard}
+					</Grid>
 				</Grid>
-				<Grid item lg={6} xs={12}>
-					{blocksCard}
-				</Grid>
-				<Grid item lg={6} xs={12}>
-					{transactionCard}
-				</Grid>
-			</Grid>
-		</Container>
+			</Container>
+		</>
 	);
 }

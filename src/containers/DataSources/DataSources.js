@@ -98,16 +98,16 @@ const DataSources = props => {
 	let tableSection;
 	let paginationSection;
 
-	if (isLargeScreen) {
-		titleSection = (
+	titleSection = isLargeScreen ? (
+		<Container fixed>
 			<TitleWrapper>
 				<PageTitle title={"Data Sources"} />
 				<StatusBox />
 			</TitleWrapper>
-		);
-	} else {
-		titleSection = <TogglePageBar type='data-sources' />;
-	}
+		</Container>
+	) : (
+		<TogglePageBar type='data-sources' />
+	);
 
 	if (!data || (loading && showLoading)) {
 		filterSection = (
@@ -151,13 +151,15 @@ const DataSources = props => {
 	paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />;
 
 	return (
-		<Container fixed className={cx("data-sources")}>
+		<>
 			{titleSection}
-			<ComingSoon />
-			{/* {filterSection}
+			<Container fixed className={cx("data-sources")}>
+				<ComingSoon />
+				{/* {filterSection}
 			{tableSection}
 			{paginationSection} */}
-		</Container>
+			</Container>
+		</>
 	);
 };
 

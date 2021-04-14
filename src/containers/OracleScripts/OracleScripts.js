@@ -97,10 +97,12 @@ const OracleScripts = props => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Oracle Scripts"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Oracle Scripts"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='oracle-scripts' />;
@@ -152,14 +154,16 @@ const OracleScripts = props => {
 	// paginationSection = <Pagination pages={1} page={1} onChange={(e, page) => {}} />;
 
 	return (
-		<Container fixed className={cx("oracle-scripts")}>
+		<>
 			{titleSection}
-			<ComingSoon />
-			{/* {topSection} */}
-			{/* {filterSection} */}
-			{/* {tableSection} */}
-			{/* {paginationSection} */}
-		</Container>
+			<Container fixed className={cx("oracle-scripts")}>
+				<ComingSoon />
+				{/* {topSection} */}
+				{/* {filterSection} */}
+				{/* {tableSection} */}
+				{/* {paginationSection} */}
+			</Container>
+		</>
 	);
 };
 

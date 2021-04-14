@@ -100,10 +100,12 @@ const TestCases = props => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Test Cases"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Test Cases"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='test-cases' />;
@@ -151,13 +153,15 @@ const TestCases = props => {
 	paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />;
 
 	return (
-		<Container fixed className={cx("test-cases")}>
+		<>
 			{titleSection}
-			<ComingSoon />
-			{/* {filterSection}
+			<Container fixed className={cx("test-cases")}>
+				<ComingSoon />
+				{/* {filterSection}
 			{tableSection}
 			{paginationSection} */}
-		</Container>
+			</Container>
+		</>
 	);
 };
 

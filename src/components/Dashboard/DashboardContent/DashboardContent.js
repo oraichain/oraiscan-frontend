@@ -19,31 +19,35 @@ export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	return (
-		<Container>
-			<div className={cx("DashboardContent-wrapper")}>
-				{isLargeScreen ? (
+		<>
+			{isLargeScreen ? (
+				<Container fixed>
 					<div className={cx("header")}>
 						<div className={cx("title")}>Dashboard</div>
 						<StatusBox />
 					</div>
-				) : (
-					<TogglePageBar type='dashboard' />
-				)}
-				<div className={cx("PriceGraphClickable-wrapper")}>
-					<div className={cx("Card", "PriceGraph-wrapper")}>
-						<PriceDisplay />
-						<GraphDisplay />
-						<DetailDisplay />
-						{!isLargeScreen && <div className={cx("hr-price")}></div>}
+				</Container>
+			) : (
+				<TogglePageBar type='dashboard' />
+			)}
+			<Container>
+				<div className={cx("DashboardContent-wrapper")}>
+					<div className={cx("PriceGraphClickable-wrapper")}>
+						<div className={cx("Card", "PriceGraph-wrapper")}>
+							<PriceDisplay />
+							<GraphDisplay />
+							<DetailDisplay />
+							{!isLargeScreen && <div className={cx("hr-price")}></div>}
+						</div>
+					</div>
+					<div className={cx("BlockTx-wrapper")}>
+						<BlocksDisplay />
+						<div className={cx("CardFixed")}>
+							<TxDisplay />
+						</div>
 					</div>
 				</div>
-				<div className={cx("BlockTx-wrapper")}>
-					<BlocksDisplay />
-					<div className={cx("CardFixed")}>
-						<TxDisplay />
-					</div>
-				</div>
-			</div>
-		</Container>
+			</Container>
+		</>
 	);
 }
