@@ -1,99 +1,155 @@
-import React from "react";
+import React, {useState, useRef} from "react";
+import {useGet} from "restful-react";
+import PropTypes from "prop-types";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
+import consts from "src/constants/consts";
+import {_} from "src/lib/scripts";
+import Skeleton from "@material-ui/lab/Skeleton";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-// import Pagination from "src/components/common/Pagination";
-// import SearchInput from "src/components/common/SearchInput";
-import ComingSoon from "src/components/common/ComingSoon";
-// import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
-// import TopOracleScripts from "src/components/OracleScripts/TopOracleScripts";
-// import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
-// import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
-// import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
-import styles from "./OracleScripts.scss";
+import Pagination from "src/components/common/Pagination";
+import SearchInput from "src/components/common/SearchInput";
+import TopOracleScriptCardList from "src/components/OracleScripts/TopOracleScriptCardList";
+import TopOracleScriptCardListSkeleton from "src/components/OracleScripts/TopOracleScriptCardList/TopOracleScriptCardListSkeleton";
+import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
+import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
+import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
+import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
+import styles from "./OracleScripts.module.scss";
+import EmptyTable from "src/components/common/EmptyTable";
 
 const cx = cn.bind(styles);
+const columns = [
+	{title: <div className={cx("table-header-cell")}>Oracle Script</div>, align: "left"},
+	{title: <div className={cx("table-header-cell")}>Oracle Script</div>, align: "left"},
+	{
+		title: (
+			<div className={cx("table-header-cell")}>
+				Request <br /> &amp; Response time
+			</div>
+		),
+		align: "right",
+	},
+	{title: "Owner", align: "right"},
+];
 
-const OracleScripts = props => {
+const OracleScripts = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	// const history = useHistory();
-	// const [keyword, setKeyword] = useState("");
+	const [keyword, setKeyword] = useState(null);
+	const [pageId, setPageId] = useState(1);
+	const totalPagesRef = useRef(null);
 
-	// const getPaginationPath = (pathname, page) => {
-	// 	return pathname + "?page=" + page;
-	// };
-	// const redirectToFirstPage = pathname => {
-	// 	history.push(getPaginationPath(pathname, 1));
-	// };
+	// const topPath = `${consts.API.ORACLE_SCRIPTS}?limit=4&page_id=1`;
+	// const {data: topData, loading: topLoading, error: topError} = useGet({
+	// 	path: topPath,
+	// });
+	const topData = {
+		page: {
+			page_id: 1,
+			limit: 10,
+			total_page: 1,
+			total_item: 5,
+		},
+		data: [
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 001",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 002",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 003",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+		],
+	};
+	const topLoading = false;
+	const topError = false;
 
-	// const [total, setTotal] = useState(-1);
-	// const searchParams = new URLSearchParams(props.location.search);
-	// let page = parseFloat(searchParams.get("page"));
-	// let isPageValid = true;
-	// if (!Number.isInteger(page) || page < 1 || (total !== -1 && page > Math.ceil(total / consts.REQUEST.LIMIT))) {
-	// 	page = 1;
-	// 	isPageValid = false;
+	const basePath = `${consts.API.ORACLE_SCRIPTS}?limit=${consts.REQUEST.LIMIT}`;
+	// let path;
+	// if (keyword) {
+	// 	path = `${basePath}&page_id=${pageId}&keyword=${keyword}`;
+	// } else {
+	// 	path = `${basePath}&page_id=${pageId}`;
 	// }
 
-	// const [showLoading, setShowLoading] = useState(true);
-	// const [loadCompleted, setLoadCompleted] = useState(false);
-	// let timerID = useRef(null);
-
-	// const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.ORACLE_SCRIPTS}`;
-	// let path = basePath;
-	// if (total !== -1 && isPageValid) {
-	// 	path = basePath + "&page=" + page;
-	// }
-
-	// path = replaceQueryString(path, "name", keyword);
-
-	// const cleanUp = () => {
-	// 	if (timerID) {
-	// 		clearTimeout(timerID);
-	// 		setLoadCompleted(false);
-	// 	}
-	// };
-
-	// const {data, loading, refetch} = useGet({
+	// const {data, loading, error} = useGet({
 	// 	path: path,
-	// 	resolve: data => {
-	// 		if (showLoading) {
-	// 			setShowLoading(false);
-	// 		}
-	// 		setLoadCompleted(true);
-	// 		return data;
-	// 	},
 	// });
 
-	// useEffect(() => {
-	// 	if (loadCompleted) {
-	// 		timerID = setTimeout(() => {
-	// 			refetch();
-	// 			setLoadCompleted(false);
-	// 		}, consts.REQUEST.TIMEOUT);
-	// 		return () => {
-	// 			cleanUp();
-	// 		};
-	// 	}
-	// }, [loadCompleted]);
+	const data = {
+		page: {
+			page_id: 1,
+			limit: 10,
+			total_page: 1,
+			total_item: 5,
+		},
+		data: [
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 001",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 002",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+			{
+				tag: "D2",
+				name: "CoinGecko",
+				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
+				fee: 800,
+				requests: 10,
+				owner: "Owner 003",
+				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
+			},
+		],
+	};
+	const loading = false;
+	const error = false;
 
-	// useEffect(() => {
-	// 	if (!isPageValid) {
-	// 		redirectToFirstPage(props.location.pathname);
-	// 	}
-	// }, [total]);
+	const onPageChange = page => {
+		setPageId(page);
+	};
 
 	let titleSection;
-	// let topSection;
-	// let filterSection;
-	// let tableSection;
-	// let paginationSection;
+	let topOracleScriptCardList;
+	let filterSection;
+	let tableSection;
+	let paginationSection;
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -106,61 +162,73 @@ const OracleScripts = props => {
 		titleSection = <TogglePageBar type='oracle-scripts' />;
 	}
 
-	// topSection = <TopOracleScripts />;
+	if (topLoading) {
+		topOracleScriptCardList = <TopOracleScriptCardListSkeleton />;
+	} else {
+		if (topError) {
+			topOracleScriptCardList = <TopOracleScriptCardList data={[]} />;
+		} else {
+			topOracleScriptCardList = <TopOracleScriptCardList data={topData.data} />;
+		}
+	}
 
-	// if (!data || (loading && showLoading)) {
-	// filterSection = (
-	// 	<div className={cx("filter-section")}>
-	// 		<SearchInput value={keyword} rootClassName={cx("search-oracle-scripts")} placeholder='Search oracle scripts' onChange={() => {}} />
-	// 		<div className={cx("filter-section-overlay")}></div>
-	// 	</div>
-	// );
-	// tableSection = isLargeScreen ? <OracleScriptTable /> : <OracleScriptCardList />;
-	// tableSection = isLargeScreen ? <OracleScriptTableSkeleton /> : <OracleScriptCardListSkeleton />;
-	// } else {
-	// 	filterSection = (
-	// 		<div className={cx("filter-section")}>
-	// 			<SearchInput
-	// 				value={keyword}
-	// 				placeholder='Search test cases'
-	// 				rootClassName={cx("search-oracle-scripts")}
-	// 				onChange={e => {
-	// 					cleanUp();
-	// 					setKeyword(e.target.value);
-	// 				}}
-	// 			/>
-	// 		</div>
-	// 	);
-	// 	tableSection = isLargeScreen ? (
-	// 		<OracleScriptTable data={data?.result?.test_cases != null ? data.result.test_cases : []} />
-	// 	) : (
-	// 		<OracleScriptCardList data={data?.result?.test_cases != null ? data.result.test_cases : []} />
-	// 	);
-	// }
+	if (loading) {
+		filterSection = (
+			<div className={cx("filter-section")}>
+				{isLargeScreen ? (
+					<Skeleton className={cx("skeleton")} variant='rect' width={232} height={40} />
+				) : (
+					<Skeleton className={cx("skeleton", "skeleton-full-width")} variant='rect' height={40} />
+				)}
+			</div>
+		);
+		tableSection = isLargeScreen ? <OracleScriptTableSkeleton /> : <OracleScriptCardListSkeleton />;
+	} else {
+		if (error) {
+			totalPagesRef.current = null;
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
 
-	// const onPageChange = page => {
-	// 	cleanUp();
-	// 	setShowLoading(true);
-	// 	history.push(getPaginationPath(props.location.pathname, page));
-	// };
-	// const totalItems = _.isNil(data?.result?.count) ? 0 : Math.ceil(parseInt(data.result.count));
-	// const totalPages = Math.ceil(totalItems / consts.REQUEST.LIMIT);
-	// if (total !== totalItems) {
-	// 	setTotal(totalItems);
-	// }
-	// paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />;
-	// paginationSection = <Pagination pages={1} page={1} onChange={(e, page) => {}} />;
+			filterSection = (
+				<div className={cx("filter-section")}>
+					<SearchInput
+						value={keyword}
+						placeholder='Search data sources'
+						rootClassName={cx("search-input")}
+						onChange={e => {
+							setKeyword(e.target.value);
+						}}
+					/>
+				</div>
+			);
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <OracleScriptTable data={data?.data} /> : <OracleScriptCardList data={data?.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
+	}
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<Container fixed className={cx("oracle-scripts")}>
 			{titleSection}
-			<ComingSoon />
-			{/* {topSection} */}
-			{/* {filterSection} */}
-			{/* {tableSection} */}
-			{/* {paginationSection} */}
+			{topOracleScriptCardList}
+			{filterSection}
+			{tableSection}
+			{paginationSection}
 		</Container>
 	);
 };
+
+OracleScripts.propTypes = {};
+OracleScripts.defaultProps = {};
 
 export default OracleScripts;

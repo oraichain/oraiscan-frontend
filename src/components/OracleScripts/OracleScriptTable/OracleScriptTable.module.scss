@@ -1,0 +1,77 @@
+@import "src/styles/utils";
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+	color: #546a8a;
+}
+
+.oracle-script-data-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-tag {
+		display: inline-block;
+		margin-right: 8px;
+		color: #1b57f0;
+	}
+
+	&-name {
+		color: #181818;
+	}
+}
+
+.description-data-cell {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.request-and-response-time-data-cell {
+	.request-value {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+	}
+
+	.response-time-value {
+		color: #9a9a9a;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
+.owner-data-cell {
+	color: #1b57f0;
+}
+
+.skeleton {
+	display: inline-block;
+}

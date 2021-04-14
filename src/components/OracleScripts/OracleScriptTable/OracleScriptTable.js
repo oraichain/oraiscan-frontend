@@ -7,7 +7,7 @@ import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./OracleScriptTable.scss";
+import styles from "./OracleScriptTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +62,7 @@ const OracleScriptTable = memo(({data = []}) => {
 		);
 
 		const ownerDataCell = (
-			<div className={cx("owner-data-cell")}>
+			<div className={cx("owner-data-cell", "align-right")}>
 				<Address address='orai1clmdwn4tjr27rlm9cn8t7vapu9zx5zsdc3efxq' size='md' showCopyIcon={false} />
 			</div>
 		);

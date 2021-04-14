@@ -646,6 +646,9 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
 	content: "";
 	pointer-events: none;
 }
+th.ant-table-cell {
+	vertical-align: middle;
+}
 .ant-table-cell-fix-right-first::after,
 .ant-table-cell-fix-right-last::after {
 	position: absolute;

@@ -87,6 +87,7 @@ export default Object.freeze({
 			VALIDATOR: "/wallet/validator",
 		},
 		MIN_FEE: "min_gas",
+		ORACLE_SCRIPTS: "oracle_scripts",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",

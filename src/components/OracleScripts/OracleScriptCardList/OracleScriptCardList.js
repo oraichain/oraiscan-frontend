@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import Address from "src/components/common/Address";
-import styles from "./OracleScriptCardList.scss";
+import styles from "./OracleScriptCardList.module.scss";
 
 const OracleScriptCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);
