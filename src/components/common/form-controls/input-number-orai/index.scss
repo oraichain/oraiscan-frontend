@@ -1,5 +1,7 @@
-.required-label span {
+.required-label {
 	color: #f44336;
+	font-size: 12px;
+	border: 0 !important;
 }
 
 .input-text {
@@ -13,6 +15,7 @@
 		}
 	}
 	input {
+		border: 0;
 		font-size: 14px;
 		padding: 12px;
 		padding-left: 15px;
@@ -26,20 +29,10 @@
 }
 
 .input-exchange {
-	border: 1px solid #e7e7e7;
-
-	& > div {
-		& > div {
-			border: 0;
-			&::before {
-				border: 0 !important;
-			}
-			&::after {
-				border: 0 !important;
-			}
-		}
+	border: 0;
+	.input-amount {
+		width: 100%;
 	}
-
 	.to-usdt {
 		padding-left: 15px;
 		font-family: Roboto;

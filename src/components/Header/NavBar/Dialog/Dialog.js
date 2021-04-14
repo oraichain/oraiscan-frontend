@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, memo} from "react";
 import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -28,7 +28,7 @@ import styles from "./Dialog.scss";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.number, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "test-name",
 		exclusive: false,
@@ -37,7 +37,7 @@ yup.addMethod(yup.number, "lessThanNumber", function(amount) {
 			if (_.isNaN(value)) {
 				return true;
 			}
-			return value >= 0 && value <= parseFloat(amount);
+			return parseFloat(value) > 0 && parseFloat(value) <= parseFloat(amount);
 		},
 	});
 });
@@ -57,7 +57,7 @@ const TABS = [
 // 	return address.substr(0, 10) + "..." + address.substr(30);
 // };
 
-export default function FormDialog({show, handleClose, address, account, amount, reFetchAmount}) {
+const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
@@ -74,11 +74,11 @@ export default function FormDialog({show, handleClose, address, account, amount,
 
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
-		// sendAmount: yup
-		// 	.number()
-		// 	.required("Send Amount Field is Required")
-		// 	.lessThanNumber(amount / 1000000, "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
+		sendAmount: yup
+			.string()
+			.required("Send Amount Field is Required")
+			.lessThanNumber(amount / 1000000, "lessThanNumber"),
+		freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
 	const validationSchemaForm2 = yup.object().shape({
@@ -89,16 +89,15 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const {handleSubmit, errors, register, setValue, getValues, setError} = methods;
+	const {handleSubmit, errors, register, setValue, getValues, setError, watch, trigger} = methods;
+
+	let values = watch() || "";
 
 	const onSubmit = data => {
-		// if (data && (data.sendAmount <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) {
-		// 	setError("sendAmount", {
-		// 		type: "greater_than_0",
-		// 		message: "Transfer amount must be greater than 0 and less than your account's amount",
-		// 	});
-		// 	return;
-		// }
+		console.log(data);
+		if (data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) {
+			return;
+		}
 
 		let payload;
 		if (activeTabId === 1) {
@@ -204,7 +203,7 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		return () => {
 			window.removeEventListener("message", callBack);
 		};
-	}, [dispatch, handleClose, history, reFetchAmount]);
+	}, [dispatch, handleClose, history]);
 
 	const renderTab = id => {
 		if (id === 1) {
@@ -231,7 +230,9 @@ export default function FormDialog({show, handleClose, address, account, amount,
 		if (multiSendData) {
 			return onSubmit();
 		}
-		return handleSubmit(onSubmit)();
+		trigger();
+		if (Object.values(errors).length !== 0) return onSubmit(getValues());
+		return;
 	};
 
 	return (
@@ -267,4 +268,5 @@ export default function FormDialog({show, handleClose, address, account, amount,
 			</Dialog>
 		</div>
 	);
-}
+});
+export default FormDialog;
