@@ -1,6 +1,6 @@
 .detail-card {
 	padding: 20px;
-	background: var(--common-containerBackgroundColor);
+	background: #ffffff;
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	height: 100%;
@@ -9,7 +9,7 @@
 		margin-bottom: 20px;
 
 		&-title {
-			color: var(--common-textColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -18,7 +18,7 @@
 		}
 
 		&-text {
-			color: var(--common-textColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -28,7 +28,7 @@
 		}
 
 		&-link {
-			color: var(--common-linkColor);
+			color: #1b57f0;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -38,7 +38,7 @@
 
 		&-denom {
 			text-transform: uppercase;
-			color: var(--validators-validatorDetails-delegatorsTable-oraiTextColor);
+			color: #5f51ff;
 		}
 	}
 

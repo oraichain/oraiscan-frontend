@@ -3,7 +3,7 @@
 .top-proposal-card-list {
 	margin-top: 20px;
 	padding-bottom: 25px;
-	border-bottom: 1px solid var(--common-borderColor);
+	border-bottom: 1px solid #e7e7e7;
 
 	@media screen and (min-width: 1280px) {
 		padding-bottom: 0;
@@ -12,7 +12,7 @@
 
 	.top-proposal-card {
 		padding: 20px;
-		background: var(--common-containerBackgroundColor);
+		background: #ffffff;
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 
@@ -24,7 +24,7 @@
 			margin-bottom: 10px;
 
 			.proposal-id {
-				color: var(--common-linkColor);
+				color: #5f51ff;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -46,18 +46,11 @@
 				box-sizing: border-box;
 				border-radius: 4px;
 
-				&-icon-passed {
+				&-icon {
 					display: inline-block;
 					width: auto;
-					margin-right: 1px;
-					color: var(--proposals-topProposalCard-statusPassedTextColor);
-				}
-
-				&-icon-rejected {
-					display: inline-block;
-					width: auto;
-					margin-right: 1px;
-					color: var(--proposals-topProposalCard-statusRejectedTextColor);
+					height: 6px;
+					margin-right: 3px;
 				}
 
 				&-text {
@@ -69,18 +62,18 @@
 				}
 
 				&-passed {
-					border: 1px solid var(--proposals-topProposalCard-statusPassedBorderColor);
-					background-color: var(--proposals-topProposalCard-statusPassedBackgroundColor);
+					border: 1px solid #3fcc28;
+
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusPassedTextColor);
+						color: #12c90e;
 					}
 				}
 
 				&-rejected {
-					border: 1px solid var(--proposals-topProposalCard-statusRejectedBorderColor);
-					background-color: var(--proposals-topProposalCard-statusRejectedBackgroundColor);
+					border: 1px solid #f3574f;
+
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusRejectedTextColor);
+						color: #f3574f;
 					}
 				}
 			}
@@ -123,7 +116,7 @@
 
 			.proposal-title {
 				margin-bottom: 10px;
-				color: var(--common-textColor);
+				color: #000000;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: 500;
@@ -139,7 +132,7 @@
 			}
 
 			.item-title {
-				color: var(--common-textColor);
+				color: #181818;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: 500;
@@ -151,7 +144,7 @@
 			}
 
 			.item-text {
-				color: var(--common-textColor);
+				color: #181818;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -164,7 +157,7 @@
 			}
 
 			.item-link {
-				color: var(--common-linkColor);
+				color: #1b57f0;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;
@@ -187,22 +180,22 @@
 
 				&-yes {
 					height: 100%;
-					background: var(--proposals-topProposalCard-graphColor_yes);
+					background: #0278ae;
 				}
 
 				&-no {
 					height: 100%;
-					background: var(--proposals-topProposalCard-graphColor_no);
+					background: #51adcf;
 				}
 
 				&-no-with-veto {
 					height: 100%;
-					background: var(--proposals-topProposalCard-graphColor_nowithveto);
+					background: #a5ecd7;
 				}
 
 				&-abstain {
 					height: 100%;
-					background: var(--proposals-topProposalCard-graphColor_abstain);
+					background: #ffbf9b;
 				}
 			}
 
@@ -218,12 +211,11 @@
 					width: auto;
 					height: 12px;
 					margin-right: 8px;
-					color: var(--proposals-topProposalCard-graphColor_yes);
 				}
 
 				&-text {
 					display: inline-block;
-					color: var(--common-textColor);
+					color: #181818;
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;
@@ -245,7 +237,7 @@
 
 				&-text {
 					display: inline-block;
-					color: var(--common-linkColor);
+					color: #1b57f0;
 					font-family: Roboto;
 					font-style: normal;
 					font-weight: normal;

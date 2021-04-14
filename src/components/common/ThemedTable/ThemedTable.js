@@ -20,7 +20,7 @@ const effect = {
 const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [], rowMotions = []}) => {
 	return (
 		<TableContainer className={cx("table-container", customClassNames)}>
-			<Table className={cx("table", "table-theme")}>
+			<Table className={cx("table", theme)}>
 				<TableHead>
 					<TableRow className={cx("header-row")}>
 						{Array.isArray(headerCells) && (

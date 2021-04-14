@@ -88,38 +88,4 @@
 	.grid {
 		margin-top: 25px;
 	}
-
-	.form-input {
-		margin-bottom: 10px !important;
-		textarea {
-			border-color: #e7e7e7;
-			padding-left: 15px;
-			padding-top: 10px;
-			font-size: 16px;
-			&::-webkit-input-placeholder {
-				color: #b5b5b5;
-				font-size: 16px;
-			}
-			&:focus {
-				border-color: #e7e7e7;
-				outline: #e7e7e7;
-			}
-		}
-		.label {
-			font-size: 16px;
-			font-weight: 500;
-			color: #181818;
-			margin-top: -15px;
-			margin-bottom: 7px;
-		}
-		.new-label {
-			color: #949494;
-			font-size: 14px;
-			margin-top: 5px;
-			.open-dialog {
-				color: #008bd9;
-				cursor: pointer;
-			}
-		}
-	}
 }

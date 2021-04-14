@@ -14,7 +14,7 @@
 
 .validator-data-cell,
 .height-data-cell {
-	color: var(--common-linkColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -33,12 +33,12 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: var(--common-textColor);
+			color: #181818;
 		}
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-linkColor);
+			color: #5f51ff;
 		}
 	}
 }
@@ -51,11 +51,11 @@
 	line-height: 150%;
 
 	.date-time {
-		color: var(--common-textColor);
+		color: #181818;
 	}
 
 	.remaining {
-		color: var(--common-placeholderTextColor);
+		color: #9a9a9a;
 	}
 }
 

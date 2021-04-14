@@ -10,17 +10,16 @@ import {ExpandMore} from "@material-ui/icons";
 
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
-
-import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
-import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
-import DataSourcesTabIcon from "src/icons/Tabs/DataSourcesTabIcon";
-import DashBoardTabIcon from "src/icons/Tabs/DashBoardTabIcon";
-import ProposalsTabIcon from "src/icons/Tabs/ProposalsTabIcon";
-import ValidatorsTabIcon from "src/icons/Tabs/ValidatorsTabIcon";
-import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
-import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
-import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
-
+// import toggleIcon from "src/assets/header/toggle_ic.svg";
+import blocksSVG from "src/assets/header/blocks.svg";
+import dashboardSVG from "src/assets/header/dashboard_black.svg";
+import validatorsSVG from "src/assets/header/validators.svg";
+import transactionsSVG from "src/assets/header/transactions.svg";
+import proposalsSVG from "src/assets/header/proposals.svg";
+import data_sourcesSVG from "src/assets/header/data_sources.svg";
+import oracle_scriptsSVG from "src/assets/header/oracle_scripts.svg";
+import requestsSVG from "src/assets/header/requests.svg";
+import test_caseSVG from "src/assets/header/test_case.svg";
 import "./Tabs.css";
 
 const cx = cn.bind(styles);
@@ -104,7 +103,7 @@ const Tabs = memo(() => {
 					</Grow>
 				)}
 			</Popper>
-			<ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>
+			<img src={img} alt='' className={cx("tab-icon")} />
 			<span className={cx("tab-title")}>{name}</span>
 			<ExpandMore className={cx("tab-icon-expand")} />
 		</button>
@@ -163,7 +162,7 @@ const Tabs = memo(() => {
 					</Grow>
 				)}
 			</Popper>
-			<TransactionsTabIcon className={cx("tab-icon")}></TransactionsTabIcon>
+			<img src={img} alt='' className={cx("tab-icon")} />
 			<span className={cx("tab-title")}>{name}</span>
 			<ExpandMore className={cx("tab-icon-expand")} />
 		</button>
@@ -172,49 +171,49 @@ const Tabs = memo(() => {
 	const tabs = [
 		{
 			name: "Dashboard",
-			img: <DashBoardTabIcon className={cx("tab-icon")}></DashBoardTabIcon>,
+			img: dashboardSVG,
 			route: "/",
 		},
 		{
 			name: "Validators",
-			img: <ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>,
+			img: validatorsSVG,
 			route: "/validators",
 			render: renderValidatorComponent,
 		},
 		{
 			name: "Blocks",
-			img: <BlocksTabIcon className={cx("tab-icon")}></BlocksTabIcon>,
+			img: blocksSVG,
 			route: "/blocks",
 		},
 		{
 			name: "Transactions",
-			img: <TransactionsTabIcon className={cx("tab-icon")}></TransactionsTabIcon>,
+			img: transactionsSVG,
 			route: "/txs",
 			render: renderTransactionComponent,
 		},
 		{
 			name: "Proposals",
-			img: <ProposalsTabIcon className={cx("tab-icon")}></ProposalsTabIcon>,
+			img: proposalsSVG,
 			route: "/proposals",
 		},
 		{
 			name: "Data Sources",
-			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
+			img: data_sourcesSVG,
 			route: "/data-sources",
 		},
 		{
 			name: "Test Cases",
-			img: <TestCaseTabIcon className={cx("tab-icon")}></TestCaseTabIcon>,
+			img: test_caseSVG,
 			route: "/test-cases",
 		},
 		{
 			name: "Oracle Scripts",
-			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
+			img: oracle_scriptsSVG,
 			route: "/oracle-scripts",
 		},
 		{
 			name: "Requests",
-			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
+			img: requestsSVG,
 			route: "/requests",
 		},
 	];
@@ -238,8 +237,7 @@ const Tabs = memo(() => {
 										dispatch(closePageBar());
 									}}
 									key={index}>
-									{img}
-
+									<img src={img} alt='' className={cx("tab-icon")} />
 									<span className={cx("tab-title")}>{name}</span>
 								</div>
 						  ));

@@ -5,18 +5,17 @@ import {formatOrai, formatFloat} from "src/helpers/helper";
 import DonutChart from "react-donut-chart";
 import BigNumber from "bignumber.js";
 import styles from "./CoinsCard.scss";
-import {themeIds} from "src/constants/themes";
-import {useSelector} from "react-redux";
+
+export const colors = {
+	DELEGATED: "#51ADCF",
+	UNBONDING: "#A5ECD7",
+	REWARD: "#FFBF9B",
+	AVAILABLE: "#0278AE",
+};
 
 const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom}) => {
 	const cx = classNames.bind(styles);
-	const activeThemeId = useSelector(state => state.activeThemeId);
-	const colors = {
-		DELEGATED: activeThemeId === themeIds.LIGHT ? "#51ADCF" : "#1A87FF",
-		UNBONDING: activeThemeId === themeIds.LIGHT ? "#A5ECD7" : "#E1E9D1",
-		REWARD: activeThemeId === themeIds.LIGHT ? "#FFBF9B" : "#7BCCC4",
-		AVAILABLE: activeThemeId === themeIds.LIGHT ? "#0278AE" : "#4EB3D3",
-	};
+
 	unbonding = new BigNumber(unbonding);
 	delegated = new BigNumber(delegated);
 	available = new BigNumber(available);

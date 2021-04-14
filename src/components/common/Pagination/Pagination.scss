@@ -15,17 +15,12 @@
 
 			button {
 				cursor: pointer;
-				svg {
-					path {
-						fill: var(--common-textColor);
-					}
-				}
 			}
 			button:disabled {
 				cursor: not-allowed;
 				svg {
 					path {
-						fill: var(--common-textColor);
+						fill: #9a9a9a;
 					}
 				}
 			}
@@ -34,7 +29,7 @@
 		.page-button {
 			cursor: pointer;
 
-			color: var(--common-paginationTextColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -47,7 +42,7 @@
 				font-weight: bold;
 				font-size: 14px;
 				line-height: 150%;
-				color: var(--common-paginationActiveTextColor);
+				color: #5f51ff;
 			}
 		}
 	}

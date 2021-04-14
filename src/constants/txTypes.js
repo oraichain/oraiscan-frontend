@@ -7,7 +7,6 @@ export default Object.freeze({
 		MSG_SEND: "cosmos-sdk/MsgSend",
 		MSG_EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
 		MSG_BEGIN_REDELEGATE: "cosmos-sdk/MsgBeginRedelegate",
-		MSG_WITHDRAW_DELEGATOR_REWARD: "cosmos-sdk/MsgWithdrawDelegatorReward",
 		MSG_WITHDRAW_DELEGATION_REWARD: "cosmos-sdk/MsgWithdrawDelegationReward",
 		MSG_WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission",
 		SEND: "cosmos-sdk/Send",

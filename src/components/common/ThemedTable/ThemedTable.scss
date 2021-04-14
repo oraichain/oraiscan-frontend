@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 .table-container {
-	background: var(--common-themedTable-headerBackgroundColor);
+	background: #ffffff;
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 }
@@ -12,22 +12,37 @@
 .header-cell,
 .data-cell {
 	position: relative;
-	border: 1px solid var(--common-borderColor);
-	color: var(--common-textColor);
+	border: 1px solid #e7e7e7;
 }
 
-.table-theme {
+.table-theme-light {
 	.header-row {
-		background: var(--common-themedTable-headerBackgroundColor);
+		background: #f7f7f7;
 	}
 
 	.data-row {
 		&:nth-child(odd) {
-			background: var(--common-themedTable-oddRowBackgroundColor);
+			background: #ffffff;
 		}
 
 		&:nth-child(even) {
-			background: var(--common-themedTable-evenRowBackgroundColor);
+			background: #f9f9f9;
+		}
+	}
+}
+
+.table-theme-dark {
+	.header-row {
+		background: #e8eeff;
+	}
+
+	.data-row {
+		&:nth-child(odd) {
+			background: #f9f9f9;
+		}
+
+		&:nth-child(even) {
+			background: #ffffff;
 		}
 	}
 }

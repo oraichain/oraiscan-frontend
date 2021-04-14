@@ -7,14 +7,14 @@
 
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
-		background: var(--common-containerBackgroundColor);
+		background: #ffffff;
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 	}
 
 	&-header {
 		margin-bottom: 20px;
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;

@@ -34,7 +34,7 @@ export default function({address, account}) {
 	const {handleSubmit, errors, register, setValue, getValues} = methods;
 
 	const onSubmit = data => {
-		const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount, pubkey} = data;
+		const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount} = data;
 
 		const payload = {
 			type: "cosmos-sdk/MsgCreateValidator",
@@ -57,7 +57,7 @@ export default function({address, account}) {
 								website,
 							},
 							min_self_delegation: minSelfDelegation + "",
-							pubkey,
+							pubkey: "oraivalconspub1addwnpepq2nrd82mxjk5wed8e9v07ha9alkkanek67c03s9kcddv4zst3mh3v276fpw",
 							validator_address: validatorAddress,
 							value: {
 								denom: "orai",
@@ -144,12 +144,6 @@ export default function({address, account}) {
 						</Grid>
 						<Grid container item md={4} sm={12}>
 							<InputText name='details' label='Details' errorobj={errors} classNameCustom={cx("input-text")} placeholder='Ex: demo_details' />
-						</Grid>
-					</Grid>
-					<Grid container spacing={2} className={cx("grid")}>
-						<Grid container item md={12} sm={12} className={cx("form-input")}>
-							<div className={cx("label")}>Pubkey</div>
-							<TextArea name='pubkey' label='Pubkey' errorobj={errors} rows={4} />
 						</Grid>
 					</Grid>
 				</form>

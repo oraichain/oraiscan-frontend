@@ -7,11 +7,10 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import {formatInteger, formatSeconds, formatFloat} from "src/helpers/helper";
 import StatusCard from "src/components/common/StatusCard";
 import styles from "./StatusCardList.scss";
-
-import ValidatorsIcon from "src/icons/Validators/ValidatorsIcon";
-import HeightIcon from "src/icons/Validators/HeightIcon";
-import BondedTokensIcon from "src/icons/Validators/BondedTokensIcon";
-import BlockTimeIcon from "src/icons/Validators/BlockTimeIcon";
+import heightIcon from "src/assets/validators/height_ic.svg";
+import validatorsIcon from "src/assets/validators/validators_ic.svg";
+import bondedTokensIcon from "src/assets/validators/bonded_tokens_ic.svg";
+import blockTimeIcon from "src/assets/validators/clock.svg";
 
 const cx = cn.bind(styles);
 
@@ -22,23 +21,23 @@ const StatusCardList = memo(() => {
 	if (status) {
 		data = [
 			{
-				icon: <HeightIcon></HeightIcon>,
+				icon: heightIcon,
 				label: "Height",
 				value: status?.latest_block_height ? formatInteger(status.latest_block_height) : "-",
 			},
 			{
-				icon: <ValidatorsIcon></ValidatorsIcon>,
+				icon: validatorsIcon,
 				label: "Validators",
 				value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "-",
 			},
 			{
-				icon: <BondedTokensIcon></BondedTokensIcon>,
+				icon: bondedTokensIcon,
 				label: "Bonded Tokens",
 				value: status?.bonded_tokens ? formatFloat(status.bonded_tokens / 1000000) + " ORAI " : "-",
 				comment: status?.price ? formatFloat(status.price * (status.bonded_tokens / 1000000)) + " USD" : "-",
 			},
 			{
-				icon: <BlockTimeIcon></BlockTimeIcon>,
+				icon: blockTimeIcon,
 				label: "Block Time",
 				value: status?.block_time ? formatSeconds(status.block_time) + "s" : "-",
 			},
@@ -46,23 +45,23 @@ const StatusCardList = memo(() => {
 	} else {
 		data = [
 			{
-				icon: <HeightIcon></HeightIcon>,
+				icon: heightIcon,
 				label: "Height",
 				value: <Skeleton className={cx("skeleton-inline-block")} variant='text' width={100} height={36} />,
 			},
 			{
-				icon: <ValidatorsIcon></ValidatorsIcon>,
+				icon: validatorsIcon,
 				label: "Validators",
 				value: <Skeleton className={cx("skeleton-inline-block")} variant='text' width={100} height={36} />,
 			},
 			{
-				icon: <BondedTokensIcon></BondedTokensIcon>,
+				icon: bondedTokensIcon,
 				label: "Bonded Tokens",
 				value: <Skeleton className={cx("skeleton-inline-block")} variant='text' width={100} height={36} />,
 				comment: <Skeleton className={cx("skeleton-inline-block")} />,
 			},
 			{
-				icon: <BlockTimeIcon></BlockTimeIcon>,
+				icon: blockTimeIcon,
 				label: "Block Time",
 				value: <Skeleton className={cx("skeleton-inline-block")} width={100} height={36} />,
 			},

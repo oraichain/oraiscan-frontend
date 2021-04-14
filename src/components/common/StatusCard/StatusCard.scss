@@ -2,7 +2,7 @@
 
 .status-card {
 	padding: 20px;
-	background: var(--common-containerBackgroundColor);
+	background: #ffffff;
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 	height: 100%;
@@ -22,13 +22,14 @@
 
 .status {
 	&-icon {
-		display: inline-flex;
+		display: inline-block;
 		margin-right: 8px;
-		color: var(--common-textColor);
+		width: auto;
+		max-height: 20px;
 	}
 
 	&-label {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -37,7 +38,7 @@
 	}
 
 	&-value {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -47,7 +48,7 @@
 
 	&-comment {
 		margin-top: 5px;
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;

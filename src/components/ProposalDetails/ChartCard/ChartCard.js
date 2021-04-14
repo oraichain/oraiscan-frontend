@@ -4,19 +4,17 @@ import DonutChart from "react-donut-chart";
 import Grid from "@material-ui/core/Grid";
 import {formatOrai} from "src/helpers/helper";
 import styles from "./ChartCard.scss";
-import {themeIds} from "src/constants/themes";
-import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
+export const colors = {
+	YES: "#0278AE",
+	NO: "#51ADCF",
+	NO_WITH_VETO: "#A5ECD7",
+	ABSTAIN: "#FFBF9B",
+};
+
 const ChartCard = memo(({data}) => {
-	const activeThemeId = useSelector(state => state.activeThemeId);
-	const colors = {
-		YES: activeThemeId === themeIds.LIGHT ? "#51ADCF" : "#4EB3D3",
-		NO: activeThemeId === themeIds.LIGHT ? "#A5ECD7" : "#1A87FF",
-		NO_WITH_VETO: activeThemeId === themeIds.LIGHT ? "#FFBF9B" : "#E1E9D1",
-		ABSTAIN: activeThemeId === themeIds.LIGHT ? "#0278AE" : "#7BCCC4",
-	};
 	return (
 		<div className={cx("chart-card")}>
 			<div className={cx("chart-card-header")}>

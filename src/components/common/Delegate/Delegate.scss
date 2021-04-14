@@ -26,15 +26,14 @@
 }
 
 .btn-primary {
-	color: var(--validators-deletegateButtonTextColor);
-	background: var(--validators-deletegateButtonBackgroundColor);
-	border: 1px solid var(--validators-deletegateButtonBorderColor);
+	color: #ffffff;
+	background: #00b1e9;
 }
 
 .btn-outline-primary {
-	color: var(--validators-deletegateButtonTextColor);
-	background: var(--validators-deletegateButtonBackgroundColor);
-	border: 1px solid var(--validators-deletegateButtonBorderColor);
+	color: #008bd9;
+	background: #ffffff;
+	border: 1px solid #008bd9;
 
 	&:hover {
 		color: #ffffff;

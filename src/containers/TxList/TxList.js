@@ -1,14 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
-import {useHistory} from "react-router-dom";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import PropTypes from "prop-types";
 import {useGet} from "restful-react";
 import queryString from "query-string";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, calculateBefore, decodeTx, mergeArrays} from "src/helpers/helper";
+import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -20,6 +18,7 @@ import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
+import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./TxList.scss";
 
 const cx = cn.bind(styles);
@@ -33,14 +32,13 @@ const columns = [
 	{title: "Time", align: "right"},
 ];
 
-const TxList = () => {
-	const history = useHistory();
+const TxList = ({history}) => {
 	const theme = useTheme();
-	const prevPendingRef = useRef(null);
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const queryStringParse = queryString.parse(history.location.search) || {};
-	const pendingBasePath = `http://23.100.40.156:26657/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
-	const restBasePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
+	// const basePathPending = "http://23.100.40.156:26657/unconfirmed_txs?limit=10";
+	// const basePath = queryStringParse.type === "pending" ? basePathPending : `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
+	const basePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	const [pageId, setPageId] = useState(1);
@@ -68,28 +66,9 @@ const TxList = () => {
 		prevDataRef.current = null;
 	}
 
-	let path;
-	const pending = queryStringParse.type === "pending" ? true : false;
-
-	if (_.isNil(prevPendingRef.current)) {
-		prevPendingRef.current = pending;
-	}
-
-	if (prevPendingRef.current != pending) {
-		cleanUp();
-		setFirstLoadCompleted(false);
-		setLoadCompleted(false);
-		setPageId(1);
-		prevPendingRef.current = pending;
-	}
-
-	if (pending) {
-		path = pendingBasePath;
-	} else {
-		path = restBasePath;
-		if (totalItemsRef.current) {
-			path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
-		}
+	let path = basePath;
+	if (totalItemsRef.current) {
+		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
 	}
 
 	const {data, loading, error, refetch} = useGet({
@@ -131,41 +110,9 @@ const TxList = () => {
 		<TogglePageBar type='transactions' />
 	);
 
-	let tableData;
-	if (pending && Array.isArray(data?.result?.txs)) {
-		// const data = {
-		// 	jsonrpc: "2.0",
-		// 	id: -1,
-		// 	result: {
-		// 		n_txs: "1",
-		// 		total: "1",
-		// 		total_bytes: "320",
-		// 		txs: [
-		// 			"Cp8BCpwBCjcvY29zbW9zLmRpc3RyaWJ1dGlvbi52MWJldGExLk1zZ1dpdGhkcmF3RGVsZWdhdG9yUmV3YXJkEmEKK29yYWkxMzBqc2w2NnJnc3M2ZXE3cXVyMDJ5ZnI2dHpwcGR2eGdrZzk2NDASMm9yYWl2YWxvcGVyMTMwanNsNjZyZ3NzNmVxN3F1cjAyeWZyNnR6cHBkdnhnbHo3bjdnEloKUgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQKJzoUdo6kFlyUrTtOQgNA6/NY+ulQeJGDc6eB42FbDmBIECgIIARihmAUSBBDAmgwaQGC03ZLQQEw4+rdP0PSRkt5iSbyVTKEQacDqcc4FsW24Fv0D0i3pS2IvMe4jLefO8nFFhYxz7GM4Zok2mIa1de8=",
-		// 		],
-		// 	},
-		// };
-		tableData = data.result.txs.map(tx => {
-			const decodedTx = decodeTx(tx);
-			return {
-				tx_hash: decodedTx.hash,
-				result: "pending",
-				fee: decodedTx.fee,
-				messages: [
-					{
-						type: decodedTx.messageType,
-						value: decodedTx.messageValue,
-					},
-				],
-			};
-		});
-	} else {
-		tableData = data?.data ?? [];
-	}
-
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <TransactionTable data={tableData} /> : <TransactionCardList data={tableData} />;
+			tableSection = isLargeScreen ? <TransactionTable data={data?.data} /> : <TransactionCardList data={data?.data} />;
 		} else {
 			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 		}
@@ -188,32 +135,41 @@ const TxList = () => {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(tableData) && tableData.length > 0) {
-				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, tableData)) {
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, data.data)) {
 					const key = "height";
-					const mergedData = mergeArrays(tableData, prevDataRef.current, key);
+					const mergedData = mergeArrays(data.data, prevDataRef.current, key);
 					const rowMotions = mergedData.map((mergedItem, index) => {
-						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !tableData.find(item => mergedItem[key] == item[key])) {
+						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !data.data.find(item => mergedItem[key] == item[key])) {
 							return -1;
 						}
 
-						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && tableData.find(item => mergedItem[key] == item[key])) {
+						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && data.data.find(item => mergedItem[key] == item[key])) {
 							return 1;
 						}
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <TransactionTable data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList data={tableData} />;
+					tableSection = isLargeScreen ? <TransactionTable data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList data={data?.data} />;
 				} else {
-					tableSection = isLargeScreen ? <TransactionTable data={tableData} /> : <TransactionCardList data={tableData} />;
+					tableSection = isLargeScreen ? <TransactionTable data={data?.data} /> : <TransactionCardList data={data?.data} />;
 				}
-				prevDataRef.current = [...tableData];
+				prevDataRef.current = [...data.data];
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}
 		}
 	}
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+
+	if (queryStringParse.type === "pending") {
+		return (
+			<Container fixed className={cx("tx-list")}>
+				{titleSection}
+				<ComingSoon />
+			</Container>
+		);
+	}
 
 	return (
 		<Container fixed className={cx("tx-list")}>
@@ -223,9 +179,5 @@ const TxList = () => {
 		</Container>
 	);
 };
-
-TxList.propTypes = {};
-
-TxList.defaultProps = {};
 
 export default TxList;

@@ -57,7 +57,7 @@
 	font-style: normal;
 	line-height: 1.15;
 	letter-spacing: normal;
-	color: var(--common-textColor);
+	color: #4b525d;
 
 	.type {
 		padding: 2px 10px;
@@ -65,12 +65,12 @@
 		height: 22px;
 		border-radius: 100px;
 		background-color: #f9df67;
-		color: var(--common-textColor);
+		color: #222222;
 	}
 }
 
 .blueColor {
-	color: var(--common-linkColor);
+	color: #4472de;
 }
 
 .decimal {
@@ -100,7 +100,7 @@
 		line-height: 1.38;
 		letter-spacing: normal;
 		text-align: left;
-		color: var(--common-textColor);
+		color: #222222;
 		padding: 5.5px 0;
 		.address {
 			@include media("<xsmall") {

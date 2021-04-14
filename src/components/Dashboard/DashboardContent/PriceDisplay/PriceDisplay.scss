@@ -3,7 +3,7 @@
 .PriceDisplay {
 	margin: 20px 0px 20px 30px;
 	padding-right: 30px;
-	border-right: 1px solid var(--common-borderColor);
+	border-right: 1px solid #e7e7e7;
 	height: fit-content;
 	display: flex;
 	flex-flow: column;
@@ -12,7 +12,7 @@
 		max-width: map_get($breakpoints, large);
 		height: unset;
 		padding: 15px;
-		background: var(--common-containerBackgroundColor);
+		background: #ffffff;
 		padding-bottom: 0px;
 		border-right: none;
 	}
@@ -20,7 +20,7 @@
 		display: flex;
 		flex-flow: row;
 		justify-content: space-between;
-		border-bottom: 1px solid var(--common-borderColor);
+		border-bottom: 1px solid #e7e7e7;
 		@include media("<large") {
 			border-bottom: none;
 		}
@@ -48,7 +48,7 @@
 				line-height: 1.2;
 				letter-spacing: normal;
 				text-align: left;
-				color: var(--common-textColor);
+				color: #222222;
 			}
 		}
 		.BlockTime {
@@ -66,15 +66,11 @@
 			line-height: 1.38;
 			letter-spacing: normal;
 			text-align: left;
-			color: var(--dashboard-iconBlockTimesColor);
+			color: #5c5959;
 			p {
 				span {
 					font-weight: normal;
 				}
-			}
-
-			&-icon {
-				color: var(--dashboard-iconBlockTimesColor);
 			}
 		}
 
@@ -92,7 +88,7 @@
 		line-height: 1.21;
 		letter-spacing: normal;
 		text-align: left;
-		color: var(--common-textColor);
+		color: #222222;
 
 		margin-bottom: 32px;
 	}
@@ -104,15 +100,14 @@
 		flex-flow: row;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid var(--common-borderColor);
+		border: 1px solid #e7e7e7;
 		box-sizing: border-box;
 		border-radius: 4px;
 		padding: 10px 0px;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 150%;
-		background-color: var(--common-blockItemBackgroundColor);
-		color: var(--common-textColor);
+		color: #000000;
 
 		.content {
 			display: flex;
@@ -148,7 +143,7 @@
 		}
 
 		.red {
-			color: var(--dashboard-blockTimeCoinGeckoTextColor);
+			color: red;
 			font-weight: 500;
 		}
 
@@ -183,7 +178,7 @@
 			font-style: normal;
 			letter-spacing: normal;
 			text-align: left;
-			color: var(--common-textColor);
+			color: #181818;
 			margin-bottom: 16px;
 
 			li {

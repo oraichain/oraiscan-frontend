@@ -9,7 +9,7 @@
 }
 
 .header-cell {
-	color: var(--common-linkColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -18,7 +18,7 @@
 }
 
 .validator-data-cell {
-	color: var(--common-linkColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -39,12 +39,12 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: var(--common-textColor);
+			color: #181818;
 		}
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-oraiDenomTextColor);
+			color: #5f51ff;
 			text-transform: uppercase;
 		}
 	}

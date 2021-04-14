@@ -1,29 +1,17 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import PropTypes from "prop-types";
 import {_} from "src/lib/scripts";
 import TxMessage from "./TxMessage";
-import styles from "./TxData.module.scss";
+import styles from "./TxData.scss";
 
-const cx = cn.bind(styles);
-
-const TxData = ({data}) => {
+export default function({txData}) {
+	const cx = cn.bind(styles);
 	return (
-		<div className={cx("card")}>
-			<div className={cx("card-header")}>Msgs</div>
-			<div className={cx("card-body")}>
-				{_.map(data.messages, (v, i) => (
-					<TxMessage key={i} msg={v} data={data} />
-				))}
-			</div>
+		<div className={cx("MsgList-wrapper")}>
+			<h2 className={cx("title")}>Msgs</h2>
+			{_.map(txData.messages, (v, i) => (
+				<TxMessage key={i} msg={v} txData={txData} />
+			))}
 		</div>
 	);
-};
-
-TxData.propTypes = {
-	data: PropTypes.any,
-};
-
-TxData.defaultProps = {};
-
-export default TxData;
+}

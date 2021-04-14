@@ -19,15 +19,15 @@
 	padding-left: 20px;
 	padding-right: 20px;
 	height: 50px;
-	color: var(--common-textColor) !important;
-	background: var(--common-blockItemBackgroundColor);
+	color: var(--colorMainText);
+	background: var(--colorWhite);
 	font-size: var(--fontSizeMain);
-	border: 1px solid var(--common-borderColor);
+	border: 1px solid #e7e7e7;
 	border-radius: 8px;
 
 	&::placeholder {
 		font-size: var(--fontSizeMain);
-		color: var(--common-textColor) !important;
+		color: var(--fontSizeDassSearchPh);
 	}
 }
 
@@ -40,11 +40,11 @@
 	height: 50px;
 	margin-left: 8px;
 	border-radius: 8px;
-	background: var(--common-activeTabColor);
+	background: #1b57f0;
 	cursor: pointer;
 
 	&-icon {
-		color: var(--common-activeTabTextColor);
+		color: white;
 		width: auto;
 		height: 20px;
 	}

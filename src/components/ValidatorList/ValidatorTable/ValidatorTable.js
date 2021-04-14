@@ -271,7 +271,7 @@ const ValidatorTable = memo(({data = []}) => {
 			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{estAPR} %</div>;
 
 			const delegateDataCell = (
-				<div className={cx("delegate-data-cell", "align-center")}>
+				<div className={cx("commission-data-cell", "align-center")}>
 					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' delegateText={`Delegate for "${item?.moniker}"`} estAPR={estAPR / 100} />
 				</div>
 			);

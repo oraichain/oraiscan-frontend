@@ -13,7 +13,7 @@
 }
 
 .header-cell {
-	color: var(--common-textColor);
+	color: #546a8a;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -41,7 +41,7 @@
 
 .validator-data-cell {
 	display: block;
-	color: var(--common-linkColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -56,7 +56,7 @@
 
 .voting-power-data-cell {
 	& > div:nth-child(1) {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -66,7 +66,7 @@
 	}
 
 	& > div:nth-child(2) {
-		color: var(--common-textColor);
+		color: #9a9a9a;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -82,7 +82,7 @@
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: var(--validators-cumulativeShareBarColor_1);
+	background: #d6fec4;
 	@include media("<medium") {
 		height: 80%;
 		border-top-left-radius: 3px;
@@ -96,7 +96,7 @@
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: var(--validators-cumulativeShareBarColor_2);
+	background: #b9f69c;
 	@include media("<medium") {
 		height: 80%;
 	}
@@ -106,7 +106,7 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
-	color: var(--common-textColor);
+	color: #181818;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

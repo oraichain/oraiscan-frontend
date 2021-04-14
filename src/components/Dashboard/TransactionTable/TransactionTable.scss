@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: var(--common-textColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -25,7 +25,7 @@
 }
 
 .tx-hash-data-cell {
-	color: var(--common-textColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -42,11 +42,10 @@
 	.first-message-type {
 		padding: 6px 10px;
 		margin-right: 5px;
-		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		border: 1px solid #5f51ff;
 		box-sizing: border-box;
 		border-radius: 4px;
-		background-color: var(--common-transactions-transactionTypeBackgroundColor);
-		color: var(--common-transactions-transactionTypeTextColor);
+		color: #5f51ff;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +54,7 @@
 	}
 
 	.number-of-message {
-		color: var(--common-transactions-transactionTypeTextColor);
+		color: #5f51ff;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -75,7 +74,7 @@
 		}
 
 		&-text {
-			color: var(--common-textColor);
+			color: #8b8b8b;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -104,7 +103,7 @@
 		&-text {
 			display: inline-block;
 			margin-right: 8px;
-			color: var(--common-textColor);
+			color: #8b8b8b;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -118,7 +117,7 @@
 	}
 
 	.amount {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -134,7 +133,7 @@
 		}
 
 		&-usd {
-			text-align: right;
+			padding-left: 4px;
 		}
 	}
 
@@ -142,7 +141,7 @@
 		display: block;
 		padding: 7px;
 		border-radius: 4px;
-		background: var(--common-containerBackgroundColor);
+		background: #ffffff;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: bold;
@@ -163,7 +162,7 @@
 
 .fee-data-cell {
 	.fee {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -179,7 +178,7 @@
 		}
 
 		&-usd {
-			text-align: right;
+			padding-left: 4px;
 		}
 	}
 }
@@ -187,7 +186,7 @@
 .time-data-cell,
 .height-data-cell {
 	display: block;
-	color: var(--common-textColor);
+	color: #181818;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

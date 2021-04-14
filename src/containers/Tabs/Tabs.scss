@@ -45,8 +45,8 @@
 		display: none;
 		width: 220px;
 		height: 60px;
-		background-color: var(--common-containerBackgroundColor);
-		border-bottom: 1px solid var(--common-borderColor);
+		background-color: #fff;
+		border-bottom: 1px solid #e7e7e7;
 
 		@include media("<large") {
 			display: flex;
@@ -68,7 +68,7 @@
 		justify-content: center;
 		flex: 1;
 		height: 60px;
-		background-color: var(--common-containerBackgroundColor);
+		background-color: #fff;
 
 		@include media("<large") {
 			width: 220px;
@@ -77,12 +77,12 @@
 
 		&:hover {
 			cursor: pointer;
-			background-color: var(--common-blockItemBackgroundColor);
+			background-color: rgb(224, 224, 224);
 		}
 
 		&:visited {
 			cursor: pointer;
-			background-color: var(--common-activeTabColor);
+			background-color: #1b57f0;
 		}
 
 		&:nth-child(2) {
@@ -106,23 +106,20 @@
 		&-icon {
 			display: inline-block;
 			margin: 0;
-			margin-right: 5px;
-			color: var(--common-textColor);
+			margin-right: 10px;
 
 			@include media("<large") {
 				margin-left: 10px;
-				color: var(--common-textColor);
 			}
 		}
 
 		&-icon-expand {
-			color: var(--common-textColor);
 			width: 18px;
 		}
 
 		&-title {
 			display: inline-block;
-			color: var(--common-textColor);
+			color: #181818;
 			font-style: normal;
 			font-weight: 500;
 			font-size: 14px;
@@ -131,45 +128,39 @@
 	}
 
 	.active {
-		color: var(--common-textColor);
-		background-color: var(--common-activeTabColor);
+		color: white;
+		background-color: #1b57f0;
 
 		.tab-icon {
-			color: var(--common-activeTabTextColor);
-			// filter: invert(1);
+			filter: invert(1);
 		}
 
 		.tab-title {
-			color: var(--common-activeTabTextColor);
+			color: white;
 		}
 	}
 
 	.active:hover {
 		cursor: default;
-		background-color: var(--common-activeTabColor);
+		background-color: #1b57f0;
 	}
 
 	.active-dropdown {
-		color: var(--common-textColor);
-		background-color: var(--common-activeTabColor);
+		color: white;
+		background-color: #1b57f0;
 
 		.tab-icon {
-			// filter: invert(1);
-			color: var(--common-activeTabTextColor);
+			filter: invert(1);
 		}
 
 		.tab-title {
-			color: var(--common-activeTabTextColor);
-		}
-
-		.tab-icon-expand {
-			color: var(--common-activeTabTextColor);
+			color: white;
 		}
 	}
 
 	.active-dropdown:hover {
 		cursor: pointer;
-		background-color: var(--common-activeTabColor);
+		background-color: #1b57f0;
 	}
 }
 
@@ -185,6 +176,6 @@
 	font-family: Roboto;
 	font-weight: 500;
 	font-size: 14px;
-	color: var(--common-textColor);
+	color: #181818;
 	padding: 10px;
 }

@@ -2,9 +2,8 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import styles from "./BlockMatrix.scss";
-
-import SuccessBlockIcon from "src/icons/Validators/SuccessBlockIcon";
-import FailedBlockIcon from "src/icons/Validators/FailedBlockIcon";
+import signedBlockIcon from "src/assets/validatorDetails/good_block.svg";
+import missedBlockIcon from "src/assets/validatorDetails/bad_block.svg";
 
 const cx = classNames.bind(styles);
 
@@ -22,13 +21,13 @@ const BlockMatrix = memo(({lastestHeight, signedBlocks}) => {
 		if (signedBlocks.includes(value)) {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<SuccessBlockIcon className={cx("block-icon-success")}></SuccessBlockIcon>
+					<img alt='/' className={cx("block-icon")} src={signedBlockIcon} />
 				</div>
 			);
 		} else {
 			blockMatrixElement = (
 				<div className={cx("block-matrix-cell")}>
-					<FailedBlockIcon className={cx("block-icon-failed")}></FailedBlockIcon>
+					<img alt='/' className={cx("block-icon")} src={missedBlockIcon} />
 				</div>
 			);
 		}

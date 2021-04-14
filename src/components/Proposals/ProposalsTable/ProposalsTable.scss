@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: var(--common-headerTextColor);
+	color: #546a8a;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -23,7 +23,7 @@
 .id-data-cell,
 .voting-start-data-cell,
 .submit-time-data-cell {
-	color: var(--common-textColor);
+	color: #181818;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -32,7 +32,7 @@
 }
 
 .title-data-cell {
-	color: var(--common-linkColor);
+	color: #1b57f0;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -51,19 +51,19 @@
 		&-value {
 			display: inline-block;
 			margin-right: 8px;
-			color: var(--common-textColor);
+			color: #181818;
 		}
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-oraiDenomTextColor);
+			color: #5f51ff;
 		}
 	}
 }
 
 .status-data-cell {
 	.status {
-		display: inline-flex;
+		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
@@ -75,33 +75,12 @@
 
 		&-icon {
 			display: inline-block;
-			&-passed {
-				color: var(--proposals-proposalTable-statusPassedTextColor);
-			}
-			&-rejected {
-				color: var(--proposals-proposalTable-statusRejectedTextColor);
-			}
-
-			&-unspecified {
-				color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
-			}
-
-			&-deposit-period {
-				color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
-			}
-
-			&-voting-period {
-				color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
-			}
-
-			&-failed {
-				color: var(--proposals-proposalTable-statusFailedTextColor);
-			}
+			margin-right: 4px;
 		}
 
 		&-text {
 			display: inline-block;
-			margin-left: 4px;
+
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -109,50 +88,50 @@
 		}
 
 		&-passed {
-			border: 1px solid var(--proposals-proposalTable-statusPassedBorderColor);
-			background-color: var(--proposals-proposalTable-statusPassedBackgroundColor);
+			border: 1px solid #3fcc28;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusPassedTextColor);
+				color: #12c90e;
 			}
 		}
 
 		&-rejected {
-			border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
-			background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
+			border: 1px solid #d115be;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusRejectedTextColor);
+				color: #d115be;
 			}
 		}
 
 		&-unspecified {
-			border: 1px solid var(--proposals-proposalTable-statusUnspecifiedBorderColor);
-			background-color: var(--proposals-proposalTable-statusUnspecifiedBackgroundColor);
+			border: 1px solid #f59338;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
+				color: #f59338;
 			}
 		}
 
 		&-deposit-period {
-			border: 1px solid var(--proposals-proposalTable-statusDepositPeriodBorderColor);
-			background-color: var(--proposals-proposalTable-statusDepositPeriodBackgroundColor);
+			border: 1px solid #287dcc;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
+				color: #287dcc;
 			}
 		}
 
 		&-voting-period {
-			border: 1px solid var(--proposals-proposalTable-statusVotingPeriodBorderColor);
-			background-color: var(--proposals-proposalTable-statusVotingPeriodBackgroundColor);
+			border: 1px solid #22b59a;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
+				color: #22b59a;
 			}
 		}
 
 		&-failed {
-			border: 1px solid var(--proposals-proposalTable-statusFailedBorderColor);
-			background-color: var(--proposals-proposalTable-statusFailedBackgroundColor);
+			border: 1px solid #f3574f;
+
 			.status-text {
-				color: var(--proposals-proposalTable-statusFailedTextColor);
+				color: #f3574f;
 			}
 		}
 	}

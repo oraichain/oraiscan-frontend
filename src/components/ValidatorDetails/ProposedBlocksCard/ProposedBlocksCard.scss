@@ -10,7 +10,7 @@
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
 		margin-top: 0;
-		background: var(--common-containerBackgroundColor);
+		background: #ffffff;
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 	}
@@ -23,7 +23,7 @@
 		margin-bottom: 20px;
 
 		.title {
-			color: var(--common-textColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -40,13 +40,13 @@
 			height: 30px;
 			padding-left: 4px;
 			padding-right: 4px;
-			border: 1px solid var(--validators-validatorDetails-totalBlocksLabel);
+			border: 1px solid #e7e7e7;
 			box-sizing: border-box;
 			border-radius: 4px;
-			background-color: var(--validators-validatorDetails-totalBlocksLabelBackgroundColor);
+			background-color: #ffffff;
 
 			@media screen and (min-width: 1280px) {
-				background-color: var(--validators-validatorDetails-totalBlocksLabelBackgroundColor);
+				background-color: inherit;
 			}
 
 			&-icon {
@@ -54,13 +54,12 @@
 				width: auto;
 				height: 20px;
 				margin-right: 8px;
-				color: var(--validators-validatorDetails-totalBlocksLabelTextColor);
 			}
 
 			&-text {
 				display: inline-block;
 				height: 20px;
-				color: var(--validators-validatorDetails-totalBlocksLabelTextColor);
+				color: #181818;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;

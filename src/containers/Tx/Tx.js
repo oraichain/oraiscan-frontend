@@ -1,149 +1,77 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useRef} from "react";
-import {useParams} from "react-router-dom";
-import {useGet} from "restful-react";
+import * as React from "react";
 import cn from "classnames/bind";
-import PropTypes from "prop-types";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Container from "@material-ui/core/Container";
+import Skeleton from "react-skeleton-loader";
+
+import {_, empty} from "src/lib/scripts";
 import consts from "src/constants/consts";
-import {decodeTx} from "src/helpers/helper";
+import {useFetch, usePrevious} from "src/hooks";
 import PageTitle from "src/components/common/PageTitle";
 import NotFound from "src/components/common/NotFound";
 import StatusBox from "src/components/common/StatusBox";
 import TitleWrapper from "src/components/common/TitleWrapper";
-import TogglePageBar from "src/components/common/TogglePageBar";
+import MockData from "src/containers/Tx/MockData";
 import TxInfo from "src/components/Tx/TxInfo";
-import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
-import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
-import styles from "./Tx.module.scss";
+import styles from "./Tx.scss";
 
 const cx = cn.bind(styles);
 
-const Tx = () => {
-	const theme = useTheme();
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const [pending, setPending] = useState(true);
-	const params = useParams();
-	const txHash = params?.["tx"];
-	const pendingBasePath = `http://23.100.40.156:26657/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
-	const restBasePath = `${consts.API.TX}/${txHash}`;
+export default function(props) {
+	const txHash = props.match.params?.tx;
+	const prevTxHash = usePrevious(txHash);
+	const isOrderId = !isNaN(_.toNumber(txHash.split("-")[1]));
+	const [txData, setTxData] = React.useState({});
 
-	let timerIdRef = useRef(null);
-	let pendingDataRef = useRef(null);
+	const [state, , , , setUrl] = useFetch(txHash === "test" ? "" : `${consts.API_BASE}${isOrderId ? consts.API.ORDERS : consts.API.TX}/${txHash}`);
 
-	const cleanUp = () => {
-		if (timerIdRef) {
-			clearTimeout(timerIdRef.current);
+	React.useEffect(() => {
+		//  data is from order id
+		if (!_.isNil(state.data?.fee) && txData?.fee !== state.data?.fee) {
+			console.log("set orderId data");
+			const obj = {fee: state.data.fee, status: state.data.status};
+			if (state.data.status === "Canceled") _.assign(obj, {origTxhash: state.data.transactionHash});
+			setTxData(v => ({...v, ...obj}));
+			// if (_.isNil(txData?.messages)) setUrl(`${consts.API_BASE}${consts.API.TX}/${state.data.transactionHash}`);
 		}
-	};
-
-	let path;
-	if (pending) {
-		path = pendingBasePath;
-	} else {
-		path = restBasePath;
-	}
-
-	const {data, loading, error, refetch} = useGet({
-		path: path,
-	});
-
-	useEffect(() => {
-		if (pending) {
-			timerIdRef.current = setTimeout(() => {
-				refetch();
-			}, consts.REQUEST.TIMEOUT);
-			return () => {
-				cleanUp();
-			};
+		//  data is from txHash
+		else if (!empty(state.data?.messages) && txData.tx_hash !== state.data.tx_hash) {
+			console.log("set txData");
+			setTxData(v => ({...v, ...state.data}));
+			//  data has order id
+			// if (_.isNil(txData?.fee)) {
+			// 	setUrl(
+			// 		`${consts.API_BASE}${consts.API.ORDERS}/${state.data.messages[0]?.value?.id ? state.data.messages[0]?.value?.id : state.data.messages[0]?.value?.refid
+			// 		}`
+			// 	);
+			// }
 		}
-	});
+	}, [setUrl, state.data, txData]);
 
-	let titleSection;
-	let txInfo;
-	let txData;
-
-	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Transactions detail"} />
-			<StatusBox />
-		</TitleWrapper>
-	) : (
-		<TogglePageBar type='transactions' />
-	);
-
-	if (loading) {
-		if (pendingDataRef.current) {
-			txInfo = <TxInfo data={pendingDataRef.current} />;
-			txData = <TxData data={pendingDataRef.current} />;
-		} else {
-			txInfo = <TxInfoSkeleton />;
-			txData = <TxDataSkeleton />;
+	React.useEffect(() => {
+		if (txHash !== prevTxHash && !_.isNil(txHash) && !_.isNil(prevTxHash)) {
+			setUrl(`${consts.API_BASE}${isOrderId ? consts.API.ORDERS : consts.API.TX}/${txHash}`);
 		}
-	} else {
-		if (error) {
-			return <NotFound message={"Sorry! Tx Not Found"} />;
-		} else {
-			if (pending) {
-				let hasPendingTransaction = false;
+	}, [txHash, prevTxHash]);
 
-				if (Array.isArray(data?.result?.txs)) {
-					for (let tx of data.result.txs) {
-						const decodedTx = decodeTx(tx);
-
-						if (txHash === decodedTx.hash) {
-							hasPendingTransaction = true;
-							const pendingData = {
-								tx_hash: decodedTx.hash,
-								result: "pending",
-								fee: decodedTx.fee,
-								height: null,
-								timestamp: null,
-								messages: [
-									{
-										type: decodedTx.messageType,
-										value: decodedTx.messageValue,
-									},
-								],
-							};
-							pendingDataRef.current = pendingData;
-							txInfo = <TxInfo data={pendingData} />;
-							txData = <TxData data={pendingData} />;
-							break;
-						}
-					}
-				}
-
-				if (!hasPendingTransaction) {
-					txInfo = <TxInfoSkeleton />;
-					txData = <TxDataSkeleton />;
-					setPending(false);
-				}
-			} else {
-				if (data?.height) {
-					txInfo = <TxInfo data={data} />;
-					txData = <TxData data={data} />;
-				} else {
-					txInfo = <NotFound message={"Sorry! Tx Not Found"} />;
-				}
-			}
-		}
+	if (state.data?.height === 0 || (!empty(txData) && _.isNil(state.data?.orderId) && _.isNil(state.data?.tx_hash))) {
+		return <NotFound altText={"Sorry! Tx Not Found"} />;
 	}
 
 	return (
-		<Container fixed className={cx("tx")}>
-			{titleSection}
-			{txInfo}
-			{txData}
-		</Container>
+		<div className={cx("Tx-wrapper")}>
+			<TitleWrapper>
+				<PageTitle title={"Transaction details"} />
+				<StatusBox />
+			</TitleWrapper>
+			{empty(state.data) && txHash !== "test" ? (
+				undefined
+			) : (
+				<>
+					<TxInfo txData={txHash === "test" ? MockData : txData} />
+					<TxData txData={txHash === "test" ? MockData : txData} />
+				</>
+			)}
+		</div>
 	);
-};
-
-Tx.propTypes = {};
-
-Tx.defaultProps = {};
-
-export default Tx;
+}

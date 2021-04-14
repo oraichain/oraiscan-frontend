@@ -46,7 +46,7 @@ const SuccessIcon = () => {
 	);
 };
 
-const RedoIcon = () => {
+const PendingIcon = () => {
 	return (
 		<svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
@@ -106,7 +106,7 @@ const DataSourceDetailListTable = memo(({dataSources, pages, onPageChange}) => {
 			</div>
 		) : (
 			<div className={cx("status")}>
-				<RedoIcon />
+				<PendingIcon />
 				<span>Pending</span>
 			</div>
 		);

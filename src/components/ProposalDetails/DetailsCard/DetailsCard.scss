@@ -1,6 +1,6 @@
 .details-card {
 	padding: 20px;
-	background: var(--common-containerBackgroundColor);
+	background: #ffffff;
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	height: 100%;
@@ -58,7 +58,7 @@
 	.proposal-id {
 		display: inline-block;
 		margin-right: 16px;
-		color: var(--common-linkColor);
+		color: #5f51ff;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -83,14 +83,7 @@
 
 		&-icon {
 			display: inline-block;
-			margin-right: 1px;
-			&-passed {
-				color: var(--proposals-topProposalCard-statusPassedTextColor);
-			}
-
-			&-rejected {
-				color: var(--proposals-topProposalCard-statusRejectedTextColor);
-			}
+			margin-right: 4px;
 		}
 
 		&-text {
@@ -103,24 +96,24 @@
 		}
 
 		&-passed {
-			border: 1px solid var(--proposals-topProposalCard-statusPassedBorderColor);
-			background-color: var(--proposals-topProposalCard-statusPassedBackgroundColor);
+			border: 1px solid #3fcc28;
+
 			.status-text {
-				color: var(--proposals-topProposalCard-statusPassedTextColor);
+				color: #12c90e;
 			}
 		}
 
 		&-rejected {
-			border: 1px solid var(--proposals-topProposalCard-statusRejectedBorderColor);
-			background-color: var(--proposals-topProposalCard-statusRejectedBackgroundColor);
+			border: 1px solid #f3574f;
+
 			.status-text {
-				color: var(--proposals-topProposalCard-statusRejectedTextColor);
+				color: #f3574f;
 			}
 		}
 	}
 
 	.proposal-title {
-		color: var(--common-textColor);
+		color: #000000;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -144,7 +137,7 @@
 	}
 
 	.item-title {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -157,7 +150,7 @@
 	}
 
 	.item-text {
-		color: var(--common-textColor);
+		color: #181818;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -166,7 +159,7 @@
 	}
 
 	.item-link {
-		color: var(--common-linkColor);
+		color: #1b57f0;
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -184,12 +177,12 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: var(--common-textColor);
+			color: #181818;
 		}
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-oraiDenomTextColor);
+			color: #1b57f0;
 		}
 	}
 
@@ -197,12 +190,12 @@
 		@media screen and (min-width: 1280px) {
 			height: 100%;
 			padding: 15px;
-			background: var(--common-containerBackgroundColor);
+			background: #f9f9f9;
 			border-radius: 6px;
 		}
 
 		&-header {
-			color: var(--common-textColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -216,7 +209,7 @@
 		}
 
 		&-body {
-			color: var(--common-textColor);
+			color: #181818;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -229,7 +222,7 @@
 
 			.show-more {
 				margin-bottom: 5px;
-				color: var(--common-linkColor);
+				color: #1b57f0;
 				font-family: Roboto;
 				font-style: normal;
 				font-weight: normal;

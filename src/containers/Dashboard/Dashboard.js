@@ -44,7 +44,7 @@ export default function(props) {
 	return (
 		<Container fixed className={cx("dashboard")}>
 			{titleSection}
-			<Grid container spacing={4}>
+			<Grid container spacing={2}>
 				<Grid item lg={12} xs={12}>
 					{infoCard}
 				</Grid>

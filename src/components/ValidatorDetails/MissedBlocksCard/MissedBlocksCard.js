@@ -6,7 +6,7 @@ import consts from "src/constants/consts";
 import BlockMatrix from "src/components/ValidatorDetails/BlockMatrix/BlockMatrix";
 import BlockMatrixSkeleton from "src/components/ValidatorDetails/BlockMatrix/BlockMatrixSkeleton";
 import styles from "./MissedBlocksCard.scss";
-import BlockTimeIcon from "src/icons/Validators/TotalBlocksIcon";
+import blockIcon from "src/assets/validatorDetails/blocks.svg";
 
 const cx = classNames.bind(styles);
 
@@ -47,8 +47,8 @@ const MissedBlocksCard = memo(({validatorAddress}) => {
 			<div className={cx("missed-blocks-card-header")}>
 				<div className={cx("title")}>Missed Blocks</div>
 				<div className={cx("total")}>
-					<BlockTimeIcon className={cx("total-icon")}></BlockTimeIcon>
-					<span className={cx("total-text")}>Last 100 blocks</span>
+					<img className={cx("total-icon")} src={blockIcon} />
+					<span className={cx("total-icon")}>Last 100 blocks</span>
 				</div>
 			</div>
 			<div className={cx("missed-blocks-card-body")}>{blockMatrix}</div>

@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import getTxType from "src/constants/getTxType";
-import {useSelector} from "react-redux";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
@@ -12,6 +11,9 @@ import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
+import moreIcon from "src/assets/transactions/tx_more_btn.svg";
+import txTypes from "src/constants/txTypes";
+import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -99,19 +101,19 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 
 			const amountDataCell = _.isNil(item?.amount) ? (
 				<div className={cx("amount-data-cell")}>
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>0</span>
-						<span className={cx("amount-denom")}>ORAI</span>
-						<div className={cx("amount-usd")}>($0)</div>
-					</div>
+					<NavLink to={`${consts.PATH.TXLIST}/${item.tx_hash}`} className={cx("more")}>
+						<span className={cx("more-text")}>More</span>
+						<img className={cx("more-icon")} src={moreIcon} alt='more' />
+					</NavLink>
 				</div>
 			) : (
 				<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
 					{transferStatus && transferStatus}
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
-						<span className={cx("amount-denom")}>ORAI</span>
-						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (item.amount / 1000000), 4) + ")" : ""}</div>
+						<div>
+							<span className={cx("amount-value")}>{formatOrai(item?.amount)}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+						</div>
 					</div>
 				</div>
 			);

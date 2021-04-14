@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
@@ -40,7 +40,6 @@ const Wallet = ({data: props}) => {
 	const {account} = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -50,6 +49,14 @@ const Wallet = ({data: props}) => {
 
 	const amount = data?.balances?.[0]?.amount;
 	const denom = data?.balances?.[0]?.denom;
+
+	if (title === "") {
+		return (
+			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
+				Connect Wallet
+			</a>
+		);
+	}
 
 	const showDropdown = () => {
 		setIsDropdownVisible(true);
@@ -66,11 +73,6 @@ const Wallet = ({data: props}) => {
 
 	const hideTransactionModal = () => {
 		setIsTransactionModalVisible(false);
-	};
-
-	const closeWallet = () => {
-		dispatch(initWallet({}));
-		history.push("/");
 	};
 
 	let amountElement;
@@ -115,14 +117,6 @@ const Wallet = ({data: props}) => {
 	}
 
 	const classNameDropdown = isDropdownVisible ? "show" : "hide";
-
-	if (title === "") {
-		return (
-			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
-				Connect Wallet
-			</a>
-		);
-	}
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
@@ -180,7 +174,7 @@ const Wallet = ({data: props}) => {
 						</div>
 					</Grid>
 					<Grid item lg={6} xs={12}>
-						<div className={cx("button", "button-outline")} onClick={closeWallet}>
+						<div className={cx("button", "button-outline")} onClick={() => dispatch(initWallet({}))}>
 							Close Wallet
 						</div>
 					</Grid>
