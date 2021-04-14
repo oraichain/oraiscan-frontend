@@ -2,7 +2,7 @@
 	&-item {
 		margin-bottom: 15px;
 		padding: 15px;
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 
@@ -32,7 +32,7 @@
 		}
 
 		.item-title {
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -50,11 +50,11 @@
 			&-tag {
 				display: inline-block;
 				margin-right: 8px;
-				color: #1b57f0;
+				color: var(--common-linkColor);
 			}
 
 			&-name {
-				color: #181818;
+				color: var(--common-textColor);
 			}
 		}
 
@@ -68,16 +68,16 @@
 			.request-value {
 				display: inline-block;
 				margin-right: 8px;
-				color: #181818;
+				color: var(--common-textColor);
 			}
 
 			.response-time-value {
-				color: #9a9a9a;
+				color: var(--common-placeholderTextColor);
 			}
 		}
 
 		.description {
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -89,7 +89,7 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: flex-end;
-			color: #1b57f0;
+			color: var(--common-linkColor);
 		}
 	}
 }

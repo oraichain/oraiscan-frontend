@@ -18,7 +18,7 @@
 	font-weight: bold;
 	font-size: 14px;
 	line-height: 150%;
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 }
 
 .oracle-script-data-cell {
@@ -31,16 +31,16 @@
 	&-tag {
 		display: inline-block;
 		margin-right: 8px;
-		color: #1b57f0;
+		color: var(--common-linkColor);
 	}
 
 	&-name {
-		color: #181818;
+		color: var(--common-textColor);
 	}
 }
 
 .description-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -50,7 +50,7 @@
 
 .request-and-response-time-data-cell {
 	.request-value {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -59,7 +59,7 @@
 	}
 
 	.response-time-value {
-		color: #9a9a9a;
+		color: var(--common-placeholderTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -69,7 +69,7 @@
 }
 
 .owner-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 }
 
 .skeleton {
