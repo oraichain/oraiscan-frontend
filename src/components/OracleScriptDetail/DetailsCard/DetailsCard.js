@@ -1,31 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo} from "react";
+import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
-import styles from "./DetailsCard.scss";
 import Address from "src/components/common/Address";
-import infoIcon from "src/assets/oracleScripts/info_ic.svg";
+import InfoIcon from "src/icons/InfoIcon";
+import styles from "./DetailsCard.module.scss";
 
 const cx = classNames.bind(styles);
-const DetailsCard = memo(() => {
+const DetailsCard = memo(({data}) => {
 	return (
 		<div className={cx("details-card")}>
 			<div className={cx("title")}>
-				<span className={cx("title-tag")}>#D2</span>
-				<span className={cx("title-name")}>Band Standard Dataset (Crypto)</span>
+				<span className={cx("title-tag")}>{data?.tag ?? "-"}</span>
+				<span className={cx("title-name")}>{data?.name ?? "-"}</span>
 			</div>
 
 			<Grid container spacing={2}>
 				<Grid item lg={3} xs={12}>
 					<div className={cx("api-card")}>
 						<div className={cx("api-card-name")}>Request</div>
-						<div className={cx("api-card-value")}>186,012</div>
+						<div className={cx("api-card-value")}>{data?.request ?? "-"}</div>
 					</div>
 				</Grid>
 				<Grid item lg={3} xs={12}>
 					<div className={cx("api-card")}>
 						<div className={cx("api-card-name")}>Response Time</div>
-						<div className={cx("api-card-value")}>8.05s</div>
+						<div className={cx("api-card-value")}>{data?.response_time ?? "-"}</div>
 					</div>
 				</Grid>
 			</Grid>
@@ -36,39 +37,30 @@ const DetailsCard = memo(() => {
 					<Grid container spacing={1} className={cx("information")}>
 						<Grid item lg={4} xs={12} className={cx("information-title")}>
 							<span className={cx("information-title-text")}>Owner</span>
-							<img src={infoIcon} alt='' className={cx("information-title-icon")} />
+							<InfoIcon className={cx("information-title-icon")} />
 						</Grid>
 						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							<Address address='orai1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv' size='md' showCopyIcon={false} />
+							<Address address={data?.owner} size='md' showCopyIcon={false} />
 						</Grid>
 					</Grid>
 
 					<Grid container spacing={1} className={cx("information")}>
 						<Grid item lg={4} xs={12} className={cx("information-title")}>
 							<span className={cx("information-title-text")}>Data Sources</span>
-							<img src={infoIcon} alt='' className={cx("information-title-icon")} />
+							<InfoIcon className={cx("information-title-icon")} />
 						</Grid>
 						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							<span className={cx("tag")}>#D3</span>
-							<span className={cx("tag")}>#D1</span>
-							<span className={cx("tag")}>#D2</span>
-							<span className={cx("tag")}>#D4</span>
-							<span className={cx("tag")}>#D11</span>
+							{Array.isArray(data?.data_sources) ? data.data_sources.map(item => <span className={cx("tag")}>{item}</span>) : "-"}
 						</Grid>
 					</Grid>
 
 					<Grid container spacing={1} className={cx("information")}>
 						<Grid item lg={4} xs={12} className={cx("information-title")}>
 							<span className={cx("information-title-text")}>Test Cases</span>
-							<img src={infoIcon} alt='' className={cx("information-title-icon")} />
+							<InfoIcon className={cx("information-title-icon")} />
 						</Grid>
 						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							<span className={cx("tag")}>#Test01</span>
-							<span className={cx("tag")}>#Test02</span>
-							<span className={cx("tag")}>#Test03</span>
-							<span className={cx("tag")}>#Test06</span>
-							<span className={cx("tag")}>#Test09</span>
-							<span className={cx("tag")}>#Test11</span>
+							{Array.isArray(data?.test_cases) ? data.test_cases.map(item => <span className={cx("tag")}>{item}</span>) : "-"}
 						</Grid>
 					</Grid>
 
@@ -76,10 +68,10 @@ const DetailsCard = memo(() => {
 						<Grid item lg={12} xs={12}>
 							<div className={cx("information-title")}>
 								<span className={cx("information-title-text")}>Description</span>
-								<img src={infoIcon} alt='' className={cx("information-title-icon")} />
+								<InfoIcon className={cx("information-title-icon")} />
 							</div>
 							<div className={cx("information-value")}>
-								<p className={cx("text")}>Band Standard Dataset oracle script for querying cryptocurrency prices</p>
+								<p className={cx("text")}>{data?.description ?? "-"}</p>
 							</div>
 						</Grid>
 					</Grid>
@@ -88,5 +80,10 @@ const DetailsCard = memo(() => {
 		</div>
 	);
 });
+
+DetailsCard.propTypes = {
+	data: PropTypes.any,
+};
+DetailsCard.defaultProps = {};
 
 export default DetailsCard;
