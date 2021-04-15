@@ -50,12 +50,14 @@ export default function(props) {
 	];
 
 	return (
-		<Container fixed className={cx("validator-list")}>
+		<>
 			{isDesktop ? (
-				<TitleWrapper>
-					<PageTitle title='Data Sources Details' />
-					<StatusBox data={dataForStatusBox} />
-				</TitleWrapper>
+				<Container fixed>
+					<TitleWrapper>
+						<PageTitle title='Data Sources Details' />
+						<StatusBox data={dataForStatusBox} />
+					</TitleWrapper>
+				</Container>
 			) : (
 				<>
 					<TogglePageBar type='data-sources' />
@@ -64,23 +66,24 @@ export default function(props) {
 					</div>
 				</>
 			)}
+			<Container fixed className={cx("validator-list")}>
+				<div className={cx("detail-section")}>
+					{state.data !== undefined && state.data !== null && (
+						<Information name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} isDesktop={isDesktop} />
+					)}
+				</div>
 
-			<div className={cx("detail-section")}>
-				{state.data !== undefined && state.data !== null && (
-					<Information name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} isDesktop={isDesktop} />
+				{isDesktop ? (
+					<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
+				) : (
+					<>
+						<RequestTableMobile />
+						<RequestTableMobile />
+						<RequestTableMobile />
+						<RequestTableMobile />
+					</>
 				)}
-			</div>
-
-			{isDesktop ? (
-				<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
-			) : (
-				<>
-					<RequestTableMobile />
-					<RequestTableMobile />
-					<RequestTableMobile />
-					<RequestTableMobile />
-				</>
-			)}
-		</Container>
+			</Container>
+		</>
 	);
 }

@@ -95,10 +95,12 @@ const BlockList = props => {
 	let paginationSection;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Blocks"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Blocks"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
 		<TogglePageBar type='blocks' />
 	);
@@ -156,11 +158,13 @@ const BlockList = props => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<Container fixed className={cx("block-list")}>
+		<>
 			{titleSection}
-			{tableSection}
-			{paginationSection}
-		</Container>
+			<Container fixed className={cx("block-list")}>
+				{tableSection}
+				{paginationSection}
+			</Container>
+		</>
 	);
 };
 

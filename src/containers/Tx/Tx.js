@@ -67,10 +67,12 @@ const Tx = () => {
 	let txData;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Transactions detail"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Transactions detail"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
 		<TogglePageBar type='transactions' />
 	);
@@ -134,11 +136,13 @@ const Tx = () => {
 	}
 
 	return (
-		<Container fixed className={cx("tx")}>
+		<>
 			{titleSection}
-			{txInfo}
-			{txData}
-		</Container>
+			<Container fixed className={cx("tx")}>
+				{txInfo}
+				{txData}
+			</Container>
+		</>
 	);
 };
 

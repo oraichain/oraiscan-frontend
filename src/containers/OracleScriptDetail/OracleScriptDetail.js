@@ -23,10 +23,12 @@ const OracleScriptDetail = () => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Oracle Script Details"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Oracle Script Details"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='oracle-scripts' />;
@@ -37,11 +39,13 @@ const OracleScriptDetail = () => {
 	requestCard = <RequestCard />;
 
 	return (
-		<Container fixed className={cx("oracle-script-detail")}>
+		<>
 			{titleSection}
-			{detailsCard}
-			{requestCard}
-		</Container>
+			<Container fixed className={cx("oracle-script-detail")}>
+				{detailsCard}
+				{requestCard}
+			</Container>
+		</>
 	);
 };
 
