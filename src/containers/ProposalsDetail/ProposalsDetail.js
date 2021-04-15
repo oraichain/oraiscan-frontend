@@ -16,6 +16,7 @@ import ChartCard from "src/components/ProposalDetails/ChartCard";
 import ChartCardSkeleton from "src/components/ProposalDetails/ChartCard/ChartCardSkeleton";
 import TransactionsCard from "src/components/ProposalDetails/TransactionsCard";
 import styles from "./ProposalsDetail.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -42,7 +43,10 @@ export default function(props) {
 			</TitleWrapper>
 		</Container>
 	) : (
-		<TogglePageBar type='proposals' />
+		<>
+			<TogglePageBar type='proposals' />
+			<NavigateBackBar type='proposals' />
+		</>
 	);
 
 	if (loading) {

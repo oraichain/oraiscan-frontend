@@ -16,6 +16,7 @@ import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 import styles from "./DataSourcesDetail.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -60,10 +61,10 @@ export default function(props) {
 				</Container>
 			) : (
 				<>
-					<TogglePageBar type='data-sources' />
-					<div className={cx("validator-detail-title")} onClick={() => history.push("/data-sources")}>
-						<BackIcon /> Data Source Details
-					</div>
+					<>
+						<TogglePageBar type='data-sources' />
+						<NavigateBackBar type='data-sources' />
+					</>
 				</>
 			)}
 			<Container fixed className={cx("validator-list")}>
