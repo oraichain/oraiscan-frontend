@@ -26,12 +26,12 @@ export const extractValueAndUnit = (inputString = "") => {
 export const commafy = num => {
 	var str = num.toString().split(".");
 	if (str[0].length >= 5) {
-		str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, "$1,");
+		str[0] = str[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 	}
 	if (str[1] && str[1].length >= 5) {
-		str[1] = str[1].replace(/(\d{3})/g, "$1 ");
+		str[1] = str[1].replace(/(\d{3})/g, "$1");
 	}
-	return str.join(",");
+	return str.join(".");
 };
 
 /* Convert strings like "2020-12-25T17:03:20.962454Z" into strings like "5m ago" */
@@ -156,4 +156,8 @@ export const decodeTx = encodedTx => {
 		messageValue: value,
 		fee: fee,
 	};
+};
+
+export const formatUSD = (value, orai2usd) => {
+	return new BigNumber(value).multipliedBy(orai2usd).toFormat(2);
 };
