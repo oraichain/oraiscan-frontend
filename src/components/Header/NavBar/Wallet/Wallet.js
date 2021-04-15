@@ -1,6 +1,6 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -64,9 +64,9 @@ const Wallet = ({data: props}) => {
 		setIsTransactionModalVisible(true);
 	};
 
-	const hideTransactionModal = () => {
+	const hideTransactionModal = useCallback(() => {
 		setIsTransactionModalVisible(false);
-	};
+	}, []);
 
 	const closeWallet = () => {
 		dispatch(initWallet({}));
@@ -127,7 +127,7 @@ const Wallet = ({data: props}) => {
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
 			{!_.isNil(account) && !_.isNil(amount) && (
-				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} reFetchAmount={refetch} />
+				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} />
 			)}
 
 			<a className={cx("dropdown-toggle")} href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
