@@ -5,6 +5,7 @@ export default Object.freeze({
 		MSG_DELEGATE: "cosmos-sdk/MsgDelegate",
 		MSG_UNDELEGATE: "cosmos-sdk/MsgUndelegate",
 		MSG_SEND: "cosmos-sdk/MsgSend",
+		MSG_MULTI_SEND: "cosmos-sdk/MsgMultiSend",
 		MSG_EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
 		MSG_BEGIN_REDELEGATE: "cosmos-sdk/MsgBeginRedelegate",
 		MSG_WITHDRAW_DELEGATOR_REWARD: "cosmos-sdk/MsgWithdrawDelegatorReward",
