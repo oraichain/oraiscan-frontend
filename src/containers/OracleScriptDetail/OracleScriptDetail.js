@@ -11,7 +11,6 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import styles from "./DataSourcesDetail.scss";
-import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -32,12 +31,7 @@ const OracleScriptDetail = () => {
 			</Container>
 		);
 	} else {
-		titleSection = (
-			<>
-				<TogglePageBar type='oracle-scripts' />
-				<NavigateBackBar type='oracle-scripts' />
-			</>
-		);
+		titleSection = <TogglePageBar type='oracle-scripts' />;
 	}
 
 	detailsCard = <DetailsCard />;

@@ -17,7 +17,6 @@ import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import NotFound from "src/components/common/NotFound";
 import styles from "./Block.module.scss";
-import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -37,17 +36,12 @@ const Block = () => {
 	let transactionsCard;
 
 	titleSection = isLargeScreen ? (
-		<Container fixed>
-			<TitleWrapper>
-				<PageTitle title={"Block details"} />
-				<StatusBox />
-			</TitleWrapper>
-		</Container>
+		<TitleWrapper>
+			<PageTitle title={"Block details"} />
+			<StatusBox />
+		</TitleWrapper>
 	) : (
-		<>
-			<TogglePageBar type='blocks' />
-			<NavigateBackBar type='blocks' />
-		</>
+		<TogglePageBar type='blocks' />
 	);
 
 	if (loading) {
@@ -63,13 +57,11 @@ const Block = () => {
 	transactionsCard = <TransactionsCard data={data?.data?.[0]?.txs} loading={loading} error={error} />;
 
 	return (
-		<>
+		<Container fixed className={cx("block")}>
 			{titleSection}
-			<Container fixed className={cx("block")}>
-				{headerCard}
-				{transactionsCard}
-			</Container>
-		</>
+			{headerCard}
+			{transactionsCard}
+		</Container>
 	);
 };
 

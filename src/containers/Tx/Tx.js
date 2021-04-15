@@ -14,7 +14,6 @@ import NotFound from "src/components/common/NotFound";
 import StatusBox from "src/components/common/StatusBox";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TxInfo from "src/components/Tx/TxInfo";
 import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
@@ -75,10 +74,7 @@ const Tx = () => {
 			</TitleWrapper>
 		</Container>
 	) : (
-		<>
-			<TogglePageBar type='transactions' />
-			<NavigateBackBar type='transactions' />
-		</>
+		<TogglePageBar type='transactions' />
 	);
 
 	if (loading) {

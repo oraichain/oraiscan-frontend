@@ -23,7 +23,6 @@ import ProposedBlocksCard from "src/components/ValidatorDetails/ProposedBlocksCa
 import MissedBlocksCard from "src/components/ValidatorDetails/MissedBlocksCard";
 import styles from "./ValidatorDetails.scss";
 import DelegatorsCard from "src/components/ValidatorDetails/DelegatorsCard";
-import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -55,7 +54,7 @@ const ValidatorDetails = ({match}) => {
 	) : (
 		<>
 			<TogglePageBar type='validators' />
-			<NavigateBackBar type='validators' />
+			<BackTitle title='Validator details' to={consts.PATH.VALIDATORS} />
 		</>
 	);
 
