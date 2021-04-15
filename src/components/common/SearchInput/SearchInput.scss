@@ -2,13 +2,18 @@
 
 .search-input {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
 	padding: 10px 20px;
 	background: var(--common-containerBackgroundColor);
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 
 	input {
+		display: inline-block;
+		flex-grow: 1;
 		color: var(--common-textColor);
 		background-color: var(--common-containerBackgroundColor);
 		border: none;

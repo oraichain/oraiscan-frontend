@@ -89,6 +89,7 @@ export default Object.freeze({
 		MIN_FEE: "min_gas",
 		ORACLE_SCRIPTS_REQUEST: "oracle_scripts/requests",
 		ORACLE_SCRIPTS: "oracle-scripts",
+		REQUESTS: "/requests",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
