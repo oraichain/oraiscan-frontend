@@ -3,7 +3,7 @@
 .details-card {
 	padding: 30px;
 	margin-bottom: 20px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
@@ -18,26 +18,26 @@
 		&-tag {
 			display: inline-block;
 			margin-right: 8px;
-			color: #181818;
+			color: var(--common-textColor);
 		}
 
 		&-name {
 			display: inline-block;
 			margin-right: 4px;
-			color: #1b57f0;
+			color: var(--common-linkColor);
 		}
 	}
 
 	.api-card {
 		padding: 20px;
-		background: #ffffff;
-		border: 1px solid #e7e7e7;
+		background: var(--common-containerBackgroundColor);
+		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 8px;
 
 		&-name {
 			margin-bottom: 5px;
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -46,7 +46,7 @@
 		}
 
 		&-value {
-			color: #181818;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -60,24 +60,24 @@
 
 	.information-card {
 		margin-top: 20px;
-		border: 1px solid #e7e7e7;
+		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 6px;
 
 		@include media("<large") {
 			border: none;
-			border-top: 1px solid #e7e7e7;
+			border-top: 1px solid var(--common-borderColor);
 			border-radius: 0;
 		}
 
 		&-header {
-			color: #181818;
+			color: var(--common-textColor);
 			padding: 10px 20px;
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
-			border-bottom: 1px solid #e7e7e7;
+			border-bottom: 1px solid var(--common-borderColor);
 			line-height: 150%;
 
 			@include media("<large") {
@@ -110,7 +110,7 @@
 					&-text {
 						display: inline-block;
 						margin-right: 8px;
-						color: #181818;
+						color: var(--common-textColor);
 						font-family: Roboto;
 						font-style: normal;
 						font-weight: 500;
@@ -121,7 +121,7 @@
 					&-icon {
 						width: 20px;
 						height: auto;
-						color: #9a9a9a;
+						color: var(--common-placeholderTextColor);
 					}
 				}
 
@@ -129,7 +129,7 @@
 					.tag {
 						display: inline-block;
 						margin-right: 4px;
-						color: #1b57f0;
+						color: var(--common-linkColor);
 						font-family: Roboto;
 						font-style: normal;
 						font-weight: normal;
@@ -140,7 +140,7 @@
 
 					.text {
 						margin-top: 5px;
-						color: #181818;
+						color: var(--common-textColor);
 						font-family: Roboto;
 						font-style: normal;
 						font-weight: normal;

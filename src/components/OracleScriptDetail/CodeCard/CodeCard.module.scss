@@ -3,7 +3,7 @@
 .code-card {
 	padding: 20px;
 	margin-bottom: 20px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
@@ -15,11 +15,11 @@
 	}
 
 	&-body {
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		border-radius: 6px;
 
 		@include media(">=large") {
-			background: #f9f9f9;
+			background-color: var(--common-blockItemBackgroundColor) !important;
 		}
 	}
 }
@@ -33,7 +33,7 @@
 	&-text {
 		display: inline-block;
 		margin-right: 8px;
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -45,7 +45,7 @@
 		&-icon {
 			width: 20px;
 			height: auto;
-			color: #1b57f0;
+			color: var(--common-linkColor);
 		}
 	}
 }
@@ -56,7 +56,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	padding: 8px;
-	border: 1px solid #1b57f0;
+	border: 1px solid var(--common-activeTabColor);
 	box-sizing: border-box;
 	border-radius: 4px;
 	cursor: pointer;
@@ -64,12 +64,12 @@
 	&-icon {
 		display: inline-block;
 		margin-right: 8px;
-		color: #1b57f0;
+		color: var(--common-linkColor);
 	}
 
 	&-text {
 		display: inline-block;
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
