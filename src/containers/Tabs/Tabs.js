@@ -2,7 +2,8 @@
 import React, {memo, useState} from "react";
 import {useLocation, useHistory} from "react-router-dom";
 import Container from "@material-ui/core/Container";
-import {Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList} from "@material-ui/core";
+import {Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList, useMediaQuery} from "@material-ui/core";
+import {useTheme} from "@material-ui/core/styles";
 import cn from "classnames/bind";
 import {closePageBar} from "src/store/modules/global";
 import {useDispatch} from "react-redux";
@@ -29,6 +30,8 @@ const Tabs = memo(() => {
 	const {pathname} = useLocation();
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const [openValidators, setOpenValidators] = React.useState(false);
 	const [openTransactions, setOpenTransactions] = React.useState(false);
@@ -55,12 +58,14 @@ const Tabs = memo(() => {
 		<button
 			className={cx("tab", {"active-dropdown": pathname === "/accounts" || pathname === "/validators"})}
 			ref={validatorsAnchorRef}
-			onMouseEnter={handleOpenValidators}
-			onMouseLeave={handleCloseValidators}
+			onMouseEnter={isLargeScreen ? handleOpenValidators : ""}
+			onMouseLeave={isLargeScreen ? handleCloseValidators : ""}
 			onClick={() => {
-				handleCloseValidators();
-				history.push(route);
-				dispatch(closePageBar());
+				if (isLargeScreen) {
+					handleCloseValidators();
+					history.push(route);
+					dispatch(closePageBar());
+				} else handleOpenValidators();
 			}}
 			key={index}>
 			<Popper
@@ -74,6 +79,7 @@ const Tabs = memo(() => {
 				className={cx("dropdown-validators")}
 				open={openValidators}
 				anchorEl={validatorsAnchorRef.current}
+				disablePortal={isLargeScreen ? false : true}
 				transition>
 				{({TransitionProps, placement}) => (
 					<Grow {...TransitionProps}>
@@ -114,12 +120,14 @@ const Tabs = memo(() => {
 		<button
 			className={cx("tab", {"active-dropdown": pathname === "/txs"})}
 			ref={transactionsAnchorRef}
-			onMouseEnter={handleOpenTransactions}
-			onMouseLeave={handleCloseTransactions}
+			onMouseEnter={isLargeScreen ? handleOpenTransactions : ""}
+			onMouseLeave={isLargeScreen ? handleCloseTransactions : ""}
 			onClick={() => {
-				handleCloseTransactions();
-				history.push(route);
-				dispatch(closePageBar());
+				if (isLargeScreen) {
+					handleCloseTransactions();
+					history.push(route);
+					dispatch(closePageBar());
+				} else handleOpenTransactions();
 			}}
 			key={index}>
 			<Popper
@@ -133,8 +141,9 @@ const Tabs = memo(() => {
 				className={cx("dropdown-transactions")}
 				open={openTransactions}
 				anchorEl={transactionsAnchorRef.current}
+				disablePortal={isLargeScreen ? false : true}
 				transition>
-				{({TransitionProps, placement}) => (
+				{({TransitionProps}) => (
 					<Grow {...TransitionProps}>
 						<Paper>
 							<ClickAwayListener onClickAway={handleCloseTransactions}>
