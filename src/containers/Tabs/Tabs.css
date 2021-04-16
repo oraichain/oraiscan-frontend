@@ -62,3 +62,15 @@
 .dropdown-validators .MuiButtonBase-root:hover {
 	background-color: var(--common-blockItemBackgroundColor);
 }
+
+@media only screen and (max-width: 1280px) {
+	.dropdown-transactions {
+		transform: translate(-103%, 197%) !important;
+	}
+}
+
+@media only screen and (max-width: 1280px) {
+	.dropdown-validators {
+		transform: translate(-103%, 98%) !important;
+	}
+}
