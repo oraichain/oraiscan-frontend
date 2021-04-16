@@ -91,11 +91,15 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 
 	const {handleSubmit, errors, register, setValue, getValues, setError, watch, trigger} = methods;
 
-	let values = watch() || "";
+	// let values = watch() || "";
 
 	const onSubmit = data => {
 		console.log(data);
-		if (data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) {
+		if (
+			(data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) ||
+			data.sendAmount === "" ||
+			data.recipientAddress === ""
+		) {
 			return;
 		}
 
@@ -231,7 +235,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 			return onSubmit();
 		}
 		trigger();
-		if (Object.values(errors).length !== 0) return onSubmit(getValues());
+		if (Object.values(errors).length === 0) return onSubmit(getValues());
 		return;
 	};
 

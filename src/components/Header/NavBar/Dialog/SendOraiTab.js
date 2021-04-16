@@ -26,6 +26,7 @@ const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
 export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
+	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
@@ -36,15 +37,15 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
 
+	// let values = watch() || "";
+
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
 	}, [inputAddress, storageData]);
 
-	const setAmountValue = (e, rate) => {
-		e.preventDefault();
+	const setAmountValue = rate => {
 		amount &&
-			setValue(
-				"sendAmount",
+			setInputAmountValue(
 				new BigNumber(amount)
 					.multipliedBy(rate)
 					.dividedBy(1000000)
@@ -209,7 +210,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 					</div>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}> Add Recipient </div>
-						<InputTextWithIcon name='recipientAddress' required errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
+						<InputTextWithIcon name='recipientAddress' errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 						{existName ? (
 							<div className={cx("label-exist")}>
 								<span className={cx("label-exist-name")}>{existName}</span>
@@ -231,11 +232,25 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						<div className={cx("label", "label-right")}>
 							<div className={cx("left")}> Amount </div>
 							<div className={cx("right")}>
-								<button onClick={e => setAmountValue(e, 0.5)}> 1 / 2 </button>
-								<button onClick={e => setAmountValue(e, 1)}> Max </button>
+								<button
+									type='button'
+									onClick={() => {
+										setAmountValue(0.5);
+									}}>
+									{" "}
+									1 / 2{" "}
+								</button>
+								<button
+									type='button'
+									onClick={() => {
+										setAmountValue(1);
+									}}>
+									{" "}
+									Max{" "}
+								</button>
 							</div>
 						</div>
-						<InputNumberOrai name='sendAmount' required errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>

@@ -36,19 +36,19 @@ const TABS = [
 	},
 ];
 
-// yup.addMethod(yup.number, "lessThanNumber", function(amount) {
-// 	return this.test({
-// 		name: "test-name",
-// 		exclusive: false,
-// 		message: "Transfer amount must be greater th account's amount",
-// 		test(value) {
-// 			if (_.isNaN(value)) {
-// 				return true;
-// 			}
-// 			return value >= 0 && value <= parseFloat(amount);
-// 		},
-// 	});
-// });
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+	return this.test({
+		name: "validate-delegate",
+		exclusive: false,
+		message: "Transfer amount must be greater than 0 and less than your account's amount",
+		test(value) {
+			if (_.isNaN(value)) {
+				return true;
+			}
+			return parseFloat(value) > 0 && parseFloat(value) <= parseFloat(amount);
+		},
+	});
+});
 
 const DialogContent = withStyles(theme => ({
 	root: {
@@ -67,14 +67,18 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
+	console.log(balance, "baaa");
 	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
 	result = result.split(".")[0];
 	result = new BigNumber(result).dividedBy(100).toString();
+	console.log(result, "aaaaaaaaaa");
 	return result;
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
+	console.log("RERENDER!!!!!!!!!");
 	const [open, setOpen] = useState(false);
+	const [inputAmountValue, setInputAmountValue] = useState("");
 	const {address, account} = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const minFee = useSelector(state => state.blockchain.minFee);
@@ -89,8 +93,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	});
 	const percents = [25, 50, 75, 100];
 
-	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
-	// const balance = new BigNumber("3817852419082");
+	// const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
+	const balance = new BigNumber("38172");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 	const formatUSD = (orai, divide = false) => {
 		if (divide) {
@@ -114,26 +118,30 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	};
 
 	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.number()
+		recipientAddress: yup.string().required("Recipient Address Field is Required"),
+		sendAmount: yup
+			.string()
 			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
+			.lessThanNumber(balance / 1000000, "lessThanNumber"),
+		freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors, watch, getValues, register, trigger} = methods;
+	// let values = watch() || "";
+
+	const handleClickDelegate = () => {
+		trigger();
+		console.log(Object.values(errors), "ERRORRRRR");
+		if (Object.values(errors).length === 0) return onSubmit(getValues());
+		else return;
+	};
 
 	const onSubmit = data => {
-		data.amount = data.amount * 100 + "";
-		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
-		if (data.amount === 0 || data.amount === "0") {
-			setError("amount", {
-				type: "zero",
-				message: "Transfer amount must be greater than 0 and less than your account's amount",
-			});
+		console.log(data, "aaaaa");
+		if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
 			return;
 		}
 
@@ -225,7 +233,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 										type='button'
 										className={cx("btn", "btn-outline-primary", "m-2")}
 										onClick={() => {
-											setValue("amount", calculateAmount(balance, value));
+											setInputAmountValue(calculateAmount(balance, value));
 											clearErrors();
 										}}>
 										{value + "%"}
@@ -234,7 +242,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							</div>
 						</div>
 						<div className={cx("form-field")}>
-							<InputNumberOrai name='amount' required errorobj={errors} />
+							<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
 						</div>
 						<div className={cx("balance-title")}> Fee </div>
 						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
@@ -244,7 +252,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 						<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
 							Cancel
 						</button>
-						<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
+						<button type='button' className={cx("btn", "btn-primary", "m-2")} onClick={handleClickDelegate}>
 							Delegate
 						</button>
 					</DialogActions>
