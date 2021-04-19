@@ -71,10 +71,12 @@ export default function(props) {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Proposals"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Proposals"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='proposals' />;
@@ -151,12 +153,14 @@ export default function(props) {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<Container fixed className={cx("proposals")}>
+		<>
 			{titleSection}
-			{topProposalCardList}
-			{filterSection}
-			{tableSection}
-			{paginationSection}
-		</Container>
+			<Container fixed className={cx("proposals")}>
+				{topProposalCardList}
+				{filterSection}
+				{tableSection}
+				{paginationSection}
+			</Container>
+		</>
 	);
 }

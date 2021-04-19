@@ -1,68 +1,69 @@
-import React from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {useFormContext, Controller} from "react-hook-form";
-import TextField from "@material-ui/core/TextField";
 import cn from "classnames/bind";
-import NumberFormat from "react-number-format";
-import {useFetch} from "src/hooks";
-import BigNumber from "bignumber.js";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/exchange.svg";
 
 import styles from "./index.scss";
+import {commafy, formatUSD} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
 // const TextFieldCustom = (props) => <TextField  {...props} className={cx("input-text-exchange")} />
 
-const NumberFormatCustom = ({onChange, value, orai2usd, ...rest}) => {
-	value = ((value || 0) + "").replaceAll(",", "");
-	const formatUSD = () => {
-		// console.log(new BigNumber(valueParse).multipliedBy(orai2usd).toFormat(2))
-		return new BigNumber(value).multipliedBy(orai2usd).toFormat(2);
-		// const result = ((value || 0) * orai2usdt).toFixed(6);
-		// return isNaN(result) ? 0 : result;
-		// return 0;
-	};
-	return (
-		<div className={cx("input-exchange")}>
-			<NumberFormat customInput={TextField} thousandSeparator value={value} onValueChange={v => onChange(v.floatValue)} {...rest} />
-			<div className={cx("to-usdt")}>
-				{" "}
-				<ExchangeIcon /> {formatUSD()} USD{" "}
-			</div>
-		</div>
-	);
-};
+function validate(evt) {
+	var theEvent = evt || window.ClipboardEvent;
+
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
+
+	var regex = /[0-9]|\./;
+	if (!regex.test(key)) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}
 
 function FormInput(props) {
-	const {control} = useFormContext();
-	const {name, placeholder, label, required, errorobj} = props;
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
+	const {getValues, setValue, register} = useFormContext();
+	const {name, placeholder, label, required, errorobj} = props;
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
 		isError = true;
 		errorMessage = errorobj[name].message;
 	}
+	let value = getValues("sendAmount") || "";
 
 	return (
-		<Controller
-			as={props => <NumberFormatCustom {...props} orai2usd={orai2usd} />}
-			name={name}
-			control={control}
-			placeholder={placeholder || ""}
-			label={label}
-			fullWidth
-			className={cx("input-text")}
-			InputLabelProps={{
-				className: cx({"required-label": required}),
-				required: required || false,
-				shrink: true,
-			}}
-			error={isError}
-			helperText={errorMessage}
-			{...props}
-		/>
+		<div className={cx("input-text")}>
+			<div className={cx("input-exchange")}>
+				<input
+					className={cx("input-amount")}
+					ref={register}
+					name={name}
+					defaultValue={""}
+					value={value}
+					onChange={e => {
+						let amount = e.currentTarget.value.replace(/,/g, "");
+						amount = commafy(amount);
+						setValue(name, amount);
+					}}
+					onKeyPress={e => {
+						validate(e);
+					}}
+					onPaste={e => {
+						validate(e);
+					}}
+				/>{" "}
+				<div className={cx("to-usdt")}>
+					{" "}
+					<ExchangeIcon /> {formatUSD(getValues("sendAmount")?.replace(/,/g, "") || "0", orai2usd)} USD{" "}
+				</div>
+			</div>
+			<div className={cx("required-label")}>{errorMessage}</div>
+		</div>
 	);
 }
 

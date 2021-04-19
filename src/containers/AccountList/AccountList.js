@@ -50,10 +50,12 @@ const AccountList = memo(() => {
 	let paginationSection;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Accounts"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Accounts"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
 		<TogglePageBar type='accounts' />
 	);
@@ -82,11 +84,13 @@ const AccountList = memo(() => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<Container fixed className={cx("account-list")}>
+		<>
 			{titleSection}
-			{tableSection}
-			{paginationSection}
-		</Container>
+			<Container fixed className={cx("account-list")}>
+				{tableSection}
+				{paginationSection}
+			</Container>
+		</>
 	);
 });
 

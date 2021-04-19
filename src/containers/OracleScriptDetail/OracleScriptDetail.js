@@ -17,6 +17,7 @@ import StatusBox from "src/components/common/StatusBox";
 import RequestCard from "src/components/OracleScriptDetail/RequestCard";
 import CodeCard from "src/components/OracleScriptDetail/CodeCard";
 import styles from "./OracleScriptDetail.module.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -46,13 +47,20 @@ const OracleScriptDetail = () => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Oracle Script Details"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Oracle Script Details"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
-		titleSection = <TogglePageBar type='oracle-scripts' />;
+		titleSection = (
+			<>
+				<TogglePageBar type='oracle-scripts' />
+				<NavigateBackBar type='oracle-scripts' />
+			</>
+		);
 	}
 
 	if (loading) {
@@ -72,11 +80,13 @@ const OracleScriptDetail = () => {
 	);
 
 	return (
-		<Container fixed className={cx("oracle-script-detail")}>
+		<>
 			{titleSection}
-			{detailsCard}
-			{bottomCard}
-		</Container>
+			<Container fixed className={cx("oracle-script-detail")}>
+				{detailsCard}
+				{bottomCard}
+			</Container>
+		</>
 	);
 };
 

@@ -25,27 +25,13 @@ import {useSelector} from "src/hooks";
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-yup.addMethod(yup.number, "lessThanNumber", function(amount) {
-	return this.test({
-		name: "test-name",
-		exclusive: false,
-		message: "Transfer amount must be greater than 0 and less than your account's amount",
-		test(value) {
-			if (_.isNaN(value)) {
-				return true;
-			}
-			return value >= 0 && value <= parseFloat(amount);
-		},
-	});
-});
-
 export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
-	const {errors, setValue, getValues, watch} = methods;
+	const {errors, setValue, getValues, watch, register} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);

@@ -23,6 +23,7 @@ import ProposedBlocksCard from "src/components/ValidatorDetails/ProposedBlocksCa
 import MissedBlocksCard from "src/components/ValidatorDetails/MissedBlocksCard";
 import styles from "./ValidatorDetails.scss";
 import DelegatorsCard from "src/components/ValidatorDetails/DelegatorsCard";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -45,14 +46,16 @@ const ValidatorDetails = ({match}) => {
 	});
 
 	const titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Validator details"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Validator details"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
 		<>
 			<TogglePageBar type='validators' />
-			<BackTitle title='Validator details' to={consts.PATH.VALIDATORS} />
+			<NavigateBackBar type='validators' />
 		</>
 	);
 
@@ -81,27 +84,28 @@ const ValidatorDetails = ({match}) => {
 	delegatorsCard = <DelegatorsCard validatorAddress={validatorAddress} />;
 
 	return (
-		<Container fixed className={cx("validator-details")}>
+		<>
 			{titleSection}
-
-			<Grid container spacing={2}>
-				<Grid item lg={4} xs={12}>
-					{addressCard}
+			<Container fixed className={cx("validator-details")}>
+				<Grid container spacing={2}>
+					<Grid item lg={4} xs={12}>
+						{addressCard}
+					</Grid>
+					<Grid item lg={8} xs={12}>
+						{detailCard}
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						{proposedBlocksCard}
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						{missedBlocksCard}
+					</Grid>
+					<Grid item lg={6} xs={12}>
+						{delegatorsCard}
+					</Grid>
 				</Grid>
-				<Grid item lg={8} xs={12}>
-					{detailCard}
-				</Grid>
-				<Grid item lg={6} xs={12}>
-					{proposedBlocksCard}
-				</Grid>
-				<Grid item lg={6} xs={12}>
-					{missedBlocksCard}
-				</Grid>
-				<Grid item lg={6} xs={12}>
-					{delegatorsCard}
-				</Grid>
-			</Grid>
-		</Container>
+			</Container>
+		</>
 	);
 };
 

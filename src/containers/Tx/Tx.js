@@ -14,6 +14,7 @@ import NotFound from "src/components/common/NotFound";
 import StatusBox from "src/components/common/StatusBox";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import TogglePageBar from "src/components/common/TogglePageBar";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TxInfo from "src/components/Tx/TxInfo";
 import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
@@ -67,12 +68,17 @@ const Tx = () => {
 	let txData;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Transactions detail"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Transactions detail"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
-		<TogglePageBar type='transactions' />
+		<>
+			<TogglePageBar type='transactions' />
+			<NavigateBackBar type='transactions' />
+		</>
 	);
 
 	if (loading) {
@@ -134,11 +140,13 @@ const Tx = () => {
 	}
 
 	return (
-		<Container fixed className={cx("tx")}>
+		<>
 			{titleSection}
-			{txInfo}
-			{txData}
-		</Container>
+			<Container fixed className={cx("tx")}>
+				{txInfo}
+				{txData}
+			</Container>
+		</>
 	);
 };
 

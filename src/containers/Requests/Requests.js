@@ -20,19 +20,23 @@ export default function(props) {
 	let titleSection;
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"All requests"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"All requests"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='requests' />;
 	}
 
 	return (
-		<Container fixed className={cx("request-list")}>
+		<>
 			{titleSection}
-			<ComingSoon />
-		</Container>
+			<Container fixed className={cx("request-list")}>
+				<ComingSoon />
+			</Container>
+		</>
 	);
 }

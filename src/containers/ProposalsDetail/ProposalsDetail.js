@@ -16,6 +16,7 @@ import ChartCard from "src/components/ProposalDetails/ChartCard";
 import ChartCardSkeleton from "src/components/ProposalDetails/ChartCard/ChartCardSkeleton";
 import TransactionsCard from "src/components/ProposalDetails/TransactionsCard";
 import styles from "./ProposalsDetail.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -35,12 +36,17 @@ export default function(props) {
 	let transactionsCard;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Proposals Details"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Proposals Details"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
-		<TogglePageBar type='proposals' />
+		<>
+			<TogglePageBar type='proposals' />
+			<NavigateBackBar type='proposals' />
+		</>
 	);
 
 	if (loading) {
@@ -58,19 +64,21 @@ export default function(props) {
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;
 	return (
-		<Container fixed className={cx("proposal-details")}>
+		<>
 			{titleSection}
-			<Grid container spacing={2}>
-				<Grid item lg={9} xs={12}>
-					{detailsCard}
+			<Container fixed className={cx("proposal-details")}>
+				<Grid container spacing={2}>
+					<Grid item lg={9} xs={12}>
+						{detailsCard}
+					</Grid>
+					<Grid item lg={3} xs={12}>
+						{chartCard}
+					</Grid>
+					<Grid item xs={12}>
+						{transactionsCard}
+					</Grid>
 				</Grid>
-				<Grid item lg={3} xs={12}>
-					{chartCard}
-				</Grid>
-				<Grid item xs={12}>
-					{transactionsCard}
-				</Grid>
-			</Grid>
-		</Container>
+			</Container>
+		</>
 	);
 }

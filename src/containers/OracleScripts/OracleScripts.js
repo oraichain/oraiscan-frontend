@@ -74,10 +74,12 @@ const OracleScripts = () => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Oracle Scripts"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Oracle Scripts"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='oracle-scripts' />;
@@ -139,13 +141,15 @@ const OracleScripts = () => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<Container fixed className={cx("oracle-scripts")}>
+		<>
 			{titleSection}
-			{topOracleScriptCardList}
-			{filterSection}
-			{tableSection}
-			{paginationSection}
-		</Container>
+			<Container fixed className={cx("oracle-scripts")}>
+				{topOracleScriptCardList}
+				{filterSection}
+				{tableSection}
+				{paginationSection}
+			</Container>
+		</>
 	);
 };
 

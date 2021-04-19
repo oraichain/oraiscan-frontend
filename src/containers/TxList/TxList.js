@@ -123,10 +123,12 @@ const TxList = () => {
 	let paginationSection;
 
 	titleSection = isLargeScreen ? (
-		<TitleWrapper>
-			<PageTitle title={"Transactions"} />
-			<StatusBox />
-		</TitleWrapper>
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"Transactions"} />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
 	) : (
 		<TogglePageBar type='transactions' />
 	);
@@ -216,11 +218,13 @@ const TxList = () => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<Container fixed className={cx("tx-list")}>
+		<>
 			{titleSection}
-			{tableSection}
-			{paginationSection}
-		</Container>
+			<Container fixed className={cx("tx-list")}>
+				{tableSection}
+				{paginationSection}
+			</Container>
+		</>
 	);
 };
 

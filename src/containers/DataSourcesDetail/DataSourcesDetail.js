@@ -16,6 +16,7 @@ import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 import styles from "./DataSourcesDetail.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -50,37 +51,40 @@ export default function(props) {
 	];
 
 	return (
-		<Container fixed className={cx("validator-list")}>
+		<>
 			{isDesktop ? (
-				<TitleWrapper>
-					<PageTitle title='Data Sources Details' />
-					<StatusBox data={dataForStatusBox} />
-				</TitleWrapper>
+				<Container fixed>
+					<TitleWrapper>
+						<PageTitle title='Data Sources Details' />
+						<StatusBox data={dataForStatusBox} />
+					</TitleWrapper>
+				</Container>
 			) : (
 				<>
-					<TogglePageBar type='data-sources' />
-					<div className={cx("validator-detail-title")} onClick={() => history.push("/data-sources")}>
-						<BackIcon /> Data Source Details
-					</div>
+					<>
+						<TogglePageBar type='data-sources' />
+						<NavigateBackBar type='data-sources' />
+					</>
 				</>
 			)}
+			<Container fixed className={cx("validator-list")}>
+				<div className={cx("detail-section")}>
+					{state.data !== undefined && state.data !== null && (
+						<Information name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} isDesktop={isDesktop} />
+					)}
+				</div>
 
-			<div className={cx("detail-section")}>
-				{state.data !== undefined && state.data !== null && (
-					<Information name={state.data.result.name} owner={state.data.result.owner} description={state.data.result.description} isDesktop={isDesktop} />
+				{isDesktop ? (
+					<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
+				) : (
+					<>
+						<RequestTableMobile />
+						<RequestTableMobile />
+						<RequestTableMobile />
+						<RequestTableMobile />
+					</>
 				)}
-			</div>
-
-			{isDesktop ? (
-				<DataSourceDetailListTable pages={pages} onPageChange={onPageChange} />
-			) : (
-				<>
-					<RequestTableMobile />
-					<RequestTableMobile />
-					<RequestTableMobile />
-					<RequestTableMobile />
-				</>
-			)}
-		</Container>
+			</Container>
+		</>
 	);
 }

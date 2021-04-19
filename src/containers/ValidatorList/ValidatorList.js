@@ -83,10 +83,12 @@ const ValidatorList = props => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Validators"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Validators"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='validators' />;
@@ -124,12 +126,14 @@ const ValidatorList = props => {
 	}
 
 	return (
-		<Container fixed className={cx("validator-list")}>
+		<>
 			{titleSection}
-			{statusCardList}
-			{filterSection}
-			{tableSection}
-		</Container>
+			<Container fixed className={cx("validator-list")}>
+				{statusCardList}
+				{filterSection}
+				{tableSection}
+			</Container>
+		</>
 	);
 };
 
