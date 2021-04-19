@@ -230,11 +230,11 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 		}
 	};
 
-	const handleClickNext = () => {
+	const handleClickNext = async () => {
 		if (multiSendData) {
 			return onSubmit();
 		}
-		trigger();
+		await trigger();
 		if (Object.values(errors).length === 0) return onSubmit(getValues());
 		return;
 	};

@@ -25,17 +25,17 @@ function validate(evt) {
 }
 
 function FormInput(props) {
-	console.log("RENDER INPUT!!!!!!!!!");
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const [amountValue, setAmountValue] = useState("");
 	const {getValues, setValue, register} = useFormContext();
 	const previousValueRef = useRef("");
 	const {name, placeholder, label, errorobj, inputAmountValue = ""} = props;
-	console.log(inputAmountValue, "meomeo");
 	if (previousValueRef.current !== inputAmountValue) {
 		previousValueRef.current = inputAmountValue;
 		setAmountValue(previousValueRef.current);
 	}
+
+	let value = getValues(name);
 
 	let isError = false;
 	let errorMessage = "";
@@ -52,7 +52,7 @@ function FormInput(props) {
 					ref={register}
 					name={name}
 					defaultValue={""}
-					value={amountValue}
+					value={value}
 					onChange={e => {
 						let amount = e.currentTarget.value.replace(/,/g, "");
 						amount = commafy(amount);

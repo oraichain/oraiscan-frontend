@@ -22,16 +22,16 @@ import styles from "./WithdrawBtn.scss";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.number, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
-		name: "test-name",
+		name: "validate-withdraw",
 		exclusive: false,
 		message: "Transfer amount must be greater than 0 and less than your account's amount",
 		test(value) {
 			if (_.isNaN(value)) {
 				return true;
 			}
-			return value >= 0 && value <= parseFloat(amount);
+			return parseFloat(value) > 0 && parseFloat(value) <= parseFloat(amount);
 		},
 	});
 });
@@ -47,20 +47,6 @@ const dialogStyles = theme => ({
 		top: theme.spacing(1),
 		color: theme.palette.grey[500],
 	},
-});
-
-yup.addMethod(yup.number, "lessThanNumber", function(amount) {
-	return this.test({
-		name: "test-name",
-		exclusive: false,
-		message: "Withdraw amount must be greater than 0 and less than withdrawable amount",
-		test(value) {
-			if (_.isNaN(value)) {
-				return true;
-			}
-			return value >= 0 && value <= parseFloat(amount);
-		},
-	});
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
@@ -112,10 +98,10 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	};
 
 	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.number()
-			.required("Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
+		sendAmount: yup
+			.string()
+			.required("Send Amount Field is Required")
+			.lessThanNumber(balance / 1000000, "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -125,13 +111,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		data.amount = data.amount * 100 + "";
-		data.amount = new BigNumber(data.amount.split(".")[0]).multipliedBy(10000);
-		if (data.amount === 0 || data.amount === "0") {
-			setError("amount", {
-				type: "zero",
-				message: "Withdraw amount must be greater than 0 and less than withdrawable amount",
-			});
+		if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
 			return;
 		}
 
@@ -213,7 +193,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 								</div>
 							</div>
 							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
+								<InputNumberOrai name='sendAmount' required errorobj={errors} />
 							</div>
 						</DialogContent>
 						<DialogActions>

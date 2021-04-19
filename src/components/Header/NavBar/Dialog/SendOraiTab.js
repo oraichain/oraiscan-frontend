@@ -45,7 +45,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	const setAmountValue = rate => {
 		amount &&
-			setInputAmountValue(
+			setValue(
+				"sendAmount",
 				new BigNumber(amount)
 					.multipliedBy(rate)
 					.dividedBy(1000000)

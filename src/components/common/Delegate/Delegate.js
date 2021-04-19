@@ -67,16 +67,13 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
-	console.log(balance, "baaa");
 	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
 	result = result.split(".")[0];
 	result = new BigNumber(result).dividedBy(100).toString();
-	console.log(result, "aaaaaaaaaa");
 	return result;
 };
 
 const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
-	console.log("RERENDER!!!!!!!!!");
 	const [open, setOpen] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const {address, account} = useSelector(state => state.wallet);
@@ -93,8 +90,8 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	});
 	const percents = [25, 50, 75, 100];
 
-	// const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
-	const balance = new BigNumber("38172");
+	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
+	// const balance = new BigNumber("38172");
 	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 	const formatUSD = (orai, divide = false) => {
 		if (divide) {
@@ -132,15 +129,14 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	const {handleSubmit, setValue, errors, setError, clearErrors, watch, getValues, register, trigger} = methods;
 	// let values = watch() || "";
 
-	const handleClickDelegate = () => {
-		trigger();
+	const handleClickDelegate = async () => {
+		await trigger();
 		console.log(Object.values(errors), "ERRORRRRR");
 		if (Object.values(errors).length === 0) return onSubmit(getValues());
 		else return;
 	};
 
 	const onSubmit = data => {
-		console.log(data, "aaaaa");
 		if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
 			return;
 		}
@@ -233,7 +229,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 										type='button'
 										className={cx("btn", "btn-outline-primary", "m-2")}
 										onClick={() => {
-											setInputAmountValue(calculateAmount(balance, value));
+											setValue("sendAmount", calculateAmount(balance, value));
 											clearErrors();
 										}}>
 										{value + "%"}
