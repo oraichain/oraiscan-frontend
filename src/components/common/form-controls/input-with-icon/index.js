@@ -24,13 +24,13 @@ function FormInput(props) {
 			as={TextField}
 			name={name}
 			control={control}
+			defaultValue={""}
 			placeholder={placeholder || ""}
 			label={label}
 			fullWidth
 			className={cx("input-text")}
 			InputLabelProps={{
 				className: cx({"required-label": required}),
-				required: required || false,
 				shrink: true,
 			}}
 			InputProps={{

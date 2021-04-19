@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {useFormContext, Controller} from "react-hook-form";
 import cn from "classnames/bind";
@@ -26,15 +26,23 @@ function validate(evt) {
 
 function FormInput(props) {
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
+	const [amountValue, setAmountValue] = useState("");
 	const {getValues, setValue, register} = useFormContext();
-	const {name, placeholder, label, required, errorobj} = props;
+	const previousValueRef = useRef("");
+	const {name, placeholder, label, errorobj, inputAmountValue = ""} = props;
+	if (previousValueRef.current !== inputAmountValue) {
+		previousValueRef.current = inputAmountValue;
+		setAmountValue(previousValueRef.current);
+	}
+
+	let value = getValues(name);
+
 	let isError = false;
 	let errorMessage = "";
 	if (errorobj && errorobj.hasOwnProperty(name)) {
 		isError = true;
 		errorMessage = errorobj[name].message;
 	}
-	let value = getValues("sendAmount") || "";
 
 	return (
 		<div className={cx("input-text")}>
@@ -48,7 +56,8 @@ function FormInput(props) {
 					onChange={e => {
 						let amount = e.currentTarget.value.replace(/,/g, "");
 						amount = commafy(amount);
-						setValue(name, amount);
+						console.log(amount);
+						setAmountValue(amount);
 					}}
 					onKeyPress={e => {
 						validate(e);
