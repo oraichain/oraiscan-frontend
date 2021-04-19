@@ -6,6 +6,12 @@
 }
 .input-text {
 	width: 100%;
+	border: 1px solid #e7e7e7;
+	box-sizing: border-box;
+	border-radius: 6px;
+	&:focus {
+		outline: none;
+	}
 }
 .text-error {
 	color: red;
