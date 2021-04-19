@@ -2,7 +2,6 @@ import React from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Skeleton from "react-loading-skeleton";
 import cn from "classnames/bind";
 import {useDispatch} from "react-redux";
 import copy from "copy-to-clipboard";

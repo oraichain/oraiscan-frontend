@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, {memo} from "react";
-import Skeleton from "react-loading-skeleton";
+import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import styles from "./BlockCardList.scss";
 
