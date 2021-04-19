@@ -1,27 +1,101 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
+import React, {memo, useState, useRef} from "react";
+import {useGet} from "restful-react";
+import PropTypes from "prop-types";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
-import styles from "./RequestCard.scss";
+import consts from "src/constants/consts";
+import EmptyTable from "src/components/common/EmptyTable";
 import RequestTable from "src/components/OracleScriptDetail/RequestTable";
 import RequestTableSkeleton from "src/components/OracleScriptDetail/RequestTable/RequestTableSkeleton";
 import RequestCardList from "src/components/OracleScriptDetail/RequestCardList";
 import RequestCardListSkeleton from "src/components/OracleScriptDetail/RequestCardList/RequestCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import arrowIcon from "src/assets/oracleScripts/arrow_ic.svg";
+import RightArrowIcon from "src/icons/RightArrowIcon";
+import styles from "./RequestCard.module.scss";
 
 const cx = classNames.bind(styles);
-const RequestCard = memo(() => {
+const columns = [
+	{title: "Requests", align: "left"},
+	{title: "Tx Hash", align: "left"},
+	{title: "Report Status", align: "center"},
+	{title: "Status", align: "center"},
+	{title: "Owner", align: "right"},
+];
+
+const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [pageId, setPageId] = useState(1);
+	const totalPagesRef = useRef(null);
+
+	const onPageChange = page => {
+		setPageId(page);
+	};
+
+	// const basePath = `${consts.API.ORACLE_SCRIPTS_REQUEST}/${oracleScriptId}?limit=${consts.REQUEST.LIMIT}`;
+	// const path = `${basePath}&page_id=${pageId}`;
+
+	// const {data, loading, error} = useGet({
+	// 	path: path,
+	// });
+
+	const data = {
+		page: {
+			page_id: 1,
+			limit: 10,
+			total_page: 1,
+			total_item: 5,
+		},
+		data: [
+			{
+				request: "#R302424",
+				tx_hash: "8oohAttp/2DoJDjSPWy/T6tPfe9BEmJoxUixv9zbb+M=",
+				min: 10,
+				total: 16,
+				finished: 8,
+				owner_address: "oraivaloper1znlxtk32ya99tsvgmclqk0q56a86606lsayl5x",
+			},
+			{
+				request: "#R302424",
+				tx_hash: "8oohAttp/2DoJDjSPWy/T6tPfe9BEmJoxUixv9zbb+M=",
+				min: 10,
+				total: 16,
+				finished: 16,
+				owner_address: "oraivaloper1znlxtk32ya99tsvgmclqk0q56a86606lsayl5x",
+			},
+		],
+	};
+	const loading = false;
+	const error = false;
 
 	let tableSection;
 	let paginationSection;
 
-	tableSection = isLargeScreen ? <RequestTable /> : <RequestCardList />;
-	paginationSection = <Pagination pages={1} page={1} onChange={(e, page) => {}} />;
+	if (loading) {
+		tableSection = isLargeScreen ? <RequestTableSkeleton /> : <RequestCardListSkeleton />;
+	} else {
+		if (error) {
+			totalPagesRef.current = null;
+			tableSection = <EmptyTable columns={columns} />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <RequestTable data={data?.data} /> : <RequestCardList data={data?.data} />;
+			} else {
+				tableSection = <EmptyTable columns={columns} />;
+			}
+		}
+	}
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("request-card")}>
@@ -30,8 +104,9 @@ const RequestCard = memo(() => {
 					<span className={cx("request-name")}>Request</span>
 					<span className={cx("request-value")}>(185,194)</span>
 				</div>
-				<div className={cx("get-code-button")}>
-					Get Code <img src={arrowIcon} alt='' />
+				<div className={cx("button")} onClick={showCodeCard}>
+					<span className={cx("button-text")}>Get Code</span>
+					<RightArrowIcon className={cx("button-icon")} />
 				</div>
 			</div>
 
@@ -40,5 +115,11 @@ const RequestCard = memo(() => {
 		</div>
 	);
 });
+
+RequestCard.propTypes = {
+	oracleScriptId: PropTypes.any,
+	showCodeCard: PropTypes.func,
+};
+RequestCard.defaultProps = {};
 
 export default RequestCard;

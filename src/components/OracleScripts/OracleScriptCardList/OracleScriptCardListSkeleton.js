@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
-import styles from "./OracleScriptCardList.scss";
+import styles from "./OracleScriptCardList.module.scss";
 
 const OracleScriptCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
@@ -23,7 +23,7 @@ const OracleScriptCardListSkeleton = memo(({rows = 10}) => {
 
 						<tr>
 							<td colSpan={2}>
-								<div className={cx("item-title")}>Requets & Response Time</div>
+								<div className={cx("item-title")}>Requets</div>
 								<div className={cx("request-and-response-time")}>
 									<Skeleton />
 								</div>

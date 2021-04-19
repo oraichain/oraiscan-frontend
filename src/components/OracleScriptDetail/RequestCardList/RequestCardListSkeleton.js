@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
-import styles from "./RequestCardList.scss";
+import styles from "./RequestCardList.module.scss";
 
 const RequestCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
