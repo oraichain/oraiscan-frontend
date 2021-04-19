@@ -1,7 +1,6 @@
 {
 	"hosting": [
 		{
-			"target": "oraiscan-4e880",
 			"public": "build",
 			"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
 			"rewrites": [
