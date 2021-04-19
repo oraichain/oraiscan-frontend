@@ -45,101 +45,22 @@ const OracleScripts = () => {
 	const [pageId, setPageId] = useState(1);
 	const totalPagesRef = useRef(null);
 
-	// const topPath = `${consts.API.ORACLE_SCRIPTS}?limit=4&page_id=1`;
-	// const {data: topData, loading: topLoading, error: topError} = useGet({
-	// 	path: topPath,
-	// });
-	const topData = {
-		page: {
-			page_id: 1,
-			limit: 10,
-			total_page: 1,
-			total_item: 5,
-		},
-		data: [
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 001",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 002",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 003",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-		],
-	};
-	const topLoading = false;
-	const topError = false;
+	const topPath = `${consts.API.ORACLE_SCRIPTS}?limit=4&page_id=1`;
+	const {data: topData, loading: topLoading, error: topError} = useGet({
+		path: topPath,
+	});
 
 	const basePath = `${consts.API.ORACLE_SCRIPTS}?limit=${consts.REQUEST.LIMIT}`;
-	// let path;
-	// if (keyword) {
-	// 	path = `${basePath}&page_id=${pageId}&keyword=${keyword}`;
-	// } else {
-	// 	path = `${basePath}&page_id=${pageId}`;
-	// }
+	let path;
+	if (keyword) {
+		path = `${basePath}&page_id=${pageId}&keyword=${keyword}`;
+	} else {
+		path = `${basePath}&page_id=${pageId}`;
+	}
 
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 10,
-			total_page: 1,
-			total_item: 5,
-		},
-		data: [
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 001",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 002",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-			{
-				tag: "D2",
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner: "Owner 003",
-				owner_address: "orai14vcw5qk0tdvknpa38wz46js5g7vrvut8lk0lk6",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	const onPageChange = page => {
 		setPageId(page);

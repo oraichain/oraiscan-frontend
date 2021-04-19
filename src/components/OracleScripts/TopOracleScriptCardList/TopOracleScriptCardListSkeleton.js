@@ -28,12 +28,6 @@ const TopOracleScriptCardListSkeleton = memo(({rows}) => {
 							<Skeleton className={cx("skeleton")} variant='text' width={50} height={21} />
 						</div>
 					</div>
-					<div className={cx("oracle-script-response")}>
-						<div className={cx("oracle-script-response-title")}>Response time</div>
-						<div className={cx("oracle-script-response-value")}>
-							<Skeleton className={cx("skeleton")} variant='text' width={50} height={21} />
-						</div>
-					</div>
 				</div>
 			</Grid>
 		);

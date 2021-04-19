@@ -41,11 +41,9 @@
 		line-height: 150%;
 	}
 
-	&-request,
-	&-response {
+	&-request {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 10px;
 
 		&-title {
 			color: var(--common-textColor);

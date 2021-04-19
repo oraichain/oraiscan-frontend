@@ -28,9 +28,6 @@ const OracleScriptTableSkeleton = memo(({rows = 10}) => {
 					<div className={cx("request-value", "align-right")}>
 						<Skeleton className={cx("skeleton")} variant='text' width={50} height={21} />
 					</div>
-					<div className={cx("response-time-value", "align-right")}>
-						<Skeleton className={cx("skeleton")} variant='text' width={50} height={21} />
-					</div>
 				</div>
 			);
 
