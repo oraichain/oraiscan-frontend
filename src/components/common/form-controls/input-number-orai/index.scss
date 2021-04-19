@@ -5,20 +5,24 @@
 }
 
 .input-text {
-	div {
-		border: 1px solid #e7e7e7;
-		&::before {
-			border: 0 !important;
-		}
-		&::after {
-			border: 0 !important;
-		}
+	border: 1px solid #e7e7e7;
+	box-sizing: border-box;
+	border-radius: 6px;
+	&::before {
+		border: 0 !important;
+	}
+	&::after {
+		border: 0 !important;
 	}
 	input {
 		border: 0;
 		font-size: 14px;
 		padding: 12px;
 		padding-left: 15px;
+
+		&:focus {
+			outline: none;
+		}
 		&::before {
 			border: 0;
 		}

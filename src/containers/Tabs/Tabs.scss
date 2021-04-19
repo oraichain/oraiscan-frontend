@@ -41,6 +41,10 @@
 		z-index: 9999;
 	}
 
+	@include media(">=large") {
+		margin-bottom: 30px;
+	}
+
 	.close {
 		display: none;
 		width: 220px;

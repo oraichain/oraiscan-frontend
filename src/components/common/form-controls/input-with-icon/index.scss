@@ -19,6 +19,8 @@
 	}
 	> div {
 		border: 1px solid #e7e7e7;
+		box-sizing: border-box;
+		border-radius: 6px;
 		&::before {
 			border: 0 !important;
 		}
