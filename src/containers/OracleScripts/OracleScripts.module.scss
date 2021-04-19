@@ -1,12 +1,16 @@
 @import "src/styles/utils";
 
 .oracle-scripts {
-	margin-top: 24px;
-	margin-bottom: 24px;
+	margin-top: 0;
+	margin-bottom: 30px;
 
-	@media (min-width: 979px) {
+	@include media(">=large") {
 		margin-top: 30px;
 	}
+}
+
+.table-header-cell {
+	vertical-align: middle;
 }
 
 .filter-section {

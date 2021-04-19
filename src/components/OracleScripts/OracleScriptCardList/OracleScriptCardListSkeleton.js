@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "react-loading-skeleton";
 import classNames from "classnames/bind";
-import styles from "./OracleScriptCardList.scss";
+import styles from "./OracleScriptCardList.module.scss";
 
 const OracleScriptCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
