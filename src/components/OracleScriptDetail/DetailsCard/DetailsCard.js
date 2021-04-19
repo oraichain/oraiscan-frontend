@@ -12,21 +12,15 @@ const DetailsCard = memo(({data}) => {
 	return (
 		<div className={cx("details-card")}>
 			<div className={cx("title")}>
-				<span className={cx("title-tag")}>{data?.tag ?? "-"}</span>
-				<span className={cx("title-name")}>{data?.name ?? "-"}</span>
+				<span className={cx("title-tag")}>{data?.tag || "#D2"}</span>
+				<span className={cx("title-name")}>{data?.name || "-"}</span>
 			</div>
 
 			<Grid container spacing={2}>
 				<Grid item lg={3} xs={12}>
 					<div className={cx("api-card")}>
 						<div className={cx("api-card-name")}>Request</div>
-						<div className={cx("api-card-value")}>{data?.request ?? "-"}</div>
-					</div>
-				</Grid>
-				<Grid item lg={3} xs={12}>
-					<div className={cx("api-card")}>
-						<div className={cx("api-card-name")}>Response Time</div>
-						<div className={cx("api-card-value")}>{data?.response_time ?? "-"}</div>
+						<div className={cx("api-card-value")}>{data?.request || "-"}</div>
 					</div>
 				</Grid>
 			</Grid>

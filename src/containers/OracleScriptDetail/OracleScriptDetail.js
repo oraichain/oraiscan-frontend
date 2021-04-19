@@ -35,22 +35,10 @@ const OracleScriptDetail = () => {
 		setIsCodeCardVisible(false);
 	};
 
-	// const path = `${consts.API.ORACLE_SCRIPTS}/${oracleScriptId}`;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-	const data = {
-		tag: "#D2",
-		name: "Band Standard Dataset (Crypto)",
-		request: "186,012",
-		response_time: "8.05s",
-		owner: "orai1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv",
-		data_sources: ["#D1", "#D2", "#D3", "#D3"],
-		test_cases: ["#Test01", "#Test02", "#Test03", "#Test04"],
-		description: "Band Standard Dataset oracle script for querying cryptocurrency prices",
-	};
-	const loading = false;
-	const error = false;
+	const path = `${consts.API.ORACLE_SCRIPTS}/${oracleScriptId}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let titleSection;
 	let detailsCard;
