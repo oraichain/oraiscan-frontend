@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {Container} from "@material-ui/core";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
 import {initWallet} from "src/store/modules/wallet";
 import Wallet from "./Wallet/Wallet";
@@ -40,6 +42,8 @@ const initialNavLinks = [
 ];
 
 const NavBar = ({toggleSearchArea}) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const dispatch = useDispatch();
 	const {address} = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
@@ -53,8 +57,7 @@ const NavBar = ({toggleSearchArea}) => {
 		}
 	};
 
-	const collapse = e => {
-		e.preventDefault();
+	const collapse = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
 			navbarCollapseRef.current.style.display = "none";
 			navbarOverlayRef.current.style.display = "none";
@@ -86,6 +89,17 @@ const NavBar = ({toggleSearchArea}) => {
 		setNavLinks([...initialNavLinks]);
 	}, [address]);
 
+	useEffect(() => {
+		if (isLargeScreen) {
+			navbarCollapseRef.current.style.display = "block";
+			navbarOverlayRef.current.style.display = "none";
+		} else {
+			if (navbarCollapseRef.current.style.display == "block") {
+				navbarOverlayRef.current.style.display = "block";
+			}
+		}
+	}, [isLargeScreen]);
+
 	return (
 		<div className={cx("background")}>
 			<Container>
@@ -104,32 +118,36 @@ const NavBar = ({toggleSearchArea}) => {
 					</div>
 					<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
 					<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-						<div className={cx("navbar-close")} onClick={collapse}>
-							<RightArrowIcon className={cx("navbar-close-icon")} />
+						<div className={cx("navbar-close")}>
+							<div className={cx("navbar-close-button")} onClick={collapse}>
+								<RightArrowIcon className={cx("navbar-close-icon")} />
+							</div>
 						</div>
 						<ul className={cx("navbar-nav")}>
 							{navLinks.map((item, index) => {
 								const {title, path, children, type} = item;
 								if (children) {
 									return (
-										<li className={cx("nav-item", "dropdown")} key={"nav-item" + index}>
-											<span className={cx("nav-link", "dropdown-toggle")}>
-												<span className={cx("dropdown-toggle-text")}>{title}</span>
-												<DownAngleIcon className={cx("dropdown-toggle-icon")} />
-											</span>
-											<div className={cx("dropdown-menu")}>
-												{children.map(({title, path}, idx) => (
-													<a href={path} key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-														{title}
-													</a>
-												))}
+										<li className={cx("nav-item")} key={"nav-item" + index}>
+											<div className={cx("dropdown")}>
+												<span className={cx("nav-link", "dropdown-toggle")}>
+													<span className={cx("dropdown-toggle-text")}>{title}</span>
+													<DownAngleIcon className={cx("dropdown-toggle-icon")} />
+												</span>
+												<div className={cx("dropdown-menu")}>
+													{children.map(({title, path}, idx) => (
+														<a href={path} key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
+															{title}
+														</a>
+													))}
+												</div>
 											</div>
 										</li>
 									);
 								}
 								return type === "wallet" ? (
 									<li className={cx("nav-item")} key={"nav-item" + index}>
-										<Wallet data={item} key={"wallet"} />
+										<Wallet data={item} key={"wallet"} collapse={collapse} />
 									</li>
 								) : (
 									<li className={cx("nav-item")} key={"nav-item" + index}>

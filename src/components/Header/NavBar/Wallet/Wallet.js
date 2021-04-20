@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {useGet} from "restful-react";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
 import {Grid} from "@material-ui/core";
 import copy from "copy-to-clipboard";
@@ -35,7 +37,9 @@ const connectWallet = () => {
 	}, 500);
 };
 
-const Wallet = ({data: props}) => {
+const Wallet = ({data: props, collapse}) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const {path, title, handleClick, init} = props;
 	const {account} = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
@@ -130,7 +134,16 @@ const Wallet = ({data: props}) => {
 				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} />
 			)}
 
-			<a className={cx("dropdown-toggle")} href={path} key={title} target='_blank' onClick={e => e.preventDefault()} rel='noopener noreferrer'>
+			<a
+				className={cx("dropdown-toggle")}
+				href={path}
+				key={title}
+				target='_blank'
+				onClick={e => {
+					e.preventDefault();
+					showDropdown();
+				}}
+				rel='noopener noreferrer'>
 				<AccountIcon className={cx("dropdown-toggle-text")} />
 				<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 			</a>
@@ -167,15 +180,32 @@ const Wallet = ({data: props}) => {
 						</div>
 					</Grid>
 					<Grid item lg={3} xs={12}>
-						<NavLink className={cx("wallet-button")} to='/wallet/'>
+						<NavLink
+							className={cx("wallet-button")}
+							to='/wallet/'
+							onClick={() => {
+								hideDropdown();
+								if (!isLargeScreen) {
+									collapse();
+								}
+							}}>
 							<WalletIcon className={cx("wallet-button-icon")} />
 							<span className={cx("wallet-button-text")}>MY WALLET</span>
 						</NavLink>
 					</Grid>
 				</Grid>
+
 				<Grid container className={cx("button-group")} spacing={2}>
 					<Grid item lg={6} xs={12}>
-						<div className={cx("button", "button-fill")} onClick={showTransactionModal}>
+						<div
+							className={cx("button", "button-fill")}
+							onClick={() => {
+								hideDropdown();
+								if (!isLargeScreen) {
+									collapse();
+								}
+								showTransactionModal();
+							}}>
 							Send
 						</div>
 					</Grid>
