@@ -18,6 +18,7 @@
 
 .dropdown {
 	position: relative;
+	display: inline-block;
 	color: white;
 	font-size: 1rem;
 
@@ -43,7 +44,6 @@
 		left: 15px;
 		right: initial;
 		width: calc(100vw - 2 * 15px);
-		display: none;
 		padding: 20px;
 		padding-left: 16px;
 		padding-right: 16px;
@@ -58,12 +58,6 @@
 			left: initial;
 			right: 0px;
 			width: 500px;
-		}
-	}
-
-	&:hover {
-		.dropdown-content {
-			display: block;
 		}
 	}
 }
@@ -210,4 +204,12 @@
 .price {
 	display: inline-block;
 	margin-right: 4px;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
 }
