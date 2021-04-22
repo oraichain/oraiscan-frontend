@@ -18,6 +18,7 @@ import RequestCard from "src/components/OracleScriptDetail/RequestCard";
 import CodeCard from "src/components/OracleScriptDetail/CodeCard";
 import styles from "./OracleScriptDetail.module.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
+import ComingSoon from "src/components/common/ComingSoon";
 
 const cx = cn.bind(styles);
 
@@ -83,8 +84,9 @@ const OracleScriptDetail = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("oracle-script-detail")}>
-				{detailsCard}
-				{bottomCard}
+				<ComingSoon />
+				{/* {detailsCard}
+				{bottomCard} */}
 			</Container>
 		</>
 	);
