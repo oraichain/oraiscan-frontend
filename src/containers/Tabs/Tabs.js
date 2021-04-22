@@ -185,7 +185,7 @@ const Tabs = memo(() => {
 			route: "/",
 		},
 		{
-			name: "Validators",
+			name: "Accounts",
 			img: <ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>,
 			route: "/validators",
 			render: renderValidatorComponent,
