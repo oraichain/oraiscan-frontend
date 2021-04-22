@@ -43,7 +43,7 @@
 				margin-bottom: 15px;
 
 				&-title {
-					width: 101px;
+					width: 110px;
 					@include Typo(Roboto, normal, 500, 16px, 24px);
 				}
 
@@ -136,4 +136,28 @@
 			}
 		}
 	}
+
+	.test-cases {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-left: 5px;
+		}
+	}
+
+	.status {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-right: 5px;
+		}
+	}
+
+	.margin-top-20 {
+		margin-top: 20px;
+	}
+}
+
+.request-table-area {
+	margin-top: 20px;
 }
