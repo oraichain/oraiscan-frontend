@@ -236,17 +236,15 @@ export default function(props) {
 */}
 
 			<div className={cx("data-request-table")}>
-				<div className={cx("data-request-table__title")}>
-					Data Request <span>#R305135</span>
-				</div>
+				<div className={cx("data-request-table__title")}>Request Info</div>
 
 				<div className={cx("data-request-table__info")}>
-					<div className={cx("data-request-table__info-head")}>Request Info</div>
+					<div className={cx("data-request-table__info-head")}> Infomation </div>
 					<div className={cx("data-request-table__info-code")}>
 						<div className={cx("data-request-table__info-code-item")}>
-							<div className={cx("data-request-table__info-code-item-title")}>Oracle Scripts</div>
+							<div className={cx("data-request-table__info-code-item-title")}> RequestID </div>
 							<div className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type1")}>
-								<span>#O7</span> Stock Price
+								<span>band1nl23kd2w7vehmk6d6scrs9jagqrdrxrat32vxv</span>
 							</div>
 						</div>
 						<div className={cx("data-request-table__info-code-item")}>
