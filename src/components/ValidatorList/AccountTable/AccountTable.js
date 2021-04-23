@@ -80,13 +80,13 @@ const AccountTable = memo(({data = []}) => {
 			const percentageDataCell = _.isNil(item?.percentage) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("percentage-data-cell")}>{`${item?.percentage?.toFixed(6)}%`}</div>
+				<div className={cx("percentage-data-cell")}>{`${(item?.percentage * 100)?.toFixed(6)}%`}</div>
 			);
 
-			const txnCountDataCell = _.isNil(item?.txnCount) ? (
+			const txnCountDataCell = _.isNil(item?.txn_count) ? (
 				<div className={cx("align-center")}>-</div>
 			) : (
-				<div className={cx("txnCount-data-cell")}>{item?.txnCount}</div>
+				<div className={cx("txnCount-data-cell")}>{item?.txn_count}</div>
 			);
 
 			return [rankDataCell, addressDataCell, nameTagDataCell, balanceDataCell, percentageDataCell, txnCountDataCell];
