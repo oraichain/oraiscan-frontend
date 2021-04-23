@@ -1,3 +1,3 @@
-import RequestsDetail from "./RequestsDetail";
+import RequestsDetail from "./RequestReportDetail";
 
 export default RequestsDetail;
