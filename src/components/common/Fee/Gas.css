@@ -7,8 +7,8 @@
 }
 
 .select-gas-custom .input-range .input-range__slider {
-	background: #00b1e9;
-	border: 1px solid #00b1e9;
+	background: var(--common-modal-modalSliderColor);
+	border: 1px solid var(--common-modal-commonModalBorderColor);
 }
 
 .select-gas-custom .input-range .input-range__track--active {
@@ -16,5 +16,9 @@
 }
 
 .select-gas-custom .input-range .input-range__track {
-	background: #f7f7f7;
+	background: var(--common-blockItemBackgroundColor);
+}
+
+.ant-input-number-input {
+	color: var(--common-textColor);
 }

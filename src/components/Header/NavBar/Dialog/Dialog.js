@@ -25,6 +25,7 @@ import SendTrasactionTab from "./SendTrasactionTab";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
+import "./Dialog.css";
 
 const cx = cn.bind(styles);
 

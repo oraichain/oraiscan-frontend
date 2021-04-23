@@ -6,7 +6,7 @@
 		margin-bottom: 20px;
 
 		.title {
-			color: #000000;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: 500;
@@ -21,8 +21,8 @@
 
 		.button {
 			padding: 8px;
-			color: #1b57f0;
-			border: 1px solid #1b57f0;
+			color: var(--common-linkColor);
+			border: 1px solid var(--common-borderColor);
 			box-sizing: border-box;
 			border-radius: 4px;
 			font-family: Roboto;

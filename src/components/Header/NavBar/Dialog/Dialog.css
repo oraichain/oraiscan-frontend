@@ -1,0 +1,4 @@
+.MuiPaper-root {
+	background-color: var(--common-containerBackgroundColor) !important;
+	color: var(--common-textColor) !important;
+}

@@ -6,7 +6,9 @@
 }
 .input-text {
 	width: 100%;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--common-borderColor);
+	background: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
 	box-sizing: border-box;
 	border-radius: 6px;
 	&:focus {

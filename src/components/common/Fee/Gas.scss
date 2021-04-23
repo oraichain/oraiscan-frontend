@@ -11,6 +11,8 @@
 	}
 
 	.input-text {
+		background: var(--common-containerBackgroundColor);
+		border: var(--common-modal-modalCommonBorderColor);
 		width: 20%;
 		@include media("<medium") {
 			width: 60%;

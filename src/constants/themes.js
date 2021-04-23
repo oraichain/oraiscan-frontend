@@ -47,6 +47,7 @@ const colors = {
 	HONEYDEW: "#ECFFE9",
 	FREE_SPEECH_GREEN: "#12C90E",
 	ROSE_BUD: "#FF9A9A",
+	DEEP_SKY_BLUE: "#00B1E9",
 };
 
 export const themes = {
@@ -73,6 +74,14 @@ export const themes = {
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
+					modal: {
+						modalCommonTextColor: colors.HAWKES_BLUE,
+						modalCommonBorderColor: colors.VENICE_BLUE,
+						modalCommonBackgroundColor: colors.REGAL_BLUE_1,
+						buttonCancelBackgroundColor: colors.REGAL_BLUE_2,
+						buttonSubmitBackgroundColor: colors.DODGER_BLUE,
+						modalSliderColor: colors.DODGER_BLUE,
+					},
 					themedTable: {
 						headerBackgroundColor: colors.REGAL_BLUE_1,
 						oddRowBackgroundColor: colors.REGAL_BLUE_2,
@@ -273,6 +282,14 @@ export const themes = {
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.NEON_BLUE,
+					modal: {
+						modalCommonTextColor: colors.PACIFIC_BLUE,
+						modalCommonBorderColor: colors.PACIFIC_BLUE,
+						modalCommonBackgroundColor: colors.PACIFIC_BLUE,
+						buttonCancelBackgroundColor: "none",
+						buttonSubmitBackgroundColor: colors.DEEP_SKY_BLUE,
+						modalSliderColor: colors.PACIFIC_BLUE,
+					},
 					themedTable: {
 						headerBackgroundColor: colors.WHITE_SMOKE,
 						oddRowBackgroundColor: colors.WHITE,
