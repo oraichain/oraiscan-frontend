@@ -4,7 +4,6 @@ import {useGet} from "restful-react";
 import PropTypes from "prop-types";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import EmptyTable from "src/components/common/EmptyTable";
@@ -19,10 +18,9 @@ import styles from "./RequestCard.module.scss";
 const cx = classNames.bind(styles);
 const columns = [
 	{title: "Requests", align: "left"},
-	{title: "Tx Hash", align: "left"},
-	{title: "Report Status", align: "center"},
-	{title: "Status", align: "center"},
-	{title: "Owner", align: "right"},
+	{title: "Fees", align: "left"},
+	{title: "Block Height", align: "left"},
+	{title: "Creator", align: "left"},
 ];
 
 const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
@@ -35,41 +33,11 @@ const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 		setPageId(page);
 	};
 
-	// const basePath = `${consts.API.ORACLE_SCRIPTS_REQUEST}/${oracleScriptId}?limit=${consts.REQUEST.LIMIT}`;
-	// const path = `${basePath}&page_id=${pageId}`;
-
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 10,
-			total_page: 1,
-			total_item: 5,
-		},
-		data: [
-			{
-				request: "#R302424",
-				tx_hash: "8oohAttp/2DoJDjSPWy/T6tPfe9BEmJoxUixv9zbb+M=",
-				min: 10,
-				total: 16,
-				finished: 8,
-				owner_address: "oraivaloper1znlxtk32ya99tsvgmclqk0q56a86606lsayl5x",
-			},
-			{
-				request: "#R302424",
-				tx_hash: "8oohAttp/2DoJDjSPWy/T6tPfe9BEmJoxUixv9zbb+M=",
-				min: 10,
-				total: 16,
-				finished: 16,
-				owner_address: "oraivaloper1znlxtk32ya99tsvgmclqk0q56a86606lsayl5x",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const basePath = `${consts.API.ORACLE_SCRIPTS_REQUEST}/${oracleScriptId}?limit=${consts.REQUEST.LIMIT}`;
+	const path = `${basePath}&page_id=${pageId}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let tableSection;
 	let paginationSection;

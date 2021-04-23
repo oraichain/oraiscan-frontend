@@ -145,11 +145,11 @@ const OracleScripts = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("oracle-scripts")}>
-				<ComingSoon />
-				{/* {topOracleScriptCardList}
+				{/* <ComingSoon /> */}
+				{topOracleScriptCardList}
 				{filterSection}
 				{tableSection}
-				{paginationSection} */}
+				{paginationSection}
 			</Container>
 		</>
 	);
