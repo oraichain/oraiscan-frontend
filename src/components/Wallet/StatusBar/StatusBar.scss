@@ -1,6 +1,6 @@
 .StatusBar {
 	.card {
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 		padding: 20px 30px;
@@ -12,7 +12,7 @@
 			font-weight: 500;
 			font-size: 20px;
 			line-height: 150%;
-			color: #181818;
+			color: var(--common-textColor);
 			margin-bottom: 10px;
 		}
 
@@ -20,7 +20,7 @@
 			font-weight: 500;
 			font-size: 16px;
 			line-height: 150%;
-			color: #000000;
+			color: var(--common-textColor);
 			display: flex;
 			align-items: center;
 		}
@@ -29,7 +29,7 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
-			color: #000000;
+			color: var(--common-textColor);
 
 			@media (max-width: 500px) {
 				font-size: 14px;
@@ -59,7 +59,7 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
-			color: #1b57f0;
+			color: var(--common-linkColor);
 			display: flex;
 			align-items: center;
 			cursor: pointer;
@@ -69,11 +69,11 @@
 			font-weight: normal;
 			font-size: 20px;
 			line-height: 150%;
-			color: #000000;
+			color: var(--common-textColor);
 
 			.symbol {
 				text-transform: uppercase;
-				color: #1b57f0;
+				color: var(--common-linkColor);
 			}
 		}
 	}

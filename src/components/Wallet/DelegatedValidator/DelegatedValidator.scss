@@ -5,7 +5,7 @@
 
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
-		background: #ffffff;
+		background: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
 	}
