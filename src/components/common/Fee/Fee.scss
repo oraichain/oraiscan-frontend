@@ -10,7 +10,7 @@
 	.fee-item {
 		width: 31%;
 		padding: 8px 10px;
-		border: 1px solid #e7e7e7;
+		border: 1px solid var(--common-borderColor);
 		border-radius: 6px;
 		cursor: pointer;
 		.title {
@@ -34,6 +34,8 @@
 	}
 
 	.active {
-		border: 1px solid #008bd9;
+		border: 1px solid var(--common-modal-modalCommonBorderColor);
+		color: var(--common-modal-modalCommonTextColor);
+		background: var(--common-buttonBackgroundColor);
 	}
 }

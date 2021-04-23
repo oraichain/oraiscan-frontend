@@ -1,6 +1,6 @@
 .Register {
 	padding: 30px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
@@ -8,7 +8,7 @@
 		font-weight: 500;
 		font-size: 24px;
 		line-height: 150%;
-		color: #181818;
+		color: var(--common-textColor);
 		margin-bottom: 34px;
 	}
 
@@ -23,7 +23,7 @@
 			font-weight: 500;
 			font-size: 16px;
 			line-height: 150%;
-			color: #181818;
+			color: var(--common-textColor);
 			margin-bottom: 10px;
 		}
 
@@ -31,13 +31,11 @@
 			min-width: 300px;
 			height: 40px;
 			padding: 10px 15px;
-			border: 1px solid #e7e7e7;
 			box-sizing: border-box;
 			border-radius: 6px;
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
-			color: #181818;
 		}
 
 		.asterisk {
@@ -53,7 +51,7 @@
 		margin-top: 25px;
 		min-width: 300px;
 		height: 50px;
-		background: #00b1e9;
+		background: var(--common-modal-buttonSubmitBackgroundColor);
 		border-radius: 8px;
 		font-weight: 500;
 		font-size: 18px;
@@ -72,17 +70,22 @@
 
 	.input-text {
 		font-size: 14px;
-		color: #b5b5b5;
+		color: var(--common-placeholderTextColor);
 
 		> div {
+			border: 1px solid var(--common-borderColor);
 			border-radius: 6px;
 		}
 
 		label {
 			font-size: 22px;
-			color: #181818;
+			color: var(--common-textColor);
 			top: -12px;
 			font-weight: 500;
+		}
+
+		input {
+			color: var(--common-placeholderTextColor);
 		}
 	}
 	.grid {
@@ -92,23 +95,23 @@
 	.form-input {
 		margin-bottom: 10px !important;
 		textarea {
-			border-color: #e7e7e7;
+			border-color: var(--common-borderColor);
 			padding-left: 15px;
 			padding-top: 10px;
 			font-size: 16px;
 			&::-webkit-input-placeholder {
-				color: #b5b5b5;
+				color: var(--common-placeholderTextColor);
 				font-size: 16px;
 			}
 			&:focus {
-				border-color: #e7e7e7;
-				outline: #e7e7e7;
+				border-color: var(--common-borderColor);
+				outline: var(--common-borderColor);
 			}
 		}
 		.label {
 			font-size: 16px;
 			font-weight: 500;
-			color: #181818;
+			color: var(--common-textColor);
 			margin-top: -15px;
 			margin-bottom: 7px;
 		}
@@ -117,7 +120,7 @@
 			font-size: 14px;
 			margin-top: 5px;
 			.open-dialog {
-				color: #008bd9;
+				color: var(--common-modal-modalCommonTextColor);
 				cursor: pointer;
 			}
 		}

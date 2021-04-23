@@ -22,10 +22,10 @@
 	padding: 32px 91px;
 	border-width: 2px;
 	border-radius: 2px;
-	border-color: #eeeeee;
+	border-color: var(--common-borderColor);
 	border-style: dashed;
-	background-color: #fafafa;
-	color: #bdbdbd;
+	background-color: var(--common-blockItemBackgroundColor);
+	color: var(--common-textColor);
 	outline: none;
 	transition: border 0.24s ease-in-out;
 

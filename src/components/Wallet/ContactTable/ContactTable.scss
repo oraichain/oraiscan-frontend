@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -26,7 +26,7 @@
 }
 
 .name-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -38,7 +38,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	color: #181818;
+	color: var(--common-textColor);
 	align-items: center;
 	font-family: Roboto;
 	font-style: normal;
@@ -50,7 +50,7 @@
 .time-data-cell,
 .height-data-cell {
 	display: block;
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
