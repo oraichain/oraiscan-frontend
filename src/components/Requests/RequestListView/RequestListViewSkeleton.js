@@ -35,7 +35,7 @@ const RequestListViewSkeleton = ({rows}) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Creator</div>
+								<div className={cx("request-title")}>Fee</div>
 							</td>
 							<td>
 								<div className={cx("request-text")}>

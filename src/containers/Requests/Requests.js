@@ -26,73 +26,10 @@ const Requests = () => {
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 
-	// const path = consts.API.REQUESTS;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		data: [
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-			{
-				icon: "https://assets.trustwalletapp.com/blockchains/bitcoin/info/logo.png",
-				request_id: "12.12.12.12.12",
-				creator: "ORAI.IO",
-				input: "Lorem ipsum",
-				creator: "Lorem ipsum",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const path = consts.API.REQUESTS;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let titleSection;
 	let filterSection;

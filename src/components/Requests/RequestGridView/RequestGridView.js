@@ -18,7 +18,7 @@ const RequestGridView = ({data}) => {
 								<tr>
 									<td>{_.isNil(item?.icon) ? <span className={cx("request-icon")}>-</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}</td>
 									<td>
-										<div className={cx("request-text")}>Oracle script name</div>
+										<div className={cx("request-text")}>{_.isNil(item?.oracle_script_name) ? "-" : item?.oracle_script_name}</div>
 									</td>
 								</tr>
 								<tr>
@@ -26,15 +26,15 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Request id</div>
 									</td>
 									<td>
-										<div className={cx("request-link")}>{_.isNil(item?.request_id) ? "-" : item.request_id}</div>
+										<div className={cx("request-link")}>{_.isNil(item?.request_id) ? "-" : item?.request_id}</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("request-title")}>Creator</div>
+										<div className={cx("request-title")}>Fee</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.creator) ? "-" : item.creator}</div>
+										<div className={cx("request-text")}>{_.isNil(item?.fees) ? "-" : item?.fees}</div>
 									</td>
 								</tr>
 								<tr>
@@ -42,7 +42,7 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Input</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.input) ? "-" : item.input}</div>
+										<div className={cx("request-text")}>{_.isNil(item?.input) ? "-" : item?.input}</div>
 									</td>
 								</tr>
 								<tr>
@@ -50,7 +50,7 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Creator</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.creator) ? "-" : item.creator}</div>
+										<div className={cx("request-text")}>{_.isNil(item?.creator) ? "-" : item?.creator}</div>
 									</td>
 								</tr>
 							</table>
