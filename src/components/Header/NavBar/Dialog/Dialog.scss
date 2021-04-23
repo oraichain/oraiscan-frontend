@@ -260,10 +260,12 @@
 			width: 420px;
 			height: 50px;
 			border: 1px solid var(--common-borderColor);
+			color: var(--common-textColor);
+			background: var(--common-blockItemBackgroundColor);
 			box-sizing: border-box;
+			border-radius: 6px;
 			padding-left: 15px;
 			font-size: 16px;
-			border-radius: 6px;
 			&::placeholder {
 				color: var(--common-placeholderTextColor);
 				opacity: 1; /* Firefox */
@@ -277,6 +279,9 @@
 			::-ms-input-placeholder {
 				/* Microsoft Edge */
 				color: var(--common-placeholderTextColor);
+			}
+			&:focus {
+				outline: none;
 			}
 		}
 	}
@@ -310,7 +315,7 @@
 			cursor: pointer;
 			width: 200px;
 			height: 50px;
-			background: var(--common-modal-modalCommonBackgroundColor);
+			background: var(--common-modal-buttonSubmitBackgroundColor);
 			border-radius: 8px;
 			color: var(--common-activeTabTextColor);
 		}

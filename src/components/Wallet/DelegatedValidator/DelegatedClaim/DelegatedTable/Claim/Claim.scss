@@ -14,14 +14,15 @@
 }
 
 .btn-primary {
-	color: #ffffff;
-	background: #00b1e9;
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	// border: 1px solid var(--validators-deletegateButtonBorderColor);
 }
 
 .btn-outline-primary {
-	color: #008bd9;
-	background: #ffffff;
-	border: 1px solid #008bd9;
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	border: 1px solid var(--validators-deletegateButtonBorderColor);
 
 	&:hover {
 		color: #ffffff;
@@ -32,9 +33,9 @@
 
 .btn-outline-secondary {
 	padding: 8px 16px;
-	color: #6c757d;
-	background: #ffffff;
-	border: 1px solid #6c757d;
+	color: var(--common-textColor);
+	background: var(--common-modal-buttonCancelBackgroundColor);
+	border: 1px solid var(--common-borderColor);
 	cursor: pointer;
 
 	&:hover {
@@ -45,7 +46,7 @@
 }
 
 .label {
-	color: #000000;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -62,8 +63,8 @@
 	font-weight: normal;
 	font-size: 16px;
 	line-height: 150%;
-	color: #000000;
-	border: 1px solid #e7e7e7;
+	color: var(--common-textColor);
+	border: 1px solid var(--common-borderColor);
 	box-sizing: border-box;
 	border-radius: 6px;
 	outline: none;

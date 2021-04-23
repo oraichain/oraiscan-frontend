@@ -97,9 +97,9 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	const onSubmit = data => {
 		console.log(data);
 		if (
-			(data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) ||
-			data.sendAmount === "" ||
-			data.recipientAddress === ""
+			(data && (parseFloat(data?.sendAmount) <= 0 || parseFloat(data?.sendAmount) > amount / 1000000)) ||
+			data?.sendAmount === "" ||
+			data?.recipientAddress === ""
 		) {
 			return;
 		}
