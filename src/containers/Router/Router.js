@@ -29,6 +29,7 @@ const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
 
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestsDetail = lazy(() => import(`src/containers/RequestsDetail`));
+const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
 
 export default function(props) {
@@ -53,7 +54,7 @@ export default function(props) {
 					<Route path='/test-cases' component={TestCases} />
 					<Route path='/proposals/:id' component={ProposalsDetail} />
 					<Route path='/proposals' component={Proposals} />
-					<Route path='/requests/:id/report' component={RequestsDetail} />
+					<Route path='/requests/:id/report' component={RequestReportDetail} />
 					<Route path='/requests' component={Requests} />
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 					<Route path='/oracle-scripts' component={OracleScripts} />
