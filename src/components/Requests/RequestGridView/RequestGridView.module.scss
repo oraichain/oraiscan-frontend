@@ -3,7 +3,7 @@
 .request-grid-view {
 	margin-top: 20px;
 	padding: 30px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
@@ -15,8 +15,9 @@
 .request-card {
 	height: 100%;
 	padding: 20px;
-	background: #ffffff;
-	border: 1px solid #e7e7e7;
+	color: var(--common-textColor);
+	background: var(--common-containerBackgroundColor);
+	border: 1px solid var(--common-borderColor);
 	box-sizing: border-box;
 	border-radius: 8px;
 }
@@ -26,7 +27,7 @@
 	height: 100%;
 
 	tr {
-		border-bottom: 1px solid #e7e7e7;
+		border-bottom: 1px solid var(--common-borderColor);
 
 		td {
 			padding: 10px 0;
@@ -62,7 +63,7 @@
 	}
 
 	&-text {
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -72,7 +73,7 @@
 	}
 
 	&-link {
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;

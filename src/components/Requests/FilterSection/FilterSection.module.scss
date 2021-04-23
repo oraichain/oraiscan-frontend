@@ -2,7 +2,7 @@
 
 .filter-section {
 	&-header {
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -32,7 +32,7 @@
 	width: 120px;
 	height: 40px;
 	margin-right: 15px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	cursor: pointer;
@@ -47,10 +47,11 @@
 	&-icon {
 		display: inline-block;
 		margin-right: 10px;
+		color: var(--common-textColor);
 	}
 
 	&-text {
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
