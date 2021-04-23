@@ -9,14 +9,14 @@ import DelegationCardList from "src/components/Account/DelegationCardList/Delega
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
-import styles from "./RequestTable.scss";
+import styles from "./TestcaseResult.scss";
 import Skeleton from "./Skeleton";
 import MobileSkeleton from "./MobileSkeleton";
 
 const cx = classNames.bind(styles);
 const columns = [
 	{title: "Name", align: "left"},
-	{title: "Blockhash", align: "left"},
+	{title: "Result", align: "left"},
 	{title: "Txs", align: "center"},
 ];
 
@@ -63,7 +63,7 @@ const DelegationCard = memo(({account = ""}) => {
 
 	return (
 		<div className={cx("delegation-card")}>
-			<div className={cx("delegation-card-header")}>Request </div>
+			<div className={cx("delegation-card-header")}> Test Case Results </div>
 			<div className={cx("delegation-card-body")}>
 				{tableSection}
 				{paginationSection}

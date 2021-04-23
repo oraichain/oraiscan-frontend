@@ -2,53 +2,37 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import {useParams} from "react-router-dom";
-import DonutChart from "react-donut-chart";
+import {useGet} from "restful-react";
 import Grid from "@material-ui/core/Grid";
+import {useParams} from "react-router-dom";
 
+import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import {ReactComponent as InformationIcon} from "src/assets/icons/information.svg";
 import {ReactComponent as SuccessIcon} from "src/assets/icons/success.svg";
 
-import DelegationCard from "./RequestTable";
+import RequestTable from "./RequestTable";
+import TestcaseResult from "./TestcaseResult";
 import styles from "./RequestsDetail.scss";
 
 const cx = cn.bind(styles);
 
-export default function(props) {
-	// const {detailId} = useParams();
-	// const url = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCE_DETAIL}/${detailId}`;
-	// const [state, , , , setUrl] = useFetch(`${url}`);
-	// const pages = parseInt(state?.data?.result?.count || 0);
-	// const onPageChange = page => {
-	// 	setUrl(`${url}`);
-	// };
-	const dataForStatusBox = [
-		{
-			label: "Price",
-			value: "$455.73",
-		},
-		{
-			label: "Height",
-			value: "4,374,598",
-		},
-		{
-			label: "Bonded",
-			value: "189,132,631",
-		},
-		{
-			label: "Inflation",
-			value: "7.00%",
-		},
-	];
+export default function() {
+	const {id} = useParams();
+
+	const path = `requests/${id}/report`;
+
+	// const {data, loading, error} = useGet({
+	// 	path: path,
+	// });
 
 	return (
 		<Container fixed className={cx("validator-list")}>
 			<TitleWrapper>
-				<PageTitle title='Proposals Details' />
-				<StatusBox data={dataForStatusBox} />
+				<PageTitle title='Request Detail' />
+				<StatusBox />
 			</TitleWrapper>
 
 			<div className={cx("data-request-table")}>
@@ -111,10 +95,10 @@ export default function(props) {
 
 			<Grid container spacing={2} className={cx("request-table-area")}>
 				<Grid item lg={6} xs={12}>
-					<DelegationCard />
+					<RequestTable />
 				</Grid>
 				<Grid item lg={6} xs={12}>
-					<DelegationCard />
+					<TestcaseResult />
 				</Grid>
 			</Grid>
 		</Container>
