@@ -21,7 +21,7 @@
 
 .total-item {
 	&-title {
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -31,7 +31,7 @@
 	}
 
 	&-value {
-		color: #9a9a9a;
+		color: var(--common-placeholderTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;

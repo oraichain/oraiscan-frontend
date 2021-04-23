@@ -78,7 +78,7 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 		],
 	};
 	const loading = false;
-	const error = true;
+	const error = false;
 
 	let tableSection;
 	let paginationSection;

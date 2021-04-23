@@ -35,7 +35,7 @@
 		}
 
 		&-name {
-			color: #1b57f0;
+			color: var(--common-linkColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -47,7 +47,7 @@
 
 .address-data-cell,
 .result-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -64,11 +64,11 @@
 		line-height: 150%;
 
 		&-value {
-			color: #181818;
+			color: var(--common-textColor);
 		}
 
 		&-percent {
-			color: #9a9a9a;
+			color: var(--common-placeholderTextColor);
 		}
 	}
 }
@@ -97,7 +97,7 @@
 
 		&-text {
 			display: inline-block;
-			color: #8b8b8b;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;

@@ -1,0 +1,75 @@
+.tabs {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: nowrap;
+	margin-bottom: 20px;
+	border-bottom: 1px solid var(--common-borderColor);
+	overflow-x: scroll;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	@media (min-width: 600px) {
+		display: inline-flex;
+		border-radius: 8px;
+		border: 1px solid var(--common-borderColor);
+	}
+
+	.tab {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: nowrap;
+		flex: 1;
+		box-sizing: border-box;
+		height: 40px;
+		padding-left: 10px;
+		padding-right: 10px;
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
+
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 150%;
+		cursor: pointer;
+		user-select: none;
+		white-space: nowrap;
+
+		&-icon {
+			height: 16px;
+			width: auto;
+			margin-right: 5px;
+		}
+
+		&.active {
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				background: var(--common-activeTabColor);
+				width: 100%;
+				height: 3px;
+
+				@media (min-width: 600px) {
+					display: none;
+				}
+			}
+
+			@media (min-width: 600px) {
+				background: var(--common-activeTabColor);
+				color: #ffffff;
+
+				.tab-icon {
+					// filter: invert(1);
+					color: var(--common-activeTabTextColor);
+				}
+			}
+		}
+	}
+}

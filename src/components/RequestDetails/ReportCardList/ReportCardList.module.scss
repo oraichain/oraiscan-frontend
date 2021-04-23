@@ -64,7 +64,7 @@
 }
 
 .height {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -73,7 +73,7 @@
 }
 
 .amount {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -114,7 +114,7 @@
 
 	&-text {
 		display: inline-block;
-		color: #8b8b8b;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -124,7 +124,7 @@
 }
 
 .more {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;

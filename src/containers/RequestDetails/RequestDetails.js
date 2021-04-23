@@ -15,42 +15,24 @@ import FilterSection from "src/components/RequestDetails/FilterSection";
 import AIDataSources from "src/components/RequestDetails/AIDataSources/AIDataSources";
 import Reports from "src/components/RequestDetails/Reports";
 import Result from "src/components/RequestDetails/Result";
+import Tabs from "./TabBar";
 import styles from "./RequestDetails.module.scss";
 
 const cx = cn.bind(styles);
 
-export const tabIds = {
-	AI_DATA_SOURCES: "1",
-	REPORTS: "2",
-	RESULT: "3",
+export const tabs = {
+	AI_DATA_SOURCES: "Ai data sources",
+	REPORTS: "Reports",
+	RESULT: "Result",
 };
-
-export const tabs = [
-	{
-		label: "Ai data sources",
-		value: tabIds.AI_DATA_SOURCES,
-	},
-	{
-		label: "Reports",
-		value: tabIds.REPORTS,
-	},
-	{
-		label: "Result",
-		value: tabIds.RESULT,
-	},
-];
 
 const RequestDetails = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [activeTab, setActiveTab] = React.useState(tabs.AI_DATA_SOURCES);
 	const [keyword, setKeyword] = useState("");
-	const [tabId, setTabId] = useState(tabIds.REPORTS);
 	const params = useParams();
 	const id = params?.["id"];
-
-	const onTabChange = value => {
-		setTabId(value);
-	};
 
 	let titleSection;
 	let filterSection;
@@ -67,21 +49,14 @@ const RequestDetails = ({}) => {
 		titleSection = <TogglePageBar type='requests' />;
 	}
 
-	filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} />;
-
-	switch (tabId) {
-		case tabIds.AI_DATA_SOURCES:
-			detailsCard = <AIDataSources id={id} tabId={tabId} tabs={tabs} onTabChange={onTabChange} />;
-			break;
-		case tabIds.REPORTS:
-			detailsCard = <Reports id={id} tabId={tabId} tabs={tabs} onTabChange={onTabChange} />;
-			break;
-		case tabIds.RESULT:
-			detailsCard = <Result id={id} tabId={tabId} tabs={tabs} onTabChange={onTabChange} />;
-			break;
-		default:
-			break;
-	}
+	filterSection = (
+		<>
+			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+			{activeTab === tabs.AI_DATA_SOURCES && <AIDataSources />}
+			{activeTab === tabs.REPORTS && <Reports />}
+			{activeTab === tabs.RESULT && <Result />}
+		</>
+	);
 
 	return (
 		<Container fixed className={cx("request-details")}>

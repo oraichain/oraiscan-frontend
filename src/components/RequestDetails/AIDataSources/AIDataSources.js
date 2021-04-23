@@ -70,7 +70,7 @@ const AIDataSources = ({id, tabId, tabs, onTabChange}) => {
 			},
 		],
 	};
-	const loading = true;
+	const loading = false;
 	const error = false;
 
 	let tableSection;
