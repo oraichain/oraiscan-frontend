@@ -1,14 +1,18 @@
 @import "src/styles/utils";
 
 .search-input {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
 	position: relative;
-	display: inline-block;
 	padding: 10px 20px;
 	background: var(--common-containerBackgroundColor);
 	box-shadow: var(--shadow1);
 	border-radius: 8px;
 
 	input {
+		flex-grow: 1;
 		color: var(--common-textColor);
 		background-color: var(--common-containerBackgroundColor);
 		border: none;

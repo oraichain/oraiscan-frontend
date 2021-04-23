@@ -13,7 +13,8 @@
 
 .data-request-table {
 	padding: 20px 20px;
-	background-color: var(--colorWhite);
+	// background-color: var(--common-backgroundColor);
+	color: var(--common-buttonTextColor);
 	box-shadow: var(--shadow1);
 	box-sizing: border-box;
 	border-radius: var(--radius1);
@@ -28,18 +29,19 @@
 	}
 
 	&__info {
-		border: var(--border1);
+		border: 1px solid var(--common-borderColor);
 		border-radius: var(--radius1);
+		background: var(--common-themedTable-oddRowBackgroundColor);
 
 		&-head {
-			border-bottom: var(--border1);
+			border-bottom: 1px solid var(--common-borderColor);
 			padding: 15px 20px;
 			@include Typo(Roboto, normal, 500, 16px, 24px);
 		}
 
 		&-code {
 			padding: 15px 20px;
-			border-bottom: var(--border1);
+			border-bottom: 1px solid var(--common-borderColor);
 
 			&-item {
 				@include FlexCombo(row, flex-start, center);

@@ -1,0 +1,42 @@
+@import "src/styles/utils";
+
+.card {
+	&-header {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-bottom: 20px;
+
+		@include media(">=large") {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	&-body {
+	}
+}
+
+.total-item {
+	&-title {
+		color: #000000;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		letter-spacing: 0.4px;
+	}
+
+	&-value {
+		color: #9a9a9a;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		letter-spacing: 0.4px;
+	}
+}
