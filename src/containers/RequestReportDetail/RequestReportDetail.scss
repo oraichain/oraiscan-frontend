@@ -53,13 +53,15 @@
 				margin-bottom: 15px;
 
 				&-title {
+					color: var(--common-textColor);
 					width: 110px;
 					@include Typo(Roboto, normal, 500, 16px, 24px);
 				}
 
 				&-content {
-					margin-left: 43px;
+					// margin-left: 43px;
 					@include Typo(Roboto, normal, 400, 16px, 24px);
+					color: var(--common-textColor);
 
 					@include media("<medium") {
 						margin-left: 0px;
@@ -67,8 +69,8 @@
 					}
 
 					&-type1 {
+						color: var(--common-linkColor);
 						span {
-							color: var(--color1);
 							margin-right: 4px;
 						}
 					}
@@ -165,6 +167,15 @@
 		align-items: center;
 		svg {
 			margin-right: 5px;
+		}
+		&-success {
+			@include FlexCombo(row, flex-start, center);
+			color: var(--common-resultIconSuccessColor);
+		}
+
+		&-fail {
+			@include FlexCombo(row, flex-start, center);
+			color: var(--common-resultIconFailureColor);
 		}
 	}
 

@@ -24,7 +24,7 @@ const columns = [
 	{title: "Status", align: "center"},
 ];
 
-const Result = ({id, tabId, tabs, onTabChange}) => {
+const Result = ({id}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -34,41 +34,10 @@ const Result = ({id, tabId, tabs, onTabChange}) => {
 		setPageId(page);
 	};
 
-	// const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 3,
-			total_page: 2,
-			total_item: 4,
-		},
-		data: [
-			{
-				address: "oraivaloper14vcw5qk0tdvknpa38wz46js5g7vrvut8ku5kaa",
-				result: "MTYxOC40NA",
-				voting_power: {
-					value: 12411351,
-					percent: 6.56,
-				},
-				status: "success",
-			},
-			{
-				address: "oraivaloper14vcw5qk0tdvknpa38wz46js5g7vrvut8ku5kaa",
-				result: "MTYxOC40NA",
-				voting_power: {
-					value: 12411351,
-					percent: 6.56,
-				},
-				status: "success",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const path = `${consts.API.REQUESTS_RESULTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let tableSection;
 	let paginationSection;
@@ -103,7 +72,6 @@ const Result = ({id, tabId, tabs, onTabChange}) => {
 					<span className={cx("total-item-title")}>Result </span>
 					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
 				</div>
-				<FilterSection data={tabs} value={tabId} onChange={onTabChange} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -115,9 +83,9 @@ const Result = ({id, tabId, tabs, onTabChange}) => {
 
 Result.propTypes = {
 	id: PropTypes.any,
-	tabId: PropTypes.any,
-	tabs: PropTypes.any,
-	onTabChange: PropTypes.any,
+	// tabId: PropTypes.any,
+	// tabs: PropTypes.any,
+	// onTabChange: PropTypes.any,
 };
 Result.defaultProps = {};
 

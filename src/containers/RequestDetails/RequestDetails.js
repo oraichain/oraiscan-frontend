@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import cn from "classnames/bind";
 import {useParams} from "react-router-dom";
 import consts from "src/constants/consts";
@@ -27,10 +27,10 @@ export const tabs = {
 };
 
 const RequestDetails = ({}) => {
+	console.log("RENDER TAB!!");
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [activeTab, setActiveTab] = React.useState(tabs.AI_DATA_SOURCES);
-	const [keyword, setKeyword] = useState("");
 	const params = useParams();
 	const id = params?.["id"];
 
@@ -40,10 +40,12 @@ const RequestDetails = ({}) => {
 
 	if (isLargeScreen) {
 		titleSection = (
-			<TitleWrapper>
-				<PageTitle title={"Request details"} />
-				<StatusBox />
-			</TitleWrapper>
+			<Container fixed>
+				<TitleWrapper>
+					<PageTitle title={"Request details"} />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
 		);
 	} else {
 		titleSection = <TogglePageBar type='requests' />;
@@ -52,18 +54,20 @@ const RequestDetails = ({}) => {
 	filterSection = (
 		<>
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-			{activeTab === tabs.AI_DATA_SOURCES && <AIDataSources />}
-			{activeTab === tabs.REPORTS && <Reports />}
-			{activeTab === tabs.RESULT && <Result />}
+			{activeTab === tabs.AI_DATA_SOURCES && <AIDataSources id={id} />}
+			{activeTab === tabs.REPORTS && <Reports id={id} />}
+			{activeTab === tabs.RESULT && <Result id={id} />}
 		</>
 	);
 
 	return (
-		<Container fixed className={cx("request-details")}>
+		<>
 			{titleSection}
-			{filterSection}
-			{detailsCard}
-		</Container>
+			<Container fixed className={cx("request-details")}>
+				{filterSection}
+				{detailsCard}
+			</Container>
+		</>
 	);
 };
 

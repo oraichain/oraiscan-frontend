@@ -3,9 +3,10 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
+import {getHeaderRow} from "src/components/Account/DelegationTable/DelegationTable";
 import styles from "./RequestTable.scss";
 
-const DelegationTableSkeleton = memo(({rows = 5}) => {
+const RequestTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -23,7 +24,7 @@ const DelegationTableSkeleton = memo(({rows = 5}) => {
 			);
 
 			const rewardDataCell = (
-				<div className={cx("skeleton-data-cell", "center")}>
+				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
@@ -33,19 +34,10 @@ const DelegationTableSkeleton = memo(({rows = 5}) => {
 		return dataRows;
 	};
 
+	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(rows), [rows]);
 
-	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}> Name </div>;
-	const amountHeaderCell = <div className={cx("header-cell", "align-right")}> Blockhash </div>;
-	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}> Txs </div>;
-	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
-	const headerCellStyles = [
-		{minWidth: "100px"}, // Validator
-		{minWidth: "100px"}, // Amount
-		{minWidth: "100px"}, // Reward
-	];
-
-	return <ThemedTable theme={tableThemes.DARK} headerCellStyles={headerCellStyles} headerCells={headerCells} dataRows={dataRows} />;
+	return <ThemedTable theme={tableThemes.DARK} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default DelegationTableSkeleton;
+export default RequestTableSkeleton;

@@ -24,7 +24,7 @@ const columns = [
 	{title: "Fees", align: "right"},
 ];
 
-const AIDataSources = ({id, tabId, tabs, onTabChange}) => {
+const AIDataSources = ({id}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -34,44 +34,10 @@ const AIDataSources = ({id, tabId, tabs, onTabChange}) => {
 		setPageId(page);
 	};
 
-	// const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}`;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 3,
-			total_page: 2,
-			total_item: 4,
-		},
-		data: [
-			{
-				name: "coinbase_eth",
-				contract: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				owner: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				description: "test coinbase_eth",
-				fees: "200 ETH",
-			},
-			{
-				name: "coinbase_eth",
-				contract: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				owner: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				description: "test coinbase_eth",
-				fees: "200 ETH",
-			},
-			{
-				name: "coinbase_eth",
-				contract: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				owner: "oraivaloper1mxqeldsxg60t2y6gngpdm5jf3k96dnju5el96f",
-				description: "test coinbase_eth",
-				fees: "200 ETH",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let tableSection;
 	let paginationSection;
@@ -106,8 +72,6 @@ const AIDataSources = ({id, tabId, tabs, onTabChange}) => {
 					<span className={cx("total-item-title")}>Ai data sources </span>
 					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
 				</div>
-
-				<FilterSection data={tabs} value={tabId} onChange={onTabChange} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -119,9 +83,9 @@ const AIDataSources = ({id, tabId, tabs, onTabChange}) => {
 
 AIDataSources.propTypes = {
 	id: PropTypes.any,
-	tabId: PropTypes.any,
-	tabs: PropTypes.any,
-	onTabChange: PropTypes.any,
+	// tabId: PropTypes.any,
+	// tabs: PropTypes.any,
+	// onTabChange: PropTypes.any,
 };
 AIDataSources.defaultProps = {};
 

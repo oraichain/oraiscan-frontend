@@ -4,12 +4,14 @@ import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import DelegationTable from "src/components/Account/DelegationTable";
-import DelegationCardList from "src/components/Account/DelegationCardList/DelegationCardList";
-import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
+import RequestTable from "./RequestTable/RequestTable";
+import RequestTableSkeleton from "./RequestTable/RequestTableSkeleton";
+import RequestCardList from "./RequestCardList/RequestCardList";
+import RequestCardListSkeleton from "./RequestCardList/RequestCardListSkeleton";
+
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
-import styles from "./RequestTable.scss";
+import styles from "./RequestContainer.scss";
 import Skeleton from "./Skeleton";
 import MobileSkeleton from "./MobileSkeleton";
 
@@ -20,7 +22,7 @@ const columns = [
 	{title: "Txs", align: "center"},
 ];
 
-const DelegationCard = memo(({account = ""}) => {
+const RequestContainer = memo(({id, address}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -30,16 +32,17 @@ const DelegationCard = memo(({account = ""}) => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.DELEGATIONS}/${account}`;
+	const path = `${consts.API.REQUESTS_REPORTS}/detail/ds_results/${id}?validator_address=${address}&imit=4&page_id=1`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
 
+	console.log(data, "fffffffffffffff");
 	let tableSection;
 	let paginationSection;
 
 	if (loading) {
-		tableSection = isLargeScreen ? <Skeleton /> : <MobileSkeleton />;
+		tableSection = isLargeScreen ? <RequestTableSkeleton /> : <RequestCardListSkeleton />;
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
@@ -52,7 +55,7 @@ const DelegationCard = memo(({account = ""}) => {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
+				tableSection = isLargeScreen ? <RequestTable data={data.data} /> : <RequestCardList data={data.data} />;
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
 			}
@@ -72,4 +75,4 @@ const DelegationCard = memo(({account = ""}) => {
 	);
 });
 
-export default DelegationCard;
+export default RequestContainer;

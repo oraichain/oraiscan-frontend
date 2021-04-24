@@ -78,9 +78,9 @@ const NavigateBackBar = ({type}) => {
 					</NavLink>
 				);
 			}
-			case "requests": {
+			case "ai_requests": {
 				return (
-					<NavLink className={cx("title")} to={"/requests"}>
+					<NavLink className={cx("title")} to={"/ai_requests"}>
 						{" "}
 						<LeftArrowIcon className={cx("title-icon")} /> Request details
 					</NavLink>

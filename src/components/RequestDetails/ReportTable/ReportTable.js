@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import {_} from "src/lib/scripts";
@@ -9,18 +9,19 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
 import styles from "./ReportTable.module.scss";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const nameHeaderCell = <div className={cx("header-cell", "align-left")}>Name</div>;
-	const testCaseResultsHeaderCell = <div className={cx("header-cell", "align-left")}>Test Case Results</div>;
+	const validatorAddressHeaderCell = <div className={cx("header-cell", "align-left")}>Validator Address</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-left")}>Result</div>;
 	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Status</div>;
 	const moreHeaderCell = <div className={cx("header-cell", "align-right")}></div>;
-	const headerCells = [nameHeaderCell, testCaseResultsHeaderCell, heightHeaderCell, resultHeaderCell, statusHeaderCell, moreHeaderCell];
+	const headerCells = [nameHeaderCell, validatorAddressHeaderCell, heightHeaderCell, resultHeaderCell, statusHeaderCell, moreHeaderCell];
 	const headerCellStyles = [
 		{width: "auto"}, // Name
 		{width: "auto"}, // Test Case Results
@@ -36,6 +37,8 @@ export const getHeaderRow = () => {
 };
 
 const ReportTable = memo(({data}) => {
+	const params = useParams();
+	const requestId = params?.["id"];
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -46,33 +49,46 @@ const ReportTable = memo(({data}) => {
 			if (_.isNil(item?.status)) {
 				statusElement = <div className={cx("status")}>-</div>;
 			} else {
-				if (item.status === "success") {
-					statusElement = (
-						<div className={cx("status")}>
-							<CheckIcon className={cx("status-icon", "status-icon-success")} />
-							<span className={cx("status-text")}>Success</span>
-						</div>
-					);
-				} else if (item.status === "pending") {
-					statusElement = (
-						<div className={cx("status")}>
-							<ClockIcon className={cx("status-icon", "status-icon-pending")} />
-							<span className={cx("status-text")}>Pending</span>
-						</div>
-					);
+				switch (item?.status) {
+					case "success":
+						statusElement = (
+							<div className={cx("status")}>
+								<CheckIcon className={cx("status-icon", "status-icon-success")} />
+								<span className={cx("status-text")}>Success</span>
+							</div>
+						);
+						break;
+					case "pending":
+						statusElement = (
+							<div className={cx("status")}>
+								<ClockIcon className={cx("status-icon", "status-icon-pending")} />
+								<span className={cx("status-text")}>Pending</span>
+							</div>
+						);
+						break;
+					case "fail":
+						statusElement = (
+							<div className={cx("status")}>
+								<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+								<span className={cx("status-text")}>Failed</span>
+							</div>
+						);
+						break;
+					default:
+						break;
 				}
 			}
 
-			const nameDataCell = _.isNil(item?.name) ? (
+			const nameDataCell = _.isNil(item?.validator_name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("name-data-cell", "align-left")}>{item.name}</div>
+				<div className={cx("name-data-cell", "align-left")}>{item?.validator_name}</div>
 			);
 
-			const testCaseResultsDataCell = _.isNil(item?.name) ? (
+			const validatorAddressDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("test-case-results-data-cell", "align-left")}>{item.test_case_results}</div>
+				<div className={cx("test-case-results-data-cell", "align-left")}>{item?.validator_address}</div>
 			);
 
 			const heightDataCell = _.isNil(item?.height) ? (
@@ -86,7 +102,7 @@ const ReportTable = memo(({data}) => {
 			) : (
 				<div className={cx("result-data-cell", "align-left")}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{item.result}</span>
+						<span className={cx("amount-value")}>{item?.result}</span>
 						<span className={cx("amount-denom")}>ORAI</span>
 					</div>
 				</div>
@@ -94,17 +110,17 @@ const ReportTable = memo(({data}) => {
 
 			const statusDataCell = <div className={cx("status-data-cell", "align-right")}>{statusElement}</div>;
 
-			const moreDataCell = _.isNil(item?.id) ? (
+			const moreDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("more-data-cell", "align-right")}>
-					<NavLink className={cx("more")} to={`${consts.PATH.REQUESTS_REPORTS}/${item.id}`}>
+					<NavLink className={cx("more")} to={`${consts.PATH.REQUESTS}/${requestId}${item?.validator_address ? "/" + item?.validator_address : ""}/report`}>
 						View more
 					</NavLink>
 				</div>
 			);
 
-			return [nameDataCell, testCaseResultsDataCell, heightDataCell, resultDataCell, statusDataCell, moreDataCell];
+			return [nameDataCell, validatorAddressDataCell, heightDataCell, resultDataCell, statusDataCell, moreDataCell];
 		});
 	};
 

@@ -45,7 +45,7 @@ const Requests = () => {
 			</Container>
 		);
 	} else {
-		titleSection = <TogglePageBar type='requests' />;
+		titleSection = <TogglePageBar type='ai_requests' />;
 	}
 
 	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;

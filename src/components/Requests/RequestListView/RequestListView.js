@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {NavLink} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {_} from "src/lib/scripts";
 import styles from "./RequestListView.module.scss";
+import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
 
@@ -26,7 +28,13 @@ const RequestListView = ({data}) => {
 										<div className={cx("request-title")}>Request id</div>
 									</td>
 									<td>
-										<div className={cx("request-link")}>{_.isNil(item?.request_id) ? "-" : item?.request_id}</div>
+										{_.isNil(item?.request_id) ? (
+											<div className={cx("request-link")}>-</div>
+										) : (
+											<NavLink className={cx("request-link")} to={`${consts.API.REQUESTS}/${item?.request_id}`}>
+												{item?.request_id}
+											</NavLink>
+										)}
 									</td>
 								</tr>
 								<tr>

@@ -224,7 +224,7 @@ const Tabs = memo(() => {
 		{
 			name: "Requests",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/requests",
+			route: "/ai_requests",
 		},
 	];
 

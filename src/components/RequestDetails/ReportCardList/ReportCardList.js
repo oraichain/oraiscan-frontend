@@ -1,17 +1,20 @@
 // @ts-nocheck
 import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
+import FailedIcon from "src/icons/Transactions/FailedIcon";
 import styles from "./ReportCardList.module.scss";
 
 const cx = classNames.bind(styles);
 
 const ReportCardList = memo(({data}) => {
+	const params = useParams();
+	const requestId = params?.["id"];
 	return (
 		<div className='report-card-list'>
 			{data.map((item, index) => {
@@ -19,20 +22,33 @@ const ReportCardList = memo(({data}) => {
 				if (_.isNil(item?.status)) {
 					statusElement = <div className={cx("status")}>-</div>;
 				} else {
-					if (item.status === "success") {
-						statusElement = (
-							<div className={cx("status")}>
-								<CheckIcon className={cx("status-icon", "status-icon-success")} />
-								<span className={cx("status-text")}>Success</span>
-							</div>
-						);
-					} else if (item.status === "pending") {
-						statusElement = (
-							<div className={cx("status")}>
-								<ClockIcon className={cx("status-icon", "status-icon-pending")} />
-								<span className={cx("status-text")}>Pending</span>
-							</div>
-						);
+					switch (item?.status) {
+						case "success":
+							statusElement = (
+								<div className={cx("status")}>
+									<CheckIcon className={cx("status-icon", "status-icon-success")} />
+									<span className={cx("status-text")}>Success</span>
+								</div>
+							);
+							break;
+						case "pending":
+							statusElement = (
+								<div className={cx("status")}>
+									<ClockIcon className={cx("status-icon", "status-icon-pending")} />
+									<span className={cx("status-text")}>Pending</span>
+								</div>
+							);
+							break;
+						case "fail":
+							statusElement = (
+								<div className={cx("status")}>
+									<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+									<span className={cx("status-text")}>Failed</span>
+								</div>
+							);
+							break;
+						default:
+							break;
 					}
 				}
 
@@ -43,14 +59,18 @@ const ReportCardList = memo(({data}) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Name</div>
-										{_.isNil(item?.name) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.name}</div>}
+										{_.isNil(item?.validator_name) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.validator_name}</div>}
 									</td>
 								</tr>
 
 								<tr>
 									<td colSpan={2}>
-										<div className={cx("item-title")}>Test Case Results</div>
-										{_.isNil(item?.name) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.test_case_results}</div>}
+										<div className={cx("item-title")}>Validator Address</div>
+										{_.isNil(item?.validator_address) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<div className={cx("item-link")}>{item.validator_address}</div>
+										)}
 									</td>
 								</tr>
 
@@ -66,7 +86,7 @@ const ReportCardList = memo(({data}) => {
 										<div className={cx("item-title")}>Result</div>
 									</td>
 									<td>
-										{_.isNil(item?.height) ? (
+										{_.isNil(item?.result) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("amount")}>
@@ -86,10 +106,12 @@ const ReportCardList = memo(({data}) => {
 
 								<tr>
 									<td colSpan={2}>
-										{_.isNil(item?.id) ? (
+										{_.isNil(requestId) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("more")} to={`${consts.PATH.REQUESTS_REPORTS}/${item.id}`}>
+											<NavLink
+												className={cx("more")}
+												to={`${consts.PATH.REQUESTS}/${requestId}${item?.validator_address ? "/" + item?.validator_address : ""}/report`}>
 												View more
 											</NavLink>
 										)}

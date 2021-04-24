@@ -6,6 +6,8 @@ import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DataSourceTable.module.scss";
+import consts from "src/constants/consts";
+import {NavLink} from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -39,19 +41,21 @@ const DataSourceTable = memo(({data}) => {
 			const nameDataCell = _.isNil(item?.name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("name-data-cell", "align-left")}>{item.name}</div>
+				<div className={cx("name-data-cell", "align-left")}>{item?.name}</div>
 			);
 
 			const contractDataCell = _.isNil(item?.contract) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("contract-data-cell", "align-left")}>{item.contract}</div>
+				<div className={cx("contract-data-cell", "align-left")}>{item?.contract}</div>
 			);
 
 			const ownerDataCell = _.isNil(item?.owner) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("owner-data-cell", "align-left")}>{item.owner}</div>
+				<NavLink className={cx("owner-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.owner}`}>
+					{item?.owner}
+				</NavLink>
 			);
 
 			const descriptionDataCell = _.isNil(item?.description) ? (
@@ -63,7 +67,7 @@ const DataSourceTable = memo(({data}) => {
 			const feesDataCell = _.isNil(item?.fees) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("fees-data-cell", "align-right")}>{item.fees}</div>
+				<div className={cx("fees-data-cell", "align-right")}>{item?.fees}</div>
 			);
 
 			return [nameDataCell, contractDataCell, ownerDataCell, descriptionDataCell, feesDataCell];

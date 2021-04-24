@@ -1,4 +1,5 @@
 @import "src/styles/utils";
+
 .align-left {
 	text-align: left;
 }
@@ -7,12 +8,8 @@
 	text-align: right;
 }
 
-.align-center {
-	text-align: center;
-}
-
 .header-cell {
-	color: var(--common-headerTextColor);
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -20,44 +17,8 @@
 	line-height: 150%;
 }
 
-.validator-data-cell {
-	.validator {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-
-		&-icon {
-			display: inline-block;
-			width: 40px;
-			height: auto;
-			margin-right: 8px;
-		}
-
-		&-name {
-			text-align: left;
-			color: var(--common-linkColor);
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 14px;
-			line-height: 150%;
-		}
-	}
-}
-
-.address-data-cell,
-.result-data-cell {
-	color: var(--common-textColor);
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 150%;
-}
-
-.voting-power-data-cell {
-	.voting-power {
+.amount-data-cell {
+	.amount {
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -65,11 +26,9 @@
 		line-height: 150%;
 
 		&-value {
+			display: inline-block;
+			margin-right: 4px;
 			color: var(--common-textColor);
-		}
-
-		&-percent {
-			color: var(--common-placeholderTextColor);
 		}
 	}
 }
@@ -109,8 +68,4 @@
 			line-height: 150%;
 		}
 	}
-}
-
-.skeleton {
-	display: inline-block;
 }

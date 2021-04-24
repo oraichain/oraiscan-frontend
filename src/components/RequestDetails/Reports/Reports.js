@@ -25,7 +25,7 @@ const columns = [
 	{title: "", align: "right"},
 ];
 
-const Reports = ({id, tabId, tabs, onTabChange}) => {
+const Reports = ({id}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -35,50 +35,10 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 		setPageId(page);
 	};
 
-	// const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 3,
-			total_page: 2,
-			total_item: 4,
-		},
-		data: [
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let tableSection;
 	let paginationSection;
@@ -113,7 +73,6 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 					<span className={cx("total-item-title")}>Reports </span>
 					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
 				</div>
-				<FilterSection data={tabs} value={tabId} onChange={onTabChange} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -125,9 +84,9 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 
 Reports.propTypes = {
 	id: PropTypes.any,
-	tabId: PropTypes.any,
-	tabs: PropTypes.any,
-	onTabChange: PropTypes.any,
+	// tabId: PropTypes.any,
+	// tabs: PropTypes.any,
+	// onTabChange: PropTypes.any,
 };
 Reports.defaultProps = {};
 
