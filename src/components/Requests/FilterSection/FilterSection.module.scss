@@ -1,0 +1,71 @@
+@import "src/styles/utils";
+
+.filter-section {
+	&-header {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+
+	&-body {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+
+		@include media(">=small") {
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+		}
+	}
+}
+
+.view-switch {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 120px;
+	height: 40px;
+	margin-right: 15px;
+	background: var(--common-containerBackgroundColor);
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+	cursor: pointer;
+	user-select: none;
+
+	margin-bottom: 15px;
+
+	@include media(">=small") {
+		margin-bottom: 0;
+	}
+
+	&-icon {
+		display: inline-block;
+		margin-right: 10px;
+		color: var(--common-textColor);
+	}
+
+	&-text {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
+.search-box {
+	flex-grow: 1;
+	width: 100%;
+}
+
+.search-input {
+	width: 100%;
+	padding: 12px 20px;
+}
