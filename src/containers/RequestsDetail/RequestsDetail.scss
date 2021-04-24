@@ -1,0 +1,176 @@
+@import "src/styles/utils";
+.validator-list {
+	margin-top: 30px;
+	width: 1220px;
+	padding: 0px;
+	@include media("<medium") {
+		width: 90%;
+	}
+}
+.detail-section {
+	margin-bottom: var(--verticalSpace1);
+}
+
+.data-request-table {
+	padding: 20px 20px;
+	background-color: var(--colorWhite);
+	box-shadow: var(--shadow1);
+	box-sizing: border-box;
+	border-radius: var(--radius1);
+
+	&__title {
+		@include Typo(Roboto, normal, 500, 20px, 30px);
+		margin-bottom: 20px;
+
+		span {
+			color: var(--color1);
+		}
+	}
+
+	&__info {
+		border: var(--border1);
+		border-radius: var(--radius1);
+
+		&-head {
+			border-bottom: var(--border1);
+			padding: 15px 20px;
+			@include Typo(Roboto, normal, 500, 16px, 24px);
+		}
+
+		&-code {
+			padding: 15px 20px;
+			border-bottom: var(--border1);
+
+			&-item {
+				@include FlexCombo(row, flex-start, center);
+
+				@include media("<medium") {
+					display: block;
+				}
+
+				margin-bottom: 15px;
+
+				&-title {
+					width: 110px;
+					@include Typo(Roboto, normal, 500, 16px, 24px);
+				}
+
+				&-content {
+					margin-left: 43px;
+					@include Typo(Roboto, normal, 400, 16px, 24px);
+
+					@include media("<medium") {
+						margin-left: 0px;
+						margin-top: 5px;
+					}
+
+					&-type1 {
+						span {
+							color: var(--color1);
+							margin-right: 4px;
+						}
+					}
+
+					&-type2 {
+						color: var(--color1);
+					}
+
+					&-type3 {
+						span {
+							color: var(--color1);
+							margin-left: 4px;
+						}
+					}
+				}
+			}
+		}
+
+		&-chart {
+			@include FlexCombo(row, space-between, center);
+
+			&-left {
+				padding: 20px;
+
+				&-status {
+					@include FlexCombo(row, flex-start, center);
+					margin-bottom: 15px;
+
+					&-title {
+						@include FlexCombo(row, flex-start, center);
+						@include Typo(Roboto, normal, 500, 16px, 24px);
+						width: 114px;
+						margin-right: 15px;
+					}
+
+					&-success {
+						@include FlexCombo(row, flex-start, center);
+					}
+				}
+
+				&-report {
+					@include FlexCombo(row, flex-start, center);
+					margin-bottom: 25px;
+
+					&-title {
+						@include FlexCombo(row, flex-start, center);
+						@include Typo(Roboto, normal, 500, 16px, 24px);
+						width: 114px;
+						margin-right: 15px;
+					}
+
+					&-success {
+						@include FlexCombo(row, flex-start, center);
+					}
+				}
+
+				&-chartbox {
+					@include FlexCombo(row, center, center);
+					background: var(--color6);
+					border-radius: var(--radius2);
+					padding: 20px;
+					box-sizing: border-box;
+
+					&-info {
+						margin-right: 27px;
+
+						&-tab1 {
+							@include FlexCombo(row, center, center);
+						}
+
+						&-tab2 {
+							@include FlexCombo(row, center, center);
+						}
+					}
+				}
+			}
+			&-middle {
+			}
+			&-right {
+			}
+		}
+	}
+
+	.test-cases {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-left: 5px;
+		}
+	}
+
+	.status {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-right: 5px;
+		}
+	}
+
+	.margin-top-20 {
+		margin-top: 20px;
+	}
+}
+
+.request-table-area {
+	margin-top: 20px;
+}
