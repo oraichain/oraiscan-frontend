@@ -67,7 +67,6 @@ export default Object.freeze({
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
 		ORAICHAIN_INFO: "/oraichain_info",
-
 		ACCOUNT_COINS: "/account/coins",
 		VALIDATOR: "/validator",
 		DELEGATOR: "/delegator",
@@ -89,6 +88,9 @@ export default Object.freeze({
 		MIN_FEE: "min_gas",
 		ORACLE_SCRIPTS_REQUEST: "oracle_scripts/request",
 		ORACLE_SCRIPTS: "oracle-scripts",
+		REQUESTS: "/requests",
+		REQUESTS_AI_DATA_SOURCES: "/requests/ai_data_sources",
+		REQUESTS_REPORTS: "/requests/reports",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -157,6 +159,8 @@ export default Object.freeze({
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 		PROPOSALS: "/proposals",
+		REQUESTS: "/requests",
+		REQUESTS_REPORTS: "/requests/reports",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

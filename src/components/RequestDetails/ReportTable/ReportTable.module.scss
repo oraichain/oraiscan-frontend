@@ -1,0 +1,110 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: var(--common-headerTextColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.name-data-cell,
+.test-case-results-data-cell {
+	color: #1b57f0;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.height-data-cell {
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.result-data-cell {
+	.amount {
+		color: #181818;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 8px;
+		}
+
+		&-denom {
+			text-transform: uppercase;
+		}
+	}
+}
+
+.status-data-cell {
+	.status {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: 16px;
+			height: auto;
+			margin-right: 8px;
+
+			&-success {
+				color: #3fcc28;
+			}
+
+			&-pending {
+				color: #ffae74;
+			}
+		}
+
+		&-text {
+			display: inline-block;
+			color: #8b8b8b;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.more-data-cell {
+	.more {
+		color: #1b57f0;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+		text-decoration-line: underline;
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}
