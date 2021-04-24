@@ -1,6 +1,10 @@
 @import "src/styles/utils";
 
 .search-input {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
 	position: relative;
 	display: inline-flex;
 	flex-direction: row;

@@ -20,12 +20,15 @@ import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
 import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
 import styles from "./Tx.module.scss";
+import _ from "lodash";
 
 const cx = cn.bind(styles);
 
 const Tx = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const countRefetchRef = useRef(0);
+	const [shouldRefetch, setShouldRefetch] = useState(true);
 	const [pending, setPending] = useState(true);
 	const params = useParams();
 	const txHash = params?.["tx"];
@@ -95,7 +98,6 @@ const Tx = () => {
 		} else {
 			if (pending) {
 				let hasPendingTransaction = false;
-
 				if (Array.isArray(data?.result?.txs)) {
 					for (let tx of data.result.txs) {
 						const decodedTx = decodeTx(tx);
@@ -127,15 +129,27 @@ const Tx = () => {
 					txInfo = <TxInfoSkeleton />;
 					txData = <TxDataSkeleton />;
 					setPending(false);
+					cleanUp();
 				}
-			} else {
-				if (data?.height) {
-					txInfo = <TxInfo data={data} />;
-					txData = <TxData data={data} />;
-				} else {
-					txInfo = <NotFound message={"Sorry! Tx Not Found"} />;
+			} else if (shouldRefetch) {
+				if (!_.isNil(data?.height)) {
+					if (data?.height === 0) {
+						if (pendingDataRef.current) {
+							txInfo = <TxInfo data={pendingDataRef.current} />;
+							txData = <TxData data={pendingDataRef.current} />;
+						}
+						refetch();
+						countRefetchRef.current += 1;
+						if (countRefetchRef.current === 15) {
+							cleanUp();
+							setShouldRefetch(false);
+						}
+					} else {
+						txInfo = <TxInfo data={data} />;
+						txData = <TxData data={data} />;
+					}
 				}
-			}
+			} else return <NotFound message={"Sorry! Tx Not Found"} />;
 		}
 	}
 

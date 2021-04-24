@@ -1,8 +1,11 @@
 @import "src/styles/utils";
 .validator-list {
 	margin-top: 30px;
-	width: 1200px;
+	width: 1220px;
 	padding: 0px;
+	@include media("<medium") {
+		width: 90%;
+	}
 }
 .detail-section {
 	margin-bottom: var(--verticalSpace1);
@@ -40,16 +43,26 @@
 
 			&-item {
 				@include FlexCombo(row, flex-start, center);
+
+				@include media("<medium") {
+					display: block;
+				}
+
 				margin-bottom: 15px;
 
 				&-title {
-					width: 101px;
+					width: 110px;
 					@include Typo(Roboto, normal, 500, 16px, 24px);
 				}
 
 				&-content {
 					margin-left: 43px;
 					@include Typo(Roboto, normal, 400, 16px, 24px);
+
+					@include media("<medium") {
+						margin-left: 0px;
+						margin-top: 5px;
+					}
 
 					&-type1 {
 						span {
@@ -136,4 +149,28 @@
 			}
 		}
 	}
+
+	.test-cases {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-left: 5px;
+		}
+	}
+
+	.status {
+		display: flex;
+		align-items: center;
+		svg {
+			margin-right: 5px;
+		}
+	}
+
+	.margin-top-20 {
+		margin-top: 20px;
+	}
+}
+
+.request-table-area {
+	margin-top: 20px;
 }

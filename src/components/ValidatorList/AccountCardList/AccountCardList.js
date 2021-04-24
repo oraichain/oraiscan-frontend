@@ -71,7 +71,11 @@ const AccountCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Percentage</div>
 									</td>
 									<td>
-										{_.isNil(item?.percentage) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{`${item?.percentage}%`}</div>}
+										{_.isNil(item?.percentage) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<div className={cx("item-text")}>{`${(item?.percentage * 100)?.toFixed(6)}%`}</div>
+										)}
 									</td>
 								</tr>
 								<tr>

@@ -8,17 +8,17 @@
 .form-input {
 	margin-bottom: 10px !important;
 	textarea {
-		border-color: #e7e7e7;
+		border-color: var(--common-borderColor);
 		padding-left: 15px;
 		padding-top: 10px;
 		font-size: 16px;
 		&::-webkit-input-placeholder {
-			color: #b5b5b5;
+			color: var(--common-placeholderTextColor);
 			font-size: 16px;
 		}
 	}
 	.new-label {
-		color: #949494;
+		color: var(--common-placeholderTextColor);
 		font-size: 14px;
 		margin-top: 5px;
 		.open-dialog {
@@ -82,11 +82,11 @@
 	button {
 		width: 50%;
 		height: 100%;
-		border: solid 1px #222222;
+		// border: solid 1px var(--common-modal-modalCommonBorderColor);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid #1b57f0;
+		border: 1px solid var(--common-modal-modalCommonBorderColor);
 		cursor: pointer;
 
 		p {
@@ -98,16 +98,16 @@
 			line-height: 1.36;
 			letter-spacing: normal;
 			text-align: left;
-			color: #000;
+			color: var(--common-textColor);
 			padding: 10px;
 			font-weight: 500;
 		}
 
 		&.selected {
-			background: #1b57f0;
+			background: var(--common-activeTabColor);
 
 			p {
-				color: #ffffff;
+				color: var(--common-activeTabTextColor);
 			}
 		}
 	}
@@ -126,7 +126,7 @@
 	margin-bottom: 10px;
 	padding-left: 2px;
 	.optional {
-		color: #b5b5b5;
+		color: var(--common-placeholderTextColor);
 	}
 	.fee {
 		font-weight: 400;
@@ -140,9 +140,9 @@
 		button {
 			cursor: pointer;
 			font-size: 16px;
-			color: #008bd9;
+			color: var(--common-modal-modalCommonTextColor);
 			padding: 8px 15px;
-			border: 1px solid #008bd9;
+			border: 1px solid var(--common-modal-modalCommonBorderColor);
 			border-radius: 5px;
 			&:first-child {
 				margin-right: 10px;
@@ -163,8 +163,9 @@
 }
 
 .btn-cancel {
-	color: #008bd9 !important;
-	border: 1px solid #008bd9 !important;
+	color: var(--common-modal-modalCommonTextColor) !important;
+	border: 1px solid var(--common-modal-modalCommonBorderColor) !important;
+	background: var(--common-modal-buttonCancelBackgroundColor) !important;
 	border-radius: 8px !important;
 	padding: 11px 0px !important;
 	margin-right: 20px !important;
@@ -173,7 +174,8 @@
 }
 
 .btn-submit {
-	background-color: #008bd9 !important;
+	background-color: var(--common-modal-buttonSubmitBackgroundColor) !important;
+	border: 1px solid var(--common-modal-buttonSubmitBackgroundColor) !important;
 	border-radius: 8px !important;
 	text-transform: none !important;
 	font-size: 18px !important;
@@ -187,7 +189,7 @@
 	.switch-blue {
 		font-family: Roboto;
 		font-size: 16px;
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		cursor: pointer;
 		svg {
 			margin-left: 5px;
@@ -196,7 +198,7 @@
 }
 
 .summary {
-	border: 1px dashed #e7e7e7;
+	border: 1px dashed var(--common-borderColor);
 	border-radius: 4px;
 	padding: 10px;
 	.row {
@@ -206,7 +208,7 @@
 
 .input-multi-send {
 	height: 400px;
-	border: 1px dashed #e7e7e7;
+	border: 1px dashed var(--common-borderColor);
 	border-radius: 4px;
 	.textarea {
 		height: 400px !important;
@@ -239,7 +241,7 @@
 	font-family: Roboto;
 	font-style: normal;
 	line-height: 150%;
-	color: #000000;
+	color: var(--common-textColor);
 	.address-dialog-header {
 		margin-bottom: 20px;
 		.title {
@@ -257,24 +259,29 @@
 		.input {
 			width: 420px;
 			height: 50px;
-			border: 1px solid #e7e7e7;
+			border: 1px solid var(--common-borderColor);
+			color: var(--common-textColor);
+			background: var(--common-blockItemBackgroundColor);
 			box-sizing: border-box;
+			border-radius: 6px;
 			padding-left: 15px;
 			font-size: 16px;
-			border-radius: 6px;
 			&::placeholder {
-				color: #cdcdcd;
+				color: var(--common-placeholderTextColor);
 				opacity: 1; /* Firefox */
 			}
 
 			:-ms-input-placeholder {
 				/* Internet Explorer 10-11 */
-				color: #cdcdcd;
+				color: var(--common-placeholderTextColor);
 			}
 
 			::-ms-input-placeholder {
 				/* Microsoft Edge */
-				color: #cdcdcd;
+				color: var(--common-placeholderTextColor);
+			}
+			&:focus {
+				outline: none;
 			}
 		}
 	}
@@ -286,7 +293,7 @@
 			height: 27px;
 		}
 		.address-value {
-			color: #181818;
+			color: var(--common-textColor);
 			font-size: 16px;
 			font-weight: normal;
 			height: 24px;
@@ -297,20 +304,20 @@
 			cursor: pointer;
 			width: 200px;
 			height: 50px;
-			background: #ffffff;
-			border: 1px solid #008bd9;
+			background: var(--common-containerBackgroundColor);
+			border: 1px solid var(--common-modal-modalCommonBorderColor);
 			box-sizing: border-box;
 			border-radius: 8px;
 			margin-right: 20px;
-			color: #008bd9;
+			color: var(--common-modal-modalCommonTextColor);
 		}
 		.button-add {
 			cursor: pointer;
 			width: 200px;
 			height: 50px;
-			background: #00b1e9;
+			background: var(--common-modal-buttonSubmitBackgroundColor);
 			border-radius: 8px;
-			color: #ffffff;
+			color: var(--common-activeTabTextColor);
 		}
 	}
 }
@@ -328,7 +335,7 @@
 		margin-right: 8px;
 	}
 	&-icon {
-		color: #008bd9;
+		color: var(--common-modal-modalCommonTextColor);
 		display: inline-flex;
 		flex-direction: row;
 		justify-self: flex-start;

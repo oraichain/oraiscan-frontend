@@ -102,7 +102,7 @@ const Tabs = memo(() => {
 											dispatch(closePageBar());
 											e.stopPropagation();
 										}}>
-										Account
+										Accounts
 									</MenuItem>
 								</MenuList>
 							</ClickAwayListener>
@@ -164,7 +164,7 @@ const Tabs = memo(() => {
 											dispatch(closePageBar());
 											e.stopPropagation();
 										}}>
-										Pending transaction
+										Pending transactions
 									</MenuItem>
 								</MenuList>
 							</ClickAwayListener>

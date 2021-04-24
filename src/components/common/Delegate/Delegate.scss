@@ -45,9 +45,9 @@
 
 .btn-outline-secondary {
 	padding: 8px 16px;
-	color: #6c757d;
-	background: #ffffff;
-	border: 1px solid #6c757d;
+	color: var(--common-textColor);
+	background: var(--common-modal-buttonCancelBackgroundColor);
+	border: 1px solid var(--common-borderColor);
 	cursor: pointer;
 
 	&:hover {
@@ -58,7 +58,7 @@
 }
 
 .label {
-	color: #000000;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -78,8 +78,8 @@
 	font-weight: normal;
 	font-size: 16px;
 	line-height: 150%;
-	color: #000000;
-	border: 1px solid #e7e7e7;
+	color: var(--common-textColor);
+	border: 1px solid var(--common-borderColor);
 	box-sizing: border-box;
 	border-radius: 6px;
 	outline: none;
@@ -129,6 +129,11 @@
 .amount-reward {
 	margin-top: 10px;
 	.input {
+		color: var(--common-textColor);
+		border: 1px solid var(--common-borderColor);
+		background: var(--common-blockItemBackgroundColor);
+		box-sizing: border-box;
+		border-radius: 8px;
 		font-family: Roboto;
 		font-weight: normal;
 		font-size: 18px;
@@ -220,11 +225,11 @@
 	button {
 		width: 50%;
 		height: 100%;
-		border: solid 1px #222222;
+		// border: solid 1px #222222;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid #1b57f0;
+		border: 1px solid var(--common-borderColor);
 		cursor: pointer;
 
 		p {
@@ -236,7 +241,7 @@
 			line-height: 1.36;
 			letter-spacing: normal;
 			text-align: left;
-			color: #000;
+			color: var(--common-textColor);
 			padding: 10px;
 			font-weight: 500;
 			@include media("<medium") {
@@ -246,10 +251,10 @@
 		}
 
 		&.selected {
-			background: #1b57f0;
+			background: var(--common-activeTabColor);
 
 			p {
-				color: #ffffff;
+				color: var(--common-activeTabTextColor);
 			}
 		}
 	}

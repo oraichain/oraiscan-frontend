@@ -67,7 +67,6 @@ export default Object.freeze({
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
 		ORAICHAIN_INFO: "/oraichain_info",
-
 		ACCOUNT_COINS: "/account/coins",
 		VALIDATOR: "/validator",
 		DELEGATOR: "/delegator",
@@ -90,6 +89,8 @@ export default Object.freeze({
 		ORACLE_SCRIPTS_REQUEST: "oracle_scripts/requests",
 		ORACLE_SCRIPTS: "oracle-scripts",
 		REQUESTS: "/requests",
+		REQUESTS_AI_DATA_SOURCES: "/requests/ai_data_sources",
+		REQUESTS_REPORTS: "/requests/reports",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -144,7 +145,7 @@ export default Object.freeze({
 		},
 	],
 	REQUEST: {
-		LIMIT: 20, // Number of records per page
+		LIMIT: 10, // Number of records per page
 		TIMEOUT: 10000,
 		PROPOSED_BLOCKS_LIMIT: 9,
 	},
@@ -158,6 +159,8 @@ export default Object.freeze({
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 		PROPOSALS: "/proposals",
+		REQUESTS: "/requests",
+		REQUESTS_REPORTS: "/requests/reports",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

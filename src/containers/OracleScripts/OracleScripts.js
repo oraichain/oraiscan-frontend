@@ -22,6 +22,7 @@ import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardL
 import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
 import styles from "./OracleScripts.module.scss";
 import EmptyTable from "src/components/common/EmptyTable";
+import ComingSoon from "src/components/common/ComingSoon";
 
 const cx = cn.bind(styles);
 const columns = [
@@ -144,10 +145,11 @@ const OracleScripts = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("oracle-scripts")}>
-				{topOracleScriptCardList}
+				<ComingSoon />
+				{/* {topOracleScriptCardList}
 				{filterSection}
 				{tableSection}
-				{paginationSection}
+				{paginationSection} */}
 			</Container>
 		</>
 	);
