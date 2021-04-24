@@ -1,5 +1,4 @@
 import React, {memo, useMemo} from "react";
-import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -7,25 +6,21 @@ import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import CheckIcon from "src/icons/CheckIcon";
-import ClockIcon from "src/icons/ClockIcon";
 import styles from "./RequestTable.module.scss";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const requestsHeaderCell = <div className={cx("header-cell", "align-left")}>Requests</div>;
-	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>Tx Hash</div>;
-	const reportStatusHeaderCell = <div className={cx("header-cell", "align-left")}>Report Status</div>;
-	const statusHeaderCell = <div className={cx("header-cell", "align-center")}>Status</div>;
-	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
-	const headerCells = [requestsHeaderCell, txHashHeaderCell, reportStatusHeaderCell, statusHeaderCell, ownerHeaderCell];
+	const feeHeaderCell = <div className={cx("header-cell", "align-left")}>Fees</div>;
+	const blockHeightHeaderCell = <div className={cx("header-cell", "align-left")}>Block Height</div>;
+	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
+	const headerCells = [requestsHeaderCell, feeHeaderCell, blockHeightHeaderCell, creatorHeaderCell];
 	const headerCellStyles = [
 		{width: "auto"}, // Requests
-		{width: "auto"}, // Tx Hash
-		{width: "366px", minWidth: "366px"}, // Report Status
-		{width: "auto"}, // Status
-		{width: "auto"}, // Owner
+		{width: "auto"}, // Fee
+		{width: "auto"}, // Block Height
+		{width: "auto"}, // Creator
 	];
 	return {
 		headerCells,
@@ -34,8 +29,7 @@ export const getHeaderRow = () => {
 };
 
 const RequestTable = memo(({data}) => {
-	const validators = useSelector(state => state.blockchain.validators);
-
+	console.log(data, "aaaaaaaaaaaaaaaa");
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -46,97 +40,32 @@ const RequestTable = memo(({data}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("requests-data-cell", "align-left")} to='/'>
-					{item.request}
+					{item?.request}
 				</NavLink>
 			);
 
-			const txHashDataCell = _.isNil(item?.tx_hash) ? (
+			const feeDataCell = _.isNil(item?.fees) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-					{item.tx_hash}
+				<div className={cx("fee-data-cell", "align-left")}>{item?.fees}</div>
+			);
+
+			const blockHeightDataCell = _.isNil(item?.block_height) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<NavLink className={cx("block-height-data-cell", "align-left")} to={`${consts.PATH.BLOCKLIST}/${item?.block_height}`}>
+					{item?.block_height}
 				</NavLink>
 			);
 
-			let minValue = _.isNil(item?.min) ? "-" : item.min;
-			let finishedValue = _.isNil(item?.finished) ? "-" : item.finished;
-			let totalValue = _.isNil(item?.total) ? "-" : item.total;
-			let graphElement;
-
-			if (isNaN(finishedValue) || isNaN(totalValue)) {
-				graphElement = <div className={cx("graph-error")}>-</div>;
-			} else {
-				finishedValue = parseFloat(finishedValue);
-				totalValue = parseFloat(totalValue);
-
-				if (finishedValue === totalValue) {
-					graphElement = <div className={cx("graph-success")}></div>;
-				} else if (finishedValue < totalValue) {
-					graphElement = <div className={cx("graph-pending")} style={{width: `${(finishedValue * 100) / totalValue}%`}}></div>;
-				} else {
-					graphElement = <div className={cx("graph-error")}>-</div>;
-				}
-			}
-
-			const reportStatusDataCell = (
-				<div className={cx("report-status-data-cell")}>
-					<div className={cx("info")}>
-						<div className={cx("info-time")}>Min {minValue}</div>
-						<div className={cx("info-progress")}>
-							{finishedValue} of {totalValue}
-						</div>
-					</div>
-					<div className={cx("graph")}>
-						<div className={cx("graph-total")}></div>
-						{graphElement}
-					</div>
-				</div>
-			);
-
-			let statusElement;
-			if (isNaN(finishedValue) || isNaN(totalValue) || finishedValue > totalValue) {
-				statusElement = <div className={cx("status")}>-</div>;
-			} else {
-				if (finishedValue === totalValue) {
-					statusElement = (
-						<div className={cx("status")}>
-							<CheckIcon className={cx("status-icon", "status-icon-success")} />
-							<span className={cx("status-text")}>Success</span>
-						</div>
-					);
-				} else {
-					statusElement = (
-						<div className={cx("status")}>
-							<ClockIcon className={cx("status-icon", "status-icon-pending")} />
-							<span className={cx("status-text")}>Pending</span>
-						</div>
-					);
-				}
-			}
-			const statusDataCell = <div className={cx("status-data-cell", "align-center")}>{statusElement}</div>;
-
-			const ownerNames = Object.keys(validators);
-			let matchOwnerName = null;
-			if (item?.owner_address) {
-				for (let ownerName of ownerNames) {
-					if (!_.isNil(validators?.[ownerName]?.operatorAddr) && validators[ownerName].operatorAddr === item.owner_address) {
-						matchOwnerName = ownerName;
-						break;
-					}
-				}
-			}
-
-			const ownerDataCell = _.isNil(matchOwnerName) ? (
-				<div className={cx("align-right")}>-</div>
+			const creatorDataCell = _.isNil(item?.creator) ? (
+				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("owner-data-cell", "align-right")}>
-					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner_address}`}>
-						{matchOwnerName}
-					</NavLink>
-				</div>
+				<NavLink className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.creator}`}>
+					{item?.creator}
+				</NavLink>
 			);
-
-			return [requestsDataCell, txHashDataCell, reportStatusDataCell, statusDataCell, ownerDataCell];
+			return [requestsDataCell, feeDataCell, blockHeightDataCell, creatorDataCell];
 		});
 	};
 
