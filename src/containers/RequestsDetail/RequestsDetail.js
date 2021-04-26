@@ -14,7 +14,7 @@ import {ReactComponent as InformationIcon} from "src/assets/icons/information.sv
 import {ReactComponent as SuccessIcon} from "src/assets/icons/success.svg";
 
 import RequestTable from "./RequestTable";
-import TestcaseResult from "./TestcaseResult";
+import TestCaseCard from "./TestCaseCard";
 import styles from "./RequestsDetail.scss";
 
 const cx = cn.bind(styles);
@@ -98,7 +98,7 @@ export default function() {
 					<RequestTable />
 				</Grid>
 				<Grid item lg={6} xs={12}>
-					<TestcaseResult />
+					<TestCaseCard />
 				</Grid>
 			</Grid>
 		</Container>

@@ -92,6 +92,7 @@ export default Object.freeze({
 		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
 		REQUESTS_REPORTS: "/requests_reports",
 		REQUESTS_RESULTS: "/requests_results",
+		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",

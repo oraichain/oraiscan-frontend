@@ -1,0 +1,148 @@
+@import "src/styles/utils";
+
+.test-case-card-list {
+	&-item {
+		padding: 15px;
+		margin-bottom: 15px;
+		background-color: var(--common-containerBackgroundColor);
+		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		border-radius: 8px;
+
+		table {
+			width: 100%;
+
+			tr {
+				td {
+					padding-bottom: 15px;
+				}
+
+				td:nth-child(1) {
+					text-align: left;
+					width: 50%;
+				}
+
+				td:nth-child(2) {
+					text-align: right;
+					width: 50%;
+				}
+
+				&:last-child {
+					td {
+						padding-bottom: 0;
+					}
+				}
+			}
+		}
+
+		.status {
+			vertical-align: middle;
+			display: inline-flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+
+			&-icon {
+				display: inline-block;
+				width: 16px;
+				height: auto;
+				margin-right: 8px;
+
+				&-success {
+					width: 16px;
+					color: #3fcc28;
+				}
+
+				&-pending {
+					width: 16px;
+					color: #ffae74;
+				}
+
+				&-fail {
+					width: 9px;
+					color: red;
+				}
+			}
+
+			&-text {
+				display: inline-block;
+				color: var(--common-textColor);
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+			}
+		}
+
+		.item-title {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-text {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
+		}
+
+		.item-link {
+			color: var(--common-linkColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
+		}
+	}
+}
+
+.height {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.amount {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-value {
+		display: inline-block;
+		margin-right: 8px;
+	}
+
+	&-denom {
+		text-transform: uppercase;
+	}
+}
+
+.more {
+	color: var(--common-linkColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	text-decoration-line: underline;
+}
+
+.skeleton {
+	display: inline-block;
+	vertical-align: middle;
+}

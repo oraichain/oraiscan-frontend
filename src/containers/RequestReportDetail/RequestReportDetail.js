@@ -16,7 +16,7 @@ import CheckIcon from "src/icons/Validators/CheckIcon";
 import FailedIcon from "src/icons/Transactions/FailedIcon";
 
 import RequestContainer from "./RequestContainer";
-import TestcaseResult from "./TestcaseResult";
+import TestCaseCard from "./TestCaseCard";
 import styles from "./RequestReportDetail.scss";
 
 const cx = cn.bind(styles);
@@ -146,7 +146,7 @@ export default function() {
 					<RequestContainer id={id} address={address} />
 				</Grid>
 				<Grid item lg={6} xs={12}>
-					<TestcaseResult />
+					<TestCaseCard id={id} address={address} />
 				</Grid>
 			</Grid>
 		</Container>

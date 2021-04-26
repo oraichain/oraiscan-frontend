@@ -9,7 +9,7 @@ import DelegationCardList from "src/components/Account/DelegationCardList/Delega
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
-import styles from "./TestcaseResult.scss";
+import styles from "./TestCaseCard.scss";
 import Skeleton from "./Skeleton";
 import MobileSkeleton from "./MobileSkeleton";
 
