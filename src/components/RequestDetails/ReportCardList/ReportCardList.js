@@ -111,7 +111,7 @@ const ReportCardList = memo(({data}) => {
 										) : (
 											<NavLink
 												className={cx("more")}
-												to={`${consts.PATH.REQUESTS}/${requestId}${item?.validator_address ? "/" + item?.validator_address : ""}/report`}>
+												to={`${consts.PATH.REQUESTS}/${requestId}/report?validator_address=${item?.validator_address ? item?.validator_address : ""}`}>
 												View more
 											</NavLink>
 										)}

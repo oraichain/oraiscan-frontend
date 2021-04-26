@@ -114,7 +114,9 @@ const ReportTable = memo(({data}) => {
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("more-data-cell", "align-right")}>
-					<NavLink className={cx("more")} to={`${consts.PATH.REQUESTS}/${requestId}${item?.validator_address ? "/" + item?.validator_address : ""}/report`}>
+					<NavLink
+						className={cx("more")}
+						to={`${consts.PATH.REQUESTS}/${requestId}/report?validator_address=${item?.validator_address ? item?.validator_address : ""}`}>
 						View more
 					</NavLink>
 				</div>

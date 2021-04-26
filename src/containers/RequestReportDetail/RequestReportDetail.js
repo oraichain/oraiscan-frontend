@@ -4,17 +4,15 @@ import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useGet} from "restful-react";
 import Grid from "@material-ui/core/Grid";
-import {NavLink, useParams} from "react-router-dom";
-
+import {NavLink, useParams, useHistory} from "react-router-dom";
+import queryString from "query-string";
 import {_} from "src/lib/scripts";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import {ReactComponent as InformationIcon} from "src/assets/icons/information.svg";
-import {ReactComponent as SuccessIcon} from "src/assets/icons/success.svg";
 import CheckIcon from "src/icons/Validators/CheckIcon";
-import ClockIcon from "src/icons/ClockIcon";
 import FailedIcon from "src/icons/Transactions/FailedIcon";
 
 import RequestContainer from "./RequestContainer";
@@ -24,7 +22,10 @@ import styles from "./RequestReportDetail.scss";
 const cx = cn.bind(styles);
 
 export default function() {
-	const {id, address} = useParams();
+	const {id} = useParams();
+	const history = useHistory();
+	const queryStringParse = queryString.parse(history.location.search) || {};
+	const address = queryStringParse?.validator_address ?? "";
 
 	const path = `${consts.API.REQUESTS_REPORTS}/detail/${id}${address ? "?validator_address=" + address : ""}`;
 	const {data, loading, error} = useGet({

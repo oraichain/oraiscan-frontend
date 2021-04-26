@@ -54,7 +54,7 @@ export default function(props) {
 					<Route path='/test-cases' component={TestCases} />
 					<Route path='/proposals/:id' component={ProposalsDetail} />
 					<Route path='/proposals' component={Proposals} />
-					<Route path='/ai_requests/:id/:address/report' component={RequestReportDetail} />
+					<Route path='/ai_requests/:id/report' component={RequestReportDetail} />
 					<Route path='/ai_requests/:id' component={RequestDetails} />
 					<Route path='/ai_requests' component={Requests} />
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
