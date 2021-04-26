@@ -4,9 +4,10 @@ import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
-import FilterSection from "src/components/common/FilterSection";
+import TabBar from "src/components/RequestDetails/TabBar";
 import EmptyTable from "src/components/common/EmptyTable";
 import Pagination from "src/components/common/Pagination";
 import ReportTable from "src/components/RequestDetails/ReportTable";
@@ -25,7 +26,7 @@ const columns = [
 	{title: "", align: "right"},
 ];
 
-const Reports = ({id}) => {
+const Reports = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -40,13 +41,16 @@ const Reports = ({id}) => {
 		path: path,
 	});
 
+	let totalItems;
 	let tableSection;
 	let paginationSection;
 
 	if (loading) {
+		totalItems = <Skeleton className={cx("skeleton")} variant='text' width={50} height={30} />;
 		tableSection = isLargeScreen ? <ReportTableSkeleton /> : <ReportCardListSkeleton />;
 	} else {
 		if (error) {
+			totalItems = "-";
 			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
@@ -54,6 +58,12 @@ const Reports = ({id}) => {
 				totalPagesRef.current = data.page.total_page;
 			} else {
 				totalPagesRef.current = null;
+			}
+
+			if (isNaN(data?.page?.total_item)) {
+				totalItems = "-";
+			} else {
+				totalItems = formatInteger(data.page.total_item);
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
@@ -71,8 +81,9 @@ const Reports = ({id}) => {
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Reports </span>
-					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
+					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
+				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -84,9 +95,8 @@ const Reports = ({id}) => {
 
 Reports.propTypes = {
 	id: PropTypes.any,
-	// tabId: PropTypes.any,
-	// tabs: PropTypes.any,
-	// onTabChange: PropTypes.any,
+	activeTab: PropTypes.any,
+	setActiveTab: PropTypes.func,
 };
 Reports.defaultProps = {};
 

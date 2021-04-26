@@ -11,11 +11,9 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import FilterSection from "src/components/RequestDetails/FilterSection";
 import AIDataSources from "src/components/RequestDetails/AIDataSources/AIDataSources";
 import Reports from "src/components/RequestDetails/Reports";
 import Result from "src/components/RequestDetails/Result";
-import Tabs from "./TabBar";
 import styles from "./RequestDetails.module.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 
@@ -35,7 +33,6 @@ const RequestDetails = ({}) => {
 	const id = params?.["id"];
 
 	let titleSection;
-	let filterSection;
 	let detailsCard;
 
 	if (isLargeScreen) {
@@ -56,20 +53,24 @@ const RequestDetails = ({}) => {
 		);
 	}
 
-	filterSection = (
-		<>
-			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-			{activeTab === tabs.AI_DATA_SOURCES && <AIDataSources id={id} />}
-			{activeTab === tabs.REPORTS && <Reports id={id} />}
-			{activeTab === tabs.RESULT && <Result id={id} />}
-		</>
-	);
+	switch (activeTab) {
+		case tabs.AI_DATA_SOURCES:
+			detailsCard = <AIDataSources id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			break;
+		case tabs.REPORTS:
+			detailsCard = <Reports id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			break;
+		case tabs.RESULT:
+			detailsCard = <Result id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			break;
+		default:
+			break;
+	}
 
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("request-details")}>
-				{filterSection}
 				{detailsCard}
 			</Container>
 		</>

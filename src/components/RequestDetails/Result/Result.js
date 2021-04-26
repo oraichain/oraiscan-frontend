@@ -4,11 +4,12 @@ import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
-import FilterSection from "src/components/common/FilterSection";
 import EmptyTable from "src/components/common/EmptyTable";
 import Pagination from "src/components/common/Pagination";
+import TabBar from "src/components/RequestDetails/TabBar";
 import ResultTable from "src/components/RequestDetails/ResultTable";
 import ResultTableSkeleton from "src/components/RequestDetails/ResultTable/ResultTableSkeleton";
 import ResultCardList from "src/components/RequestDetails/ResultCardList";
@@ -24,7 +25,7 @@ const columns = [
 	{title: "Status", align: "center"},
 ];
 
-const Result = ({id}) => {
+const Result = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -39,13 +40,16 @@ const Result = ({id}) => {
 		path: path,
 	});
 
+	let totalItems;
 	let tableSection;
 	let paginationSection;
 
 	if (loading) {
+		totalItems = <Skeleton className={cx("skeleton")} variant='text' width={50} height={30} />;
 		tableSection = isLargeScreen ? <ResultTableSkeleton /> : <ResultCardListSkeleton />;
 	} else {
 		if (error) {
+			totalItems = "-";
 			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
@@ -53,6 +57,12 @@ const Result = ({id}) => {
 				totalPagesRef.current = data.page.total_page;
 			} else {
 				totalPagesRef.current = null;
+			}
+
+			if (isNaN(data?.page?.total_item)) {
+				totalItems = "-";
+			} else {
+				totalItems = formatInteger(data.page.total_item);
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
@@ -70,8 +80,9 @@ const Result = ({id}) => {
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Result </span>
-					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
+					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
+				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -83,9 +94,8 @@ const Result = ({id}) => {
 
 Result.propTypes = {
 	id: PropTypes.any,
-	// tabId: PropTypes.any,
-	// tabs: PropTypes.any,
-	// onTabChange: PropTypes.any,
+	activeTab: PropTypes.any,
+	setActiveTab: PropTypes.func,
 };
 Result.defaultProps = {};
 

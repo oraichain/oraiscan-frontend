@@ -4,11 +4,12 @@ import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import Pagination from "src/components/common/Pagination";
-import FilterSection from "src/components/common/FilterSection";
 import EmptyTable from "src/components/common/EmptyTable";
+import TabBar from "src/components/RequestDetails/TabBar";
 import DataSourceTable from "src/components/RequestDetails/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/RequestDetails/DataSourceTable/DataSourceTableSkeleton";
 import DataSourceCardList from "src/components/RequestDetails/DataSourceCardList";
@@ -24,7 +25,7 @@ const columns = [
 	{title: "Fees", align: "right"},
 ];
 
-const AIDataSources = ({id}) => {
+const AIDataSources = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -39,13 +40,16 @@ const AIDataSources = ({id}) => {
 		path: path,
 	});
 
+	let totalItems;
 	let tableSection;
 	let paginationSection;
 
 	if (loading) {
+		totalItems = <Skeleton className={cx("skeleton")} variant='text' width={50} height={30} />;
 		tableSection = isLargeScreen ? <DataSourceTableSkeleton /> : <DataSourceCardListSkeleton />;
 	} else {
 		if (error) {
+			totalItems = "-";
 			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
@@ -53,6 +57,12 @@ const AIDataSources = ({id}) => {
 				totalPagesRef.current = data.page.total_page;
 			} else {
 				totalPagesRef.current = null;
+			}
+
+			if (isNaN(data?.page?.total_item)) {
+				totalItems = "-";
+			} else {
+				totalItems = formatInteger(data.page.total_item);
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
@@ -70,8 +80,9 @@ const AIDataSources = ({id}) => {
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Ai data sources </span>
-					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
+					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
+				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -83,9 +94,8 @@ const AIDataSources = ({id}) => {
 
 AIDataSources.propTypes = {
 	id: PropTypes.any,
-	// tabId: PropTypes.any,
-	// tabs: PropTypes.any,
-	// onTabChange: PropTypes.any,
+	activeTab: PropTypes.any,
+	setActiveTab: PropTypes.func,
 };
 AIDataSources.defaultProps = {};
 
