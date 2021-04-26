@@ -30,7 +30,8 @@
 		&-icon {
 			display: inline-block;
 			width: 40px;
-			height: auto;
+			height: 40px;
+			object-fit: contain;
 			margin-right: 8px;
 		}
 

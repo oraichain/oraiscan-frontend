@@ -45,15 +45,14 @@ const ResultTable = memo(({data = []}) => {
 		return data.map(item => {
 			let validatorName;
 			let validatorIcon;
-			if (!_.isNil(item?.address)) {
-				const matchedLogoItem = logoBrand.find(logoBrandItem => item.address === logoBrandItem.operatorAddress);
+			if (!_.isNil(item?.validator_address)) {
+				const matchedLogoItem = logoBrand.find(logoBrandItem => item.validator_address === logoBrandItem.operatorAddress);
 
 				if (matchedLogoItem) {
 					validatorName = matchedLogoItem?.name ?? "-";
 					validatorIcon = matchedLogoItem?.logo ?? aiIcon;
 				}
 			}
-
 			const validatorDataCell = _.isNil(item?.validator_name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
