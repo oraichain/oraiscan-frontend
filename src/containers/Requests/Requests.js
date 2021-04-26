@@ -33,7 +33,13 @@ const Requests = () => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS}?limit=${consts.REQUEST.REQUESTS_LIMIT}&page_id=${pageId}`;
+	const basePath = `${consts.API.REQUESTS}?limit=${consts.REQUEST.LIMIT}`;
+	let path;
+	if (keyword) {
+		path = `${basePath}&page_id=${pageId}&request_id=${keyword}`;
+	} else {
+		path = `${basePath}&page_id=${pageId}`;
+	}
 
 	const {data, loading, error} = useGet({
 		path: path,
