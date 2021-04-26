@@ -51,7 +51,7 @@ const OracleScripts = () => {
 	const basePath = `${consts.API.ORACLE_SCRIPTS}?limit=${consts.REQUEST.LIMIT}`;
 	let path;
 	if (keyword) {
-		path = `${basePath}&page_id=${pageId}&keyword=${keyword}`;
+		path = `${basePath}&page_id=${pageId}&os_name=${keyword}`;
 	} else {
 		path = `${basePath}&page_id=${pageId}`;
 	}

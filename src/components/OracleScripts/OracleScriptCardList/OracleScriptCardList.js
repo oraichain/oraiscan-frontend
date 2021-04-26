@@ -33,13 +33,13 @@ const OracleScriptCardList = memo(({data = []}) => {
 					<tr>
 						<td colSpan={2}>
 							<div className={cx("item-title")}>Requests</div>
-							{_.isNil(item?.requests) ? (
+							{_.isNil(item?.request) ? (
 								<div className={cx("request-and-response-time")}>
 									<span className={cx("request-value")}>-</span>
 								</div>
 							) : (
 								<div className={cx("request-and-response-time")}>
-									<span className={cx("request-value")}>{item?.requests}</span>
+									<span className={cx("request-value")}>{item?.request}</span>
 								</div>
 							)}
 						</td>

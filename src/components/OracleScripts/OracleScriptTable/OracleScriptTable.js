@@ -57,14 +57,14 @@ const OracleScriptTable = memo(({data = []}) => {
 				<div className={cx("description-data-cell", "align-left")}>{item?.description}</div>
 			);
 
-			const requestAndResponseTimeDataCell = _.isNil(item?.requests) ? (
+			const requestAndResponseTimeDataCell = _.isNil(item?.request) ? (
 				<div className={cx("request-and-response-time-data-cell")}>
 					<div className={cx("request-value", "align-right")}>-</div>
 					<div className={cx("response-time-value", "align-right")}>-</div>
 				</div>
 			) : (
 				<div className={cx("request-and-response-time-data-cell")}>
-					<div className={cx("request-value", "align-right")}>{item?.requests}</div>
+					<div className={cx("request-value", "align-right")}>{item?.request}</div>
 				</div>
 			);
 
