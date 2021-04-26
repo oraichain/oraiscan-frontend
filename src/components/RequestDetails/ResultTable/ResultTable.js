@@ -10,7 +10,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 import styles from "./ResultTable.module.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 
@@ -115,7 +115,7 @@ const ResultTable = memo(({data = []}) => {
 					case "fail":
 						statusElement = (
 							<div className={cx("status")}>
-								<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+								<TimesIcon className={cx("status-icon", "status-icon-fail")} />
 								<span className={cx("status-text")}>Failed</span>
 							</div>
 						);

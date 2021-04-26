@@ -113,19 +113,21 @@
 
 	&-icon {
 		display: inline-block;
-		width: 16px;
 		height: auto;
 		margin-right: 8px;
 
 		&-success {
 			color: #3fcc28;
+			width: 16px;
 		}
 
 		&-pending {
 			color: #ffae74;
+			width: 16px;
 		}
 		&-fail {
 			color: red;
+			width: 9px;
 		}
 	}
 

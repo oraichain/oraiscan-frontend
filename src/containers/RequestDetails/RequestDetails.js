@@ -28,7 +28,6 @@ export const tabs = {
 };
 
 const RequestDetails = ({}) => {
-	console.log("RENDER TAB!!");
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [activeTab, setActiveTab] = React.useState(tabs.AI_DATA_SOURCES);

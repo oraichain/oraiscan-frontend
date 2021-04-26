@@ -8,7 +8,7 @@ import {formatFloat, formatInteger} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 import styles from "./ResultCardList.module.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 
@@ -20,8 +20,8 @@ const ResultCardList = memo(({data = []}) => {
 			{data.map((item, index) => {
 				let validatorName;
 				let validatorIcon;
-				if (!_.isNil(item?.address)) {
-					const matchedLogoItem = logoBrand.find(logoBrandItem => item.address === logoBrandItem.operatorAddress);
+				if (!_.isNil(item?.validator_address)) {
+					const matchedLogoItem = logoBrand.find(logoBrandItem => item.validator_address === logoBrandItem.operatorAddress);
 
 					if (matchedLogoItem) {
 						validatorName = matchedLogoItem?.name ?? "-";
@@ -53,7 +53,7 @@ const ResultCardList = memo(({data = []}) => {
 						case "fail":
 							statusElement = (
 								<div className={cx("status")}>
-									<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+									<TimesIcon className={cx("status-icon", "status-icon-fail")} />
 									<span className={cx("status-text")}>Failed</span>
 								</div>
 							);
