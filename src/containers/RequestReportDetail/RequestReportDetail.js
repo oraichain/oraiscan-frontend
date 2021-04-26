@@ -33,7 +33,7 @@ export default function() {
 	});
 
 	return (
-		<Container fixed className={cx("validator-list")}>
+		<Container fixed className={cx("request-report-details")}>
 			<TitleWrapper>
 				<PageTitle title='Request Detail' />
 				<StatusBox />
