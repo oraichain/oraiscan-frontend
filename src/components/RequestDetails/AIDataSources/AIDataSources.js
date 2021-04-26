@@ -34,7 +34,7 @@ const AIDataSources = ({id}) => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}`;
+	const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});

@@ -35,7 +35,7 @@ const Reports = ({id}) => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
+	const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});

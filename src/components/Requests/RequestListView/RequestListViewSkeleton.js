@@ -81,7 +81,7 @@ RequestListViewSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
 RequestListViewSkeleton.defaultProps = {
-	rows: 10,
+	rows: 12,
 };
 
 export default RequestListViewSkeleton;
