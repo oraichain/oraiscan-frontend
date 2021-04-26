@@ -6,14 +6,13 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
-import Skeleton from "@material-ui/lab/Skeleton";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
+import EmptyTable from "src/components/common/EmptyTable";
 import TopOracleScriptCardList from "src/components/OracleScripts/TopOracleScriptCardList";
 import TopOracleScriptCardListSkeleton from "src/components/OracleScripts/TopOracleScriptCardList/TopOracleScriptCardListSkeleton";
 import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
@@ -21,8 +20,6 @@ import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScript
 import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
 import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
 import styles from "./OracleScripts.module.scss";
-import EmptyTable from "src/components/common/EmptyTable";
-import ComingSoon from "src/components/common/ComingSoon";
 
 const cx = cn.bind(styles);
 const columns = [
@@ -96,16 +93,20 @@ const OracleScripts = () => {
 		}
 	}
 
+	filterSection = (
+		<div className={cx("filter-section")}>
+			<SearchInput
+				value={keyword}
+				placeholder='Search data sources'
+				rootClassName={cx("search-input")}
+				onChange={e => {
+					setKeyword(e.target.value);
+				}}
+			/>
+		</div>
+	);
+
 	if (loading) {
-		filterSection = (
-			<div className={cx("filter-section")}>
-				{isLargeScreen ? (
-					<Skeleton className={cx("skeleton")} variant='rect' width={232} height={40} />
-				) : (
-					<Skeleton className={cx("skeleton", "skeleton-full-width")} variant='rect' height={40} />
-				)}
-			</div>
-		);
 		tableSection = isLargeScreen ? <OracleScriptTableSkeleton /> : <OracleScriptCardListSkeleton />;
 	} else {
 		if (error) {
@@ -117,19 +118,6 @@ const OracleScripts = () => {
 			} else {
 				totalPagesRef.current = null;
 			}
-
-			filterSection = (
-				<div className={cx("filter-section")}>
-					<SearchInput
-						value={keyword}
-						placeholder='Search data sources'
-						rootClassName={cx("search-input")}
-						onChange={e => {
-							setKeyword(e.target.value);
-						}}
-					/>
-				</div>
-			);
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <OracleScriptTable data={data?.data} /> : <OracleScriptCardList data={data?.data} />;
