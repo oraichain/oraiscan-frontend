@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./TabBar.scss";
+import PropTypes from "prop-types";
+import {tabs} from "src/containers/RequestDetails/RequestDetails";
 import ContactIcon from "src/icons/Tabs/ProposalsTabIcon";
 import ValidatorsIcon from "src/icons/Tabs/ValidatorsTabIcon";
 import DelegatedIcon from "src/icons/Validators/ValidatorsIcon";
-import {tabs} from "./RequestDetails";
+import styles from "./TabBar.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function({activeTab, setActiveTab}) {
+const TabBar = ({activeTab, setActiveTab}) => {
 	return (
 		<div className={cx("tabs")}>
 			<div className={cx("tab", activeTab === tabs.AI_DATA_SOURCES ? "active" : "")} onClick={() => setActiveTab(tabs.AI_DATA_SOURCES)}>
@@ -26,4 +27,12 @@ export default function({activeTab, setActiveTab}) {
 			</div>
 		</div>
 	);
-}
+};
+
+TabBar.propTypes = {
+	activeTab: PropTypes.any,
+	setActiveTab: PropTypes.func,
+};
+TabBar.defaultProps = {};
+
+export default TabBar;
