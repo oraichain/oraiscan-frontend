@@ -2,15 +2,13 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import copy from "copy-to-clipboard";
-import consts from "src/constants/consts";
-import {formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./RequestTable.scss";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
@@ -19,7 +17,7 @@ const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const nameHeaderCell = <div className={cx("header-cell", "align-left")}>Name</div>;
-	const resutHeaderCell = <div className={cx("header-cell", "align-right")}>Result</div>;
+	const resutHeaderCell = <div className={cx("header-cell", "align-left")}>Result</div>;
 	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Status</div>;
 	const headerCells = [nameHeaderCell, resutHeaderCell, statusHeaderCell];
 	const headerCellStyles = [
@@ -66,7 +64,7 @@ const RequestTable = memo(({data = []}) => {
 					case "fail":
 						statusElement = (
 							<div className={cx("status")}>
-								<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+								<TimesIcon className={cx("status-icon", "status-icon-fail")} />
 								<span className={cx("status-text")}>Failed</span>
 							</div>
 						);
@@ -77,22 +75,22 @@ const RequestTable = memo(({data = []}) => {
 			}
 
 			const nameDataCell = _.isNil(item?.name) ? (
-				<div className={cx("align-right")}>-</div>
+				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("amount-data-cell", "align-right")}>
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{item.name}</span>
+				<div className={cx("name-data-cell", "align-left")}>
+					<div className={cx("name")}>
+						<span className={cx("name-value")}>{item.name}</span>
 					</div>
 				</div>
 			);
 
 			const resultDataCell = _.isNil(item?.result) ? (
-				<div className={cx("align-right")}>-</div>
+				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("amount-data-cell", "align-right")}>
-					<div className={cx("amount")}>
+				<div className={cx("result-data-cell", "align-left")}>
+					<div className={cx("result")}>
 						<div
-							className={cx("amount-value")}
+							className={cx("result-value")}
 							onClick={() => {
 								copy(item?.result);
 								dispatch(

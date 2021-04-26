@@ -17,6 +17,7 @@ import Reports from "src/components/RequestDetails/Reports";
 import Result from "src/components/RequestDetails/Result";
 import Tabs from "./TabBar";
 import styles from "./RequestDetails.module.scss";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
@@ -48,7 +49,12 @@ const RequestDetails = ({}) => {
 			</Container>
 		);
 	} else {
-		titleSection = <TogglePageBar type='requests' />;
+		titleSection = (
+			<>
+				<TogglePageBar type='ai_requests' />
+				<NavigateBackBar type='ai_requests' />
+			</>
+		);
 	}
 
 	filterSection = (

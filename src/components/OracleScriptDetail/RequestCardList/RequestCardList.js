@@ -25,7 +25,7 @@ const RequestCardList = memo(({data}) => {
 										{_.isNil(item?.request) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to='/'>
+											<NavLink className={cx("item-link")} to={`${consts.PATH.REQUESTS}/${item?.request}`}>
 												{item?.request}
 											</NavLink>
 										)}

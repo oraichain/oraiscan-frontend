@@ -12,8 +12,6 @@ import RequestCardListSkeleton from "./RequestCardList/RequestCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import EmptyTable from "src/components/common/EmptyTable";
 import styles from "./RequestContainer.scss";
-import Skeleton from "./Skeleton";
-import MobileSkeleton from "./MobileSkeleton";
 
 const cx = classNames.bind(styles);
 const columns = [
@@ -32,12 +30,11 @@ const RequestContainer = memo(({id, address}) => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_REPORTS}/detail/ds_results/${id}?validator_address=${address}&imit=4&page_id=1`;
+	const path = `${consts.API.REQUESTS_REPORTS}/detail/ds_results/${id}?validator_address=${address}&imit=4&page_id${pageId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
 
-	console.log(data, "fffffffffffffff");
 	let tableSection;
 	let paginationSection;
 
@@ -65,9 +62,9 @@ const RequestContainer = memo(({id, address}) => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<div className={cx("delegation-card")}>
-			<div className={cx("delegation-card-header")}>Request </div>
-			<div className={cx("delegation-card-body")}>
+		<div className={cx("request-card")}>
+			<div className={cx("request-card-header")}>Request </div>
+			<div className={cx("request-card-body")}>
 				{tableSection}
 				{paginationSection}
 			</div>

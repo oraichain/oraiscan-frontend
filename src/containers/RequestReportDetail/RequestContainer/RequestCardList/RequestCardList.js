@@ -6,7 +6,7 @@ import {_} from "src/lib/scripts";
 import styles from "./RequestCardList.scss";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
@@ -41,7 +41,7 @@ const RequestCardList = memo(({data = []}) => {
 						case "fail":
 							statusElement = (
 								<div className={cx("status")}>
-									<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+									<TimesIcon className={cx("status-icon", "status-icon-fail")} />
 									<span className={cx("status-text")}>Failed</span>
 								</div>
 							);

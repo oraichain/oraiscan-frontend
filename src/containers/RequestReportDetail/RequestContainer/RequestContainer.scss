@@ -1,6 +1,6 @@
 @import "src/styles/utils";
 
-.delegation-card {
+.request-card {
 	padding: 0;
 	background: transparent;
 	box-shadow: none;
@@ -38,7 +38,7 @@
 
 @import "src/styles/utils";
 
-.delegation-card-list {
+.request-card-list {
 	&-item {
 		padding: 15px;
 		margin-bottom: 15px;
@@ -61,54 +61,6 @@
 				td {
 					padding-bottom: 15px;
 				}
-			}
-		}
-
-		.item-title {
-			color: var(--common-textColor);
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: 500;
-			font-size: 16px;
-			line-height: 150%;
-		}
-
-		.item-text {
-			color: var(--common-textColor);
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 16px;
-			line-height: 150%;
-		}
-
-		.item-link {
-			color: var(--common-linkColor);
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 16px;
-			line-height: 150%;
-		}
-
-		.amount,
-		.reward {
-			font-family: Roboto;
-			font-style: normal;
-			font-weight: normal;
-			font-size: 16px;
-			line-height: 150%;
-
-			&-value {
-				display: inline-block;
-				margin-right: 4px;
-				color: var(--common-textColor);
-			}
-
-			&-denom {
-				display: inline-block;
-				color: var(common-oraiDenomTextColor);
-				text-transform: uppercase;
 			}
 		}
 	}

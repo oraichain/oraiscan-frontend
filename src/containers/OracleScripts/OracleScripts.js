@@ -63,6 +63,8 @@ const OracleScripts = () => {
 		path: path,
 	});
 
+	console.log(data, "zzzzzzzzzz");
+
 	const onPageChange = page => {
 		setPageId(page);
 	};

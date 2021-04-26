@@ -110,6 +110,10 @@
 					&-success {
 						@include FlexCombo(row, flex-start, center);
 					}
+
+					&-fail {
+						@include FlexCombo(row, flex-start, center);
+					}
 				}
 
 				&-report {
@@ -164,19 +168,39 @@
 	}
 
 	.status {
-		display: flex;
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
 		align-items: center;
-		svg {
-			margin-right: 5px;
-		}
-		&-success {
-			@include FlexCombo(row, flex-start, center);
-			color: var(--common-resultIconSuccessColor);
+
+		&-icon {
+			display: inline-block;
+			height: auto;
+			margin-right: 8px;
+
+			&-success {
+				width: 16px;
+				color: #3fcc28;
+			}
+
+			&-pending {
+				width: 16px;
+				color: #ffae74;
+			}
+			&-fail {
+				width: 9px;
+				color: red;
+			}
 		}
 
-		&-fail {
-			@include FlexCombo(row, flex-start, center);
-			color: var(--common-resultIconFailureColor);
+		&-text {
+			display: inline-block;
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
 		}
 	}
 

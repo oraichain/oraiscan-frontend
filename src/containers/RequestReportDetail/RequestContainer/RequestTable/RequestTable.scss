@@ -17,8 +17,10 @@
 	line-height: 150%;
 }
 
-.amount-data-cell {
-	.amount {
+.result-data-cell,
+.name-data-cell {
+	.name,
+	.result {
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -28,7 +30,12 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: var(--common-textColor);
+			color: var(--common-linkColor);
+
+			.copy-icon {
+				cursor: pointer;
+				color: var(--common-linkColor);
+			}
 		}
 	}
 }
@@ -42,18 +49,20 @@
 
 		&-icon {
 			display: inline-block;
-			width: 16px;
 			height: auto;
 			margin-right: 8px;
 
 			&-success {
+				width: 16px;
 				color: #3fcc28;
 			}
 
 			&-pending {
+				width: 16px;
 				color: #ffae74;
 			}
 			&-fail {
+				width: 9px;
 				color: red;
 			}
 		}

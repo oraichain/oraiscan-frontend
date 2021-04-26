@@ -29,7 +29,6 @@ export const getHeaderRow = () => {
 };
 
 const RequestTable = memo(({data}) => {
-	console.log(data, "aaaaaaaaaaaaaaaa");
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -39,7 +38,7 @@ const RequestTable = memo(({data}) => {
 			const requestsDataCell = _.isNil(item?.request) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("requests-data-cell", "align-left")} to='/'>
+				<NavLink className={cx("requests-data-cell", "align-left")} to={`${consts.PATH.REQUESTS}/${item?.request}`}>
 					{item?.request}
 				</NavLink>
 			);
