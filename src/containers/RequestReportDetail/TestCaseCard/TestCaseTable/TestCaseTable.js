@@ -11,6 +11,10 @@ import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import styles from "./TestCaseTable.module.scss";
+import copy from "copy-to-clipboard";
+import CopyIcon from "src/icons/CopyIcon";
+import {useDispatch} from "src/hooks";
+import {showAlert} from "src/store/modules/global";
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +36,7 @@ export const getHeaderRow = () => {
 };
 
 const TestCaseTable = memo(({data}) => {
+	const dispatch = useDispatch();
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -81,7 +86,24 @@ const TestCaseTable = memo(({data}) => {
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("result-data-cell", "align-left")}>{item?.result}</div>
+				<div className={cx("result-data-cell", "align-left")}>
+					<div className={cx("result")}>
+						<div
+							className={cx("result-value")}
+							onClick={() => {
+								copy(item?.result);
+								dispatch(
+									showAlert({
+										show: true,
+										message: "Copied",
+										autoHideDuration: 1500,
+									})
+								);
+							}}>
+							<CopyIcon className={cx("copy-icon")}></CopyIcon> {item?.result?.length > 30 ? item?.result?.substring(0, 30) + "...." : item?.result}
+						</div>
+					</div>
+				</div>
 			);
 
 			const statusDataCell = <div className={cx("status-data-cell", "align-right")}>{statusElement}</div>;

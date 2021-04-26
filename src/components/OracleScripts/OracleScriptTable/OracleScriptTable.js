@@ -44,7 +44,7 @@ const OracleScriptTable = memo(({data = []}) => {
 				<div className={cx("oracle-script-data-cell", "align-left")}>-</div>
 			) : (
 				<div className={cx("oracle-script-data-cell", "align-left")}>
-					<div className={cx("oracle-script-data-cell-tag")}>{item?.tag || "#D2"}</div>
+					{/* <div className={cx("oracle-script-data-cell-tag")}>{item?.tag || "#D2"}</div> */}
 					<NavLink className={cx("oracle-script-data-cell-name")} to={`${consts.PATH.ORACLE_SCRIPTS}/${item?.name}`}>
 						{item?.name}
 					</NavLink>

@@ -10,7 +10,6 @@ import Spinner from "src/components/common/Spinner";
 const cx = cn.bind(styles);
 
 export default function({balances = [], prices = null}) {
-	console.log(balances);
 	const tableBodyRender = React.useMemo(
 		() => (
 			<>

@@ -43,13 +43,12 @@
 
 			&-icon {
 				display: inline-block;
-				width: 16px;
 				height: auto;
 				margin-right: 8px;
 
 				&-success {
 					width: 16px;
-					color: #3fcc28;
+					color: var(--common-resultIconSuccessColor);
 				}
 
 				&-pending {
@@ -59,7 +58,7 @@
 
 				&-fail {
 					width: 9px;
-					color: red;
+					color: var(--common-resultIconFailureColor);
 				}
 			}
 

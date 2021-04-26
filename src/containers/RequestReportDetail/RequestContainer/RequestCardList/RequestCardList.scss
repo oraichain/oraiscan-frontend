@@ -54,6 +54,7 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
+			word-break: break-all;
 
 			.copy-icon {
 				color: var(--common-linkColor);
@@ -68,6 +69,7 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
+			word-break: break-all;
 		}
 	}
 }
@@ -86,7 +88,7 @@
 
 		&-success {
 			width: 16px;
-			color: #3fcc28;
+			color: var(--common-resultIconFailureColor);
 		}
 
 		&-pending {
@@ -96,7 +98,7 @@
 
 		&-fail {
 			width: 9px;
-			color: red;
+			color: var(--common-resultIconFailureColor);
 		}
 	}
 

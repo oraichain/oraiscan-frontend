@@ -51,7 +51,7 @@ export default function() {
 		titleSection = (
 			<>
 				<TogglePageBar type='ai_requests' />
-				<NavigateBackBar type='request_report' />
+				<NavigateBackBar type='request_report' id={id} />
 			</>
 		);
 	}

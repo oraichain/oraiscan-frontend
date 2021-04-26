@@ -59,7 +59,7 @@ const RequestCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Name</div>
 									</td>
 									<td>
-										{_.isNil(item?.name) || item?.name === "" ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.name}</div>}
+										{_.isNil(item?.name) || item?.name === "" ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.name}</div>}
 									</td>
 								</tr>
 
@@ -67,26 +67,7 @@ const RequestCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>Result</div>
 									</td>
-									<td>
-										{_.isNil(item?.result) || item?.result === "" ? (
-											<div className={cx("item-text")}>-</div>
-										) : (
-											<div
-												className={cx("item-text")}
-												onClick={() => {
-													copy(item?.result);
-													dispatch(
-														showAlert({
-															show: true,
-															message: "Copied",
-															autoHideDuration: 1500,
-														})
-													);
-												}}>
-												<CopyIcon className={cx("copy-icon")}></CopyIcon> {item?.result?.length > 30 ? item?.result?.substring(0, 30) + "...." : item?.result}
-											</div>
-										)}
-									</td>
+									<td>{_.isNil(item?.result) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.result}</div>}</td>
 								</tr>
 
 								<tr>

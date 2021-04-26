@@ -250,7 +250,6 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 	};
 
 	const graphOptions = useMemo(() => {
-		// console.log(data);
 		const [xMax, xMin, yMax, yMin] = [data[data.length - 1][0], data[0][0], _.max(_.map(data, v => v[1])), _.min(_.map(data, v => v[1]))];
 		const size = data.length - 1;
 		const indexes = [
@@ -293,7 +292,6 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 			...defaultOptions,
 		};
 	}, [options, data, displayMax, showAxis, activeThemeId]);
-	// console.log(graphOptions);
 	// return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
 	return <HighchartsReact containerProps={{class: "highchart"}} highcharts={highcharts} options={graphOptions} />;
 }

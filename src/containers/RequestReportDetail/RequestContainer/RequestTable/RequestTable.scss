@@ -9,7 +9,7 @@
 }
 
 .header-cell {
-	color: var(--common-linkColor);
+	color: var(--common-headerTextColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -54,7 +54,7 @@
 
 			&-success {
 				width: 16px;
-				color: #3fcc28;
+				color: var(--common-resultIconSuccessColor);
 			}
 
 			&-pending {
@@ -63,7 +63,7 @@
 			}
 			&-fail {
 				width: 9px;
-				color: red;
+				color: var(--common-resultIconFailureColor);
 			}
 		}
 

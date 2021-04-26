@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React from "react";
 import classNames from "classnames/bind";
-import {useDispatch} from "react-redux";
-import {useHistory} from "src/hooks";
 import styles from "./NavigateBackBar.scss";
 
 import LeftArrowIcon from "src/icons/LeftArrowIcon";
@@ -10,9 +8,7 @@ import {NavLink} from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const NavigateBackBar = ({type}) => {
-	const dispatch = useDispatch();
-	const history = useHistory();
+const NavigateBackBar = ({type, id = ""}) => {
 	const renderIcon = () => {
 		switch (type) {
 			case "validators": {
@@ -89,10 +85,10 @@ const NavigateBackBar = ({type}) => {
 			}
 			case "request_report": {
 				return (
-					<div onClick={history.goBack} className={cx("title")} to={"/ai_requests"}>
+					<NavLink className={cx("title")} to={"/ai_requests/" + id}>
 						{" "}
 						<LeftArrowIcon className={cx("title-icon")} /> Report details
-					</div>
+					</NavLink>
 				);
 			}
 			default:

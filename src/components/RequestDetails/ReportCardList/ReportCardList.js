@@ -7,7 +7,7 @@ import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 import styles from "./ReportCardList.module.scss";
 
 const cx = classNames.bind(styles);
@@ -42,7 +42,7 @@ const ReportCardList = memo(({data}) => {
 						case "fail":
 							statusElement = (
 								<div className={cx("status")}>
-									<FailedIcon className={cx("status-icon", "status-icon-fail")} />
+									<TimesIcon className={cx("status-icon", "status-icon-fail")} />
 									<span className={cx("status-text")}>Failed</span>
 								</div>
 							);

@@ -21,7 +21,7 @@ const OracleScriptCardList = memo(({data = []}) => {
 								<div className={cx("oracle-script")}>-</div>
 							) : (
 								<div className={cx("oracle-script")}>
-									<div className={cx("oracle-script-tag")}>{item?.tag || "#D2"}</div>
+									{/* <div className={cx("oracle-script-tag")}>{item?.tag || "#D2"}</div> */}
 									<NavLink className={cx("oracle-script-name")} to={`${consts.PATH.ORACLE_SCRIPTS}/${item?.name}`}>
 										{item?.name}
 									</NavLink>

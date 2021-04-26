@@ -28,10 +28,25 @@
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 150%;
-}
 
-.result-data-cell {
-	word-break: break-all;
+	.result {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+			color: var(--common-linkColor);
+
+			.copy-icon {
+				cursor: pointer;
+				color: var(--common-linkColor);
+			}
+		}
+	}
 }
 
 .status-data-cell {
@@ -49,7 +64,7 @@
 
 			&-success {
 				width: 16px;
-				color: #3fcc28;
+				color: var(--common-resultIconSuccessColor);
 			}
 
 			&-pending {
@@ -59,7 +74,7 @@
 
 			&-fail {
 				width: 9px;
-				color: red;
+				color: var(--common-resultIconFailureColor);
 			}
 		}
 

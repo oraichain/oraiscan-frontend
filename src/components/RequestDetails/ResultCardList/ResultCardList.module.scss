@@ -117,7 +117,7 @@
 		margin-right: 8px;
 
 		&-success {
-			color: #3fcc28;
+			color: var(--common-resultIconSuccessColor);
 			width: 16px;
 		}
 
@@ -126,7 +126,7 @@
 			width: 16px;
 		}
 		&-fail {
-			color: red;
+			color: var(--common-resultIconFailureColor);
 			width: 9px;
 		}
 	}
