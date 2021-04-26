@@ -14,7 +14,7 @@ const RequestGridView = ({data}) => {
 		<Grid container spacing={2} className={cx("request-grid-view")}>
 			{data.map((item, key) => {
 				return (
-					<Grid item lg={3} md={4} sm={12} xs={12} className={cx("request-grid-view-item")} key={"request-grid-view-item-" + key}>
+					<Grid item lg={3} md={4} sm={12} xs={12} key={"request-grid-view-item-" + key}>
 						<div className={cx("request-card")}>
 							<table className={cx("request")}>
 								<tr>
