@@ -13,7 +13,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import {ReactComponent as InformationIcon} from "src/assets/icons/information.svg";
 import CheckIcon from "src/icons/Validators/CheckIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
+import TimesIcon from "src/icons/TimesIcon";
 
 import RequestContainer from "./RequestContainer";
 import TestcaseResult from "./TestcaseResult";
@@ -32,6 +32,32 @@ export default function() {
 		path: path,
 	});
 
+	let statusElement;
+	if (_.isNil(data?.status)) {
+		statusElement = <div className={cx("data-request-table__info-code-item-content", "status")}>-</div>;
+	} else {
+		switch (data?.status) {
+			case "success":
+				statusElement = (
+					<div className={cx("data-request-table__info-code-item-content", "status")}>
+						<CheckIcon className={cx("status-icon", "status-icon-success")} />
+						<span className={cx("status-text")}>Success</span>
+					</div>
+				);
+				break;
+			case "fail":
+				statusElement = (
+					<div className={cx("data-request-table__info-code-item-content", "status")}>
+						<TimesIcon className={cx("status-icon", "status-icon-fail")} />
+						<span className={cx("status-text")}>Failed</span>
+					</div>
+				);
+				break;
+			default:
+				break;
+		}
+	}
+
 	return (
 		<Container fixed className={cx("request-report-details")}>
 			<TitleWrapper>
@@ -40,7 +66,7 @@ export default function() {
 			</TitleWrapper>
 
 			<div className={cx("data-request-table")}>
-				<div className={cx("data-request-table__title")}>Request Info</div>
+				<div className={cx("data-request-table__title")}>Report Info</div>
 
 				<div className={cx("data-request-table__info")}>
 					<div className={cx("data-request-table__info-head")}> Infomation </div>
@@ -90,22 +116,7 @@ export default function() {
 						</div>
 						<div className={cx("data-request-table__info-code-item")}>
 							<div className={cx("data-request-table__info-code-item-title")}> Status </div>
-							<div className={cx("data-request-table__info-code-item-content", "status")}>
-								{" "}
-								{_.isNil(data?.status) ? (
-									<div className={cx("data-request-table__info-code-item-content")}>-</div>
-								) : data?.status === "success" ? (
-									<>
-										<CheckIcon className={cx("status-success")} />
-										<span>Success</span>
-									</>
-								) : (
-									<>
-										<FailedIcon className={cx("status-fail")} />
-										<span>Failed</span>
-									</>
-								)}
-							</div>
+							{statusElement}
 						</div>
 					</div>
 				</div>
