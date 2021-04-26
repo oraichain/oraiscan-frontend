@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 import consts from "src/constants/consts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -16,6 +17,7 @@ import RequestGridView from "src/components/Requests/RequestGridView";
 import RequestGridViewSkeleton from "src/components/Requests/RequestGridView/RequestGridViewSkeleton";
 import RequestListView from "src/components/Requests/RequestListView";
 import RequestListViewSkeleton from "src/components/Requests/RequestListView/RequestListViewSkeleton";
+import {myKeystation} from "src/lib/Keystation";
 import styles from "./Requests.module.scss";
 import Pagination from "src/components/common/Pagination";
 
@@ -44,11 +46,18 @@ const Requests = () => {
 	let requestView;
 	let paginationSection;
 
+	const createAIRequest = () => {
+		myKeystation.openWindow("ai-request", "");
+	};
+
 	if (isLargeScreen) {
 		titleSection = (
 			<Container fixed>
 				<TitleWrapper>
 					<PageTitle title={"All requests"} />
+					<Button variant='contained' onClick={createAIRequest}>
+						Create AI Request
+					</Button>
 					<StatusBox />
 				</TitleWrapper>
 			</Container>

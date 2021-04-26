@@ -69,13 +69,16 @@ export default class Keystation {
 		let apiUrl = "";
 		switch (type) {
 			case "signin":
-				apiUrl = "signin";
+				apiUrl = "en/signin";
 				break;
 			case "transaction":
-				apiUrl = "tx";
+				apiUrl = "en/transaction";
+				break;
+			case "ai-request":
+				apiUrl = "en/airequest/set";
 				break;
 			default:
-				apiUrl = "signin";
+				apiUrl = "en/signin";
 				break;
 		}
 
@@ -83,16 +86,17 @@ export default class Keystation {
 			this.keystationUrl +
 				"/" +
 				apiUrl +
-				"?account=" +
-				encodeURIComponent(account) +
-				"&client=" +
-				encodeURIComponent(this.client) +
-				"&lcd=" +
+				// "?account=" +
+				// encodeURIComponent(account) +
+				// "&client=" +
+				// encodeURIComponent(this.client) +
+				"?lcd=" +
 				encodeURIComponent(this.lcd) +
-				"&path=" +
-				encodeURIComponent(this.path) +
-				"&payload=" +
-				encodeURIComponent(JSON.stringify(payload)),
+				// "&path=" +
+				// encodeURIComponent(this.path) +
+				"&raw_message=" +
+				encodeURIComponent(JSON.stringify(payload)) +
+				"&signInFromScan=true",
 			"",
 			"470",
 			"690"
