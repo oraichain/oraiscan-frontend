@@ -3,7 +3,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./TestcaseResult.scss";
+import styles from "./RequestContainer.scss";
 
 const DelegationTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);
@@ -36,7 +36,7 @@ const DelegationTableSkeleton = memo(({rows = 5}) => {
 	const dataRows = useMemo(() => getDataRows(rows), [rows]);
 
 	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}> Name </div>;
-	const amountHeaderCell = <div className={cx("header-cell", "align-right")}> Result </div>;
+	const amountHeaderCell = <div className={cx("header-cell", "align-right")}> Blockhash </div>;
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}> Txs </div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
 	const headerCellStyles = [

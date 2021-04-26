@@ -1,0 +1,80 @@
+@import "src/styles/utils";
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.header-cell {
+	color: var(--common-headerTextColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.result-data-cell,
+.name-data-cell {
+	.name,
+	.result {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 4px;
+			color: var(--common-linkColor);
+
+			.copy-icon {
+				cursor: pointer;
+				color: var(--common-linkColor);
+			}
+		}
+	}
+}
+
+.status-data-cell {
+	.status {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			height: auto;
+			margin-right: 8px;
+
+			&-success {
+				width: 16px;
+				color: var(--common-resultIconSuccessColor);
+			}
+
+			&-pending {
+				width: 16px;
+				color: #ffae74;
+			}
+			&-fail {
+				width: 9px;
+				color: var(--common-resultIconFailureColor);
+			}
+		}
+
+		&-text {
+			display: inline-block;
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}

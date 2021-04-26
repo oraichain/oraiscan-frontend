@@ -22,7 +22,7 @@
 
 .name-data-cell,
 .test-case-results-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -31,7 +31,7 @@
 }
 
 .height-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -41,7 +41,7 @@
 
 .result-data-cell {
 	.amount {
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -73,17 +73,24 @@
 			margin-right: 8px;
 
 			&-success {
-				color: #3fcc28;
+				width: 16px;
+				color: var(--common-resultIconSuccessColor);
 			}
 
 			&-pending {
+				width: 16px;
 				color: #ffae74;
+			}
+
+			&-fail {
+				width: 9px;
+				color: var(--common-resultIconFailureColor);
 			}
 		}
 
 		&-text {
 			display: inline-block;
-			color: #8b8b8b;
+			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -95,7 +102,7 @@
 
 .more-data-cell {
 	.more {
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;

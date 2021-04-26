@@ -26,6 +26,7 @@ const columns = [
 const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const totalRequestNumber = useRef("0");
 	const [pageId, setPageId] = useState(1);
 	const totalPagesRef = useRef(null);
 
@@ -56,6 +57,7 @@ const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
+				totalRequestNumber.current = data?.data.length.toString();
 				tableSection = isLargeScreen ? <RequestTable data={data?.data} /> : <RequestCardList data={data?.data} />;
 			} else {
 				tableSection = <EmptyTable columns={columns} />;
@@ -70,7 +72,7 @@ const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 			<div className={cx("request-card-header")}>
 				<div className={cx("request")}>
 					<span className={cx("request-name")}>Request</span>
-					<span className={cx("request-value")}>(185,194)</span>
+					<span className={cx("request-value")}>({totalRequestNumber.current})</span>
 				</div>
 				<div className={cx("button")} onClick={showCodeCard}>
 					<span className={cx("button-text")}>Get Code</span>

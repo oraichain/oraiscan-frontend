@@ -34,6 +34,45 @@
 			}
 		}
 
+		.status {
+			vertical-align: middle;
+			display: inline-flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+
+			&-icon {
+				display: inline-block;
+				height: auto;
+				margin-right: 8px;
+
+				&-success {
+					width: 16px;
+					color: var(--common-resultIconSuccessColor);
+				}
+
+				&-pending {
+					width: 16px;
+					color: #ffae74;
+				}
+
+				&-fail {
+					width: 9px;
+					color: var(--common-resultIconFailureColor);
+				}
+			}
+
+			&-text {
+				display: inline-block;
+				color: var(--common-textColor);
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+			}
+		}
+
 		.item-title {
 			color: var(--common-textColor);
 			font-family: Roboto;
@@ -64,7 +103,7 @@
 }
 
 .height {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -73,7 +112,7 @@
 }
 
 .amount {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -90,41 +129,8 @@
 	}
 }
 
-.status {
-	vertical-align: middle;
-	display: inline-flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-
-	&-icon {
-		display: inline-block;
-		width: 16px;
-		height: auto;
-		margin-right: 8px;
-
-		&-success {
-			color: #3fcc28;
-		}
-
-		&-pending {
-			color: #ffae74;
-		}
-	}
-
-	&-text {
-		display: inline-block;
-		color: #8b8b8b;
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		line-height: 150%;
-	}
-}
-
 .more {
-	color: #1b57f0;
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;

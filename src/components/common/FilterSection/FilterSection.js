@@ -23,7 +23,7 @@ const FilterSection = memo(({data, value, onChange}) => {
 						onChange={e => {
 							onChange(e.target.value);
 						}}>
-						{data.map((item, index) => (
+						{data?.map((item, index) => (
 							<option value={item.value}>{item.label}</option>
 						))}
 					</select>

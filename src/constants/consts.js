@@ -86,11 +86,13 @@ export default Object.freeze({
 			VALIDATOR: "/wallet/validator",
 		},
 		MIN_FEE: "min_gas",
-		ORACLE_SCRIPTS_REQUEST: "oracle_scripts/request",
+		ORACLE_SCRIPTS_REQUEST: "oracle-scripts/request",
 		ORACLE_SCRIPTS: "oracle-scripts",
-		REQUESTS: "/requests",
-		REQUESTS_AI_DATA_SOURCES: "/requests/ai_data_sources",
-		REQUESTS_REPORTS: "/requests/reports",
+		REQUESTS: "/ai_requests",
+		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
+		REQUESTS_REPORTS: "/requests_reports",
+		REQUESTS_RESULTS: "/requests_results",
+		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -148,6 +150,7 @@ export default Object.freeze({
 		LIMIT: 10, // Number of records per page
 		TIMEOUT: 10000,
 		PROPOSED_BLOCKS_LIMIT: 9,
+		REQUESTS_LIMIT: 12,
 	},
 	DOMAIN: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/`,
 	PATH: {
@@ -159,8 +162,8 @@ export default Object.freeze({
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 		PROPOSALS: "/proposals",
-		REQUESTS: "/requests",
-		REQUESTS_REPORTS: "/requests/reports",
+		REQUESTS: "/ai_requests",
+		REQUESTS_REPORTS: "/requests_reports",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

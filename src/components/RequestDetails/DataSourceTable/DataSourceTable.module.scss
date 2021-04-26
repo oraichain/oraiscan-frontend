@@ -22,10 +22,27 @@
 
 .name-data-cell,
 .contract-data-cell,
-.owner-data-cell,
-.description-data-cell,
 .fees-data-cell {
-	color: #1b57f0;
+	color: var(--common-linkColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.owner-data-cell {
+	color: var(--common-linkColor);
+	cursor: pointer;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.description-data-cell {
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -34,7 +51,7 @@
 }
 
 .fees-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

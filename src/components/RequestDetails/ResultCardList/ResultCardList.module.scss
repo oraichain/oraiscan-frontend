@@ -74,12 +74,13 @@
 	&-icon {
 		display: inline-block;
 		width: 40px;
-		height: auto;
+		height: 40px;
+		object-fit: contain;
 		margin-right: 8px;
 	}
 
 	&-name {
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -96,11 +97,11 @@
 	line-height: 150%;
 
 	&-value {
-		color: #181818;
+		color: var(--common-textColor);
 	}
 
 	&-percent {
-		color: #9a9a9a;
+		color: var(--common-placeholderTextColor);
 	}
 }
 
@@ -112,22 +113,27 @@
 
 	&-icon {
 		display: inline-block;
-		width: 16px;
 		height: auto;
 		margin-right: 8px;
 
 		&-success {
-			color: #3fcc28;
+			color: var(--common-resultIconSuccessColor);
+			width: 16px;
 		}
 
 		&-pending {
 			color: #ffae74;
+			width: 16px;
+		}
+		&-fail {
+			color: var(--common-resultIconFailureColor);
+			width: 9px;
 		}
 	}
 
 	&-text {
 		display: inline-block;
-		color: #8b8b8b;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;

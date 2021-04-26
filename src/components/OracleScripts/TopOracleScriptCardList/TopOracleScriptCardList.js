@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 const TopOracleScriptCardList = memo(({data}) => {
 	return (
 		<Grid container spacing={2} className={cx("top-oracle-scripts")}>
-			{data.map(data => {
+			{data?.map(data => {
 				return (
 					<Grid item xs={12} lg={3}>
 						<div className={cx("oracle-script")}>

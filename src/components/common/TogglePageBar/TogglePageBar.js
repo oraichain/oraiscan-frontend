@@ -95,7 +95,7 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
-			case "requests": {
+			case "ai_requests": {
 				return (
 					<div className={cx("title")}>
 						{" "}

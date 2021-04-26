@@ -4,9 +4,10 @@ import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
-import FilterSection from "src/components/common/FilterSection";
+import TabBar from "src/components/RequestDetails/TabBar";
 import EmptyTable from "src/components/common/EmptyTable";
 import Pagination from "src/components/common/Pagination";
 import ReportTable from "src/components/RequestDetails/ReportTable";
@@ -25,7 +26,7 @@ const columns = [
 	{title: "", align: "right"},
 ];
 
-const Reports = ({id, tabId, tabs, onTabChange}) => {
+const Reports = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -35,58 +36,21 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 		setPageId(page);
 	};
 
-	// const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}`;
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
+	const path = `${consts.API.REQUESTS_REPORTS}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 3,
-			total_page: 2,
-			total_item: 4,
-		},
-		data: [
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-			{
-				id: 1,
-				name: "#qI4hDIuevX2XifKRGsA747I1XK",
-				test_case_results: "Testcase_price",
-				height: "472230",
-				description: "test coinbase_eth",
-				result: "10000",
-				status: "success",
-			},
-		],
-	};
-	const loading = false;
-	const error = true;
-
+	let totalItems;
 	let tableSection;
 	let paginationSection;
 
 	if (loading) {
+		totalItems = <Skeleton className={cx("skeleton")} variant='text' width={50} height={30} />;
 		tableSection = isLargeScreen ? <ReportTableSkeleton /> : <ReportCardListSkeleton />;
 	} else {
 		if (error) {
+			totalItems = "-";
 			totalPagesRef.current = null;
 			tableSection = <EmptyTable columns={columns} />;
 		} else {
@@ -94,6 +58,12 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 				totalPagesRef.current = data.page.total_page;
 			} else {
 				totalPagesRef.current = null;
+			}
+
+			if (isNaN(data?.page?.total_item)) {
+				totalItems = "-";
+			} else {
+				totalItems = formatInteger(data.page.total_item);
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
@@ -111,9 +81,9 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Reports </span>
-					<span className={cx("total-item-value")}>({isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)})</span>
+					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
-				<FilterSection data={tabs} value={tabId} onChange={onTabChange} />
+				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
@@ -125,9 +95,8 @@ const Reports = ({id, tabId, tabs, onTabChange}) => {
 
 Reports.propTypes = {
 	id: PropTypes.any,
-	tabId: PropTypes.any,
-	tabs: PropTypes.any,
-	onTabChange: PropTypes.any,
+	activeTab: PropTypes.any,
+	setActiveTab: PropTypes.func,
 };
 Reports.defaultProps = {};
 

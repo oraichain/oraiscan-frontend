@@ -29,6 +29,7 @@
 		align-items: center;
 		height: 70px;
 		padding-left: 16px;
+		cursor: pointer;
 
 		&-text {
 			margin-right: 8px;
@@ -91,6 +92,7 @@
 			}
 
 			&-icon {
+				cursor: pointer;
 				color: var(--common-linkColor);
 			}
 		}

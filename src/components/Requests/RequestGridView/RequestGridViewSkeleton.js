@@ -81,7 +81,7 @@ RequestGridViewSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
 RequestGridViewSkeleton.defaultProps = {
-	rows: 10,
+	rows: 12,
 };
 
 export default RequestGridViewSkeleton;
