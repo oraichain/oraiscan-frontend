@@ -11,14 +11,16 @@ const cx = cn.bind(styles);
 
 const RequestListView = ({data}) => {
 	return (
-		<Grid container spacing={2} className={cx("request-grid-view")}>
-			{data.map((item, key) => {
+		<Grid container spacing={2}>
+			{data?.map((item, key) => {
 				return (
-					<Grid item xs={12} className={cx("request-grid-view-item")} key={"request-grid-view-item-" + key}>
+					<Grid item xs={12} key={"request-grid-view-item-" + key}>
 						<div className={cx("request-card")}>
 							<table className={cx("request")}>
 								<tr>
-									<td>{_.isNil(item?.icon) ? <span className={cx("request-icon")}>-</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}</td>
+									<td>
+										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Name</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
+									</td>
 									<td>
 										<div className={cx("request-link")}>{_.isNil(item?.oracle_script_name) ? "-" : item?.oracle_script_name}</div>
 									</td>
@@ -42,7 +44,14 @@ const RequestListView = ({data}) => {
 										<div className={cx("request-title")}>Fee</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.fees) ? "-" : item?.fees}</div>
+										{_.isNil(item?.fees) ? (
+											<div className={cx("fee")}>-</div>
+										) : (
+											<div className={cx("fee")}>
+												<span className={cx("fee-value")}>{item?.fees}</span>
+												<span className={cx("fee-denom")}>ORAI</span>
+											</div>
+										)}
 									</td>
 								</tr>
 								<tr>

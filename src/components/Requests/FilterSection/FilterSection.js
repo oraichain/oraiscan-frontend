@@ -37,7 +37,7 @@ const FilterSection = ({isGridView, keyword, setIsGridView, setKeyword}) => {
 				<div className={cx("search-box")}>
 					<SearchInput
 						className={cx("search-input")}
-						placeholder='Search token name'
+						placeholder='Search request id'
 						value={keyword}
 						onChange={e => {
 							setKeyword(e.target.value);
