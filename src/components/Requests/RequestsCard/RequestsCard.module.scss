@@ -32,7 +32,7 @@
 	&-title {
 		display: inline-block;
 		margin-right: 4px;
-		color: #000000;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -42,7 +42,7 @@
 
 	&-value {
 		display: inline-block;
-		color: #9a9a9a;
+		color: var(--common-placeholderTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -57,7 +57,8 @@
 	justify-content: flex-start;
 	align-items: center;
 	padding: 8px 10px;
-	border: 1px solid #1b57f0;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
 	box-sizing: border-box;
 	border-radius: 4px;
 	cursor: pointer;
@@ -65,7 +66,7 @@
 	&-text {
 		display: inline-block;
 		margin-right: 8px;
-		color: #1b57f0;
+		color: var(--common-buttonTextColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -76,6 +77,6 @@
 	&-icon {
 		width: 12px;
 		height: auto;
-		color: #1b57f0;
+		color: var(--common-buttonTextColor);
 	}
 }

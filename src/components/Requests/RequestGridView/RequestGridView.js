@@ -12,7 +12,7 @@ const cx = cn.bind(styles);
 const RequestGridView = ({data}) => {
 	return (
 		<Grid container spacing={2}>
-			{data.map((item, key) => {
+			{data?.map((item, key) => {
 				return (
 					<Grid item lg={3} md={4} sm={12} xs={12} key={"request-grid-view-item-" + key}>
 						<div className={cx("request-card")}>
