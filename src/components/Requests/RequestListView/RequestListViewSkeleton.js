@@ -12,7 +12,7 @@ const RequestListViewSkeleton = ({rows}) => {
 
 	for (let i = 0; i < rows; i++) {
 		requestGridViewItem.push(
-			<Grid item xs={12} className={cx("request-grid-view-item")} key={"request-grid-view-item-" + i}>
+			<Grid item xs={12} key={"request-grid-view-item-" + i}>
 				<div className={cx("request-card")}>
 					<table className={cx("request")}>
 						<tr>
@@ -69,11 +69,9 @@ const RequestListViewSkeleton = ({rows}) => {
 		);
 	}
 	return (
-		<div className={cx("request-grid-view")}>
-			<Grid container spacing={3}>
-				{requestGridViewItem}
-			</Grid>
-		</div>
+		<Grid container spacing={3}>
+			{requestGridViewItem}
+		</Grid>
 	);
 };
 

@@ -11,10 +11,10 @@ const cx = cn.bind(styles);
 
 const RequestListView = ({data}) => {
 	return (
-		<Grid container spacing={2} className={cx("request-grid-view")}>
+		<Grid container spacing={2}>
 			{data.map((item, key) => {
 				return (
-					<Grid item xs={12} className={cx("request-grid-view-item")} key={"request-grid-view-item-" + key}>
+					<Grid item xs={12} key={"request-grid-view-item-" + key}>
 						<div className={cx("request-card")}>
 							<table className={cx("request")}>
 								<tr>

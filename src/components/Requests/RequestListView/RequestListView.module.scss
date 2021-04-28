@@ -1,17 +1,5 @@
 @import "src/styles/utils";
 
-.request-grid-view {
-	margin-top: 20px;
-	padding: 100px;
-	background: var(--common-containerBackgroundColor) !important;
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
-	border-radius: 8px;
-
-	&-item {
-		height: 100%;
-	}
-}
-
 .request-card {
 	height: 100%;
 	padding: 20px;
