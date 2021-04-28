@@ -28,6 +28,7 @@ const Tx = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const countRefetchRef = useRef(0);
+	const intervalRef = useRef(null);
 	const [shouldRefetch, setShouldRefetch] = useState(true);
 	const [pending, setPending] = useState(true);
 	const params = useParams();
@@ -137,11 +138,17 @@ const Tx = () => {
 						if (pendingDataRef.current) {
 							txInfo = <TxInfo data={pendingDataRef.current} />;
 							txData = <TxData data={pendingDataRef.current} />;
+						} else {
+							txInfo = <TxInfoSkeleton />;
+							txData = <TxDataSkeleton />;
 						}
-						refetch();
+						intervalRef.current = setTimeout(() => {
+							refetch();
+						}, 3000);
 						countRefetchRef.current += 1;
-						if (countRefetchRef.current === 15) {
+						if (countRefetchRef.current === 10) {
 							cleanUp();
+							clearTimeout(intervalRef.current);
 							setShouldRefetch(false);
 						}
 					} else {
