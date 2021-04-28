@@ -18,13 +18,13 @@
 	font-weight: bold;
 	font-size: 14px;
 	line-height: 150%;
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 }
 
 .test-case-data-cell,
 .description-data-cell,
 .request-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -38,7 +38,7 @@
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: center;
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -60,7 +60,7 @@
 .owner-data-cell {
 	.owner {
 		display: inline-block;
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;

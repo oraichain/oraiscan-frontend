@@ -3,22 +3,22 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import styles from "./DataSourceCardList.scss";
 
-const DataSourceCardListSkeleton = memo(({rows = 10}) => {
+const TestCaseCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
 
-	let DataSourceCardListItems = [];
+	let testCaseCardListItems = [];
 	for (let i = 1; i <= rows; i++) {
-		DataSourceCardListItems.push(
-			<div className={cx("data-source-card-list-item")} key={"data-source-card-list-item-" + i}>
+		testCaseCardListItems.push(
+			<div className={cx("test-case-card-list-item")} key={"test-case-card-list-item-" + i}>
 				<table>
 					<tbody>
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Test Case</div>
+								<div className={cx("item-title")}>Data Source</div>
 							</td>
 							<td>
 								<div className={cx("item-link")}>
-									<Skeleton />
+									<Skeleton variant='text' className={cx("skeleton")} width={100} height={21} />
 								</div>
 							</td>
 						</tr>
@@ -29,7 +29,7 @@ const DataSourceCardListSkeleton = memo(({rows = 10}) => {
 							</td>
 							<td>
 								<div className={cx("item-text")}>
-									<Skeleton />
+									<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 								</div>
 							</td>
 						</tr>
@@ -38,13 +38,13 @@ const DataSourceCardListSkeleton = memo(({rows = 10}) => {
 							<td>
 								<div className={cx("item-title")}>Requests</div>
 								<div className={cx("item-text")}>
-									<Skeleton />
+									<Skeleton variant='text' className={cx("skeleton")} width={10} height={21} />
 								</div>
 							</td>
 							<td>
 								<div className={cx("item-title")}>Owner</div>
 								<div className={cx("item-link")}>
-									<Skeleton />
+									<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 								</div>
 							</td>
 						</tr>
@@ -53,7 +53,7 @@ const DataSourceCardListSkeleton = memo(({rows = 10}) => {
 							<td colSpan={2}>
 								<div className={cx("item-title")}>Description</div>
 								<div className={cx("item-text")}>
-									<Skeleton />
+									<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
 								</div>
 							</td>
 						</tr>
@@ -63,7 +63,7 @@ const DataSourceCardListSkeleton = memo(({rows = 10}) => {
 		);
 	}
 
-	return <div className='data-source-card-list'>{DataSourceCardListItems}</div>;
+	return <div className='test-case-card-list'>{testCaseCardListItems}</div>;
 });
 
-export default DataSourceCardListSkeleton;
+export default TestCaseCardListSkeleton;

@@ -14,9 +14,9 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
-import DataSourceTable from "src/components/DataSources/DataSourceTable";
+import DataSourceTable from "src/components/DataSources/DataSourceTable/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/DataSources/DataSourceTable/DataSourceTableSkeleton";
-import DataSourceCardList from "src/components/DataSources/DataSourceCardList";
+import DataSourceCardList from "src/components/DataSources/DataSourceCardList/DataSourceCardList";
 import DataSourceCardListSkeleton from "src/components/DataSources/DataSourceCardList/DataSourceCardListSkeleton";
 import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./DataSources.scss";
@@ -156,8 +156,8 @@ const DataSources = props => {
 			<Container fixed className={cx("data-sources")}>
 				<ComingSoon />
 				{/* {filterSection}
-			{tableSection}
-			{paginationSection} */}
+				{tableSection}
+				{paginationSection} */}
 			</Container>
 		</>
 	);
