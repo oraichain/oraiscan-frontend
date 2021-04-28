@@ -59,21 +59,32 @@
 			font-size: 16px;
 			line-height: 150%;
 		}
-
-		.fee-data-cell {
-			span:nth-child(1) {
-				padding-right: 4px;
-			}
-
-			span:nth-child(2) {
-				text-transform: uppercase;
-			}
-		}
-
-		.flex-row-end {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-end;
-		}
 	}
+}
+
+.fee {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	color: #181818;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+
+	&-value {
+		display: inline-block;
+		padding-right: 4px;
+	}
+
+	&-denom {
+		display: inline-block;
+		text-transform: uppercase;
+	}
+}
+
+.skeleton {
+	display: inline-block;
 }
