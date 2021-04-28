@@ -1,0 +1,43 @@
+@import "src/styles/utils";
+
+.filter-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin-bottom: 20px;
+
+	@include media(">=large") {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0;
+	}
+
+	&-header {
+		margin-bottom: 15px;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+
+		@include media(">=large") {
+			margin-bottom: 0;
+		}
+	}
+
+	&-body {
+		width: 100%;
+
+		@include media(">=large") {
+			width: initial;
+		}
+	}
+}
+
+.search-input {
+	width: 100%;
+	padding: 12px 20px;
+}

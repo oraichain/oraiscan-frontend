@@ -1,0 +1,119 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: var(--common-headerTextColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.validator-data-cell {
+	.validator {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			object-fit: contain;
+			margin-right: 8px;
+		}
+
+		&-name {
+			text-align: left;
+			color: var(--common-linkColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.address-data-cell,
+.result-data-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.voting-power-data-cell {
+	.voting-power {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			color: var(--common-textColor);
+		}
+
+		&-percent {
+			color: var(--common-placeholderTextColor);
+		}
+	}
+}
+
+.status-data-cell {
+	.status {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			height: auto;
+			margin-right: 8px;
+
+			&-success {
+				color: var(--common-resultIconSuccessColor);
+				width: 16px;
+			}
+
+			&-pending {
+				color: #ffae74;
+				width: 16px;
+			}
+			&-fail {
+				color: var(--common-resultIconFailureColor);
+				width: 9px;
+			}
+		}
+
+		&-text {
+			display: inline-block;
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

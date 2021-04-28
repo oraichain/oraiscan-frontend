@@ -14,7 +14,7 @@ const RequestCardListSkeleton = memo(({rows = 10}) => {
 					<tbody>
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Request</div>
+								<div className={cx("item-title")}>Requests</div>
 							</td>
 							<td>
 								<div className={cx("item-link")}>
@@ -24,40 +24,33 @@ const RequestCardListSkeleton = memo(({rows = 10}) => {
 						</tr>
 
 						<tr>
-							<td colSpan={2}>
-								<div className={cx("item-title")}>Oracle Script</div>
-								<div className={cx("title")}>
+							<td>
+								<div className={cx("item-title")}>Fees</div>
+							</td>
+							<td>
+								<div className={cx("item-link")}>
 									<Skeleton />
 								</div>
 							</td>
 						</tr>
 
 						<tr>
-							<td colSpan={2}>
-								<div className={cx("item-title")}>Report Status</div>
-								<div className={cx("report-status")}>
-									<div className={cx("info")}>
-										<span className={cx("width-full")}>
-											<Skeleton />
-										</span>
-									</div>
-									<div className={cx("graph")}>
-										<Skeleton />
-									</div>
+							<td>
+								<div className={cx("item-title")}>Block Height</div>
+							</td>
+							<td>
+								<div className={cx("item-link")}>
+									<Skeleton />
 								</div>
 							</td>
 						</tr>
 
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Status</div>
-								<div>
-									<Skeleton />
-								</div>
+								<div className={cx("item-title")}>Creator</div>
 							</td>
 							<td>
-								<div className={cx("item-title")}>Owner</div>
-								<div>
+								<div className={cx("item-link")}>
 									<Skeleton />
 								</div>
 							</td>

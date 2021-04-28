@@ -67,7 +67,6 @@ export default Object.freeze({
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
 		ORAICHAIN_INFO: "/oraichain_info",
-
 		ACCOUNT_COINS: "/account/coins",
 		VALIDATOR: "/validator",
 		DELEGATOR: "/delegator",
@@ -87,8 +86,13 @@ export default Object.freeze({
 			VALIDATOR: "/wallet/validator",
 		},
 		MIN_FEE: "min_gas",
-		ORACLE_SCRIPTS_REQUEST: "oracle_scripts/requests",
+		ORACLE_SCRIPTS_REQUEST: "oracle-scripts/request",
 		ORACLE_SCRIPTS: "oracle-scripts",
+		REQUESTS: "/ai_requests",
+		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
+		REQUESTS_REPORTS: "/requests_reports",
+		REQUESTS_RESULTS: "/requests_results",
+		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/provider/datasources",
@@ -146,6 +150,7 @@ export default Object.freeze({
 		LIMIT: 10, // Number of records per page
 		TIMEOUT: 10000,
 		PROPOSED_BLOCKS_LIMIT: 9,
+		REQUESTS_LIMIT: 12,
 	},
 	DOMAIN: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/`,
 	PATH: {
@@ -157,6 +162,8 @@ export default Object.freeze({
 		TEST_CASES: "/test-cases",
 		ORACLE_SCRIPTS: "/oracle-scripts",
 		PROPOSALS: "/proposals",
+		REQUESTS: "/ai_requests",
+		REQUESTS_REPORTS: "/requests_reports",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

@@ -25,6 +25,7 @@ import SendTrasactionTab from "./SendTrasactionTab";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
+import "./Dialog.css";
 
 const cx = cn.bind(styles);
 
@@ -94,11 +95,10 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	// let values = watch() || "";
 
 	const onSubmit = data => {
-		console.log(data);
 		if (
-			(data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > amount / 1000000)) ||
-			data.sendAmount === "" ||
-			data.recipientAddress === ""
+			(data && (parseFloat(data?.sendAmount) <= 0 || parseFloat(data?.sendAmount) > amount / 1000000)) ||
+			data?.sendAmount === "" ||
+			data?.recipientAddress === ""
 		) {
 			return;
 		}

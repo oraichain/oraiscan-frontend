@@ -15,7 +15,6 @@ import styles from "./DataSourceTableMobile.scss";
 const cx = cn.bind(styles);
 
 export default function({data}) {
-	console.log(data);
 	const validators = useSelector(state => state.blockchain.validators);
 	const history = useHistory();
 	return (

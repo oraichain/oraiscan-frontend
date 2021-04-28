@@ -83,6 +83,7 @@ const OracleScriptDetail = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("oracle-script-detail")}>
+				{/* <ComingSoon /> */}
 				{detailsCard}
 				{bottomCard}
 			</Container>

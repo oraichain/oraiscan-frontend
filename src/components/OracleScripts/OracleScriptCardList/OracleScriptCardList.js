@@ -21,11 +21,10 @@ const OracleScriptCardList = memo(({data = []}) => {
 								<div className={cx("oracle-script")}>-</div>
 							) : (
 								<div className={cx("oracle-script")}>
-									<div className={cx("oracle-script-tag")}>{item?.tag || "#D2"}</div>
+									{/* <div className={cx("oracle-script-tag")}>{item?.tag || "#D2"}</div> */}
 									<NavLink className={cx("oracle-script-name")} to={`${consts.PATH.ORACLE_SCRIPTS}/${item?.name}`}>
 										{item?.name}
 									</NavLink>
-									<span className={cx("oracle-script-name")}>{item.name}</span>
 								</div>
 							)}
 						</td>
@@ -34,13 +33,13 @@ const OracleScriptCardList = memo(({data = []}) => {
 					<tr>
 						<td colSpan={2}>
 							<div className={cx("item-title")}>Requests</div>
-							{_.isNil(item?.requests) ? (
+							{_.isNil(item?.request) ? (
 								<div className={cx("request-and-response-time")}>
 									<span className={cx("request-value")}>-</span>
 								</div>
 							) : (
 								<div className={cx("request-and-response-time")}>
-									<span className={cx("request-value")}>{item?.requests}</span>
+									<span className={cx("request-value")}>{item?.request}</span>
 								</div>
 							)}
 						</td>

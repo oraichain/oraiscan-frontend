@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React from "react";
 import classNames from "classnames/bind";
-import {useDispatch} from "react-redux";
-
 import styles from "./NavigateBackBar.scss";
 
 import LeftArrowIcon from "src/icons/LeftArrowIcon";
@@ -10,8 +8,7 @@ import {NavLink} from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const NavigateBackBar = ({type}) => {
-	const dispatch = useDispatch();
+const NavigateBackBar = ({type, id = ""}) => {
 	const renderIcon = () => {
 		switch (type) {
 			case "validators": {
@@ -78,11 +75,19 @@ const NavigateBackBar = ({type}) => {
 					</NavLink>
 				);
 			}
-			case "requests": {
+			case "ai_requests": {
 				return (
-					<NavLink className={cx("title")} to={"/requests"}>
+					<NavLink className={cx("title")} to={"/ai_requests"}>
 						{" "}
 						<LeftArrowIcon className={cx("title-icon")} /> Request details
+					</NavLink>
+				);
+			}
+			case "request_report": {
+				return (
+					<NavLink className={cx("title")} to={"/ai_requests/" + id}>
+						{" "}
+						<LeftArrowIcon className={cx("title-icon")} /> Report details
 					</NavLink>
 				);
 			}

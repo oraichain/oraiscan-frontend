@@ -35,13 +35,7 @@ const RequestTableSkeleton = memo(({rows = 10}) => {
 				</div>
 			);
 
-			const ownerDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton")} width={100} height={21} />
-				</div>
-			);
-
-			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell]);
+			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell]);
 		}
 		return dataRows;
 	};

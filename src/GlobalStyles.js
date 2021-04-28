@@ -20,6 +20,13 @@ let common = theme => {
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
   --common-resultIconPendingColor: ${theme?.data?.common?.resultIconPendingColor};
   --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
+  --common-modal-modalCommonTextColor: ${theme?.data?.common?.modal?.modalCommonTextColor};
+  --common-modal-modalCommonBorderColor: ${theme?.data?.common?.modal?.modalCommonBorderColor};
+  --common-modal-modalCommonBackgroundColor: ${theme?.data?.common?.modal?.modalCommonBackgroundColor};
+  --common-modal-modalSliderColor: ${theme?.data?.common?.modal?.modalSliderColor};
+  --common-modal-buttonCancelBackgroundColor: ${theme?.data?.common?.modal?.buttonCancelBackgroundColor};
+  --common-modal-buttonSubmitBackgroundColor: ${theme?.data?.common?.modal?.buttonSubmitBackgroundColor};
+
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
   --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};
   --common-themedTable-evenRowBackgroundColor: ${theme?.data?.common?.themedTable?.evenRowBackgroundColor};

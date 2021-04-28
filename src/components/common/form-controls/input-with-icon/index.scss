@@ -3,22 +3,24 @@
 }
 
 .input-text {
+	background: var(--common-containerBackgroundColor);
+
 	&::placeholder {
-		color: #cdcdcd;
+		color: var(--common-placeholderTextColor);
 		opacity: 1; /* Firefox */
 	}
 
 	:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: #cdcdcd;
+		color: var(--common-placeholderTextColor);
 	}
 
 	::-ms-input-placeholder {
 		/* Microsoft Edge */
-		color: #cdcdcd;
+		color: var(--common-placeholderTextColor);
 	}
 	> div {
-		border: 1px solid #e7e7e7;
+		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 6px;
 		&::before {
@@ -29,6 +31,7 @@
 		}
 	}
 	input {
+		color: var(--common-textColor);
 		font-size: 14px;
 		padding: 12px;
 		padding-left: 0px;
