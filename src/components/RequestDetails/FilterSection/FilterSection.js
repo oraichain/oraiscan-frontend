@@ -13,7 +13,7 @@ const FilterSection = ({keyword, setKeyword}) => {
 			<div className={cx("filter-section-body")}>
 				<SearchInput
 					className={cx("search-input")}
-					placeholder='Search token name'
+					placeholder='Search request id'
 					value={keyword}
 					onChange={e => {
 						setKeyword(e.target.value);

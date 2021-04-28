@@ -79,6 +79,26 @@
 	}
 }
 
+.fee {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-value {
+		display: inline-block;
+		margin-right: 4px;
+		color: var(--common-textColor);
+	}
+
+	&-denom {
+		display: inline-block;
+		color: var(--common-oraiDenomTextColor);
+		text-transform: uppercase;
+	}
+}
+
 .skeleton {
 	display: inline-block;
 }

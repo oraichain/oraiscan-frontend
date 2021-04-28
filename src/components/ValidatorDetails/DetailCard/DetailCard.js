@@ -96,14 +96,6 @@ const DetailCard = memo(({data}) => {
 		</div>
 	);
 
-	const showMoreElement = (
-		<div className={cx("info")}>
-			<NavLink className={cx("info-link")} to=''>
-				Show more
-			</NavLink>
-		</div>
-	);
-
 	return (
 		<div className={cx("detail-card")}>
 			{isLargeScreen ? (
@@ -130,7 +122,6 @@ const DetailCard = memo(({data}) => {
 					</Grid>
 					<Grid item xs={4}>
 						{detailsElement}
-						{showMoreElement}
 					</Grid>
 				</Grid>
 			) : (
@@ -151,10 +142,7 @@ const DetailCard = memo(({data}) => {
 							<td>{bondedHeightElement}</td>
 						</tr>
 						<tr>
-							<td colSpan={2}>
-								{detailsElement}
-								{showMoreElement}
-							</td>
+							<td colSpan={2}>{detailsElement}</td>
 						</tr>
 					</tbody>
 				</table>
