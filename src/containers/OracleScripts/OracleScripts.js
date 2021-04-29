@@ -12,7 +12,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TopOracleScriptCardList from "src/components/OracleScripts/TopOracleScriptCardList";
 import TopOracleScriptCardListSkeleton from "src/components/OracleScripts/TopOracleScriptCardList/TopOracleScriptCardListSkeleton";
 import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
@@ -22,19 +22,6 @@ import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScr
 import styles from "./OracleScripts.module.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: <div className={cx("table-header-cell")}>Oracle Script</div>, align: "left"},
-	{title: <div className={cx("table-header-cell")}>Oracle Script</div>, align: "left"},
-	{
-		title: (
-			<div className={cx("table-header-cell")}>
-				Request <br /> &amp; Response time
-			</div>
-		),
-		align: "right",
-	},
-	{title: "Owner", align: "right"},
-];
 
 const OracleScripts = () => {
 	const theme = useTheme();
@@ -111,7 +98,7 @@ const OracleScripts = () => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -122,7 +109,7 @@ const OracleScripts = () => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <OracleScriptTable data={data?.data} /> : <OracleScriptCardList data={data?.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

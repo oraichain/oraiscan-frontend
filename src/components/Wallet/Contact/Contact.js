@@ -7,7 +7,7 @@ import ContactTableSkeleton from "src/components/Wallet/ContactTable/ContactTabl
 import ContactCardList from "src/components/Wallet/ContactCardList/ContactCardList";
 import ContactCardListSkeleton from "src/components/Wallet/ContactCardList/ContactCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import {useSelector} from "src/hooks";
 import styles from "./Contact.scss";
 
@@ -50,8 +50,6 @@ const Contact = memo(() => {
 		setPage(page);
 	};
 
-	const columns = [{title: "TxHash"}, {title: "Type"}, {title: "Result"}, {title: "Amount"}, {title: "Fee"}, {title: "Height"}, {title: "Time"}];
-
 	return (
 		<div className={cx("Contact")}>
 			<div className={cx("title")}>Contact</div>
@@ -61,7 +59,7 @@ const Contact = memo(() => {
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (
-				<EmptyTable columns={columns} />
+				<NoResult />
 			)}
 		</div>
 	);

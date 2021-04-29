@@ -67,7 +67,6 @@ export default function(props) {
 	return (
 		<div className={cx("GraphDisplay")}>
 			<div className={cx("tab-wrapper")}>
-				{isMobile && <div className={cx("tab-wrapper-name")}> Data Table Name </div>}
 				<div className={cx("tab-wrapper-btn")}>
 					<button className={cx({selected: showPrice})} onClick={clickTab}>
 						<p>Price</p>

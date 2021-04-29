@@ -8,7 +8,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import TabBar from "src/components/RequestDetails/TabBar";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
 import ReportTable from "src/components/RequestDetails/ReportTable";
 import ReportTableSkeleton from "src/components/RequestDetails/ReportTable/ReportTableSkeleton";
@@ -17,14 +17,6 @@ import ReportCardListSkeleton from "src/components/RequestDetails/ReportCardList
 import styles from "./Reports.module.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Name", align: "left"},
-	{title: "Test Case Results", align: "left"},
-	{title: "Height", align: "left"},
-	{title: "Result", align: "left"},
-	{title: "Status", align: "right"},
-	{title: "", align: "right"},
-];
 
 const Reports = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
@@ -52,7 +44,7 @@ const Reports = ({id, activeTab, setActiveTab}) => {
 		if (error) {
 			totalItems = "-";
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -69,7 +61,7 @@ const Reports = ({id, activeTab, setActiveTab}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <ReportTable data={data.data} /> : <ReportCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

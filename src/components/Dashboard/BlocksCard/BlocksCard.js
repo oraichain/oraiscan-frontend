@@ -8,7 +8,7 @@ import consts from "src/constants/consts";
 import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import BlockTable from "src/components/Dashboard/BlockTable";
 import BlockTableSkeleton from "src/components/Dashboard/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/Dashboard/BlockCardList";
@@ -16,13 +16,6 @@ import BlockCardListSkeleton from "src/components/Dashboard/BlockCardList/BlockC
 import styles from "./BlocksCard.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Height", align: "center"},
-	{title: "Parent Hash", align: "left"},
-	{title: "Proposer", align: "left"},
-	{title: "Txs", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const BlocksCard = props => {
 	const theme = useTheme();
@@ -99,7 +92,7 @@ const BlocksCard = props => {
 		if (error) {
 			totalItemsRef.current = null;
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.paging?.total)) {
 				if (totalItemsRef.current != data.paging.total) {
@@ -135,7 +128,7 @@ const BlocksCard = props => {
 				}
 				prevDataRef.current = [...data.data];
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

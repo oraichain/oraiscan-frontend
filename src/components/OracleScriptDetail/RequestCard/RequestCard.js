@@ -6,7 +6,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import RequestTable from "src/components/OracleScriptDetail/RequestTable";
 import RequestTableSkeleton from "src/components/OracleScriptDetail/RequestTable/RequestTableSkeleton";
 import RequestCardList from "src/components/OracleScriptDetail/RequestCardList";
@@ -16,12 +16,6 @@ import RightArrowIcon from "src/icons/RightArrowIcon";
 import styles from "./RequestCard.module.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Requests", align: "left"},
-	{title: "Fees", align: "left"},
-	{title: "Block Height", align: "left"},
-	{title: "Creator", align: "left"},
-];
 
 const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 	const theme = useTheme();
@@ -48,7 +42,7 @@ const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -60,7 +54,7 @@ const RequestCard = memo(({oracleScriptId, showCodeCard}) => {
 				totalRequestNumber.current = data?.data.length.toString();
 				tableSection = isLargeScreen ? <RequestTable data={data?.data} /> : <RequestCardList data={data?.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

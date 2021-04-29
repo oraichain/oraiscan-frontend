@@ -10,19 +10,10 @@ import TransactionTableSkeleton from "src/components/TxList/TransactionTable/Tra
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "TxHash", align: "left"},
-	{title: "Type", align: "left"},
-	{title: "Result", align: "center"},
-	{title: "Amount", align: "right"},
-	{title: "Fee", align: "right"},
-	{title: "Height", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const TransactionCard = memo(({account = ""}) => {
 	const theme = useTheme();
@@ -50,7 +41,7 @@ const TransactionCard = memo(({account = ""}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -61,7 +52,7 @@ const TransactionCard = memo(({account = ""}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

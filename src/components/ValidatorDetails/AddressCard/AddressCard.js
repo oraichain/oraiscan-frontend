@@ -20,7 +20,7 @@ const AddressCard = memo(({moniker, operatorAddress, address}) => {
 				<div className={cx("validator-account")}>
 					{logoURL && <img alt='/' className={cx("validator-account-icon")} src={logoURL} />}
 					{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
-					<span className={cx("validator-account-name")}>{moniker}</span>
+					<span className={cx("validator-account-name")}>{moniker?.length > 22 ? moniker?.substring(0, 18) + "..." : moniker}</span>
 				</div>
 				<div className={cx("validator-status")}>
 					<CheckIcon className={cx("validator-status-icon")}></CheckIcon>

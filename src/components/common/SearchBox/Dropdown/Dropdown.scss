@@ -5,7 +5,7 @@
 	margin-top: 5px;
 	border-radius: 5px;
 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
-	background-color: #ffffff;
+	background-color: var(--common-blockItemBackgroundColor);
 	max-height: 280px;
 	overflow-y: auto;
 	> * {
@@ -15,7 +15,7 @@
 		cursor: pointer;
 
 		&.selected {
-			background-color: #f5f5f5;
+			background-color: var(--common-blockItemBackgroundColor);
 		}
 
 		display: flex;
@@ -34,12 +34,12 @@
 			line-height: 1.36;
 			letter-spacing: normal;
 			text-align: left;
-			color: #222222;
+			color: var(--common-textColor);
 
 			display: flex;
 			.name {
 				margin-left: 3px;
-				color: #89909b;
+				color: var(--common-placeholderTextColor);
 			}
 		}
 	}
@@ -47,11 +47,11 @@
 		display: none;
 		:first-child {
 			font-weight: 400;
-			color: #767f8d;
+			color: var(--common-placeholderTextColor);
 			margin-right: 3px;
 		}
 		.input {
-			color: black;
+			color: var(--common-textColor);
 			font-family: Roboto, serif;
 		}
 		span {

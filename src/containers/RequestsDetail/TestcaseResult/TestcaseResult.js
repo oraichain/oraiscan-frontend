@@ -8,17 +8,12 @@ import DelegationTable from "src/components/Account/DelegationTable";
 import DelegationCardList from "src/components/Account/DelegationCardList/DelegationCardList";
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./TestCaseCard.scss";
 import Skeleton from "./Skeleton";
 import MobileSkeleton from "./MobileSkeleton";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Name", align: "left"},
-	{title: "Result", align: "left"},
-	{title: "Txs", align: "center"},
-];
 
 const DelegationCard = memo(({account = ""}) => {
 	const theme = useTheme();
@@ -43,7 +38,7 @@ const DelegationCard = memo(({account = ""}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -54,7 +49,7 @@ const DelegationCard = memo(({account = ""}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

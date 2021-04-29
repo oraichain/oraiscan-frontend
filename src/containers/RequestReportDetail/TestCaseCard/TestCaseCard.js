@@ -6,7 +6,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TestCaseTable from "src/containers/RequestReportDetail/TestCaseCard/TestCaseTable";
 import TestCaseTableSkeleton from "src/containers/RequestReportDetail/TestCaseCard/TestCaseTable/TestCaseTableSkeleton";
 import TestCaseCardList from "src/containers/RequestReportDetail/TestCaseCard/TestCaseCardList";
@@ -15,11 +15,6 @@ import TestCaseCardListSkeleton from "src/containers/RequestReportDetail/TestCas
 import styles from "./TestCaseCard.module.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Name", align: "left"},
-	{title: "Result", align: "left"},
-	{title: "Txs", align: "center"},
-];
 
 const TestCaseCard = memo(({id, address}) => {
 	const theme = useTheme();
@@ -44,7 +39,7 @@ const TestCaseCard = memo(({id, address}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -55,7 +50,7 @@ const TestCaseCard = memo(({id, address}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <TestCaseTable data={data.data} /> : <TestCaseCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

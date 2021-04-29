@@ -5,17 +5,19 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-top: 80px;
 
 	&-icon {
 		margin-bottom: 15px;
+		color: var(--common-textColor);
 	}
 
 	&-text {
-		color: #9a9a9a;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
-		font-size: 18px;
+		font-size: 40px;
 		line-height: 150%;
 		display: flex;
 		align-items: center;
