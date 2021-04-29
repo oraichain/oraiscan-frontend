@@ -49,6 +49,78 @@ function PopupCenter(url, title, w, h) {
 	return newWindow;
 }
 
+function openWindowV1(type, payload, account = "", self) {
+	console.log(`open ${self.client}`);
+
+	// The account parameter is required for users having multiple keychain accounts.
+	let apiUrl = "";
+	switch (type) {
+		case "signin":
+			apiUrl = "signin";
+			break;
+		case "transaction":
+			apiUrl = "tx";
+			break;
+		default:
+			apiUrl = "signin";
+			break;
+	}
+
+	return PopupCenter(
+		self.keystationUrl +
+			"/" +
+			apiUrl +
+			"?account=" +
+			encodeURIComponent(account) +
+			"&client=" +
+			encodeURIComponent(self.client) +
+			"&lcd=" +
+			encodeURIComponent(self.lcd) +
+			"&path=" +
+			encodeURIComponent(self.path) +
+			"&payload=" +
+			encodeURIComponent(JSON.stringify(payload)),
+		"",
+		"470",
+		"690"
+	);
+}
+
+function openWindowV2(type, payload, account = "", self) {
+	console.log(`open ${self.client}`);
+
+	// The account parameter is required for users having multiple keychain accounts.
+	let apiUrl = "";
+	switch (type) {
+		case "signin":
+			apiUrl = "en/signin";
+			break;
+		case "transaction":
+			apiUrl = "en/transaction";
+			break;
+		case "ai-request":
+			apiUrl = "en/airequest/set";
+			break;
+		default:
+			apiUrl = "en/signin";
+			break;
+	}
+
+	return PopupCenter(
+		self.keystationUrl +
+			"/" +
+			apiUrl +
+			"?lcd=" +
+			encodeURIComponent(self.lcd) +
+			"&raw_message=" +
+			encodeURIComponent(JSON.stringify(payload)) +
+			"&signInFromScan=true",
+		"",
+		"470",
+		"690"
+	);
+}
+
 export default class Keystation {
 	constructor(params) {
 		if (!params) {
@@ -63,44 +135,8 @@ export default class Keystation {
 	}
 
 	openWindow(type, payload, account = "") {
-		console.log(`open ${this.client}`);
-
-		// The account parameter is required for users having multiple keychain accounts.
-		let apiUrl = "";
-		switch (type) {
-			case "signin":
-				apiUrl = "en/signin";
-				break;
-			case "transaction":
-				apiUrl = "en/transaction";
-				break;
-			case "ai-request":
-				apiUrl = "en/airequest/set";
-				break;
-			default:
-				apiUrl = "en/signin";
-				break;
-		}
-
-		return PopupCenter(
-			this.keystationUrl +
-				"/" +
-				apiUrl +
-				// "?account=" +
-				// encodeURIComponent(account) +
-				// "&client=" +
-				// encodeURIComponent(this.client) +
-				"?lcd=" +
-				encodeURIComponent(this.lcd) +
-				// "&path=" +
-				// encodeURIComponent(this.path) +
-				"&raw_message=" +
-				encodeURIComponent(JSON.stringify(payload)) +
-				"&signInFromScan=true",
-			"",
-			"470",
-			"690"
-		);
+		const self = this;
+		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, (account = ""), self) : openWindowV1(type, payload, (account = ""), self);
 	}
 }
 
