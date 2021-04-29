@@ -11,7 +11,7 @@ import {formatInteger} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TransactionTable from "src/components/ProposalDetails/TransactionTable";
 import TransactionTableSkeleton from "src/components/ProposalDetails/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/ProposalDetails/TransactionCardList";
@@ -19,15 +19,6 @@ import TransactionCardListSkeleton from "src/components/ProposalDetails/Transact
 import styles from "./TransactionsCard.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "TxHash", align: "left"},
-	{title: "Type", align: "left"},
-	{title: "Result", align: "center"},
-	{title: "Amount", align: "right"},
-	{title: "Fee", align: "right"},
-	{title: "Height", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const TransactionsCard = memo(({proposalId}) => {
 	const theme = useTheme();
@@ -174,7 +165,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	} else {
 		if (transactionError) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(transactionData?.page?.total_page)) {
 				totalPagesRef.current = transactionData.page.total_page;
@@ -203,7 +194,7 @@ const TransactionsCard = memo(({proposalId}) => {
 				}
 				prevDataRef.current = [...transactionData.txs];
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

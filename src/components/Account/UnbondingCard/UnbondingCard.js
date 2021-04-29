@@ -10,16 +10,10 @@ import UnbondingTableSkeleton from "src/components/Account/UnbondingTable/Unbond
 import UnbondingCardList from "src/components/Account/UnbondingCardList";
 import UnbondingCardListSkeleton from "src/components/Account/UnbondingCardList/UnbondingCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./UnbondingCard.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Validator", align: "left"},
-	{title: "Height", align: "right"},
-	{title: "Amount", align: "right"},
-	{title: "Completion Time", align: "right"},
-];
 
 const UnbondingCard = memo(({account = ""}) => {
 	const theme = useTheme();
@@ -44,7 +38,7 @@ const UnbondingCard = memo(({account = ""}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -55,7 +49,7 @@ const UnbondingCard = memo(({account = ""}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <UnbondingTable data={data.data} /> : <UnbondingCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

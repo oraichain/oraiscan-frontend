@@ -12,7 +12,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import StatusCardList from "src/components/TxList/StatusCardList";
 import SearchInput from "src/components/common/SearchInput";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import ValidatorCardList from "src/components/ValidatorList/ValidatorCardList";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
@@ -20,16 +20,6 @@ import ValidatorCardListSkeleton from "src/components/ValidatorList/ValidatorCar
 import styles from "./ValidatorList.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Rank", align: "center"},
-	{title: "Validator", align: "left"},
-	{title: "Voting power", align: "right"},
-	{title: "Cumulative Share %", align: "right"},
-	{title: "Uptime", align: "right"},
-	{title: "Commission", align: "right"},
-	{title: "Est APR", align: "right"},
-	{title: "Delegate", align: "right"},
-];
 
 const ValidatorList = props => {
 	const theme = useTheme();
@@ -119,7 +109,7 @@ const ValidatorList = props => {
 		}
 	} else {
 		if (error) {
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
 		}

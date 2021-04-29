@@ -6,7 +6,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import ProposedBlocksTable from "src/components/ValidatorDetails/ProposedBlocksTable/ProposedBlocksTable";
 import ProposedBlocksTableSkeleton from "src/components/ValidatorDetails/ProposedBlocksTable/ProposedBlocksTableSkeleton";
 import ProposedBlocksCardList from "src/components/ValidatorDetails/ProposedBlocksCardList";
@@ -21,12 +21,6 @@ import BlockTimeIcon from "src/icons/Validators/TotalBlocksIcon";
 const cx = classNames.bind(styles);
 
 const ProposedBlocksCard = memo(({validatorAddress}) => {
-	const columns = [
-		{title: "Height", align: "right"},
-		{title: "Blockhash", align: "left"},
-		{title: "Txs", align: "right"},
-		{title: "Time", align: "right"},
-	];
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -53,7 +47,7 @@ const ProposedBlocksCard = memo(({validatorAddress}) => {
 		if (error) {
 			totalBlocks = "-";
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page) && !isNaN(data?.page?.total_item)) {
 				totalBlocks = data.page.total_item;
@@ -66,7 +60,7 @@ const ProposedBlocksCard = memo(({validatorAddress}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <ProposedBlocksTable data={data.data} /> : <ProposedBlocksCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

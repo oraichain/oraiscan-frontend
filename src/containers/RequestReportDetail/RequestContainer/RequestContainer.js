@@ -10,15 +10,10 @@ import RequestCardList from "./RequestCardList/RequestCardList";
 import RequestCardListSkeleton from "./RequestCardList/RequestCardListSkeleton";
 
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./RequestContainer.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Name", align: "left"},
-	{title: "Blockhash", align: "left"},
-	{title: "Txs", align: "center"},
-];
 
 const RequestContainer = memo(({id, address}) => {
 	const theme = useTheme();
@@ -43,7 +38,7 @@ const RequestContainer = memo(({id, address}) => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -54,7 +49,7 @@ const RequestContainer = memo(({id, address}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <RequestTable data={data.data} /> : <RequestCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}
