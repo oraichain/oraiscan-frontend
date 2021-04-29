@@ -40,14 +40,13 @@ const TestCaseTable = memo(({data = []}) => {
 		}
 
 		return data.map(item => {
-			const testCaseDataCell =
-				_.isNil(item?.id) || _.isNil(item?.name) ? (
-					<div className={cx("align-left")}>-</div>
-				) : (
-					<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
-						{item.name}
-					</NavLink>
-				);
+			const testCaseDataCell = _.isNil(item?.name) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.name}`}>
+					{item.name}
+				</NavLink>
+			);
 
 			const descriptionHashDataCell = _.isNil(item?.description) ? (
 				<div className={cx("align-left")}>-</div>
@@ -72,17 +71,12 @@ const TestCaseTable = memo(({data = []}) => {
 				<div className={cx("request-data-cell", "align-right")}>{item.requests}</div>
 			);
 
-			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner_address === logoBrandItem.operatorAddress);
-			let ownerName;
-			if (matchedLogoItem) {
-				ownerName = matchedLogoItem?.name ?? "-";
-			}
-			const ownerDataCell = _.isNil(ownerName) ? (
+			const ownerDataCell = _.isNil(item?.owner) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("owner-data-cell", "align-right")}>
-					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner_address}`}>
-						{ownerName}
+					<NavLink className={cx("owner")} to={`${consts.PATH.ACCOUNT}/${item?.owner}`}>
+						{item?.owner}
 					</NavLink>
 				</div>
 			);

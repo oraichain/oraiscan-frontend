@@ -14,7 +14,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TestCaseTable from "src/components/TestCases/TestCaseTable";
 import TestCaseTableSkeleton from "src/components/TestCases/TestCaseTable/TestCaseTableSkeleton";
 import TestCaseCardList from "src/components/TestCases/TestCaseCardList";
@@ -22,13 +22,6 @@ import TestCaseCardListSkeleton from "src/components/TestCases/TestCaseCardList/
 import styles from "./TestCases.module.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Test Case", align: "left"},
-	{title: "Description", align: "left"},
-	{title: "Fee", align: "right"},
-	{title: "Requests", align: "right"},
-	{title: "Owner", align: "right"},
-];
 
 const TestCases = () => {
 	const theme = useTheme();
@@ -44,35 +37,14 @@ const TestCases = () => {
 	const basePath = `${consts.API.TEST_CASES}?limit=${consts.REQUEST.LIMIT}`;
 	let path;
 	if (keyword) {
-		path = `${basePath}&page_id=${pageId}&keyword=${keyword}`;
+		path = `${basePath}&page_id=${pageId}&tc_name=${keyword}`;
 	} else {
 		path = `${basePath}&page_id=${pageId}`;
 	}
 
-	// const {data, loading, error} = useGet({
-	// 	path: path,
-	// });
-
-	const data = {
-		page: {
-			page_id: 1,
-			limit: 10,
-			total_page: 1,
-			total_item: 5,
-		},
-		data: [
-			{
-				id: 1,
-				name: "CoinGecko",
-				description: "Query latest cryptocurrency token prices from CoinGecko. Accepts multiple space-separated symbols.",
-				fee: 800,
-				requests: 10,
-				owner_address: "oraivaloper14vcw5qk0tdvknpa38wz46js5g7vrvut8ku5kaa",
-			},
-		],
-	};
-	const loading = false;
-	const error = false;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
 
 	let titleSection;
 	let filterSection;
@@ -97,7 +69,7 @@ const TestCases = () => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -108,7 +80,7 @@ const TestCases = () => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <TestCaseTable data={data?.data} /> : <TestCaseCardList data={data?.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

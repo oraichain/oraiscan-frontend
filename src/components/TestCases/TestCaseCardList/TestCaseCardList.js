@@ -14,12 +14,6 @@ const TestCaseCardList = memo(({data = []}) => {
 	return (
 		<div className='test-case-card-list'>
 			{data.map((item, index) => {
-				const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner_address === logoBrandItem.operatorAddress);
-				let ownerName;
-				if (matchedLogoItem) {
-					ownerName = matchedLogoItem?.name ?? "-";
-				}
-
 				return (
 					<div className={cx("test-case-card-list-item")} key={"test-case-card-list-item-" + index}>
 						<table>
@@ -29,10 +23,10 @@ const TestCaseCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Test Case</div>
 									</td>
 									<td>
-										{_.isNil(item?.id) || _.isNil(item?.name) ? (
+										{_.isNil(item?.name) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
+											<NavLink className={cx("item-link")} to={`${consts.PATH.TEST_CASES}/${item.name}`}>
 												{item.name}
 											</NavLink>
 										)}
@@ -62,11 +56,11 @@ const TestCaseCardList = memo(({data = []}) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Owner</div>
-										{_.isNil(ownerName) ? (
+										{_.isNil(item?.owner) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.owner_address}`}>
-												{ownerName}
+											<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
+												{item?.owner}
 											</NavLink>
 										)}
 									</td>
