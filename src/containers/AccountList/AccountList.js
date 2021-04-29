@@ -9,7 +9,7 @@ import AccountTableSkeleton from "src/components/ValidatorList/AccountTable/Acco
 import AccountCardList from "src/components/ValidatorList/AccountCardList/AccountCardList.js";
 import AccountCardListSkeleton from "src/components/ValidatorList/AccountCardList/AccountCardListSkeleton.js";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import {useRef} from "react";
 import {Container} from "@material-ui/core";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -19,14 +19,6 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import styles from "./AccountList.scss";
 
 const cx = classNames.bind(styles);
-const columns = [
-	{title: "Rank", align: "center"},
-	{title: "Address", align: "left"},
-	{title: "Name Tag", align: "left"},
-	{title: "Balance", align: "left"},
-	{title: "Percentage", align: "left"},
-	{title: "Txn Count", align: "left"},
-];
 
 const AccountList = memo(() => {
 	const theme = useTheme();
@@ -65,7 +57,7 @@ const AccountList = memo(() => {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -76,7 +68,7 @@ const AccountList = memo(() => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <AccountTable data={data.data} /> : <AccountCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

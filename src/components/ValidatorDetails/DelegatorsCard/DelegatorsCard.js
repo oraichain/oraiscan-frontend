@@ -9,7 +9,7 @@ import DelegatorsTableSkeleton from "src/components/ValidatorDetails/DelegatorsT
 import DelegatorsCardList from "src/components/ValidatorDetails/DelegatorsCardList";
 import DelegatorsCardListSkeleton from "src/components/ValidatorDetails/DelegatorsCardList/DelegatorsCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./DelegatorsCard.scss";
 
 const cx = classNames.bind(styles);
@@ -32,14 +32,13 @@ const DelegatorsCard = memo(({validatorAddress}) => {
 
 	let tableSection;
 	let paginationSection;
-	const columns = [{title: "Delegator Address"}, {title: "Amount"}, {title: "Share"}];
 
 	if (loading) {
 		tableSection = isLargeScreen ? <DelegatorsTableSkeleton /> : <DelegatorsCardListSkeleton />;
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -50,7 +49,7 @@ const DelegatorsCard = memo(({validatorAddress}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <DelegatorsTable data={data.data} /> : <DelegatorsCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}
