@@ -18,15 +18,13 @@
 	font-weight: bold;
 	font-size: 14px;
 	line-height: 150%;
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 }
 
-.skeleton-data-cell {
-	box-sizing: border-box;
-	height: 21px;
-}
-
-.data-cell {
+.test-case-data-cell,
+.description-data-cell,
+.request-data-cell {
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -35,19 +33,43 @@
 }
 
 .fee-data-cell {
-	span:nth-child(1) {
-		padding-right: 4px;
-	}
+	.fee {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
 
-	span:nth-child(2) {
-		text-transform: uppercase;
+		&-value {
+			display: inline-block;
+			padding-right: 4px;
+		}
+
+		&-denom {
+			color: var(--common-oraiDenomTextColor);
+			display: inline-block;
+			text-transform: uppercase;
+		}
 	}
 }
 
-.color-blue {
-	color: #1b57f0;
+.owner-data-cell {
+	.owner {
+		display: inline-block;
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
 }
 
-.color-black {
-	color: #181818;
+.skeleton {
+	display: inline-block;
 }
