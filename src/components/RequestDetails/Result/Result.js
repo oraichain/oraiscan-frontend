@@ -7,7 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
 import TabBar from "src/components/RequestDetails/TabBar";
 import ResultTable from "src/components/RequestDetails/ResultTable";
@@ -17,13 +17,6 @@ import ResultCardListSkeleton from "src/components/RequestDetails/ResultCardList
 import styles from "./Result.module.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Validator", align: "left"},
-	{title: "Address", align: "left"},
-	{title: "Result", align: "left"},
-	{title: "Voting Power", align: "left"},
-	{title: "Status", align: "center"},
-];
 
 const Result = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
@@ -51,7 +44,7 @@ const Result = ({id, activeTab, setActiveTab}) => {
 		if (error) {
 			totalItems = "-";
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -68,7 +61,7 @@ const Result = ({id, activeTab, setActiveTab}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <ResultTable data={data.data} /> : <ResultCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

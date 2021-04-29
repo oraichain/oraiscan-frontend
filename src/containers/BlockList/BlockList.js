@@ -12,7 +12,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import BlockTable from "src/components/BlockList/BlockTable";
 import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/BlockList/BlockCardList";
@@ -20,13 +20,6 @@ import BlockCardListSkeleton from "src/components/BlockList/BlockCardList/BlockC
 import styles from "./BlockList.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Height", align: "center"},
-	{title: "Parent Hash", align: "left"},
-	{title: "Proposer", align: "left"},
-	{title: "Txs", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const BlockList = props => {
 	const theme = useTheme();
@@ -115,7 +108,7 @@ const BlockList = props => {
 		if (error) {
 			totalItemsRef.current = null;
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.paging?.total)) {
 				if (totalItemsRef.current != data.paging.total) {
@@ -151,7 +144,7 @@ const BlockList = props => {
 				}
 				prevDataRef.current = [...data.data];
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

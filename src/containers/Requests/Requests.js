@@ -7,19 +7,22 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
+import {formatInteger} from "src/helpers/helper";
+import {myKeystation} from "src/lib/Keystation";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
+import Pagination from "src/components/common/Pagination";
 import FilterSection from "src/components/Requests/FilterSection";
+import RequestsCard from "src/components/Requests/RequestsCard";
 import RequestGridView from "src/components/Requests/RequestGridView";
 import RequestGridViewSkeleton from "src/components/Requests/RequestGridView/RequestGridViewSkeleton";
 import RequestListView from "src/components/Requests/RequestListView";
 import RequestListViewSkeleton from "src/components/Requests/RequestListView/RequestListViewSkeleton";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "./Requests.module.scss";
-import Pagination from "src/components/common/Pagination";
 
 const cx = cn.bind(styles);
 
@@ -49,7 +52,7 @@ const Requests = () => {
 
 	let titleSection;
 	let filterSection;
-	let requestView;
+	let requestCard;
 	let paginationSection;
 
 	const createAIRequest = () => {
@@ -61,9 +64,6 @@ const Requests = () => {
 			<Container fixed>
 				<TitleWrapper>
 					<PageTitle title={"All requests"} />
-					<Button variant='contained' onClick={createAIRequest}>
-						Create AI Request
-					</Button>
 					<StatusBox />
 				</TitleWrapper>
 			</Container>
@@ -75,11 +75,15 @@ const Requests = () => {
 	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;
 
 	if (loading) {
-		requestView = isGridView ? <RequestGridViewSkeleton /> : <RequestListViewSkeleton />;
+		requestCard = (
+			<RequestsCard totalItems={<Skeleton className={cx("skeleton")} variant='text' width={24} height={30} />}>
+				{isGridView ? <RequestGridViewSkeleton /> : <RequestListViewSkeleton />}
+			</RequestsCard>
+		);
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			requestView = isGridView ? <RequestGridView data={[]} /> : <RequestListView data={[]} />;
+			requestCard = <RequestsCard totalItems='-'>{isGridView ? <RequestGridView data={[]} /> : <RequestListView data={[]} />}</RequestsCard>;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -87,7 +91,11 @@ const Requests = () => {
 				totalPagesRef.current = null;
 			}
 
-			requestView = isGridView ? <RequestGridView data={data?.data} /> : <RequestListView data={data?.data} />;
+			requestCard = (
+				<RequestsCard totalItems={isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)}>
+					{isGridView ? <RequestGridView data={data?.data} /> : <RequestListView data={data?.data} />}
+				</RequestsCard>
+			);
 		}
 	}
 
@@ -96,9 +104,9 @@ const Requests = () => {
 	return (
 		<>
 			{titleSection}
-			<Container fixed className={cx("request-list")}>
+			<Container fixed className={cx("requests")}>
 				{filterSection}
-				{requestView}
+				{requestCard}
 				{paginationSection}
 			</Container>
 		</>

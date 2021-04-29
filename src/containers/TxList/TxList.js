@@ -15,7 +15,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
@@ -23,15 +23,6 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import styles from "./TxList.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "TxHash", align: "left"},
-	{title: "Type", align: "left"},
-	{title: "Result", align: "center"},
-	{title: "Amount", align: "right"},
-	{title: "Fee", align: "right"},
-	{title: "Height", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const TxList = () => {
 	const history = useHistory();
@@ -175,7 +166,7 @@ const TxList = () => {
 		if (error) {
 			totalItemsRef.current = null;
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.paging?.total)) {
 				if (totalItemsRef.current != data.paging.total) {
@@ -211,7 +202,7 @@ const TxList = () => {
 				}
 				prevDataRef.current = [...tableData];
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

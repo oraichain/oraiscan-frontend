@@ -33,7 +33,7 @@ const ValidatorCardList = memo(({data = []}) => {
 	let previousVotingPower = 0;
 	return (
 		<div className='validator-card-list'>
-			{data.map((item, index) => {
+			{data?.map((item, index) => {
 				let currentVotingPower = 0;
 				let votingPowerDataCell = (
 					<div className={cx("voting-power-data-cell")}>

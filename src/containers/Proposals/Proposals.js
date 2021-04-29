@@ -11,7 +11,7 @@ import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
@@ -22,14 +22,6 @@ import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/
 import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "#ID", align: "center"},
-	{title: "Title", align: "left"},
-	{title: "Status", align: "center"},
-	{title: "Voting Start", align: "right"},
-	{title: "Submit Time", align: "right"},
-	{title: "Total Deposit", align: "right"},
-];
 
 export default function(props) {
 	const theme = useTheme();
@@ -134,7 +126,7 @@ export default function(props) {
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -145,7 +137,7 @@ export default function(props) {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <ProposalsTable data={data.data} /> : <ProposalCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

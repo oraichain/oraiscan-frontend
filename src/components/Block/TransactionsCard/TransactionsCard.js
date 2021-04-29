@@ -8,20 +8,10 @@ import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionsCard.module.scss";
 
 const cx = cn.bind(styles);
-
-const columns = [
-	{title: "TxHash", align: "left"},
-	{title: "Type", align: "left"},
-	{title: "Result", align: "center"},
-	{title: "Amount", align: "right"},
-	{title: "Fee", align: "right"},
-	{title: "Height", align: "right"},
-	{title: "Time", align: "right"},
-];
 
 const TransactionsCard = ({data, loading, error}) => {
 	const theme = useTheme();
@@ -33,12 +23,12 @@ const TransactionsCard = ({data, loading, error}) => {
 		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
 		if (error) {
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (Array.isArray(data) && data.length > 0) {
 				tableSection = isLargeScreen ? <TransactionTable data={data} /> : <TransactionCardList data={data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}

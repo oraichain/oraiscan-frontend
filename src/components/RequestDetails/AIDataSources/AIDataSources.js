@@ -8,7 +8,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import Pagination from "src/components/common/Pagination";
-import EmptyTable from "src/components/common/EmptyTable";
+import NoResult from "src/components/common/NoResult";
 import TabBar from "src/components/RequestDetails/TabBar";
 import DataSourceTable from "src/components/RequestDetails/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/RequestDetails/DataSourceTable/DataSourceTableSkeleton";
@@ -17,13 +17,6 @@ import DataSourceCardListSkeleton from "src/components/RequestDetails/DataSource
 import styles from "./AIDataSources.module.scss";
 
 const cx = cn.bind(styles);
-const columns = [
-	{title: "Name", align: "left"},
-	{title: "Contract", align: "left"},
-	{title: "Owner", align: "left"},
-	{title: "Description", align: "left"},
-	{title: "Fees", align: "right"},
-];
 
 const AIDataSources = ({id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
@@ -51,7 +44,7 @@ const AIDataSources = ({id, activeTab, setActiveTab}) => {
 		if (error) {
 			totalItems = "-";
 			totalPagesRef.current = null;
-			tableSection = <EmptyTable columns={columns} />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
 				totalPagesRef.current = data.page.total_page;
@@ -68,7 +61,7 @@ const AIDataSources = ({id, activeTab, setActiveTab}) => {
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <DataSourceTable data={data.data} /> : <DataSourceCardList data={data.data} />;
 			} else {
-				tableSection = <EmptyTable columns={columns} />;
+				tableSection = <NoResult />;
 			}
 		}
 	}
