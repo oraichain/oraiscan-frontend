@@ -1,5 +1,7 @@
 import React from "react";
 import {useGet} from "restful-react";
+import {useHistory} from "react-router-dom";
+import queryString from "query-string";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -24,21 +26,40 @@ export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const proposalId = props?.match?.params?.id;
+	const history = useHistory();
+	const queryStringParse = queryString.parse(history.location.search) || {};
+	const type = queryStringParse?.type ?? "";
 
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
 
+	let titleText;
 	let titleSection;
 	let detailsCard;
 	let chartCard;
 	let transactionsCard;
 
+	switch (type) {
+		case "upgrade":
+			titleText = "Upgrade Proposal";
+			break;
+		case "change":
+			titleText = "Change Proposal";
+			break;
+		case "text":
+			titleText = "Text Proposal";
+			break;
+		default:
+			titleText = "Proposal Details";
+			break;
+	}
+
 	titleSection = isLargeScreen ? (
 		<Container fixed>
 			<TitleWrapper>
-				<PageTitle title={"Proposals Details"} />
+				<PageTitle title={titleText} />
 				<StatusBox />
 			</TitleWrapper>
 		</Container>

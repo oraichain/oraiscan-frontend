@@ -42,17 +42,16 @@ const DetailsCard = memo(({data}) => {
 			<div className={cx("item-link")}>{data?.proposer ?? "-"}</div>
 		</>
 	);
-	const initialDepositElement = (
+	const denomElement = (
 		<>
 			<div className={cx("amount")}>
-				<span className={cx("amount-value")}>{data?.initial_deposit ? formatOrai(data.initial_deposit) : "-"}</span>
 				<span className={cx("amount-denom")}>ORAI</span>
 			</div>
 		</>
 	);
 	const typeElement = (
 		<>
-			<div className={cx("item-text")}>{data?.type ? data.type.split(".").pop() : "-"}</div>
+			<div className={cx("item-link")}>{data?.type ? data.type.split(".").pop() : "-"}</div>
 		</>
 	);
 
@@ -88,18 +87,21 @@ const DetailsCard = memo(({data}) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>
-				{data?.description ?? "-"}
-				<div className={cx("show-more")}>Show more</div>
-			</div>
+			<div className={cx("description-body")}>{data?.description ?? "-"}</div>
 		</div>
+	);
+
+	const titleColumnElement = (
+		<>
+			<div className={cx("item-link")}>{data?.title ? data?.title : "-"}</div>
+		</>
 	);
 
 	return (
 		<div className={cx("details-card")}>
 			{isLargeScreen ? (
-				<Grid container spacing={2}>
-					<Grid item xs={7}>
+				<Grid container spacing={1}>
+					<Grid item xs={8}>
 						<table className={cx("table-desktop")}>
 							<tbody>
 								<tr>
@@ -115,24 +117,53 @@ const DetailsCard = memo(({data}) => {
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Proposer</div>
-										{proposerElement}
+										<div className={cx("item-title")}>Type</div>
+										{typeElement}
 									</td>
 									<td>
-										<div className={cx("item-title")}>Initial Deposit</div>
-										{initialDepositElement}
+										<div className={cx("item-title")}>Denom</div>
+										{denomElement}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Type</div>
-										{typeElement}
+										<div className={cx("item-title")}>Title</div>
+										{titleColumnElement}
 									</td>
 									<td>
 										<div className={cx("item-title")}>Total Deposit</div>
 										{totalDepositElement}
 									</td>
 								</tr>
+
+								{data?.type === "upgradeProposal" ? (
+									<>
+										<tr>
+											<td>
+												<div className={cx("item-title")}>Name</div>
+												<div className={cx("item-text")}>{data?.name ? data?.name : "-"}</div>
+											</td>
+											<td>
+												<div className={cx("item-title")}>Time</div>
+												<div className={cx("item-text")}>{data?.time ? data?.time : "-"}</div>
+											</td>
+										</tr>
+
+										<tr>
+											<td>
+												<div className={cx("item-title")}>Height</div>
+												<div className={cx("item-text")}>{data?.height ? data?.height : "-"}</div>
+											</td>
+											<td>
+												<div className={cx("item-title")}>Infor</div>
+												<div className={cx("item-link")}>{data?.info ? data?.info : "-"}</div>
+											</td>
+										</tr>
+									</>
+								) : (
+									""
+								)}
+
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Voting Start</div>
@@ -156,7 +187,7 @@ const DetailsCard = memo(({data}) => {
 							</tbody>
 						</table>
 					</Grid>
-					<Grid item xs={5}>
+					<Grid item xs={4}>
 						{descriptionElement}
 					</Grid>
 				</Grid>
@@ -189,7 +220,7 @@ const DetailsCard = memo(({data}) => {
 						<tr>
 							<td>
 								<div className={cx("item-title")}>Initial Deposit</div>
-								{initialDepositElement}
+								{denomElement}
 							</td>
 							<td>
 								<div className={cx("item-title")}>Total Deposit</div>

@@ -7,7 +7,6 @@
 
 	.table-desktop {
 		width: 100%;
-
 		tr {
 			&:nth-child(1),
 			&:nth-child(3),
@@ -197,7 +196,7 @@
 		@media screen and (min-width: 1280px) {
 			height: 100%;
 			padding: 15px;
-			background: var(--common-containerBackgroundColor);
+			background: var(--common-blockItemBackgroundColor);
 			border-radius: 6px;
 		}
 

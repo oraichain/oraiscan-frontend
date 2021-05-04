@@ -8,6 +8,7 @@ import cn from "classnames/bind";
 import {closePageBar} from "src/store/modules/global";
 import {useDispatch} from "react-redux";
 import {ExpandMore} from "@material-ui/icons";
+import {isNil} from "lodash-es";
 
 import styles from "./Tabs.scss";
 import backIcon from "src/assets/header/back_ic.svg";
@@ -35,8 +36,10 @@ const Tabs = memo(() => {
 
 	const [openValidators, setOpenValidators] = React.useState(false);
 	const [openTransactions, setOpenTransactions] = React.useState(false);
+	const [openProposals, setOpenProposals] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
+	const proposalsAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
 		setOpenValidators(true);
@@ -54,18 +57,26 @@ const Tabs = memo(() => {
 		setOpenTransactions(false);
 	};
 
-	const renderValidatorComponent = ({name, img, route, index}) => (
+	const handleOpenProposals = () => {
+		setOpenProposals(true);
+	};
+
+	const handleCloseProposals = () => {
+		setOpenProposals(false);
+	};
+
+	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index}) => (
 		<button
-			className={cx("tab", {"active-dropdown": pathname === "/accounts" || pathname === "/validators"})}
-			ref={validatorsAnchorRef}
-			onMouseEnter={isLargeScreen ? handleOpenValidators : ""}
-			onMouseLeave={isLargeScreen ? handleCloseValidators : ""}
+			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
+			ref={anchorRef}
+			onMouseEnter={isLargeScreen ? handleOpen : ""}
+			onMouseLeave={isLargeScreen ? handleClose : ""}
 			onClick={() => {
 				if (isLargeScreen) {
-					handleCloseValidators();
+					handleClose();
 					history.push(route);
 					dispatch(closePageBar());
-				} else handleOpenValidators();
+				} else handleOpen();
 			}}
 			key={index}>
 			<Popper
@@ -76,107 +87,82 @@ const Tabs = memo(() => {
 						},
 					},
 				}}
-				className={cx("dropdown-validators")}
-				open={openValidators}
-				anchorEl={validatorsAnchorRef.current}
+				className={cx(classNameDropdown)}
+				open={open}
+				anchorEl={anchorRef?.current}
 				disablePortal={isLargeScreen ? false : true}
 				transition>
 				{({TransitionProps, placement}) => (
 					<Grow {...TransitionProps}>
 						<Paper>
-							<ClickAwayListener onClickAway={handleCloseValidators}>
+							<ClickAwayListener onClickAway={handleClose}>
 								<MenuList>
-									<MenuItem
-										onClick={e => {
-											handleCloseValidators();
-											history.push("/validators");
-											dispatch(closePageBar());
-											e.stopPropagation();
-										}}>
-										Validators
-									</MenuItem>
-									<MenuItem
-										onClick={e => {
-											handleCloseValidators();
-											history.push("/accounts");
-											dispatch(closePageBar());
-											e.stopPropagation();
-										}}>
-										Accounts
-									</MenuItem>
+									{childs?.map(item => (
+										<MenuItem
+											onClick={e => {
+												handleClose();
+												history.push(item?.pathName);
+												dispatch(closePageBar());
+												e.stopPropagation();
+											}}>
+											{item?.title}
+										</MenuItem>
+									))}
 								</MenuList>
 							</ClickAwayListener>
 						</Paper>
 					</Grow>
 				)}
 			</Popper>
-			<ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>
+			{img}
 			<span className={cx("tab-title")}>{name}</span>
 			<ExpandMore className={cx("tab-icon-expand")} />
 		</button>
 	);
 
-	const renderTransactionComponent = ({name, img, route, index}) => (
-		<button
-			className={cx("tab", {"active-dropdown": pathname === "/txs"})}
-			ref={transactionsAnchorRef}
-			onMouseEnter={isLargeScreen ? handleOpenTransactions : ""}
-			onMouseLeave={isLargeScreen ? handleCloseTransactions : ""}
-			onClick={() => {
-				if (isLargeScreen) {
-					handleCloseTransactions();
-					history.push(route);
-					dispatch(closePageBar());
-				} else handleOpenTransactions();
-			}}
-			key={index}>
-			<Popper
-				popperOptions={{
-					modifiers: {
-						offset: {
-							offset: "0,6",
-						},
-					},
-				}}
-				className={cx("dropdown-transactions")}
-				open={openTransactions}
-				anchorEl={transactionsAnchorRef.current}
-				disablePortal={isLargeScreen ? false : true}
-				transition>
-				{({TransitionProps}) => (
-					<Grow {...TransitionProps}>
-						<Paper>
-							<ClickAwayListener onClickAway={handleCloseTransactions}>
-								<MenuList>
-									<MenuItem
-										onClick={e => {
-											handleCloseTransactions();
-											history.push(route);
-											dispatch(closePageBar());
-											e.stopPropagation();
-										}}>
-										Transactions
-									</MenuItem>
-									<MenuItem
-										onClick={e => {
-											handleCloseTransactions();
-											history.push(`${route}?type=pending`);
-											dispatch(closePageBar());
-											e.stopPropagation();
-										}}>
-										Pending transactions
-									</MenuItem>
-								</MenuList>
-							</ClickAwayListener>
-						</Paper>
-					</Grow>
-				)}
-			</Popper>
-			<TransactionsTabIcon className={cx("tab-icon")}></TransactionsTabIcon>
-			<span className={cx("tab-title")}>{name}</span>
-			<ExpandMore className={cx("tab-icon-expand")} />
-		</button>
-	);
+	const childDropdown = {
+		Validators: [
+			{
+				pathName: "/validators",
+				title: "Validators",
+				activePath: "/validators",
+			},
+			{
+				pathName: "/accounts",
+				title: "Accounts",
+				activePath: "/accounts",
+			},
+		],
+		Transactions: [
+			{
+				pathName: "/txs",
+				title: "Transactions",
+				activePath: "/txs",
+			},
+			{
+				pathName: "/txs?type=pending",
+				title: "Pending transactions",
+				activePath: "/txs",
+			},
+		],
+		Proposals: [
+			{
+				pathName: "/proposals?type=change",
+				title: "Change proposal",
+				activePath: "/proposals",
+			},
+			{
+				pathName: "/proposals?type=upgrade",
+				title: "Upgrade proposal",
+				activePath: "/proposals",
+			},
+			{
+				pathName: "/proposals?type=text",
+				title: "Text proposal",
+				activePath: "/proposals",
+			},
+		],
+	};
 
 	const tabs = [
 		{
@@ -188,7 +174,7 @@ const Tabs = memo(() => {
 			name: "Validators",
 			img: <ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>,
 			route: "/validators",
-			render: renderValidatorComponent,
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Blocks",
@@ -199,12 +185,13 @@ const Tabs = memo(() => {
 			name: "Transactions",
 			img: <TransactionsTabIcon className={cx("tab-icon")}></TransactionsTabIcon>,
 			route: "/txs",
-			render: renderTransactionComponent,
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Proposals",
 			img: <ProposalsTabIcon className={cx("tab-icon")}></ProposalsTabIcon>,
 			route: "/proposals",
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Data Sources",
@@ -237,21 +224,67 @@ const Tabs = memo(() => {
 				</div>
 				{tabs.map(({name, img, route, render}, index) => {
 					let tab;
-					render
-						? (tab = render({name, img, route, index}))
-						: (tab = (
-								<div
-									className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
-									onClick={() => {
-										history.push(route);
-										dispatch(closePageBar());
-									}}
-									key={index}>
-									{img}
+					if (!isNil(render)) {
+						let classNameDropdown;
+						let childs;
+						let anchorRef;
+						let open;
+						let handleOpen;
+						let handleClose;
+						switch (name) {
+							case "Validators":
+								classNameDropdown = "dropdown-validators";
+								childs = childDropdown?.[name];
+								anchorRef = validatorsAnchorRef;
+								open = openValidators;
+								handleOpen = handleOpenValidators;
+								handleClose = handleCloseValidators;
+								break;
+							case "Transactions":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = transactionsAnchorRef;
+								open = openTransactions;
+								handleOpen = handleOpenTransactions;
+								handleClose = handleCloseTransactions;
+								break;
+							case "Proposals":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = proposalsAnchorRef;
+								open = openProposals;
+								handleOpen = handleOpenProposals;
+								handleClose = handleCloseProposals;
+								break;
+							default:
+								break;
+						}
+						tab = render({
+							classNameDropdown: classNameDropdown,
+							childs: childs,
+							anchorRef: anchorRef,
+							handleOpen: handleOpen,
+							handleClose: handleClose,
+							open: open,
+							name: name,
+							route: route,
+							img: img,
+							index: index,
+						});
+					} else
+						tab = (
+							<div
+								className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
+								onClick={() => {
+									history.push(route);
+									dispatch(closePageBar());
+								}}
+								key={index}>
+								{img}
 
-									<span className={cx("tab-title")}>{name}</span>
-								</div>
-						  ));
+								<span className={cx("tab-title")}>{name}</span>
+							</div>
+						);
 					return tab;
 				})}
 			</div>

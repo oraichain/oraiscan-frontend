@@ -17,11 +17,12 @@
 		height: 50px;
 		padding-left: 15px;
 		padding-right: 15px;
-		color: var(--common-activeTabTextColor);
-		background: var(--common-activeTabColor);
+		color: var(--common-buttonTextColor);
+		background: var(--common-buttonBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-sizing: border-box;
 		border-radius: 8px;
-		border: none;
+		border: 1px solid var(--common-activeTabColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;

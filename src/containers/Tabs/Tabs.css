@@ -26,6 +26,16 @@
 	padding: 0;
 }
 
+.dropdown-validators .MuiButtonBase-root:hover {
+	background-color: var(--common-blockItemBackgroundColor);
+}
+
+@media only screen and (max-width: 1280px) {
+	.dropdown-validators {
+		transform: translate(-103%, 98%) !important;
+	}
+}
+
 .dropdown-transactions .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
@@ -59,18 +69,47 @@
 	background-color: var(--common-blockItemBackgroundColor);
 }
 
-.dropdown-validators .MuiButtonBase-root:hover {
-	background-color: var(--common-blockItemBackgroundColor);
-}
-
 @media only screen and (max-width: 1280px) {
 	.dropdown-transactions {
 		transform: translate(-103%, 197%) !important;
 	}
 }
 
+.dropdown-proposals .MuiButtonBase-root {
+	padding: 20px 15px;
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	justify-content: flex-start;
+}
+
+.dropdown-proposals .MuiList-padding {
+	padding: 0;
+}
+
+.dropdown-proposals .MuiPaper-root {
+	min-width: 165px;
+	height: auto;
+	background-color: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
+	margin-left: 27px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	padding: 0;
+}
+
+.dropdown-proposals .MuiButtonBase-root:hover {
+	background-color: var(--common-blockItemBackgroundColor);
+}
+
 @media only screen and (max-width: 1280px) {
-	.dropdown-validators {
-		transform: translate(-103%, 98%) !important;
+	.dropdown-proposals {
+		transform: translate(-103%, 197%) !important;
 	}
 }
