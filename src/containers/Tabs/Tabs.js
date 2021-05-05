@@ -147,17 +147,17 @@ const Tabs = memo(() => {
 		],
 		Proposals: [
 			{
-				pathName: "/proposals?type=change",
+				pathName: "/proposals?type=ParameterChangeProposal",
 				title: "Change proposal",
 				activePath: "/proposals",
 			},
 			{
-				pathName: "/proposals?type=upgrade",
+				pathName: "/proposals?type=SoftwareUpgradeProposal",
 				title: "Upgrade proposal",
 				activePath: "/proposals",
 			},
 			{
-				pathName: "/proposals?type=text",
+				pathName: "/proposals?type=TextProposal",
 				title: "Text proposal",
 				activePath: "/proposals",
 			},

@@ -3,18 +3,23 @@ import React, {memo} from "react";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import copy from "copy-to-clipboard";
 import Grid from "@material-ui/core/Grid";
 import {formatDateTime, formatOrai} from "src/helpers/helper";
 import styles from "./DetailsCard.scss";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
+import {useDispatch} from "src/hooks";
+import CopyIcon from "src/icons/CopyIcon";
+import {showAlert} from "src/store/modules/global";
 
 const cx = classNames.bind(styles);
 
 const DetailsCard = memo(({data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const dispatch = useDispatch();
 
 	let statusStateClassName;
 	let statusIcon;
@@ -136,27 +141,41 @@ const DetailsCard = memo(({data}) => {
 									</td>
 								</tr>
 
-								{data?.type === "upgradeProposal" ? (
+								{data?.type && data?.type?.split(".")?.pop() === "SoftwareUpgradeProposal" ? (
 									<>
 										<tr>
 											<td>
 												<div className={cx("item-title")}>Name</div>
-												<div className={cx("item-text")}>{data?.name ? data?.name : "-"}</div>
+												<div className={cx("item-text")}>{data?.plan?.name ? data?.plan?.name : "-"}</div>
 											</td>
 											<td>
 												<div className={cx("item-title")}>Time</div>
-												<div className={cx("item-text")}>{data?.time ? data?.time : "-"}</div>
+												<div className={cx("item-text")}>{data?.plan?.time ? data?.plan?.time : "-"}</div>
 											</td>
 										</tr>
 
 										<tr>
 											<td>
 												<div className={cx("item-title")}>Height</div>
-												<div className={cx("item-text")}>{data?.height ? data?.height : "-"}</div>
+												<div className={cx("item-text")}>{data?.plan?.height ? data?.plan?.height : "-"}</div>
 											</td>
 											<td>
 												<div className={cx("item-title")}>Infor</div>
-												<div className={cx("item-link")}>{data?.info ? data?.info : "-"}</div>
+												<div
+													className={cx("item-link", "copy")}
+													onClick={() => {
+														copy(data?.plan?.info);
+														dispatch(
+															showAlert({
+																show: true,
+																message: "Copied",
+																autoHideDuration: 1500,
+															})
+														);
+													}}>
+													{data?.plan?.info?.length > 15 ? data?.plan?.info?.substring(0, 15) + "...." : data?.plan?.info || "-"}
+													<CopyIcon className={cx("copy-icon")}></CopyIcon>
+												</div>
 											</td>
 										</tr>
 									</>

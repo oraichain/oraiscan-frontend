@@ -22,6 +22,7 @@ import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/Prop
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
 import styles from "./Proposals.scss";
+import {isNil} from "lodash-es";
 
 const cx = cn.bind(styles);
 
@@ -45,7 +46,7 @@ export default function(props) {
 		setPageId(page);
 	};
 
-	const topPath = `${consts.API.PROPOSALS}?status&type=${type}&limit=3&page_id=${topPageId}`;
+	const topPath = `${consts.API.PROPOSALS}?status${!isNil(type) ? "&type=" + type : ""}&limit=3&page_id=${topPageId}`;
 	const {data: topData, loading: topLoading, error: topError} = useGet({
 		path: topPath,
 	});
@@ -55,7 +56,7 @@ export default function(props) {
 		path: statusPath,
 	});
 
-	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}&type=${type}`;
+	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}${type ? "&type=" + type : ""}`;
 	let path;
 	if (status === "PROPOSAL_STATUS_ALL") {
 		path = `${basePath}&page_id=${pageId}`;

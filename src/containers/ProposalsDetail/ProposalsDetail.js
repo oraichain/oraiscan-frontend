@@ -42,13 +42,13 @@ export default function(props) {
 	let transactionsCard;
 
 	switch (type) {
-		case "upgrade":
+		case "SoftwareUpgradeProposal":
 			titleText = "Upgrade Proposal";
 			break;
-		case "change":
+		case "ParameterChangeProposal":
 			titleText = "Change Proposal";
 			break;
-		case "text":
+		case "TextProposal":
 			titleText = "Text Proposal";
 			break;
 		default:
