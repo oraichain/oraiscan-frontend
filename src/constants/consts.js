@@ -96,7 +96,7 @@ export default Object.freeze({
 		TEST_CASES: "/test_cases",
 	},
 	LCD_API: {
-		DATA_SOURCES: "/provider/datasources",
+		DATA_SOURCES: "/data_sources",
 		DATA_SOURCE_DETAIL: "/provider/datasource",
 		TEST_CASES: "/provider/testcases",
 		ORACLE_SCRIPTS: "/provider/oscripts",

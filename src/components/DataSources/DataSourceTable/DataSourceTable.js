@@ -40,14 +40,14 @@ const TestCaseTable = memo(({data = []}) => {
 		}
 
 		return data.map(item => {
-			const testCaseDataCell =
-				_.isNil(item?.id) || _.isNil(item?.name) ? (
-					<div className={cx("align-left")}>-</div>
-				) : (
-					<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
-						{item.name}
-					</NavLink>
-				);
+			console.log(item);
+			const testCaseDataCell = _.isNil(item?.data_source) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
+					{item.data_source}
+				</NavLink>
+			);
 
 			const descriptionHashDataCell = _.isNil(item?.description) ? (
 				<div className={cx("align-left")}>-</div>
@@ -72,17 +72,25 @@ const TestCaseTable = memo(({data = []}) => {
 				<div className={cx("request-data-cell", "align-right")}>{item.requests}</div>
 			);
 
-			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner_address === logoBrandItem.operatorAddress);
+			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
 			let ownerName;
 			if (matchedLogoItem) {
 				ownerName = matchedLogoItem?.name ?? "-";
 			}
-			const ownerDataCell = _.isNil(ownerName) ? (
-				<div className={cx("align-right")}>-</div>
-			) : (
+			// const ownerDataCell = _.isNil(ownerName) ? (
+			// 	<div className={cx("align-right")}>-</div>
+			// ) : (
+			// 	<div className={cx("owner-data-cell", "align-right")}>
+			// 		<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
+			// 			{ownerName}
+			// 		</NavLink>
+			// 	</div>
+			// );
+
+			const ownerDataCell = (
 				<div className={cx("owner-data-cell", "align-right")}>
-					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner_address}`}>
-						{ownerName}
+					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
+						{item.owner}
 					</NavLink>
 				</div>
 			);

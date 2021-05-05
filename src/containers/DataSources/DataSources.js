@@ -49,7 +49,7 @@ const DataSources = props => {
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	let timerID = useRef(null);
 
-	const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCES}?limit=${consts.TABLE.PAGE_SIZE}`;
+	const basePath = `${consts.API_BASE}${consts.LCD_API.DATA_SOURCES}?limit=${consts.TABLE.PAGE_SIZE}`;
 	let path = basePath;
 	if (total !== -1 && isPageValid) {
 		path = basePath + "&page=" + page;
@@ -132,9 +132,9 @@ const DataSources = props => {
 			</div>
 		);
 		tableSection = isLargeScreen ? (
-			<DataSourceTable data={data?.result?.data_sources != null ? data.result.data_sources : []} />
+			<DataSourceTable data={data?.data != null ? data.data : []} />
 		) : (
-			<DataSourceCardList data={data?.result?.data_sources != null ? data.result.data_sources : []} />
+			<DataSourceCardList data={data?.data != null ? data.data : []} />
 		);
 	}
 
@@ -154,10 +154,10 @@ const DataSources = props => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("data-sources")}>
-				<ComingSoon />
-				{/* {filterSection}
+				{/* <ComingSoon /> */}
+				{filterSection}
 				{tableSection}
-				{paginationSection} */}
+				{paginationSection}
 			</Container>
 		</>
 	);
