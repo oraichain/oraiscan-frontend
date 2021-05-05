@@ -2,6 +2,8 @@ import React, {useState, useRef} from "react";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
+import {useHistory} from "react-router-dom";
+import queryString from "query-string";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import consts from "src/constants/consts";
@@ -20,6 +22,7 @@ import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/Prop
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
 import styles from "./Proposals.scss";
+import {isNil} from "lodash-es";
 
 const cx = cn.bind(styles);
 
@@ -27,14 +30,23 @@ export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
+	const [topPageId, setTopPageId] = useState(1);
+	const totalTopPagesRef = useRef(null);
 	const [pageId, setPageId] = useState(1);
 	const totalPagesRef = useRef(null);
+	const history = useHistory();
+	const queryStringParse = queryString.parse(history.location.search) || {};
+	const type = queryStringParse?.type ?? null;
+
+	const onTopPageChange = page => {
+		setTopPageId(page);
+	};
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
-	const topPath = `${consts.API.PROPOSALS}?status&limit=4&page_id=1`;
+	const topPath = `${consts.API.PROPOSALS}?status${!isNil(type) ? "&type=" + type : ""}&limit=3&page_id=${topPageId}`;
 	const {data: topData, loading: topLoading, error: topError} = useGet({
 		path: topPath,
 	});
@@ -44,7 +56,7 @@ export default function(props) {
 		path: statusPath,
 	});
 
-	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}`;
+	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}${type ? "&type=" + type : ""}`;
 	let path;
 	if (status === "PROPOSAL_STATUS_ALL") {
 		path = `${basePath}&page_id=${pageId}`;
@@ -59,6 +71,7 @@ export default function(props) {
 	let topProposalCardList;
 	let filterSection;
 	let tableSection;
+	let paginationTopSection;
 	let paginationSection;
 
 	if (isLargeScreen) {
@@ -78,9 +91,20 @@ export default function(props) {
 		topProposalCardList = <TopProposalCardListSkeleton />;
 	} else {
 		if (topError) {
+			totalPagesRef.current = null;
 			topProposalCardList = <TopProposalCardList data={[]} />;
 		} else {
-			topProposalCardList = <TopProposalCardList data={topData.data} />;
+			if (!isNaN(topData?.page?.total_page)) {
+				totalTopPagesRef.current = topData?.page?.total_page;
+			} else {
+				totalTopPagesRef.current = null;
+			}
+
+			if (Array.isArray(topData?.data) && topData?.data?.length > 0) {
+				topProposalCardList = <TopProposalCardList data={topData?.data} type={type} />;
+			} else {
+				tableSection = <NoResult />;
+			}
 		}
 	}
 
@@ -112,6 +136,7 @@ export default function(props) {
 
 		filterSection = (
 			<FilterSection
+				className={cx("filter-section")}
 				data={filterData}
 				value={status}
 				onChange={value => {
@@ -135,13 +160,17 @@ export default function(props) {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <ProposalsTable data={data.data} /> : <ProposalCardList data={data.data} />;
+				tableSection = isLargeScreen ? <ProposalsTable data={data.data} type={type} /> : <ProposalCardList data={data.data} type={type} />;
 			} else {
 				tableSection = <NoResult />;
 			}
 		}
 	}
-
+	paginationTopSection = totalTopPagesRef.current ? (
+		<Pagination pages={totalTopPagesRef.current} page={topPageId} onChange={(e, page) => onTopPageChange(page)} />
+	) : (
+		<></>
+	);
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
@@ -149,6 +178,7 @@ export default function(props) {
 			{titleSection}
 			<Container fixed className={cx("proposals")}>
 				{topProposalCardList}
+				{paginationTopSection}
 				{filterSection}
 				{tableSection}
 				{paginationSection}

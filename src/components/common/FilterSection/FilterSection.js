@@ -7,12 +7,12 @@ import styles from "./FilterSection.scss";
 
 const cx = classNames.bind(styles);
 
-const FilterSection = memo(({data, value, onChange}) => {
+const FilterSection = memo(({className, data, value, onChange}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
 	return (
-		<div className={cx("filter-section")}>
+		<div className={cx("filter-section", className)}>
 			{isLargeScreen ? (
 				<ButtonGroup data={data} value={value} onChange={onChange} />
 			) : (
