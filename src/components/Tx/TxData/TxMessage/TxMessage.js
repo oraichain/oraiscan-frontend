@@ -23,7 +23,9 @@ const TxMessage = ({msg, data}) => {
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
-	const {type, value} = msg;
+	console.log(msg);
+	const {value} = msg;
+	const type = msg["@type"];
 	const {memo} = data;
 
 	const messageDetails = useMemo(() => {

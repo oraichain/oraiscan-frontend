@@ -18,6 +18,11 @@ import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 export const getHeaderRow = () => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
@@ -58,11 +63,11 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				</NavLink>
 			);
 
-			const typeDataCell = _.isNil(item?.messages?.[0]?.type) ? (
+			const typeDataCell = _.isNil(item?.messages?.[0]?.["@type"]) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
@@ -115,12 +120,12 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 
 			let amount;
 			let denom;
-			if (!_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount)) {
-				amount = item.messages[0].value.amount[0].amount;
-				denom = item.messages[0].value.amount[0].denom;
-			} else if (!_.isNil(item?.messages?.[0]?.value?.amount?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.amount)) {
-				amount = item.messages[0].value.amount.amount;
-				denom = item.messages[0].value.amount.denom;
+			if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
+				amount = item.messages[0].amount[0].amount;
+				denom = item.messages[0].amount[0].denom;
+			} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
+				amount = item.messages[0].amount.amount;
+				denom = item.messages[0].amount.denom;
 			}
 
 			const amountDataCell =
@@ -143,20 +148,19 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 					</div>
 				);
 
-			const feeDataCell =
-				_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
-					<div className={cx("align-right")}>-</div>
-				) : (
-					<div className={cx("fee-data-cell", "align-right")}>
-						<div className={cx("fee")}>
-							<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
-							<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
-							{/* <span className={cx("fee-usd")}>
+			const feeDataCell = _.isNil(item?.fee?.amount) ? (
+				<div className={cx("align-right")}>-</div>
+			) : (
+				<div className={cx("fee-data-cell", "align-right")}>
+					<div className={cx("fee")}>
+						<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0] || 0)}</span>
+						<span className={cx("fee-denom")}>ORAI</span>
+						{/* <span className={cx("fee-usd")}>
 								{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
 							</span> */}
-						</div>
 					</div>
-				);
+				</div>
+			);
 
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-right")}>-</div>
