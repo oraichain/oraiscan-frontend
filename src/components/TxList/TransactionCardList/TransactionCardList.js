@@ -17,6 +17,11 @@ import MoreIcon from "src/icons/Transactions/MoreIcon";
 import SuccessIcon from "src/icons/Transactions/SuccessIcon";
 import FailedIcon from "src/icons/Transactions/FailedIcon";
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 const TransactionCardList = memo(({data = [], account}) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
@@ -66,12 +71,12 @@ const TransactionCardList = memo(({data = [], account}) => {
 
 				let amount;
 				let denom;
-				if (!_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.[0]?.amount)) {
-					amount = item.messages[0].value.amount[0].amount;
-					denom = item.messages[0].value.amount[0].denom;
-				} else if (!_.isNil(item?.messages?.[0]?.value?.amount?.denom) && !_.isNil(item?.messages?.[0]?.value?.amount?.amount)) {
-					amount = item.messages[0].value.amount.amount;
-					denom = item.messages[0].value.amount.denom;
+				if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
+					amount = item.messages[0].amount[0].amount;
+					denom = item.messages[0].amount[0].denom;
+				} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
+					amount = item.messages[0].amount.amount;
+					denom = item.messages[0].amount.denom;
 				}
 
 				return (
@@ -98,11 +103,11 @@ const TransactionCardList = memo(({data = [], account}) => {
 										<div className={cx("item-title")}>Type</div>
 									</td>
 									<td>
-										{_.isNil(item?.messages?.[0]?.type) ? (
+										{_.isNil(item?.messages?.[0]?.["@type"]) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("type-data-cell")}>
-												<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
+												<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
 												{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 											</div>
 										)}
