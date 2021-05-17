@@ -23,9 +23,13 @@ const TxMessage = ({msg, data}) => {
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
-	console.log(msg);
-	const {value} = msg;
-	const type = msg["@type"];
+	const value = msg;
+	// console.log(msg)
+	let type = msg["@type"];
+	if (type.indexOf(".") > -1) {
+		const typeArr = type.split(".");
+		type = "cosmos-sdk/" + typeArr[typeArr.length - 1];
+	}
 	const {memo} = data;
 
 	const messageDetails = useMemo(() => {
