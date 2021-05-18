@@ -25,7 +25,7 @@ const TxMessage = ({msg, data}) => {
 	const storageData = useSelector(state => state.contact);
 	const value = msg;
 	// console.log(msg)
-	let type = msg["@type"];
+	let type = msg["@type"] || "";
 	if (type.indexOf(".") > -1) {
 		const typeArr = type.split(".");
 		type = "cosmos-sdk/" + typeArr[typeArr.length - 1];

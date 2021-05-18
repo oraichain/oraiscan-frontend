@@ -8,6 +8,7 @@ import consts from "src/constants/consts";
 import {formatDateTime, formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
+import {setAgoTime} from "src/lib/scripts";
 import styles from "./ProposalsTable.scss";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
@@ -117,13 +118,19 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 			const votingStartDataCell = _.isNil(item?.voting_start_time) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("voting-start-data-cell", "align-right")}>{formatDateTime(item.voting_start_time)}</div>
+				<div className={cx("voting-start-data-cell", "align-right")}>
+					{" "}
+					{setAgoTime(item.voting_start_time)} ({formatDateTime(item.voting_start_time)} )
+				</div>
 			);
 
 			const submitTimeDataCell = _.isNil(item?.submit_time) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("submit-time-data-cell", "align-right")}>{formatDateTime(item.submit_time)}</div>
+				<div className={cx("submit-time-data-cell", "align-right")}>
+					{" "}
+					{setAgoTime(item.voting_start_time)} ({formatDateTime(item.submit_time)}{" "}
+				</div>
 			);
 
 			const totalDepositDataCell = _.isNil(item?.total_deposit) ? (
