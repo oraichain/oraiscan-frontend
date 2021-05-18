@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/TestCases/TestCaseTable/TestCaseTable";
+import {getHeaderRow} from "./DataSourceTableSkeletonTable";
 import styles from "./DataSourceTable.scss";
 
 const TestCaseTableSkeleton = memo(({rows}) => {
