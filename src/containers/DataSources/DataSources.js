@@ -14,9 +14,9 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
-import DataSourceTable from "src/components/DataSources/DataSourceTable";
+import DataSourceTable from "src/components/DataSources/DataSourceTable/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/DataSources/DataSourceTable/DataSourceTableSkeleton";
-import DataSourceCardList from "src/components/DataSources/DataSourceCardList";
+import DataSourceCardList from "src/components/DataSources/DataSourceCardList/DataSourceCardList";
 import DataSourceCardListSkeleton from "src/components/DataSources/DataSourceCardList/DataSourceCardListSkeleton";
 import ComingSoon from "src/components/common/ComingSoon";
 import styles from "./DataSources.scss";
@@ -49,7 +49,7 @@ const DataSources = props => {
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	let timerID = useRef(null);
 
-	const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.DATA_SOURCES}?limit=${consts.TABLE.PAGE_SIZE}`;
+	const basePath = `${consts.API_BASE}${consts.LCD_API.DATA_SOURCES}?limit=${consts.TABLE.PAGE_SIZE}`;
 	let path = basePath;
 	if (total !== -1 && isPageValid) {
 		path = basePath + "&page=" + page;
@@ -132,9 +132,9 @@ const DataSources = props => {
 			</div>
 		);
 		tableSection = isLargeScreen ? (
-			<DataSourceTable data={data?.result?.data_sources != null ? data.result.data_sources : []} />
+			<DataSourceTable data={data?.data != null ? data.data : []} />
 		) : (
-			<DataSourceCardList data={data?.result?.data_sources != null ? data.result.data_sources : []} />
+			<DataSourceCardList data={data?.data != null ? data.data : []} />
 		);
 	}
 
@@ -154,10 +154,10 @@ const DataSources = props => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("data-sources")}>
-				<ComingSoon />
-				{/* {filterSection}
-			{tableSection}
-			{paginationSection} */}
+				{/* <ComingSoon /> */}
+				{filterSection}
+				{tableSection}
+				{paginationSection}
 			</Container>
 		</>
 	);

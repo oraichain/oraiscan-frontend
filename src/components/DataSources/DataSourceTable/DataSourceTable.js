@@ -1,27 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 // @ts-nocheck
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import {logoBrand} from "src/constants/logoBrand";
+import {tableThemes} from "src/constants/tableThemes";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
-import Address from "src/components/common/Address";
-import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DataSourceTable.scss";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const dataSourceHeaderCell = <div className={cx("header-cell", "align-left")}>Data Source</div>;
+	const testCaseHeaderCell = <div className={cx("header-cell", "align-left")}>Data Source</div>;
 	const descriptionHeaderCell = <div className={cx("header-cell", "align-left")}>Description</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
 	const requestsHeaderCell = <div className={cx("header-cell", "align-right")}>Requests</div>;
 	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
-	const headerCells = [dataSourceHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell];
+	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Data Source
+		{minWidth: "100px"}, // Test Case
 		{minWidth: "200px"}, // Description
 		{minWidth: "180px"}, // Fee
 		{width: "110px", minWidth: "110px"}, // Requests
@@ -33,46 +33,69 @@ export const getHeaderRow = () => {
 	};
 };
 
-const DataSourceTable = memo(({data = []}) => {
+const TestCaseTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
-			const dataSourceDataCell = _.isNil(item?.name) ? (
+			console.log(item);
+			const testCaseDataCell = _.isNil(item?.data_source) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("data-cell", "color-blue", "align-left")} to={`${consts.PATH.DATA_SOURCES}/${item.name}`}>
-					{item.name}
+				<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
+					{item.data_source}
 				</NavLink>
 			);
 
 			const descriptionHashDataCell = _.isNil(item?.description) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("data-cell", "align-left")}>{item.description}</div>
+				<div className={cx("description-data-cell", "align-left")}>{item.description}</div>
 			);
 
-			const feeDataCell =
-				_.isNil(item?.fees?.amount?.[0]?.amount) || _.isNil(item?.fees?.amount?.[0]?.denom) ? (
-					<div className={cx("align-right")}>-</div>
-				) : (
-					<div className={cx("fee-data-cell", "align-right")}>
-						<span>{formatOrai(item.fees.amount[0].amount)}</span>
-						<span>{item.fees.amount[0].denom}</span>
+			const feeDataCell = _.isNil(item?.fee) ? (
+				<div className={cx("align-right")}>-</div>
+			) : (
+				<div className={cx("fee-data-cell", "align-right")}>
+					<div className={cx("fee")}>
+						<span className={cx("fee-value")}>{formatOrai(item.fee)}</span>
+						<span className={cx("fee-denom")}>ORAI</span>
 					</div>
-				);
+				</div>
+			);
 
 			const requestsDataCell = _.isNil(item?.requests) ? (
-				<div className={cx("align-center")}>-</div>
+				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("data-cell", "align-center")}>{item.requests}</div>
+				<div className={cx("request-data-cell", "align-right")}>{item.requests}</div>
 			);
 
-			const ownerDataCell = _.isNil(item?.owner) ? <div className={cx("align-left")}>-</div> : <Address address={item.owner} size='md' showCopyIcon={false} />;
+			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
+			let ownerName;
+			if (matchedLogoItem) {
+				ownerName = matchedLogoItem?.name ?? "-";
+			}
+			// const ownerDataCell = _.isNil(ownerName) ? (
+			// 	<div className={cx("align-right")}>-</div>
+			// ) : (
+			// 	<div className={cx("owner-data-cell", "align-right")}>
+			// 		<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
+			// 			{ownerName}
+			// 		</NavLink>
+			// 	</div>
+			// );
 
-			return [dataSourceDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell];
+			const ownerDataCell = (
+				<div className={cx("owner-data-cell", "align-right")}>
+					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
+						{item.owner}
+					</NavLink>
+				</div>
+			);
+
+			return [testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell];
 		});
 	};
 
@@ -82,4 +105,4 @@ const DataSourceTable = memo(({data = []}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default DataSourceTable;
+export default TestCaseTable;

@@ -1,47 +1,48 @@
 import React, {memo, useMemo} from "react";
-import Skeleton from "@material-ui/lab/Skeleton";
+import PropTypes from "prop-types";
 import classNames from "classnames/bind";
+import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/DataSources/DataSourceTable/DataSourceTable";
+import {getHeaderRow} from "src/components/TestCases/TestCaseTable/TestCaseTable";
 import styles from "./DataSourceTable.scss";
 
-const DataSourceTableSkeleton = memo(({rows = 10}) => {
+const TestCaseTableSkeleton = memo(({rows}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
 		for (let i = 1; i <= rows; i++) {
-			const dataSourceDataCell = (
-				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton />
+			const testCaseDataCell = (
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={100} height={21} />
 				</div>
 			);
 
 			const descriptionHashDataCell = (
-				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton />
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
 				</div>
 			);
 
 			const feeDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
+				<div className={cx("align-right")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 				</div>
 			);
 
 			const requestsDataCell = (
-				<div className={cx("skeleton-data-cell", "align-center")}>
-					<Skeleton />
+				<div className={cx("align-right")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={10} height={21} />
 				</div>
 			);
 
 			const ownerDataCell = (
-				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton />
+				<div className={cx("align-right")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 				</div>
 			);
 
-			dataRows.push([dataSourceDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell]);
+			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell]);
 		}
 		return dataRows;
 	};
@@ -52,4 +53,11 @@ const DataSourceTableSkeleton = memo(({rows = 10}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default DataSourceTableSkeleton;
+TestCaseTableSkeleton.propTypes = {
+	rows: PropTypes.number,
+};
+TestCaseTableSkeleton.defaultProps = {
+	rows: 10,
+};
+
+export default TestCaseTableSkeleton;

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo} from "react";
+import {isNil} from "lodash";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
@@ -16,7 +17,7 @@ import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
-const ProposalCardList = memo(({data = []}) => {
+const ProposalCardList = memo(({data = [], type = ""}) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -79,7 +80,9 @@ const ProposalCardList = memo(({data = []}) => {
 										{_.isNil(item?.title) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link", "align-left")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}`}>
+											<NavLink
+												className={cx("item-link", "align-left")}
+												to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) && type !== "" ? "?type=" + type : ""}`}>
 												{item?.title}
 											</NavLink>
 										)}

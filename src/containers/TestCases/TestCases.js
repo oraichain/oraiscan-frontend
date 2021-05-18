@@ -1,12 +1,12 @@
-import React, {useState, useRef, useEffect} from "react";
-import {useHistory} from "react-router-dom";
+import React, {useState, useRef} from "react";
 import {useTheme} from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
+import Skeleton from "@material-ui/lab/Skeleton";
 import cn from "classnames/bind";
 import {useGet} from "restful-react";
 import consts from "src/constants/consts";
-import {replaceQueryString} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -14,84 +14,37 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
+import NoResult from "src/components/common/NoResult";
 import TestCaseTable from "src/components/TestCases/TestCaseTable";
 import TestCaseTableSkeleton from "src/components/TestCases/TestCaseTable/TestCaseTableSkeleton";
 import TestCaseCardList from "src/components/TestCases/TestCaseCardList";
 import TestCaseCardListSkeleton from "src/components/TestCases/TestCaseCardList/TestCaseCardListSkeleton";
-import ComingSoon from "src/components/common/ComingSoon";
-import styles from "./TestCases.scss";
+import styles from "./TestCases.module.scss";
 
 const cx = cn.bind(styles);
 
-const TestCases = props => {
+const TestCases = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const history = useHistory();
-	const [keyword, setKeyword] = useState("");
+	const [keyword, setKeyword] = useState(null);
+	const [pageId, setPageId] = useState(1);
+	const totalPagesRef = useRef(null);
 
-	const getPaginationPath = (pathname, page) => {
-		return pathname + "?page=" + page;
-	};
-	const redirectToFirstPage = pathname => {
-		history.push(getPaginationPath(pathname, 1));
+	const onPageChange = page => {
+		setPageId(page);
 	};
 
-	const [total, setTotal] = useState(-1);
-	const searchParams = new URLSearchParams(props.location.search);
-	let page = parseFloat(searchParams.get("page"));
-	let isPageValid = true;
-	if (!Number.isInteger(page) || page < 1 || (total !== -1 && page > Math.ceil(total / consts.REQUEST.LIMIT))) {
-		page = 1;
-		isPageValid = false;
+	const basePath = `${consts.API.TEST_CASES}?limit=${consts.REQUEST.LIMIT}`;
+	let path;
+	if (keyword) {
+		path = `${basePath}&page_id=${pageId}&tc_name=${keyword}`;
+	} else {
+		path = `${basePath}&page_id=${pageId}`;
 	}
 
-	const [showLoading, setShowLoading] = useState(true);
-	const [loadCompleted, setLoadCompleted] = useState(false);
-	let timerID = useRef(null);
-
-	const basePath = `${consts.LCD_API_BASE}${consts.LCD_API.TEST_CASES}?limit=${consts.TABLE.PAGE_SIZE}`;
-	let path = basePath;
-	if (total !== -1 && isPageValid) {
-		path = basePath + "&page=" + page;
-	}
-
-	path = replaceQueryString(path, "name", keyword);
-
-	const cleanUp = () => {
-		if (timerID) {
-			clearTimeout(timerID);
-			setLoadCompleted(false);
-		}
-	};
-
-	const {data, loading, refetch} = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
-		resolve: data => {
-			if (showLoading) {
-				setShowLoading(false);
-			}
-			setLoadCompleted(true);
-			return data;
-		},
 	});
-
-	useEffect(() => {
-		if (loadCompleted) {
-			timerID = setTimeout(() => {
-				refetch();
-				setLoadCompleted(false);
-			}, consts.REQUEST.TIMEOUT);
-			return () => {
-				cleanUp();
-			};
-		}
-	}, [loadCompleted]);
-
-	useEffect(() => {
-		if (!isPageValid) {
-			redirectToFirstPage(props.location.pathname);
-		}
-	}, [total]);
 
 	let titleSection;
 	let filterSection;
@@ -111,58 +64,55 @@ const TestCases = props => {
 		titleSection = <TogglePageBar type='test-cases' />;
 	}
 
-	if (!data || (loading && showLoading)) {
-		filterSection = (
-			<div className={cx("filter-section")}>
-				<SearchInput value={keyword} rootClassName={cx("search-test-cases")} placeholder='Search test cases' onChange={e => {}} />
-				<div className={cx("filter-section-overlay")}></div>
-			</div>
-		);
+	if (loading) {
 		tableSection = isLargeScreen ? <TestCaseTableSkeleton /> : <TestCaseCardListSkeleton />;
 	} else {
-		filterSection = (
-			<div className={cx("filter-section")}>
-				<SearchInput
-					value={keyword}
-					placeholder='Search test cases'
-					rootClassName={cx("search-test-cases")}
-					onChange={e => {
-						cleanUp();
-						setKeyword(e.target.value);
-					}}
-				/>
-			</div>
-		);
-		tableSection = isLargeScreen ? (
-			<TestCaseTable data={data?.result?.test_cases != null ? data.result.test_cases : []} />
-		) : (
-			<TestCaseCardList data={data?.result?.test_cases != null ? data.result.test_cases : []} />
-		);
+		if (error) {
+			totalPagesRef.current = null;
+			tableSection = <NoResult />;
+		} else {
+			if (!isNaN(data?.page?.total_page)) {
+				totalPagesRef.current = data.page.total_page;
+			} else {
+				totalPagesRef.current = null;
+			}
+
+			if (Array.isArray(data?.data) && data.data.length > 0) {
+				tableSection = isLargeScreen ? <TestCaseTable data={data?.data} /> : <TestCaseCardList data={data?.data} />;
+			} else {
+				tableSection = <NoResult />;
+			}
+		}
 	}
 
-	const onPageChange = page => {
-		cleanUp();
-		setShowLoading(true);
-		history.push(getPaginationPath(props.location.pathname, page));
-	};
-	const totalItems = _.isNil(data?.result?.count) ? 0 : Math.ceil(parseInt(data.result.count));
-	const totalPages = Math.ceil(totalItems / consts.REQUEST.LIMIT);
-	if (total !== totalItems) {
-		setTotal(totalItems);
-	}
-	paginationSection = totalPages > 0 && <Pagination pages={totalPages} page={page} onChange={(e, page) => onPageChange(page)} />;
+	filterSection = (
+		<div className={cx("filter-section")}>
+			<SearchInput
+				className={cx("search-input")}
+				placeholder='Search test cases'
+				value={keyword}
+				onChange={e => {
+					setKeyword(e.target.value);
+				}}
+			/>
+		</div>
+	);
+
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("test-cases")}>
-				<ComingSoon />
-				{/* {filterSection}
-			{tableSection}
-			{paginationSection} */}
+				{filterSection}
+				{tableSection}
+				{paginationSection}
 			</Container>
 		</>
 	);
 };
+
+TestCases.propTypes = {};
+TestCases.defaultProps = {};
 
 export default TestCases;

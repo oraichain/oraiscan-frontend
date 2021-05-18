@@ -93,9 +93,10 @@ export default Object.freeze({
 		REQUESTS_REPORTS: "/requests_reports",
 		REQUESTS_RESULTS: "/requests_results",
 		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
+		TEST_CASES: "/test_cases",
 	},
 	LCD_API: {
-		DATA_SOURCES: "/provider/datasources",
+		DATA_SOURCES: "/data_sources",
 		DATA_SOURCE_DETAIL: "/provider/datasource",
 		TEST_CASES: "/provider/testcases",
 		ORACLE_SCRIPTS: "/provider/oscripts",

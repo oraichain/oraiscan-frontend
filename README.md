@@ -26,7 +26,7 @@ git clone https://github.com/oraichain/oraiscan-frontend.git
 ```shell
 yarn install    
 ```
-1. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
+3. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
 ``` js
 import "./firebase"
 ```
@@ -35,7 +35,11 @@ import "./firebase"
 export REACT_APP_API_DEV=http://localhost:5000/v1
 export REACT_APP_API_PROD=
 ```
-5. Dev it or build it
+5. Specify version of orai wallet in .env file
+```shell
+REACT_APP_WALLET_VERSION=2
+```
+6. Dev it or build it
 ```shell    
 yarn dev  
 yarn build:dev  

@@ -30,9 +30,6 @@ const DetailsCardSkeleton = memo(({data}) => {
 			<div className={cx("description-header")}>Description</div>
 			<div className={cx("description-body")}>
 				<Skeleton variant='rect' height={210} />
-				<div className={cx("show-more")}>
-					<Skeleton className={cx("skeleton")} variant='text' width={70} height={24} />
-				</div>
 			</div>
 		</div>
 	);

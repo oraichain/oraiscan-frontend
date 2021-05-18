@@ -2,6 +2,7 @@
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
+import {isNil} from "lodash-es";
 import {_} from "src/lib/scripts";
 import consts from "src/constants/consts";
 import {formatDateTime, formatOrai} from "src/helpers/helper";
@@ -40,7 +41,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const ProposalsTable = memo(({data = []}) => {
+const ProposalsTable = memo(({data = [], type = null}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -56,7 +57,9 @@ const ProposalsTable = memo(({data = []}) => {
 			const titleDataCell = _.isNil(item?.title) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("title-data-cell", "align-left")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}`}>
+				<NavLink
+					className={cx("title-data-cell", "align-left")}
+					to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) ? "?type=" + type : ""}`}>
 					{item.title}
 				</NavLink>
 			);

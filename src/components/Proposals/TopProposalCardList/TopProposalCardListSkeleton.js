@@ -6,11 +6,11 @@ import styles from "./TopProposalCardList.scss";
 
 const cx = classNames.bind(styles);
 
-const TopProposalCardListSkeleton = memo(({rows = 4}) => {
+const TopProposalCardListSkeleton = memo(({rows = 3}) => {
 	let topProposalCardListItems = [];
 	for (let i = 1; i <= rows; i++) {
 		topProposalCardListItems.push(
-			<Grid item lg={3} xs={12}>
+			<Grid item lg={4} xs={12}>
 				<div className={cx("top-proposal-card")} key={"top-proposal-card-" + i}>
 					<div className={cx("top-proposal-card-header")}>
 						<div className={cx("proposal-id")}>
@@ -25,6 +25,28 @@ const TopProposalCardListSkeleton = memo(({rows = 4}) => {
 									<td colSpan={2}>
 										<div className={cx("proposal-title")}>
 											<Skeleton variant='text' width={100} height={24} className={cx("skeleton")} />
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Type</div>
+									</td>
+									<td>
+										<div className={cx("item-text")}>
+											<Skeleton variant='text' width={100} height={21} className={cx("skeleton")} />
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Title</div>
+									</td>
+									<td>
+										<div className={cx("item-text")}>
+											<Skeleton variant='text' width={100} height={21} className={cx("skeleton")} />
 										</div>
 									</td>
 								</tr>
@@ -54,18 +76,6 @@ const TopProposalCardListSkeleton = memo(({rows = 4}) => {
 								<tr>
 									<td colSpan={2}>
 										<Skeleton variant='text' height={21} />
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<div className={cx("item-title")}>Most voted on</div>
-										<div className={cx("proposal-voted")}>
-											<Skeleton variant='text' width={75} height={21} className={cx("skeleton")} />
-										</div>
-									</td>
-									<td>
-										<Skeleton variant='text' width={75} height={21} className={cx("skeleton")} />
 									</td>
 								</tr>
 							</tbody>

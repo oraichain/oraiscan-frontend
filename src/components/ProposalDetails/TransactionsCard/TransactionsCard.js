@@ -147,13 +147,17 @@ const TransactionsCard = memo(({proposalId}) => {
 
 	const filterData = useMemo(() => getFilterData(voteTypesRef.current, totalTxsRef.current), [voteTypesRef.current, totalTxsRef.current]);
 	filterSection = (
-		<FilterSection
-			data={filterData}
-			value={voteType}
-			onChange={value => {
-				setVoteType(value);
-			}}
-		/>
+		<div className={cx("filter-section")}>
+			<div className={cx("filter-section-header")}>Transactions</div>
+			<FilterSection
+				className={cx("filter-section-body")}
+				data={filterData}
+				value={voteType}
+				onChange={value => {
+					setVoteType(value);
+				}}
+			/>
+		</div>
 	);
 
 	if (transactionLoading) {
@@ -201,12 +205,7 @@ const TransactionsCard = memo(({proposalId}) => {
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
-	headerSection = (
-		<div className={cx("transactions-card-header")}>
-			{titleSection}
-			{filterSection}
-		</div>
-	);
+	headerSection = <div className={cx("transactions-card-header")}>{filterSection}</div>;
 	bodySection = (
 		<div className={cx("transactions-card-body")}>
 			{tableSection}
