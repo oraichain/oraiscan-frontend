@@ -12,6 +12,11 @@ import failureIcon from "src/assets/transactions/fail_ic.svg";
 import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 import {useSelector} from "react-redux";
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 const TransactionCardList = memo(({data = [], account}) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
@@ -43,11 +48,11 @@ const TransactionCardList = memo(({data = [], account}) => {
 										<div className={cx("item-title")}>Type</div>
 									</td>
 									<td>
-										{_.isNil(item?.messages?.[0]?.type) ? (
+										{_.isNil(item?.messages?.[0]?.["@type"]) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("type-data-cell")}>
-												<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
+												<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
 												{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 											</div>
 										)}

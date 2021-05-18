@@ -13,6 +13,11 @@ import styles from "./TransactionTable.scss";
 
 const cx = classNames.bind(styles);
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 export const getHeaderRow = () => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
@@ -47,11 +52,11 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				</NavLink>
 			);
 
-			const typeDataCell = _.isNil(item?.messages?.[0]?.type) ? (
+			const typeDataCell = _.isNil(item?.messages?.[0]?.["@type"]) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxType(item.messages[0].type)}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
