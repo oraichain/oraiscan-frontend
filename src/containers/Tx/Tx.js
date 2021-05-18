@@ -30,10 +30,10 @@ const Tx = () => {
 	const countRefetchRef = useRef(0);
 	const intervalRef = useRef(null);
 	const [shouldRefetch, setShouldRefetch] = useState(true);
-	const [pending, setPending] = useState(true);
+	const [pending, setPending] = useState(false);
 	const params = useParams();
 	const txHash = params?.["tx"];
-	const pendingBasePath = `http://23.100.40.156:26657/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
+	const pendingBasePath = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 	const restBasePath = `${consts.API.TX}/${txHash}`;
 
 	let timerIdRef = useRef(null);
