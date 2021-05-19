@@ -137,9 +137,9 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 	};
 
 	const onSubmit = data => {
-		if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-			return;
-		}
+		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
+		// 	return;
+		// }
 
 		const minFee = (fee * 1000000 + "").split(".")[0];
 
@@ -154,7 +154,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							validator_address: operatorAddress,
 							amount: {
 								denom: "orai",
-								amount: new BigNumber(data.sendAmount).multipliedBy(1000000),
+								amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 							},
 						},
 					},

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
+import {formatOrai} from "src/helpers/helper";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DataSourceTable.module.scss";
 import consts from "src/constants/consts";
@@ -67,7 +68,7 @@ const DataSourceTable = memo(({data}) => {
 			const feesDataCell = _.isNil(item?.fees) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("fees-data-cell", "align-right")}>{item?.fees}</div>
+				<div className={cx("fees-data-cell", "align-right")}>{formatOrai(item?.fees)}</div>
 			);
 
 			return [nameDataCell, contractDataCell, ownerDataCell, descriptionDataCell, feesDataCell];
