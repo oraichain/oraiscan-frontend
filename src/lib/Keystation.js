@@ -136,7 +136,7 @@ export default class Keystation {
 
 	openWindow(type, payload, account = "") {
 		const self = this;
-		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, (account = ""), self) : openWindowV1(type, payload, (account = ""), self);
+		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, account, self) : openWindowV1(type, payload, account, self);
 	}
 }
 
