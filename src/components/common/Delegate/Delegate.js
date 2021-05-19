@@ -154,7 +154,7 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 							validator_address: operatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount),
+								amount: new BigNumber(data.sendAmount).multipliedBy(1000000),
 							},
 						},
 					},
