@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
 import styles from "./RequestGridView.module.scss";
 import consts from "src/constants/consts";
 import {NavLink} from "react-router-dom";
@@ -48,7 +49,7 @@ const RequestGridView = ({data}) => {
 											<div className={cx("fee")}>-</div>
 										) : (
 											<div className={cx("fee")}>
-												<span className={cx("fee-value")}>{item?.fees}</span>
+												<span className={cx("fee-value")}>{formatOrai(item?.fees)}</span>
 												<span className={cx("fee-denom")}>ORAI</span>
 											</div>
 										)}

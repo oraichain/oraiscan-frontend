@@ -58,7 +58,7 @@ const RequestContainer = memo(({id, address}) => {
 
 	return (
 		<div className={cx("request-card")}>
-			<div className={cx("request-card-header")}>Request </div>
+			<div className={cx("request-card-header")}> AI Data Source Results </div>
 			<div className={cx("request-card-body")}>
 				{tableSection}
 				{paginationSection}
