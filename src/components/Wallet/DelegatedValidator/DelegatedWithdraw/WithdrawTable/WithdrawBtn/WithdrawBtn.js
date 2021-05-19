@@ -83,7 +83,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
+const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const percents = [25, 50, 75, 100];
@@ -98,10 +98,10 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	};
 
 	const validationSchemaForm = yup.object().shape({
-		sendAmount: yup
+		amount: yup
 			.string()
 			.required("Send Amount Field is Required")
-			.lessThanNumber(balance / 1000000, "lessThanNumber"),
+			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -111,9 +111,9 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-			return;
-		}
+		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
+		// 	return;
+		// }
 
 		const payload = {
 			type: "cosmos-sdk/MsgUndelegate",
@@ -126,7 +126,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 							validator_address: validatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount),
+								amount: new BigNumber(data.amount).multipliedBy(1000000).toString(),
 							},
 						},
 					},
@@ -171,7 +171,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 				<FormProvider {...methods}>
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Withdraw from this validator
+							Withdraw from {validatorName}
 						</DialogTitle>
 						<DialogContent dividers>
 							<div className={cx("space-between")}>
@@ -193,7 +193,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent}) => {
 								</div>
 							</div>
 							<div className={cx("form-field")}>
-								<InputNumberOrai name='sendAmount' required errorobj={errors} />
+								<InputNumberOrai name='amount' required errorobj={errors} />
 							</div>
 						</DialogContent>
 						<DialogActions>
