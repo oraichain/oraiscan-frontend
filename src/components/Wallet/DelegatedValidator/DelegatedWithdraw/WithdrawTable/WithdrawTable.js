@@ -93,7 +93,9 @@ const WithdrawTable = memo(({data}) => {
 				<div className={cx("withdrawable-data-cell", "align-left")}>{formatOrai(item.withdrawable)}</div>
 			);
 
-			const withdrawDataCell = <WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={BtnComponent} />;
+			const withdrawDataCell = (
+				<WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={BtnComponent} validatorName={item.validator} />
+			);
 
 			// const withdrawDataCell = (
 			// 	<div className={cx("withdraw-data-cell", "align-center")}>
