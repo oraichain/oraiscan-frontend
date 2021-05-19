@@ -83,7 +83,7 @@ const TxMessage = ({msg, data}) => {
 
 		const getInfoRow = (label, value) => (
 			<InfoRow label={label}>
-				<span className={cx("text")}>{_.isNil(value) ? value : "-"}</span>
+				<span className={cx("text")}>{_.isNil(value) ? "-" : value}</span>
 			</InfoRow>
 		);
 
@@ -386,6 +386,13 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
 						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee)}
 						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_VOTE && (
+					<>
+						{getInfoRow("Option", value?.option)}
+						{getInfoRow("Proposal ID", value?.proposal_id)}
+						{getAddressRow("Voter", value?.voter)}
 					</>
 				)}
 				{type === txTypes.WEBSOCKET.TEST_CASE_RESULT && (

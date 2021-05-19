@@ -77,6 +77,7 @@ const PendingTx = ({setPending}) => {
 		if (Array.isArray(data?.result?.txs)) {
 			for (let tx of data.result.txs) {
 				const decodedTx = decodeTx(tx);
+				console.log(decodedTx);
 
 				if (txHash === decodedTx.hash) {
 					hasPendingTransaction = true;
@@ -88,8 +89,8 @@ const PendingTx = ({setPending}) => {
 						timestamp: null,
 						messages: [
 							{
-								type: decodedTx.messageType,
-								value: decodedTx.messageValue,
+								"@type": decodedTx.messageType,
+								...decodedTx.messageValue,
 							},
 						],
 					};
