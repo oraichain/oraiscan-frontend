@@ -4,6 +4,7 @@ import {NavLink, useParams} from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -19,14 +20,16 @@ export const getHeaderRow = () => {
 	const validatorAddressHeaderCell = <div className={cx("header-cell", "align-left")}>Validator Address</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-left")}>Height</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-left")}>Result</div>;
+	const feeHeaderCell = <div className={cx("header-cell", "align-left")}>Fee</div>;
 	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Status</div>;
 	const moreHeaderCell = <div className={cx("header-cell", "align-right")}></div>;
-	const headerCells = [nameHeaderCell, validatorAddressHeaderCell, heightHeaderCell, resultHeaderCell, statusHeaderCell, moreHeaderCell];
+	const headerCells = [nameHeaderCell, validatorAddressHeaderCell, heightHeaderCell, resultHeaderCell, feeHeaderCell, statusHeaderCell, moreHeaderCell];
 	const headerCellStyles = [
 		{width: "auto"}, // Name
 		{width: "auto"}, // Test Case Results
 		{width: "auto"}, // Height
 		{width: "auto"}, // Result
+		{width: "auto"}, // Fee
 		{width: "auto"}, // Status
 		{width: "auto"}, // More
 	];
@@ -97,12 +100,18 @@ const ReportTable = memo(({data}) => {
 				<div className={cx("height-data-cell", "align-left")}>{item.height}</div>
 			);
 
-			const resultDataCell = _.isNil(item?.result) ? (
+			const resultDataCell = _.isNil(item?.height) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<div className={cx("height-data-cell", "align-left")}>{item?.result}</div>
+			);
+
+			const feeDataCell = _.isNil(item?.fee) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("result-data-cell", "align-left")}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{item?.result}</span>
+						<span className={cx("amount-value")}>{formatOrai(item?.fee)}</span>
 						<span className={cx("amount-denom")}>ORAI</span>
 					</div>
 				</div>
@@ -122,7 +131,7 @@ const ReportTable = memo(({data}) => {
 				</div>
 			);
 
-			return [nameDataCell, validatorAddressDataCell, heightDataCell, resultDataCell, statusDataCell, moreDataCell];
+			return [nameDataCell, validatorAddressDataCell, heightDataCell, resultDataCell, feeDataCell, statusDataCell, moreDataCell];
 		});
 	};
 

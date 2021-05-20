@@ -51,15 +51,26 @@ const TransactionsCard = memo(({proposalId}) => {
 	};
 
 	const getFilterData = (voteTypes, totalTxs) => {
+		console.log(totalTxs);
 		const filterData = [];
 		for (let key in voteTypes) {
-			const label = `${sentenceCase(key)}(${!isNaN(totalTxs?.[key]) ? formatInteger(totalTxs[key]) : "-"})`;
+			// const label = `${sentenceCase(key)}(${!isNaN(totalTxs?.[key]) ? formatInteger(totalTxs[key]) : "-"})`;
+			if (!voteTypes[key]) {
+				continue;
+			}
+			const labelArr = voteTypes[key].split("_") || [];
+			const labelTxt = labelArr[labelArr.length - 1];
+			const label = labelArr[labelArr.length - 1] + " (" + (totalTxs[labelTxt] || 0) + ")";
 			const value = voteTypes[key];
 			filterData.push({
 				label: label,
 				value: value,
 			});
 		}
+		filterData.push({
+			label: "ALL (" + totalTxs["ALL"] + ")",
+			value: 1,
+		});
 		return filterData;
 	};
 
@@ -91,6 +102,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	const {data: totalTxsData, refetch: refetchTotalTxs} = useGet({
 		path: totalTxsPath,
 	});
+
 	if (totalTxsData) {
 		const totalTxs = {};
 		for (let key in totalTxsData) {
@@ -145,7 +157,7 @@ const TransactionsCard = memo(({proposalId}) => {
 		titleSection = <></>;
 	}
 
-	const filterData = useMemo(() => getFilterData(voteTypesRef.current, totalTxsRef.current), [voteTypesRef.current, totalTxsRef.current]);
+	const filterData = getFilterData(voteTypesRef.current, totalTxsRef.current);
 	filterSection = (
 		<div className={cx("filter-section")}>
 			<div className={cx("filter-section-header")}>Transactions</div>
