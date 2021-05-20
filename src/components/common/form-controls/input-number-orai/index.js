@@ -11,14 +11,14 @@ const cx = cn.bind(styles);
 
 // const TextFieldCustom = (props) => <TextField  {...props} className={cx("input-text-exchange")} />
 
-function validate(evt) {
-	var theEvent = evt || window.ClipboardEvent;
+function validate(e) {
+	const theEvent = e || window.ClipboardEvent;
 
-	var key = theEvent.keyCode || theEvent.which;
-	key = String.fromCharCode(key);
+	const clipboardData = e.clipboardData || {};
+	const pastedData = clipboardData.getData("Text") || "";
 
-	var regex = /[0-9]|\./;
-	if (!regex.test(key)) {
+	var regex = /[0-9\.]+/;
+	if (!regex.test(pastedData)) {
 		theEvent.returnValue = false;
 		if (theEvent.preventDefault) theEvent.preventDefault();
 	}
