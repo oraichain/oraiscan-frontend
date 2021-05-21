@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import DonutChart from "react-donut-chart";
@@ -22,7 +23,7 @@ const ChartCard = memo(({data}) => {
 			<div className={cx("chart-card-header")}>
 				<div className={cx("total-orai")}>
 					<div className={cx("total-orai-label")}>Total ORAI</div>
-					<div className={cx("total-orai-value")}>{!isNaN(data?.totalOrai) ? formatOrai(data.totalOrai) : "-"}</div>
+					<div className={cx("total-orai-value")}>{!isNaN(data?.total_orai) ? formatOrai(data.total_orai) : "-"}</div>
 				</div>
 			</div>
 			<div className={cx("chart-card-body")}>
