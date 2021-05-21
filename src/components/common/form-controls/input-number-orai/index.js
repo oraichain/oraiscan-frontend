@@ -11,13 +11,26 @@ const cx = cn.bind(styles);
 
 // const TextFieldCustom = (props) => <TextField  {...props} className={cx("input-text-exchange")} />
 
-function validate(e) {
-	const theEvent = e || window.ClipboardEvent;
+function validate(evt) {
+	var theEvent = evt;
 
-	const clipboardData = e.clipboardData || {};
-	const pastedData = clipboardData.getData("Text") || "";
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
 
 	var regex = /[0-9\.]+/;
+	if (!regex.test(key)) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}
+
+function validatePaste(evt) {
+	const theEvent = evt || window.ClipboardEvent;
+
+	const clipboardData = evt.clipboardData || {};
+	const pastedData = clipboardData.getData("Text") || "";
+
+	var regex = /^[0-9\.]+$/;
 	if (!regex.test(pastedData)) {
 		theEvent.returnValue = false;
 		if (theEvent.preventDefault) theEvent.preventDefault();
@@ -57,7 +70,7 @@ function FormInput(props) {
 						validate(e);
 					}}
 					onPaste={e => {
-						validate(e);
+						validatePaste(e);
 					}}
 				/>{" "}
 				<div className={cx("to-usdt")}>
