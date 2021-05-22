@@ -15,6 +15,11 @@ import failureIcon from "src/assets/transactions/fail_ic.svg";
 
 const cx = classNames.bind(styles);
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 export const getHeaderRow = () => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
@@ -59,7 +64,7 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxType(item.type)}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.type)}</div>
 				</div>
 			);
 

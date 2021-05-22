@@ -69,7 +69,7 @@ const TransactionsCard = memo(({proposalId}) => {
 		}
 		filterData.push({
 			label: "ALL (" + totalTxs["ALL"] + ")",
-			value: 1,
+			value: voteTypes["ALL"],
 		});
 		return filterData;
 	};

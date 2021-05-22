@@ -11,6 +11,11 @@ import styles from "./TransactionCardList.module.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
 
+const getTxTypeNew = type => {
+	const typeArr = type.split(".");
+	return typeArr[typeArr.length - 1];
+};
+
 const TransactionCardList = memo(({data = [], account}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const cx = classNames.bind(styles);
@@ -63,7 +68,7 @@ const TransactionCardList = memo(({data = [], account}) => {
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("type-data-cell")}>
-												<div className={cx("first-message-type")}>{getTxType(item.type)}</div>
+												<div className={cx("first-message-type")}>{getTxTypeNew(item.type)}</div>
 											</div>
 										)}
 									</td>
