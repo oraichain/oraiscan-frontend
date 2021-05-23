@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -7,6 +8,7 @@ import {computeTotalVotingPower} from "src/components/ValidatorList/ValidatorTab
 import Delegate from "src/components/common/Delegate";
 import styles from "./ValidatorCardList.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
+import {logoBrand} from "src/constants/logoBrand";
 import {Progress} from "antd";
 import "./style.css";
 
@@ -55,6 +57,9 @@ const ValidatorCardList = memo(({data = []}) => {
 				previousVotingPower += currentVotingPower;
 				const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
 
+				const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
+				const logoURL = logoItem.customLogo ? false : logoItem.logo;
+
 				const validatorCardListItem = (
 					<div className={cx("validator-card-list-item")} key={"validator-card-list-item-" + index}>
 						<table>
@@ -75,7 +80,8 @@ const ValidatorCardList = memo(({data = []}) => {
 									<td>
 										{item?.moniker ? (
 											<NavLink className={cx("validator-data-cell")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
-												<img src={aiIcon} alt='' />
+												{logoURL && <img alt='/' src={logoURL} width={32} height={32} className={cx("logo")} />}
+												{!logoURL && <div className={cx("logo-custom")}> {item.moniker.substring(0, 3).toUpperCase()} </div>}
 												{item.moniker}
 											</NavLink>
 										) : (

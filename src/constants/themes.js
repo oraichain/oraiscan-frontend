@@ -118,6 +118,7 @@ export const themes = {
 						deletegateButtonTextColor: colors.HAWKES_BLUE,
 						cumulativeShareBarColor_1: colors.DODGER_BLUE,
 						cumulativeShareBarColor_2: colors.VIKING,
+						logoBorder: colors.WHITE,
 						validatorDetails: {
 							totalBlocksLabel: colors.DODGER_BLUE,
 							totalBlocksLabelBackgroundColor: colors.DODGER_BLUE,
@@ -326,6 +327,7 @@ export const themes = {
 						deletegateButtonTextColor: colors.PACIFIC_BLUE,
 						cumulativeShareBarColor_1: colors.CREAM,
 						cumulativeShareBarColor_2: colors.PALE_GREEN,
+						logoBorder: colors.ROYAL_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.NEON_BLUE,
 							totalBlocksLabelBackgroundColor: "none",
