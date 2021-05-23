@@ -143,3 +143,19 @@
 		}
 	}
 }
+
+.logo {
+	border-radius: 50px;
+}
+
+.logo-custom {
+	border-radius: 50%;
+	border: 1px solid var(--validators-logo-border);
+	padding: 5px;
+	margin-right: 5px;
+	width: 35px;
+	height: 35px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
