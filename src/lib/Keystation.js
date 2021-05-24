@@ -93,16 +93,16 @@ function openWindowV2(type, payload, account = "", self) {
 	let apiUrl = "";
 	switch (type) {
 		case "signin":
-			apiUrl = "en/signin";
+			apiUrl = "signin";
 			break;
 		case "transaction":
-			apiUrl = "en/transaction";
+			apiUrl = "transaction";
 			break;
 		case "ai-request":
-			apiUrl = "en/airequest/set";
+			apiUrl = "airequest/set";
 			break;
 		default:
-			apiUrl = "en/signin";
+			apiUrl = "signin";
 			break;
 	}
 

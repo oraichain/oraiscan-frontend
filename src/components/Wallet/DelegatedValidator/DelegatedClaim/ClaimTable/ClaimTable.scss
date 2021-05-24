@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-headerTextColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -41,7 +41,7 @@
 		}
 
 		&-name {
-			color: #1b57f0;
+			color: var(--common-linkColor);
 			font-family: Roboto;
 			font-style: normal;
 			font-weight: normal;
@@ -53,7 +53,7 @@
 
 .staked-data-cell,
 .claimable-rewards-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -64,8 +64,8 @@
 .claim-data-cell {
 	.button {
 		padding: 8px;
-		color: #1b57f0;
-		border: 1px solid #1b57f0;
+		color: var(--common-linkColor);
+		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 4px;
 		font-family: Roboto;
