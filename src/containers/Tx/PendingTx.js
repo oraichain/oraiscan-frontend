@@ -44,12 +44,18 @@ const PendingTx = ({setPending}) => {
 		path,
 	});
 
+	console.log("data = ", data);
+
 	useEffect(() => {
 		timerIdRef.current = setTimeout(refetch, consts.REQUEST.TIMEOUT);
 		return () => {
 			cleanUp();
 		};
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [txHash]);
 
 	let titleSection;
 	let txInfo;
