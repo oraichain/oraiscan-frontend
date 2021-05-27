@@ -3,7 +3,7 @@ import {themeIds} from "src/constants/themes";
 
 export const setActiveThemeId = createAction("SET_ACTIVE_THEME_ID");
 
-const initState = themeIds.LIGHT;
+const initState = themeIds.DARK;
 
 const handlers = {
 	SET_ACTIVE_THEME_ID: (_, action) => {
