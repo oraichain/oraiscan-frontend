@@ -96,7 +96,7 @@ function openWindowV2(type, payload, account = "", self) {
 			apiUrl = "auth/signin";
 			break;
 		case "transaction":
-			apiUrl = "auth/transaction";
+			apiUrl = "transaction";
 			break;
 		case "ai-request":
 			apiUrl = "auth/airequest/set";
