@@ -75,10 +75,10 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
-		sendAmount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(amount / 1000000, "lessThanNumber"),
+		// sendAmount: yup
+		// 	.string()
+		// 	.required("Send Amount Field is Required")
+		// 	.lessThanNumber(amount / 1000000, "lessThanNumber"),
 		freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -95,13 +95,13 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	// let values = watch() || "";
 
 	const onSubmit = data => {
-		if (
-			(data && (parseFloat(data?.sendAmount) <= 0 || parseFloat(data?.sendAmount) > amount / 1000000)) ||
-			data?.sendAmount === "" ||
-			data?.recipientAddress === ""
-		) {
-			return;
-		}
+		// if (
+		// 	(data && (parseFloat(data?.sendAmount) <= 0 || parseFloat(data?.sendAmount) > amount / 1000000)) ||
+		// 	data?.sendAmount === "" ||
+		// 	data?.recipientAddress === ""
+		// ) {
+		// 	return;
+		// }
 
 		let payload;
 		if (activeTabId === 1) {
@@ -118,7 +118,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 							amount: [
 								{
 									denom: "orai",
-									amount: new BigNumber(v.amount).multipliedBy(1000000),
+									amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 								},
 							],
 						},
@@ -134,7 +134,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 							amount: [
 								{
 									denom: "orai",
-									amount: new BigNumber(data.sendAmount).multipliedBy(1000000),
+									amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 								},
 							],
 						},

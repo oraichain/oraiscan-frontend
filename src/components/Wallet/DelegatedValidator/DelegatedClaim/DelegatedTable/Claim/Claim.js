@@ -11,6 +11,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import BigNumber from "bignumber.js";
 import styles from "./Claim.scss";
 import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
@@ -106,7 +107,7 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 							validator_address: validatorAddress,
 							amount: {
 								denom: "orai",
-								amount: String(data.amount * 1000000),
+								amount: new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 							},
 						},
 					},

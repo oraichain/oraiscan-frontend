@@ -7,6 +7,7 @@ import {useForm, FormProvider} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as bech32 from "bech32-buffer";
+import BigNumber from "bignumber.js";
 
 import {InputNumberFormat, TextArea, InputTextWithIcon, InputText} from "src/components/common/form-controls";
 import {myKeystation} from "src/lib/Keystation";
@@ -61,7 +62,7 @@ export default function({address, account}) {
 							validator_address: validatorAddress,
 							value: {
 								denom: "orai",
-								amount: delegationAmount * 1000000 + "",
+								amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 							},
 						},
 					},
