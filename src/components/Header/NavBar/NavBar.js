@@ -42,6 +42,18 @@ const initialNavLinks = [
 	{title: "Connect Wallet", path: null, type: "wallet", init: true},
 ];
 
+function isSlowBlock(lastest, blocks) {
+	if (!lastest || !blocks || !blocks.data || !blocks.data[0]) {
+		return false;
+	}
+
+	const lastestBlockHeight = parseFloat(lastest.block.header.height);
+	const currentBlock = blocks.data[0].height;
+	if (Math.abs(lastestBlockHeight - currentBlock) > 1000) {
+		return true;
+	}
+}
+
 const NavBar = ({toggleSearchArea}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -50,6 +62,7 @@ const NavBar = ({toggleSearchArea}) => {
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
+	const [isMaintaining, setIsMaintaining] = useState(false);
 
 	const expand = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
@@ -78,8 +91,12 @@ const NavBar = ({toggleSearchArea}) => {
 		};
 		window.addEventListener("message", onMessage, false);
 		// check block to display maintaince or not
-		const result = await fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json());
+		const lastest = await fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json());
 		const currentBlocks = await fetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`).then(res => res.json());
+		if (isSlowBlock(lastest, currentBlocks)) {
+			setIsMaintaining(true);
+		}
+		// console.log("result blocks: ", result);
 		console.log("current blocks: ", currentBlocks);
 		// if (parseInt(result.block.header.height) - consts.MIN_MAINTAINANCE > )
 		return () => {
@@ -108,11 +125,13 @@ const NavBar = ({toggleSearchArea}) => {
 
 	return (
 		<div className={cx("background")}>
-			<div className={cx("maintain")}>
-				<div className={cx("maintain-text")}>
-					Oraiscan is currently experiencing some problems syncing with Oraichain. It will be back shortly, thank you for your patience!
+			{isMaintaining && (
+				<div className={cx("maintain")}>
+					<div className={cx("maintain-text")}>
+						Oraiscan is currently experiencing some problems syncing with Oraichain. It will be back shortly, thank you for your patience!
+					</div>
 				</div>
-			</div>
+			)}
 			<Container>
 				<div className={cx("navbar")}>
 					<NavLink to='/' className={cx("navbar-brand")}>
