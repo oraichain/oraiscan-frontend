@@ -17,6 +17,9 @@ export default Object.freeze({
 		MSG_VOTE: "cosmos-sdk/MsgVote",
 		MSG_REMOVE_VALIDATOR: "cosmos-sdk/MsgRemoveValidator",
 		MSG_CREATE_VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
+		INSTANTIATE_CONTRACT: "cosmos-sdk/MsgInstantiateContract",
+		EXECUTE_CONTRACT: "cosmos-sdk/MsgExecuteContract",
+		STORE_CODE: "cosmos-sdk/MsgStoreCode",
 	},
 
 	//  DEX
