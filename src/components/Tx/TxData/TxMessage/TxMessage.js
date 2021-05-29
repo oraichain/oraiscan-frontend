@@ -1,13 +1,17 @@
 import React, {useMemo} from "react";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import {Fade, Tooltip} from "@material-ui/core";
+import base64js from "base64-js";
 import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
+import copy from "copy-to-clipboard";
+import copyIcon from "src/assets/common/copy_ic.svg";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
+import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
 import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
@@ -20,6 +24,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 const cx = cn.bind(styles);
 
 const TxMessage = ({msg, data}) => {
+	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
@@ -415,6 +420,68 @@ const TxMessage = ({msg, data}) => {
 									))}
 							</div>
 						</div>
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT && (
+					<>
+						{getInfoRow("Code Id", value?.code_id)}
+						{getInfoRow("Label", value?.label)}
+						{getAddressRow("Sender", value?.sender)}
+						{getInfoRow("Init funds", value?.init_funds)}
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Init messages</div>
+							<div className={cx("card-body")}>
+								{getInfoRow("Name", value?.init_msg?.name)}
+								{getInfoRow("Decimals", value?.init_msg?.decimals)}
+								{getInfoRow("Initial balances", value?.init_msg?.initial_balances)}
+								{getInfoRow("Mint cap", value?.init_msg?.mint?.cap)}
+								{getInfoRow("Minter", value?.init_msg?.mint?.minter)}
+							</div>
+						</div>
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
+					<>
+						{getInfoRow("Contract", value?.contract)}
+						{getAddressRow("Sender", value?.sender)}
+						{getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])}
+						{getInfoRow("Swap", value?.swap)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.STORE_CODE && (
+					<>
+						{getAddressRow("Sender", value?.sender)}
+						{getInfoRow("Builder", value?.builder)}
+						{getInfoRow("Instantiate permission", value?.instantiate_permission)}
+						<InfoRow label={`Data: gzip; ${value?.wasm_byte_code.length}` + " bytes"}>
+							<span>
+								<span className={cx("text", "code-textarea")}>
+									{_.isNil(value?.wasm_byte_code)
+										? "-"
+										: base64js.toByteArray(value?.wasm_byte_code)?.length > 500
+										? base64js
+												.toByteArray(value?.wasm_byte_code)
+												?.join("")
+												?.slice(0, 500) + "..."
+										: base64js.toByteArray(value?.wasm_byte_code)?.join("")}
+								</span>
+								<img
+									src={copyIcon}
+									alt=''
+									className={cx("code-copy")}
+									onClick={() => {
+										copy(base64js.toByteArray(value?.wasm_byte_code)?.join(""));
+										dispatch(
+											showAlert({
+												show: true,
+												message: "Copied",
+												autoHideDuration: 1500,
+											})
+										);
+									}}
+								/>
+							</span>
+						</InfoRow>
 					</>
 				)}
 			</div>

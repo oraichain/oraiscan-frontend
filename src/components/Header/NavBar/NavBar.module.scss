@@ -5,11 +5,30 @@
 	background: #000d20;
 }
 
+.maintain {
+	width: 100%;
+	background: #031c42;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&-text {
+		color: #ffffff;
+		display: inline-block;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+	}
+}
+
 .navbar {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	padding: 20px;
 	width: 100%;
 	height: 50px;
 

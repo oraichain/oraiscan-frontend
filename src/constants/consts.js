@@ -21,6 +21,7 @@ export default Object.freeze({
 	TABLE: {
 		PAGE_SIZE: 20,
 	},
+	MIN_MAINTAINANCE: 200,
 	NUM: {
 		BASE_MULT: 100000000,
 		DEFAULT_DECIMALS: 8,
