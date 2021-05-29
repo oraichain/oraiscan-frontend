@@ -1,8 +1,10 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import {FormControl, InputLabel, Input, Button, FormHelperText, Tooltip} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
+import BigNumber from "bignumber.js";
 
 import {myKeystation} from "src/lib/Keystation";
 import styles from "./Register.scss";
@@ -110,7 +112,7 @@ export default class Register extends React.Component {
 							validator_address: "oraivaloper1fl58xqkpn24v2jecpcdg2w29fndsulmne4vy5g",
 							value: {
 								denom: "orai",
-								amount: parseFloat(delegationAmount) * 1000000,
+								amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 							},
 						},
 					},
