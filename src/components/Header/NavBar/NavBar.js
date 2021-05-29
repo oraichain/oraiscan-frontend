@@ -47,8 +47,8 @@ function isSlowBlock(lastest, blocks) {
 		return false;
 	}
 
-	const lastestBlockHeight = parseFloat(lastest.block.header.height);
-	const currentBlock = blocks.data[0].height;
+	const lastestBlockHeight = parseFloat(lastest?.block?.header?.height);
+	const currentBlock = blocks?.data?.[0]?.height;
 	if (Math.abs(lastestBlockHeight - currentBlock) > 1000) {
 		return true;
 	}
