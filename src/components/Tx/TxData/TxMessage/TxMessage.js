@@ -445,7 +445,6 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getAddressRow("Sender", value?.sender)}
 						{getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])}
-						{getInfoRow("Swap", value?.swap)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (

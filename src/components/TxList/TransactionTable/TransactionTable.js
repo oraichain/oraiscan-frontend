@@ -107,7 +107,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				account &&
 				// item?.messages?.[0]?.type == txTypes.COSMOS_SDK.MSG_SEND &&
 				item?.messages?.[0]?.value &&
-				item?.messages?.[0]?.value?.amount &&
+				item?.amount?.[0]?.amount &&
 				item?.messages?.[0]?.value?.from_address &&
 				item?.messages?.[0]?.value?.to_address
 			) {
@@ -120,12 +120,12 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 
 			let amount;
 			let denom;
-			if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
-				amount = item.messages[0].amount[0].amount;
-				denom = item.messages[0].amount[0].denom;
-			} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
-				amount = item.messages[0].amount.amount;
-				denom = item.messages[0].amount.denom;
+			if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+				amount = item.amount[0].amount;
+				denom = item.amount[0].denom;
+			} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+				amount = item.amount[0].amount;
+				denom = item.amount[0].denom;
 			}
 
 			const amountDataCell =
