@@ -2,11 +2,11 @@
   Oraiscan Explorer's Frontend
 </h2>
 
-*:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)*
+_:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_
 
 ## Overview
 
-This repository provides frontend code for Oraiscan Block Explorer for Oraichain.    
+This repository provides frontend code for Oraiscan Block Explorer for Oraichain.
 
 ## Prerequisite
 
@@ -18,34 +18,49 @@ This repository provides frontend code for Oraiscan Block Explorer for Oraichain
 1. Git clone this repo to desired directory
 
 ```shell
-git clone https://github.com/oraichain/oraiscan-frontend.git    
+git clone https://github.com/oraichain/oraiscan-frontend.git
 ```
 
 2. Install required packages
 
 ```shell
-yarn install    
+yarn install
 ```
+
 3. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
-``` js
-import "./firebase"
+
+```js
+import "./firebase";
 ```
+
 4. Specify URL of your backend
+
 ```shell
 export REACT_APP_API_DEV=http://localhost:5000/v1
 export REACT_APP_API_PROD=
 ```
+
 5. Specify version of orai wallet in .env file
+
 ```shell
 REACT_APP_WALLET_VERSION=2
 ```
+
 6. Dev it or build it
-```shell    
-yarn dev  
-yarn build:dev  
-```    
 
-## Deploy with Docker
+```shell
+yarn dev
+yarn build:dev
+```
 
-## License    
+## Deploy with Firebase
+
+```bash
+firebase use oraichain-mainnet
+firebase target:apply hosting oraiscan oraiscan
+firebase deploy --only hosting:oraiscan
+```
+
+## License
+
 Released under the [Apache 2.0 License](https://github.com/oraichain/oraiscan-frontend/LICENSE).

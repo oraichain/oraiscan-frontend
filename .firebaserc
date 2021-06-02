@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "oraiscan-4e880"
+    "default": "oraichain-mainnet"
+  },
+  "targets": {
+    "oraichain-mainnet": {
+      "hosting": {
+        "oraiscan": [
+          "oraiscan"
+        ]
+      }
+    }
   }
 }
