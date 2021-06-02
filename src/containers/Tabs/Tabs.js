@@ -69,8 +69,8 @@ const Tabs = memo(() => {
 		<button
 			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
 			ref={anchorRef}
-			onMouseEnter={isLargeScreen ? handleOpen : ""}
-			onMouseLeave={isLargeScreen ? handleClose : ""}
+			onMouseEnter={isLargeScreen ? handleOpen : null}
+			onMouseLeave={isLargeScreen ? handleClose : null}
 			onClick={() => {
 				if (isLargeScreen) {
 					handleClose();

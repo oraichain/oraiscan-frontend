@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const HeightIcon = ({className}) => {
 	return (
 		<svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
-			<g clip-path='url(#clip0)'>
+			<g clipPath='url(#clip0)'>
 				<path
 					d='M15.2553 4.74969H0.74465C0.411182 4.74969 0.140869 5.01998 0.140869 5.35348V15.3963C0.140869 15.7297 0.41115 16 0.74465 16H15.2553C15.5888 16 15.8591 15.7298 15.8591 15.3963V5.35348C15.8591 5.01998 15.5888 4.74969 15.2553 4.74969ZM14.6516 14.7924H1.34843V5.95723H14.6516V14.7924Z'
 					fill='currentColor'

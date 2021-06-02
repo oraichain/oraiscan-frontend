@@ -24,6 +24,18 @@ import ThemedTable from "src/components/common/ThemedTable";
 
 const cx = cn.bind(styles);
 
+const tryParseMessage = obj => {
+	if (!obj) return;
+	for (let key in obj) {
+		if (obj[key].msg && typeof obj[key].msg === "string") {
+			try {
+				obj[key].msg = JSON.parse(atob(obj[key].msg));
+			} catch {}
+		}
+	}
+	return obj;
+};
+
 const TxMessage = ({msg, data}) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
@@ -436,7 +448,7 @@ const TxMessage = ({msg, data}) => {
 								theme='monokai'
 								displayObjectSize={false}
 								displayDataTypes={false}
-								src={value?.init_msg}
+								src={tryParseMessage(value?.init_msg)}
 							/>
 						</InfoRow>
 						{/* <div className={cx("card")}>
@@ -464,7 +476,7 @@ const TxMessage = ({msg, data}) => {
 								theme='monokai'
 								displayObjectSize={false}
 								displayDataTypes={false}
-								src={value?.msg}
+								src={tryParseMessage(value?.msg)}
 							/>
 						</InfoRow>
 					</>

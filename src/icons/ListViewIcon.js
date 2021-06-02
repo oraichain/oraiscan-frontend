@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const ListViewIcon = ({className}) => {
 	return (
 		<svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
-			<g clip-path='url(#clip0)'>
+			<g clipPath='url(#clip0)'>
 				<path
 					d='M15 4H1C0.448667 4 0 3.55133 0 3V1C0 0.448667 0.448667 0 1 0H15C15.5513 0 16 0.448667 16 1V3C16 3.55133 15.5513 4 15 4ZM1 0.666667C0.816667 0.666667 0.666667 0.816 0.666667 1V3C0.666667 3.184 0.816667 3.33333 1 3.33333H15C15.1833 3.33333 15.3333 3.184 15.3333 3V1C15.3333 0.816 15.1833 0.666667 15 0.666667H1Z'
 					fill='currentColor'
