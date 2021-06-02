@@ -1,5 +1,6 @@
 import React, {useMemo} from "react";
 import {useSelector, useDispatch} from "react-redux";
+import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import {Fade, Tooltip} from "@material-ui/core";
@@ -428,7 +429,17 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Label", value?.label)}
 						{getAddressRow("Sender", value?.sender)}
 						{getInfoRow("Init funds", value?.init_funds)}
-						<div className={cx("card")}>
+						<InfoRow label='Message'>
+							<ReactJson
+								style={{backgroundColor: "transparent"}}
+								name={false}
+								theme='monokai'
+								displayObjectSize={false}
+								displayDataTypes={false}
+								src={value?.init_msg}
+							/>
+						</InfoRow>
+						{/* <div className={cx("card")}>
 							<div className={cx("card-header")}>Init messages</div>
 							<div className={cx("card-body")}>
 								{getInfoRow("Name", value?.init_msg?.name)}
@@ -437,14 +448,25 @@ const TxMessage = ({msg, data}) => {
 								{getInfoRow("Mint cap", value?.init_msg?.mint?.cap)}
 								{getInfoRow("Minter", value?.init_msg?.mint?.minter)}
 							</div>
-						</div>
+						</div> */}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
 					<>
 						{getInfoRow("Contract", value?.contract)}
 						{getAddressRow("Sender", value?.sender)}
-						{getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])}
+						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
+						{getInfoRow("Sent funds", value?.sent_funds?.[0])}
+						<InfoRow label='Message'>
+							<ReactJson
+								style={{backgroundColor: "transparent"}}
+								name={false}
+								theme='monokai'
+								displayObjectSize={false}
+								displayDataTypes={false}
+								src={value?.msg}
+							/>
+						</InfoRow>
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
