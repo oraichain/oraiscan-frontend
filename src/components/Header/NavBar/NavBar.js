@@ -78,7 +78,7 @@ const NavBar = ({toggleSearchArea}) => {
 		}
 	};
 
-	useEffect(async () => {
+	useEffect(() => {
 		const onMessage = function(e) {
 			if (e?.data?.address) {
 				initialNavLinks[initialNavLinks.length - 1] = {
@@ -90,14 +90,18 @@ const NavBar = ({toggleSearchArea}) => {
 			}
 		};
 		window.addEventListener("message", onMessage, false);
-		// check block to display maintaince or not
-		const lastest = await fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json());
-		const currentBlocks = await fetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`).then(res => res.json());
-		if (isSlowBlock(lastest, currentBlocks)) {
-			setIsMaintaining(true);
-		}
-		// console.log("result blocks: ", result);
-		console.log("current blocks: ", currentBlocks);
+
+		const checkLatestBlock = async () => {
+			// check block to display maintaince or not
+			const lastest = await fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json());
+			const currentBlocks = await fetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`).then(res => res.json());
+			if (isSlowBlock(lastest, currentBlocks)) {
+				setIsMaintaining(true);
+			}
+			// console.log("result blocks: ", result);
+			console.log("current blocks: ", currentBlocks);
+		};
+		checkLatestBlock();
 		// if (parseInt(result.block.header.height) - consts.MIN_MAINTAINANCE > )
 		return () => {
 			window.removeEventListener("message", onMessage);
