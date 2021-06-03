@@ -131,11 +131,13 @@ const TxMessage = ({msg, data}) => {
 
 		const getCurrencyRowFromObject = (label, inputObject) => {
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
-				return (
-					<InfoRow label={label}>
-						<span>-</span>
-					</InfoRow>
-				);
+				return null;
+				// (
+
+				// <InfoRow label={label}>
+				// 	<span>-</span>
+				// </InfoRow>
+				// );
 			}
 
 			const {amount, denom} = inputObject;
