@@ -440,7 +440,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Code Id", value?.code_id)}
 						{getInfoRow("Label", value?.label)}
 						{getAddressRow("Sender", value?.sender)}
-						{getInfoRow("Init funds", value?.init_funds)}
+						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{backgroundColor: "transparent"}}
@@ -468,7 +468,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getAddressRow("Sender", value?.sender)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-						{getInfoRow("Sent funds", value?.sent_funds?.[0])}
+						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{backgroundColor: "transparent"}}
