@@ -57,6 +57,8 @@ jobs:
 
       # deploy testnet
       - name: Deploy to testnet
+        env:
+          CI: false
         run: |
           cp .env.test.example .env
           yarn build:prod
