@@ -69,9 +69,7 @@ const TransactionsCard = ({height}) => {
 };
 
 TransactionsCard.propTypes = {
-	data: PropTypes.any,
-	loading: PropTypes.bool,
-	error: PropTypes.any,
+	height: PropTypes.number,
 };
 TransactionsCard.defaultProps = {};
 
