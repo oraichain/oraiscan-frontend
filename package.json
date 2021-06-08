@@ -160,7 +160,8 @@
 		"babel-plugin-import": "^1.13.0",
 		"babel-plugin-transform-remove-console": "^6.9.4",
 		"cross-env": "^7.0.3",
-		"firebase-tools": "^9.8.0"
+		"firebase-tools": "^9.8.0",
+		"yarn": "^1.22.10"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
