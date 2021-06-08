@@ -56,7 +56,7 @@ const HeaderCard = ({data}) => {
 				</InfoRow>
 
 				<InfoRow label='Number Of Transactions'>
-					<div className={cx("tx-number")}>{isNaN(data?.txs?.length) ? "-" : data.txs.length}</div>
+					<div className={cx("tx-number")}>{isNaN(data?.num_txs) ? "-" : data.num_txs}</div>
 				</InfoRow>
 
 				<InfoRow label='Moniker'>
