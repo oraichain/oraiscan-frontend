@@ -45,6 +45,7 @@ jobs:
       - name: Install Dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
+      # deploy mainnet
       - name: COPY ENV
         run: cp .env.example .env
       - name: Build Production
@@ -53,3 +54,10 @@ jobs:
         run: yarn build:prod
       - name: Deploy to firebase
         run: yarn firebase deploy --only hosting:oraiscan -m "${{ github.event.head_commit.message }}" --token ${{ secrets.FIREBASE_TOKEN }}
+
+      # deploy testnet
+      - name: Deploy to testnet
+        run: |
+          cp .env.test.example .env
+          yarn build:prod
+          yarn firebase deploy --only hosting:testnet -m "${{ github.event.head_commit.message }}" --token ${{ secrets.FIREBASE_TOKEN }}
