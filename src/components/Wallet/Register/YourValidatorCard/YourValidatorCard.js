@@ -240,7 +240,9 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 		<button
 			className={cx("button")}
 			onClick={() => {
-				withdraw(data?.validator_address);
+				if (process.env.REACT_APP_WALLET_VERSION == 2) {
+					withdraw(data?.validator_address);
+				}
 			}}>
 			Withdraw
 		</button>
