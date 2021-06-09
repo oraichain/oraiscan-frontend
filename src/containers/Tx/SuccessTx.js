@@ -61,7 +61,7 @@ const SuccessTx = () => {
 		txData = <TxDataSkeleton />;
 	} else if (shouldRefetch && !_.isNil(data?.height)) {
 		if (data?.height === 0) {
-			if (countRefetchRef.current === 10) {
+			if (countRefetchRef.current === 2) {
 				clearTimeout(intervalRef.current);
 				setShouldRefetch(false);
 				return <NotFound message={"Sorry! Tx Not Found"} />;

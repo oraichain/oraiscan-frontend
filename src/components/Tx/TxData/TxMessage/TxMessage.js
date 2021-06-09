@@ -263,6 +263,7 @@ const TxMessage = ({msg, data}) => {
 						{getAddressRow("From Address", value?.inputs?.[0]?.address)}
 						{getCurrencyRowFromObject("Total Amount", value?.inputs?.[0]?.coins?.[0])}
 						{getMultiAddressRow("To Address", value?.outputs)}
+						{getInfoRow("Memo", memo)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
