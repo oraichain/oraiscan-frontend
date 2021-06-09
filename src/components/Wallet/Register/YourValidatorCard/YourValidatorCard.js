@@ -4,13 +4,14 @@ import {NavLink} from "react-router-dom";
 import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
 import {useGet} from "restful-react";
-import {useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
+import {myKeystation} from "src/lib/Keystation";
 import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import styles from "./YourValidatorCard.scss";
 import editIcon from "src/assets/icons/edit.svg";
@@ -20,6 +21,7 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 const cx = cn.bind(styles);
 
 const YourValidatorCard = memo(({validatorAddress}) => {
+	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
 	const theme = useTheme();
@@ -39,6 +41,35 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 				autoHideDuration: 1500,
 			})
 		);
+	};
+
+	const withdraw = validatorAddress => {
+		const payload = {
+			type: "cosmos-sdk/MsgWithdrawValidatorCommission",
+			value: {
+				msg: [
+					{
+						type: "cosmos-sdk/MsgWithdrawValidatorCommission",
+						value: {
+							validator_address: validatorAddress,
+						},
+					},
+				],
+				fee: {
+					amount: [0],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
 	};
 
 	const validatorNameElement = data ? (
@@ -206,7 +237,13 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 	);
 
 	const withdrawElement = data ? (
-		<button className={cx("button")} onClick={() => {}}>
+		<button
+			className={cx("button")}
+			onClick={() => {
+				if (process.env.REACT_APP_WALLET_VERSION == 2) {
+					withdraw(data?.validator_address);
+				}
+			}}>
 			Withdraw
 		</button>
 	) : (
