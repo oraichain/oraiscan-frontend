@@ -75,7 +75,7 @@ const TxMessage = ({msg, data}) => {
 				const addressDataCell = _.isNil(item?.address) ? (
 					<div className={cx("align-center")}>-</div>
 				) : (
-					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.VALIDATORS}/${item?.address}`}>
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
 						{item?.address}
 					</NavLink>
 				);
