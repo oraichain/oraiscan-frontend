@@ -16,6 +16,12 @@ import SearchIcon from "src/icons/SearchIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
 import consts from "src/constants/consts";
+import MediumIcon from "src/assets/community/MediumIcon";
+import TelegramIcon from "src/assets/community/TelegramIcon";
+import TwitterIcon from "src/assets/community/TwitterIcon";
+import YoutubeIcon from "src/assets/community/YoutubeIcon";
+import RedditIcon from "src/assets/community/RedditIcon";
+import GithubIcon from "src/assets/community/GithubIcon";
 
 const cx = cn.bind(styles);
 
@@ -24,7 +30,6 @@ const initialNavLinks = [
 		title: `Product`,
 		children: [
 			// {title: `Liquidity`, path: `https://liquidity.orai.io/`},
-			// {title: `Testnet`, path: `https://scan.orai.io/`},
 			{title: `yAI Finance`, path: `https://yai.finance`},
 			{title: `aiRight`, path: `https://airight.io`},
 			{title: `AI Marketplace`, path: `https://market.orai.io`},
@@ -33,14 +38,33 @@ const initialNavLinks = [
 			{title: `Oraichain Bridge`, path: `https://bridge.orai.io`},
 		],
 	},
-	{title: `Tokenomic`, path: `https://orai.io/tokenomics`},
-	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
 	{
-		title: `About`,
+		title: `Docs`,
 		children: [
-			{title: `Team`, path: `https://orai.io/#team`},
+			{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
+			{title: `Tokenomics`, path: `https://orai.io/tokenomics`},
+			{title: `FAQs`, path: `https://gov.orai.io/`},
+		],
+	},
+	{
+		title: `Events`,
+		children: [
 			{title: `Roadmap`, path: `https://orai.io/roadmap`},
-			{title: `Community`, path: `https://t.me/oraichain_official`},
+			{title: `Calendar`, path: `https://orai.io/calendar`},
+			{title: `Milestones`, path: `https://orai.io/calendar#milestones`},
+			{title: `News`, path: `https://medium.com/oraichain`},
+			{title: `Press Releases`, path: `https://orai.io/news`},
+		],
+	},
+	{
+		title: `Community`,
+		children: [
+			{title: `Medium`, path: `https://medium.com/oraichain`, Icon: MediumIcon},
+			{title: `Telegram`, path: `https://t.me/oraichain`, Icon: TelegramIcon},
+			{title: `Twitter`, path: `https://twitter.com/oraichain`, Icon: TwitterIcon},
+			{title: `Youtube`, path: `https://www.youtube.com/channel/UCyckcs_Fm8kU4o2Y1_KPjXg`, Icon: YoutubeIcon},
+			{title: `Reddit`, path: `https://www.reddit.com/r/Oraichain_Official/`, Icon: RedditIcon},
+			{title: `Github`, path: `https://github.com/oraichain`, Icon: GithubIcon},
 		],
 	},
 	{title: "Connect Wallet", path: null, type: "wallet", init: true},
@@ -173,11 +197,21 @@ const NavBar = ({toggleSearchArea}) => {
 													<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 												</span>
 												<div className={cx("dropdown-menu")}>
-													{children.map(({title, path}, idx) => (
-														<a href={path} key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															{title}
-														</a>
-													))}
+													{children.map(({title, path, Icon}, idx) => {
+														if (Icon) {
+															return (
+																<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
+																	<Icon className={cx("dropdown-item-icon")} /> {title}
+																</a>
+															);
+														} else {
+															return (
+																<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
+																	{title}
+																</a>
+															);
+														}
+													})}
 												</div>
 											</div>
 										</li>
