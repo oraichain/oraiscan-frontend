@@ -25,11 +25,16 @@ const initialNavLinks = [
 		children: [
 			// {title: `Liquidity`, path: `https://liquidity.orai.io/`},
 			// {title: `Testnet`, path: `https://scan.orai.io/`},
-			{title: `yAi.Finance`, path: `https://yai.finance/`},
-			{title: `Marketplace`, path: `https://market.orai.io/oscript`},
+			{title: `yAI Finance`, path: `https://yai.finance`},
+			{title: `aiRight`, path: `https://airight.io`},
+			{title: `AI Marketplace`, path: `https://market.orai.io`},
+			{title: `Oraiscan`, path: `https://scan.orai.io`},
+			{title: `Oraichain Studio`, path: `https://developer.orai.io`},
+			{title: `Oraichain Bridge`, path: `https://bridge.orai.io`},
 		],
 	},
 	{title: `Tokenomic`, path: `https://orai.io/tokenomics`},
+	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
 	{
 		title: `About`,
 		children: [
@@ -38,7 +43,6 @@ const initialNavLinks = [
 			{title: `Community`, path: `https://t.me/oraichain_official`},
 		],
 	},
-	{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
 	{title: "Connect Wallet", path: null, type: "wallet", init: true},
 ];
 
