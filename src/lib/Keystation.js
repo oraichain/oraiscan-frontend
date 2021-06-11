@@ -1,4 +1,5 @@
 import config from "src/config.js";
+import {networks} from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
 function FindLeftScreenBoundry() {
@@ -106,6 +107,8 @@ function openWindowV2(type, payload, account = "", self) {
 			break;
 	}
 
+	const network = localStorage?.getItem("network") || networks.MAINNET;
+
 	return PopupCenter(
 		self.keystationUrl +
 			"/" +
@@ -114,8 +117,9 @@ function openWindowV2(type, payload, account = "", self) {
 			encodeURIComponent(self.lcd) +
 			"&raw_message=" +
 			encodeURIComponent(JSON.stringify(payload)) +
-			"&signInFromScan=true",
-		"",
+			"&signInFromScan=true" +
+			"&network=" +
+			network,
 		"470",
 		"690"
 	);
