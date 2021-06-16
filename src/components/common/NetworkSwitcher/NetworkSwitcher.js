@@ -35,13 +35,13 @@ const NetworkSwitcher = memo(({}) => {
 	};
 
 	const clickListener = event => {
-		if (event.target.hasAttribute("data-network")) {
-			setNetwork(event.target.getAttribute("data-network"));
+		if (event?.target?.hasAttribute("data-network")) {
+			setNetwork(event?.target?.getAttribute("data-network"));
 			return;
 		}
 
-		if (selectedItemRef?.current.contains(event.target)) {
-			if (listRef.current.style.display === "block") {
+		if (selectedItemRef?.current?.contains?.(event?.target)) {
+			if (listRef?.current?.style?.display === "block") {
 				hideList();
 			} else {
 				showList();
@@ -49,7 +49,7 @@ const NetworkSwitcher = memo(({}) => {
 			return;
 		}
 
-		if (!_.isNil(listRef.current) && !listRef.current.contains(event.target)) {
+		if (!_.isNil(listRef.current) && !listRef?.current?.contains?.(event?.target)) {
 			hideList();
 		}
 	};
