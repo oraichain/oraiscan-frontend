@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink, useParams} from "react-router-dom";
+import {Tooltip} from "@material-ui/core";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
+import {logoBrand} from "src/constants/logoBrand";
 import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
 import TimesIcon from "src/icons/TimesIcon";
+import aiIcon from "src/assets/common/ai_ic.svg";
 import styles from "./ReportTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -25,13 +28,13 @@ export const getHeaderRow = () => {
 	const moreHeaderCell = <div className={cx("header-cell", "align-right")}></div>;
 	const headerCells = [nameHeaderCell, validatorAddressHeaderCell, heightHeaderCell, resultHeaderCell, feeHeaderCell, statusHeaderCell, moreHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // Name
-		{width: "auto"}, // Test Case Results
+		{width: "16%"}, // Name
+		{width: "auto"}, // Address
 		{width: "auto"}, // Height
-		{width: "auto"}, // Result
+		{width: "50%"}, // Result
 		{width: "auto"}, // Fee
 		{width: "auto"}, // Status
-		{width: "auto"}, // More
+		{width: "10%"}, // More
 	];
 	return {
 		headerCells,
@@ -49,6 +52,17 @@ const ReportTable = memo(({data}) => {
 
 		return data.map(item => {
 			let statusElement;
+			let validatorName;
+			let validatorIcon;
+			if (!_.isNil(item?.validator_address)) {
+				const matchedLogoItem = logoBrand.find(logoBrandItem => item.validator_address === logoBrandItem.operatorAddress);
+
+				if (matchedLogoItem) {
+					validatorName = matchedLogoItem?.name ?? "-";
+					validatorIcon = matchedLogoItem?.logo ?? aiIcon;
+				}
+			}
+
 			if (_.isNil(item?.status)) {
 				statusElement = <div className={cx("status")}>-</div>;
 			} else {
@@ -85,13 +99,26 @@ const ReportTable = memo(({data}) => {
 			const nameDataCell = _.isNil(item?.validator_name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("name-data-cell", "align-left")}>{item?.validator_name}</div>
+				<div className={cx("validator-data-cell", "align-left")}>
+					<div className={cx("validator")}>
+						<img className={cx("validator-icon")} src={validatorIcon} alt='' />
+						<NavLink className={cx("validator-name")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
+							{item?.validator_name?.length > 10 ? item?.validator_name?.substring(0, 10) + "...." : item?.validator_name}
+						</NavLink>
+					</div>
+				</div>
 			);
 
 			const validatorAddressDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("test-case-results-data-cell", "align-left")}>{item?.validator_address}</div>
+				<Tooltip title={item?.validator_address} arrow placement='top-start'>
+					<div className={cx("address-data-cell", "align-left")}>
+						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
+							{`${item?.validator_address.slice(0, 11)}...${item?.validator_address.slice(-11)}`}{" "}
+						</NavLink>
+					</div>
+				</Tooltip>
 			);
 
 			const heightDataCell = _.isNil(item?.height) ? (
@@ -103,13 +130,13 @@ const ReportTable = memo(({data}) => {
 			const resultDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("height-data-cell", "align-left")}>{item?.result}</div>
+				<div className={cx("result-data-cell", "align-left")}>{item?.result}</div>
 			);
 
 			const feeDataCell = _.isNil(item?.fee) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("result-data-cell", "align-left")}>
+				<div className={cx("fees-data-cell", "align-left")}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatOrai(item?.fee)}</span>
 						<span className={cx("amount-denom")}>ORAI</span>
@@ -138,7 +165,15 @@ const ReportTable = memo(({data}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			dataCellStyles={"result-data-cell"}
+		/>
+	);
 });
 
 ReportTable.propTypes = {

@@ -18,14 +18,16 @@ export const getHeaderRow = () => {
 	const descriptionHeaderCell = <div className={cx("header-cell", "align-left")}>Description</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
 	const requestsHeaderCell = <div className={cx("header-cell", "align-right")}>Requests</div>;
+	const contractHeaderCell = <div className={cx("header-cell", "align-right")}>Contract</div>;
 	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
-	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell];
+	const headerCells = [testCaseHeaderCell, ownerHeaderCell, contractHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "100px"}, // Test Case
-		{minWidth: "200px"}, // Description
-		{minWidth: "180px"}, // Fee
-		{width: "110px", minWidth: "110px"}, // Requests
 		{width: "150px", minWidth: "150px"}, // Owner
+		{width: "150px", minWidth: "150px"}, // Contract
+		{minWidth: "130px"}, // Description
+		{minWidth: "100px"}, // Fee
+		{width: "40px", minWidth: "40px"}, // Requests
 	];
 	return {
 		headerCells,
@@ -43,9 +45,7 @@ const TestCaseTable = memo(({data = []}) => {
 			const testCaseDataCell = _.isNil(item?.name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.name}`}>
-					{item.name}
-				</NavLink>
+				<div className={cx("test-case-data-cell", "align-left")}>{item?.name}</div>
 			);
 
 			const descriptionHashDataCell = _.isNil(item?.description) ? (
@@ -66,9 +66,9 @@ const TestCaseTable = memo(({data = []}) => {
 			);
 
 			const requestsDataCell = _.isNil(item?.requests) ? (
-				<div className={cx("align-right")}>-</div>
+				<div className={cx("align-center")}>-</div>
 			) : (
-				<div className={cx("request-data-cell", "align-right")}>{item.requests}</div>
+				<div className={cx("request-data-cell", "align-center")}>{item.requests}</div>
 			);
 
 			const ownerDataCell = _.isNil(item?.owner) ? (
@@ -81,7 +81,15 @@ const TestCaseTable = memo(({data = []}) => {
 				</div>
 			);
 
-			return [testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell];
+			const contractDataCell = _.isNil(item?.contract) ? (
+				<div className={cx("align-right")}>-</div>
+			) : (
+				<div className={cx("contract-data-cell", "align-right")}>
+					<div className={cx("contract")}>{item?.contract}</div>
+				</div>
+			);
+
+			return [testCaseDataCell, ownerDataCell, contractDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell];
 		});
 	};
 

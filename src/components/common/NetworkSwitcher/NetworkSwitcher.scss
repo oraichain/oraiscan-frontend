@@ -14,7 +14,7 @@
 	width: 200px;
 	height: 50px;
 	padding: 15px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 	cursor: pointer;
@@ -22,7 +22,8 @@
 
 .text-field {
 	display: inline-block;
-	color: #181818;
+	background: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
 	border: none;
 	font-family: Roboto;
 	font-style: normal;
@@ -43,7 +44,7 @@
 	margin-right: 8px;
 	width: 11px;
 	height: auto;
-	color: #181818;
+	color: var(--common-textColor);
 }
 
 .list {
@@ -53,12 +54,12 @@
 	top: 54px;
 	width: 200px;
 	border-radius: 8px;
-	background: #ffffff;
+	background: var(--common-containerBackgroundColor);
 	z-index: 10;
 
 	&-item {
 		padding: 20px 15px;
-		color: #181818;
+		color: var(--common-textColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: 500;
@@ -67,7 +68,7 @@
 		cursor: pointer;
 
 		&:hover {
-			background-color: #f9f9f9;
+			background: var(--common-blockItemBackgroundColor);
 		}
 	}
 }

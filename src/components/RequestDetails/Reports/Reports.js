@@ -75,7 +75,6 @@ const Reports = ({id, activeTab, setActiveTab}) => {
 					<span className={cx("total-item-title")}>Reports </span>
 					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
-				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}
