@@ -14,7 +14,7 @@ const NetworkSwitcher = memo(({}) => {
 	let setNetwork = _ => {};
 
 	if (typeof Storage !== "undefined") {
-		network = localStorage.getItem("network");
+		network = localStorage.getItem("network") || "Oraichain";
 
 		setNetwork = network => {
 			localStorage.setItem("network", network);
@@ -40,7 +40,7 @@ const NetworkSwitcher = memo(({}) => {
 			return;
 		}
 
-		if (selectedItemRef.current.contains(event.target)) {
+		if (selectedItemRef?.current.contains(event.target)) {
 			if (listRef.current.style.display === "block") {
 				hideList();
 			} else {

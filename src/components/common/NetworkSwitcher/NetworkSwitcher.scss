@@ -2,6 +2,7 @@
 
 .network-switcher {
 	position: relative;
+	cursor: pointer;
 }
 
 .selected-item {
@@ -16,6 +17,7 @@
 	background: #ffffff;
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
+	cursor: pointer;
 }
 
 .text-field {
@@ -29,6 +31,7 @@
 	line-height: 150%;
 	flex-grow: 1;
 	width: 100%;
+	cursor: pointer;
 
 	&:focus-visible {
 		outline: none;
