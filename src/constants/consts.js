@@ -2,8 +2,8 @@
 import config from "src/config";
 import _ from "lodash";
 
-const api = process.env.NODE_ENV === "production" ? config.API_PROD : config.API_DEV;
-const lcdApi = process.env.REACT_APP_LCD_API;
+const api = config.SCAN_API;
+const lcdApi = config.LCD_API;
 
 export default Object.freeze({
 	DEFAULT_ARRAY: [],
