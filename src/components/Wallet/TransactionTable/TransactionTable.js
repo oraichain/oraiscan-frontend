@@ -2,15 +2,10 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 
 const cx = classNames.bind(styles);
 

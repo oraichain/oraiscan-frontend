@@ -3,7 +3,6 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {useSelector} from "react-redux";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";

@@ -6,7 +6,6 @@ import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";

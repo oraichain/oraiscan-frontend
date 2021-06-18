@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {useSelector} from "react-redux";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
 import styles from "./TransactionCardList.module.scss";

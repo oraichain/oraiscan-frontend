@@ -5,17 +5,12 @@ import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
-
-import MoreIcon from "src/icons/Transactions/MoreIcon";
-import SuccessIcon from "src/icons/Transactions/SuccessIcon";
-import FailedIcon from "src/icons/Transactions/FailedIcon";
 
 const getTxTypeNew = type => {
 	const typeArr = type.split(".");

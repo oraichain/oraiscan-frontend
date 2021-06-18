@@ -3,13 +3,8 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatFloat, formatOrai} from "src/helpers/helper";
 import styles from "./TransactionCardList.scss";
-import successIcon from "src/assets/transactions/success_ic.svg";
-import failureIcon from "src/assets/transactions/fail_ic.svg";
-import moreIcon from "src/assets/transactions/tx_more_btn.svg";
 import {useSelector} from "react-redux";
 
 const getTxTypeNew = type => {
