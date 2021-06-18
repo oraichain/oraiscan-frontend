@@ -89,15 +89,14 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 			let transferStatus = null;
 			if (
 				account &&
-				// item?.type == txTypes.COSMOS_SDK.MSG_SEND &&
-				item?.messages?.[0]?.value &&
-				item?.messages?.[0]?.value?.amount &&
-				item?.messages?.[0]?.value?.from_address &&
-				item?.messages?.[0]?.value?.to_address
+				(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
+				item?.amount?.[0]?.amount &&
+				item?.messages?.[0]?.from_address &&
+				item?.messages?.[0]?.to_address
 			) {
-				if (account === item.messages[0].value.from_address) {
+				if (account === item.messages[0].from_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
-				} else if (account === item.messages[0].value.to_address) {
+				} else if (account === item.messages[0].to_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
 			}

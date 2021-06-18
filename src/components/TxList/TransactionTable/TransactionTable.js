@@ -6,6 +6,7 @@ import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
+import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
@@ -49,6 +50,11 @@ export const getHeaderRow = () => {
 
 const TransactionTable = memo(({data, rowMotions, account}) => {
 	const status = useSelector(state => state.blockchain.status);
+	const getTxTypeNew = type => {
+		const typeArr = type.split(".");
+		return typeArr[typeArr.length - 1];
+	};
+
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -105,15 +111,14 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 			let transferStatus = null;
 			if (
 				account &&
-				// item?.messages?.[0]?.type == txTypes.COSMOS_SDK.MSG_SEND &&
-				item?.messages?.[0]?.value &&
+				(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
 				item?.amount?.[0]?.amount &&
-				item?.messages?.[0]?.value?.from_address &&
-				item?.messages?.[0]?.value?.to_address
+				item?.messages?.[0]?.from_address &&
+				item?.messages?.[0]?.to_address
 			) {
-				if (account === item.messages[0].value.from_address) {
+				if (account === item.messages[0].from_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
-				} else if (account === item.messages[0].value.to_address) {
+				} else if (account === item.messages[0].to_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
 			}
