@@ -16,8 +16,8 @@ import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
 import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
+import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
-import BigNumber from "bignumber.js";
 import styles from "./TxMessage.module.scss";
 import {NavLink} from "react-router-dom";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -42,7 +42,6 @@ const TxMessage = ({msg, data}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const value = msg;
-	// console.log(msg)
 	let type = msg["@type"] || "";
 	if (type.indexOf(".") > -1) {
 		const typeArr = type.split(".");
@@ -179,7 +178,13 @@ const TxMessage = ({msg, data}) => {
 			</InfoRow>
 		);
 
-		const getLinkRow = (label, href) => {
+		const getLinkRow = (label, name, id, href) => (
+			<InfoRow label={label}>
+				<LinkRow name={name} id={id} href={href} showCopyIcon={true} size='lg' />
+			</InfoRow>
+		);
+
+		const getWebsiteRow = (label, href) => {
 			if (_.isNil(href)) {
 				return (
 					<InfoRow label={label}>
@@ -228,7 +233,7 @@ const TxMessage = ({msg, data}) => {
 							<div className={cx("card-body")}>
 								{getInfoRow("Details", value?.description?.details)}
 								{getInfoRow("Moniker", value?.description?.moniker)}
-								{getLinkRow("Website", value?.description?.website)}
+								{getWebsiteRow("Website", value?.description?.website)}
 								{getInfoRow("Identity", value?.description?.identity)}
 								{getInfoRow("Security Contact", value?.description?.security_contact)}
 							</div>
@@ -274,7 +279,7 @@ const TxMessage = ({msg, data}) => {
 							<div className={cx("card-body")}>
 								{getInfoRow("Details", value?.description?.details)}
 								{getInfoRow("Moniker", value?.description?.moniker)}
-								{getLinkRow("Website", value?.description?.website)}
+								{getWebsiteRow("Website", value?.description?.website)}
 								{getInfoRow("Identity", value?.description?.identity)}
 								{getInfoRow("Security Contact", value?.description?.security_contact)}
 							</div>
@@ -309,6 +314,25 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
+						{getAddressRow("Owner", value?.owner)}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
+					</>
+				)}
+				{type === txTypes.PROVIDER.CREATE_TEST_CASE && (
+					<>
+						{getInfoRow("Contract", value?.contract)}
+						{getInfoRow("Description", value?.description)}
+						{getInfoRow("Name", value?.name)}
+						{getAddressRow("Owner", value?.owner)}
+						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
+					</>
+				)}
+				{type === txTypes.PROVIDER.EDIT_TEST_CASE && (
+					<>
+						{getInfoRow("Contract", value?.contract)}
+						{getInfoRow("Description", value?.description)}
+						{getInfoRow("New Name", value?.new_name)}
+						{getInfoRow("Old Name", value?.old_name)}
 						{getAddressRow("Owner", value?.owner)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
@@ -349,33 +373,86 @@ const TxMessage = ({msg, data}) => {
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
-				{type === txTypes.WEBSOCKET.ADD_REPORT && (
+				{type === txTypes.WEBSOCKET.CREATE_REPORT && (
 					<>
-						{getInfoRow("Aggregated Result", atob(value?.aggregated_result))}
-						{getCurrencyRowFromObject("Report Fee", value?.report_fee?.[0])}
-						{getAddressRow("Report Address", value?.reporter?.reporter_address)}
+						{getCurrencyRowFromObject("Report Fee", value?.fees?.[0])}
+						{getAddressRow("Reporter Address", value?.reporter?.address)}
+						{getInfoRow("Reporter Name", value?.reporter?.name)}
+						{getAddressRow("Reporter Validator", value?.reporter?.validator)}
+						{getInfoRow("Request Id", value?.requestID)}
 
 						<div className={cx("card")}>
-							<div className={cx("card-header")}>Data Source Results</div>
+							<div className={cx("card-header")}>Aggregated Result</div>
 							<div className={cx("card-body")}>
-								{Array.isArray(value?.data_source_results) &&
-									value.data_source_results.map((item, index) => (
+								{Array.isArray(JSON.parse(atob(value?.aggregatedResult))) &&
+									JSON.parse(atob(value?.aggregatedResult)).map((item, index) => (
 										<div className={cx("card")} key={"card-index"}>
-											<div className={cx("card-header")}>{item?.type ?? ""}</div>
 											<div className={cx("card-body")}>
-												{getInfoRow("Data Source", item?.value?.data_source)}
-												{getInfoRow("Result", atob(item?.value?.result))}
-												{getInfoRow("Result Status", item?.value?.result_status)}
+												{getInfoRow("Name", item?.name)}
+												{getInfoRow("Price", item?.price)}
 											</div>
 										</div>
 									))}
 							</div>
 						</div>
-
-						{getAddressRow("Reporter Address", value?.reporter?.reporter_address)}
-						{getInfoRow("Reporter Name", value?.reporter?.reporter_name)}
-						{getAddressRow("Reporter Validator", value?.reporter?.reporter_validator)}
-						{getInfoRow("Request Id", value?.request_id)}
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Data Source Results</div>
+							<div className={cx("card-body")}>
+								{Array.isArray(value?.DataSourceResults) &&
+									value.DataSourceResults.map((item, index) => (
+										<div className={cx("card")} key={"card-index"}>
+											<div className={cx("card-body")}>
+												{getInfoRow("Data Source", item?.name)}
+												<InfoRow label='Result'>
+													<ReactJson
+														style={{backgroundColor: "transparent"}}
+														name={false}
+														theme='monokai'
+														displayObjectSize={false}
+														displayDataTypes={false}
+														collapsed={true}
+														src={tryParseMessage(JSON.parse(atob(item?.result)))}
+													/>
+												</InfoRow>
+												{getInfoRow("Result Status", item?.status)}
+											</div>
+										</div>
+									))}
+							</div>
+						</div>
+						<div className={cx("card")}>
+							<div className={cx("card-header")}>Test Case Results</div>
+							<div className={cx("card-body")}>
+								{Array.isArray(value?.TestCaseResults) &&
+									value.TestCaseResults.map((testcase, index) => (
+										<div className={cx("card")} key={"card-index"}>
+											<div className={cx("card-header")}>{getInfoRow("Test Case Name", testcase?.name)}</div>
+											<div className={cx("card-body")}>
+												{Array.isArray(testcase?.DataSourceResults) &&
+													testcase.DataSourceResults.map((item, index) => (
+														<div className={cx("card")} key={"card-index"}>
+															<div className={cx("card-body")}>
+																{getInfoRow("Data Source", item?.name)}
+																<InfoRow label='Result'>
+																	<ReactJson
+																		style={{backgroundColor: "transparent"}}
+																		name={false}
+																		theme='monokai'
+																		displayObjectSize={false}
+																		displayDataTypes={false}
+																		collapsed={true}
+																		src={tryParseMessage(JSON.parse(atob(item?.result)))}
+																	/>
+																</InfoRow>
+																{getInfoRow("Result Status", item?.status)}
+															</div>
+														</div>
+													))}
+											</div>
+										</div>
+									))}
+							</div>
+						</div>
 					</>
 				)}
 				{type === txTypes.WEBSOCKET.ADD_REPORTER && (
@@ -385,28 +462,15 @@ const TxMessage = ({msg, data}) => {
 						{getAddressRow("Validator", value?.validator)}
 					</>
 				)}
-				{(type === txTypes.AIREQUEST.SET_CLASSIFICATION_REQUEST ||
-					type === txTypes.AIREQUEST.SET_OCR_REQUEST ||
-					type === txTypes.AIREQUEST.SET_KYC_REQUEST) && (
+				{type === txTypes.AIREQUEST.SET_AI_REQUEST && (
 					<>
-						{getInfoRow("Image Hash", value?.image_hash)}
-						{getInfoRow("Image Name", value?.image_name)}
-						{getAddressRow("Creator", value?.msg_set_ai_request?.creator)}
-						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
-						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
-						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee)}
-						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
-					</>
-				)}
-				{type === txTypes.AIREQUEST.SET_PRICE_REQUEST && (
-					<>
-						{getAddressRow("Creator", value?.msg_set_ai_request?.creator)}
-						{getInfoRow("Expected Output", atob(value?.msg_set_ai_request?.expected_output))}
-						{getInfoRow("Oscript Name", value?.msg_set_ai_request?.oscript_name)}
-						{getInfoRow("Request Id", value?.msg_set_ai_request?.request_id)}
-						{getCurrencyRowFromString("Transaction Fee", value?.msg_set_ai_request?.transaction_fee)}
-						{getInfoRow("Validator_count", value?.msg_set_ai_request?.validator_count)}
+						{getAddressRow("Creator", value?.creator)}
+						{getInfoRow("Expected Output", atob(value?.expected_output) || "-")}
+						{getCurrencyRowFromString("Transaction Fee", value?.fees)}
+						{getInfoRow("Input", atob(value?.input) || "-")}
+						{getInfoRow("Oracle Script Name", value?.oracle_script_name)}
+						{getLinkRow("Request Id", "AI Request", value?.request_id, `/ai_requests/${value?.request_id}`)}
+						{getInfoRow("Validator Count", value?.validator_count)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_VOTE && (
@@ -414,28 +478,6 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Option", value?.option)}
 						{getInfoRow("Proposal ID", value?.proposal_id)}
 						{getAddressRow("Voter", value?.voter)}
-					</>
-				)}
-				{type === txTypes.WEBSOCKET.TEST_CASE_RESULT && (
-					<>
-						{getInfoRow("Test Case", value?.test_case)}
-
-						<div className={cx("card")}>
-							<div className={cx("card-header")}>Data Source Results</div>
-							<div className={cx("card-body")}>
-								{Array.isArray(value?.data_source_results) &&
-									value.data_source_results.map((item, index) => (
-										<div className={cx("card")} key={"card-" + index}>
-											<div className={cx("card-header")}>{item?.type ?? ""}</div>
-											<div className={cx("card-body")}>
-												{getInfoRow("Result", atob(item?.value?.result))}
-												{getInfoRow("Data Source", item?.value?.data_source)}
-												{getInfoRow("Result Status", item?.value?.result_status)}
-											</div>
-										</div>
-									))}
-							</div>
-						</div>
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT && (
@@ -454,16 +496,6 @@ const TxMessage = ({msg, data}) => {
 								src={tryParseMessage(value?.init_msg)}
 							/>
 						</InfoRow>
-						{/* <div className={cx("card")}>
-							<div className={cx("card-header")}>Init messages</div>
-							<div className={cx("card-body")}>
-								{getInfoRow("Name", value?.init_msg?.name)}
-								{getInfoRow("Decimals", value?.init_msg?.decimals)}
-								{getInfoRow("Initial balances", value?.init_msg?.initial_balances)}
-								{getInfoRow("Mint cap", value?.init_msg?.mint?.cap)}
-								{getInfoRow("Minter", value?.init_msg?.mint?.minter)}
-							</div>
-						</div> */}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (

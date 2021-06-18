@@ -52,16 +52,17 @@ export default Object.freeze({
 
 	// PROVIDER
 	PROVIDER: {
-		CREATE_AI_DATA_SOURCE: "provider/CreateAIDataSource",
-		EDIT_AI_DATA_SOURCE: "provider/EditAIDataSource",
-		CREATE_TEST_CASE: "provider/SetTestCase",
-		EDIT_TEST_CASE: "provider/EditTestCase",
-		CREATE_ORACLE_SCRIPT: "provider/CreateOracleScript",
-		EDIT_ORACLE_SCRIPT: "provider/EditOracleScript",
+		CREATE_AI_DATA_SOURCE: "cosmos-sdk/MsgCreateAIDataSource",
+		EDIT_AI_DATA_SOURCE: "cosmos-sdk/MsgEditAIDataSource",
+		CREATE_TEST_CASE: "cosmos-sdk/MsgCreateTestCase",
+		EDIT_TEST_CASE: "cosmos-sdk/MsgEditTestCase",
+		CREATE_ORACLE_SCRIPT: "cosmos-sdk/MsgCreateOracleScript",
+		EDIT_ORACLE_SCRIPT: "cosmos-sdk/MsgEditOracleScript",
 	},
 
 	// WEBSOCKET
 	WEBSOCKET: {
+		CREATE_REPORT: "cosmos-sdk/MsgCreateReport",
 		ADD_REPORT: "websocket/AddReport",
 		ADD_REPORTER: "websocket/AddReporter",
 		TEST_CASE_RESULT: "websocket/TestCaseResult",
@@ -69,6 +70,7 @@ export default Object.freeze({
 
 	// AIREQUEST
 	AIREQUEST: {
+		SET_AI_REQUEST: "cosmos-sdk/MsgSetAIRequest",
 		SET_CLASSIFICATION_REQUEST: "airequest/SetClassificationRequest",
 		SET_PRICE_REQUEST: "airequest/SetPriceRequest",
 		SET_OCR_REQUEST: "airequest/SetOCRRequest",

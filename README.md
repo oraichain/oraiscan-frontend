@@ -36,8 +36,7 @@ import "./firebase";
 4. Specify URL of your backend
 
 ```shell
-export REACT_APP_API_DEV=http://localhost:5000/v1
-export REACT_APP_API_PROD=
+export REACT_APP_API_PROD=http://localhost:5000/v1
 ```
 
 5. Specify version of orai wallet in .env file

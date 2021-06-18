@@ -9,12 +9,12 @@ import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
-import TabBar from "src/components/RequestDetails/TabBar";
 import ResultTable from "src/components/RequestDetails/ResultTable";
 import ResultTableSkeleton from "src/components/RequestDetails/ResultTable/ResultTableSkeleton";
 import ResultCardList from "src/components/RequestDetails/ResultCardList";
 import ResultCardListSkeleton from "src/components/RequestDetails/ResultCardList/ResultCardListSkeleton";
 import styles from "./Result.module.scss";
+import {isNil} from "lodash-es";
 
 const cx = cn.bind(styles);
 
@@ -73,9 +73,13 @@ const Result = ({id, activeTab, setActiveTab}) => {
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Result </span>
-					<span className={cx("total-item-value")}>({totalItems})</span>
+					<span className={cx("total-item-value")}>({totalItems}) -</span>
+					{!isNil(data?.status) && data?.status === "pending" ? (
+						<span className={cx("total-item-status-pending")}>Pending</span>
+					) : (
+						<span className={cx("total-item-status-finished")}>Finished</span>
+					)}
 				</div>
-				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}

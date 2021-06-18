@@ -75,7 +75,6 @@ const AIDataSources = ({id, activeTab, setActiveTab}) => {
 					<span className={cx("total-item-title")}>Ai data sources </span>
 					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
-				<TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 			</div>
 			<div className={cx("card-body")}>
 				{tableSection}

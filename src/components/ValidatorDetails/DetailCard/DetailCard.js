@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import styles from "./DetailCard.scss";
 import {formatInteger, formatPercentage} from "src/helpers/helper";
 import {NavLink} from "react-router-dom";
+import {Progress} from "antd";
 
 const cx = classNames.bind(styles);
 
@@ -96,32 +97,56 @@ const DetailCard = memo(({data}) => {
 		</div>
 	);
 
+	const reportingElement = (
+		<div className={cx("info")}>
+			<div className={cx("info-title")}>Reporting</div>
+			<div className={cx("info-text")}>
+				{data?.reporting_rate ? (
+					<>
+						<span>{formatPercentage(data.reporting_rate, 2) + "% "}</span>
+						<Progress
+							percent={formatPercentage(data.reporting_rate, 2)}
+							showInfo={false}
+							strokeColor={formatPercentage(data.reporting_rate, 2) === 100 ? "#52c41a" : "#1890ff"}
+							trailColor='#bfbfbf'
+						/>
+					</>
+				) : (
+					"-"
+				)}
+			</div>
+		</div>
+	);
+
 	return (
 		<div className={cx("detail-card")}>
 			{isLargeScreen ? (
 				<Grid container spacing={0}>
-					<Grid container item xs={8}>
-						<Grid item xs={6}>
+					<Grid container item xs={12}>
+						<Grid item xs={4}>
 							{websiteElement}
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							{votingPowerElement}
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
+							{detailsElement}
+						</Grid>
+						<Grid item xs={4}>
 							{commissionElement}
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							{bondedHeightElement}
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
+							{reportingElement}
+						</Grid>
+						<Grid item xs={4}>
 							{uptimeElement}
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							{selfBondedElement}
 						</Grid>
-					</Grid>
-					<Grid item xs={4}>
-						{detailsElement}
 					</Grid>
 				</Grid>
 			) : (

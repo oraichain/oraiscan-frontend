@@ -71,6 +71,10 @@ const TestCaseCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Description</div>
 										{_.isNil(item?.description) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item.description}</div>}
 									</td>
+									<td>
+										<div className={cx("item-title")}>Contract</div>
+										{_.isNil(item?.contract) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-text")}>{item?.contract}</div>}
+									</td>
 								</tr>
 							</tbody>
 						</table>

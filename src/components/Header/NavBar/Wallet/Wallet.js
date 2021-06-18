@@ -37,7 +37,20 @@ const connectWallet = () => {
 	}, 500);
 };
 
-const Wallet = ({data: props, collapse}) => {
+const Wallet = props => {
+	const {path, title, handleClick, init} = props.data;
+	if (init || !title) {
+		return (
+			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
+				Connect Wallet
+			</a>
+		);
+	}
+
+	return <WalletWithAdress {...props} />;
+};
+
+const WalletWithAdress = ({data: props, collapse}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const {path, title, handleClick, init} = props;
@@ -119,14 +132,6 @@ const Wallet = ({data: props, collapse}) => {
 	}
 
 	const classNameDropdown = isDropdownVisible ? "show" : "hide";
-
-	if (title === "") {
-		return (
-			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
-				Connect Wallet
-			</a>
-		);
-	}
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>

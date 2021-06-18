@@ -17,71 +17,78 @@ const effect = {
 	IN: 1,
 };
 
-const ThemedTable = memo(({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [], rowMotions = []}) => {
-	return (
-		<TableContainer className={cx("table-container", customClassNames)}>
-			<Table className={cx("table", "table-theme")}>
-				<TableHead>
-					<TableRow className={cx("header-row")}>
-						{Array.isArray(headerCells) && (
-							<>
-								{headerCells.map((headerCell, cellIndex) => (
-									<TableCell key={"header-cell-" + cellIndex} className={cx("header-cell")} children={headerCell} style={headerCellStyles?.[cellIndex] ?? {}} />
-								))}
-							</>
-						)}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{Array.isArray(dataRows) &&
-						dataRows.map((dataRow, rowIndex) => {
-							const tableCells = dataRow.map((dataCell, cellIndex) => (
-								<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell")} children={dataCell} />
-							));
+const ThemedTable = memo(
+	({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [], rowMotions = [], dataCellStyles = ""}) => {
+		return (
+			<TableContainer className={cx("table-container", customClassNames)}>
+				<Table className={cx("table", "table-theme")}>
+					<TableHead>
+						<TableRow className={cx("header-row")}>
+							{Array.isArray(headerCells) && (
+								<>
+									{headerCells.map((headerCell, cellIndex) => (
+										<TableCell
+											key={"header-cell-" + cellIndex}
+											className={cx("header-cell")}
+											children={headerCell}
+											style={headerCellStyles?.[cellIndex] ?? {}}
+										/>
+									))}
+								</>
+							)}
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{Array.isArray(dataRows) &&
+							dataRows.map((dataRow, rowIndex) => {
+								const tableCells = dataRow.map((dataCell, cellIndex) => (
+									<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} />
+								));
 
-							let effectIn;
-							switch (rowMotions?.[rowIndex]) {
-								case effect.IN:
-									effectIn = true;
-									break;
-								case effect.OUT:
-									effectIn = false;
-									break;
-								default:
-									effectIn = null;
-									break;
-							}
+								let effectIn;
+								switch (rowMotions?.[rowIndex]) {
+									case effect.IN:
+										effectIn = true;
+										break;
+									case effect.OUT:
+										effectIn = false;
+										break;
+									default:
+										effectIn = null;
+										break;
+								}
 
-							if (typeof effectIn === "boolean") {
-								const effectClassName = effectIn ? "effect-in" : "effect-out";
-								const animationDelay = effectIn ? "500ms" : "0ms";
+								if (typeof effectIn === "boolean") {
+									const effectClassName = effectIn ? "effect-in" : "effect-out";
+									const animationDelay = effectIn ? "500ms" : "0ms";
+									return (
+										<TableRow
+											className={cx("data-row", effectClassName)}
+											key={"table-row-" + rowIndex}
+											style={{
+												animationDelay: animationDelay,
+											}}
+											onAnimationEnd={e => {
+												if (!effectIn) {
+													e.target.style.display = "none";
+												}
+											}}>
+											{tableCells}
+										</TableRow>
+									);
+								}
+
 								return (
-									<TableRow
-										className={cx("data-row", effectClassName)}
-										key={"table-row-" + rowIndex}
-										style={{
-											animationDelay: animationDelay,
-										}}
-										onAnimationEnd={e => {
-											if (!effectIn) {
-												e.target.style.display = "none";
-											}
-										}}>
+									<TableRow className={cx("data-row")} key={"table-row-" + rowIndex}>
 										{tableCells}
 									</TableRow>
 								);
-							}
-
-							return (
-								<TableRow className={cx("data-row")} key={"table-row-" + rowIndex}>
-									{tableCells}
-								</TableRow>
-							);
-						})}
-				</TableBody>
-			</Table>
-		</TableContainer>
-	);
-});
+							})}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		);
+	}
+);
 
 export default ThemedTable;

@@ -39,6 +39,30 @@
 		line-height: 150%;
 		letter-spacing: 0.4px;
 	}
+
+	&-status {
+		&-pending {
+			margin-left: 10px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+			letter-spacing: 0.4px;
+			color: var(--common-resultIconPendingColor);
+		}
+
+		&-finished {
+			margin-left: 10px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+			letter-spacing: 0.4px;
+			color: var(--common-resultIconSuccessColor);
+		}
+	}
 }
 
 .skeleton {

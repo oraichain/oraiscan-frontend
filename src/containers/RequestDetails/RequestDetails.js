@@ -71,7 +71,9 @@ const RequestDetails = ({}) => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("request-details")}>
-				{detailsCard}
+				<AIDataSources id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
+				<Reports id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
+				<Result id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
 			</Container>
 		</>
 	);

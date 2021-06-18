@@ -20,14 +20,44 @@
 	line-height: 150%;
 }
 
-.name-data-cell,
-.test-case-results-data-cell {
+.validator-data-cell {
+	.validator {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			object-fit: contain;
+			margin-right: 8px;
+		}
+
+		&-name {
+			text-align: left;
+			color: var(--common-linkColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.address-data-cell {
 	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 150%;
+
+	&-value {
+		cursor: pointer;
+	}
 }
 
 .height-data-cell {
@@ -40,6 +70,17 @@
 }
 
 .result-data-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	overflow-y: scroll;
+	max-height: 100px;
+}
+
+.fees-data-cell {
 	.amount {
 		color: var(--common-textColor);
 		font-family: Roboto;

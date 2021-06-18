@@ -2,6 +2,7 @@
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
+import {Tooltip} from "@material-ui/core";
 import consts from "src/constants/consts";
 import {logoBrand} from "src/constants/logoBrand";
 import {formatFloat, formatInteger} from "src/helpers/helper";
@@ -26,7 +27,7 @@ export const getHeaderRow = () => {
 	const headerCellStyles = [
 		{width: "auto"}, // Validator
 		{width: "auto"}, // Address
-		{width: "auto"}, // Result
+		{width: "50%"}, // Result
 		{width: "auto"}, // Voting Power
 		{width: "auto"}, // Status
 	];
@@ -70,7 +71,13 @@ const ResultTable = memo(({data = []}) => {
 			const addressDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("address-data-cell", "align-left")}>{item?.validator_address}</div>
+				<Tooltip title={item?.validator_address} arrow placement='top-start'>
+					<div className={cx("address-data-cell", "align-left")}>
+						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
+							{`${item?.validator_address.slice(0, 11)}...${item?.validator_address.slice(-11)}`}{" "}
+						</NavLink>
+					</div>
+				</Tooltip>
 			);
 
 			const resultDataCell = _.isNil(item?.result) ? (
@@ -134,7 +141,15 @@ const ResultTable = memo(({data = []}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<ThemedTable
+			theme={tableThemes.LIGHT}
+			headerCellStyles={headerRow.headerCellStyles}
+			headerCells={headerRow.headerCells}
+			dataRows={dataRows}
+			dataCellStyles={"result-data-cell"}
+		/>
+	);
 });
 
 export default ResultTable;

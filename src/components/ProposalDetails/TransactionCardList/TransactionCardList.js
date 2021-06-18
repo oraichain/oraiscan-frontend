@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {useSelector} from "react-redux";
 import consts from "src/constants/consts";
-import getTxType from "src/constants/getTxType";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
 import styles from "./TransactionCardList.module.scss";
@@ -27,16 +26,15 @@ const TransactionCardList = memo(({data = [], account}) => {
 				let transferStatus = null;
 				if (
 					account &&
-					// item?.type == txTypes.COSMOS_SDK.MSG_SEND &&
-					item?.messages?.[0]?.value &&
-					item?.messages?.[0]?.value?.amount &&
-					item?.messages?.[0]?.value?.from_address &&
-					item?.messages?.[0]?.value?.to_address
+					(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
+					item?.amount?.[0]?.amount &&
+					item?.messages?.[0]?.from_address &&
+					item?.messages?.[0]?.to_address
 				) {
-					if (account === item.messages[0].value.from_address) {
-						transferStatus = <span className={cx("transfer-status", "transfer-status-out")}>OUT</span>;
-					} else if (account === item.messages[0].value.to_address) {
-						transferStatus = <span className={cx("transfer-status", "transfer-status-in")}>IN</span>;
+					if (account === item.messages[0].from_address) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+					} else if (account === item.messages[0].to_address) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 					}
 				}
 

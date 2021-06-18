@@ -70,6 +70,18 @@
 	}
 }
 
+.contract-data-cell {
+	.contract {
+		display: inline-block;
+		color: var(--common-text);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
 .skeleton {
 	display: inline-block;
 }

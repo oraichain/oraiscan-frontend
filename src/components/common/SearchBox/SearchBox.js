@@ -82,9 +82,10 @@ export default function({interactiveWidth = false}) {
 		if (!_.isString(input)) return false;
 		else if (stringNumCheck(input)) return "Block";
 		else if (input.substring(0, 4).toLowerCase() === "orai" && input.length === 43) return "Account";
+		else if (input.substring(0, 11).toLowerCase() === "oraivaloper" && input.length === 50) return "Validator";
 		else if (input.length === 64) return "Transaction";
 		else if (stringNumCheck(input.split("-")[1]) && input.split("-")[0].length === 40) return "Order Id";
-		else if (input.length === 43) return "Account";
+		// else if (input.length === 43) return "Account";
 		return false;
 	}, [input]);
 
