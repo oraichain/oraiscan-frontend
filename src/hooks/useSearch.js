@@ -14,9 +14,9 @@ export default function useSearch() {
 		if (search === "") return;
 		const type = checkType(search);
 		const trimmedSearch = _.trim(search);
-		if (type === "address") history.push(`/account/${trimmedSearch}`);
-		else if (type === "block") history.push(`/blocks/${trimmedSearch}`);
+		if (type === "block") history.push(`/blocks/${trimmedSearch}`);
 		else if (type === "account") history.push(`/account/${trimmedSearch}`);
+		else if (type === "validator") history.push(`/validators/${trimmedSearch}`);
 		else if (type === "asset") {
 			const find = _.find(assets, v => {
 				return searchProperties(v, consts.ASSET.NAME_SEARCH_PROPERTY, trimmedSearch.toUpperCase());
@@ -33,10 +33,10 @@ export default function useSearch() {
 
 const checkType = input => {
 	if (!_.isString(input)) return null;
-	if (input.substring(0, 4).toLowerCase() === "orai" && input.length >= 16) return "address";
-	else if (stringNumCheck(input)) return "block";
+	if (stringNumCheck(input)) return "block";
 	else if (input.length < 20) return "asset";
-	else if (input.length === 43) return "account";
+	else if (input.substring(0, 4).toLowerCase() === "orai" && input.length === 43) return "account";
+	else if (input.substring(0, 11).toLowerCase() === "oraivaloper" && input.length === 50) return "validator";
 	else if (stringNumCheck(input.split("-")[1])) return "orderId";
 	else return "tx";
 };
