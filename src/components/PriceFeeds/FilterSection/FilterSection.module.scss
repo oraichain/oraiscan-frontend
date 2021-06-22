@@ -74,7 +74,7 @@
 				top: 54px;
 				width: 200px;
 				border-radius: 8px;
-				background: var(--common-containerBackgroundColor);
+				background: var(--common-blockItemBackgroundColor);
 				z-index: 10;
 
 				&-item {
@@ -88,7 +88,7 @@
 					cursor: pointer;
 
 					&:hover {
-						background: var(--common-blockItemBackgroundColor);
+						background: var(--common-blockItemBackgroundColorDarken);
 					}
 				}
 			}

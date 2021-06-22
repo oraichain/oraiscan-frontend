@@ -50,58 +50,59 @@ const PriceFeeds = ({}) => {
 	useEffect(() => {
 		const getPriceFeed = async () => {
 			try {
-				let {data: aiRequestData, status: aiRequestStatus} = await axios.get(
+				const {data: aiRequestData} = await axios.get(
 					`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=ai_request_data.oscript_name%3D%27oscript_price_special%27&order_by=2`
 				);
 
-				if (aiRequestStatus === 200 && Array.isArray(aiRequestData?.txs)) {
-					// for (let tx of aiRequestData.txs) {
-					const reqId = aiRequestData.txs[0].body.messages[0].request_id;
+				if (aiRequestData?.txs?.length > 0) {
+					for (let tx of aiRequestData.txs) {
+						const reqId = tx.body.messages[0].request_id;
+						const {data: fullRequestData} = await axios.get(`${consts.LCD_API_BASE}/airesult/fullreq/${reqId}`);
 
-					const {data: fullRequestData, status: fullRequestStatus} = await axios.get(`${consts.LCD_API_BASE}/airesult/fullreq/${reqId}`);
+						if (fullRequestData.result.status === "finished" && fullRequestData?.result?.results?.length > 0) {
+							let finalResultList = [],
+								aggregatedResult = [];
 
-					// if (fullRequestData.result.status === "finished") {
-					// 	break;
-					// }
+							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${fullRequestData?.ai_request?.block_height + 1}`);
 
-					if (fullRequestStatus === 200 && Array.isArray(fullRequestData?.result?.results)) {
-						let finalResultList = [],
-							aggregatedResult = [];
+							console.log("timestamp", blockData?.data[0]?.timestamp);
 
-						for (let item of fullRequestData.result.results) {
-							console.log(item.result);
-							const resultDecode = JSON.parse(atob(item.result));
-							aggregatedResult = aggregatedResult.concat(resultDecode);
-						}
-						aggregatedResult = aggregatedResult.map(result => ({...result, price: parseFloat(result.price)}));
-
-						var holder = {};
-						var uniqueSymbols = [];
-
-						aggregatedResult.forEach(function(d) {
-							if (holder.hasOwnProperty(d.name)) {
-								holder[d.name] = holder[d.name] + d.price;
-								holder[d.name + "count"] += 1;
-							} else {
-								uniqueSymbols.push(d.name);
-								holder[d.name] = d.price;
-								holder[d.name + "count"] = 1;
+							for (let item of fullRequestData.result.results) {
+								const resultDecode = JSON.parse(atob(item.result));
+								aggregatedResult = aggregatedResult.concat(resultDecode);
 							}
-						});
-						uniqueSymbols.forEach(function(d) {
-							holder[d] /= holder[d + "count"];
-							delete holder[d + "count"];
-						});
+							aggregatedResult = aggregatedResult.map(result => ({...result, price: parseFloat(result.price)}));
 
-						for (var prop in holder) {
-							finalResultList.push({name: prop, price: holder[prop]});
+							let holder = {};
+							let uniqueSymbols = [];
+
+							aggregatedResult.forEach(d => {
+								if (holder.hasOwnProperty(d.name)) {
+									holder[d.name] = holder[d.name] + d.price;
+									holder[d.name + "count"] += 1;
+								} else {
+									uniqueSymbols.push(d.name);
+									holder[d.name] = d.price;
+									holder[d.name + "count"] = 1;
+								}
+							});
+							uniqueSymbols.forEach(d => {
+								holder[d] /= holder[d + "count"];
+								delete holder[d + "count"];
+							});
+
+							for (let prop in holder) {
+								finalResultList.push({name: prop, price: holder[prop]});
+							}
+
+							setData({
+								data: finalResultList,
+								lastUpdate: blockData?.data[0]?.timestamp,
+							});
+							setShowData(finalResultList);
+							break;
 						}
-
-						setData(finalResultList);
-						setShowData(finalResultList);
-						return;
 					}
-					// }
 				}
 			} catch (e) {
 				console.log("error", e);
@@ -113,9 +114,11 @@ const PriceFeeds = ({}) => {
 	}, []);
 
 	useEffect(() => {
-		const filterData = data.filter(priceFeed => (priceFeed.name + "/USD").toLowerCase().includes(keyword.replaceAll(" ", "").toLowerCase()));
+		if (data.length > 0) {
+			const filterData = data.filter(priceFeed => (priceFeed.name + "/USD").toLowerCase().includes(keyword.replaceAll(" ", "").toLowerCase()));
 
-		setShowData(filterData);
+			setShowData(filterData);
+		}
 	}, [keyword, network]);
 
 	return (
