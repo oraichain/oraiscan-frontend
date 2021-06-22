@@ -29,8 +29,9 @@ const PriceFeeds = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
 	const [network, setNetwork] = useState("Oraichain mainnet");
-	const [data, setData] = useState([]);
-	const [showData, setShowData] = useState([]);
+	const [data, setData] = useState({
+		data: [],
+	});
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -45,7 +46,7 @@ const PriceFeeds = ({}) => {
 	} else {
 		titleSection = <TogglePageBar type='price_feeds' />;
 	}
-	const filterSection = <FilterSection keyword={search} setKeyword={setKeyword} network={network} setNetwork={setNetwork} />;
+	const filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} network={network} setNetwork={setNetwork} />;
 
 	useEffect(() => {
 		const getPriceFeed = async () => {
@@ -63,7 +64,7 @@ const PriceFeeds = ({}) => {
 							let finalResultList = [],
 								aggregatedResult = [];
 
-							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${fullRequestData?.ai_request?.block_height + 1}`);
+							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${parseInt(fullRequestData?.ai_request?.block_height) + 1}`);
 
 							console.log("timestamp", blockData?.data[0]?.timestamp);
 
@@ -99,34 +100,24 @@ const PriceFeeds = ({}) => {
 								data: finalResultList,
 								lastUpdate: blockData?.data[0]?.timestamp,
 							});
-							setShowData(finalResultList);
 							break;
 						}
 					}
 				}
 			} catch (e) {
 				console.log("error", e);
-				setShowData(null);
+				setData(null);
 			}
 		};
-		setKeyword(search);
 		getPriceFeed();
 	}, []);
-
-	useEffect(() => {
-		if (data.length > 0) {
-			const filterData = data.filter(priceFeed => (priceFeed.name + "/USD").toLowerCase().includes(keyword.replaceAll(" ", "").toLowerCase()));
-
-			setShowData(filterData);
-		}
-	}, [keyword, network]);
 
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("price-feeds")}>
 				{filterSection}
-				{showData ? showData.length > 0 ? <PriceFeedsGridView data={showData} /> : <PriceFeedsGridViewSkeleton /> : <NoResult />}
+				{data ? data.data.length > 0 ? <PriceFeedsGridView {...data} keyword={keyword} /> : <PriceFeedsGridViewSkeleton /> : <NoResult />}
 			</Container>
 		</>
 	);
