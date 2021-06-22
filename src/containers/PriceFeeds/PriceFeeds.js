@@ -63,7 +63,7 @@ const PriceFeeds = ({}) => {
 							let finalResultList = [],
 								aggregatedResult = [];
 
-							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${fullRequestData?.ai_request?.block_height}`);
+							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${fullRequestData?.ai_request?.block_height + 1}`);
 
 							console.log("timestamp", blockData?.data[0]?.timestamp);
 

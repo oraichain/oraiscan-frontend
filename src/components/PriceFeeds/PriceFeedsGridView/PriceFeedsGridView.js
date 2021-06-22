@@ -89,7 +89,7 @@ const PriceFeedsGridView = ({data, lastUpdate}) => {
 	return (
 		<div className={cx("price-feeds")}>
 			<div className={cx("price-feeds-header")}>
-				<span className={cx("price-feeds-header-name")}>Explore the decentralized oracle networks powered.</span>
+				<span className={cx("price-feeds-header-name")}>Offer the precise and fast prices of famous cryptocurrencies powered by the AI Oracle technology.</span>
 			</div>
 
 			<div className={cx("price-feeds-body")}>
@@ -103,7 +103,7 @@ const PriceFeedsGridView = ({data, lastUpdate}) => {
 										<div className={cx("price-feeds-card-pair-text")}>{name} / USD</div>
 									</div>
 									<div className={cx("price-feeds-card-price")}>
-										<NumberFormat value={Math.round(price * 100) / 100} displayType={"text"} thousandSeparator={true} prefix='$' />
+										<NumberFormat value={price.toFixed(7)} displayType={"text"} thousandSeparator={true} prefix='$' />
 									</div>
 									<div className={cx("price-feeds-card-info")}>
 										<div className={cx("price-feeds-card-info-item")}>
