@@ -11,80 +11,86 @@ import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const PriceFeedsGridView = ({data, lastUpdate}) => {
-	const [initData, setInitData] = useState([
-		{
-			name: "BTC",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "ETH",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "BNB",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "XRP",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "DOGE",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "LINK",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "UNI",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "USDC",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "BUSD",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "DAI",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "USDT",
-			price: 0,
-			status: "Inactive",
-		},
-		{
-			name: "ORAI",
-			price: 0,
-			status: "Inactive",
-		},
-	]);
+const initData = [
+	{
+		name: "BTC",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "ETH",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "BNB",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "XRP",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "DOGE",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "LINK",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "UNI",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "USDC",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "BUSD",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "DAI",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "USDT",
+		price: 0,
+		status: "Inactive",
+	},
+	{
+		name: "ORAI",
+		price: 0,
+		status: "Inactive",
+	},
+];
+
+const PriceFeedsGridView = ({data, lastUpdate, keyword}) => {
+	const [showData, setShowData] = useState([]);
 
 	useEffect(() => {
-		const newData = initData.map(value => {
+		let newData = initData;
+		if (keyword) {
+			newData = initData.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
+		}
+		newData = newData.map(value => {
 			const findedPair = data.find(v => v.name === value.name);
 			if (findedPair) {
 				value = {...value, ...findedPair, status: "Active"};
 			}
 			return value;
 		});
-		setInitData(newData);
-	}, [data]);
+		setShowData(newData);
+	}, [data, keyword]);
 
 	return (
 		<div className={cx("price-feeds")}>
@@ -94,7 +100,7 @@ const PriceFeedsGridView = ({data, lastUpdate}) => {
 
 			<div className={cx("price-feeds-body")}>
 				<Grid container spacing={2}>
-					{initData?.map(({name, price, status}, key) => {
+					{showData?.map(({name, price, status}, key) => {
 						return (
 							<Grid item lg={3} md={4} sm={12} xs={12} key={key}>
 								<div className={cx("price-feeds-card")}>

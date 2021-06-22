@@ -70,12 +70,12 @@ const FilterSection = ({keyword, setKeyword, network, setNetwork}) => {
 								search: e.target.value,
 							};
 							setKeyword(e.target.value);
-							history.push({
-								pathname: `${history.location.pathname}`,
-								search: queryString.stringify(query, {
-									encode: false,
-								}),
-							});
+							// history.push({
+							// 	pathname: `${history.location.pathname}`,
+							// 	search: queryString.stringify(query, {
+							// 		encode: false,
+							// 	}),
+							// });
 						}}
 					/>
 				</div>
