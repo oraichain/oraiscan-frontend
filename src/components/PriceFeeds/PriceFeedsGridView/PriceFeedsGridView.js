@@ -6,11 +6,12 @@ import {_} from "src/lib/scripts";
 import NumberFormat from "react-number-format";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
+import {getTotalTime, setAgoTime} from "src/lib/scripts";
 import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const PriceFeedsGridView = ({data}) => {
+const PriceFeedsGridView = ({data, lastUpdate}) => {
 	const [initData, setInitData] = useState([
 		{
 			name: "BTC",
@@ -76,9 +77,9 @@ const PriceFeedsGridView = ({data}) => {
 
 	useEffect(() => {
 		const newData = initData.map(value => {
-			const findedCoin = data.find(v => v.name === value.name);
-			if (findedCoin) {
-				value = {...value, ...findedCoin, status: "Active"};
+			const findedPair = data.find(v => v.name === value.name);
+			if (findedPair) {
+				value = {...value, ...findedPair, status: "Active"};
 			}
 			return value;
 		});
@@ -104,15 +105,21 @@ const PriceFeedsGridView = ({data}) => {
 									<div className={cx("price-feeds-card-price")}>
 										<NumberFormat value={Math.round(price * 100) / 100} displayType={"text"} thousandSeparator={true} prefix='$' />
 									</div>
-									<div className={cx("price-feeds-card-status")}>
-										<div className={cx("status-header")}>Status</div>
-										<div className={cx("status-body")}>
-											{status === "Active" ? (
-												<CheckIcon className={cx("status-icon", "status-icon-active")} />
-											) : (
-												<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
-											)}
-											<div className={cx("status-text")}>{status}</div>
+									<div className={cx("price-feeds-card-info")}>
+										<div className={cx("price-feeds-card-info-item")}>
+											<div className={cx("price-feeds-card-info-item-header")}>Status</div>
+											<div className={cx("price-feeds-card-info-item-body")}>
+												{status === "Active" ? (
+													<CheckIcon className={cx("status-icon", "status-icon-active")} />
+												) : (
+													<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
+												)}
+												<div className={cx("status-text")}>{status}</div>
+											</div>
+										</div>
+										<div className={cx("price-feeds-card-info-item")}>
+											<div className={cx("price-feeds-card-info-item-header")}>Last update</div>
+											<div className={cx("price-feeds-card-info-item-body")}>{setAgoTime(lastUpdate) + " (" + getTotalTime(lastUpdate) + ")"}</div>
 										</div>
 									</div>
 								</div>
