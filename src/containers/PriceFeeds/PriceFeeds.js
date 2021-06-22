@@ -60,13 +60,17 @@ const PriceFeeds = ({}) => {
 						const reqId = tx.body.messages[0].request_id;
 						const {data: fullRequestData} = await axios.get(`${consts.LCD_API_BASE}/airesult/fullreq/${reqId}`);
 
-						if (fullRequestData.result.status === "finished" && fullRequestData?.result?.results?.length > 0) {
+						if (fullRequestData?.result?.results?.length > 0) {
 							let finalResultList = [],
 								aggregatedResult = [];
 
 							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${parseInt(fullRequestData?.ai_request?.block_height) + 1}`);
 
-							console.log("timestamp", blockData?.data[0]?.timestamp);
+							// const {data: blockHeightInfo} = await axios.get(
+							// 	`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=message.action%3D%27create_report%27&order_by=2&events=tx.height%3D${fullRequestData?.ai_request?.block_height}`
+							// );
+
+							// console.log("blockHeightInfo ", blockHeightInfo);
 
 							for (let item of fullRequestData.result.results) {
 								const resultDecode = JSON.parse(atob(item.result));
