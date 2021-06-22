@@ -11,6 +11,7 @@ let common = theme => {
   --common-backgroundColor: ${theme?.data?.common?.backgroundColor};
   --common-containerBackgroundColor: ${theme?.data?.common?.containerBackgroundColor};
   --common-blockItemBackgroundColor: ${theme?.data?.common?.blockItemBackgroundColor};
+  --common-blockItemBackgroundColorDarken: ${theme?.data?.common?.blockItemBackgroundColorDarken};
   --common-borderColor: ${theme?.data?.common?.borderColor};
   --common-headerTextColor: ${theme?.data?.common?.headerTextColor};
   --common-paginationTextColor: ${theme?.data?.common?.paginationTextColor};
