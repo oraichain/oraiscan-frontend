@@ -31,6 +31,7 @@ const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
+const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -60,6 +61,7 @@ export default function(props) {
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
+					<Route path='/price-feeds' component={PriceFeeds} />
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>

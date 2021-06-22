@@ -6,7 +6,7 @@ export const themeIds = {
 const colors = {
 	DENIM: "#F7F9FB",
 	HAVELOCK_BLUE: "#546ABA",
-	DODGER_BLUE: "#1A87FF",
+	DODGER_BLUE: "#00A3FF",
 	YELLOW_SEA: "#F59338",
 	RADICAL_RED: "#FF2745",
 	NEON_BLUE: "#5F51FF",
