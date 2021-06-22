@@ -103,6 +103,10 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
+			case "price_feeds": {
+				return <div className={cx("title")}> Price Feeds</div>;
+			}
+
 			default:
 				return null;
 		}

@@ -21,6 +21,7 @@ import InfoRow from "src/components/common/InfoRow/InfoRow";
 import styles from "./TxMessage.module.scss";
 import {NavLink} from "react-router-dom";
 import ThemedTable from "src/components/common/ThemedTable";
+import {themeIds} from "src/constants/themes";
 
 const cx = cn.bind(styles);
 
@@ -41,6 +42,8 @@ const TxMessage = ({msg, data}) => {
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
+	const activeThemeId = useSelector(state => state.activeThemeId);
+
 	const value = msg;
 	let type = msg["@type"] || "";
 	if (type.indexOf(".") > -1) {
@@ -407,7 +410,7 @@ const TxMessage = ({msg, data}) => {
 													<ReactJson
 														style={{backgroundColor: "transparent"}}
 														name={false}
-														theme='monokai'
+														theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 														displayObjectSize={false}
 														displayDataTypes={false}
 														collapsed={true}
@@ -437,7 +440,7 @@ const TxMessage = ({msg, data}) => {
 																	<ReactJson
 																		style={{backgroundColor: "transparent"}}
 																		name={false}
-																		theme='monokai'
+																		theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 																		displayObjectSize={false}
 																		displayDataTypes={false}
 																		collapsed={true}
@@ -490,7 +493,7 @@ const TxMessage = ({msg, data}) => {
 							<ReactJson
 								style={{backgroundColor: "transparent"}}
 								name={false}
-								theme='monokai'
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
 								displayDataTypes={false}
 								src={tryParseMessage(value?.init_msg)}
@@ -508,7 +511,7 @@ const TxMessage = ({msg, data}) => {
 							<ReactJson
 								style={{backgroundColor: "transparent"}}
 								name={false}
-								theme='monokai'
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
 								displayDataTypes={false}
 								src={tryParseMessage(value?.msg)}
@@ -554,7 +557,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 			</div>
 		);
-	}, [type, value, storageData]);
+	}, [type, value, storageData, activeThemeId]);
 
 	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";

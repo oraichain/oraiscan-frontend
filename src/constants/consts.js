@@ -107,6 +107,7 @@ export default Object.freeze({
 		BALANCES: "/cosmos/bank/v1beta1/balances",
 		CLAIM_REWARD: "/cosmos/distribution/v1beta1/delegators",
 		DELEGATION: "/cosmos/staking/v1beta1/delegations",
+		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

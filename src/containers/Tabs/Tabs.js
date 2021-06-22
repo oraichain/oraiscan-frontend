@@ -18,6 +18,7 @@ import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
 import DataSourcesTabIcon from "src/icons/Tabs/DataSourcesTabIcon";
 import DashBoardTabIcon from "src/icons/Tabs/DashBoardTabIcon";
 import ProposalsTabIcon from "src/icons/Tabs/ProposalsTabIcon";
+import PriceFeedsTabIcon from "src/icons/Tabs/PriceFeedsTabIcon";
 import ValidatorsTabIcon from "src/icons/Tabs/ValidatorsTabIcon";
 import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
 import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
@@ -212,6 +213,11 @@ const Tabs = memo(() => {
 			name: "Requests",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
 			route: "/ai_requests",
+		},
+		{
+			name: "Price Feeds",
+			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			route: "/price-feeds",
 		},
 	];
 
