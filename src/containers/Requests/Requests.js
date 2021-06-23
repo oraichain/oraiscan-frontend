@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
@@ -7,6 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
@@ -33,22 +34,48 @@ const Requests = () => {
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(1);
 	const totalPagesRef = useRef(null);
+	// const listRequestsRef = useRef([]);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
-	const basePath = `${consts.API.REQUESTS}?limit=${consts.REQUEST.LIMIT}`;
+	const basePath = `${process.env.REACT_APP_LCD_API ||
+		"https://lcd.orai.io/"}cosmos/tx/v1beta1/txs?events=message.action%3D%27set_ai_request%27&order_by=2&pagination.limit=${
+		consts.REQUEST.LIMIT
+	}&pagination.offset=${(pageId - 1) * consts.REQUEST.LIMIT}`;
 	let path;
 	if (keyword) {
-		path = `${basePath}&page_id=${pageId}&request_id=${keyword}`;
+		path = `${basePath}&page=${pageId}&request_id=${keyword}`;
 	} else {
-		path = `${basePath}&page_id=${pageId}`;
+		path = `${basePath}&page=${pageId}`;
 	}
 
 	const {data, loading, error} = useGet({
 		path: path,
 	});
+
+	// const getItemData = data => {
+	// 	{
+	// 		!isNil(data) &&
+	// 			!loading &&
+	// 			data.request_ids.map(async item => {
+	// 				const baseItemPath = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io/"}airequest/aireq/${item.slice(3, item.length)}`;
+	// 				await axios
+	// 					.get(baseItemPath)
+	// 					.then(itemData => {
+	// 						listRequestsRef.current.push(itemData?.data);
+	// 					})
+	// 					.catch(error => {
+	// 						console.log(error, "error");
+	// 					});
+	// 			});
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	getItemData(data);
+	// }, [data]);
 
 	let titleSection;
 	let filterSection;
@@ -85,15 +112,12 @@ const Requests = () => {
 			totalPagesRef.current = null;
 			requestCard = <RequestsCard totalItems='-'>{isGridView ? <RequestGridView data={[]} /> : <RequestListView data={[]} />}</RequestsCard>;
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
+			const calculateTotalPage = data?.pagination?.total / consts.REQUEST.LIMIT;
+			totalPagesRef.current = calculateTotalPage !== parseInt(calculateTotalPage) ? parseInt(calculateTotalPage) + 1 : calculateTotalPage;
 
 			requestCard = (
-				<RequestsCard totalItems={isNaN(data?.page?.total_item) ? "-" : formatInteger(data.page.total_item)}>
-					{isGridView ? <RequestGridView data={data?.data} /> : <RequestListView data={data?.data} />}
+				<RequestsCard totalItems={isNaN(data?.pagination?.total) ? "-" : formatInteger(data?.pagination?.total)}>
+					{isGridView ? <RequestGridView data={data} /> : <RequestListView data={data} />}
 				</RequestsCard>
 			);
 		}

@@ -3,6 +3,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import {Base64} from "js-base64";
 import {_} from "src/lib/scripts";
 import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
@@ -25,9 +26,9 @@ export const getHeaderRow = () => {
 
 	const headerCells = [nameHeaderCell, resultHeaderCell, statusHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // Name
-		{width: "auto"}, // Result
-		{width: "auto"}, // Status
+		{width: "20%"}, // Name
+		{width: "70%"}, // Result
+		{width: "10%"}, // Status
 	];
 	return {
 		headerCells,
@@ -90,17 +91,19 @@ const TestCaseTable = memo(({data}) => {
 					<div className={cx("result")}>
 						<div
 							className={cx("result-value")}
-							onClick={() => {
-								copy(item?.result);
-								dispatch(
-									showAlert({
-										show: true,
-										message: "Copied",
-										autoHideDuration: 1500,
-									})
-								);
-							}}>
-							<CopyIcon className={cx("copy-icon")}></CopyIcon> {item?.result?.length > 30 ? item?.result?.substring(0, 30) + "...." : item?.result}
+							// onClick={() => {
+							// 	copy(item?.result);
+							// 	dispatch(
+							// 		showAlert({
+							// 			show: true,
+							// 			message: "Copied",
+							// 			autoHideDuration: 1500,
+							// 		})
+							// 	);
+							// }}
+						>
+							{/* <CopyIcon className={cx("copy-icon")}></CopyIcon> */}
+							{Base64.decode(item?.result)}
 						</div>
 					</div>
 				</div>

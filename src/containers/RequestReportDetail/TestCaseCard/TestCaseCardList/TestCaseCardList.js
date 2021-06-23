@@ -3,6 +3,7 @@ import React, {memo} from "react";
 import {NavLink, useParams} from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import {Base64} from "js-base64";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import CheckIcon from "src/icons/Validators/CheckIcon";
@@ -60,14 +61,16 @@ const TestCaseCardList = memo(({data}) => {
 									<td>
 										<div className={cx("item-title")}>Name</div>
 									</td>
-									<td>{_.isNil(item?.name) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.name}</div>}</td>
+									<td>{_.isNil(item?.name) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.name}</div>}</td>
 								</tr>
 
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Result</div>
 									</td>
-									<td>{_.isNil(item?.result) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.result}</div>}</td>
+									<td>
+										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{Base64.decode(item?.result)}</div>}
+									</td>
 								</tr>
 
 								<tr>

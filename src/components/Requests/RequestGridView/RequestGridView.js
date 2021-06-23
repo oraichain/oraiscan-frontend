@@ -13,7 +13,14 @@ const cx = cn.bind(styles);
 const RequestGridView = ({data}) => {
 	return (
 		<Grid container spacing={2}>
-			{data?.map((item, key) => {
+			{data?.tx_responses?.map((item, key) => {
+				const eventRequestData = item?.logs?.[0]?.events?.filter(event => event?.type === "ai_request_data");
+				const inputField = eventRequestData?.[0]?.attributes
+					?.filter(event => event?.key === "data_sources")
+					?.map(event => {
+						return event?.value;
+					});
+
 				return (
 					<Grid item lg={3} md={4} sm={12} xs={12} key={"request-grid-view-item-" + key}>
 						<div className={cx("request-card")}>
@@ -23,7 +30,9 @@ const RequestGridView = ({data}) => {
 										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Name</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.oracle_script_name) ? "-" : item?.oracle_script_name}</div>
+										<div className={cx("request-text")}>
+											{_.isNil(item?.tx?.body?.messages?.[0]?.oracle_script_name) ? "-" : item?.tx?.body?.messages?.[0]?.oracle_script_name}
+										</div>
 									</td>
 								</tr>
 								<tr>
@@ -31,11 +40,11 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Request id</div>
 									</td>
 									<td>
-										{_.isNil(item?.request_id) ? (
+										{_.isNil(item?.tx?.body?.messages?.[0]?.request_id) ? (
 											<div className={cx("request-link")}>-</div>
 										) : (
-											<NavLink className={cx("request-link")} to={`${consts.API.REQUESTS}/${item.request_id}`}>
-												{item?.request_id}
+											<NavLink className={cx("request-link")} to={`${consts.API.REQUESTS}/${item?.tx?.body?.messages?.[0]?.request_id}`}>
+												{item?.tx?.body?.messages?.[0]?.request_id}
 											</NavLink>
 										)}
 									</td>
@@ -45,11 +54,11 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Fee</div>
 									</td>
 									<td>
-										{_.isNil(item?.fees) ? (
+										{_.isNil(item?.tx?.body?.messages?.[0]?.fees) ? (
 											<div className={cx("fee")}>-</div>
 										) : (
 											<div className={cx("fee")}>
-												<span className={cx("fee-value")}>{formatOrai(item?.fees)}</span>
+												<span className={cx("fee-value")}>{formatOrai(item?.tx?.body?.messages?.[0]?.fees)}</span>
 												<span className={cx("fee-denom")}>ORAI</span>
 											</div>
 										)}
@@ -60,7 +69,7 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Input</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.input) ? "-" : item?.input}</div>
+										<div className={cx("request-text")}>{inputField?.join(", ")}</div>
 									</td>
 								</tr>
 								<tr>
@@ -68,7 +77,7 @@ const RequestGridView = ({data}) => {
 										<div className={cx("request-title")}>Creator</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.creator) ? "-" : item?.creator}</div>
+										<div className={cx("request-text")}>{_.isNil(item?.tx?.body?.messages?.[0]?.creator) ? "-" : item?.tx?.body?.messages?.[0]?.creator}</div>
 									</td>
 								</tr>
 							</table>
