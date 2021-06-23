@@ -18,20 +18,22 @@ import styles from "./AIDataSources.module.scss";
 
 const cx = cn.bind(styles);
 
-const AIDataSources = ({id, activeTab, setActiveTab}) => {
+const AIDataSources = ({data, loading, error, id, activeTab, setActiveTab}) => {
+	const [pageId, setPageId] = useState(1);
+	const calculateTotalPage = data?.length / consts.REQUEST.LIMIT;
+	const totalPages = calculateTotalPage !== parseInt(calculateTotalPage.toString()) ? parseInt(calculateTotalPage.toString()) + 1 : calculateTotalPage;
+	const currentPageData = data?.filter((item, index) => index >= (pageId - 1) * consts.REQUEST.LIMIT);
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const [pageId, setPageId] = useState(1);
-	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
-	const {data, loading, error} = useGet({
-		path: path,
-	});
+	// const path = `${consts.API.REQUESTS_AI_DATA_SOURCES}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
+	// const {data, loading, error} = useGet({
+	// 	path: path,
+	// });
 
 	let totalItems;
 	let tableSection;
@@ -43,30 +45,23 @@ const AIDataSources = ({id, activeTab, setActiveTab}) => {
 	} else {
 		if (error) {
 			totalItems = "-";
-			totalPagesRef.current = null;
 			tableSection = <NoResult />;
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
-
-			if (isNaN(data?.page?.total_item)) {
+			if (isNaN(data?.length)) {
 				totalItems = "-";
 			} else {
-				totalItems = formatInteger(data.page.total_item);
+				totalItems = formatInteger(data?.length);
 			}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <DataSourceTable data={data.data} /> : <DataSourceCardList data={data.data} />;
+			if (Array.isArray(data) && data.length > 0) {
+				tableSection = isLargeScreen ? <DataSourceTable data={currentPageData} /> : <DataSourceCardList data={currentPageData} />;
 			} else {
 				tableSection = <NoResult />;
 			}
 		}
 	}
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPages ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("card")}>

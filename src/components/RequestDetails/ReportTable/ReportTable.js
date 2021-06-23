@@ -4,6 +4,7 @@ import {NavLink, useParams} from "react-router-dom";
 import {Tooltip} from "@material-ui/core";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import {Base64} from "js-base64";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {logoBrand} from "src/constants/logoBrand";
@@ -54,8 +55,8 @@ const ReportTable = memo(({data}) => {
 			let statusElement;
 			let validatorName;
 			let validatorIcon;
-			if (!_.isNil(item?.validator_address)) {
-				const matchedLogoItem = logoBrand.find(logoBrandItem => item.validator_address === logoBrandItem.operatorAddress);
+			if (!_.isNil(item?.reporter?.validator)) {
+				const matchedLogoItem = logoBrand.find(logoBrandItem => item?.reporter?.validator === logoBrandItem.operatorAddress);
 
 				if (matchedLogoItem) {
 					validatorName = matchedLogoItem?.name ?? "-";
@@ -63,10 +64,10 @@ const ReportTable = memo(({data}) => {
 				}
 			}
 
-			if (_.isNil(item?.status)) {
+			if (_.isNil(item?.resultStatus)) {
 				statusElement = <div className={cx("status")}>-</div>;
 			} else {
-				switch (item?.status) {
+				switch (item?.resultStatus) {
 					case "success":
 						statusElement = (
 							<div className={cx("status")}>
@@ -96,49 +97,49 @@ const ReportTable = memo(({data}) => {
 				}
 			}
 
-			const nameDataCell = _.isNil(item?.validator_name) ? (
+			const nameDataCell = _.isNil(item?.reporter?.name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("validator-data-cell", "align-left")}>
 					<div className={cx("validator")}>
 						<img className={cx("validator-icon")} src={validatorIcon} alt='' />
-						<NavLink className={cx("validator-name")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
-							{item?.validator_name?.length > 10 ? item?.validator_name?.substring(0, 10) + "...." : item?.validator_name}
+						<NavLink className={cx("validator-name")} to={`${consts.PATH.VALIDATORS}/${item?.reporter?.validator}`}>
+							{item?.reporter?.name?.length > 10 ? item?.reporter?.name?.substring(0, 10) + "...." : item?.reporter?.name}
 						</NavLink>
 					</div>
 				</div>
 			);
 
-			const validatorAddressDataCell = _.isNil(item?.validator_address) ? (
+			const validatorAddressDataCell = _.isNil(item?.reporter?.validator) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<Tooltip title={item?.validator_address} arrow placement='top-start'>
+				<Tooltip title={item?.reporter?.validator} arrow placement='top-start'>
 					<div className={cx("address-data-cell", "align-left")}>
-						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
-							{`${item?.validator_address.slice(0, 11)}...${item?.validator_address.slice(-11)}`}{" "}
+						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.reporter?.validator}`}>
+							{`${item?.reporter?.validator.slice(0, 11)}...${item?.reporter?.validator.slice(-11)}`}{" "}
 						</NavLink>
 					</div>
 				</Tooltip>
 			);
 
-			const heightDataCell = _.isNil(item?.height) ? (
+			const heightDataCell = _.isNil(item?.blockHeight) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("height-data-cell", "align-left")}>{item.height}</div>
+				<div className={cx("height-data-cell", "align-left")}>{item?.blockHeight}</div>
 			);
 
-			const resultDataCell = _.isNil(item?.height) ? (
+			const resultDataCell = _.isNil(item?.aggregatedResult) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("result-data-cell", "align-left")}>{item?.result}</div>
+				<div className={cx("result-data-cell", "align-left")}>{Base64.decode(item?.aggregatedResult)}</div>
 			);
 
-			const feeDataCell = _.isNil(item?.fee) ? (
+			const feeDataCell = _.isNil(item?.fees) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("fees-data-cell", "align-left")}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(item?.fee)}</span>
+						<span className={cx("amount-value")}>{formatOrai(item?.fees)}</span>
 						<span className={cx("amount-denom")}>ORAI</span>
 					</div>
 				</div>
@@ -146,13 +147,13 @@ const ReportTable = memo(({data}) => {
 
 			const statusDataCell = <div className={cx("status-data-cell", "align-right")}>{statusElement}</div>;
 
-			const moreDataCell = _.isNil(item?.validator_address) ? (
+			const moreDataCell = _.isNil(item?.reporter?.validator) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("more-data-cell", "align-right")}>
 					<NavLink
 						className={cx("more")}
-						to={`${consts.PATH.REQUESTS}/${requestId}/report?validator_address=${item?.validator_address ? item?.validator_address : ""}`}>
+						to={`${consts.PATH.REQUESTS}/${requestId}/report?validator_address=${item?.reporter?.validator ? item?.reporter?.validator : ""}`}>
 						View more
 					</NavLink>
 				</div>

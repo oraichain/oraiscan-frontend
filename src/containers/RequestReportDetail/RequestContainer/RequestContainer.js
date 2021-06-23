@@ -1,5 +1,6 @@
 import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
+import {isNil} from "lodash-es";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -15,20 +16,23 @@ import styles from "./RequestContainer.scss";
 
 const cx = classNames.bind(styles);
 
-const RequestContainer = memo(({id, address}) => {
+const RequestContainer = memo(({data, loading, error, id, address}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
+	const calculateTotalPage = data?.length / consts.REQUEST.LIMIT;
+	const totalPages = calculateTotalPage !== parseInt(calculateTotalPage.toString()) ? parseInt(calculateTotalPage.toString()) + 1 : calculateTotalPage;
+	const currentPageData = !isNil(data) && data?.filter?.((item, index) => index >= (pageId - 1) * consts.REQUEST.LIMIT);
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_REPORTS}/detail/ds_results/${id}?validator_address=${address}&imit=4&page_id${pageId}`;
-	const {data, loading, error} = useGet({
-		path: path,
-	});
+	// const path = `${consts.API.REQUESTS_REPORTS}/detail/ds_results/${id}?validator_address=${address}&imit=4&page_id${pageId}`;
+	// const {data, loading, error} = useGet({
+	// 	path: path,
+	// });
 
 	let tableSection;
 	let paginationSection;
@@ -40,21 +44,15 @@ const RequestContainer = memo(({id, address}) => {
 			totalPagesRef.current = null;
 			tableSection = <NoResult />;
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
-
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <RequestTable data={data.data} /> : <RequestCardList data={data.data} />;
+			if (Array.isArray(data) && data.length > 0) {
+				tableSection = isLargeScreen ? <RequestTable data={currentPageData} /> : <RequestCardList data={currentPageData} />;
 			} else {
 				tableSection = <NoResult />;
 			}
 		}
 	}
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPages ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("request-card")}>

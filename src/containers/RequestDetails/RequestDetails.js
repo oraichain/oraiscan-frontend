@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import consts from "src/constants/consts";
 import PropTypes from "prop-types";
 import {useTheme} from "@material-ui/core/styles";
+import {useGet} from "restful-react";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -32,6 +33,11 @@ const RequestDetails = ({}) => {
 	const params = useParams();
 	const id = params?.["id"];
 
+	const path = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io"}/airesult/fullreq/${id}`;
+	const {data, loading, error} = useGet({
+		path: path,
+	});
+
 	let titleSection;
 	let detailsCard;
 
@@ -55,13 +61,15 @@ const RequestDetails = ({}) => {
 
 	switch (activeTab) {
 		case tabs.AI_DATA_SOURCES:
-			detailsCard = <AIDataSources id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			detailsCard = (
+				<AIDataSources data={data?.ai_request.ai_data_sources} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
+			);
 			break;
 		case tabs.REPORTS:
-			detailsCard = <Reports id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			detailsCard = <Reports data={data?.reports} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
 			break;
 		case tabs.RESULT:
-			detailsCard = <Result id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+			detailsCard = <Result data={data?.result} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
 			break;
 		default:
 			break;
@@ -71,9 +79,9 @@ const RequestDetails = ({}) => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("request-details")}>
-				<AIDataSources id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
-				<Reports id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
-				<Result id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
+				<AIDataSources data={data?.ai_request.ai_data_sources} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />
+				<Reports data={data?.reports} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
+				<Result data={data?.result} loading={loading} error={error} id={id} activeTab={activeTab} setActiveTab={setActiveTab} />;
 			</Container>
 		</>
 	);
