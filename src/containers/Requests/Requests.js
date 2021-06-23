@@ -41,7 +41,7 @@ const Requests = () => {
 	};
 
 	const basePath = `${process.env.REACT_APP_LCD_API ||
-		"https://lcd.orai.io/"}cosmos/tx/v1beta1/txs?events=message.action%3D%27set_ai_request%27&order_by=2&pagination.limit=${
+		"https://lcd.orai.io"}/cosmos/tx/v1beta1/txs?events=message.action%3D%27set_ai_request%27&order_by=2&pagination.limit=${
 		consts.REQUEST.LIMIT
 	}&pagination.offset=${(pageId - 1) * consts.REQUEST.LIMIT}`;
 	let path;
@@ -60,7 +60,7 @@ const Requests = () => {
 	// 		!isNil(data) &&
 	// 			!loading &&
 	// 			data.request_ids.map(async item => {
-	// 				const baseItemPath = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io/"}airequest/aireq/${item.slice(3, item.length)}`;
+	// 				const baseItemPath = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io"}/airequest/aireq/${item.slice(3, item.length)}`;
 	// 				await axios
 	// 					.get(baseItemPath)
 	// 					.then(itemData => {

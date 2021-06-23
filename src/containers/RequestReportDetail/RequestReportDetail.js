@@ -33,7 +33,7 @@ export default function() {
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const address = queryStringParse?.validator_address ?? "";
 
-	const path = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io/"}airesult/fullreq/${id}`;
+	const path = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io"}/airesult/fullreq/${id}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});

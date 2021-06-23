@@ -33,7 +33,7 @@ const RequestDetails = ({}) => {
 	const params = useParams();
 	const id = params?.["id"];
 
-	const path = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io/"}airesult/fullreq/${id}`;
+	const path = `${process.env.REACT_APP_LCD_API || "https://lcd.orai.io"}/airesult/fullreq/${id}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
