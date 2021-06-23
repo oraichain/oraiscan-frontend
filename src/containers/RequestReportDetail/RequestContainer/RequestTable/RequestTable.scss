@@ -30,11 +30,11 @@
 		&-value {
 			display: inline-block;
 			margin-right: 4px;
-			color: var(--common-linkColor);
+			color: var(--common-textColor);
 
 			.copy-icon {
 				cursor: pointer;
-				color: var(--common-linkColor);
+				color: var(--common-textColor);
 			}
 		}
 	}

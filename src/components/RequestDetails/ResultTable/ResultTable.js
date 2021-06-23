@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
+import React, {memo, useMemo, useRef, useState} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {Tooltip} from "@material-ui/core";
+import {Base64} from "js-base64";
 import consts from "src/constants/consts";
 import {logoBrand} from "src/constants/logoBrand";
 import {formatFloat, formatInteger} from "src/helpers/helper";
@@ -38,43 +39,49 @@ export const getHeaderRow = () => {
 };
 
 const ResultTable = memo(({data = []}) => {
+	const [refetch, setRefetch] = useState(false);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
-		return data.map(item => {
+		const totalVotingPower = data
+			?.map(item => {
+				return parseInt(item?.validator?.votingPower);
+			})
+			?.reduce((a, b) => a + b, 0);
+
+		return data?.map((item, index) => {
 			let validatorName;
 			let validatorIcon;
-			if (!_.isNil(item?.validator_address)) {
-				const matchedLogoItem = logoBrand.find(logoBrandItem => item.validator_address === logoBrandItem.operatorAddress);
+			if (!_.isNil(item?.validator?.address)) {
+				const matchedLogoItem = logoBrand.find(logoBrandItem => item?.validator?.address === logoBrandItem.operatorAddress);
 
 				if (matchedLogoItem) {
 					validatorName = matchedLogoItem?.name ?? "-";
 					validatorIcon = matchedLogoItem?.logo ?? aiIcon;
 				}
 			}
-			const validatorDataCell = _.isNil(item?.validator_name) ? (
+			const validatorDataCell = _.isNil(validatorName) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("validator-data-cell", "align-left")}>
 					<div className={cx("validator")}>
 						<img className={cx("validator-icon")} src={validatorIcon} alt='' />
-						<NavLink className={cx("validator-name")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
-							{" "}
-							{item?.validator_name?.length > 10 ? item?.validator_name?.substring(0, 10) + "...." : item?.validator_name}
+						<NavLink className={cx("validator-name")} to={`${consts.PATH.VALIDATORS}/${item?.validator?.address}`}>
+							{validatorName.length > 10 ? validatorName?.substring(0, 10) + "...." : validatorName}
 						</NavLink>
 					</div>
 				</div>
 			);
 
-			const addressDataCell = _.isNil(item?.validator_address) ? (
+			const addressDataCell = _.isNil(item?.validator?.address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<Tooltip title={item?.validator_address} arrow placement='top-start'>
+				<Tooltip title={item?.validator?.address} arrow placement='top-start'>
 					<div className={cx("address-data-cell", "align-left")}>
-						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.validator_address}`}>
-							{`${item?.validator_address.slice(0, 11)}...${item?.validator_address.slice(-11)}`}{" "}
+						<NavLink className={cx("address-data-cell-value")} to={`${consts.PATH.VALIDATORS}/${item?.validator?.address}`}>
+							{`${item?.validator?.address.slice(0, 11)}...${item?.validator?.address.slice(-11)}`}{" "}
 						</NavLink>
 					</div>
 				</Tooltip>
@@ -83,26 +90,26 @@ const ResultTable = memo(({data = []}) => {
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("result-data-cell", "align-left")}>{item?.result}</div>
+				<div className={cx("result-data-cell", "align-left")}>{Base64.decode(item?.result)}</div>
 			);
 
 			const votingPowerDataCell =
-				_.isNil(item?.voting_power) || _.isNil(item?.percentage_voting) ? (
+				_.isNil(item?.validator?.votingPower) || _.isNil(totalVotingPower) ? (
 					<div className={cx("align-left")}>-</div>
 				) : (
 					<div className={cx("voting-power-data-cell", "align-left")}>
 						<div className={cx("voting-power")}>
-							<div className={cx("voting-power-value")}>{formatInteger(item?.voting_power)}</div>
-							<div className={cx("voting-power-percent")}>{formatFloat(item?.percentage_voting)}%</div>
+							<div className={cx("voting-power-value")}>{formatInteger(item?.validator?.votingPower)}</div>
+							<div className={cx("voting-power-percent")}>{formatFloat((item?.validator?.votingPower / totalVotingPower) * 100)}%</div>
 						</div>
 					</div>
 				);
 
 			let statusElement;
-			if (_.isNil(item?.status)) {
+			if (_.isNil(item?.resultStatus)) {
 				statusElement = <div className={cx("status")}>-</div>;
 			} else {
-				switch (item?.status) {
+				switch (item?.resultStatus) {
 					case "success":
 						statusElement = (
 							<div className={cx("status")}>

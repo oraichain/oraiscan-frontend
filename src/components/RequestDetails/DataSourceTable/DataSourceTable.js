@@ -68,7 +68,7 @@ const DataSourceTable = memo(({data}) => {
 			const feesDataCell = _.isNil(item?.fees) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("fees-data-cell", "align-right")}>{formatOrai(item?.fees)}</div>
+				<div className={cx("fees-data-cell", "align-right")}>{item?.fees.length !== 0 ? formatOrai(item?.fees) : ""}</div>
 			);
 
 			return [nameDataCell, contractDataCell, ownerDataCell, descriptionDataCell, feesDataCell];
