@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, {memo} from "react";
 import copy from "copy-to-clipboard";
+import {Base64} from "js-base64";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import styles from "./RequestCardList.scss";
@@ -16,7 +17,7 @@ const RequestCardList = memo(({data = []}) => {
 	const dispatch = useDispatch();
 	return (
 		<div className='request-card-list'>
-			{data.map((item, index) => {
+			{data?.map((item, index) => {
 				let statusElement;
 				if (_.isNil(item?.status)) {
 					statusElement = <div className={cx("status")}>-</div>;
@@ -59,7 +60,7 @@ const RequestCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Name</div>
 									</td>
 									<td>
-										{_.isNil(item?.name) || item?.name === "" ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.name}</div>}
+										{_.isNil(item?.name) || item?.name === "" ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.name}</div>}
 									</td>
 								</tr>
 
@@ -67,7 +68,9 @@ const RequestCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>Result</div>
 									</td>
-									<td>{_.isNil(item?.result) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item?.result}</div>}</td>
+									<td>
+										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{Base64.decode(item?.result)}</div>}
+									</td>
 								</tr>
 
 								<tr>

@@ -18,20 +18,23 @@ import {isNil} from "lodash-es";
 
 const cx = cn.bind(styles);
 
-const Result = ({id, activeTab, setActiveTab}) => {
+const Result = ({data, loading, error, id, activeTab, setActiveTab}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
+	const calculateTotalPage = data?.results?.length / consts.REQUEST.LIMIT;
+	const totalPages = calculateTotalPage !== parseInt(calculateTotalPage.toString()) ? parseInt(calculateTotalPage.toString()) + 1 : calculateTotalPage;
+	const currentPageData = data?.results?.filter((item, index) => index >= (pageId - 1) * consts.REQUEST.LIMIT);
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
 		setPageId(page);
 	};
 
-	const path = `${consts.API.REQUESTS_RESULTS}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
-	const {data, loading, error} = useGet({
-		path: path,
-	});
+	// const path = `${consts.API.REQUESTS_RESULTS}/${id}?limit=${consts.REQUEST.LIMIT}&page_id=${pageId}`;
+	// const {data, loading, error} = useGet({
+	// 	path: path,
+	// });
 
 	let totalItems;
 	let tableSection;
@@ -43,30 +46,23 @@ const Result = ({id, activeTab, setActiveTab}) => {
 	} else {
 		if (error) {
 			totalItems = "-";
-			totalPagesRef.current = null;
 			tableSection = <NoResult />;
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
-
-			if (isNaN(data?.page?.total_item)) {
+			if (isNaN(data?.results?.length)) {
 				totalItems = "-";
 			} else {
-				totalItems = formatInteger(data.page.total_item);
+				totalItems = formatInteger(data?.results?.length);
 			}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <ResultTable data={data.data} /> : <ResultCardList data={data.data} />;
+			if (Array.isArray(currentPageData) && currentPageData.length > 0) {
+				tableSection = isLargeScreen ? <ResultTable data={currentPageData} /> : <ResultCardList data={currentPageData} />;
 			} else {
 				tableSection = <NoResult />;
 			}
 		}
 	}
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPages ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("card")}>

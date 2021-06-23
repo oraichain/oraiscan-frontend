@@ -2,6 +2,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import copy from "copy-to-clipboard";
+import {Base64} from "js-base64";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -39,7 +40,7 @@ const RequestTable = memo(({data = []}) => {
 			return [];
 		}
 
-		return data.map(item => {
+		return data?.map(item => {
 			let statusElement;
 			if (_.isNil(item?.status)) {
 				statusElement = <div className={cx("status")}>-</div>;
@@ -79,7 +80,7 @@ const RequestTable = memo(({data = []}) => {
 			) : (
 				<div className={cx("name-data-cell", "align-left")}>
 					<div className={cx("name")}>
-						<span className={cx("name-value")}>{item.name}</span>
+						<span className={cx("name-value")}>{item?.name}</span>
 					</div>
 				</div>
 			);
@@ -91,17 +92,19 @@ const RequestTable = memo(({data = []}) => {
 					<div className={cx("result")}>
 						<div
 							className={cx("result-value")}
-							onClick={() => {
-								copy(item?.result);
-								dispatch(
-									showAlert({
-										show: true,
-										message: "Copied",
-										autoHideDuration: 1500,
-									})
-								);
-							}}>
-							<CopyIcon className={cx("copy-icon")}></CopyIcon> {item?.result?.length > 30 ? item?.result?.substring(0, 30) + "...." : item?.result}
+							// onClick={() => {
+							// 	copy(item?.result);
+							// 	dispatch(
+							// 		showAlert({
+							// 			show: true,
+							// 			message: "Copied",
+							// 			autoHideDuration: 1500,
+							// 		})
+							// 	);
+							// }}
+						>
+							{/* <CopyIcon className={cx("copy-icon")}></CopyIcon>  */}
+							{Base64.decode(item?.result)}
 						</div>
 					</div>
 				</div>
