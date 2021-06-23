@@ -78,6 +78,7 @@ const initData = [
 const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
+	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
 
 	useEffect(() => {
 		let newData = initData;
@@ -101,6 +102,15 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	const handleOpenModal = () => {
 		setShowModal(true);
 	};
+
+	useEffect(() => {
+		const renewInterval = setInterval(() => {
+			setRenewTimeAgo(v => v + 1);
+		}, 5000);
+		return () => {
+			clearInterval(renewInterval);
+		};
+	}, []);
 
 	return (
 		<div className={cx("price-feeds")}>
