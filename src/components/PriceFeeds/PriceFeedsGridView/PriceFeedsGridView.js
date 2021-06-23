@@ -7,6 +7,7 @@ import NumberFormat from "react-number-format";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
+import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
@@ -74,8 +75,9 @@ const initData = [
 	},
 ];
 
-const PriceFeedsGridView = ({data, lastUpdate, keyword}) => {
+const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	const [showData, setShowData] = useState([]);
+	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
 		let newData = initData;
@@ -91,6 +93,14 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword}) => {
 		});
 		setShowData(newData);
 	}, [data, keyword]);
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+	};
+
+	const handleOpenModal = () => {
+		setShowModal(true);
+	};
 
 	return (
 		<div className={cx("price-feeds")}>
@@ -108,7 +118,7 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword}) => {
 										<img src={`/icons/price-feed/${name}.svg`} className={cx("price-feeds-card-pair-icon")} alt='' />
 										<div className={cx("price-feeds-card-pair-text")}>{name} / USD</div>
 									</div>
-									<div className={cx("price-feeds-card-price")}>
+									<div className={cx("price-feeds-card-price")} onClick={handleOpenModal}>
 										<NumberFormat value={price.toFixed(7)} displayType={"text"} thousandSeparator={true} prefix='$' />
 									</div>
 									<div className={cx("price-feeds-card-info")}>
@@ -134,6 +144,8 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword}) => {
 					})}
 				</Grid>
 			</div>
+
+			<TransactionModal open={showModal} closeDialog={handleCloseModal} reports={reports} />
 		</div>
 	);
 };

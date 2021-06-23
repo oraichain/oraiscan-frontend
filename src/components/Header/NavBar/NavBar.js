@@ -127,7 +127,6 @@ const NavBar = ({toggleSearchArea}) => {
 				setIsMaintaining(true);
 			}
 			// console.log("result blocks: ", result);
-			console.log("current blocks: ", currentBlocks);
 		};
 		checkLatestBlock();
 		// if (parseInt(result.block.header.height) - consts.MIN_MAINTAINANCE > )

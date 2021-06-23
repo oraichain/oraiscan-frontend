@@ -103,6 +103,7 @@ const PriceFeeds = ({}) => {
 							setData({
 								data: finalResultList,
 								lastUpdate: blockData?.data[0]?.timestamp,
+								reports: fullRequestData?.reports,
 							});
 							break;
 						}
