@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import queryString from "query-string";
 import cn from "classnames/bind";
@@ -29,6 +29,8 @@ const PriceFeeds = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
 	const [network, setNetwork] = useState(priceFeedNetworks.MAINNET);
+	const networkRef = useRef();
+
 	const [data, setData] = useState({
 		data: [],
 	});
@@ -47,7 +49,13 @@ const PriceFeeds = ({}) => {
 	} else {
 		titleSection = <TogglePageBar type='price_feeds' />;
 	}
-	const filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} network={network} setNetwork={setNetwork} />;
+
+	const handleChangeNetwork = n => {
+		networkRef.current = n;
+		setNetwork(n);
+	};
+
+	const filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} network={network} setNetwork={handleChangeNetwork} />;
 
 	useEffect(() => {
 		const getPriceFeed = async () => {
@@ -96,7 +104,7 @@ const PriceFeeds = ({}) => {
 								finalResultList.push({name: prop, price: holder[prop]});
 							}
 
-							network === priceFeedNetworks.MAINNET &&
+							networkRef.current === priceFeedNetworks.MAINNET &&
 								setData({
 									data: finalResultList,
 									lastUpdate: blockData?.data[0]?.timestamp,
@@ -108,17 +116,17 @@ const PriceFeeds = ({}) => {
 				}
 			} catch (e) {
 				console.log("error", e);
-				setData(null);
+				networkRef.current === priceFeedNetworks.MAINNET && setData(null);
 			}
 		};
 
 		const getPriceFeedBSC = async () => {
 			try {
 				const data = await getPriceBSCTestnet(pricePair);
-				setData(data);
+				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(data);
 			} catch (e) {
 				console.log("error", e);
-				setData(null);
+				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(null);
 			}
 		};
 
