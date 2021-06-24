@@ -7,83 +7,23 @@ import NumberFormat from "react-number-format";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
+import {pricePair} from "src/constants/priceFeed";
 import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const initData = [
-	{
-		name: "BTC",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "ETH",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "BNB",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "XRP",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "DOGE",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "LINK",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "UNI",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "USDC",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "BUSD",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "DAI",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "USDT",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "ORAI",
-		price: 0,
-		status: "Inactive",
-	},
-];
-
 const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
+	console.log("data ============= ", data);
+
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
 
 	useEffect(() => {
-		let newData = initData;
+		let newData = pricePair;
 		if (keyword) {
-			newData = initData.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
+			newData = pricePair.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
 		}
 		newData = newData.map(value => {
 			const findedPair = data.find(v => v.name === value.name);

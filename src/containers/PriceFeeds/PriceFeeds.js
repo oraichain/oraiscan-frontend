@@ -17,18 +17,18 @@ import styles from "./PriceFeeds.module.scss";
 import consts from "src/constants/consts";
 import NoResult from "src/components/common/NoResult";
 import axios from "axios";
+import {pricePair} from "src/constants/priceFeed";
+import {getPriceBSCTestnet} from "./bsc-testnet";
+import {priceFeedNetworks} from "src/constants/priceFeed";
 
 const cx = cn.bind(styles);
 
 const PriceFeeds = ({}) => {
 	const history = useHistory();
-	const query = queryString.parse(history.location.search);
-	const search = query?.search || "";
-
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
-	const [network, setNetwork] = useState("Oraichain mainnet");
+	const [network, setNetwork] = useState(priceFeedNetworks.MAINNET);
 	const [data, setData] = useState({
 		data: [],
 	});
@@ -67,12 +67,6 @@ const PriceFeeds = ({}) => {
 
 							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${parseInt(fullRequestData?.ai_request?.block_height) + 1}`);
 
-							// const {data: blockHeightInfo} = await axios.get(
-							// 	`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=message.action%3D%27create_report%27&order_by=2&events=tx.height%3D${fullRequestData?.ai_request?.block_height}`
-							// );
-
-							// console.log("blockHeightInfo ", blockHeightInfo);
-
 							for (let item of fullRequestData.result.results) {
 								const resultDecode = JSON.parse(atob(item.result));
 								aggregatedResult = aggregatedResult.concat(resultDecode);
@@ -92,6 +86,7 @@ const PriceFeeds = ({}) => {
 									holder[d.name + "count"] = 1;
 								}
 							});
+
 							uniqueSymbols.forEach(d => {
 								holder[d] /= holder[d + "count"];
 								delete holder[d + "count"];
@@ -101,11 +96,12 @@ const PriceFeeds = ({}) => {
 								finalResultList.push({name: prop, price: holder[prop]});
 							}
 
-							setData({
-								data: finalResultList,
-								lastUpdate: blockData?.data[0]?.timestamp,
-								reports: fullRequestData?.reports,
-							});
+							network === priceFeedNetworks.MAINNET &&
+								setData({
+									data: finalResultList,
+									lastUpdate: blockData?.data[0]?.timestamp,
+									reports: fullRequestData?.reports,
+								});
 							break;
 						}
 					}
@@ -115,30 +111,54 @@ const PriceFeeds = ({}) => {
 				setData(null);
 			}
 		};
-		getPriceFeed();
-	}, [renewPriceFeed]);
+
+		const getPriceFeedBSC = async () => {
+			try {
+				const data = await getPriceBSCTestnet(pricePair);
+				setData(data);
+			} catch (e) {
+				console.log("error", e);
+				setData(null);
+			}
+		};
+
+		if (network === priceFeedNetworks.BSC_TESTNET) {
+			getPriceFeedBSC();
+		} else {
+			getPriceFeed();
+		}
+	}, [renewPriceFeed, network]);
 
 	useEffect(() => {
-		const url = process.env.REACT_APP_WEBSOCKET_URL || `wss://rpc.orai.io/websocket`;
-		const socket = new WebSocket(url);
-		socket.onopen = () => {
-			socket.send(
-				JSON.stringify({
-					jsonrpc: "2.0",
-					method: "subscribe",
-					params: [`message.action='set_ai_request'`],
-					id: 1,
-				})
-			);
-		};
+		// const url = process.env.REACT_APP_WEBSOCKET_URL || `wss://rpc.orai.io/websocket`;
+		// const socket = new WebSocket(url);
+		// socket.onopen = () => {
+		// 	socket.send(
+		// 		JSON.stringify({
+		// 			jsonrpc: "2.0",
+		// 			method: "subscribe",
+		// 			params: [`message.action='set_ai_request'`],
+		// 			id: 1,
+		// 		})
+		// 	);
+		// };
 
 		let i = 0;
 
-		socket.onmessage = res => {
-			const data = JSON.parse(res.data);
-			console.log(data);
+		// socket.onmessage = res => {
+		// 	const data = JSON.parse(res.data);
+		// 	console.log(data);
+		// 	i && setRenewPriceFeed(v => v + 1);
+		// 	i++;
+		// };
+
+		const renewPriceInterval = setInterval(() => {
 			i && setRenewPriceFeed(v => v + 1);
 			i++;
+		}, 1000 * 60 * 2);
+
+		return () => {
+			clearInterval(renewPriceInterval);
 		};
 	}, []);
 
