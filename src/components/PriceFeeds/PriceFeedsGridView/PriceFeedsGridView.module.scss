@@ -1,5 +1,9 @@
 @import "src/styles/utils";
 
+.bsc-link {
+	display: none;
+}
+
 .price-feeds {
 	margin-top: 20px;
 	padding: 30px;
@@ -33,6 +37,10 @@
 		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 8px;
+
+		&:hover {
+			background: var(--price-feed-hover);
+		}
 
 		&-pair {
 			display: flex;
@@ -73,7 +81,7 @@
 			// justify-content: space-between;
 
 			&-item {
-				margin-top: 12px;
+				margin-top: 6px;
 
 				&-header {
 					color: var(--common-textColor);
@@ -84,38 +92,43 @@
 					line-height: 150%;
 				}
 
-				&-body {
+				&-wrap {
 					display: flex;
-					flex-direction: row;
-					align-items: center;
-					color: var(--common-textColor);
-					font-family: Roboto;
-					font-style: normal;
-					font-weight: normal;
-					font-size: 14px;
-					line-height: 150%;
+					justify-content: space-between;
 
-					.status-icon {
-						margin-right: 10px;
-						width: 16px;
-						height: 16px;
-
-						&-active {
-							color: var(--common-resultIconSuccessColor);
-						}
-
-						&-inactive {
-							color: var(--common-resultIconFailureColor);
-						}
-					}
-
-					.status-text {
+					&-body {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
 						color: var(--common-textColor);
 						font-family: Roboto;
 						font-style: normal;
 						font-weight: normal;
-						font-size: 16px;
+						font-size: 14px;
 						line-height: 150%;
+
+						.status-icon {
+							margin-right: 10px;
+							width: 16px;
+							height: 16px;
+
+							&-active {
+								color: var(--common-resultIconSuccessColor);
+							}
+
+							&-inactive {
+								color: var(--common-resultIconFailureColor);
+							}
+						}
+
+						.status-text {
+							color: var(--common-textColor);
+							font-family: Roboto;
+							font-style: normal;
+							font-weight: normal;
+							font-size: 16px;
+							line-height: 150%;
+						}
 					}
 				}
 			}

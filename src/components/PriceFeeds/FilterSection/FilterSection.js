@@ -7,7 +7,7 @@ import cn from "classnames/bind";
 import SearchInput from "src/components/common/SearchInput";
 import styles from "./FilterSection.module.scss";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import {priceFeedNetworks} from "src/constants/priceFeedNetworks";
+import {priceFeedNetworks} from "src/constants/priceFeed";
 import _ from "lodash";
 
 const cx = cn.bind(styles);
@@ -32,7 +32,6 @@ const FilterSection = ({keyword, setKeyword, network, setNetwork}) => {
 	const clickListener = event => {
 		if (event?.target?.hasAttribute("price-feed-network")) {
 			setNetwork(event?.target?.getAttribute("price-feed-network"));
-			return;
 		}
 
 		if (selectedPriceFeedNetworkRef?.current?.contains?.(event?.target)) {
@@ -81,8 +80,8 @@ const FilterSection = ({keyword, setKeyword, network, setNetwork}) => {
 				</div>
 			</Grid>
 			<Grid item lg={6} xs={12} className={cx("filter-section-right")}>
-				<div className={cx("network-switcher")}>
-					<div className={cx("selected-item")} ref={selectedPriceFeedNetworkRef}>
+				<div className={cx("network-switcher")} ref={selectedPriceFeedNetworkRef}>
+					<div className={cx("selected-item")}>
 						<input type='text' className={cx("text-field")} value={network} readOnly />
 						<DownAngleIcon className={cx("arrow")} />
 					</div>

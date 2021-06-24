@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import queryString from "query-string";
 import cn from "classnames/bind";
@@ -17,21 +17,26 @@ import styles from "./PriceFeeds.module.scss";
 import consts from "src/constants/consts";
 import NoResult from "src/components/common/NoResult";
 import axios from "axios";
+import {pricePair} from "src/constants/priceFeed";
+import {getPriceBSCTestnet} from "./bsc-testnet";
+import {getPriceFeedMainnet} from "./mainnet";
+import {priceFeedNetworks} from "src/constants/priceFeed";
 
 const cx = cn.bind(styles);
 
 const PriceFeeds = ({}) => {
 	const history = useHistory();
-	const query = queryString.parse(history.location.search);
-	const search = query?.search || "";
-
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
-	const [network, setNetwork] = useState("Oraichain mainnet");
+	const [network, setNetwork] = useState(priceFeedNetworks.MAINNET);
+	const [isLoading, setIsLoading] = useState(false);
+	const networkRef = useRef();
+
 	const [data, setData] = useState({
 		data: [],
 	});
+	const [renewPriceFeed, setRenewPriceFeed] = useState(0);
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -46,83 +51,99 @@ const PriceFeeds = ({}) => {
 	} else {
 		titleSection = <TogglePageBar type='price_feeds' />;
 	}
-	const filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} network={network} setNetwork={setNetwork} />;
+
+	const handleChangeNetwork = n => {
+		networkRef.current = n;
+		setNetwork(n);
+	};
+
+	const filterSection = <FilterSection keyword={keyword} setKeyword={setKeyword} network={network} setNetwork={handleChangeNetwork} />;
 
 	useEffect(() => {
-		const getPriceFeed = async () => {
+		const getPriceFeedORAI = async () => {
 			try {
-				const {data: aiRequestData} = await axios.get(
-					`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=ai_request_data.oscript_name%3D%27oscript_price_special%27&order_by=2`
-				);
-
-				if (aiRequestData?.txs?.length > 0) {
-					for (let tx of aiRequestData.txs) {
-						const reqId = tx.body.messages[0].request_id;
-						const {data: fullRequestData} = await axios.get(`${consts.LCD_API_BASE}/airesult/fullreq/${reqId}`);
-
-						if (fullRequestData?.result?.results?.length > 0) {
-							let finalResultList = [],
-								aggregatedResult = [];
-
-							const {data: blockData} = await axios.get(`${consts.API_BASE}/blocks?&limit=1&before=${parseInt(fullRequestData?.ai_request?.block_height) + 1}`);
-
-							// const {data: blockHeightInfo} = await axios.get(
-							// 	`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=message.action%3D%27create_report%27&order_by=2&events=tx.height%3D${fullRequestData?.ai_request?.block_height}`
-							// );
-
-							// console.log("blockHeightInfo ", blockHeightInfo);
-
-							for (let item of fullRequestData.result.results) {
-								const resultDecode = JSON.parse(atob(item.result));
-								aggregatedResult = aggregatedResult.concat(resultDecode);
-							}
-							aggregatedResult = aggregatedResult.map(result => ({...result, price: parseFloat(result.price)}));
-
-							let holder = {};
-							let uniqueSymbols = [];
-
-							aggregatedResult.forEach(d => {
-								if (holder.hasOwnProperty(d.name)) {
-									holder[d.name] = holder[d.name] + d.price;
-									holder[d.name + "count"] += 1;
-								} else {
-									uniqueSymbols.push(d.name);
-									holder[d.name] = d.price;
-									holder[d.name + "count"] = 1;
-								}
-							});
-							uniqueSymbols.forEach(d => {
-								holder[d] /= holder[d + "count"];
-								delete holder[d + "count"];
-							});
-
-							for (let prop in holder) {
-								finalResultList.push({name: prop, price: holder[prop]});
-							}
-
-							setData({
-								data: finalResultList,
-								lastUpdate: blockData?.data[0]?.timestamp,
-								reports: fullRequestData?.reports,
-							});
-							break;
-						}
-					}
-				}
+				setIsLoading(true);
+				const data = await getPriceFeedMainnet();
+				networkRef.current === priceFeedNetworks.MAINNET && setData(data);
+				setIsLoading(false);
 			} catch (e) {
 				console.log("error", e);
-				setData(null);
+				networkRef.current === priceFeedNetworks.MAINNET && setData(null);
+				setIsLoading(false);
 			}
 		};
-		getPriceFeed();
+
+		const getPriceFeedBSC = async () => {
+			try {
+				setIsLoading(true);
+				const data = await getPriceBSCTestnet(pricePair);
+				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(data);
+				setIsLoading(false);
+			} catch (e) {
+				console.log("error", e);
+				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(null);
+				setIsLoading(false);
+			}
+		};
+
+		if (network === priceFeedNetworks.BSC_TESTNET) {
+			getPriceFeedBSC();
+		} else {
+			getPriceFeedORAI();
+		}
+	}, [renewPriceFeed, network]);
+
+	useEffect(() => {
+		// const url = process.env.REACT_APP_WEBSOCKET_URL || `wss://rpc.orai.io/websocket`;
+		// const socket = new WebSocket(url);
+		// socket.onopen = () => {
+		// 	socket.send(
+		// 		JSON.stringify({
+		// 			jsonrpc: "2.0",
+		// 			method: "subscribe",
+		// 			params: [`message.action='set_ai_request'`],
+		// 			id: 1,
+		// 		})
+		// 	);
+		// };
+
+		let i = 0;
+
+		// socket.onmessage = res => {
+		// 	const data = JSON.parse(res.data);
+		// 	console.log(data);
+		// 	i && setRenewPriceFeed(v => v + 1);
+		// 	i++;
+		// };
+
+		const renewPriceInterval = setInterval(() => {
+			i && setRenewPriceFeed(v => v + 1);
+			i++;
+		}, 1000 * 60 * 2);
+
+		return () => {
+			clearInterval(renewPriceInterval);
+		};
 	}, []);
+
+	const renderData = () => {
+		if (!data) {
+			return <NoResult />;
+		}
+
+		if (isLoading) {
+			return <PriceFeedsGridViewSkeleton />;
+		}
+
+		return <PriceFeedsGridView {...data} keyword={keyword} />;
+	};
 
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("price-feeds")}>
 				{filterSection}
-				{data ? data.data.length > 0 ? <PriceFeedsGridView {...data} keyword={keyword} /> : <PriceFeedsGridViewSkeleton /> : <NoResult />}
+				{renderData()}
 			</Container>
 		</>
 	);

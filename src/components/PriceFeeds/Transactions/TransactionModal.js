@@ -22,6 +22,10 @@ const TransactionModal = ({open, closeDialog, reports}) => {
 			setLoading(true);
 			const results = [];
 			const blockHeights = [];
+			if (!reports) {
+				setLoading(false);
+				return;
+			}
 			for (let i = 0; i < reports.length; i++) {
 				const {blockHeight} = reports[i];
 				if (blockHeights.includes(blockHeight)) {

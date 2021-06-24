@@ -41,7 +41,6 @@ let common = theme => {
   --common-transactions-amountTransactionLabelOutColor: ${theme?.data?.common?.transactions?.amountTransactionLabelOutColor};
   --common-transactions-amountTransactionTextOutColor: ${theme?.data?.common?.transactions?.amountTransactionTextOutColor};
   --common-transactions-amountTransactionBackgroundOutColor: ${theme?.data?.common?.transactions?.amountTransactionBackgroundOutColor};
-
 `;
 };
 
@@ -197,6 +196,12 @@ let wallet = theme => {
 	};
 };
 
+let priceFeed = theme => {
+	return `
+      --price-feed-hover: ${theme?.data?.priceFeed?.priceFeedHover};
+`;
+};
+
 export const GlobalStyles = createGlobalStyle`
   :root {
     ${({theme}) => common(theme)}
@@ -226,5 +231,6 @@ export const GlobalStyles = createGlobalStyle`
     ${({theme}) => wallet(theme)?.delegatedValidator}
     ${({theme}) => wallet(theme)?.transactionTable}
     ${({theme}) => wallet(theme)?.contact}
+    ${({theme}) => priceFeed(theme)}
   }
 `;

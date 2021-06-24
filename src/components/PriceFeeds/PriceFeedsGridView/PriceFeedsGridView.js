@@ -1,88 +1,31 @@
-import React, {useEffect, useState} from "react";
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable no-undef */
+import React, {useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {_} from "src/lib/scripts";
 import NumberFormat from "react-number-format";
+import {Tooltip} from "@material-ui/core";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
+import {pricePair} from "src/constants/priceFeed";
 import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const initData = [
-	{
-		name: "BTC",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "ETH",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "BNB",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "XRP",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "DOGE",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "LINK",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "UNI",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "USDC",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "BUSD",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "DAI",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "USDT",
-		price: 0,
-		status: "Inactive",
-	},
-	{
-		name: "ORAI",
-		price: 0,
-		status: "Inactive",
-	},
-];
-
 const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
+	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
+	const bscRef = useRef();
 
 	useEffect(() => {
-		let newData = initData;
+		let newData = pricePair;
 		if (keyword) {
-			newData = initData.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
+			newData = pricePair.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
 		}
 		newData = newData.map(value => {
 			const findedPair = data.find(v => v.name === value.name);
@@ -99,14 +42,33 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	};
 
 	const handleOpenModal = () => {
+		if (!reports) {
+			return bscRef?.current?.click();
+		}
 		setShowModal(true);
 	};
+
+	useEffect(() => {
+		const renewInterval = setInterval(() => {
+			setRenewTimeAgo(v => v + 1);
+		}, 5000);
+		return () => {
+			clearInterval(renewInterval);
+		};
+	}, []);
 
 	return (
 		<div className={cx("price-feeds")}>
 			<div className={cx("price-feeds-header")}>
 				<span className={cx("price-feeds-header-name")}>Offer the precise and fast prices of famous cryptocurrencies powered by the AI Oracle technology.</span>
 			</div>
+			<a
+				href='https://testnet.bscscan.com/address/0x13F54d67Fa23AB3CAaeF681553cD996f7E9d6237#internaltx'
+				ref={bscRef}
+				className={cx("bsc-link")}
+				target='_blank'
+				rel='noopener noreferrer'
+			/>
 
 			<div className={cx("price-feeds-body")}>
 				<Grid container spacing={2}>
@@ -123,19 +85,27 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 									</div>
 									<div className={cx("price-feeds-card-info")}>
 										<div className={cx("price-feeds-card-info-item")}>
-											<div className={cx("price-feeds-card-info-item-header")}>Status</div>
-											<div className={cx("price-feeds-card-info-item-body")}>
-												{status === "Active" ? (
-													<CheckIcon className={cx("status-icon", "status-icon-active")} />
-												) : (
-													<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
-												)}
-												<div className={cx("status-text")}>{status}</div>
+											<div className={cx("price-feeds-card-info-item-wrap")}>
+												<div className={cx("price-feeds-card-info-item")}>
+													<div className={cx("price-feeds-card-info-item-header")}>Status</div>
+													<div className={cx("price-feeds-card-info-item-wrap-body")}>
+														{status === "Active" ? (
+															<CheckIcon className={cx("status-icon", "status-icon-active")} />
+														) : (
+															<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
+														)}
+														<div className={cx("status-text")}>{status}</div>
+													</div>
+												</div>
+												<div className={cx("price-feeds-card-info-item")}>
+													<div className={cx("price-feeds-card-info-item-header")}>Last updated</div>
+													<div className={cx("price-feeds-card-info-item-body")}>
+														<Tooltip title={`${getTotalTime(lastUpdate)}`} arrow placement='top-start'>
+															<span> {setAgoTime(lastUpdate)} </span>
+														</Tooltip>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div className={cx("price-feeds-card-info-item")}>
-											<div className={cx("price-feeds-card-info-item-header")}>Last update</div>
-											<div className={cx("price-feeds-card-info-item-body")}>{setAgoTime(lastUpdate) + " (" + getTotalTime(lastUpdate) + ")"}</div>
 										</div>
 									</div>
 								</div>
