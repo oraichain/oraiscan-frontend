@@ -261,6 +261,9 @@ export const themes = {
 					},
 					contact: {},
 				},
+				priceFeed: {
+					priceFeedHover: "#274669",
+				},
 			},
 		},
 		[themeIds.LIGHT]: {
@@ -471,6 +474,9 @@ export const themes = {
 						withdraw: {},
 					},
 					contact: {},
+				},
+				priceFeed: {
+					priceFeedHover: "#f6f6f6",
 				},
 			},
 		},

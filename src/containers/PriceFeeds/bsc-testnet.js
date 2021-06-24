@@ -16,6 +16,8 @@ async function getPriceBSCTestnet(listPair) {
 		latest: true,
 	});
 
+	console.log(priceArr, "== ==== === =");
+
 	for (let i = 0; i < listCoin.length; i++) {
 		if (!priceArr[i][0]) {
 			continue;

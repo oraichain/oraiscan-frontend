@@ -30,6 +30,7 @@ const PriceFeeds = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
 	const [network, setNetwork] = useState(priceFeedNetworks.MAINNET);
+	const [isLoading, setIsLoading] = useState(false);
 	const networkRef = useRef();
 
 	const [data, setData] = useState({
@@ -61,21 +62,27 @@ const PriceFeeds = ({}) => {
 	useEffect(() => {
 		const getPriceFeedORAI = async () => {
 			try {
+				setIsLoading(true);
 				const data = await getPriceFeedMainnet();
 				networkRef.current === priceFeedNetworks.MAINNET && setData(data);
+				setIsLoading(false);
 			} catch (e) {
 				console.log("error", e);
 				networkRef.current === priceFeedNetworks.MAINNET && setData(null);
+				setIsLoading(false);
 			}
 		};
 
 		const getPriceFeedBSC = async () => {
 			try {
+				setIsLoading(true);
 				const data = await getPriceBSCTestnet(pricePair);
 				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(data);
+				setIsLoading(false);
 			} catch (e) {
 				console.log("error", e);
 				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(null);
+				setIsLoading(false);
 			}
 		};
 
@@ -119,12 +126,24 @@ const PriceFeeds = ({}) => {
 		};
 	}, []);
 
+	const renderData = () => {
+		if (!data) {
+			return <NoResult />;
+		}
+
+		if (isLoading) {
+			return <PriceFeedsGridViewSkeleton />;
+		}
+
+		return <PriceFeedsGridView {...data} keyword={keyword} />;
+	};
+
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("price-feeds")}>
 				{filterSection}
-				{data ? data.data.length > 0 ? <PriceFeedsGridView {...data} keyword={keyword} /> : <PriceFeedsGridViewSkeleton /> : <NoResult />}
+				{renderData()}
 			</Container>
 		</>
 	);

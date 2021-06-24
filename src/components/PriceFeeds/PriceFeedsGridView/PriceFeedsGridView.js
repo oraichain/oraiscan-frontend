@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable no-undef */
+import React, {useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {_} from "src/lib/scripts";
 import NumberFormat from "react-number-format";
+import {Tooltip} from "@material-ui/core";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
@@ -14,11 +17,10 @@ import styles from "./PriceFeedsGridView.module.scss";
 const cx = cn.bind(styles);
 
 const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
-	console.log("data ============= ", data);
-
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
+	const bscRef = useRef();
 
 	useEffect(() => {
 		let newData = pricePair;
@@ -40,6 +42,9 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	};
 
 	const handleOpenModal = () => {
+		if (!reports) {
+			return bscRef?.current?.click();
+		}
 		setShowModal(true);
 	};
 
@@ -57,6 +62,13 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 			<div className={cx("price-feeds-header")}>
 				<span className={cx("price-feeds-header-name")}>Offer the precise and fast prices of famous cryptocurrencies powered by the AI Oracle technology.</span>
 			</div>
+			<a
+				href='https://testnet.bscscan.com/address/0x13F54d67Fa23AB3CAaeF681553cD996f7E9d6237#internaltx'
+				ref={bscRef}
+				className={cx("bsc-link")}
+				target='_blank'
+				rel='noopener noreferrer'
+			/>
 
 			<div className={cx("price-feeds-body")}>
 				<Grid container spacing={2}>
@@ -73,19 +85,27 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 									</div>
 									<div className={cx("price-feeds-card-info")}>
 										<div className={cx("price-feeds-card-info-item")}>
-											<div className={cx("price-feeds-card-info-item-header")}>Status</div>
-											<div className={cx("price-feeds-card-info-item-body")}>
-												{status === "Active" ? (
-													<CheckIcon className={cx("status-icon", "status-icon-active")} />
-												) : (
-													<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
-												)}
-												<div className={cx("status-text")}>{status}</div>
+											<div className={cx("price-feeds-card-info-item-wrap")}>
+												<div className={cx("price-feeds-card-info-item")}>
+													<div className={cx("price-feeds-card-info-item-header")}>Status</div>
+													<div className={cx("price-feeds-card-info-item-wrap-body")}>
+														{status === "Active" ? (
+															<CheckIcon className={cx("status-icon", "status-icon-active")} />
+														) : (
+															<TimesIcon className={cx("status-icon", "status-icon-inactive")} />
+														)}
+														<div className={cx("status-text")}>{status}</div>
+													</div>
+												</div>
+												<div className={cx("price-feeds-card-info-item")}>
+													<div className={cx("price-feeds-card-info-item-header")}>Last updated</div>
+													<div className={cx("price-feeds-card-info-item-body")}>
+														<Tooltip title={`${getTotalTime(lastUpdate)}`} arrow placement='top-start'>
+															<span> {setAgoTime(lastUpdate)} </span>
+														</Tooltip>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div className={cx("price-feeds-card-info-item")}>
-											<div className={cx("price-feeds-card-info-item-header")}>Last update</div>
-											<div className={cx("price-feeds-card-info-item-body")}>{setAgoTime(lastUpdate) + " (" + getTotalTime(lastUpdate) + ")"}</div>
 										</div>
 									</div>
 								</div>
