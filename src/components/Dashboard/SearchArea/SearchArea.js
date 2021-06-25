@@ -15,11 +15,10 @@ export default function() {
 				<Grid item lg={4} xs={12}>
 					<div className={cx("title")}>Oraichain Explorer</div>
 				</Grid>
-				{hasTestnetAPI && (
-					<Grid item lg={2} xs={12}>
-						<NetworkSwitcher />
-					</Grid>
-				)}
+
+				<Grid item lg={2} xs={12}>
+					{hasTestnetAPI && <NetworkSwitcher />}
+				</Grid>
 
 				<Grid item lg={6} xs={12}>
 					<SearchBox interactiveWidth={true} />
