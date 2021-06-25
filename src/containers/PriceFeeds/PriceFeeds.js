@@ -1,7 +1,5 @@
 // @ts-nocheck
 import React, {useEffect, useState, useRef} from "react";
-import {useHistory} from "react-router-dom";
-import queryString from "query-string";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -14,9 +12,7 @@ import PriceFeedsGridViewSkeleton from "src/components/PriceFeeds/PriceFeedsGrid
 import TogglePageBar from "src/components/common/TogglePageBar";
 import FilterSection from "src/components/PriceFeeds/FilterSection";
 import styles from "./PriceFeeds.module.scss";
-import consts from "src/constants/consts";
 import NoResult from "src/components/common/NoResult";
-import axios from "axios";
 import {pricePair} from "src/constants/priceFeed";
 import {getPriceBSCTestnet} from "./bsc-testnet";
 import {getPriceFeedMainnet} from "./mainnet";
@@ -25,13 +21,12 @@ import {priceFeedNetworks} from "src/constants/priceFeed";
 const cx = cn.bind(styles);
 
 const PriceFeeds = ({}) => {
-	const history = useHistory();
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [keyword, setKeyword] = useState("");
 	const [network, setNetwork] = useState(priceFeedNetworks.MAINNET);
 	const [isLoading, setIsLoading] = useState(false);
-	const networkRef = useRef();
+	const networkRef = useRef(priceFeedNetworks.MAINNET);
 
 	const [data, setData] = useState({
 		data: [],
