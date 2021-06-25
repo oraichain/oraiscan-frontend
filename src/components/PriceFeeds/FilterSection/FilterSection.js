@@ -1,6 +1,4 @@
 import React, {useEffect, useRef} from "react";
-import {useHistory} from "react-router-dom";
-import queryString from "query-string";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
@@ -13,7 +11,6 @@ import _ from "lodash";
 const cx = cn.bind(styles);
 
 const FilterSection = ({keyword, setKeyword, network, setNetwork}) => {
-	const history = useHistory();
 	const selectedPriceFeedNetworkRef = useRef(null);
 	const listPriceFeedNetworks = useRef(null);
 
