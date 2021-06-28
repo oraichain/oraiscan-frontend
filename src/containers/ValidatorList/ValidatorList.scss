@@ -13,8 +13,7 @@
 	position: relative;
 	display: flex;
 	justify-content: flex-end;
-	margin-bottom: 20px;
-	align-items: baseline;
+	margin-bottom: 30px;
 	@include media("<medium") {
 		display: block;
 	}
@@ -26,6 +25,38 @@
 		width: 100%;
 		height: 100%;
 		background-color: transparent;
+	}
+
+	.button {
+		color: var(--validators-deletegateButtonTextColor);
+		background: var(--validators-selectBackgroundBtn);
+		border: 1px solid var(--validators-deletegateButtonBorderColor);
+
+		display: inline-block;
+		padding: 8px 16px;
+		border-radius: 6px;
+		font-family: Roboto;
+		font-size: 16px;
+		cursor: pointer;
+		margin-left: 5px;
+		@include media("<medium") {
+			font-size: 14px;
+		}
+
+		&:hover {
+			color: #ffffff;
+			background: #00b1e9;
+			border-color: #00b1e9;
+		}
+
+		&-active {
+			margin-left: 15px;
+		}
+
+		&-is-active {
+			background: var(--validators-selectActiveBackgroundBtn);
+			color: var(--common-activeTabTextColor);
+		}
 	}
 }
 
@@ -47,7 +78,7 @@
 	@include media("<medium") {
 		width: 100%;
 	}
-	margin-bottom: 10px;
+
 	button {
 		position: absolute;
 		right: 18px;
