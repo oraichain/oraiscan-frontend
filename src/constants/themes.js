@@ -121,6 +121,7 @@ export const themes = {
 						cumulativeShareBarColor_1: colors.DODGER_BLUE,
 						cumulativeShareBarColor_2: colors.VIKING,
 						logoBorder: colors.WHITE,
+						selectActiveBackgroundBtn: colors.DODGER_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.DODGER_BLUE,
 							totalBlocksLabelBackgroundColor: colors.DODGER_BLUE,
@@ -334,6 +335,8 @@ export const themes = {
 						cumulativeShareBarColor_1: colors.CREAM,
 						cumulativeShareBarColor_2: colors.PALE_GREEN,
 						logoBorder: colors.ROYAL_BLUE,
+						selectBackgroundBtn: colors.WHITE,
+						selectActiveBackgroundBtn: colors.PACIFIC_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.NEON_BLUE,
 							totalBlocksLabelBackgroundColor: "none",

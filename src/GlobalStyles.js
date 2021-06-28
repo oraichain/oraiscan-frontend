@@ -67,6 +67,8 @@ let validators = theme => {
       --validators-deletegateButtonBorderColor: ${theme?.data?.tabs?.validators?.deletegateButtonBorderColor};
       --validators-cumulativeShareBarColor_1: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
       --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_2};
+      --validators-selectBackgroundBtn: ${theme?.data?.tabs?.validators?.selectBackgroundBtn};
+      --validators-selectActiveBackgroundBtn: ${theme?.data?.tabs?.validators?.selectActiveBackgroundBtn};
       --validators-logo-border: ${theme?.data?.tabs?.validators?.logoBorder};`,
 		validatorDetails: `
       --validators-validatorDetails-totalBlocksLabel: ${theme?.data?.tabs?.validators?.validatorDetails?.totalBlocksLabel};

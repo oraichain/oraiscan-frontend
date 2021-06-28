@@ -4,6 +4,9 @@ import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {useParams, useHistory, useLocation} from "react-router-dom";
+import queryString from "query-string";
+
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
@@ -28,6 +31,9 @@ const ValidatorList = props => {
 	const [keyword, setKeyword] = useState("");
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
+	const history = useHistory();
+	const {status} = queryString.parse(history.location.search) || {};
+	const isActiveValidator = !status || status === "active";
 
 	let timerIdRef = useRef(null);
 
@@ -39,6 +45,9 @@ const ValidatorList = props => {
 	};
 
 	let path = `${basePath}?page_id=1`;
+	if (status) {
+		path += `&status=` + status;
+	}
 	if (keyword !== "") {
 		path += `&moniker=${keyword}`;
 	}
@@ -86,6 +95,18 @@ const ValidatorList = props => {
 
 	statusCardList = <StatusCardList />;
 
+	const handleSelectValidator = status => {
+		return function() {
+			if (status === "active") {
+				history.push("/validators");
+			}
+
+			if (status === "inactive") {
+				history.push("/validators?status=inactive");
+			}
+		};
+	};
+
 	filterSection = (
 		<div className={cx("filter-section")}>
 			<SearchInput
@@ -98,6 +119,14 @@ const ValidatorList = props => {
 					setKeyword(e.target.value);
 				}}
 			/>
+			<div className={cx("button", "button-active", isActiveValidator ? "button-is-active" : "")} onClick={handleSelectValidator("active")}>
+				{" "}
+				Active{" "}
+			</div>
+			<div className={cx("button", !isActiveValidator ? "button-is-active" : "")} onClick={handleSelectValidator("inactive")}>
+				{" "}
+				Inactive{" "}
+			</div>
 		</div>
 	);
 
