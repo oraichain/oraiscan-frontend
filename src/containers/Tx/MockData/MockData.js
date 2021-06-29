@@ -4,7 +4,7 @@ export default Object.freeze({
 	tx_hash: "7577467833A9FAB21DCDE99177A8F397E820F65DEAA0A3EBC66B10717FA588F0",
 	messages: [
 		{
-			type: "cosmos-sdk/MsgSubmitProposal",
+			type: "/cosmos.gov.v1beta1.MsgSubmitProposal",
 			value: {
 				title: "list XRPBEAR-00B/BNB",
 				proposer: "bnb1ff4r0t7j8ll8lf3gm2ltdu3hjy4w690j7vvees",
@@ -43,7 +43,7 @@ export default Object.freeze({
 // 	tx_hash: "21DF1CAC45FB73A8D92F54BFAAD82E56954D4EF72CCF1FD3DE41AD97F202A618",
 // 	messages: [
 // 		{
-// 			type: "cosmos-sdk/Send",
+// 			type: "/cosmos.bank.v1beta1.MsgSend",
 // 			value: {
 // 				inputs: [
 // 					{

@@ -46,10 +46,6 @@ const TxMessage = ({msg, data}) => {
 
 	const value = msg;
 	let type = msg["@type"] || "";
-	if (type.indexOf(".") > -1) {
-		const typeArr = type.split(".");
-		type = "cosmos-sdk/" + typeArr[typeArr.length - 1];
-	}
 	const {memo} = data;
 
 	const messageDetails = useMemo(() => {
@@ -287,14 +283,6 @@ const TxMessage = ({msg, data}) => {
 								{getInfoRow("Security Contact", value?.description?.security_contact)}
 							</div>
 						</div>
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE && (
-					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
-						{getAddressRow("Validator Dst Address", value?.validator_dst_address)}
-						{getAddressRow("Validator Src Address", value?.validator_src_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATION_REWARD && (

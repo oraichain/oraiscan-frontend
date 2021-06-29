@@ -137,7 +137,7 @@ export const txCheckHTLT = txType => _.find([TOKENS.HTLT], v => v === txType) !=
 // 	tx_hash: "0066DD91D7759AB234FF71E2361C5BAD89CE1CF1D2C6B6EA486BB22D75488894",
 // 	messages: [
 // 		{
-// 			type: "cosmos-sdk/MsgVote",
+// 			type: "/cosmos.gov.v1beta1.MsgVote",
 // 			value: {
 // 				voter: "bnb1kdx4xkktr35j2mpxncvtsshswj5gq577me7lx4",
 // 				option: "Yes",
@@ -153,7 +153,7 @@ export const txCheckHTLT = txType => _.find([TOKENS.HTLT], v => v === txType) !=
 // 	tx_hash: "8DA8E53F458935C8DDBD0D7B34FD6ED729B34768E16E0F67E0D6BEADF6786376",
 // 	messages: [
 // 		{
-// 			type: "cosmos-sdk/MsgSubmitProposal",
+// 			type: "/cosmos.gov.v1beta1.MsgSubmitProposal",
 // 			value: {
 // 				title: "list AVA-645/BUSD-BD1",
 // 				proposer: "tbnb1dm9c7gccgd07td5r69m50u8fg8danfgqz27k6f",
