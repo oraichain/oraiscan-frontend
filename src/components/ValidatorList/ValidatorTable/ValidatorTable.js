@@ -42,7 +42,7 @@ export const computeTotalVotingPower = data => {
 
 	let total = 0;
 	for (let item of data) {
-		total += parseFloat(item?.voting_power ?? 0);
+		total += parseFloat(item?.voting_power ?? 0) || 0;
 	}
 	return total;
 };
