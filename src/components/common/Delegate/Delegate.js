@@ -144,11 +144,11 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 		const minFee = (fee * 1000000 + "").split(".")[0];
 
 		const payload = {
-			type: "cosmos-sdk/MsgDelegate",
+			type: "/cosmos.staking.v1beta1.MsgDelegate",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgDelegate",
+						type: "/cosmos.staking.v1beta1.MsgDelegate",
 						value: {
 							delegator_address: address,
 							validator_address: operatorAddress,

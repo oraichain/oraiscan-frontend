@@ -65,8 +65,8 @@ const handlers = {
 						_.each(v.dex_fee_fields, dexV => _.assign(txFees, {[dexV.fee_name]: dexV.fee_value}));
 					} else {
 						_.assign(fees, {
-							"cosmos-sdk/Send": {fee: v.fixed_fee_params.fee, feeFor: v.fixed_fee_params.fee_for},
-							"cosmos-sdk/MultiSend": {fee: v.multi_transfer_fee},
+							"/cosmos.bank.v1beta1.MsgSend": {fee: v.fixed_fee_params.fee, feeFor: v.fixed_fee_params.fee_for},
+							"/cosmos.bank.v1beta1.MsgMultiSend": {fee: v.multi_transfer_fee},
 						});
 					}
 				}

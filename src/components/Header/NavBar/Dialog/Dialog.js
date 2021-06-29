@@ -111,7 +111,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 				console.log(multiSendData);
 				msg = multiSendData.map(v => {
 					return {
-						type: "cosmos-sdk/MsgSend",
+						type: "/cosmos.bank.v1beta1.MsgSend",
 						value: {
 							from_address: address,
 							to_address: v.address,
@@ -127,7 +127,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 			} else {
 				msg = [
 					{
-						type: "cosmos-sdk/MsgSend",
+						type: "/cosmos.bank.v1beta1.MsgSend",
 						value: {
 							from_address: address,
 							to_address: data.recipientAddress,
@@ -142,7 +142,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 				];
 			}
 			payload = {
-				type: "cosmos-sdk/StdTx",
+				type: "/cosmos.tx.v1beta1.Tx",
 				value: {
 					msg,
 					fee: {

@@ -38,11 +38,11 @@ export default function({address, account}) {
 		const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount, pubkey} = data;
 
 		const payload = {
-			type: "cosmos-sdk/MsgCreateValidator",
+			type: "/cosmos.staking.v1beta1.MsgCreateValidator",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgCreateValidator",
+						type: "/cosmos.staking.v1beta1.MsgCreateValidator",
 						value: {
 							commission: {
 								max_change_rate: maxChangeRate / 100 + "",

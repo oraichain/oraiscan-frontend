@@ -97,11 +97,11 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 		}
 
 		const payload = {
-			type: "cosmos-sdk/MsgDelegate",
+			type: "/cosmos.staking.v1beta1.MsgDelegate",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgDelegate",
+						type: "/cosmos.staking.v1beta1.MsgDelegate",
 						value: {
 							delegator_address: address,
 							validator_address: validatorAddress,

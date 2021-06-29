@@ -45,11 +45,11 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 
 	const withdraw = validatorAddress => {
 		const payload = {
-			type: "cosmos-sdk/MsgWithdrawValidatorCommission",
+			type: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgWithdrawValidatorCommission",
+						type: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
 						value: {
 							validator_address: validatorAddress,
 						},
