@@ -153,7 +153,7 @@ export const decodeTx = encodedTx => {
 	const value = msgType.decode(decode_body.messages[0].value);
 	return {
 		hash: hash,
-		messageType: "cosmos-sdk/" + urlArr[urlArr.length - 1],
+		messageType: urlArr[urlArr.length - 1],
 		messageValue: value,
 		fee: fee,
 	};

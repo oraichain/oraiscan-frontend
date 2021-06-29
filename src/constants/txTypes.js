@@ -1,25 +1,22 @@
 export default Object.freeze({
 	//  COSMOS_SDK
 	COSMOS_SDK: {
-		MSG_CREATE_VALIDATOR: "cosmos-sdk/MsgCreateValidator",
-		MSG_DELEGATE: "cosmos-sdk/MsgDelegate",
-		MSG_UNDELEGATE: "cosmos-sdk/MsgUndelegate",
-		MSG_SEND: "cosmos-sdk/MsgSend",
-		MSG_MULTI_SEND: "cosmos-sdk/MsgMultiSend",
-		MSG_EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
-		MSG_BEGIN_REDELEGATE: "cosmos-sdk/MsgBeginRedelegate",
-		MSG_WITHDRAW_DELEGATOR_REWARD: "cosmos-sdk/MsgWithdrawDelegatorReward",
-		MSG_WITHDRAW_DELEGATION_REWARD: "cosmos-sdk/MsgWithdrawDelegationReward",
-		MSG_WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission",
-		SEND: "cosmos-sdk/Send",
-		MSG_SUBMIT_PROPOSAL: "cosmos-sdk/MsgSubmitProposal",
-		MSG_DEPOSIT: "cosmos-sdk/MsgDeposit",
-		MSG_VOTE: "cosmos-sdk/MsgVote",
-		MSG_REMOVE_VALIDATOR: "cosmos-sdk/MsgRemoveValidator",
-		MSG_CREATE_VALIDATOR_PROPOSAL: "cosmos-sdk/MsgCreateValidatorProposal",
-		INSTANTIATE_CONTRACT: "cosmos-sdk/MsgInstantiateContract",
-		EXECUTE_CONTRACT: "cosmos-sdk/MsgExecuteContract",
-		STORE_CODE: "cosmos-sdk/MsgStoreCode",
+		MSG_CREATE_VALIDATOR: "/cosmos.staking.v1beta1.MsgCreateValidator",
+		MSG_DELEGATE: "/cosmos.staking.v1beta1.MsgDelegate",
+		MSG_UNDELEGATE: "/cosmos.staking.v1beta1.MsgUndelegate",
+		MSG_SEND: "/cosmos.bank.v1beta1.MsgSend",
+		MSG_MULTI_SEND: "/cosmos.bank.v1beta1.MsgMultiSend",
+		MSG_EDIT_VALIDATOR: "/cosmos.staking.v1beta1.MsgEditValidator",
+		MSG_WITHDRAW_DELEGATOR_REWARD: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+		MSG_WITHDRAW_DELEGATION_REWARD: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+		MSG_WITHDRAW_VALIDATOR_COMMISSION: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+		MSG_SUBMIT_PROPOSAL: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+		MSG_DEPOSIT: "/cosmos.gov.v1beta1.MsgDeposit",
+		MSG_VOTE: "/cosmos.gov.v1beta1.MsgVote",
+		MSG_CREATE_VALIDATOR_PROPOSAL: "/cosmos.staking.v1beta1.MsgCreateValidatorProposal",
+		INSTANTIATE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgInstantiateContract",
+		EXECUTE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+		STORE_CODE: "/cosmwasm.wasm.v1beta1.MsgStoreCode",
 	},
 
 	//  DEX
@@ -52,17 +49,17 @@ export default Object.freeze({
 
 	// PROVIDER
 	PROVIDER: {
-		CREATE_AI_DATA_SOURCE: "cosmos-sdk/MsgCreateAIDataSource",
-		EDIT_AI_DATA_SOURCE: "cosmos-sdk/MsgEditAIDataSource",
-		CREATE_TEST_CASE: "cosmos-sdk/MsgCreateTestCase",
-		EDIT_TEST_CASE: "cosmos-sdk/MsgEditTestCase",
-		CREATE_ORACLE_SCRIPT: "cosmos-sdk/MsgCreateOracleScript",
-		EDIT_ORACLE_SCRIPT: "cosmos-sdk/MsgEditOracleScript",
+		CREATE_AI_DATA_SOURCE: "/oraichain.orai.provider.MsgCreateAIDataSource",
+		EDIT_AI_DATA_SOURCE: "/oraichain.orai.provider.MsgEditAIDataSource",
+		CREATE_TEST_CASE: "/oraichain.orai.provider.MsgCreateTestCase",
+		EDIT_TEST_CASE: "/oraichain.orai.provider.MsgEditTestCase",
+		CREATE_ORACLE_SCRIPT: "/oraichain.orai.provider.MsgCreateOracleScript",
+		EDIT_ORACLE_SCRIPT: "/oraichain.orai.provider.MsgEditOracleScript",
 	},
 
 	// WEBSOCKET
 	WEBSOCKET: {
-		CREATE_REPORT: "cosmos-sdk/MsgCreateReport",
+		CREATE_REPORT: "/oraichain.orai.websocket.MsgCreateReport",
 		ADD_REPORT: "websocket/AddReport",
 		ADD_REPORTER: "websocket/AddReporter",
 		TEST_CASE_RESULT: "websocket/TestCaseResult",
@@ -70,7 +67,7 @@ export default Object.freeze({
 
 	// AIREQUEST
 	AIREQUEST: {
-		SET_AI_REQUEST: "cosmos-sdk/MsgSetAIRequest",
+		SET_AI_REQUEST: "/oraichain.orai.airequest.MsgSetAIRequest",
 		SET_CLASSIFICATION_REQUEST: "airequest/SetClassificationRequest",
 		SET_PRICE_REQUEST: "airequest/SetPriceRequest",
 		SET_OCR_REQUEST: "airequest/SetOCRRequest",

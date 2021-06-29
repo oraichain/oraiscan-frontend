@@ -116,11 +116,11 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		// }
 
 		const payload = {
-			type: "cosmos-sdk/MsgUndelegate",
+			type: "/cosmos.staking.v1beta1.MsgUndelegate",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgUndelegate",
+						type: "/cosmos.staking.v1beta1.MsgUndelegate",
 						value: {
 							delegator_address: address,
 							validator_address: validatorAddress,

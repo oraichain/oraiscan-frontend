@@ -13,7 +13,6 @@ export default function(txType) {
 			return "Cancel Order";
 
 		case "TRANSFER":
-		case COSMOS_SDK.SEND:
 		case COSMOS_SDK.MSG_SEND:
 			return "Transfer";
 
@@ -69,8 +68,6 @@ export default function(txType) {
 			return "Vote";
 		case COSMOS_SDK.MSG_CREATE_VALIDATOR:
 			return "Create Validator";
-		case COSMOS_SDK.MSG_REMOVE_VALIDATOR:
-			return "Remove Validator";
 		case COSMOS_SDK.MSG_DELEGATE:
 			return "Delegate";
 
@@ -96,6 +93,6 @@ export default function(txType) {
 			return "Report";
 
 		default:
-			return txType.replace("cosmos-sdk/Msg", "");
+			return txType.substring(txType.lastIndexOf(".") + 1);
 	}
 }

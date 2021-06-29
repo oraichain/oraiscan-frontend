@@ -88,11 +88,11 @@ export default class Register extends React.Component {
 		const {account, address} = this.props;
 
 		const payload = {
-			type: "cosmos-sdk/MsgCreateValidator",
+			type: "/cosmos.staking.v1beta1.MsgCreateValidator",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgCreateValidator",
+						type: "/cosmos.staking.v1beta1.MsgCreateValidator",
 						value: {
 							commission: {
 								max_change_rate: maxChangeRate,

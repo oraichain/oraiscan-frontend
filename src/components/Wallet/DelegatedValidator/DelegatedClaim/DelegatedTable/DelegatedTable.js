@@ -38,11 +38,11 @@ const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 
 	const handleClickClaim = validatorAddress => {
 		const payload = {
-			type: "cosmos-sdk/MsgWithdrawDelegationReward",
+			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
 			value: {
 				msg: [
 					{
-						type: "cosmos-sdk/MsgWithdrawDelegationReward",
+						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
 						value: {
 							delegator_address: address,
 							validator_address: validatorAddress,
