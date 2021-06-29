@@ -131,11 +131,12 @@ const ValidatorList = props => {
 	);
 
 	if (loading) {
-		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
-		} else {
-			tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
-		}
+		tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
+		// if (firstLoadCompleted) {
+		// 	tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
+		// } else {
+		// 	tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
+		// }
 	} else {
 		if (error) {
 			tableSection = <NoResult />;
