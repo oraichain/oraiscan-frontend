@@ -29,7 +29,7 @@ const StatusCardList = memo(() => {
 			{
 				icon: <ValidatorsIcon></ValidatorsIcon>,
 				label: "Validators",
-				value: status?.total_validator_num ? status.total_validator_num + "/" + status.total_validator_num : "-",
+				value: status?.total_validator_num ? status.total_validator_active + "/" + status.total_validator_num : "-",
 			},
 			{
 				icon: <BondedTokensIcon></BondedTokensIcon>,
