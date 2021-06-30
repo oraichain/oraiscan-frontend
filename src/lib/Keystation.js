@@ -120,6 +120,7 @@ function openWindowV2(type, payload, account = "", self) {
 			"&signInFromScan=true" +
 			"&network=" +
 			network,
+		"",
 		"470",
 		"690"
 	);
