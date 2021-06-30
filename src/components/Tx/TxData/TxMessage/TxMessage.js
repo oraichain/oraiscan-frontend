@@ -285,13 +285,6 @@ const TxMessage = ({msg, data}) => {
 						</div>
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATION_REWARD && (
-					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
-						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", value?.amount)}
-					</>
-				)}
 				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATOR_REWARD && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address)}
