@@ -2,17 +2,20 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import copy from "copy-to-clipboard";
 import Grid from "@material-ui/core/Grid";
-import {formatDateTime, formatOrai} from "src/helpers/helper";
-import styles from "./DetailsCard.scss";
+import ReactJson from "react-json-view";
 
+import {formatDateTime, formatOrai} from "src/helpers/helper";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
+import {themeIds} from "src/constants/themes";
+import styles from "./DetailsCard.scss";
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +23,7 @@ const DetailsCard = memo(({data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const dispatch = useDispatch();
+	const activeThemeId = useSelector(state => state.activeThemeId);
 
 	let statusStateClassName;
 	let statusIcon;
@@ -203,6 +207,21 @@ const DetailsCard = memo(({data}) => {
 										{depositEndTimeElement}
 									</td>
 								</tr>
+								{data?.changes && (
+									<tr>
+										<td>
+											<div className={cx("item-title")}> Changes </div>
+											<ReactJson
+												style={{backgroundColor: "transparent"}}
+												name={false}
+												theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+												displayObjectSize={false}
+												displayDataTypes={false}
+												src={data?.changes}
+											/>
+										</td>
+									</tr>
+								)}
 							</tbody>
 						</table>
 					</Grid>
