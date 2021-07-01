@@ -168,6 +168,7 @@ export default Object.freeze({
 		PROPOSALS: "/proposals",
 		REQUESTS: "/ai_requests",
 		REQUESTS_REPORTS: "/requests_reports",
+		SMART_CONTRACT: "/smart-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
