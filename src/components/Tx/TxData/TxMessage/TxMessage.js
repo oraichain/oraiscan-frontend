@@ -26,15 +26,36 @@ import {themeIds} from "src/constants/themes";
 const cx = cn.bind(styles);
 
 const tryParseMessage = obj => {
-	if (!obj) return;
-	for (let key in obj) {
-		if (obj[key].msg && typeof obj[key].msg === "string") {
-			try {
-				obj[key].msg = JSON.parse(atob(obj[key].msg));
-			} catch {}
+	try {
+		if (!obj) return;
+		for (let key in obj) {
+			if (obj[key].msg && typeof obj[key].msg === "string") {
+				try {
+					obj[key].msg = JSON.parse(atob(obj[key].msg));
+				} catch {}
+			}
 		}
+		return obj;
+	} catch (e) {
+		return {data: obj};
 	}
-	return obj;
+};
+
+const tryParseMessageBinary = data => {
+	try {
+		const obj = JSON.parse(atob(data));
+		if (!obj) return;
+		for (let key in obj) {
+			if (obj[key].msg && typeof obj[key].msg === "string") {
+				try {
+					obj[key].msg = JSON.parse(atob(obj[key].msg));
+				} catch {}
+			}
+		}
+		return obj;
+	} catch (e) {
+		return {data};
+	}
 };
 
 const TxMessage = ({msg, data}) => {
@@ -395,7 +416,8 @@ const TxMessage = ({msg, data}) => {
 														displayObjectSize={false}
 														displayDataTypes={false}
 														collapsed={true}
-														src={tryParseMessage(JSON.parse(atob(item?.result)))}
+														// src={tryParseMessage(JSON.parse(atob(item?.result)))}
+														src={tryParseMessageBinary(item?.result)}
 													/>
 												</InfoRow>
 												{getInfoRow("Result Status", item?.status)}
@@ -425,7 +447,8 @@ const TxMessage = ({msg, data}) => {
 																		displayObjectSize={false}
 																		displayDataTypes={false}
 																		collapsed={true}
-																		src={tryParseMessage(JSON.parse(atob(item?.result)))}
+																		// src={tryParseMessage(JSON.parse(atob(item?.result)))}
+																		src={tryParseMessageBinary(item?.result)}
 																	/>
 																</InfoRow>
 																{getInfoRow("Result Status", item?.status)}
