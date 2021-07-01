@@ -77,21 +77,21 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 			);
 
 			let resultDataCellContent;
-			if (item.result === "Success") {
+			if (item?.result?.toLowerCase() === "success") {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<CheckIcon className={cx("result-icon", "result-icon-success")} />
 						<span className={cx("result-text")}>Success</span>
 					</div>
 				);
-			} else if (item.result === "Failure") {
+			} else if (item?.result?.toLowerCase() === "failure") {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<TimesIcon className={cx("result-icon", "result-icon-failed")} />
 						<span className={cx("result-text")}>Failure</span>
 					</div>
 				);
-			} else if (item.result === "Pending") {
+			} else if (item?.result?.toLowerCase() === "pending") {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<RedoIcon className={cx("result-icon", "result-icon-pending")} />
