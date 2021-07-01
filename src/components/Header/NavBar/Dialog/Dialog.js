@@ -68,6 +68,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
 	const minFee = useSelector(state => state.blockchain.minFee);
+	const [payload, setPayload] = useState();
 	// const path = `${consts.API.MIN_GAS}`;
 	// const {data: minFee, loading, error} = useGet({
 	// 	path: path,
@@ -169,6 +170,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 		}
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
+		setPayload(payload);
 		let popupTick = setInterval(function() {
 			if (popup.closed) {
 				clearInterval(popupTick);
@@ -189,7 +191,11 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 						autoHideDuration: 3000,
 					})
 				);
-				history.push(`/txs/${e.data.txhash}`);
+				debugger;
+				history.push({
+					pathname: `/txs/${e.data.txhash}`,
+					state: {payload},
+				});
 				// setIsLoading(true);
 				// const checkTimeout = async () => {
 				// 	const result = await axios.get(`${consts.API_BASE}${consts.API.TX}/${e.data.txhash}`);
@@ -208,7 +214,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 		return () => {
 			window.removeEventListener("message", callBack);
 		};
-	}, [dispatch, handleClose, history]);
+	}, [dispatch, handleClose, history, payload]);
 
 	const renderTab = id => {
 		if (id === 1) {
