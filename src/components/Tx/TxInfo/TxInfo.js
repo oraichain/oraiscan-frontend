@@ -24,15 +24,15 @@ const TxInfo = ({data}) => {
 	let statusIcon;
 	let statusText;
 
-	if (data?.result?.toLowerCase() === "success") {
+	if (data?.result?.toLowerCase?.() === "success") {
 		statusClassName = "status-success";
 		statusIcon = <CheckIcon />;
 		statusText = "Success";
-	} else if (data?.result?.toLowerCase() === "failure") {
+	} else if (data?.result?.toLowerCase?.() === "failure") {
 		statusClassName = "status-fail";
 		statusIcon = <TimesIcon />;
 		statusText = "Fail";
-	} else if (data?.result?.toLowerCase() === "pending") {
+	} else if (data?.result?.toLowerCase?.() === "pending") {
 		statusClassName = "status-pending";
 		statusIcon = <RedoIcon />;
 		statusText = "Pending";
