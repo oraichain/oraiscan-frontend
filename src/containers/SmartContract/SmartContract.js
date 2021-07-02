@@ -2,13 +2,15 @@ import React, {useState} from "react";
 import {useParams} from "react-router-dom";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
+import {Grid} from "@material-ui/core";
 import PropTypes from "prop-types";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import consts from "src/constants/consts";
-import SmartContractCard from "src/components/SmartContractCard/SmartContractCard";
-import SmartContractCardSkeleton from "src/components/SmartContractCard/SmartContractCardSkeleton";
+import ContractPreview from "src/components/SmartContract/ContractPreview";
+import MoreInfo from "src/components/SmartContract/MoreInfo";
+import SmartContractCodeCard from "src/components/SmartContract/SmartContractCodeCard";
 import TransactionsCard from "src/components/Block/TransactionsCard";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -61,12 +63,12 @@ const Block = () => {
 	);
 
 	if (loading) {
-		headerCard = <SmartContractCardSkeleton />;
+		// headerCard = <SmartContractCardSkeleton />;
 	} else {
 		if (error) {
 			return <NotFound message={"Sorry! Smart Contract Not Found"} />;
 		} else {
-			headerCard = <SmartContractCard data={data} />;
+			// headerCard = <SmartContractCard data={data} />;
 		}
 	}
 
@@ -76,8 +78,13 @@ const Block = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("smart-contract")}>
-				{headerCard}
-				{/* {transactionsCard} */}
+				<div className={cx("header-card")}>
+					<Grid spacing={2} container>
+						<ContractPreview data={data} />
+						<MoreInfo data={data} />
+					</Grid>
+				</div>
+				<SmartContractCodeCard />
 			</Container>
 		</>
 	);

@@ -44,9 +44,7 @@ const TestCaseTable = memo(({data = []}) => {
 			const testCaseDataCell = _.isNil(item?.data_source) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("test-case-data-cell", "align-left")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
-					{item.data_source}
-				</NavLink>
+				<div className={cx("test-case-data-cell", "align-left")}>{item.data_source}</div>
 			);
 
 			const descriptionHashDataCell = _.isNil(item?.description) ? (
