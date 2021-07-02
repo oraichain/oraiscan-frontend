@@ -70,7 +70,7 @@ export default function(props) {
 			<div className={cx("DetailDisplay", "test")}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Active Validators</div>
-					<div className={cx("content")}>{data !== null ? data?.total_validator_num : ""}</div>
+					<div className={cx("content")}>{data !== null ? data?.total_validator_active : ""}</div>
 					<div className={cx("footer")}>out of {data !== null ? data?.total_validator_num : ""} validators</div>
 				</div>
 			</div>

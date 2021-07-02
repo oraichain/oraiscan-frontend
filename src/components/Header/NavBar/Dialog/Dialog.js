@@ -191,7 +191,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 						autoHideDuration: 3000,
 					})
 				);
-				debugger;
+
 				history.push({
 					pathname: `/txs/${e.data.txhash}`,
 					state: {payload},

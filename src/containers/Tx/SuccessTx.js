@@ -45,6 +45,7 @@ const SuccessTx = () => {
 	const countRefetchRef = useRef(0);
 	const intervalRef = useRef(null);
 	const [shouldRefetch, setShouldRefetch] = useState(true);
+	const [isFirstLoadAPI, setIsFirstLoadAPI] = useState(true);
 	const location = useLocation();
 	const pendingTxState = location.state?.payload;
 	const params = useParams();
@@ -73,12 +74,12 @@ const SuccessTx = () => {
 		</>
 	);
 
-	if (loading) {
+	if (loading && isFirstLoadAPI) {
 		txInfo = <TxInfoSkeleton />;
 		txData = <TxDataSkeleton />;
 	} else if (shouldRefetch && !_.isNil(data?.height)) {
 		if (data?.height === 0) {
-			if (countRefetchRef.current === 2) {
+			if (countRefetchRef.current === 3) {
 				clearTimeout(intervalRef.current);
 				setShouldRefetch(false);
 				return <NotFound message={"Sorry! Tx Not Found"} />;
@@ -86,6 +87,7 @@ const SuccessTx = () => {
 
 			intervalRef.current = setTimeout(refetch, 3000);
 			countRefetchRef.current += 1;
+			setIsFirstLoadAPI(false);
 			txInfo = <TxInfoSkeleton />;
 			txData = <TxDataSkeleton />;
 		} else {
@@ -98,7 +100,7 @@ const SuccessTx = () => {
 
 	// return <PendingTxUI data={convertData(pendingTxState, txHash)} />
 
-	if (pendingTxState && (data?.status?.toLowerCase() === "pending" || (countRefetchRef.current < 2 && data?.height === 0))) {
+	if (pendingTxState && (data?.status?.toLowerCase() === "pending" || (countRefetchRef.current < 3 && data?.height === 0))) {
 		return <PendingTxUI data={convertData(pendingTxState, txHash)} />;
 	}
 
