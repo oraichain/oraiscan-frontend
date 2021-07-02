@@ -24,6 +24,7 @@ import AccountIcon from "src/icons/AccountIcon";
 import WalletIcon from "src/icons/WalletIcon";
 import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
+import {updateToken} from "src/firebase-cloud-message";
 
 const cx = cn.bind(styles);
 
@@ -53,7 +54,7 @@ const Wallet = props => {
 const WalletWithAdress = ({data: props, collapse}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {path, title, handleClick, init} = props;
+	const {path, title} = props;
 	const {account} = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
 	const dispatch = useDispatch();
@@ -86,6 +87,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	}, []);
 
 	const closeWallet = () => {
+		updateToken(title, false);
 		dispatch(initWallet({}));
 		history.push("/");
 	};
