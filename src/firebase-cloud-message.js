@@ -18,7 +18,7 @@ const messaging = firebase.messaging();
 
 export const updateToken = (address, saveToken = true) => {
 	return messaging
-		.getToken({vapidKey: process.env.FCM_KEYPAIR})
+		.getToken({ vapidKey: process.env.FCM_KEYPAIR })
 		.then(async currentToken => {
 			if (currentToken) {
 				console.log("current token for client: ", currentToken);
@@ -26,7 +26,7 @@ export const updateToken = (address, saveToken = true) => {
 				if (address) {
 					axios.patch(`${consts.API_BASE}${consts.API.FIREBASE_FCM_TOKEN}/${address}`, {
 						token: currentToken,
-						save_token: saveToken,
+						save_token: saveToken
 					});
 				}
 			} else {
