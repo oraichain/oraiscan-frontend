@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
@@ -38,6 +38,7 @@ export default function() {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const {openPageBar} = useSelector(state => state.global);
 	const activeThemeId = useSelector(state => state.activeThemeId);
+	const {address} = useSelector(state => state.wallet);
 	const [isSearchAreaVisible, setIsSearchAreaVisible] = useState(false);
 
 	const classes = useStyles();
@@ -53,7 +54,9 @@ export default function() {
 	let searchArea;
 	let tabs;
 
-	updateToken();
+	useEffect(() => {
+		updateToken(address);
+	}, []);
 
 	const toastifyMsg = payload => {
 		return (
