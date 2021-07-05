@@ -153,3 +153,13 @@
 		display: inline-block;
 	}
 }
+
+.code-container {
+	:global(.MuiIconButton-root) {
+		color: var(--common-textColor);
+	}
+
+	:global(.MuiAccordionDetails-root) {
+		border: 1px solid var(--common-borderColor);
+	}
+}

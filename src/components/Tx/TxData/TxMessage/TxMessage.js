@@ -11,6 +11,9 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import base64js from "base64-js";
 import copy from "copy-to-clipboard";
 import consts from "src/constants/consts";
@@ -80,9 +83,12 @@ const TxMessage = ({msg, data}) => {
 
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+			console.log("MES!!!!!!!!!!!!!!!!!");
 			const loadStoreCode = async () => {
-				const source = msg?.source;
+				let source = msg?.source;
+				source = source?.split(" ")?.[0];
 				console.log(msg, source);
+				console.log("SOURCE!!!!!!!!!!", source);
 				if (_.isNil(source)) {
 					return;
 				}
@@ -95,6 +101,8 @@ const TxMessage = ({msg, data}) => {
 
 				setLoadingStoreCode(true);
 				const folderUrl = getContentApiUrl(owner, repo, folderPath, ref);
+
+				console.log(folderUrl, "FORL!!!!!!!!!!!!!!!");
 
 				try {
 					const folderResponse = await axios.get(folderUrl);
@@ -305,30 +313,34 @@ const TxMessage = ({msg, data}) => {
 					if (Array.isArray(storeCodeData)) {
 						storeCodeElement = storeCodeData.map((item, index) => {
 							return (
-								<Accordion key={"code-" + index}>
-									<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-										<div className={cx("code-name")}>{item?.name ?? "-"}</div>
-										<img
-											src={copyIcon}
-											alt=''
-											className={cx("code-copy")}
-											onClick={e => {
-												copy(item?.content ?? "-");
-												dispatch(
-													showAlert({
-														show: true,
-														message: "Copied",
-														autoHideDuration: 1500,
-													})
-												);
-												e.stopPropagation();
-											}}
-										/>
-									</AccordionSummary>
-									<AccordionDetails>
-										<div className={cx("code-content")}>{item?.content ?? "-"}</div>
-									</AccordionDetails>
-								</Accordion>
+								<div className={cx("code-container")}>
+									<Accordion key={"code-" + index}>
+										<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+											<div className={cx("code-name")}>{item?.name ?? "-"}</div>
+											<img
+												src={copyIcon}
+												alt=''
+												className={cx("code-copy")}
+												onClick={e => {
+													copy(item?.content ?? "-");
+													dispatch(
+														showAlert({
+															show: true,
+															message: "Copied",
+															autoHideDuration: 1500,
+														})
+													);
+													e.stopPropagation();
+												}}
+											/>
+										</AccordionSummary>
+										<AccordionDetails>
+											<SyntaxHighlighter customStyle={{background: "none"}} language='rust' style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
+												{item?.content ?? "-"}
+											</SyntaxHighlighter>
+										</AccordionDetails>
+									</Accordion>
+								</div>
 							);
 						});
 					} else {
