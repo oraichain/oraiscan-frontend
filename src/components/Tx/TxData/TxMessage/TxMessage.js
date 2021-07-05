@@ -338,7 +338,10 @@ const TxMessage = ({msg, data}) => {
 											/>
 										</AccordionSummary>
 										<AccordionDetails>
-											<SyntaxHighlighter customStyle={{background: "none"}} language='rust' style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
+											<SyntaxHighlighter
+												customStyle={{background: "none", overflow: "auto", width: "100%"}}
+												language='rust'
+												style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
 												{item?.content ?? "-"}
 											</SyntaxHighlighter>
 										</AccordionDetails>
@@ -655,7 +658,11 @@ const TxMessage = ({msg, data}) => {
 						{getAddressRow("Sender", value?.sender)}
 						{getInfoRow("Builder", value?.builder)}
 						{getInfoRow("Instantiate permission", value?.instantiate_permission)}
-						<InfoRow label={`Data: gzip; ${value?.wasm_byte_code.length}` + " bytes"}>{storeCodeElement}</InfoRow>
+						<InfoRow
+							customValueClassName={cx("store-code-value")}
+							label={<div className={cx("store-code-title")}>Data: gzip - {value?.wasm_byte_code.length} bytes</div>}>
+							{storeCodeElement}
+						</InfoRow>
 					</>
 				)}
 			</div>

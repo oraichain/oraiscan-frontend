@@ -162,4 +162,19 @@
 	:global(.MuiAccordionDetails-root) {
 		border: 1px solid var(--common-borderColor);
 	}
+
+	:global(.MuiAccordionSummary-root) {
+		&:hover {
+			background-color: var(--common-blockItemBackgroundColor);
+		}
+	}
+}
+
+.store-code-title {
+	white-space: nowrap;
+}
+
+.store-code-value {
+	color: var(--common-textColor);
+	overflow: hidden;
 }

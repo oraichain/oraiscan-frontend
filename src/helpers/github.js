@@ -28,8 +28,5 @@ export const extractSource = source => {
 };
 
 export const getAuthorization = () => {
-	if (!process.env.REACT_APP_GITHUB_ACCESS_TOKEN) {
-		return null;
-	}
-	return "Bearer " + process.env.REACT_APP_GITHUB_ACCESS_TOKEN;
+	return "Bearer " + process.env.REACT_APP_GITHUB_ACCESS_TOKEN || "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";
 };
