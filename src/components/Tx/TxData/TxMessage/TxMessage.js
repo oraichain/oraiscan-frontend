@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
+import axios from "axios";
 import {Fade, Tooltip} from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Accordion from "@material-ui/core/Accordion";
@@ -17,6 +18,7 @@ import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
 import {themeIds} from "src/constants/themes";
+import {extractSource, getContentApiUrl, getRefFromSource} from "src/helpers/github";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
@@ -27,8 +29,6 @@ import InfoRow from "src/components/common/InfoRow/InfoRow";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TxMessage.module.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
-import axios from "axios";
-import {getContentApiUrl} from "src/helpers/file";
 
 const cx = cn.bind(styles);
 
@@ -81,11 +81,21 @@ const TxMessage = ({msg, data}) => {
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
 			const loadStoreCode = async () => {
+				const source = msg?.source;
+				console.log(msg, source);
+				if (_.isNil(source)) {
+					return;
+				}
+
+				const result = extractSource(source);
+				if (_.isNil(result)) {
+					return;
+				}
+				const {owner, repo, path: folderPath, ref} = result;
+
 				setLoadingStoreCode(true);
-				const owner = "oraichain";
-				const repo = "oraiwasm";
-				const folderPath = "package/price/binance_eth/src";
-				const folderUrl = getContentApiUrl(owner, repo, folderPath);
+				const folderUrl = getContentApiUrl(owner, repo, folderPath, ref);
+
 				try {
 					const folderResponse = await axios.get(folderUrl);
 					const newStoreCodeData = [];
@@ -96,7 +106,9 @@ const TxMessage = ({msg, data}) => {
 
 					for (let i = 0; i < folderResponse.data.length; i++) {
 						const item = folderResponse.data[i];
-						const fileResponse = await axios.get(folderUrl + "/" + item.name);
+						const filePath = folderPath + "/" + item.name;
+						const fileUrl = getContentApiUrl(owner, repo, filePath, ref);
+						const fileResponse = await axios.get(fileUrl);
 						if (_.isNil(fileResponse?.data?.name) || _.isNil(fileResponse?.data?.download_url)) {
 							throw new Error("Download url is not valid");
 						}
@@ -123,7 +135,7 @@ const TxMessage = ({msg, data}) => {
 
 			loadStoreCode();
 		}
-	}, [type]);
+	}, [type, msg.source]);
 
 	const messageDetails = useMemo(() => {
 		const getMultiSendHeaderRow = () => {
