@@ -97,15 +97,22 @@ const TxMessage = ({msg, data}) => {
 					for (let i = 0; i < folderResponse.data.length; i++) {
 						const item = folderResponse.data[i];
 						const fileResponse = await axios.get(folderUrl + "/" + item.name);
+						if (_.isNil(fileResponse?.data?.name) || _.isNil(fileResponse?.data?.download_url)) {
+							throw new Error("Download url is not valid");
+						}
 
+						const name = fileResponse.data.name;
+						const downloadUrlResponse = await axios.get(fileResponse.data.download_url);
+						if (_.isNil(downloadUrlResponse?.data)) {
+							throw new Error("Download url response is not valid");
+						}
+						const content = downloadUrlResponse.data;
 						newStoreCodeData.push({
-							name: fileResponse?.data?.name ?? "-",
-							content: fileResponse?.data?.content ?? "-",
+							name: name,
+							content: content,
 						});
 					}
-
 					setStoreCodeData(newStoreCodeData);
-
 					setStoreCodeError(null);
 				} catch (err) {
 					setStoreCodeError(err);
