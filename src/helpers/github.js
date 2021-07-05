@@ -26,3 +26,10 @@ export const extractSource = source => {
 		ref: ref,
 	};
 };
+
+export const getAuthorization = () => {
+	if (!process.env.REACT_APP_GITHUB_ACCESS_TOKEN) {
+		return null;
+	}
+	return "Bearer " + process.env.REACT_APP_GITHUB_ACCESS_TOKEN;
+};

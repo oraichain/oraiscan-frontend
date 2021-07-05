@@ -21,7 +21,7 @@ import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
 import {themeIds} from "src/constants/themes";
-import {extractSource, getContentApiUrl, getRefFromSource} from "src/helpers/github";
+import {extractSource, getAuthorization, getContentApiUrl, getRefFromSource} from "src/helpers/github";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
@@ -83,12 +83,9 @@ const TxMessage = ({msg, data}) => {
 
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
-			console.log("MES!!!!!!!!!!!!!!!!!");
 			const loadStoreCode = async () => {
 				let source = msg?.source;
-				source = source?.split(" ")?.[0];
-				console.log(msg, source);
-				console.log("SOURCE!!!!!!!!!!", source);
+				source = source?.split?.(" ")?.[0];
 				if (_.isNil(source)) {
 					return;
 				}
@@ -101,11 +98,17 @@ const TxMessage = ({msg, data}) => {
 
 				setLoadingStoreCode(true);
 				const folderUrl = getContentApiUrl(owner, repo, folderPath, ref);
+				const authorization = getAuthorization();
 
-				console.log(folderUrl, "FORL!!!!!!!!!!!!!!!");
+				let config = {};
+				if (authorization) {
+					config = {
+						headers: {Authorization: authorization},
+					};
+				}
 
 				try {
-					const folderResponse = await axios.get(folderUrl);
+					const folderResponse = await axios.get(folderUrl, config);
 					const newStoreCodeData = [];
 
 					if (!Array.isArray(folderResponse?.data)) {
@@ -116,7 +119,7 @@ const TxMessage = ({msg, data}) => {
 						const item = folderResponse.data[i];
 						const filePath = folderPath + "/" + item.name;
 						const fileUrl = getContentApiUrl(owner, repo, filePath, ref);
-						const fileResponse = await axios.get(fileUrl);
+						const fileResponse = await axios.get(fileUrl, config);
 						if (_.isNil(fileResponse?.data?.name) || _.isNil(fileResponse?.data?.download_url)) {
 							throw new Error("Download url is not valid");
 						}
