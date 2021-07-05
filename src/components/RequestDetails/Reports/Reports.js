@@ -15,6 +15,7 @@ import ReportTableSkeleton from "src/components/RequestDetails/ReportTable/Repor
 import ReportCardList from "src/components/RequestDetails/ReportCardList";
 import ReportCardListSkeleton from "src/components/RequestDetails/ReportCardList/ReportCardListSkeleton";
 import styles from "./Reports.module.scss";
+import Pending from "src/components/common/Pending";
 
 const cx = cn.bind(styles);
 
@@ -46,7 +47,7 @@ const Reports = ({data, loading, error, id, activeTab, setActiveTab}) => {
 	} else {
 		if (error) {
 			totalItems = "-";
-			tableSection = <NoResult />;
+			tableSection = <Pending />;
 		} else {
 			if (isNaN(data?.length)) {
 				totalItems = "-";
@@ -57,7 +58,7 @@ const Reports = ({data, loading, error, id, activeTab, setActiveTab}) => {
 			if (Array.isArray(currentPageData) && currentPageData.length > 0) {
 				tableSection = isLargeScreen ? <ReportTable data={currentPageData} /> : <ReportCardList data={currentPageData} />;
 			} else {
-				tableSection = <NoResult />;
+				tableSection = <Pending />;
 			}
 		}
 	}

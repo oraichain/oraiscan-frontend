@@ -12,6 +12,7 @@ import Pagination from "src/components/common/Pagination";
 import ResultTable from "src/components/RequestDetails/ResultTable";
 import ResultTableSkeleton from "src/components/RequestDetails/ResultTable/ResultTableSkeleton";
 import ResultCardList from "src/components/RequestDetails/ResultCardList";
+import Pending from "src/components/common/Pending";
 import ResultCardListSkeleton from "src/components/RequestDetails/ResultCardList/ResultCardListSkeleton";
 import styles from "./Result.module.scss";
 import {isNil} from "lodash-es";
@@ -46,7 +47,7 @@ const Result = ({data, loading, error, id, activeTab, setActiveTab}) => {
 	} else {
 		if (error) {
 			totalItems = "-";
-			tableSection = <NoResult />;
+			tableSection = <Pending />;
 		} else {
 			if (isNaN(data?.results?.length)) {
 				totalItems = "-";
@@ -57,7 +58,7 @@ const Result = ({data, loading, error, id, activeTab, setActiveTab}) => {
 			if (Array.isArray(currentPageData) && currentPageData.length > 0) {
 				tableSection = isLargeScreen ? <ResultTable data={currentPageData} /> : <ResultCardList data={currentPageData} />;
 			} else {
-				tableSection = <NoResult />;
+				tableSection = <Pending />;
 			}
 		}
 	}
