@@ -22,7 +22,7 @@ import styles from "./SmartContract.module.scss";
 
 const cx = cn.bind(styles);
 
-const Block = () => {
+const SmartContract = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
@@ -78,7 +78,7 @@ const Block = () => {
 	);
 };
 
-Block.propTypes = {};
-Block.defaultProps = {};
+SmartContract.propTypes = {};
+SmartContract.defaultProps = {};
 
-export default Block;
+export default SmartContract;

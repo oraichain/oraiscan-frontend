@@ -1,3 +1,3 @@
-import Block from "./SmartContract";
+import SmartContract from "./SmartContract";
 
-export default Block;
+export default SmartContract;

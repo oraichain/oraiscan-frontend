@@ -1,11 +1,13 @@
-import React, {memo, useState, useRef} from "react";
+import React, {memo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {useHistory} from "react-router-dom";
 import SearchIcon from "src/icons/SearchIcon";
 import classNames from "classnames/bind";
+import axios from "axios";
 import {_, stringNumCheck} from "src/lib/scripts";
 import styles from "./SmartSearchBox.scss";
 import failIcon from "src/assets/transactions/fail_ic.svg";
+import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
@@ -13,46 +15,27 @@ const SmartSearchBox = memo(({}) => {
 	const history = useHistory();
 	const dropdownRef = useRef(null);
 	const [searchValue, setSearchValue] = useState("");
+	const [searchTypes, setSearchTypes] = useState(null);
 
-	const [path, setPath] = useState("https://dog.ceo/api/breeds/image/1");
-	const {data, loading, error, refetch} = useGet({
-		path: path,
-		lazy: true,
-		mock: {
-			loading: false,
-			data: {
-				address: "orai18vd8fpwxzck93qlwghaj6arh4p7c5n8903w6c8",
-				code_id: "1",
-				creator: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-				admin: "",
-				label: "aioracle test",
-			},
-			error: null,
-		},
-	});
+	// const [path, setPath] = useState("");
+	// const {data, loading, error, refetch} = useGet({
+	// 	path: path,
+	// });
 
-	const searchTypes = React.useMemo(() => {
+	const getSearchTypes = async () => {
 		if (!_.isString(searchValue)) {
 			return false;
 		} else if (stringNumCheck(searchValue)) {
 			return "block";
 		} else if (searchValue.substring(0, 4).toLowerCase() === "orai" && searchValue.length === 43) {
-			if (path !== "https://dog.ceo/api/breeds/image/2") {
-				setPath("https://dog.ceo/api/breeds/image/2");
-				refetch();
-				return "account";
-			}
-
-			if (loading) {
-				return "account";
-			} else {
-				if (error) {
-					return "account";
-				} else {
-					if (!_.isNil(data.code_id)) {
-						return "account|smartContract";
-					}
+			try {
+				setSearchTypes("account|checking");
+				const data = await axios.get(`${consts.API_BASE}${consts.API.SMART_CONTRACT}/${searchValue}`);
+				if (!_.isNil(data?.data?.code_id)) {
+					return "account|smartContract";
 				}
+			} catch (error) {
+				return "account";
 			}
 		} else if (searchValue.substring(0, 11).toLowerCase() === "oraivaloper" && searchValue.length === 50) {
 			return "validator";
@@ -60,7 +43,7 @@ const SmartSearchBox = memo(({}) => {
 			return "transaction";
 		}
 		return false;
-	}, [searchValue, data, loading, error, refetch]);
+	};
 
 	const gotoSearchTypePage = (searchType, searchValue) => {
 		console.log("gotoSearchTypePage", searchType, searchValue);
@@ -78,13 +61,30 @@ const SmartSearchBox = memo(({}) => {
 		setSearchValue("");
 	};
 
+	useEffect(() => {
+		if (searchValue !== "") {
+			getSearchTypes()
+				.then(types => {
+					setSearchTypes(types);
+				})
+				.catch(error => {});
+		} else {
+			setSearchTypes(null);
+		}
+	}, [searchValue]);
+
 	let dropdownItems;
-	if (searchValue !== "") {
-		if (searchTypes) {
-			if (searchTypes.includes("|")) {
-				const searchTypeArray = searchTypes.split("|");
-				dropdownItems = searchTypeArray.map(searchType => {
-					return (
+	if (searchTypes) {
+		if (searchTypes?.includes("|")) {
+			const searchTypeArray = searchTypes.split("|");
+			dropdownItems = searchTypeArray.map(searchType => {
+				let type;
+				type =
+					searchType === "checking" ? (
+						<div className={cx("dropdown-item", "dropdown-item-disabled")} key={"dropdown-item-" + searchType}>
+							<span className={cx("dropdown-item-message")}>Checking Is Smart Contract...</span>
+						</div>
+					) : (
 						<div
 							className={cx("dropdown-item")}
 							key={"dropdown-item-" + searchType}
@@ -95,29 +95,27 @@ const SmartSearchBox = memo(({}) => {
 							<span className={cx("dropdown-item-type")}>{searchType}</span>
 						</div>
 					);
-				});
-			} else {
-				dropdownItems = (
-					<div
-						className={cx("dropdown-item")}
-						onClick={e => {
-							gotoSearchTypePage(searchTypes, searchValue);
-						}}>
-						<span className={cx("dropdown-item-message")}>Search for</span>
-						<span className={cx("dropdown-item-type")}>{searchTypes}</span>
-					</div>
-				);
-			}
+				return type;
+			});
 		} else {
 			dropdownItems = (
-				<div className={cx("dropdown-item")}>
-					<span className={cx("dropdown-item-message")}>Not found</span>
-					<img src={failIcon} alt={"fail"} />
+				<div
+					className={cx("dropdown-item")}
+					onClick={e => {
+						gotoSearchTypePage(searchTypes, searchValue);
+					}}>
+					<span className={cx("dropdown-item-message")}>Search for</span>
+					<span className={cx("dropdown-item-type")}>{searchTypes}</span>
 				</div>
 			);
 		}
 	} else {
-		dropdownItems = <></>;
+		dropdownItems = (
+			<div className={cx("dropdown-item")}>
+				<span className={cx("dropdown-item-message")}>Not found</span>
+				<img src={failIcon} alt={"fail"} />
+			</div>
+		);
 	}
 
 	return (
@@ -138,7 +136,7 @@ const SmartSearchBox = memo(({}) => {
 						if (!_.isNil(dropdownRef?.current?.style?.display)) {
 							dropdownRef.current.style.display = "none";
 						}
-					}, 1000);
+					}, 100);
 				}}
 			/>
 
@@ -147,7 +145,7 @@ const SmartSearchBox = memo(({}) => {
 			</div>
 
 			<div className={cx("dropdown")} ref={dropdownRef}>
-				{dropdownItems}
+				{!!searchValue && dropdownItems}
 			</div>
 		</div>
 	);

@@ -74,6 +74,13 @@
 			background: var(--common-blockItemBackgroundColor);
 		}
 
+		&-disabled {
+			&:hover {
+				background: var(--common-containerBackgroundColor);
+				cursor: default;
+			}
+		}
+
 		&-message {
 			display: inline-block;
 			margin-right: 8px;
