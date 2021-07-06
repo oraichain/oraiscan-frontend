@@ -91,6 +91,7 @@ export default Object.freeze({
 		ORACLE_SCRIPTS_REQUEST: "oracle-scripts/request",
 		ORACLE_SCRIPTS: "oracle-scripts",
 		REQUESTS: "/ai_requests",
+		SMART_CONTRACT: "/smart_contract",
 		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
 		REQUESTS_REPORTS: "/requests_reports",
 		REQUESTS_RESULTS: "/requests_results",
@@ -168,6 +169,7 @@ export default Object.freeze({
 		PROPOSALS: "/proposals",
 		REQUESTS: "/ai_requests",
 		REQUESTS_REPORTS: "/requests_reports",
+		SMART_CONTRACT: "/smart-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

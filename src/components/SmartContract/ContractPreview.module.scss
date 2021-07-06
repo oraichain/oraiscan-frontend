@@ -1,0 +1,81 @@
+@import "src/styles/utils";
+
+.contract-preview {
+	background: var(--common-containerBackgroundColor);
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+	padding: 15px 20px 15px 20px;
+
+	table {
+		width: 100%;
+
+		thead {
+			tr {
+				td {
+					padding-bottom: 15px;
+					border-bottom: 1px solid var(--common-borderColor);
+				}
+			}
+		}
+
+		tbody {
+			tr {
+				&:last-child {
+					div {
+						border-bottom: none;
+						padding-bottom: 0px;
+					}
+				}
+			}
+
+			td {
+				&:first-child {
+					div {
+						padding-top: 0px;
+					}
+				}
+			}
+
+			div {
+				padding: 15px 0px 15px 0px;
+				border-bottom: 1px solid var(--common-borderColor);
+			}
+		}
+	}
+
+	.header-title {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 150%;
+		color: var(--common-textColor);
+	}
+
+	.item-title {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	.item-text {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	.item-link {
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+	}
+}
