@@ -356,6 +356,28 @@ const TxMessage = ({msg, data}) => {
 			}
 		}
 
+		const getContractAddress = rawLogString => {
+			try {
+				const rawLogObj = JSON.parse(rawLogString);
+				const messageEvent = rawLogObj[0].events.find(event => event?.type === "message");
+
+				if (_.isNil(messageEvent)) {
+					return "-";
+				}
+
+				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "contract_address");
+
+				if (_.isNil(contractAddressObj)) {
+					return "-";
+				}
+
+				const contractAddress = contractAddressObj.value;
+				return contractAddress;
+			} catch (err) {
+				return "-";
+			}
+		};
+
 		return (
 			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
@@ -633,6 +655,7 @@ const TxMessage = ({msg, data}) => {
 								src={tryParseMessage(value?.init_msg)}
 							/>
 						</InfoRow>
+						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
@@ -667,7 +690,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 			</div>
 		);
-	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch]);
+	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
 
 	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
