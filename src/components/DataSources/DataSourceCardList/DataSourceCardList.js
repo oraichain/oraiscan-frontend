@@ -28,15 +28,7 @@ const TestCaseCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>Data Source</div>
 									</td>
-									<td>
-										{_.isNil(item?.data_source) ? (
-											<div className={cx("item-link")}>-</div>
-										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.TEST_CASES}/${item.id}`}>
-												{item.data_source}
-											</NavLink>
-										)}
-									</td>
+									<td>{_.isNil(item?.data_source) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.data_source}</div>}</td>
 								</tr>
 
 								<tr>
