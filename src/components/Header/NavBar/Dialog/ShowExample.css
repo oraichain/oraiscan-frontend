@@ -22,6 +22,7 @@
 	left: -9999px;
 	z-index: 999999;
 	display: block;
+	pointer-events: initial !important;
 }
 
 .ant-dropdown * {

@@ -134,6 +134,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 									<span> {index + 1}. </span>
 									<span> {address} - </span>
 									<span> {amount} (ORAI) </span>
+									{amount?.split(".")?.[1]?.length > 6 && <div className={cx("amount-error-message")}>Number digits after dot must be smaller than 6</div>}
 								</div>
 							);
 						})}
