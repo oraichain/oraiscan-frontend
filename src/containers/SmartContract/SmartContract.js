@@ -26,22 +26,10 @@ const Block = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
-	const address = parseInt(params?.["address"]);
-	const [path, setPath] = useState("https://dog.ceo/api/breeds/image/1");
+	const address = params?.["address"];
+	const path = `${consts.API.SMART_CONTRACT}/${address}`;
 	const {data, loading, error, refetch} = useGet({
 		path: path,
-		lazy: true,
-		mock: {
-			loading: false,
-			data: {
-				address: "orai18vd8fpwxzck93qlwghaj6arh4p7c5n8903w6c8",
-				code_id: "1",
-				creator: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-				admin: "",
-				label: "aioracle test",
-			},
-			error: null,
-		},
 	});
 
 	let titleSection;
