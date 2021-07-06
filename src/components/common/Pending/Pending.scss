@@ -1,0 +1,26 @@
+@import "src/styles/utils";
+
+.pending {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 80px;
+
+	&-icon {
+		margin-bottom: 15px;
+		color: var(--common-textColor);
+	}
+
+	&-text {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 40px;
+		line-height: 150%;
+		display: flex;
+		align-items: center;
+		letter-spacing: 0.4px;
+	}
+}

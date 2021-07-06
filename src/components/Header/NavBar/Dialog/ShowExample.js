@@ -21,7 +21,7 @@ const menu = () => {
 
 	return (
 		<Menu className={cx("show-example-dropdown")}>
-			<Menu.Item>
+			<Menu.Item className={cx("test!!!!!!!!!")}>
 				<div className={cx("dropdown-item")} onClick={showExampleFile}>
 					<TxtIcon /> <span> TXT </span>
 				</div>
@@ -32,7 +32,7 @@ const menu = () => {
 
 export default function() {
 	return (
-		<Dropdown overlay={menu} trigger='click'>
+		<Dropdown overlay={menu} trigger={["click"]}>
 			<a href='/' className='ant-dropdown-link' onClick={e => e.preventDefault()}>
 				Show Example <DownOutlined />
 			</a>

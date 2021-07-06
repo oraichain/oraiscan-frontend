@@ -9,6 +9,7 @@ import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
+import Pending from "src/components/common/Pending";
 import TabBar from "src/components/RequestDetails/TabBar";
 import DataSourceTable from "src/components/RequestDetails/DataSourceTable";
 import DataSourceTableSkeleton from "src/components/RequestDetails/DataSourceTable/DataSourceTableSkeleton";
@@ -45,7 +46,7 @@ const AIDataSources = ({data, loading, error, id, activeTab, setActiveTab}) => {
 	} else {
 		if (error) {
 			totalItems = "-";
-			tableSection = <NoResult />;
+			tableSection = <Pending />;
 		} else {
 			if (isNaN(data?.length)) {
 				totalItems = "-";
@@ -56,7 +57,7 @@ const AIDataSources = ({data, loading, error, id, activeTab, setActiveTab}) => {
 			if (Array.isArray(data) && data.length > 0) {
 				tableSection = isLargeScreen ? <DataSourceTable data={currentPageData} /> : <DataSourceCardList data={currentPageData} />;
 			} else {
-				tableSection = <NoResult />;
+				tableSection = <Pending />;
 			}
 		}
 	}

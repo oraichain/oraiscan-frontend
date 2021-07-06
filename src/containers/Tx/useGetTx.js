@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useParams, useLocation} from "react-router-dom";
 import axios from "axios";
 import consts from "src/constants/consts";
+import {isTestnet} from "src/config";
 
 const convertData = (pendingTxState, txHash) => {
 	const result = {};
@@ -43,7 +44,7 @@ const useGetTx = txHash => {
 		const source = cancelToken.source();
 		async function getTxFromRpc(count) {
 			const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
-			if (isTxFetchSuccess(txRpc)) {
+			if (isTxFetchSuccess(txRpc) || isTestnet) {
 				const getTxScan = async () => {
 					const tx = await getDataAsync(path);
 					if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {

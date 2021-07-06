@@ -1,6 +1,6 @@
 import {networks} from "./constants/networks";
 
-const isTestnet = process.env.REACT_APP_IS_TEST_NET || localStorage?.getItem("network") === networks.TESTNET;
+export const isTestnet = process.env.REACT_APP_IS_TEST_NET || localStorage?.getItem("network") === networks.TESTNET;
 
 const config = Object.freeze({
 	SCAN_API: isTestnet
