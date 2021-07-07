@@ -4,13 +4,13 @@ import "firebase/messaging";
 import axios from "axios";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyCQE9atWDwB8sVlHx_91NaGm-SwjfYjEdk",
-	authDomain: "notification-a7ca1.firebaseapp.com",
-	projectId: "notification-a7ca1",
-	storageBucket: "notification-a7ca1.appspot.com",
-	messagingSenderId: "348587976913",
-	appId: "1:348587976913:web:0e9cdeadba09e1219cbdf0",
-	measurementId: "G-5FLVL9G1ZK",
+	apiKey: "AIzaSyDHv50BQBbIeaPF7Pb-zdLcEQHRVZpjvtc",
+	authDomain: "oraiscanmainnet.firebaseapp.com",
+	projectId: "oraiscanmainnet",
+	storageBucket: "oraiscanmainnet.appspot.com",
+	messagingSenderId: "638011726290",
+	appId: "1:638011726290:web:868324cdcc5f737e2ed00b",
+	measurementId: "G-W00QTDB1QE",
 };
 
 firebase.initializeApp(firebaseConfig);
