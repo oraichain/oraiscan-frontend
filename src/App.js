@@ -18,6 +18,7 @@ import Alert from "src/components/common/Alert/Alert";
 import SearchArea from "src/components/Dashboard/SearchArea";
 import {GlobalStyles} from "src/GlobalStyles";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import useGlobalApp from "./useGlobalApp";
 import styles from "./App.scss";
 
 const cx = classNames.bind(styles);
@@ -35,6 +36,7 @@ export default function() {
 	const {openPageBar} = useSelector(state => state.global);
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const [isSearchAreaVisible, setIsSearchAreaVisible] = useState(false);
+	const m = useGlobalApp();
 
 	const classes = useStyles();
 

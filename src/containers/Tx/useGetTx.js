@@ -5,15 +5,18 @@ import consts from "src/constants/consts";
 import {isTestnet} from "src/config";
 
 const convertData = (pendingTxState, txHash) => {
+	if (!pendingTxState) {
+		return {};
+	}
 	const result = {};
 	result.result = "pending";
 	result.tx_hash = txHash;
 	result.messages = [];
 	result.messages[0] = {
-		...pendingTxState.value.msg[0].value,
-		"@type": pendingTxState.value.msg[0].type,
+		...pendingTxState.msg[0].value,
+		"@type": pendingTxState.msg[0].type,
 	};
-	result.memo = pendingTxState.value.fee.memo;
+	result.memo = pendingTxState.fee.memo;
 	result.fee = {};
 	return result;
 };
@@ -37,41 +40,43 @@ const useGetTx = txHash => {
 	const path = `${consts.API_BASE}${consts.API.TX}/${txHash}`;
 
 	const location = useLocation();
-	const pendingTxState = location.state?.payload;
+	const pendingTxState = location.state;
+
+	console.log("pendingTxState  = ", pendingTxState);
 
 	useEffect(() => {
 		const cancelToken = axios.CancelToken;
 		const source = cancelToken.source();
 		async function getTxFromRpc(count) {
-			const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
-			if (isTxFetchSuccess(txRpc) || isTestnet) {
-				const getTxScan = async () => {
-					const tx = await getDataAsync(path);
-					if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {
-						setData(tx?.data);
-						setLoading(false);
-						return;
-					}
-					setTimeout(getTxScan, 2000);
-				};
-				getTxScan();
-				return;
-			}
+			// const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
+			// if (isTxFetchSuccess(txRpc) || isTestnet) {
+			// 	const getTxScan = async () => {
+			// 		const tx = await getDataAsync(path);
+			// 		if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {
+			// 			setData(tx?.data);
+			// 			setLoading(false);
+			// 			return;
+			// 		}
+			// 		setTimeout(getTxScan, 2000);
+			// 	};
+			// 	getTxScan();
+			// 	return;
+			// }
 
-			if (count === 4) {
-				setData(null);
-				setLoading(false);
-				return;
-			}
+			// if (count === 4) {
+			// 	setData(null);
+			// 	setLoading(false);
+			// 	return;
+			// }
 
 			if (pendingTxState) {
-				setData(convertData(pendingTxState, txHash));
+				setData(convertData(pendingTxState.source, txHash));
 				setLoading(false);
 			}
 
-			setTimeout(() => {
-				getTxFromRpc(count + 1);
-			}, 2000);
+			// setTimeout(() => {
+			// 	getTxFromRpc(count + 1);
+			// }, 2000);
 		}
 
 		getTxFromRpc(1);

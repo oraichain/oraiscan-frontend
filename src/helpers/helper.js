@@ -144,7 +144,6 @@ export const decodeTx = encodedTx => {
 
 	const decode_body = message.cosmos.tx.v1beta1.TxBody.decode(msg.body_bytes);
 	const typeUrl = decode_body.messages[0].type_url.substring(1);
-	console.log(typeUrl);
 	const urlArr = typeUrl.split(".");
 	let msgType = message;
 	for (let i = 0; i < urlArr.length; i++) {
