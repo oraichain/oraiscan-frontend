@@ -97,6 +97,7 @@ export default Object.freeze({
 		REQUESTS_RESULTS: "/requests_results",
 		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 		TEST_CASES: "/test_cases",
+		FIREBASE_FCM_TOKEN: "/firebase_token",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
