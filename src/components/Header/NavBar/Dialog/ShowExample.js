@@ -35,7 +35,7 @@ export default function ShowExample() {
 				<span className={cx("show-example-button-text")}>Show Example</span>
 				<ArrowDropDownIcon className={cx("show-example-button-icon")} />
 			</Button>
-			<Menu id='show-example-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+			<Menu className={cx("show-example-menu")} id='show-example-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 				<MenuItem
 					className={cx("menu-item")}
 					onClick={() => {

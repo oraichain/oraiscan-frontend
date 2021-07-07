@@ -1,5 +1,8 @@
 .form-dialog {
 	width: 530px;
+	@media screen and (max-width: 650px) {
+		width: auto;
+	}
 	* {
 		font-family: Roboto;
 	}
@@ -152,11 +155,12 @@
 }
 
 .btn-action-group {
+	margin-top: 15px;
+	margin-bottom: 30px;
+	padding: 0px 18px;
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
-	padding: 0px 18px;
-	margin-bottom: 30px;
 	button {
 		width: 50%;
 	}
