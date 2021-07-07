@@ -16,21 +16,25 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // Retrieve firebase messaging
-const messaging = firebase.messaging();
+let messaging = null;
 
-messaging.onBackgroundMessage((payload) => {
-  try {
-    const notificationTitle = payload.data.title;
-    const notificationOptions = {
-      body: payload.data.body,
-    };
+if (firebase.messaging.isSupported()) {
+  messaging = firebase.messaging();
 
-    self.registration.showNotification(notificationTitle,
-      notificationOptions);
-  } catch (e) {
-    console.log(e);
-  }
-});
+  messaging.onBackgroundMessage((payload) => {
+    try {
+      const notificationTitle = payload.data.title;
+      const notificationOptions = {
+        body: payload.data.body,
+      };
+
+      self.registration.showNotification(notificationTitle,
+        notificationOptions);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+}
 
 // self.addEventListener('notificationclick', event => {
 //   console.log(event)

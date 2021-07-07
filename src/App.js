@@ -56,7 +56,7 @@ export default function() {
 	let tabs;
 
 	useEffect(() => {
-		if (address && !isMobile) {
+		if (!isMobile) {
 			updateToken(address);
 		}
 	}, []);

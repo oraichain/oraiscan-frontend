@@ -14,34 +14,43 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+
+let messaging = null;
+
+if (firebase.messaging.isSupported()) {
+	messaging = firebase.messaging();
+}
 
 export const updateToken = (address, saveToken = true) => {
-	return messaging
-		.getToken({ vapidKey: process.env.FCM_KEYPAIR })
-		.then(async currentToken => {
-			if (currentToken) {
-				console.log("current token for client: ", currentToken);
-				// Track the token -> client mapping, by sending to backend server
-				if (address) {
-					axios.patch(`${consts.API_BASE}${consts.API.FIREBASE_FCM_TOKEN}/${address}`, {
-						token: currentToken,
-						save_token: saveToken
-					});
-				}
-			} else {
-				console.log("No registration token available. Request permission to generate one.");
-			}
-		})
-		.catch(err => {
-			console.log("An error occurred while retrieving token. ", err);
-			// catch error while creating client token
-		});
+	return firebase.messaging.isSupported()
+		? messaging
+				.getToken({vapidKey: process.env.FCM_KEYPAIR})
+				.then(async currentToken => {
+					if (currentToken) {
+						console.log("current token for client: ", currentToken);
+						// Track the token -> client mapping, by sending to backend server
+						if (address) {
+							axios.patch(`${consts.API_BASE}${consts.API.FIREBASE_FCM_TOKEN}/${address}`, {
+								token: currentToken,
+								save_token: saveToken,
+							});
+						}
+					} else {
+						console.log("No registration token available. Request permission to generate one.");
+					}
+				})
+				.catch(err => {
+					console.log("An error occurred while retrieving token. ", err);
+					// catch error while creating client token
+				})
+		: null;
 };
 
 export const onMessageListener = () =>
 	new Promise(resolve => {
-		messaging.onMessage(payload => {
-			resolve(payload);
-		});
+		firebase.messaging.isSupported()
+			? messaging.onMessage(payload => {
+					resolve(payload);
+			  })
+			: resolve();
 	});
