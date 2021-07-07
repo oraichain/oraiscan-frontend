@@ -1,16 +1,26 @@
-/* eslint-disable react/react-in-jsx-scope */
 import React from "react";
-import {Menu, Dropdown} from "antd";
-import {DownOutlined} from "@ant-design/icons";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {ReactComponent as TxtIcon} from "src/assets/icons/txt-icons.svg";
 import styles from "./ShowExample.scss";
-import "./ShowExample.css";
+import TXTIcon from "src/icons/TXTIcon";
 
 const cx = cn.bind(styles);
 
-const menu = () => {
+export default function ShowExample() {
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const handleClick = event => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	const showExampleFile = () => {
 		const url = `${consts.DOMAIN}example_orai.txt`;
 		const newWindow = window.open(url, "_blank");
@@ -20,22 +30,21 @@ const menu = () => {
 	};
 
 	return (
-		<Menu className={cx("show-example-dropdown")}>
-			<Menu.Item className={cx("test!!!!!!!!!")}>
-				<div className={cx("dropdown-item")} onClick={showExampleFile}>
-					<TxtIcon /> <span> TXT </span>
-				</div>
-			</Menu.Item>
-		</Menu>
-	);
-};
-
-export default function() {
-	return (
-		<Dropdown overlay={menu} trigger={["click"]}>
-			<a href='/' className='ant-dropdown-link' onClick={e => e.preventDefault()}>
-				Show Example <DownOutlined />
-			</a>
-		</Dropdown>
+		<div className={cx("show-example")}>
+			<Button aria-controls='show-example-menu' aria-haspopup='true' onClick={handleClick} className={cx("show-example-button")}>
+				<span className={cx("show-example-button-text")}>Show Example</span>
+				<ArrowDropDownIcon className={cx("show-example-button-icon")} />
+			</Button>
+			<Menu id='show-example-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+				<MenuItem
+					className={cx("menu-item")}
+					onClick={() => {
+						showExampleFile();
+						handleClose();
+					}}>
+					<TXTIcon className={cx("menu-item-icon")} /> <span className={cx("menu-item-text")}> TXT </span>
+				</MenuItem>
+			</Menu>
+		</div>
 	);
 }
