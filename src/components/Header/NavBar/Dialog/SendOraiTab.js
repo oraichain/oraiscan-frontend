@@ -90,7 +90,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	const renderSwitchBtn = () => {
 		return (
-			<div className={cx("row-balance", "switch-control")}>
+			<div className={cx("row-balance", "switch-control", "vertical-center")}>
 				<div className={cx("left")}>
 					<div className={cx("title", "switch-blue")} onClick={toogleChooseFile}>
 						{isChooseFile ? "Insert manually" : "Using file"} <ExchangeIcon />
@@ -98,8 +98,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</div>
 				<div className={cx("right")}>
 					<div className={cx("title", "title-right", "switch-blue")}>
-						{" "}
-						<ShowExample />{" "}
+						<ShowExample />
 					</div>
 				</div>
 			</div>
@@ -147,8 +146,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			<>
 				{isChooseFile && (
 					<div>
-						{" "}
-						<SelectFile handleSelectFile={handleSelectFile} />{" "}
+						<SelectFile handleSelectFile={handleSelectFile} />
 					</div>
 				)}
 				{!isChooseFile && (

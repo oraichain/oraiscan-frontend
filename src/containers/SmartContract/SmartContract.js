@@ -72,7 +72,7 @@ const SmartContract = () => {
 						<MoreInfo data={data} />
 					</Grid>
 				</div>
-				<SmartContractCodeCard />
+				<SmartContractCodeCard data={data} />
 			</Container>
 		</>
 	);

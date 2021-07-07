@@ -15,12 +15,7 @@
 	}
 
 	&-body {
-		background: var(--common-containerBackgroundColor);
 		border-radius: 6px;
-
-		@include media(">=large") {
-			background-color: var(--common-blockItemBackgroundColor) !important;
-		}
 	}
 }
 
@@ -77,4 +72,44 @@
 		line-height: 150%;
 		text-align: center;
 	}
+}
+
+.skeleton {
+	background: var(--common-blockItemBackgroundColor);
+	&-block {
+		display: block;
+	}
+
+	&-inline-block {
+		display: inline-block;
+	}
+}
+
+.code-container {
+	:global(.MuiIconButton-root) {
+		color: var(--common-textColor);
+	}
+
+	:global(.MuiAccordionDetails-root) {
+		border: 1px solid var(--common-borderColor);
+	}
+
+	:global(.MuiAccordionSummary-root) {
+		&:hover {
+			background-color: var(--common-blockItemBackgroundColor);
+		}
+	}
+
+	.code-name {
+		margin-right: 8px;
+	}
+}
+
+.store-code-title {
+	white-space: nowrap;
+}
+
+.store-code-value {
+	color: var(--common-textColor);
+	overflow: hidden;
 }
