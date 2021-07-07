@@ -1,5 +1,8 @@
 .form-dialog {
 	width: 530px;
+	@media screen and (max-width: 650px) {
+		width: auto;
+	}
 	* {
 		font-family: Roboto;
 	}
@@ -48,7 +51,20 @@
 		font-size: 16px;
 	}
 	.title-right {
-		text-align: right;
+		text-align: left;
+		@media screen and (max-width: 650px) {
+			flex-direction: column;
+		}
+	}
+
+	@media screen and (max-width: 650px) {
+		flex-direction: column;
+	}
+
+	.left {
+		@media screen and (max-width: 650px) {
+			margin-bottom: 15px;
+		}
 	}
 }
 
@@ -152,11 +168,12 @@
 }
 
 .btn-action-group {
+	margin-top: 15px;
+	margin-bottom: 30px;
+	padding: 0px 18px;
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
-	padding: 0px 18px;
-	margin-bottom: 30px;
 	button {
 		width: 50%;
 	}
@@ -345,4 +362,13 @@
 		justify-self: flex-start;
 		align-items: center;
 	}
+}
+
+.vertical-center {
+	align-items: center;
+}
+
+.nowrap {
+	white-space: nowrap;
+	word-break: keep-all;
 }

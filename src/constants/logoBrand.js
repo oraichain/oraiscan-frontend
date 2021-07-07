@@ -108,4 +108,9 @@ export const logoBrand = [
 		operatorAddress: "oraivaloper1kh9vejqxqqccavtv2nf683mx0z85mfpd7q566q",
 		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1616994377/lux_logo_small_1_nvwpdi.png",
 	},
+	{
+		name: "Binnostake",
+		operatorAddress: "oraivaloper18ky5clarney7345wssqcnncjnqkaa58z3veqde",
+		logo: "https://i.imgur.com/s6KMIbC.png",
+	},
 ];

@@ -1,7 +1,7 @@
 import * as React from "react";
 import cn from "classnames/bind";
 import {Grid} from "@material-ui/core";
-import SearchBox from "src/components/common/SearchBox";
+import SmartSearchBox from "src/components/common/SmartSearchBox";
 import NetworkSwitcher from "src/components/common/NetworkSwitcher";
 import styles from "./SearchArea.scss";
 
@@ -21,7 +21,7 @@ export default function() {
 				</Grid>
 
 				<Grid item lg={6} xs={12}>
-					<SearchBox interactiveWidth={true} />
+					<SmartSearchBox />
 				</Grid>
 			</Grid>
 		</div>

@@ -257,7 +257,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 						{TABS.map(({id, name}, index) => {
 							return (
 								<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
-									<p> {name} </p>
+									<p className={cx("nowrap")}> {name} </p>
 								</button>
 							);
 						})}
