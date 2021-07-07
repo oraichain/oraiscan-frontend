@@ -51,7 +51,20 @@
 		font-size: 16px;
 	}
 	.title-right {
-		text-align: right;
+		text-align: left;
+		@media screen and (max-width: 650px) {
+			flex-direction: column;
+		}
+	}
+
+	@media screen and (max-width: 650px) {
+		flex-direction: column;
+	}
+
+	.left {
+		@media screen and (max-width: 650px) {
+			margin-bottom: 15px;
+		}
 	}
 }
 
