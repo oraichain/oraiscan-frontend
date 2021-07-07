@@ -91,11 +91,13 @@ export default Object.freeze({
 		ORACLE_SCRIPTS_REQUEST: "oracle-scripts/request",
 		ORACLE_SCRIPTS: "oracle-scripts",
 		REQUESTS: "/ai_requests",
+		SMART_CONTRACT: "/smart_contract",
 		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
 		REQUESTS_REPORTS: "/requests_reports",
 		REQUESTS_RESULTS: "/requests_results",
 		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 		TEST_CASES: "/test_cases",
+		FIREBASE_FCM_TOKEN: "/firebase_token",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -168,6 +170,7 @@ export default Object.freeze({
 		PROPOSALS: "/proposals",
 		REQUESTS: "/ai_requests",
 		REQUESTS_REPORTS: "/requests_reports",
+		SMART_CONTRACT: "/smart-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

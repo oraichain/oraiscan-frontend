@@ -22,6 +22,7 @@ import TwitterIcon from "src/assets/community/TwitterIcon";
 import YoutubeIcon from "src/assets/community/YoutubeIcon";
 import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
+import {updateToken} from "src/firebase-cloud-message";
 
 const cx = cn.bind(styles);
 
@@ -108,13 +109,15 @@ const NavBar = ({toggleSearchArea}) => {
 
 	useEffect(() => {
 		const onMessage = function(e) {
-			if (e?.data?.address) {
+			const address = e?.data?.address;
+			if (address) {
 				initialNavLinks[initialNavLinks.length - 1] = {
-					title: e.data.address,
+					title: address,
 					type: "wallet",
 				};
 				setNavLinks([...initialNavLinks]);
-				dispatch(initWallet({address: e.data.address, account: e.data.account}));
+				dispatch(initWallet({address, account: e.data.account}));
+				updateToken(address);
 			}
 		};
 		window.addEventListener("message", onMessage, false);
