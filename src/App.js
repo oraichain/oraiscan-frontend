@@ -18,6 +18,7 @@ import Alert from "src/components/common/Alert/Alert";
 import SearchArea from "src/components/Dashboard/SearchArea";
 import {GlobalStyles} from "src/GlobalStyles";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import useGlobalApp from "./useGlobalApp";
 import {updateToken, onMessageListener} from "src/firebase-cloud-message";
 import {showAlert} from "src/store/modules/global";
 import {isMobile} from "react-device-detect";
@@ -41,6 +42,7 @@ export default function() {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const {address} = useSelector(state => state.wallet);
 	const [isSearchAreaVisible, setIsSearchAreaVisible] = useState(false);
+	const m = useGlobalApp();
 
 	const classes = useStyles();
 
