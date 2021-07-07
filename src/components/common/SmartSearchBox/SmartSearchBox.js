@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 const SmartSearchBox = memo(({}) => {
 	const history = useHistory();
 	const dropdownRef = useRef(null);
+	const searchBoxRef = useRef(null);
 	const [searchValue, setSearchValue] = useState("");
 	const [searchTypes, setSearchTypes] = useState(null);
 
@@ -73,6 +74,21 @@ const SmartSearchBox = memo(({}) => {
 		}
 	}, [searchValue]);
 
+	useEffect(() => {
+		document.addEventListener("mouseup", handleClickOutside);
+		return () => {
+			document.removeEventListener("mouseup", handleClickOutside);
+		};
+	}, []);
+
+	const handleClickOutside = event => {
+		if (dropdownRef && !dropdownRef?.current?.contains?.(event?.target)) {
+			if (!_.isNil(dropdownRef?.current?.style?.display)) {
+				dropdownRef.current.style.display = "none";
+			}
+		}
+	};
+
 	let dropdownItems;
 	if (searchTypes) {
 		if (searchTypes?.includes("|")) {
@@ -119,7 +135,7 @@ const SmartSearchBox = memo(({}) => {
 	}
 
 	return (
-		<div className={cx("smart-search-box")}>
+		<div ref={searchBoxRef} className={cx("smart-search-box")}>
 			<input
 				type='text'
 				className={cx("search-input")}
@@ -131,13 +147,16 @@ const SmartSearchBox = memo(({}) => {
 				onFocus={() => {
 					dropdownRef.current.style.display = "block";
 				}}
-				onBlur={e => {
-					setTimeout(function() {
-						if (!_.isNil(dropdownRef?.current?.style?.display)) {
-							dropdownRef.current.style.display = "none";
-						}
-					}, 100);
+				onClick={() => {
+					dropdownRef.current.style.display = "block";
 				}}
+				// onBlur={e => {
+				// 	// setTimeout(function() {
+				// 	// 	if (!_.isNil(dropdownRef?.current?.style?.display)) {
+				// 	// 		dropdownRef.current.style.display = "none";
+				// 	// 	}
+				// 	// }, 0);
+				// }}
 			/>
 
 			<div className={cx("search-button")}>
