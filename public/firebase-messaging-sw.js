@@ -19,14 +19,17 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log(payload);
-  const notificationTitle = payload.data.title;
-  const notificationOptions = {
-    body: payload.data.body,
-  };
+  try {
+    const notificationTitle = payload.data.title;
+    const notificationOptions = {
+      body: payload.data.body,
+    };
 
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
+    self.registration.showNotification(notificationTitle,
+      notificationOptions);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // self.addEventListener('notificationclick', event => {

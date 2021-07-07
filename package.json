@@ -111,6 +111,7 @@
 		"react-copy-to-clipboard": "^5.0.2",
 		"react-countdown": "^2.3.1",
 		"react-dev-utils": "11.0.4",
+		"react-device-detect": "^1.17.0",
 		"react-dom": "^16.12.0",
 		"react-donut-chart": "^1.1.8",
 		"react-dropzone": "^11.3.1",

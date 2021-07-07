@@ -20,6 +20,7 @@ import {GlobalStyles} from "src/GlobalStyles";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import {updateToken, onMessageListener} from "src/firebase-cloud-message";
 import {showAlert} from "src/store/modules/global";
+import {isMobile} from "react-device-detect";
 import styles from "./App.scss";
 
 const cx = classNames.bind(styles);
@@ -55,7 +56,9 @@ export default function() {
 	let tabs;
 
 	useEffect(() => {
-		updateToken(address);
+		if (address && !isMobile) {
+			updateToken(address);
+		}
 	}, []);
 
 	const toastifyMsg = payload => {
