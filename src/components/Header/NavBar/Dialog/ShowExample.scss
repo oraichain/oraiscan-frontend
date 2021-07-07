@@ -1,10 +1,37 @@
-.dropdown-item {
-	color: #fff;
-	padding: 8px;
-	display: flex;
-	cursor: pointer;
-	z-index: 999;
-	span {
-		margin-left: 10px;
+.show-example {
+	&-button {
+		&-text {
+			font-family: Roboto;
+			font-size: 16px;
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+
+		&-icon {
+			font-family: Roboto;
+			font-size: 16px;
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+	}
+}
+
+.menu-item {
+	&-text {
+		display: inline-block;
+		margin-left: 8px;
+		font-family: Roboto;
+		font-size: 16px;
+		color: var(--common-textColor);
+		cursor: pointer;
+	}
+
+	&-icon {
+		display: inline-block;
+
+		font-family: Roboto;
+		font-size: 16px;
+		color: var(--common-textColor);
+		cursor: pointer;
 	}
 }
