@@ -11,7 +11,7 @@ const cx = cn.bind(styles);
 
 const MoreInfo = ({data}) => {
 	return (
-		<Grid item lg={6} sm={12} md={6} xs={12}>
+		<Grid item lg={6} xs={12}>
 			<div className={cx("more-info")}>
 				<table>
 					<thead>
