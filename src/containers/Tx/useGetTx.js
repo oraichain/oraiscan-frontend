@@ -127,7 +127,7 @@ const useGetTx = txHash => {
 		return () => {
 			source.cancel("cleanup cancel");
 		};
-	}, []);
+	}, [txHash]);
 
 	return {
 		loading,
