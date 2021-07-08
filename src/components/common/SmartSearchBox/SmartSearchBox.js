@@ -33,7 +33,7 @@ const SmartSearchBox = memo(({}) => {
 				setSearchTypes("account|checking");
 				const data = await axios.get(`${consts.API_BASE}${consts.API.SMART_CONTRACT}/${searchValue}`);
 				if (!_.isNil(data?.data?.code_id)) {
-					return "account|smartContract";
+					return "account|smart Contract";
 				}
 			} catch (error) {
 				return "account";

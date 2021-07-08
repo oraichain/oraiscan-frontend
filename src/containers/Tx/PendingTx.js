@@ -44,19 +44,6 @@ const PendingTx = ({setPending, pending}) => {
 		}
 	};
 
-	// console.log("........................")
-
-	// const {data, loading, error, refetch} = useGet({
-	// 	path,
-	// });
-
-	// useEffect(() => {
-	// 	timerIdRef.current = setTimeout(refetch, consts.REQUEST.TIMEOUT);
-	// 	return () => {
-	// 		cleanUp();
-	// 	};
-	// }, [loading]);
-
 	useEffect(() => {
 		let timeoutRetry;
 		async function getData(n) {
