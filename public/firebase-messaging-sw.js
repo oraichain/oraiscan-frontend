@@ -23,13 +23,12 @@ if (firebase.messaging.isSupported()) {
 
   messaging.onBackgroundMessage((payload) => {
     try {
-      const notificationTitle = payload.data.title;
+      const notificationTitle = payload.notification.title;
       const notificationOptions = {
-        body: payload.data.body,
+        body: payload.notification.body,
       };
 
-      self.registration.showNotification(notificationTitle,
-        notificationOptions);
+      self.registration.showNotification(notificationTitle, notificationOptions);
     } catch (e) {
       console.log(e);
     }

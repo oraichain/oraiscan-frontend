@@ -24,7 +24,7 @@ import _ from "lodash";
 
 const cx = cn.bind(styles);
 
-const PendingTx = ({setPending}) => {
+const PendingTx = ({setPending, pending}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();

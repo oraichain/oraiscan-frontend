@@ -79,7 +79,7 @@ export default function() {
 				showAlert({
 					show: true,
 					message: toastifyMsg(payload),
-					autoHideDuration: 1500,
+					autoHideDuration: 3000,
 				})
 			);
 		})

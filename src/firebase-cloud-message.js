@@ -22,7 +22,7 @@ if (firebase.messaging.isSupported()) {
 }
 
 export const updateToken = (address, saveToken = true) => {
-	return firebase.messaging.isSupported()
+	return messaging
 		? messaging
 				.getToken({vapidKey: process.env.FCM_KEYPAIR})
 				.then(async currentToken => {
@@ -48,7 +48,7 @@ export const updateToken = (address, saveToken = true) => {
 
 export const onMessageListener = () =>
 	new Promise(resolve => {
-		firebase.messaging.isSupported()
+		messaging
 			? messaging.onMessage(payload => {
 					resolve(payload);
 			  })
