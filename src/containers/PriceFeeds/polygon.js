@@ -2,12 +2,12 @@ import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import _ from "lodash";
 
-import {abiBsc} from "./abj";
+import {abiPolygon} from "./abj";
 
-const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
-const contract = new web3.eth.Contract(abiBsc, "0x13f54d67fa23ab3caaef681553cd996f7e9d6237");
+const web3 = new Web3("https://rpc-mumbai.matic.today");
+const contract = new web3.eth.Contract(abiPolygon, "0x95Fc3900DF04103abd466F276ff8DF98508af708");
 
-async function getPriceBSCTestnet(listPair) {
+async function getPricePolygon(listPair) {
 	let lastUpdate = new Date().toString();
 	const listPairResult = _.cloneDeep(listPair);
 	const listCoin = listPair.map(v => v.name);
@@ -38,4 +38,4 @@ async function getPriceBSCTestnet(listPair) {
 	};
 }
 
-export {getPriceBSCTestnet};
+export {getPricePolygon};
