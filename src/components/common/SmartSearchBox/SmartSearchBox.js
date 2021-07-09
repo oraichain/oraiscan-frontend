@@ -52,7 +52,7 @@ const SmartSearchBox = memo(({}) => {
 			history.push(`/blocks/${searchValue}`);
 		} else if (searchType === "account") {
 			history.push(`/account/${searchValue}`);
-		} else if (searchType === "smartContract") {
+		} else if (searchType === "smart Contract") {
 			history.push(`/smart-contract/${searchValue}`);
 		} else if (searchType === "validator") {
 			history.push(`/validators/${searchValue}`);
