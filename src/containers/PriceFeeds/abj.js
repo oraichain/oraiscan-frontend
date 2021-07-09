@@ -196,5 +196,108 @@ export const abiBsc = [
 	},
 ];
 
-
-export const abiPolygon = [{"inputs":[{"internalType":"contract IOraiBase","name":"_oracle","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"string","name":"_base","type":"string"},{"internalType":"string","name":"_quote","type":"string"}],"name":"getPrice","outputs":[{"components":[{"internalType":"uint128","name":"rate","type":"uint128"},{"internalType":"uint64","name":"lastUpdatedBase","type":"uint64"},{"internalType":"uint64","name":"lastUpdatedQuote","type":"uint64"}],"internalType":"struct IOraiBase.ResponsePriceData","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_base","type":"string"}],"name":"getPrice","outputs":[{"components":[{"internalType":"uint128","name":"rate","type":"uint128"},{"internalType":"uint64","name":"resolveTime","type":"uint64"}],"internalType":"struct IOraiBase.PriceData","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string[]","name":"_bases","type":"string[]"},{"internalType":"string[]","name":"_quotes","type":"string[]"}],"name":"getPriceBulk","outputs":[{"components":[{"internalType":"uint128","name":"rate","type":"uint128"},{"internalType":"uint64","name":"lastUpdatedBase","type":"uint64"},{"internalType":"uint64","name":"lastUpdatedQuote","type":"uint64"}],"internalType":"struct IOraiBase.ResponsePriceData[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string[]","name":"_bases","type":"string[]"}],"name":"getPriceBulk","outputs":[{"components":[{"internalType":"uint128","name":"rate","type":"uint128"},{"internalType":"uint64","name":"resolveTime","type":"uint64"}],"internalType":"struct IOraiBase.PriceData[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"oracle","outputs":[{"internalType":"contract IOraiBase","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"contract IOraiBase","name":"_oracle","type":"address"}],"name":"setOracle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+export const abiPolygon = [
+	{inputs: [{internalType: "contract IOraiBase", name: "_oracle", type: "address"}], stateMutability: "nonpayable", type: "constructor"},
+	{
+		anonymous: false,
+		inputs: [
+			{indexed: true, internalType: "address", name: "previousOwner", type: "address"},
+			{indexed: true, internalType: "address", name: "newOwner", type: "address"},
+		],
+		name: "OwnershipTransferred",
+		type: "event",
+	},
+	{
+		inputs: [
+			{internalType: "string", name: "_base", type: "string"},
+			{internalType: "string", name: "_quote", type: "string"},
+		],
+		name: "getPrice",
+		outputs: [
+			{
+				components: [
+					{internalType: "uint128", name: "rate", type: "uint128"},
+					{internalType: "uint64", name: "lastUpdatedBase", type: "uint64"},
+					{internalType: "uint64", name: "lastUpdatedQuote", type: "uint64"},
+				],
+				internalType: "struct IOraiBase.ResponsePriceData",
+				name: "",
+				type: "tuple",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [{internalType: "string", name: "_base", type: "string"}],
+		name: "getPrice",
+		outputs: [
+			{
+				components: [
+					{internalType: "uint128", name: "rate", type: "uint128"},
+					{internalType: "uint64", name: "resolveTime", type: "uint64"},
+				],
+				internalType: "struct IOraiBase.PriceData",
+				name: "",
+				type: "tuple",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{internalType: "string[]", name: "_bases", type: "string[]"},
+			{internalType: "string[]", name: "_quotes", type: "string[]"},
+		],
+		name: "getPriceBulk",
+		outputs: [
+			{
+				components: [
+					{internalType: "uint128", name: "rate", type: "uint128"},
+					{internalType: "uint64", name: "lastUpdatedBase", type: "uint64"},
+					{internalType: "uint64", name: "lastUpdatedQuote", type: "uint64"},
+				],
+				internalType: "struct IOraiBase.ResponsePriceData[]",
+				name: "",
+				type: "tuple[]",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [{internalType: "string[]", name: "_bases", type: "string[]"}],
+		name: "getPriceBulk",
+		outputs: [
+			{
+				components: [
+					{internalType: "uint128", name: "rate", type: "uint128"},
+					{internalType: "uint64", name: "resolveTime", type: "uint64"},
+				],
+				internalType: "struct IOraiBase.PriceData[]",
+				name: "",
+				type: "tuple[]",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{inputs: [], name: "oracle", outputs: [{internalType: "contract IOraiBase", name: "", type: "address"}], stateMutability: "view", type: "function"},
+	{inputs: [], name: "owner", outputs: [{internalType: "address", name: "", type: "address"}], stateMutability: "view", type: "function"},
+	{inputs: [], name: "renounceOwnership", outputs: [], stateMutability: "nonpayable", type: "function"},
+	{
+		inputs: [{internalType: "contract IOraiBase", name: "_oracle", type: "address"}],
+		name: "setOracle",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+		name: "transferOwnership",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+];

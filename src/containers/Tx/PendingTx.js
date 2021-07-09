@@ -63,7 +63,7 @@ const PendingTx = ({setPending, pending}) => {
 		getData(0);
 		return () => {
 			clearTimeout(timeoutRetry);
-		}
+		};
 	}, [txHash]);
 
 	let titleSection;
