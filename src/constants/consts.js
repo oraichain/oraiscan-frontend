@@ -98,6 +98,7 @@ export default Object.freeze({
 		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 		TEST_CASES: "/test_cases",
 		FIREBASE_FCM_TOKEN: "/firebase_token",
+		SMART_CONTRACTS: "/smart_contracts",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -171,6 +172,7 @@ export default Object.freeze({
 		REQUESTS: "/ai_requests",
 		REQUESTS_REPORTS: "/requests_reports",
 		SMART_CONTRACT: "/smart-contract",
+		SMART_CONTRACTS: "/smart-contracts",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

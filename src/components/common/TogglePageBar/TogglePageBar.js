@@ -63,6 +63,14 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
+			case "smart-contracts": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<ValidatorsIcon className={cx("title-icon")} /> Smart contracts
+					</div>
+				);
+			}
 			case "proposals": {
 				return (
 					<div className={cx("title")}>
