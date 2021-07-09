@@ -85,7 +85,9 @@ const TestCaseTable = memo(({data = []}) => {
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("contract-data-cell", "align-right")}>
-					<div className={cx("contract")}>{item?.contract}</div>
+					<NavLink className={cx("contract")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
+						{item?.contract}
+					</NavLink>
 				</div>
 			);
 

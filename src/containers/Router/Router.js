@@ -27,7 +27,7 @@ const OracleScriptDetail = lazy(() => import(`src/containers/OracleScriptDetail`
 const Proposals = lazy(() => import(`src/containers/Proposals`));
 const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
 const SmartContract = lazy(() => import(`src/containers/SmartContract`));
-
+const SmartContracts = lazy(() => import(`src/containers/SmartContracts`));
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
@@ -63,6 +63,7 @@ export default function(props) {
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
+					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
 					<Route render={() => <NotFound />} />
 				</Switch>

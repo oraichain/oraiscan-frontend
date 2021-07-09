@@ -69,7 +69,10 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	const amount = data?.balances?.[0]?.amount;
 	const denom = data?.balances?.[0]?.denom;
 
-	const showDropdown = () => {
+	const showDropdown = e => {
+		if (isTransactionModalVisible) {
+			return;
+		}
 		setIsDropdownVisible(true);
 		refetch();
 	};
@@ -80,10 +83,12 @@ const WalletWithAdress = ({data: props, collapse}) => {
 
 	const showTransactionModal = () => {
 		setIsTransactionModalVisible(true);
+		setIsDropdownVisible(false);
 	};
 
 	const hideTransactionModal = useCallback(() => {
 		setIsTransactionModalVisible(false);
+		setIsDropdownVisible(false);
 	}, []);
 
 	const closeWallet = () => {
@@ -140,7 +145,6 @@ const WalletWithAdress = ({data: props, collapse}) => {
 			{!_.isNil(account) && !_.isNil(amount) && (
 				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} />
 			)}
-
 			<a
 				className={cx("dropdown-toggle")}
 				href={path}

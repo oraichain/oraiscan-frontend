@@ -43,8 +43,8 @@ const DetailsCard = memo(({data}) => {
 							<span className={cx("information-title-text")}>Data Sources</span>
 							<InfoIcon className={cx("information-title-icon")} />
 						</Grid>
-						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							{Array.isArray(data?.data_sources) ? data.data_sources.map(item => <span className={cx("tag")}>{item}</span>) : "-"}
+						<Grid item lg={8} xs={12} className={cx("information-value", "none-click")}>
+							{Array.isArray(data?.data_sources) ? data.data_sources.map(item => <span className={cx("tag", "none-click")}>{item}</span>) : "-"}
 						</Grid>
 					</Grid>
 
@@ -53,8 +53,8 @@ const DetailsCard = memo(({data}) => {
 							<span className={cx("information-title-text")}>Test Cases</span>
 							<InfoIcon className={cx("information-title-icon")} />
 						</Grid>
-						<Grid item lg={8} xs={12} className={cx("information-value")}>
-							{Array.isArray(data?.test_cases) ? data.test_cases.map(item => <span className={cx("tag")}>{item}</span>) : "-"}
+						<Grid item lg={8} xs={12} className={cx("information-value", "none-click")}>
+							{Array.isArray(data?.test_cases) ? data.test_cases.map(item => <span className={cx("tag", "none-click")}>{item}</span>) : "-"}
 						</Grid>
 					</Grid>
 
