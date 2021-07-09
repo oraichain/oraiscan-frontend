@@ -69,7 +69,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	const amount = data?.balances?.[0]?.amount;
 	const denom = data?.balances?.[0]?.denom;
 
-	const showDropdown = (e) => {
+	const showDropdown = e => {
 		if (isTransactionModalVisible) {
 			return;
 		}
@@ -143,12 +143,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
 			{!_.isNil(account) && !_.isNil(amount) && (
-				<Dialog
-					show={isTransactionModalVisible}
-					handleClose={hideTransactionModal}
-					address={title}
-					account={account}
-					amount={amount} />
+				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} />
 			)}
 			<a
 				className={cx("dropdown-toggle")}

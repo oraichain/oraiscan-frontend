@@ -30,7 +30,7 @@ const isBlockContainTxhash = (blockInfo, txhash) => {
 	if (!blockInfo?.data?.data || !_.isArray(blockInfo.data.data)) {
 		return false;
 	}
-	
+
 	for (let i = 0; i < blockInfo.data.data.length; i++) {
 		if (blockInfo.data.data[i].tx_hash === txhash) {
 			return true;
@@ -103,8 +103,8 @@ const useGetTx = txHash => {
 			for (let i = 0; i < listTimeout.length; i++) {
 				clearTimeout(listTimeout[i]);
 			}
-			const blockInfo = await getDataAsync( `${consts.API_BASE}${consts.API.TXS_BLOCK}/${height}?limit=1000`);
-			console.log('blockInfo === ', blockInfo)
+			const blockInfo = await getDataAsync(`${consts.API_BASE}${consts.API.TXS_BLOCK}/${height}?limit=1000`);
+			console.log("blockInfo === ", blockInfo);
 			if (!blockInfo?.data?.data) {
 				const t3 = setTimeout(() => {
 					getTxFromBlock(initHeight, height);
