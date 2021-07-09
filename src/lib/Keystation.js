@@ -85,7 +85,7 @@ function openWindowV1(type, payload, account = "", self) {
 			encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
-		"690"
+		"760"
 	);
 }
 
@@ -124,7 +124,7 @@ function openWindowV2(type, payload, account = "", self) {
 			network,
 		"",
 		"470",
-		"690"
+		"760"
 	);
 }
 
