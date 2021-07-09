@@ -13,6 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import BigNumber from "bignumber.js";
 import copy from "copy-to-clipboard";
 import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
@@ -387,6 +388,7 @@ const TxMessage = ({msg, data}) => {
 				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
+						{getInfoRow("Commission Rate", new BigNumber(value?.commission_rate || 0).toFixed(6))}
 						<div className={cx("card")}>
 							<div className={cx("card-header")}>Description</div>
 							<div className={cx("card-body")}>
