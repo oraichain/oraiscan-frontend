@@ -61,7 +61,11 @@ const useGetTx = txHash => {
 	useEffect(() => {
 		const cancelToken = axios.CancelToken;
 		const source = cancelToken.source();
+		const listTimeout = [];
 		async function getTxFromRpc(count) {
+			for (let i = 0; i < listTimeout.length; i++) {
+				clearTimeout(listTimeout[i]);
+			}
 			const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
 			if (isTxFetchSuccess(txRpc) || isTestnet) {
 				const getTxScan = async () => {
@@ -71,7 +75,8 @@ const useGetTx = txHash => {
 						setLoading(false);
 						return;
 					}
-					setTimeout(getTxScan, 2000);
+					const t1 = setTimeout(getTxScan, 2000);
+					listTimeout.push(t1);
 				};
 				getTxScan();
 				return;
@@ -88,22 +93,28 @@ const useGetTx = txHash => {
 				setLoading(false);
 			}
 
-			setTimeout(() => {
+			const t2 = setTimeout(() => {
 				getTxFromRpc(count + 1);
 			}, 2000);
+			listTimeout.push(t2);
 		}
 
 		async function getTxFromBlock(initHeight, height) {
+			for (let i = 0; i < listTimeout.length; i++) {
+				clearTimeout(listTimeout[i]);
+			}
 			const blockInfo = await getDataAsync( `${consts.API_BASE}${consts.API.TXS_BLOCK}/${height}?limit=1000`);
 			console.log('blockInfo === ', blockInfo)
 			if (!blockInfo?.data?.data) {
-				setTimeout(() => {
+				const t3 = setTimeout(() => {
 					getTxFromBlock(initHeight, height);
 				}, 2000);
+				listTimeout.push(t3);
 			} else if (!isBlockContainTxhash(blockInfo, txHash) && initHeight - height < 7) {
-				setTimeout(() => {
+				const t4 = setTimeout(() => {
 					getTxFromBlock(initHeight, height + 1);
 				}, 2000);
+				listTimeout.push(t4);
 			} else if (isBlockContainTxhash(blockInfo, txHash)) {
 				const tx = await getDataAsync(path);
 				if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {
@@ -126,6 +137,9 @@ const useGetTx = txHash => {
 
 		return () => {
 			source.cancel("cleanup cancel");
+			for (let i = 0; i < listTimeout.length; i++) {
+				clearTimeout(listTimeout[i]);
+			}
 		};
 	}, [txHash]);
 

@@ -7,6 +7,12 @@
 	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
+	&-no-shadow {
+		box-shadow: none;
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+
 	&-header {
 		display: flex;
 		flex-direction: row;
