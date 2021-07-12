@@ -11,16 +11,18 @@ import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
 import {pricePair} from "src/constants/priceFeed";
+import {priceFeedNetworks} from "src/constants/priceFeed";
 import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
+const PriceFeedsGridView = ({data, lastUpdate, keyword, reports, network}) => {
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
 	const bscRef = useRef();
+	const polygonRef = useRef();
 
 	useEffect(() => {
 		let newData = pricePair;
@@ -42,9 +44,14 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 	};
 
 	const handleOpenModal = () => {
-		if (!reports) {
+		if (network === priceFeedNetworks.BSC_TESTNET) {
 			return bscRef?.current?.click();
 		}
+
+		if (network === priceFeedNetworks.POLYGON) {
+			return polygonRef?.current?.click();
+		}
+
 		setShowModal(true);
 	};
 
@@ -65,6 +72,14 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports}) => {
 			<a
 				href='https://testnet.bscscan.com/address/0x13F54d67Fa23AB3CAaeF681553cD996f7E9d6237#internaltx'
 				ref={bscRef}
+				className={cx("bsc-link")}
+				target='_blank'
+				rel='noopener noreferrer'
+			/>
+
+			<a
+				href='https://mumbai.polygonscan.com/address/0x95Fc3900DF04103abd466F276ff8DF98508af708#code'
+				ref={polygonRef}
 				className={cx("bsc-link")}
 				target='_blank'
 				rel='noopener noreferrer'
