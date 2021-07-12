@@ -61,6 +61,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	const history = useHistory();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+	const [mobileOpenWallet, setMobileOpenWallet] = useState(false);
 
 	const {data, loading, error, refetch} = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
@@ -74,11 +75,13 @@ const WalletWithAdress = ({data: props, collapse}) => {
 			return;
 		}
 		setIsDropdownVisible(true);
+		setMobileOpenWallet(true);
 		refetch();
 	};
 
 	const hideDropdown = () => {
 		setIsDropdownVisible(false);
+		setMobileOpenWallet(false);
 	};
 
 	const showTransactionModal = () => {
@@ -158,7 +161,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 				<AccountIcon className={cx("dropdown-toggle-text")} />
 				<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 			</a>
-			<div className={cx("dropdown-content", classNameDropdown)}>
+			<div className={cx("dropdown-content", mobileOpenWallet && "dropdown-content-active", isLargeScreen && classNameDropdown)}>
 				<Grid container spacing={0} className={cx("wallet")}>
 					<Grid item lg={9} xs={12}>
 						<div className={cx("wallet-name")}> {account} </div>
