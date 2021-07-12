@@ -146,7 +146,7 @@ const PriceFeeds = ({}) => {
 			return <PriceFeedsGridViewSkeleton />;
 		}
 
-		return <PriceFeedsGridView {...data} keyword={keyword} />;
+		return <PriceFeedsGridView {...data} keyword={keyword} network={networkRef.current} />;
 	};
 
 	return (
