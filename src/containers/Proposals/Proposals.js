@@ -1,11 +1,16 @@
 import React, {useState, useRef} from "react";
 import {useGet} from "restful-react";
+import {useSelector} from "react-redux";
 import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
 import queryString from "query-string";
+import {useForm, Controller} from "react-hook-form";
+import {ErrorMessage} from "@hookform/error-message";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
+import Dialog from "@material-ui/core/Dialog";
+import {isNil} from "lodash-es";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -15,14 +20,17 @@ import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
 import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
+import {Fee, Gas} from "src/components/common/Fee";
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
 import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTable";
 import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
+import AddIcon from "src/icons/AddIcon";
 import styles from "./Proposals.scss";
-import {isNil} from "lodash-es";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {formatFloat} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -37,6 +45,32 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const type = queryStringParse?.type ?? null;
+
+	const minFee = useSelector(state => state.blockchain.minFee);
+	const [gas, setGas] = useState(200000);
+	const [fee, setFee] = useState(0);
+
+	const defaultValues = {
+		title: "",
+		description: "",
+		unbondingTime: 3600,
+	};
+	const {
+		handleSubmit,
+		register,
+		control,
+		formState: {errors},
+	} = useForm({defaultValues});
+
+	const [open, setOpen] = useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	const onTopPageChange = page => {
 		setTopPageId(page);
@@ -68,11 +102,23 @@ export default function(props) {
 	});
 
 	let titleSection;
+	let createButton;
 	let topProposalCardList;
 	let filterSection;
 	let tableSection;
 	let paginationTopSection;
 	let paginationSection;
+
+	createButton = (
+		<div className={cx("create-button")} onClick={handleOpen}>
+			<span className={cx("create-button-text")}>Create Proposal</span>
+			<AddIcon className={cx("create-button-icon")} />
+		</div>
+	);
+
+	const onSubmit = data => {
+		console.log(data, fee, gas);
+	};
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -177,12 +223,56 @@ export default function(props) {
 		<>
 			{titleSection}
 			<Container fixed className={cx("proposals")}>
+				{createButton}
 				{topProposalCardList}
 				{paginationTopSection}
 				{filterSection}
 				{tableSection}
 				{paginationSection}
 			</Container>
+			<Dialog open={open} maxWidth='sm' fullWidth={true} aria-labelledby='create-proposal-dialog' onClose={handleClose}>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className={cx("dialog-header")}>
+						<div className={cx("close-button")} onClick={handleClose}>
+							<CloseIcon />
+						</div>
+					</div>
+					<div className={cx("dialog-body")}>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Title
+							</label>
+							<input type='text' className={cx("text-field")} name='title' ref={register} />
+							<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='description'>
+								Description
+							</label>
+							<textarea type='text' className={cx("text-area")} name='description' ref={register} />
+							<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='unbondingTime'>
+								Unbonding time
+							</label>
+							<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
+							<ErrorMessage errors={errors} name='unbondingTime' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+
+						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
+						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
+						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} />
+					</div>
+					<div className={cx("dialog-footer")}>
+						<button type='submit' className={cx("submit-button")}>
+							<span className={cx("submit-button-text")}>Create</span>
+						</button>
+					</div>
+				</form>
+			</Dialog>
 		</>
 	);
 }
