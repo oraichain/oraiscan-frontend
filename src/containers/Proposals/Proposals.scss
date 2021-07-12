@@ -114,28 +114,6 @@
 	}
 }
 
-.text-area {
-	display: block;
-	width: 100%;
-	height: 100px;
-	padding: 13px 15px;
-	color: var(--common-textColor);
-	border: 1px solid #405d78;
-	box-sizing: border-box;
-	border-radius: 6px;
-	background: var(--common-blockItemBackgroundColor);
-	resize: none;
-	font-family: Roboto;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 16px;
-	line-height: 150%;
-
-	&:focus-visible {
-		outline: none;
-	}
-}
-
 .fee {
 	margin-bottom: 8px;
 }

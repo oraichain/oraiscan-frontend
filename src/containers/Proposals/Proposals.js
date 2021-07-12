@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {useSelector} from "react-redux";
 import cn from "classnames/bind";
@@ -7,10 +7,12 @@ import {useHistory} from "react-router-dom";
 import queryString from "query-string";
 import {useForm, Controller} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
+import ReactQuill from "react-quill";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import {isNil} from "lodash-es";
+import {myKeystation} from "src/lib/Keystation";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -28,6 +30,7 @@ import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/Prop
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
 import AddIcon from "src/icons/AddIcon";
+import "react-quill/dist/quill.snow.css";
 import styles from "./Proposals.scss";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import {formatFloat} from "src/helpers/helper";
@@ -47,6 +50,7 @@ export default function(props) {
 	const type = queryStringParse?.type ?? null;
 
 	const minFee = useSelector(state => state.blockchain.minFee);
+	const {account} = useSelector(state => state.wallet);
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
 
@@ -109,15 +113,56 @@ export default function(props) {
 	let paginationTopSection;
 	let paginationSection;
 
-	createButton = (
-		<div className={cx("create-button")} onClick={handleOpen}>
-			<span className={cx("create-button-text")}>Create Proposal</span>
-			<AddIcon className={cx("create-button-icon")} />
-		</div>
-	);
+	if (type === "ParameterChangeProposal") {
+		createButton = (
+			<div className={cx("create-button")} onClick={handleOpen}>
+				<span className={cx("create-button-text")}>Create Proposal</span>
+				<AddIcon className={cx("create-button-icon")} />
+			</div>
+		);
+	} else {
+		createButton = <></>;
+	}
 
 	const onSubmit = data => {
-		console.log(data, fee, gas);
+		const msg = [
+			{
+				type: "/cosmos.params.v1beta1.ParameterChangeProposal",
+				value: {
+					title: data.title,
+					description: data.description,
+					changes: [
+						{
+							subspace: "staking",
+							key: "UnbondingTime",
+							value: JSON.stringify(data.unbondingTime),
+						},
+					],
+				},
+			},
+		];
+
+		const minGasFee = (fee * 1000000 + "").split(".")[0];
+
+		const payload = {
+			type: "/cosmos.params.v1beta1.ParameterChangeProposal",
+			value: {
+				msg,
+				fee: {
+					amount: [minGasFee],
+					gas,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
 	};
 
 	if (isLargeScreen) {
@@ -250,7 +295,48 @@ export default function(props) {
 							<label className={cx("label")} htmlFor='description'>
 								Description
 							</label>
-							<textarea type='text' className={cx("text-area")} name='description' ref={register} />
+							<Controller
+								control={control}
+								name='description'
+								render={({onChange, onBlur, value, name, ref}, {invalid, isTouched, isDirty}) => (
+									<ReactQuill
+										theme='snow'
+										value={value}
+										modules={{
+											toolbar: [
+												[{header: "1"}, {header: "2"}, {font: []}],
+												[{size: []}],
+												["bold", "italic", "underline", "strike", "blockquote"],
+												[{list: "ordered"}, {list: "bullet"}, {indent: "-1"}, {indent: "+1"}],
+												["link", "image", "video"],
+												["clean"],
+											],
+											clipboard: {
+												// toggle to add extra line breaks when pasting HTML:
+												matchVisual: false,
+											},
+										}}
+										formats={[
+											"header",
+											"font",
+											"size",
+											"bold",
+											"italic",
+											"underline",
+											"strike",
+											"blockquote",
+											"list",
+											"bullet",
+											"indent",
+											"link",
+											"image",
+											"video",
+										]}
+										onChange={onChange}
+									/>
+								)}
+							/>
+
 							<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 
