@@ -7,12 +7,17 @@ import {useHistory} from "react-router-dom";
 import queryString from "query-string";
 import {useForm, Controller} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
-import ReactQuill from "react-quill";
+import {Editor} from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import {isNil} from "lodash-es";
 import {myKeystation} from "src/lib/Keystation";
+import {formatFloat} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -29,11 +34,10 @@ import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTab
 import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
+import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
-import "react-quill/dist/quill.snow.css";
 import styles from "./Proposals.scss";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
-import {formatFloat} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -48,6 +52,17 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const type = queryStringParse?.type ?? null;
+	const fields = [
+		{
+			label: "Unbonding time",
+			value: "UNBONDING_TIME",
+		},
+		{
+			label: "Title",
+			value: "TITLE",
+		},
+	];
+	const [fieldValue, setFieldValue] = useState("UNBONDING_TIME");
 
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const {account} = useSelector(state => state.wallet);
@@ -57,14 +72,27 @@ export default function(props) {
 	const defaultValues = {
 		title: "",
 		description: "",
+		amount: 10,
 		unbondingTime: 3600,
 	};
+	const schema = yup.object().shape({
+		title: yup.string().required("The Title is required"),
+		description: yup.mixed().required("The Description is required"),
+		amount: yup
+			.string()
+			.required("The Amount is required.")
+			.isNumeric("The Unbonding time must be a number."),
+		unbondingTime: yup
+			.string()
+			.required("The Unbonding time is required.")
+			.isNumeric("The Unbonding time must be a number."),
+	});
 	const {
 		handleSubmit,
 		register,
 		control,
 		formState: {errors},
-	} = useForm({defaultValues});
+	} = useForm({defaultValues, resolver: yupResolver(schema)});
 
 	const [open, setOpen] = useState(false);
 
@@ -130,7 +158,7 @@ export default function(props) {
 				type: "/cosmos.params.v1beta1.ParameterChangeProposal",
 				value: {
 					title: data.title,
-					description: data.description,
+					description: draftToHtml(data.description),
 					changes: [
 						{
 							subspace: "staking",
@@ -138,6 +166,7 @@ export default function(props) {
 							value: JSON.stringify(data.unbondingTime),
 						},
 					],
+					amount: data.amount,
 				},
 			},
 		];
@@ -284,69 +313,57 @@ export default function(props) {
 					</div>
 					<div className={cx("dialog-body")}>
 						<div className={cx("field")}>
-							<label className={cx("label")} htmlFor='title'>
-								Title
-							</label>
-							<input type='text' className={cx("text-field")} name='title' ref={register} />
-							<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+							<SelectBox value={fieldValue} data={fields} onChange={setFieldValue} />
 						</div>
 
-						<div className={cx("field")}>
-							<label className={cx("label")} htmlFor='description'>
-								Description
-							</label>
-							<Controller
-								control={control}
-								name='description'
-								render={({onChange, onBlur, value, name, ref}, {invalid, isTouched, isDirty}) => (
-									<ReactQuill
-										theme='snow'
-										value={value}
-										modules={{
-											toolbar: [
-												[{header: "1"}, {header: "2"}, {font: []}],
-												[{size: []}],
-												["bold", "italic", "underline", "strike", "blockquote"],
-												[{list: "ordered"}, {list: "bullet"}, {indent: "-1"}, {indent: "+1"}],
-												["link", "image", "video"],
-												["clean"],
-											],
-											clipboard: {
-												// toggle to add extra line breaks when pasting HTML:
-												matchVisual: false,
-											},
-										}}
-										formats={[
-											"header",
-											"font",
-											"size",
-											"bold",
-											"italic",
-											"underline",
-											"strike",
-											"blockquote",
-											"list",
-											"bullet",
-											"indent",
-											"link",
-											"image",
-											"video",
-										]}
-										onChange={onChange}
+						{fieldValue === "UNBONDING_TIME" && (
+							<>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='title'>
+										Title
+									</label>
+									<input type='text' className={cx("text-field")} name='title' ref={register} />
+									<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='description'>
+										Description
+									</label>
+									<Controller
+										name='description'
+										control={control}
+										render={props => (
+											<Editor
+												{...props}
+												onEditorStateChange={editorState => {
+													if (editorState.blocks) {
+														props.onChange(editorState.blocks[0]);
+													}
+												}}
+											/>
+										)}
 									/>
-								)}
-							/>
+									<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
 
-							<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='unbondingTime'>
+										Unbonding time
+									</label>
+									<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
+									<ErrorMessage errors={errors} name='unbondingTime' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
 
-						<div className={cx("field")}>
-							<label className={cx("label")} htmlFor='unbondingTime'>
-								Unbonding time
-							</label>
-							<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
-							<ErrorMessage errors={errors} name='unbondingTime' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='amount'>
+										Amount
+									</label>
+									<input type='number' className={cx("text-field")} name='amount' ref={register} />
+									<ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+							</>
+						)}
 
 						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
 						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>

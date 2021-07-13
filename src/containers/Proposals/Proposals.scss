@@ -69,7 +69,7 @@
 
 .field {
 	position: relative;
-	margin-bottom: 32px;
+	margin-bottom: 40px;
 }
 
 .label {
@@ -91,6 +91,18 @@
 	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
+	line-height: 150%;
+}
+
+.error-message {
+	position: absolute;
+	bottom: -32px;
+	display: block;
+	color: #f44336;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
 	line-height: 150%;
 }
 
