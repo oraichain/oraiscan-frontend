@@ -43,9 +43,10 @@
 
 	.dropdown-content {
 		position: fixed;
-		top: 15px;
-		left: 15px;
-		right: initial;
+		width: 100vw !important;
+		max-height: 0px;
+		right: 0;
+		bottom: 0;
 		width: calc(100vw - 2 * 15px);
 		padding: 20px;
 		padding-left: 16px;
@@ -55,13 +56,19 @@
 		z-index: 1;
 		border: 1px solid var(--common-borderColor);
 		border-radius: 8px;
+		transition: max-height 0.5s;
 
 		@include media(">=large") {
 			position: absolute;
 			top: 62px;
 			left: initial;
+			bottom: initial;
 			right: 0px;
-			width: 500px;
+			width: 500px !important;
+		}
+
+		&-active {
+			max-height: 500px;
 		}
 	}
 }
