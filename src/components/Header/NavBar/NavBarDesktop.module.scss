@@ -1,0 +1,255 @@
+@import "src/styles/utils";
+
+.background {
+	width: 100%;
+	background: #000d20;
+}
+
+.maintain {
+	width: 100%;
+	background: #031c42;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&-text {
+		color: #ffffff;
+		display: inline-block;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+	}
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	width: 100%;
+	height: 50px;
+
+	&-brand {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: auto;
+			height: 32px;
+			margin-right: 12px;
+		}
+
+		&-text {
+			color: #ffffff;
+			display: inline-block;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+		}
+	}
+
+	&-nav {
+		display: flex;
+		flex-direction: column;
+
+		@include media(">=large") {
+			height: 50px;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		&-item {
+		}
+	}
+
+	&-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 1;
+	}
+
+	&-right {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		height: 100%;
+	}
+
+	&-collapse {
+		position: fixed;
+		top: 0;
+		right: 0;
+		display: none;
+		width: 280px;
+		height: auto;
+		background-color: #000d20;
+		z-index: 2;
+
+		@include media(">=large") {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: initial;
+		}
+
+		@include media("<small") {
+			width: 160px;
+		}
+	}
+
+	&-toggler {
+		display: inline-block;
+		color: white;
+		font-size: 30px;
+		cursor: pointer;
+
+		@include media(">=large") {
+			display: none;
+		}
+	}
+
+	&-search {
+		display: inline-block;
+		margin-right: 32px;
+		color: #ffffff;
+		cursor: pointer;
+		height: 22px;
+
+		@include media(">=large") {
+			display: none;
+		}
+
+		&-icon {
+			width: auto;
+			height: 21px;
+		}
+	}
+
+	&-close {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		height: 50px;
+		padding-left: 16px;
+		color: #ffffff;
+		font-size: 36px;
+
+		@include media(">=large") {
+			display: none;
+		}
+
+		&-button {
+			display: inline-flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+			margin-right: 16px;
+		}
+
+		&-icon {
+			display: inline-block;
+		}
+	}
+}
+
+.nav {
+	&-item {
+	}
+
+	&-link {
+		display: inline-block;
+		padding: 22px 15px;
+		color: #ffffff;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 26px;
+	}
+}
+
+.dropdown {
+	display: inline-block;
+	position: relative;
+
+	&-toggle {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-text {
+			display: inline-block;
+			margin-right: 12px;
+		}
+
+		&-icon {
+			display: inline-block;
+			color: #ffffff;
+		}
+	}
+
+	&-menu {
+		position: absolute;
+		display: none;
+		left: 16px;
+		top: 62px;
+		min-width: 160px;
+		background-color: var(--common-containerBackgroundColor);
+		box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+		z-index: 3;
+		border: 1px solid var(--common-borderColor);
+		border-bottom-style: none;
+		border-radius: 8px;
+		overflow: hidden;
+
+		@include media(">=large") {
+			right: 0;
+		}
+	}
+
+	&:hover {
+		.dropdown-menu {
+			display: block;
+		}
+	}
+
+	&-item {
+		display: flex;
+		padding: 15px;
+		color: var(--common-textColor);
+		text-decoration: none;
+		font-style: normal;
+		font-weight: 300;
+		font-size: 16px;
+		align-items: center;
+		border-bottom: 1px solid var(--common-borderColor);
+
+		&-icon {
+			width: 20px;
+			height: 20px;
+			margin-right: 10px;
+			color: var(--common-textColor);
+		}
+
+		&:hover {
+			background-color: var(--common-blockItemBackgroundColor);
+		}
+	}
+}

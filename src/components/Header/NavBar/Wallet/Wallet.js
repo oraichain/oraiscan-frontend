@@ -41,6 +41,7 @@ const connectWallet = () => {
 const Wallet = props => {
 	const {path, title, handleClick, init} = props.data;
 	if (init || !title) {
+		console.log("zzzzzzzzzz, title");
 		return (
 			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
 				Connect Wallet
