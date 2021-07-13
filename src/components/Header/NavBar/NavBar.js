@@ -1,21 +1,15 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
 import {Container} from "@material-ui/core";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
 import {initWallet} from "src/store/modules/wallet";
-import Wallet from "./Wallet/Wallet";
 import NavBarMobile from "./NavBarMobile";
-import DownAngleIcon from "src/icons/DownAngleIcon";
-import RightArrowIcon from "src/icons/RightArrowIcon";
-import SearchIcon from "src/icons/SearchIcon";
 import styles from "./NavBar.module.scss";
-import logoIcon from "src/assets/header/logo.svg";
 import consts from "src/constants/consts";
 import MediumIcon from "src/assets/community/MediumIcon";
 import TelegramIcon from "src/assets/community/TelegramIcon";

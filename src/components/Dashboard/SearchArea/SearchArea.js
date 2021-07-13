@@ -8,20 +8,21 @@ import styles from "./SearchArea.scss";
 const cx = cn.bind(styles);
 const hasTestnetAPI = !!process.env.REACT_APP_API_TESTNET;
 
-export default function() {
+export default function({isDropdownVisible = true, closeMobileNavigateBar = () => {}}) {
 	return (
 		<div className={cx("search-area")}>
 			<Grid container spacing={2} alignItems='center'>
 				<Grid item lg={4} xs={12}>
 					<div className={cx("title")}>Oraichain Explorer</div>
 				</Grid>
-
-				<Grid item lg={2} xs={12}>
-					{hasTestnetAPI && <NetworkSwitcher />}
-				</Grid>
+				{isDropdownVisible && (
+					<Grid item lg={2} xs={12}>
+						{hasTestnetAPI && <NetworkSwitcher />}
+					</Grid>
+				)}
 
 				<Grid item lg={6} xs={12}>
-					<SmartSearchBox />
+					<SmartSearchBox closeMobileNavigateBar={closeMobileNavigateBar} />
 				</Grid>
 			</Grid>
 		</div>
