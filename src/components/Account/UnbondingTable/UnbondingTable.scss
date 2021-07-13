@@ -14,12 +14,19 @@
 
 .validator-data-cell,
 .height-data-cell {
-	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 150%;
+}
+
+.validator-data-cell {
+	color: var(--common-linkColor);
+}
+
+.height-data-cell {
+	color: var(--common-textColor);
 }
 
 .amount-data-cell {
@@ -38,7 +45,7 @@
 
 		&-denom {
 			display: inline-block;
-			color: var(--common-linkColor);
+			color: var(--common-oraiDenomTextColor);
 		}
 	}
 }

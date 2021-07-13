@@ -3,7 +3,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatDateTime, formatOrai} from "src/helpers/helper";
+import {calRemainingTime, formatDateTime, formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -66,7 +66,7 @@ const UnbondingTable = memo(({data}) => {
 			) : (
 				<div className={cx("completion-time-data-cell", "align-right")}>
 					<div className={cx("date-time")}>{formatDateTime(item.entries[0].completion_time)}</div>
-					<span className={cx("remaining")}>(4days remaining)</span>
+					<span className={cx("remaining")}>{calRemainingTime(item.entries[0].completion_time)}</span>
 				</div>
 			);
 

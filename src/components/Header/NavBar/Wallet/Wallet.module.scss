@@ -31,6 +31,10 @@
 		padding-left: 16px;
 		cursor: pointer;
 
+		@include media("<large") {
+			padding-left: 0px;
+		}
+
 		&-text {
 			margin-right: 8px;
 			color: #ffffff;
@@ -48,7 +52,6 @@
 		right: 0;
 		bottom: 0;
 		width: calc(100vw - 2 * 15px);
-		padding: 20px;
 		padding-left: 16px;
 		padding-right: 16px;
 		background-color: var(--common-containerBackgroundColor);
@@ -74,6 +77,8 @@
 }
 
 .wallet {
+	padding-top: 20px;
+
 	&-name {
 		margin-bottom: 15px;
 		color: var(--common-textColor);
@@ -198,6 +203,7 @@
 	}
 
 	&-outline {
+		margin-bottom: 20px;
 		color: var(--common-modal-modalCommonTextColor);
 		background: var(--common-modal-buttonCancelBackgroundColor);
 		border: 1px solid var(--common-modal-modalCommonBorderColor);

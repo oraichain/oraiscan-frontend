@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import {formatDateTime, formatOrai} from "src/helpers/helper";
+import {calRemainingTime, formatDateTime, formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import styles from "./UnbondingCardList.scss";
 import consts from "src/constants/consts";
@@ -33,10 +33,23 @@ const UnbondingCardList = memo(({data = []}) => {
 
 								<tr>
 									<td>
+										<div className={cx("item-title")}>Height</div>
+									</td>
+									<td>
+										{_.isNil(item?.entries[0].creation_height) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<div className={cx("item-text")}>{item?.entries[0].creation_height}</div>
+										)}
+									</td>
+								</tr>
+
+								<tr>
+									<td>
 										<div className={cx("item-title")}>Amount</div>
 									</td>
 									<td>
-										<div className={cx("item-title")}>Share</div>
+										<div className={cx("item-title")}>Completion Time</div>
 									</td>
 								</tr>
 
@@ -57,7 +70,7 @@ const UnbondingCardList = memo(({data = []}) => {
 										) : (
 											<div className={cx("completion-time")}>
 												<div className={cx("date-time")}>{formatDateTime(item.entries[0].completion_time)}</div>
-												<span className={cx("remaining")}>(4days remaining)</span>
+												<span className={cx("remaining")}>{calRemainingTime(item.entries[0].completion_time)}</span>
 											</div>
 										)}
 									</td>

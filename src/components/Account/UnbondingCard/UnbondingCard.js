@@ -46,8 +46,8 @@ const UnbondingCard = memo(({account = ""}) => {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <UnbondingTable data={data.data} /> : <UnbondingCardList data={data.data} />;
+			if (Array.isArray(data?.unbonding_responses) && data.unbonding_responses.length > 0) {
+				tableSection = isLargeScreen ? <UnbondingTable data={data.unbonding_responses} /> : <UnbondingCardList data={data.unbonding_responses} />;
 			} else {
 				tableSection = <NoResult />;
 			}

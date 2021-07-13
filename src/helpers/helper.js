@@ -120,9 +120,24 @@ export const replaceQueryString = (path, key, value) => {
 	return decodeURIComponent(searchParams.toString());
 };
 
-export const formatDateTime = inputString => {
-	const m = moment(inputString);
+export const formatDateTime = time => {
+	const m = moment(time);
 	return m.format("YYYY-MM-DD HH:mm:ss");
+};
+
+export const calRemainingTime = time => {
+	const x = new moment();
+	const y = new moment(time);
+	const duration = moment.duration(y.diff(x));
+	console.log("duration", duration);
+	let result = "0s";
+	if (duration._data.years) result = `${duration._data.years} years`;
+	else if (duration._data.months) result = `${duration._data.months} months`;
+	else if (duration._data.days) result = `${duration._data.days} days`;
+	else if (duration._data.hours) result = `${duration._data.hours}h`;
+	else if (duration._data.minutes) result = `${duration._data.minutes}m`;
+	else if (duration._data.seconds) result = `${duration._data.seconds}s`;
+	return duration._milliseconds > 0 ? `${result} remaining` : `${result.split("-")[1]} ago`;
 };
 
 export const arraysEqual = (array1, array2) => {
