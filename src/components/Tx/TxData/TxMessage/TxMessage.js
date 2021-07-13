@@ -521,7 +521,7 @@ const TxMessage = ({msg, data}) => {
 						<div className={cx("card")}>
 							<div className={cx("card-header")}>Aggregated Result</div>
 							<div className={cx("card-body")}>
-								{Array.isArray(JSON.parse(atob(value?.aggregatedResult))) &&
+								{Array.isArray(JSON.parse(atob(value?.aggregatedResult))) ? (
 									JSON.parse(atob(value?.aggregatedResult)).map((item, index) => (
 										<div className={cx("card")} key={"card-index"}>
 											<div className={cx("card-body")}>
@@ -529,7 +529,18 @@ const TxMessage = ({msg, data}) => {
 												{getInfoRow("Price", item?.price)}
 											</div>
 										</div>
-									))}
+									))
+								) : (
+									<ReactJson
+										style={{backgroundColor: "transparent"}}
+										name={false}
+										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+										displayObjectSize={false}
+										displayDataTypes={false}
+										collapsed={true}
+										src={tryParseMessageBinary(value?.aggregatedResult)}
+									/>
+								)}
 							</div>
 						</div>
 						<div className={cx("card")}>
