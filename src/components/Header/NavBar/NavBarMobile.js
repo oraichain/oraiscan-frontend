@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import _ from "lodash";
 import cn from "classnames/bind";
 import Wallet from "./Wallet/Wallet";
+import SearchArea from "src/components/Dashboard/SearchArea";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import RightArrowIcon from "src/icons/RightArrowIcon";
 import SearchIcon from "src/icons/SearchIcon";
@@ -21,12 +22,10 @@ const cx = cn.bind(styles);
 
 const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 	useEffect(() => {});
-	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const {address} = useSelector(state => state.wallet);
-	console.log(address, "aaaaaaaaa");
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
-	const [isMaintaining, setIsMaintaining] = useState(false);
+	const [openSearch, setOpenSearch] = useState(false);
 
 	const expand = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
@@ -60,34 +59,37 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 			</div>
 			<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
 			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-				<div className={cx("navbar-button-section")} onClick={collapse}>
-					<SearchIcon className={cx("navbar-search-icon")} />
-					<CloseIcon className={cx("navbar-close-icon")} />
+				<div className={cx("navbar-button-section")}>
+					<span
+						onClick={() => {
+							setOpenSearch(!openSearch);
+						}}>
+						<SearchIcon className={cx("navbar-search-icon")} />
+					</span>
+					<span onClick={collapse}>
+						<CloseIcon className={cx("navbar-close-icon")} />
+					</span>
 				</div>
+				{openSearch && (
+					<div className={cx("search-section")}>
+						<SearchArea isDropdownVisible={false} closeMobileNavigateBar={collapse} />
+					</div>
+				)}
 				<ul className={cx("navbar-nav")}>
-					{navLinks.map((item, index) => {
+					{initialNavLinks.map((item, index) => {
 						const {title, path, children, type} = item;
 						if (children) {
 							return (
 								<li className={cx("nav-item")} key={"nav-item" + index}>
 									<div
 										onClick={e => {
-											if (!e.currentTarget.getElementsByClassName("NavBarMobile_dropdown-menu-active__2lqMA")[0]) {
-												e.currentTarget
-													.getElementsByClassName("NavBarMobile_dropdown-menu__3C9gI")[0]
-													.classList.add("NavBarMobile_dropdown-menu-active__2lqMA");
+											const activeTab = e.currentTarget.getElementsByClassName(cx("dropdown-menu"))?.[0];
+											const className = activeTab?.className?.includes(cx("dropdown-menu-active"));
+											if (!className) {
+												activeTab.classList.add(cx("dropdown-menu-active"));
 											} else {
-												e.currentTarget
-													.getElementsByClassName("NavBarMobile_dropdown-menu__3C9gI")[0]
-													.classList.remove("NavBarMobile_dropdown-menu-active__2lqMA");
+												activeTab.classList.remove(cx("dropdown-menu-active"));
 											}
-											// const newNavLinks = navLinks.current.map((navLink, navLinkIndex) => {
-											// 	if (navLinkIndex === index) {
-											// 		return Object.assign({}, navLink, {open: !open});
-											// 	}
-											// 	return navLink;
-											// });
-											// navLinks.current = newNavLinks;
 										}}
 										className={cx("dropdown")}>
 										<span className={cx("nav-link", "dropdown-toggle")}>

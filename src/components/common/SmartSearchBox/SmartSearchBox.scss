@@ -27,6 +27,10 @@
 	font-size: 18px;
 	line-height: 150%;
 
+	@include media("<large") {
+		margin-left: 24px;
+	}
+
 	&:focus {
 		outline: none;
 	}
@@ -49,6 +53,10 @@
 	&-icon {
 		color: var(--common-activeTabTextColor);
 	}
+
+	@include media("<large") {
+		margin-right: 24px;
+	}
 }
 
 .dropdown {
@@ -63,6 +71,12 @@
 	overflow: hidden;
 	color: var(--common-textColor);
 	z-index: 1;
+
+	@include media("<large") {
+		margin-left: 24px;
+		margin-right: 24px;
+		width: -webkit-fill-available;
+	}
 
 	&-item {
 		padding: 15px 20px;

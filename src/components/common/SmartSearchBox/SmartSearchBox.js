@@ -1,17 +1,22 @@
 import React, {memo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {useHistory} from "react-router-dom";
+import {useMediaQuery} from "@material-ui/core";
 import SearchIcon from "src/icons/SearchIcon";
 import classNames from "classnames/bind";
+import PropTypes from "prop-types";
 import axios from "axios";
 import {_, stringNumCheck} from "src/lib/scripts";
 import styles from "./SmartSearchBox.scss";
 import failIcon from "src/assets/transactions/fail_ic.svg";
 import consts from "src/constants/consts";
+import {useTheme} from "@material-ui/styles";
 
 const cx = classNames.bind(styles);
 
-const SmartSearchBox = memo(({}) => {
+const SmartSearchBox = memo(({closeMobileNavigateBar = () => {}}) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const history = useHistory();
 	const dropdownRef = useRef(null);
 	const searchBoxRef = useRef(null);
@@ -106,6 +111,7 @@ const SmartSearchBox = memo(({}) => {
 							key={"dropdown-item-" + searchType}
 							onClick={e => {
 								gotoSearchTypePage(searchType, searchValue);
+								!isLargeScreen && closeMobileNavigateBar();
 							}}>
 							<span className={cx("dropdown-item-message")}>Search for</span>
 							<span className={cx("dropdown-item-type")}>{searchType}</span>
@@ -119,6 +125,7 @@ const SmartSearchBox = memo(({}) => {
 					className={cx("dropdown-item")}
 					onClick={e => {
 						gotoSearchTypePage(searchTypes, searchValue);
+						!isLargeScreen && closeMobileNavigateBar();
 					}}>
 					<span className={cx("dropdown-item-message")}>Search for</span>
 					<span className={cx("dropdown-item-type")}>{searchTypes}</span>
@@ -169,5 +176,11 @@ const SmartSearchBox = memo(({}) => {
 		</div>
 	);
 });
+
+SmartSearchBox.propTypes = {
+	closeMobileNavigateBar: PropTypes.func,
+};
+
+SmartSearchBox.defaultProps = {};
 
 export default SmartSearchBox;

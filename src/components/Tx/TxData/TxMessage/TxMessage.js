@@ -320,6 +320,43 @@ const TxMessage = ({msg, data}) => {
 			}
 		};
 
+		const getSubmitProposalContent = proposalType => {
+			switch (proposalType) {
+				case "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal":
+					return (
+						<>
+							<InfoRow label='Plan'>
+								<ReactJson
+									style={{backgroundColor: "transparent"}}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									src={value?.content.plan}
+								/>
+							</InfoRow>
+						</>
+					);
+				case "/cosmos.params.v1beta1.ParameterChangeProposal":
+					return (
+						<>
+							<InfoRow label='Changes'>
+								<ReactJson
+									style={{backgroundColor: "transparent"}}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									src={value?.content.changes}
+								/>
+							</InfoRow>
+						</>
+					);
+				default:
+					break;
+			}
+		};
+
 		return (
 			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
@@ -484,7 +521,7 @@ const TxMessage = ({msg, data}) => {
 						<div className={cx("card")}>
 							<div className={cx("card-header")}>Aggregated Result</div>
 							<div className={cx("card-body")}>
-								{Array.isArray(JSON.parse(atob(value?.aggregatedResult))) &&
+								{Array.isArray(JSON.parse(atob(value?.aggregatedResult))) ? (
 									JSON.parse(atob(value?.aggregatedResult)).map((item, index) => (
 										<div className={cx("card")} key={"card-index"}>
 											<div className={cx("card-body")}>
@@ -492,7 +529,18 @@ const TxMessage = ({msg, data}) => {
 												{getInfoRow("Price", item?.price)}
 											</div>
 										</div>
-									))}
+									))
+								) : (
+									<ReactJson
+										style={{backgroundColor: "transparent"}}
+										name={false}
+										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+										displayObjectSize={false}
+										displayDataTypes={false}
+										collapsed={true}
+										src={tryParseMessageBinary(value?.aggregatedResult)}
+									/>
+								)}
 							</div>
 						</div>
 						<div className={cx("card")}>
@@ -629,6 +677,16 @@ const TxMessage = ({msg, data}) => {
 							label={<div className={cx("store-code-title")}>Data: gzip - {value?.wasm_byte_code.length} bytes</div>}>
 							{storeCodeElement}
 						</InfoRow>
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_SUBMIT_PROPOSAL && (
+					<>
+						{getAddressRow("Proposer", value?.proposer)}
+						{value?.content && getInfoRow("Proposal type", value?.content["@type"])}
+						{getInfoRow("Title", value?.content?.title)}
+						{getInfoRow("Description", value?.content?.description)}
+						{value?.content && getSubmitProposalContent(value?.content["@type"])}
+						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0])}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
