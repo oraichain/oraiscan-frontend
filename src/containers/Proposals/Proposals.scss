@@ -69,7 +69,7 @@
 
 .field {
 	position: relative;
-	margin-bottom: 32px;
+	margin-bottom: 40px;
 }
 
 .label {
@@ -94,6 +94,18 @@
 	line-height: 150%;
 }
 
+.error-message {
+	position: absolute;
+	bottom: -32px;
+	display: block;
+	color: #f44336;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 150%;
+}
+
 .text-field {
 	display: block;
 	width: 100%;
@@ -111,6 +123,15 @@
 
 	&:focus-visible {
 		outline: none;
+	}
+}
+
+.editor-wrapper {
+	border: 1px solid #405d78;
+	border-radius: 6px;
+
+	:global(.rdw-editor-main) {
+		height: 300px;
 	}
 }
 

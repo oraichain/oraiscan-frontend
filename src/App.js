@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import classNames from "classnames/bind";
+import * as yup from "yup";
+import _ from "lodash";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
@@ -31,6 +33,17 @@ const useStyles = makeStyles({
 		position: "absolute",
 		top: "40px",
 	},
+});
+
+yup.addMethod(yup.string, "isNumeric", function(message) {
+	return this.test({
+		name: "isNumeric",
+		exclusive: false,
+		message: _.isNil(message) ? "Value must be a number." : message,
+		test(value) {
+			return !isNaN(value);
+		},
+	});
 });
 
 export default function() {
