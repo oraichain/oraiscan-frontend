@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import _ from "lodash";
 import cn from "classnames/bind";
 import Wallet from "./Wallet/Wallet";
+import SearchArea from "src/components/Dashboard/SearchArea";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import RightArrowIcon from "src/icons/RightArrowIcon";
 import SearchIcon from "src/icons/SearchIcon";
@@ -21,10 +22,10 @@ const cx = cn.bind(styles);
 
 const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 	useEffect(() => {});
-	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const {address} = useSelector(state => state.wallet);
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
+	const [openSearch, setOpenSearch] = useState(false);
 
 	const expand = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
@@ -58,17 +59,24 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 			</div>
 			<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
 			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-				<div className={cx("navbar-button-section")} onClick={collapse}>
-					<SearchIcon
+				<div className={cx("navbar-button-section")}>
+					<span
 						onClick={() => {
-							toggleSearchArea();
-						}}
-						className={cx("navbar-search-icon")}
-					/>
-					<CloseIcon className={cx("navbar-close-icon")} />
+							setOpenSearch(!openSearch);
+						}}>
+						<SearchIcon className={cx("navbar-search-icon")} />
+					</span>
+					<span onClick={collapse}>
+						<CloseIcon className={cx("navbar-close-icon")} />
+					</span>
 				</div>
+				{openSearch && (
+					<div className={cx("search-section")}>
+						<SearchArea isDropdownVisible={false} closeMobileNavigateBar={collapse} />
+					</div>
+				)}
 				<ul className={cx("navbar-nav")}>
-					{navLinks.map((item, index) => {
+					{initialNavLinks.map((item, index) => {
 						const {title, path, children, type} = item;
 						if (children) {
 							return (
