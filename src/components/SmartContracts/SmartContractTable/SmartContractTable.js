@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
-	const codeIdHeaderCell = <div className={cx("header-cell", "align-left")}>Code id</div>;
+	const codeIdHeaderCell = <div className={cx("header-cell", "align-center")}>Code id</div>;
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
 	const adminHeaderCell = <div className={cx("header-cell", "align-left")}>Admin</div>;
 	const labelHeaderCell = <div className={cx("header-cell", "align-left")}>Label</div>;
@@ -22,7 +22,7 @@ export const getHeaderRow = () => {
 	const headerCells = [addressHeaderCell, codeIdHeaderCell, creatorHeaderCell, adminHeaderCell, labelHeaderCell, sourceHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "100px"}, // Address
-		{minWidth: "150px", width: "150px"}, // Code id
+		{minWidth: "100px"}, // Code id
 		{minWidth: "150px"}, // Creator
 		{minWidth: "50px"}, // Admin
 		{minWidth: "100px"}, // Label
@@ -52,7 +52,7 @@ const SmartContractTable = memo(({data = []}) => {
 			const codeIdDataCell = _.isNil(item?.code_id) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("code-id-data-cell", "align-left")}>{item?.code_id}</div>
+				<div className={cx("code-id-data-cell", "align-center")}>{item?.code_id}</div>
 			);
 
 			const creatorDataCell = _.isNil(item?.creator) ? (
