@@ -1,16 +1,26 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useEffect} from "react";
+import {NavLink} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import {Fade, Tooltip} from "@material-ui/core";
-import base64js from "base64-js";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import BigNumber from "bignumber.js";
+import copy from "copy-to-clipboard";
 import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
-import copy from "copy-to-clipboard";
-import copyIcon from "src/assets/common/copy_ic.svg";
+import {themeIds} from "src/constants/themes";
+import useGithubSource from "src/hooks/useGithubSource";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
@@ -18,10 +28,9 @@ import {_} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
-import styles from "./TxMessage.module.scss";
-import {NavLink} from "react-router-dom";
 import ThemedTable from "src/components/common/ThemedTable";
-import {themeIds} from "src/constants/themes";
+import styles from "./TxMessage.module.scss";
+import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
 
@@ -64,10 +73,22 @@ const TxMessage = ({msg, data}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const activeThemeId = useSelector(state => state.activeThemeId);
-
+	const {data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode} = useGithubSource();
 	const value = msg;
 	let type = msg["@type"] || "";
 	const {memo} = data;
+
+	useEffect(() => {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+			const loadStoreCode = async () => {
+				let source = msg?.source;
+				source = source?.split?.(" ")?.[0];
+				fetchStoreCode(source);
+			};
+
+			loadStoreCode();
+		}
+	}, [type, msg.source]);
 
 	const messageDetails = useMemo(() => {
 		const getMultiSendHeaderRow = () => {
@@ -226,6 +247,79 @@ const TxMessage = ({msg, data}) => {
 			return null;
 		}
 
+		let storeCodeElement;
+		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+			if (loadingStoreCode) {
+				storeCodeElement = <Skeleton className={cx("skeleton-block")} variant='rect' height={200} />;
+			} else {
+				if (storeCodeError) {
+					storeCodeElement = <div>-</div>;
+				} else {
+					if (Array.isArray(storeCodeData)) {
+						storeCodeElement = storeCodeData.map((item, index) => {
+							return (
+								<div className={cx("code-container")}>
+									<Accordion key={"code-" + index}>
+										<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+											<div className={cx("code-name")}>{item?.name ?? "-"}</div>
+											<img
+												src={copyIcon}
+												alt=''
+												className={cx("code-copy")}
+												onClick={e => {
+													copy(item?.content ?? "-");
+													dispatch(
+														showAlert({
+															show: true,
+															message: "Copied",
+															autoHideDuration: 1500,
+														})
+													);
+													e.stopPropagation();
+												}}
+											/>
+										</AccordionSummary>
+										<AccordionDetails>
+											<SyntaxHighlighter
+												customStyle={{background: "none", overflow: "auto", width: "100%"}}
+												language='rust'
+												style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
+												{item?.content ?? "-"}
+											</SyntaxHighlighter>
+										</AccordionDetails>
+									</Accordion>
+								</div>
+							);
+						});
+					} else {
+						storeCodeElement = <div>-</div>;
+					}
+				}
+			}
+		}
+
+		const getContractAddress = rawLogString => {
+			try {
+				const rawLogObj = JSON.parse(rawLogString);
+				const messageEvent = rawLogObj[0].events.find(event => event?.type === "message");
+
+				if (_.isNil(messageEvent)) {
+					return "-";
+				}
+
+				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "contract_address");
+
+				if (_.isNil(contractAddressObj)) {
+					return "-";
+				}
+
+				const contractAddress = contractAddressObj.value;
+				return contractAddress;
+			} catch (err) {
+				return "-";
+			}
+		};
+
 		return (
 			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
@@ -294,6 +388,7 @@ const TxMessage = ({msg, data}) => {
 				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
+						{getInfoRow("Commission Rate", new BigNumber(value?.commission_rate || 0).toFixed(6))}
 						<div className={cx("card")}>
 							<div className={cx("card-header")}>Description</div>
 							<div className={cx("card-body")}>
@@ -476,14 +571,14 @@ const TxMessage = ({msg, data}) => {
 						{getCurrencyRowFromString("Transaction Fee", value?.fees)}
 						{getInfoRow("Input", atob(value?.input) || "-")}
 						{getInfoRow("Oracle Script Name", value?.oracle_script_name)}
-						{getLinkRow("Request Id", "AI Request", value?.request_id, `/ai_requests/${value?.request_id}`)}
+						{getLinkRow("Request ID", "AI Request", value?.request_id, `/ai_requests/${value?.request_id}`)}
 						{getInfoRow("Validator Count", value?.validator_count)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_VOTE && (
 					<>
 						{getInfoRow("Option", value?.option)}
-						{getInfoRow("Proposal ID", value?.proposal_id)}
+						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 						{getAddressRow("Voter", value?.voter)}
 					</>
 				)}
@@ -503,6 +598,7 @@ const TxMessage = ({msg, data}) => {
 								src={tryParseMessage(value?.init_msg)}
 							/>
 						</InfoRow>
+						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
@@ -528,40 +624,23 @@ const TxMessage = ({msg, data}) => {
 						{getAddressRow("Sender", value?.sender)}
 						{getInfoRow("Builder", value?.builder)}
 						{getInfoRow("Instantiate permission", value?.instantiate_permission)}
-						<InfoRow label={`Data: gzip; ${value?.wasm_byte_code.length}` + " bytes"}>
-							<span>
-								<span className={cx("text", "code-textarea")}>
-									{_.isNil(value?.wasm_byte_code)
-										? "-"
-										: base64js.toByteArray(value?.wasm_byte_code)?.length > 500
-										? base64js
-												.toByteArray(value?.wasm_byte_code)
-												?.join("")
-												?.slice(0, 500) + "..."
-										: base64js.toByteArray(value?.wasm_byte_code)?.join("")}
-								</span>
-								<img
-									src={copyIcon}
-									alt=''
-									className={cx("code-copy")}
-									onClick={() => {
-										copy(base64js.toByteArray(value?.wasm_byte_code)?.join(""));
-										dispatch(
-											showAlert({
-												show: true,
-												message: "Copied",
-												autoHideDuration: 1500,
-											})
-										);
-									}}
-								/>
-							</span>
+						<InfoRow
+							customValueClassName={cx("store-code-value")}
+							label={<div className={cx("store-code-title")}>Data: gzip - {value?.wasm_byte_code.length} bytes</div>}>
+							{storeCodeElement}
 						</InfoRow>
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
+					<>
+						{getAddressRow("Depositor", value?.depositor)}
+						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
+						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 					</>
 				)}
 			</div>
 		);
-	}, [type, value, storageData, activeThemeId]);
+	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
 
 	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";

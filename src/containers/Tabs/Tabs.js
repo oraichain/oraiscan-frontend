@@ -9,10 +9,7 @@ import {closePageBar} from "src/store/modules/global";
 import {useDispatch} from "react-redux";
 import {ExpandMore} from "@material-ui/icons";
 import {isNil} from "lodash-es";
-
 import styles from "./Tabs.scss";
-import backIcon from "src/assets/header/back_ic.svg";
-
 import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
 import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
 import DataSourcesTabIcon from "src/icons/Tabs/DataSourcesTabIcon";
@@ -23,6 +20,7 @@ import ValidatorsTabIcon from "src/icons/Tabs/ValidatorsTabIcon";
 import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
 import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
 import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
+import backIcon from "src/assets/header/back_ic.svg";
 
 import "./Tabs.css";
 
@@ -132,6 +130,11 @@ const Tabs = memo(() => {
 				pathName: "/accounts",
 				title: "Accounts",
 				activePath: "/accounts",
+			},
+			{
+				pathName: "/smart-contracts",
+				title: "Smart contracts",
+				activePath: "/smart-contracts",
 			},
 		],
 		Transactions: [

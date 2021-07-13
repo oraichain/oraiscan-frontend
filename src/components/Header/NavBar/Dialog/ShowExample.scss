@@ -1,8 +1,48 @@
-.dropdown-item {
-	color: #fff;
-	padding: 8px;
-	display: flex;
-	span {
-		margin-left: 10px;
+.show-example {
+	&-button {
+		&-text {
+			font-family: Roboto;
+			font-size: 16px;
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+
+		&-icon {
+			font-family: Roboto;
+			font-size: 16px;
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+	}
+
+	&-menu {
+		:global(.MuiPopover-paper) {
+			margin-top: 35px;
+			margin-left: 35px;
+
+			&:hover {
+				background: var(--common-blockItemBackgroundColor) !important;
+			}
+		}
+	}
+}
+
+.menu-item {
+	&-text {
+		display: inline-block;
+		margin-left: 8px;
+		font-family: Roboto;
+		font-size: 16px;
+		color: var(--common-textColor);
+		cursor: pointer;
+	}
+
+	&-icon {
+		display: inline-block;
+
+		font-family: Roboto;
+		font-size: 16px;
+		color: var(--common-textColor);
+		cursor: pointer;
 	}
 }

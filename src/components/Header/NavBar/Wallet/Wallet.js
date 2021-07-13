@@ -24,6 +24,7 @@ import AccountIcon from "src/icons/AccountIcon";
 import WalletIcon from "src/icons/WalletIcon";
 import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
+import {updateToken} from "src/firebase-cloud-message";
 
 const cx = cn.bind(styles);
 
@@ -53,13 +54,14 @@ const Wallet = props => {
 const WalletWithAdress = ({data: props, collapse}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {path, title, handleClick, init} = props;
+	const {path, title} = props;
 	const {account} = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+	const [mobileOpenWallet, setMobileOpenWallet] = useState(false);
 
 	const {data, loading, error, refetch} = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
@@ -68,24 +70,32 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	const amount = data?.balances?.[0]?.amount;
 	const denom = data?.balances?.[0]?.denom;
 
-	const showDropdown = () => {
+	const showDropdown = e => {
+		if (isTransactionModalVisible) {
+			return;
+		}
 		setIsDropdownVisible(true);
+		setMobileOpenWallet(true);
 		refetch();
 	};
 
 	const hideDropdown = () => {
 		setIsDropdownVisible(false);
+		setMobileOpenWallet(false);
 	};
 
 	const showTransactionModal = () => {
 		setIsTransactionModalVisible(true);
+		setIsDropdownVisible(false);
 	};
 
 	const hideTransactionModal = useCallback(() => {
 		setIsTransactionModalVisible(false);
+		setIsDropdownVisible(false);
 	}, []);
 
 	const closeWallet = () => {
+		updateToken(title, false);
 		dispatch(initWallet({}));
 		history.push("/");
 	};
@@ -138,7 +148,6 @@ const WalletWithAdress = ({data: props, collapse}) => {
 			{!_.isNil(account) && !_.isNil(amount) && (
 				<Dialog show={isTransactionModalVisible} handleClose={hideTransactionModal} address={title} account={account} amount={amount} />
 			)}
-
 			<a
 				className={cx("dropdown-toggle")}
 				href={path}
@@ -152,7 +161,7 @@ const WalletWithAdress = ({data: props, collapse}) => {
 				<AccountIcon className={cx("dropdown-toggle-text")} />
 				<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 			</a>
-			<div className={cx("dropdown-content", classNameDropdown)}>
+			<div className={cx("dropdown-content", mobileOpenWallet && "dropdown-content-active", isLargeScreen && classNameDropdown)}>
 				<Grid container spacing={0} className={cx("wallet")}>
 					<Grid item lg={9} xs={12}>
 						<div className={cx("wallet-name")}> {account} </div>

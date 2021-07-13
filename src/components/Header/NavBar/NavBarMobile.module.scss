@@ -1,0 +1,258 @@
+@import "src/styles/utils";
+
+.background {
+	width: 100%;
+	background: var(--common-containerBackgroundColor);
+}
+
+.maintain {
+	width: 100%;
+	background: #031c42;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&-text {
+		color: #ffffff;
+		display: inline-block;
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 150%;
+	}
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	width: 100%;
+	height: 50px;
+
+	&-brand {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: auto;
+			height: 32px;
+			margin-right: 12px;
+		}
+
+		&-text {
+			color: #ffffff;
+			display: inline-block;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+		}
+	}
+
+	&-nav {
+		display: flex;
+		flex-direction: column;
+
+		@include media(">=large") {
+			height: 50px;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		&-item {
+		}
+	}
+
+	&-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 1;
+	}
+
+	&-right {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		height: 100%;
+	}
+
+	&-collapse {
+		position: fixed;
+		top: 0;
+		right: 0;
+		display: none;
+		width: 100vw;
+		height: 100vh;
+		background-color: var(--common-containerBackgroundColor);
+		z-index: 2;
+
+		@include media(">=large") {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: initial;
+		}
+
+		@include media("<small") {
+			width: 160px;
+		}
+	}
+
+	&-toggler {
+		display: inline-block;
+		color: #ffffff;
+		font-size: 30px;
+		cursor: pointer;
+
+		@include media(">=large") {
+			display: none;
+		}
+	}
+
+	.navbar-button-section {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		height: 50px;
+		color: var(--common-textColor);
+		font-size: 36px;
+
+		// &-button {
+		// 	display: inline-flex;
+		// 	flex-direction: row;
+		// 	justify-content: flex-start;
+		// 	align-items: center;
+		// }
+
+		.navbar-close-icon {
+			margin-right: 24px;
+			height: 24px;
+			width: 24px;
+			color: var(--common-textColor);
+			display: inline-block;
+		}
+
+		.navbar-search-icon {
+			margin-left: 24px;
+			width: 24px;
+			height: 24px;
+		}
+	}
+}
+
+.nav {
+	&-item {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
+	&-link {
+		display: inline-block;
+		padding: 24px 0px 24px 0px;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 150%;
+		font-size: 20px;
+		line-height: 26px;
+	}
+}
+
+.dropdown {
+	position: relative;
+	width: 100%;
+	display: inline-block;
+
+	&-toggle {
+		width: 100%;
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: solid 1px var(--common-placeholderTextColor);
+
+		&-text {
+			display: inline-block;
+			margin-right: 12px;
+		}
+
+		&-icon {
+			display: inline-block;
+			color: var(--common-textColor);
+		}
+	}
+
+	&-menu {
+		// position: absolute;
+		// display: none;
+		left: 20px;
+		top: 27px;
+		min-width: 160px;
+		// background-color: var(--common-containerBackgroundColor);
+		// box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+		z-index: 3;
+		// border: 1px solid var(--common-borderColor);
+		// border-bottom-style: none;
+		max-height: 0px;
+		border-radius: 8px;
+		overflow: hidden;
+		transition: max-height linear 0.5s;
+
+		&-active {
+			max-height: 500px;
+		}
+
+		@include media(">=large") {
+			height: auto;
+			right: 0;
+			top: 62px;
+			left: 16px;
+		}
+	}
+
+	&:hover {
+		.dropdown-menu {
+			display: block;
+		}
+	}
+
+	&-item {
+		display: flex;
+		padding: 15px 20px 15px 20px;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 150%;
+		font-size: 18px;
+		align-items: center;
+		// border-bottom: 1px solid var(--common-borderColor);
+
+		&-icon {
+			width: 20px;
+			height: 20px;
+			margin-right: 10px;
+			color: var(--common-textColor);
+		}
+
+		&:hover {
+			background-color: var(--common-blockItemBackgroundColor);
+		}
+	}
+}

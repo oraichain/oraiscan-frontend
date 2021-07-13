@@ -90,7 +90,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	const renderSwitchBtn = () => {
 		return (
-			<div className={cx("row-balance", "switch-control")}>
+			<div className={cx("row-balance", "switch-control", "vertical-center")}>
 				<div className={cx("left")}>
 					<div className={cx("title", "switch-blue")} onClick={toogleChooseFile}>
 						{isChooseFile ? "Insert manually" : "Using file"} <ExchangeIcon />
@@ -98,8 +98,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 				</div>
 				<div className={cx("right")}>
 					<div className={cx("title", "title-right", "switch-blue")}>
-						{" "}
-						<ShowExample />{" "}
+						<ShowExample />
 					</div>
 				</div>
 			</div>
@@ -134,6 +133,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 									<span> {index + 1}. </span>
 									<span> {address} - </span>
 									<span> {amount} (ORAI) </span>
+									{amount?.split(".")?.[1]?.length > 6 && <div className={cx("amount-error-message")}>Number digits after dot must be smaller than 6</div>}
 								</div>
 							);
 						})}
@@ -146,8 +146,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			<>
 				{isChooseFile && (
 					<div>
-						{" "}
-						<SelectFile handleSelectFile={handleSelectFile} />{" "}
+						<SelectFile handleSelectFile={handleSelectFile} />
 					</div>
 				)}
 				{!isChooseFile && (

@@ -1,6 +1,7 @@
 export const priceFeedNetworks = {
 	MAINNET: "Oraichain mainnet",
 	BSC_TESTNET: "BSC Testnet",
+	POLYGON: "Polygon Testnet",
 };
 
 export const pricePair = [

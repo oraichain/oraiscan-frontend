@@ -73,7 +73,13 @@ const TestCaseCardList = memo(({data = []}) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Contract</div>
-										{_.isNil(item?.contract) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-text")}>{item?.contract}</div>}
+										{_.isNil(item?.contract) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.SMART_CONTRACT}/${item.contract}`}>
+												{item.contract}
+											</NavLink>
+										)}
 									</td>
 								</tr>
 							</tbody>

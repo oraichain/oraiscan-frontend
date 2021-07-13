@@ -2,10 +2,10 @@ import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import _ from "lodash";
 
-import {abi} from "./abj";
+import {abiBsc} from "./abj";
 
 const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
-const contract = new web3.eth.Contract(abi, "0x13f54d67fa23ab3caaef681553cd996f7e9d6237");
+const contract = new web3.eth.Contract(abiBsc, "0x13f54d67fa23ab3caaef681553cd996f7e9d6237");
 
 async function getPriceBSCTestnet(listPair) {
 	let lastUpdate = new Date().toString();

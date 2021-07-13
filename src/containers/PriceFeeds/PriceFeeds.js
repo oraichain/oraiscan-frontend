@@ -15,6 +15,7 @@ import styles from "./PriceFeeds.module.scss";
 import NoResult from "src/components/common/NoResult";
 import {pricePair} from "src/constants/priceFeed";
 import {getPriceBSCTestnet} from "./bsc-testnet";
+import {getPricePolygon} from "./polygon";
 import {getPriceFeedMainnet} from "./mainnet";
 import {priceFeedNetworks} from "src/constants/priceFeed";
 
@@ -81,8 +82,23 @@ const PriceFeeds = ({}) => {
 			}
 		};
 
+		const getPriceFeedPolygon = async () => {
+			try {
+				setIsLoading(true);
+				const data = await getPricePolygon(pricePair);
+				networkRef.current === priceFeedNetworks.POLYGON && setData(data);
+				setIsLoading(false);
+			} catch (e) {
+				console.log("error", e);
+				networkRef.current === priceFeedNetworks.POLYGON && setData(null);
+				setIsLoading(false);
+			}
+		};
+
 		if (network === priceFeedNetworks.BSC_TESTNET) {
 			getPriceFeedBSC();
+		} else if (network === priceFeedNetworks.POLYGON) {
+			getPriceFeedPolygon();
 		} else {
 			getPriceFeedORAI();
 		}
@@ -130,7 +146,7 @@ const PriceFeeds = ({}) => {
 			return <PriceFeedsGridViewSkeleton />;
 		}
 
-		return <PriceFeedsGridView {...data} keyword={keyword} />;
+		return <PriceFeedsGridView {...data} keyword={keyword} network={networkRef.current} />;
 	};
 
 	return (

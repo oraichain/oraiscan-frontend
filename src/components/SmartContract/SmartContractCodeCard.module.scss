@@ -1,0 +1,121 @@
+@import "src/styles/utils";
+
+.code-card {
+	padding: 20px;
+	margin-bottom: 20px;
+	background: var(--common-containerBackgroundColor);
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+
+	&-no-shadow {
+		box-shadow: none;
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+
+	&-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+
+	&-body {
+		border-radius: 6px;
+	}
+}
+
+.title {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+
+	&-copy {
+		&-icon {
+			margin-right: 8px;
+			width: 20px;
+			height: auto;
+			color: var(--common-linkColor);
+		}
+	}
+}
+
+.button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px;
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-icon {
+		display: inline-block;
+		margin-right: 8px;
+		color: var(--common-linkColor);
+	}
+
+	&-text {
+		display: inline-block;
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+		text-align: center;
+	}
+}
+
+.skeleton {
+	background: var(--common-blockItemBackgroundColor);
+	&-block {
+		display: block;
+	}
+
+	&-inline-block {
+		display: inline-block;
+	}
+}
+
+.code-container {
+	:global(.MuiIconButton-root) {
+		color: var(--common-textColor);
+	}
+
+	:global(.MuiAccordionDetails-root) {
+		border: 1px solid var(--common-borderColor);
+	}
+
+	:global(.MuiAccordionSummary-root) {
+		&:hover {
+			background-color: var(--common-blockItemBackgroundColor);
+		}
+	}
+
+	.code-name {
+		margin-right: 8px;
+	}
+}
+
+.store-code-title {
+	white-space: nowrap;
+}
+
+.store-code-value {
+	color: var(--common-textColor);
+	overflow: hidden;
+}

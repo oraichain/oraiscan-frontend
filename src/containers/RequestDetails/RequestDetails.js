@@ -21,7 +21,7 @@ import NavigateBackBar from "src/components/common/NavigateBackBar";
 const cx = cn.bind(styles);
 
 export const tabs = {
-	AI_DATA_SOURCES: "Ai data sources",
+	AI_DATA_SOURCES: "AI data sources",
 	REPORTS: "Reports",
 	RESULT: "Result",
 };

@@ -21,18 +21,22 @@ import TxData from "src/components/Tx/TxData";
 import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
 import styles from "./Tx.module.scss";
 import _ from "lodash";
+import axios from "axios";
 
 const cx = cn.bind(styles);
 
-const PendingTx = ({setPending}) => {
+const PendingTx = ({setPending, pending}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
+	const [loading, setLoading] = useState(false);
+	const [data, setData] = useState();
 	const txHash = params?.["tx"];
 	const path = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 
 	let timerIdRef = useRef(null);
-	let pendingDataRef = useRef(null);
+	let pendingRef = useRef(pending);
+	pendingRef.current = true;
 
 	const cleanUp = () => {
 		if (timerIdRef) {
@@ -40,21 +44,26 @@ const PendingTx = ({setPending}) => {
 		}
 	};
 
-	const {data, loading, error, refetch} = useGet({
-		path,
-	});
-
-	console.log("data = ", data);
-
 	useEffect(() => {
-		timerIdRef.current = setTimeout(refetch, consts.REQUEST.TIMEOUT);
+		let timeoutRetry;
+		async function getData(n) {
+			n === 0 && setLoading(true);
+			const result = await axios.get(path);
+			const data = result?.data;
+			setData(data);
+			setLoading(false);
+			if (pendingRef.current) {
+				timeoutRetry = setTimeout(() => {
+					getData(n + 1);
+				}, 2000);
+			} else {
+				clearTimeout(timeoutRetry);
+			}
+		}
+		getData(0);
 		return () => {
-			cleanUp();
+			clearTimeout(timeoutRetry);
 		};
-	});
-
-	useEffect(() => {
-		refetch();
 	}, [txHash]);
 
 	let titleSection;
@@ -100,7 +109,6 @@ const PendingTx = ({setPending}) => {
 							},
 						],
 					};
-					pendingDataRef.current = pendingData;
 					txInfo = <TxInfo data={pendingData} />;
 					txData = <TxData data={pendingData} />;
 					break;
@@ -110,6 +118,7 @@ const PendingTx = ({setPending}) => {
 
 		if (!hasPendingTransaction) {
 			cleanUp();
+			pendingRef.current = false;
 			setPending(false);
 		}
 	}

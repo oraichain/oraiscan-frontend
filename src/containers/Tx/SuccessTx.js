@@ -20,41 +20,18 @@ import TxInfo from "src/components/Tx/TxInfo";
 import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
 import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
-import PendingTxUI from "./PendingTxUI";
+import {useGetTx} from "./useGetTx";
 import styles from "./Tx.module.scss";
 
 const cx = cn.bind(styles);
 
-const convertData = (pendingTxState, txHash) => {
-	const result = {};
-	result.result = "pending";
-	result.tx_hash = txHash;
-	result.messages = [];
-	result.messages[0] = {
-		...pendingTxState.value.msg[0].value,
-		"@type": pendingTxState.value.msg[0].type,
-	};
-	result.memo = pendingTxState.value.fee.memo;
-	result.fee = {};
-	return result;
-};
-
 const SuccessTx = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const countRefetchRef = useRef(0);
-	const intervalRef = useRef(null);
-	const [shouldRefetch, setShouldRefetch] = useState(true);
-	const [isFirstLoadAPI, setIsFirstLoadAPI] = useState(true);
-	const location = useLocation();
-	const pendingTxState = location.state?.payload;
 	const params = useParams();
 	const txHash = params?.["tx"];
-	const path = `${consts.API.TX}/${txHash}`;
 
-	const {data, loading, error, refetch} = useGet({
-		path,
-	});
+	const {loading, data} = useGetTx(txHash);
 
 	let titleSection;
 	let txInfo;
@@ -74,34 +51,14 @@ const SuccessTx = () => {
 		</>
 	);
 
-	if (loading && isFirstLoadAPI) {
+	if (loading) {
 		txInfo = <TxInfoSkeleton />;
 		txData = <TxDataSkeleton />;
-	} else if (shouldRefetch && !_.isNil(data?.height)) {
-		if (data?.height === 0) {
-			if (countRefetchRef.current === 3) {
-				clearTimeout(intervalRef.current);
-				setShouldRefetch(false);
-				return <NotFound message={"Sorry! Tx Not Found"} />;
-			}
-
-			intervalRef.current = setTimeout(refetch, 3000);
-			countRefetchRef.current += 1;
-			setIsFirstLoadAPI(false);
-			txInfo = <TxInfoSkeleton />;
-			txData = <TxDataSkeleton />;
-		} else {
-			txInfo = <TxInfo data={data} />;
-			txData = <TxData data={data} />;
-		}
-	} else {
+	} else if (!data) {
 		return <NotFound message={"Sorry! Tx Not Found"} />;
-	}
-
-	// return <PendingTxUI data={convertData(pendingTxState, txHash)} />
-
-	if (pendingTxState && (data?.status?.toLowerCase() === "pending" || (countRefetchRef.current < 3 && data?.height === 0))) {
-		return <PendingTxUI data={convertData(pendingTxState, txHash)} />;
+	} else {
+		txInfo = <TxInfo data={data} />;
+		txData = <TxData data={data} />;
 	}
 
 	return (

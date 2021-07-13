@@ -43,6 +43,14 @@ const NavigateBackBar = ({type, id = ""}) => {
 					</NavLink>
 				);
 			}
+			case "smart-contracts": {
+				return (
+					<NavLink className={cx("title")} to={"/smart-contracts"}>
+						{" "}
+						<LeftArrowIcon className={cx("title-icon")} /> Smart contract details
+					</NavLink>
+				);
+			}
 			case "proposals": {
 				return (
 					<NavLink className={cx("title")} to={"/proposals"}>

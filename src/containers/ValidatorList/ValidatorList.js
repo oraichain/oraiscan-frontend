@@ -63,17 +63,17 @@ const ValidatorList = props => {
 		},
 	});
 
-	useEffect(() => {
-		if (loadCompleted) {
-			timerIdRef.current = setTimeout(() => {
-				refetch();
-				setLoadCompleted(false);
-			}, consts.REQUEST.TIMEOUT);
-			return () => {
-				cleanUp();
-			};
-		}
-	}, [loadCompleted, refetch]);
+	// useEffect(() => {
+	// 	if (loadCompleted) {
+	// 		timerIdRef.current = setTimeout(() => {
+	// 			refetch();
+	// 			setLoadCompleted(false);
+	// 		}, consts.REQUEST.TIMEOUT);
+	// 		return () => {
+	// 			cleanUp();
+	// 		};
+	// 	}
+	// }, [loadCompleted, refetch]);
 
 	let titleSection;
 	let statusCardList;

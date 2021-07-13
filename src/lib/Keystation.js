@@ -1,4 +1,6 @@
-import config from "src/config.js";
+// @ts-nocheck
+/* eslint-disable eqeqeq */
+import config, {isTestnet} from "src/config.js";
 import {networks} from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
@@ -83,7 +85,7 @@ function openWindowV1(type, payload, account = "", self) {
 			encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
-		"690"
+		"760"
 	);
 }
 
@@ -107,7 +109,7 @@ function openWindowV2(type, payload, account = "", self) {
 			break;
 	}
 
-	const network = localStorage?.getItem("network") || networks.MAINNET;
+	const network = isTestnet ? networks.TESTNET : networks.MAINNET;
 
 	return PopupCenter(
 		self.keystationUrl +
@@ -122,7 +124,7 @@ function openWindowV2(type, payload, account = "", self) {
 			network,
 		"",
 		"470",
-		"690"
+		"760"
 	);
 }
 
@@ -147,7 +149,7 @@ export default class Keystation {
 
 export const myKeystation = new Keystation({
 	client: config.walletapi,
-	lcd: "https://lcd.orai.io",
+	lcd: config.LCD_API,
 	path: "44/118/0/0/0",
 	keystationUrl: config.walletapi,
 });
