@@ -75,7 +75,7 @@
 .label {
 	display: block;
 	margin-bottom: 10px;
-	color: var(--common-placeholderTextColor);
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -86,7 +86,7 @@
 .message {
 	display: block;
 	margin-bottom: 16px;
-	color: var(--common-placeholderTextColor);
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: 500;
@@ -132,6 +132,10 @@
 
 	:global(.rdw-editor-main) {
 		height: 300px;
+	}
+
+	:global(.rdw-editor-toolbar) {
+		color: black;
 	}
 }
 
