@@ -15,11 +15,11 @@ export const getHeaderRow = () => {
 	const oracleScriptHeaderCell = <div className={cx("header-cell", "align-left")}>Oracle Script</div>;
 	const descriptionHeaderCell = <div className={cx("header-cell", "align-left")}>Description</div>;
 	const requestAndResponseTimeHeaderCell = (
-		<div className={cx("header-cell", "align-right")}>
+		<div className={cx("header-cell", "align-left")}>
 			Request <br />
 		</div>
 	);
-	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
+	const ownerHeaderCell = <div className={cx("header-cell", "align-left")}>Owner</div>;
 	const headerCells = [oracleScriptHeaderCell, descriptionHeaderCell, requestAndResponseTimeHeaderCell, ownerHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "100px"}, // Oracle Script
@@ -59,12 +59,12 @@ const OracleScriptTable = memo(({data = []}) => {
 
 			const requestAndResponseTimeDataCell = _.isNil(item?.request) ? (
 				<div className={cx("request-and-response-time-data-cell")}>
-					<div className={cx("request-value", "align-right")}>-</div>
-					<div className={cx("response-time-value", "align-right")}>-</div>
+					<div className={cx("request-value", "align-left")}>-</div>
+					<div className={cx("response-time-value", "align-left")}>-</div>
 				</div>
 			) : (
 				<div className={cx("request-and-response-time-data-cell")}>
-					<div className={cx("request-value", "align-right")}>{item?.request}</div>
+					<div className={cx("request-value", "align-left")}>{item?.request}</div>
 				</div>
 			);
 
