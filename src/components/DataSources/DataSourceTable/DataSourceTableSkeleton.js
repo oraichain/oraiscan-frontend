@@ -42,7 +42,13 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 				</div>
 			);
 
-			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell]);
+			const ownerSmartContractCell = (
+				<div className={cx("align-right")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
+				</div>
+			);
+
+			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell, ownerSmartContractCell]);
 		}
 		return dataRows;
 	};

@@ -19,13 +19,15 @@ export const getHeaderRow = () => {
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
 	const requestsHeaderCell = <div className={cx("header-cell", "align-right")}>Requests</div>;
 	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
-	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell];
+	const smartContractHeaderCell = <div className={cx("header-cell", "align-right")}>  Smart Contract</div>;
+	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell, smartContractHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Test Case
-		{minWidth: "200px"}, // Description
-		{minWidth: "180px"}, // Fee
-		{width: "110px", minWidth: "110px"}, // Requests
-		{width: "150px", minWidth: "150px"}, // Owner
+		{minWidth: "50px"}, // Test Case
+		{minWidth: "50px"}, // Description
+		{minWidth: "50px"}, // Fee
+		{width: "50px", minWidth: "50px"}, // Requests
+		{width: "110px", minWidth: "110px"}, // Owner
+		{width: "110px", minWidth: "110px"}, // Owner
 	];
 	return {
 		headerCells,
