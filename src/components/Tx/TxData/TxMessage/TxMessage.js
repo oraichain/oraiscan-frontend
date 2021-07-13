@@ -571,14 +571,14 @@ const TxMessage = ({msg, data}) => {
 						{getCurrencyRowFromString("Transaction Fee", value?.fees)}
 						{getInfoRow("Input", atob(value?.input) || "-")}
 						{getInfoRow("Oracle Script Name", value?.oracle_script_name)}
-						{getLinkRow("Request Id", "AI Request", value?.request_id, `/ai_requests/${value?.request_id}`)}
+						{getLinkRow("Request ID", "AI Request", value?.request_id, `/ai_requests/${value?.request_id}`)}
 						{getInfoRow("Validator Count", value?.validator_count)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_VOTE && (
 					<>
 						{getInfoRow("Option", value?.option)}
-						{getInfoRow("Proposal ID", value?.proposal_id)}
+						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 						{getAddressRow("Voter", value?.voter)}
 					</>
 				)}
@@ -629,6 +629,13 @@ const TxMessage = ({msg, data}) => {
 							label={<div className={cx("store-code-title")}>Data: gzip - {value?.wasm_byte_code.length} bytes</div>}>
 							{storeCodeElement}
 						</InfoRow>
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
+					<>
+						{getAddressRow("Depositor", value?.depositor)}
+						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
+						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 					</>
 				)}
 			</div>
