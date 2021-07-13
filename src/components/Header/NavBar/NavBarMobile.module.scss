@@ -99,6 +99,7 @@
 		height: 100vh;
 		background-color: var(--common-containerBackgroundColor);
 		z-index: 2;
+		overflow: auto;
 
 		@include media(">=large") {
 			position: relative;
