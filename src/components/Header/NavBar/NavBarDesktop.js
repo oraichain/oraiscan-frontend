@@ -1,37 +1,20 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState, useRef} from "react";
+import React, {useRef} from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
-import {Container} from "@material-ui/core";
 import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import _ from "lodash";
 import cn from "classnames/bind";
 import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import RightArrowIcon from "src/icons/RightArrowIcon";
-import SearchIcon from "src/icons/SearchIcon";
-import styles from "./NavBarMobile.module.scss";
-import CloseIcon from "src/icons/CloseIcon";
+import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
 
 const cx = cn.bind(styles);
 
-const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
-	useEffect(() => {});
-	const [navLinks, setNavLinks] = useState(initialNavLinks);
-	const {address} = useSelector(state => state.wallet);
+const NavBarDesktop = ({initialNavLinks}) => {
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
-
-	const expand = () => {
-		if (navbarCollapseRef && navbarCollapseRef.current) {
-			navbarCollapseRef.current.style.display = "block";
-			navbarOverlayRef.current.style.display = "block";
-		}
-	};
 
 	const collapse = () => {
 		if (navbarCollapseRef && navbarCollapseRef.current) {
@@ -46,44 +29,14 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 				<img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
 				<span className={cx("navbar-brand-text")}>Oraiscan</span>
 			</NavLink>
-			{!_.isNil(address) && (
-				<div className={cx("navbar-user")}>
-					<Wallet data={{init: false, title: address}} key={"wallet"} collapse={collapse} />
-				</div>
-			)}
-			<div className={cx("navbar-right")}>
-				<div className={cx("navbar-toggler")} onClick={expand}>
-					<span className={cx("navbar-toggler-icon")}>&#9776;</span>
-				</div>
-			</div>
-			<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
 			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-				<div className={cx("navbar-button-section")} onClick={collapse}>
-					<SearchIcon
-						onClick={() => {
-							toggleSearchArea();
-						}}
-						className={cx("navbar-search-icon")}
-					/>
-					<CloseIcon className={cx("navbar-close-icon")} />
-				</div>
 				<ul className={cx("navbar-nav")}>
-					{navLinks.map((item, index) => {
+					{initialNavLinks.map((item, index) => {
 						const {title, path, children, type} = item;
 						if (children) {
 							return (
 								<li className={cx("nav-item")} key={"nav-item" + index}>
-									<div
-										onClick={e => {
-											const activeTab = e.currentTarget.getElementsByClassName(cx("dropdown-menu"))?.[0];
-											const className = activeTab?.className?.includes(cx("dropdown-menu-active"));
-											if (!className) {
-												activeTab.classList.add(cx("dropdown-menu-active"));
-											} else {
-												activeTab.classList.remove(cx("dropdown-menu-active"));
-											}
-										}}
-										className={cx("dropdown")}>
+									<div className={cx("dropdown")}>
 										<span className={cx("nav-link", "dropdown-toggle")}>
 											<span className={cx("dropdown-toggle-text")}>{title}</span>
 											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
@@ -110,10 +63,9 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 							);
 						}
 						return type === "wallet" ? (
-							// <li className={cx("nav-item")} key={"nav-item" + index}>
-							// 	<Wallet data={item} key={"wallet"} collapse={collapse} />
-							// </li>
-							<></>
+							<li className={cx("nav-item")} key={"nav-item" + index}>
+								<Wallet data={item} key={"wallet"} collapse={collapse} />
+							</li>
 						) : (
 							<li className={cx("nav-item")} key={"nav-item" + index}>
 								<a href={path} className={cx("nav-link")}>
@@ -128,4 +80,9 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 	);
 };
 
-export default NavBarMobile;
+NavBarDesktop.propTypes = {
+	initialNavLinks: PropTypes.any,
+};
+NavBarDesktop.defaultProps = {};
+
+export default NavBarDesktop;

@@ -24,6 +24,7 @@ import YoutubeIcon from "src/assets/community/YoutubeIcon";
 import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
 import {updateToken} from "src/firebase-cloud-message";
+import NavBarDesktop from "./NavBarDesktop";
 
 const cx = cn.bind(styles);
 
@@ -90,23 +91,7 @@ const NavBar = ({toggleSearchArea}) => {
 	const dispatch = useDispatch();
 	const {address} = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
-	const navbarCollapseRef = useRef(null);
-	const navbarOverlayRef = useRef(null);
 	const [isMaintaining, setIsMaintaining] = useState(false);
-
-	const expand = () => {
-		if (navbarCollapseRef && navbarCollapseRef.current) {
-			navbarCollapseRef.current.style.display = "block";
-			navbarOverlayRef.current.style.display = "block";
-		}
-	};
-
-	const collapse = () => {
-		if (navbarCollapseRef && navbarCollapseRef.current) {
-			navbarCollapseRef.current.style.display = "none";
-			navbarOverlayRef.current.style.display = "none";
-		}
-	};
 
 	useEffect(() => {
 		const onMessage = function(e) {
@@ -147,17 +132,6 @@ const NavBar = ({toggleSearchArea}) => {
 		setNavLinks([...initialNavLinks]);
 	}, [address]);
 
-	useEffect(() => {
-		if (isLargeScreen && navbarCollapseRef.current?.style?.display) {
-			navbarCollapseRef.current.style.display = "block";
-			navbarOverlayRef.current.style.display = "none";
-		} else {
-			if (navbarCollapseRef.current?.style?.display && navbarCollapseRef.current.style.display == "block") {
-				navbarOverlayRef.current.style.display = "block";
-			}
-		}
-	}, [isLargeScreen]);
-
 	return (
 		<div className={cx("background")}>
 			{isMaintaining && (
@@ -168,77 +142,7 @@ const NavBar = ({toggleSearchArea}) => {
 				</div>
 			)}
 			<Container>
-				{isLargeScreen ? (
-					<div className={cx("navbar")}>
-						<NavLink to='/' className={cx("navbar-brand")}>
-							<img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
-							<span className={cx("navbar-brand-text")}>Oraiscan</span>
-						</NavLink>
-						<div className={cx("navbar-right")}>
-							<div className={cx("navbar-search")} onClick={toggleSearchArea}>
-								<SearchIcon className={cx("navbar-search-icon")} />
-							</div>
-							<div className={cx("navbar-toggler")} onClick={expand}>
-								<span className={cx("navbar-toggler-icon")}>&#9776;</span>
-							</div>
-						</div>
-						<div className={cx("navbar-overlay")} ref={navbarOverlayRef}></div>
-						<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-							<div className={cx("navbar-close")}>
-								<div className={cx("navbar-close-button")} onClick={collapse}>
-									<RightArrowIcon className={cx("navbar-close-icon")} />
-								</div>
-							</div>
-							<ul className={cx("navbar-nav")}>
-								{navLinks.map((item, index) => {
-									const {title, path, children, type} = item;
-									if (children) {
-										return (
-											<li className={cx("nav-item")} key={"nav-item" + index}>
-												<div className={cx("dropdown")}>
-													<span className={cx("nav-link", "dropdown-toggle")}>
-														<span className={cx("dropdown-toggle-text")}>{title}</span>
-														<DownAngleIcon className={cx("dropdown-toggle-icon")} />
-													</span>
-													<div className={cx("dropdown-menu")}>
-														{children.map(({title, path, Icon}, idx) => {
-															if (Icon) {
-																return (
-																	<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-																		<Icon className={cx("dropdown-item-icon")} /> {title}
-																	</a>
-																);
-															} else {
-																return (
-																	<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-																		{title}
-																	</a>
-																);
-															}
-														})}
-													</div>
-												</div>
-											</li>
-										);
-									}
-									return type === "wallet" ? (
-										<li className={cx("nav-item")} key={"nav-item" + index}>
-											<Wallet data={item} key={"wallet"} collapse={collapse} />
-										</li>
-									) : (
-										<li className={cx("nav-item")} key={"nav-item" + index}>
-											<a href={path} className={cx("nav-link")}>
-												{title}
-											</a>
-										</li>
-									);
-								})}
-							</ul>
-						</div>
-					</div>
-				) : (
-					<NavBarMobile initialNavLinks={initialNavLinks} />
-				)}
+				{isLargeScreen ? <NavBarDesktop initialNavLinks={navLinks} /> : <NavBarMobile toggleSearchArea={toggleSearchArea} initialNavLinks={navLinks} />}
 			</Container>
 		</div>
 	);
