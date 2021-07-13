@@ -69,6 +69,11 @@ const TxInfo = ({data}) => {
 						<span className={cx("status-text")}>{statusText}</span>
 					</div>
 				</InfoRow>
+				{data?.result?.toLowerCase?.() === "failure" && (
+					<InfoRow label='Raw log'>
+						<div className={cx("raw-log")}>{data?.raw_log}</div>
+					</InfoRow>
+				)}
 				<InfoRow label='Height'>
 					{_.isNil(data?.height) ? (
 						"-"
