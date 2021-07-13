@@ -126,6 +126,15 @@
 	}
 }
 
+.editor-wrapper {
+	border: 1px solid #405d78;
+	border-radius: 6px;
+
+	:global(.rdw-editor-main) {
+		height: 300px;
+	}
+}
+
 .fee {
 	margin-bottom: 8px;
 }

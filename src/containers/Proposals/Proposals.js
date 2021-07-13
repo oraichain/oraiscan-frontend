@@ -330,20 +330,22 @@ export default function(props) {
 									<label className={cx("label")} htmlFor='description'>
 										Description
 									</label>
-									<Controller
-										name='description'
-										control={control}
-										render={props => (
-											<Editor
-												{...props}
-												onEditorStateChange={editorState => {
-													if (editorState.blocks) {
-														props.onChange(editorState.blocks[0]);
-													}
-												}}
-											/>
-										)}
-									/>
+									<div className={cx("editor-wrapper")}>
+										<Controller
+											name='description'
+											control={control}
+											render={props => (
+												<Editor
+													{...props}
+													onEditorStateChange={editorState => {
+														if (editorState.blocks) {
+															props.onChange(editorState.blocks[0]);
+														}
+													}}
+												/>
+											)}
+										/>
+									</div>
 									<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 								</div>
 
