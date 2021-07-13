@@ -16,9 +16,9 @@ export const getHeaderRow = () => {
 	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const codeIdHeaderCell = <div className={cx("header-cell", "align-left")}>Code id</div>;
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
-	const adminHeaderCell = <div className={cx("header-cell", "align-right")}>Admin</div>;
-	const labelHeaderCell = <div className={cx("header-cell", "align-center")}>Label</div>;
-	const sourceHeaderCell = <div className={cx("header-cell", "align-right")}>Source</div>;
+	const adminHeaderCell = <div className={cx("header-cell", "align-left")}>Admin</div>;
+	const labelHeaderCell = <div className={cx("header-cell", "align-left")}>Label</div>;
+	const sourceHeaderCell = <div className={cx("header-cell", "align-left")}>Source</div>;
 	const headerCells = [addressHeaderCell, codeIdHeaderCell, creatorHeaderCell, adminHeaderCell, labelHeaderCell, sourceHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "100px"}, // Address
