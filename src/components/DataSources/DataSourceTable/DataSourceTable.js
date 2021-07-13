@@ -16,16 +16,18 @@ const cx = classNames.bind(styles);
 export const getHeaderRow = () => {
 	const testCaseHeaderCell = <div className={cx("header-cell", "align-left")}>Data Source</div>;
 	const descriptionHeaderCell = <div className={cx("header-cell", "align-left")}>Description</div>;
-	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
-	const requestsHeaderCell = <div className={cx("header-cell", "align-right")}>Requests</div>;
-	const ownerHeaderCell = <div className={cx("header-cell", "align-right")}>Owner</div>;
-	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell];
+	const feeHeaderCell = <div className={cx("header-cell", "align-left")}>Fee</div>;
+	const requestsHeaderCell = <div className={cx("header-cell", "align-left")}>Requests</div>;
+	const ownerHeaderCell = <div className={cx("header-cell", "align-left")}>Owner</div>;
+	const smartContractCell = <div className={cx("header-cell", "align-left")}> Smart Contract </div>;
+	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell, smartContractCell];
 	const headerCellStyles = [
 		{minWidth: "100px"}, // Test Case
 		{minWidth: "200px"}, // Description
-		{minWidth: "180px"}, // Fee
-		{width: "110px", minWidth: "110px"}, // Requests
-		{width: "150px", minWidth: "150px"}, // Owner
+		{minWidth: "80px"}, // Fee
+		{width: "60px", minWidth: "60px"}, // Requests
+		{width: "110px", minWidth: "110px"}, // Owner
+		{width: "120px", minWidth: "120px"}, // Smart Contract
 	];
 	return {
 		headerCells,
@@ -54,9 +56,9 @@ const TestCaseTable = memo(({data = []}) => {
 			);
 
 			const feeDataCell = _.isNil(item?.fee) ? (
-				<div className={cx("align-right")}>-</div>
+				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("fee-data-cell", "align-right")}>
+				<div className={cx("fee-data-cell", "align-left")}>
 					<div className={cx("fee")}>
 						<span className={cx("fee-value")}>{formatOrai(item.fee)}</span>
 						<span className={cx("fee-denom")}>ORAI</span>
@@ -65,9 +67,9 @@ const TestCaseTable = memo(({data = []}) => {
 			);
 
 			const requestsDataCell = _.isNil(item?.requests) ? (
-				<div className={cx("align-right")}>-</div>
+				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("request-data-cell", "align-right")}>{item.requests}</div>
+				<div className={cx("request-data-cell", "align-left")}>{item.requests}</div>
 			);
 
 			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
@@ -76,9 +78,9 @@ const TestCaseTable = memo(({data = []}) => {
 				ownerName = matchedLogoItem?.name ?? "-";
 			}
 			// const ownerDataCell = _.isNil(ownerName) ? (
-			// 	<div className={cx("align-right")}>-</div>
+			// 	<div className={cx("align-left")}>-</div>
 			// ) : (
-			// 	<div className={cx("owner-data-cell", "align-right")}>
+			// 	<div className={cx("owner-data-cell", "align-left")}>
 			// 		<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
 			// 			{ownerName}
 			// 		</NavLink>
@@ -86,14 +88,22 @@ const TestCaseTable = memo(({data = []}) => {
 			// );
 
 			const ownerDataCell = (
-				<div className={cx("owner-data-cell", "align-right")}>
+				<div className={cx("owner-data-cell", "align-left")}>
 					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
 						{item.owner}
 					</NavLink>
 				</div>
 			);
 
-			return [testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell];
+			const smartContractDataCell = (
+				<div className={cx("owner-data-cell", "align-left")}>
+					<NavLink className={cx("owner")} to={`${consts.PATH.SMART_CONTRACTS}/${item.contract}`}>
+						{item.contract}
+					</NavLink>
+				</div>
+			);
+
+			return [testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell, smartContractDataCell];
 		});
 	};
 
