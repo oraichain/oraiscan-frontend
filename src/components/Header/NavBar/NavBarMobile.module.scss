@@ -99,16 +99,13 @@
 		height: 100vh;
 		background-color: var(--common-containerBackgroundColor);
 		z-index: 2;
+		overflow: auto;
 
 		@include media(">=large") {
 			position: relative;
 			display: block;
 			width: 100%;
 			height: initial;
-		}
-
-		@include media("<small") {
-			width: 160px;
 		}
 	}
 
@@ -212,7 +209,7 @@
 		max-height: 0px;
 		border-radius: 8px;
 		overflow: hidden;
-		transition: max-height linear 0.5s;
+		transition: max-height ease 0.6s;
 
 		&-active {
 			max-height: 500px;

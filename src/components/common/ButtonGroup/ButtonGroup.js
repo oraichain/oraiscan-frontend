@@ -6,7 +6,6 @@ import styles from "./ButtonGroup.scss";
 const cx = cn.bind(styles);
 
 const ButtonGroup = memo(({data = [], value, onChange}) => {
-	console.log(data);
 	return (
 		<div className={cx("button-group")}>
 			{data.map((item, index) => (

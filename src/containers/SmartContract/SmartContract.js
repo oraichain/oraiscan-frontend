@@ -16,6 +16,7 @@ import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import NotFound from "src/components/common/NotFound";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
+import TransactionCard from "./TransactionCard";
 import styles from "./SmartContract.module.scss";
 
 const cx = cn.bind(styles);
@@ -69,6 +70,7 @@ const SmartContract = () => {
 					</Grid>
 				</div>
 				<SmartContractCodeCard data={data} />
+				<TransactionCard address={data?.address} />
 			</Container>
 		</>
 	);

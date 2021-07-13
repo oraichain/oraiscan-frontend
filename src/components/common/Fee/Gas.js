@@ -18,10 +18,10 @@ export default function({onChangeGas, gas, className}) {
 				formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 				parser={value => value.replace(/\s?|(,*)/g, "")}
 				onChange={onChangeGas}
-				min={100000}
-				max={1000000}
+				min={200000}
+				max={2000000}
 			/>
-			<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
+			<InputRange maxValue={2000000} minValue={200000} value={gas} onChange={onChangeGas} />
 		</div>
 	);
 }
