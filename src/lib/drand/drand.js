@@ -1,8 +1,9 @@
 import Cosmos from "@oraichain/cosmosjs";
 import {fromPrivateKey} from "bip32";
-import config from "src/config";
+import config, {isTestnet} from "src/config.js";
 
 const lcd = process.env.REACT_APP_LCD_API || "https://lcd.orai.io";
+const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
 
 // init cosmos version
 const network = localStorage.getItem("network") || "Oraichain";
@@ -29,7 +30,7 @@ const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-const drand = async (address, round, amount, fees, gas, isNewRandom) => {
+const drand = async (round, amount, fees, gas, isNewRandom) => {
 	const {privateKey, chainCode, network} = await getChildKey();
 
 	const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
@@ -47,18 +48,18 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 	const queryFeesInput = JSON.stringify({
 		get_fees: {},
 	});
-	const currentFees = await cosmos.get(`/wasm/v1beta1/contract/${address}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
+	const currentFees = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
 	console.log("current fees: ", currentFees);
 
 	// query pub key
 	const queryPubkeyInput = JSON.stringify({
 		pub_key: {},
 	});
-	const pubkey = await cosmos.get(`/wasm/v1beta1/contract/${address}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
+	const pubkey = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
 	console.log("pubkey: ", pubkey);
 
 	if (isNewRandom) {
-		const txBody = getHandleMessage(address, input, sender, amount);
+		const txBody = getHandleMessage(contract, input, sender, amount);
 		try {
 			const res = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
 			console.log(res, "===============================");
@@ -69,7 +70,7 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 		const queryLatestInput = JSON.stringify({
 			latest: {},
 		});
-		const latest = await cosmos.get(`/wasm/v1beta1/contract/${address}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
 		console.log("latest round: ", latest);
 
 		return {
@@ -82,7 +83,7 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 		const queryRoundInput = JSON.stringify({
 			get: {round},
 		});
-		const roundOutput = await cosmos.get(`/wasm/v1beta1/contract/${address}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+		const roundOutput = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
 		console.log(`round ${round} information: `, roundOutput);
 		return {
 			latest: roundOutput.data,
@@ -93,7 +94,7 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 		const queryLatestInput = JSON.stringify({
 			latest: {},
 		});
-		const latest = await cosmos.get(`/wasm/v1beta1/contract/${address}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
 		console.log("latest round: ", latest);
 
 		return {

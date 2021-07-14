@@ -52,7 +52,7 @@ const Randomness = ({}) => {
 	};
 
 	const handleGetRandomValue = async isNewRandom => {
-		const latestData = await drand("orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m", parseInt(roundValue), "5", "0.000001", "200000", isNewRandom);
+		const latestData = await drand(parseInt(roundValue), "5", "0.000001", "200000", isNewRandom);
 		setLoading(false);
 		if (!isNil(latestData) && randomValueRef.current) {
 			setData(latestData);
