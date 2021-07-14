@@ -7,7 +7,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import copy from "copy-to-clipboard";
 import Grid from "@material-ui/core/Grid";
 import ReactJson from "react-json-view";
-
+import _ from "lodash";
+import Interweave from "interweave";
 import {formatDateTime, formatOrai} from "src/helpers/helper";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
@@ -96,7 +97,7 @@ const DetailsCard = memo(({data}) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{data?.description ?? "-"}</div>
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave content={data.description} />}</div>
 		</div>
 	);
 
