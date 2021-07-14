@@ -137,6 +137,13 @@
 	:global(.rdw-editor-toolbar) {
 		color: black;
 	}
+
+	:global(.rdw-image-modal) {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
 }
 
 .fee {
