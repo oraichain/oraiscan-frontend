@@ -241,7 +241,7 @@ const Tabs = memo(() => {
 		},
 		{
 			name: "Others",
-			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
 			render: renderTabDropdownComponent,
 		},

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
-import {NavLink} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 import {isNil} from "lodash";
@@ -11,12 +10,7 @@ import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
 import drand from "src/lib/drand/drand";
 import CopyIcon from "src/icons/CopyIcon";
-import CheckIcon from "src/icons/CheckIcon";
-import TimesIcon from "src/icons/TimesIcon";
-import RedoIcon from "src/icons/RedoIcon";
-import {getTotalTime, setAgoTime} from "src/lib/scripts";
 import InfoRow from "src/components/common/InfoRow";
-import ShortenedString from "src/components/common/ShortenedString";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import styles from "./Randomness.module.scss";
 
@@ -51,8 +45,9 @@ const Randomness = ({}) => {
 	const handleGetRandomValue = async () => {
 		const latestData = await drand("orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m", 7, "5", "0.005", "200000", true);
 		setLoading(false);
-		if (!isNil(latestData)) {
+		if (!isNil(latestData) && randomValueRef.current) {
 			setData(latestData);
+
 			let currentValue = Array.from(randomValueRef.current.innerHTML);
 			let timeOut = 0;
 			for (let i = 0; i < currentValue.length; i++) {
@@ -60,11 +55,15 @@ const Randomness = ({}) => {
 				let interval = setInterval(() => {
 					let newValue = generateRandomString(1);
 					currentValue[i] = newValue;
-					randomValueRef.current.innerHTML = currentValue.join("");
+					if (randomValueRef.current) {
+						randomValueRef.current.innerHTML = currentValue.join("");
+					}
 				}, 50);
 				setTimeout(() => {
 					currentValue[i] = Array.from(latestData?.latest?.randomness)?.[i];
-					randomValueRef.current.innerHTML = currentValue.join("");
+					if (randomValueRef.current) {
+						randomValueRef.current.innerHTML = currentValue.join("");
+					}
 					clearInterval(interval);
 				}, 500 + timeOut);
 			}

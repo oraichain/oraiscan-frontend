@@ -1,5 +1,5 @@
-import {Argv} from "yargs";
 import Cosmos from "@oraichain/cosmosjs";
+import config from "src/config";
 
 const lcd = process.env.REACT_APP_LCD_API || "https://lcd.orai.io";
 
@@ -29,11 +29,16 @@ const getHandleMessage = (contract, msg, sender, amount) => {
 };
 
 const drand = async (address, round, amount, fees, gas, isNewRandom) => {
-	const childKey = cosmos.getChildKey(
-		process.env.REACT_APP_TESTING_MNEMONIC ||
-			"strong ceiling chimney develop field patient fine absent sunset rookie law anxiety special jacket tide system alter sunny sniff travel drastic champion pigeon thank"
-	);
-	const sender = cosmos.getAddress(childKey);
+	// const childKeyyyyyy = cosmos.getChildKey(
+	// 	process.env.REACT_APP_TESTING_MNEMONIC ||
+	// 		"strong ceiling chimney develop field patient fine absent sunset rookie law anxiety special jacket tide system alter sunny sniff travel drastic champion pigeon thank"
+	// );
+
+	const {childKey, address: sender} = await auth();
+	console.log("childKey: ", childKey);
+	// console.log("childKeyyyyyy: ", childKeyyyyyy);
+	// const sender = cosmos.getAddress(childKeyyyyyy);
+	// console.log("sender", sender)
 
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
@@ -92,6 +97,31 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 		latest: roundOutput,
 		pubkey: pubkey,
 	};
+};
+
+const auth = () => {
+	const popup = window.open(`${config.walletapi}/auth`, "__blank", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
+
+	return new Promise((resolve, reject) => {
+		const loop = setInterval(function() {
+			if (!popup) {
+				clearInterval(loop);
+				reject("window-blocked");
+			} else if (popup.closed) {
+				clearInterval(loop);
+				reject("window-closed");
+			}
+		}, 500);
+		const handler = e => {
+			console.log(e.data);
+			if (e.data.childKey) {
+				clearInterval(loop);
+				window.removeEventListener("message", handler);
+				resolve(e.data);
+			}
+		};
+		window.addEventListener("message", handler);
+	});
 };
 
 export default drand;
