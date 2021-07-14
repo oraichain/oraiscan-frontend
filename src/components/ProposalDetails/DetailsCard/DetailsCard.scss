@@ -222,6 +222,9 @@
 		}
 
 		&-body {
+			min-height: 50px;
+			max-height: 500px;
+			overflow: auto;
 			color: var(--common-textColor);
 			font-family: Roboto;
 			font-style: normal;
