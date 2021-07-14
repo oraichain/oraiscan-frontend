@@ -26,10 +26,8 @@ const AccountCardList = memo(({data = []}) => {
 								</tr>
 
 								<tr>
-									<td>
+									<td colSpan={2}>
 										<div className={cx("item-title")}>Address</div>
-									</td>
-									<td>
 										{_.isNil(item?.address) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (

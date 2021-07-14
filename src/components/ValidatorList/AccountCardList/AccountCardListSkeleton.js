@@ -22,10 +22,8 @@ const AccountCardListSkeleton = memo(({rows = 10}) => {
 						</tr>
 
 						<tr>
-							<td>
+							<td colSpan={2}>
 								<div className={cx("item-title")}>Address</div>
-							</td>
-							<td>
 								<Skeleton />
 							</td>
 						</tr>
