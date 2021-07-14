@@ -21,12 +21,12 @@ export const getHeaderRow = () => {
 	const sourceHeaderCell = <div className={cx("header-cell", "align-left")}>Source</div>;
 	const headerCells = [addressHeaderCell, codeIdHeaderCell, creatorHeaderCell, adminHeaderCell, labelHeaderCell, sourceHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Address
-		{minWidth: "100px"}, // Code id
-		{minWidth: "150px"}, // Creator
+		{minWidth: "320px"}, // Address
+		{minWidth: "80px"}, // Code id
+		{minWidth: "320px"}, // Creator
 		{minWidth: "50px"}, // Admin
-		{minWidth: "100px"}, // Label
-		{minWidth: "40px"}, // Source
+		{minWidth: "160px"}, // Label
+		{minWidth: "50px"}, // Source
 	];
 	return {
 		headerCells,
