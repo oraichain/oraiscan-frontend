@@ -27,8 +27,13 @@ const RandomnessSkeleton = ({txData}) => {
 					</div>
 				</InfoRow>
 				<InfoRow label='Public Key'>
-					<div className={cx("height")}>
+					<div className={cx("public-key")}>
 						<Skeleton variant='text' width={250} height={24} />
+					</div>
+				</InfoRow>
+				<InfoRow label='Current Fees'>
+					<div className={cx("current-fees")}>
+						<Skeleton variant='text' width={100} height={24} />
 					</div>
 				</InfoRow>
 				<InfoRow label='Round'>
