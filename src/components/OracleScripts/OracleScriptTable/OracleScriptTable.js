@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
@@ -22,10 +23,10 @@ export const getHeaderRow = () => {
 	const ownerHeaderCell = <div className={cx("header-cell", "align-left")}>Owner</div>;
 	const headerCells = [oracleScriptHeaderCell, descriptionHeaderCell, requestAndResponseTimeHeaderCell, ownerHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Oracle Script
-		{minWidth: "200px"}, // Description
-		{minWidth: "180px"}, // Time
-		{width: "150px", minWidth: "150px"}, // Owner
+		{minWidth: "160px"}, // Oracle Script
+		{minWidth: "500px"}, // Description
+		{minWidth: "50px"}, // Request
+		{minWidth: "320px"}, // Owner
 	];
 	return {
 		headerCells,

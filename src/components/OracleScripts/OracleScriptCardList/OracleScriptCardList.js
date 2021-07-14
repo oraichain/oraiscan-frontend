@@ -46,15 +46,13 @@ const OracleScriptCardList = memo(({data = []}) => {
 					</tr>
 
 					<tr>
-						<td>
+						<td colSpan={2}>
 							<div className={cx("item-title")}>Owner</div>
-						</td>
-						<td>
 							{_.isNil(item?.owner) ? (
 								<div className={cx("owner")}>-</div>
 							) : (
 								<div className={cx("owner")}>
-									<Address address={item.owner} link={`${consts.PATH.ACCOUNT}/${item.owner}`} size='md' showCopyIcon={false} />
+									<Address address={item.owner} link={`${consts.PATH.ACCOUNT}/${item.owner}`} size='lg' showCopyIcon={false} />
 								</div>
 							)}
 						</td>

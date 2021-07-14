@@ -14,37 +14,37 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 		for (let i = 1; i <= rows; i++) {
 			const testCaseDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={100} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={150} height={21} />
 				</div>
 			);
 
 			const descriptionHashDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={220} height={21} />
 				</div>
 			);
 
 			const feeDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={100} height={21} />
 				</div>
 			);
 
 			const requestsDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={40} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={50} height={21} />
 				</div>
 			);
 
 			const ownerDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={160} height={21} />
 				</div>
 			);
 
 			const contractDataCell = (
 				<div className={cx("align-left")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={200} height={21} />
+					<Skeleton variant='text' className={cx("skeleton")} width={320} height={21} />
 				</div>
 			);
 

@@ -13,19 +13,19 @@ const OracleScriptTableSkeleton = memo(({rows = 10}) => {
 		for (let i = 1; i <= rows; i++) {
 			const oracleScriptDataCell = (
 				<div className={cx("oracle-script-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton")} variant='text' width={97} height={21} />
+					<Skeleton className={cx("skeleton")} variant='text' width={160} height={21} />
 				</div>
 			);
 
 			const descriptionDataCell = (
 				<div className={cx("description-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton")} variant='text' width={200} height={21} />
+					<Skeleton className={cx("skeleton")} variant='text' width={500} height={21} />
 				</div>
 			);
 
 			const requestAndResponseTimeDataCell = (
 				<div className={cx("request-and-response-time-data-cell")}>
-					<div className={cx("request-value", "align-right")}>
+					<div className={cx("request-value", "align-left")}>
 						<Skeleton className={cx("skeleton")} variant='text' width={50} height={21} />
 					</div>
 				</div>
@@ -33,7 +33,7 @@ const OracleScriptTableSkeleton = memo(({rows = 10}) => {
 
 			const ownerDataCell = (
 				<div className={cx("owner-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton")} variant='text' width={70} height={21} />
+					<Skeleton className={cx("skeleton")} variant='text' width={320} height={21} />
 				</div>
 			);
 
