@@ -26,25 +26,14 @@ const TestCaseCardListSkeleton = memo(({rows = 10}) => {
 						<tr>
 							<td>
 								<div className={cx("item-title")}>Fee</div>
-							</td>
-							<td>
 								<div className={cx("item-text")}>
 									<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 								</div>
 							</td>
-						</tr>
-
-						<tr>
 							<td>
 								<div className={cx("item-title")}>Requests</div>
 								<div className={cx("item-text")}>
 									<Skeleton variant='text' className={cx("skeleton")} width={10} height={21} />
-								</div>
-							</td>
-							<td>
-								<div className={cx("item-title")}>Owner</div>
-								<div className={cx("item-link")}>
-									<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 								</div>
 							</td>
 						</tr>
@@ -53,6 +42,24 @@ const TestCaseCardListSkeleton = memo(({rows = 10}) => {
 							<td colSpan={2}>
 								<div className={cx("item-title")}>Description</div>
 								<div className={cx("item-text")}>
+									<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td colSpan={2}>
+								<div className={cx("item-title")}>Owner</div>
+								<div className={cx("item-link")}>
+									<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td colSpan={2}>
+								<div className={cx("item-title")}>Smart Contract</div>
+								<div className={cx("item-link")}>
 									<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
 								</div>
 							</td>

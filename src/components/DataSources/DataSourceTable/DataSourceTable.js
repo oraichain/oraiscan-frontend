@@ -9,6 +9,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
+import {Tooltip} from "@material-ui/core";
 import styles from "./DataSourceTable.scss";
 
 const cx = classNames.bind(styles);
@@ -19,15 +20,15 @@ export const getHeaderRow = () => {
 	const feeHeaderCell = <div className={cx("header-cell", "align-left")}>Fee</div>;
 	const requestsHeaderCell = <div className={cx("header-cell", "align-left")}>Requests</div>;
 	const ownerHeaderCell = <div className={cx("header-cell", "align-left")}>Owner</div>;
-	const smartContractCell = <div className={cx("header-cell", "align-left")}> Smart Contract </div>;
+	const smartContractCell = <div className={cx("header-cell", "align-left")}>Smart Contract</div>;
 	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell, smartContractCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Test Case
-		{minWidth: "200px"}, // Description
-		{minWidth: "80px"}, // Fee
-		{width: "60px", minWidth: "60px"}, // Requests
-		{width: "110px", minWidth: "110px"}, // Owner
-		{width: "120px", minWidth: "120px"}, // Smart Contract
+		{minWidth: "160px"}, // Data Source
+		{minWidth: "220px"}, // Description
+		{minWidth: "100px"}, // Fee
+		{minWidth: "60px"}, // Requests
+		{minWidth: "160px"}, // Owner
+		{minWidth: "320px"}, // Smart Contract
 	];
 	return {
 		headerCells,
@@ -72,11 +73,11 @@ const TestCaseTable = memo(({data = []}) => {
 				<div className={cx("request-data-cell", "align-left")}>{item.requests}</div>
 			);
 
-			const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
-			let ownerName;
-			if (matchedLogoItem) {
-				ownerName = matchedLogoItem?.name ?? "-";
-			}
+			// const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
+			// let ownerName;
+			// if (matchedLogoItem) {
+			// 	ownerName = matchedLogoItem?.name ?? "-";
+			// }
 			// const ownerDataCell = _.isNil(ownerName) ? (
 			// 	<div className={cx("align-left")}>-</div>
 			// ) : (
@@ -89,15 +90,17 @@ const TestCaseTable = memo(({data = []}) => {
 
 			const ownerDataCell = (
 				<div className={cx("owner-data-cell", "align-left")}>
-					<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
-						{item.owner}
-					</NavLink>
+					<Tooltip title={`${item.owner}`} arrow placement='top-start'>
+						<NavLink className={cx("owner")} to={`${consts.PATH.ACCOUNT}/${item.owner}`}>
+							{`${item.owner.slice(0, 10)}...${item.owner.slice(item.owner.length - 10)}`}
+						</NavLink>
+					</Tooltip>
 				</div>
 			);
 
 			const smartContractDataCell = (
 				<div className={cx("owner-data-cell", "align-left")}>
-					<NavLink className={cx("owner")} to={`${consts.PATH.SMART_CONTRACTS}/${item.contract}`}>
+					<NavLink className={cx("owner")} to={`${consts.PATH.SMART_CONTRACT}/${item.contract}`}>
 						{item.contract}
 					</NavLink>
 				</div>

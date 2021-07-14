@@ -6,6 +6,8 @@ import consts from "src/constants/consts";
 import {logoBrand} from "src/constants/logoBrand";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
+import {Tooltip} from "@material-ui/core";
+import Address from "src/components/common/Address";
 import styles from "./DataSourceCardList.scss";
 
 const TestCaseCardList = memo(({data = []}) => {
@@ -14,11 +16,11 @@ const TestCaseCardList = memo(({data = []}) => {
 	return (
 		<div className='test-case-card-list'>
 			{data.map((item, index) => {
-				const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
-				let ownerName;
-				if (matchedLogoItem) {
-					ownerName = matchedLogoItem?.name ?? "-";
-				}
+				// const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
+				// let ownerName;
+				// if (matchedLogoItem) {
+				// 	ownerName = matchedLogoItem?.name ?? "-";
+				// }
 
 				return (
 					<div className={cx("test-case-card-list-item")} key={"test-case-card-list-item-" + index}>
@@ -34,8 +36,6 @@ const TestCaseCardList = memo(({data = []}) => {
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Fee</div>
-									</td>
-									<td>
 										{_.isNil(item?.fee) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
@@ -45,22 +45,9 @@ const TestCaseCardList = memo(({data = []}) => {
 											</div>
 										)}
 									</td>
-								</tr>
-
-								<tr>
 									<td>
 										<div className={cx("item-title")}>Requests</div>
 										{_.isNil(item?.requests) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item.requests}</div>}
-									</td>
-									<td>
-										<div className={cx("item-title")}>Owner</div>
-										{_.isNil(ownerName) ? (
-											<div className={cx("item-link")}>-</div>
-										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
-												{ownerName}
-											</NavLink>
-										)}
 									</td>
 								</tr>
 
@@ -68,6 +55,36 @@ const TestCaseCardList = memo(({data = []}) => {
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Description</div>
 										{_.isNil(item?.description) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item.description}</div>}
+									</td>
+								</tr>
+
+								<tr>
+									<td colSpan={2}>
+										<div className={cx("item-title")}>Owner</div>
+										{_.isNil(item?.owner) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<Tooltip title={`${item.owner}`} arrow placement='top-start'>
+												<NavLink className={cx("item-link")} to={`${consts.PATH.ACCOUNT}/${item.owner}`}>
+													<Address address={item.owner} showCopyIcon={false} size='md' />
+												</NavLink>
+											</Tooltip>
+										)}
+									</td>
+								</tr>
+
+								<tr>
+									<td colSpan={2}>
+										<div className={cx("item-title")}>Smart Contract</div>
+										{_.isNil(item?.contract) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<Tooltip title={`${item.contract}`} arrow placement='top-start'>
+												<NavLink className={cx("item-link")} to={`${consts.PATH.SMART_CONTRACT}/${item.contract}`}>
+													<Address address={item.contract} showCopyIcon={false} size='md' />
+												</NavLink>
+											</Tooltip>
+										)}
 									</td>
 								</tr>
 							</tbody>
