@@ -141,25 +141,32 @@ export default function(props) {
 	let paginationSection;
 	let isValidator = false;
 
-	if (!_.isNil(address) && address?.trim()?.length === 43) {
-		const decodedObj = bech32.decode(address);
-		const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+	// if (!_.isNil(address) && address?.trim()?.length === 43) {
+	// 	const decodedObj = bech32.decode(address);
+	// 	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
 
-		if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
-			isValidator = true;
-		}
-	}
+	// 	if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
+	// 		isValidator = true;
+	// 	}
+	// }
 
-	if (isValidator && type === "ParameterChangeProposal") {
-		createButton = (
-			<div className={cx("create-button")} onClick={handleOpen}>
-				<span className={cx("create-button-text")}>Create Proposal</span>
-				<AddIcon className={cx("create-button-icon")} />
-			</div>
-		);
-	} else {
-		createButton = <></>;
-	}
+	// if (isValidator && type === "ParameterChangeProposal") {
+	// 	createButton = (
+	// 		<div className={cx("create-button")} onClick={handleOpen}>
+	// 			<span className={cx("create-button-text")}>Create Proposal</span>
+	// 			<AddIcon className={cx("create-button-icon")} />
+	// 		</div>
+	// 	);
+	// } else {
+	// 	createButton = <></>;
+	// }
+
+	createButton = (
+		<div className={cx("create-button")} onClick={handleOpen}>
+			<span className={cx("create-button-text")}>Create Proposal</span>
+			<AddIcon className={cx("create-button-icon")} />
+		</div>
+	);
 
 	const onSubmit = data => {
 		const msg = [
