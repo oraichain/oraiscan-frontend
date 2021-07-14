@@ -34,6 +34,7 @@ const Randomness = ({}) => {
 	});
 
 	const balance = amountData?.balances?.[0]?.amount / 10 ** 6;
+	console.log(balance, "aaaaaaaa");
 
 	useEffect(() => {
 		handleGetRandomValue(false);
@@ -53,28 +54,34 @@ const Randomness = ({}) => {
 
 	const handleGetRandomValue = async isNewRandom => {
 		const latestData = await drand(parseInt(roundValue), "5", "0.000001", "200000", isNewRandom);
-		setLoading(false);
-		if (!isNil(latestData) && randomValueRef.current) {
-			setData(latestData);
+		if (isNewRandom) {
+			setTimeout(() => {
+				window.location.reload();
+			}, 16000);
+		} else {
+			setLoading(false);
+			if (!isNil(latestData) && randomValueRef.current) {
+				setData(latestData);
 
-			let currentValue = Array.from(randomValueRef.current.innerHTML);
-			let timeOut = 0;
-			for (let i = 0; i < currentValue.length; i++) {
-				timeOut += 30;
-				let interval = setInterval(() => {
-					let newValue = generateRandomString(1);
-					currentValue[i] = newValue;
-					if (randomValueRef.current) {
-						randomValueRef.current.innerHTML = currentValue.join("");
-					}
-				}, 50);
-				setTimeout(() => {
-					currentValue[i] = Array.from(latestData?.latest?.randomness)?.[i];
-					if (randomValueRef.current) {
-						randomValueRef.current.innerHTML = currentValue.join("");
-					}
-					clearInterval(interval);
-				}, 500 + timeOut);
+				let currentValue = Array.from(randomValueRef.current.innerHTML);
+				let timeOut = 0;
+				for (let i = 0; i < currentValue.length; i++) {
+					timeOut += 30;
+					let interval = setInterval(() => {
+						let newValue = generateRandomString(1);
+						currentValue[i] = newValue;
+						if (randomValueRef.current) {
+							randomValueRef.current.innerHTML = currentValue.join("");
+						}
+					}, 50);
+					setTimeout(() => {
+						currentValue[i] = Array.from(latestData?.latest?.randomness)?.[i];
+						if (randomValueRef.current) {
+							randomValueRef.current.innerHTML = currentValue.join("");
+						}
+						clearInterval(interval);
+					}, 500 + timeOut);
+				}
 			}
 		}
 	};
@@ -149,11 +156,13 @@ const Randomness = ({}) => {
 						</ul>
 						<div
 							onClick={() => {
-								if (parseFloat(data?.currentFees) > parseFloat(balance)) {
+								console.log(balance, "bl!!");
+								console.log(parseFloat(data?.currentFees) / 10 ** 6, "AAAA");
+								if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
+									setErrorMessage(true);
+								} else {
 									setLoading(true);
 									handleGetRandomValue(true);
-								} else {
-									setErrorMessage(true);
 								}
 							}}
 							className={cx("button-random")}>

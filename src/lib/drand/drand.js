@@ -2,7 +2,7 @@ import Cosmos from "@oraichain/cosmosjs";
 import {fromPrivateKey} from "bip32";
 import config, {isTestnet} from "src/config.js";
 
-const lcd = process.env.REACT_APP_LCD_API || "https://lcd.orai.io";
+const lcd = config.LCD_API;
 const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
 
 // init cosmos version
@@ -31,12 +31,6 @@ const getHandleMessage = (contract, msg, sender, amount) => {
 };
 
 const drand = async (round, amount, fees, gas, isNewRandom) => {
-	const {privateKey, chainCode, network} = await getChildKey();
-
-	const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
-
-	const sender = cosmos.getAddress(childKey);
-
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
 		JSON.stringify({
@@ -59,6 +53,10 @@ const drand = async (round, amount, fees, gas, isNewRandom) => {
 	console.log("pubkey: ", pubkey);
 
 	if (isNewRandom) {
+		const {privateKey, chainCode, network} = await getChildKey();
+		const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
+
+		const sender = cosmos.getAddress(childKey);
 		const txBody = getHandleMessage(contract, input, sender, amount);
 		try {
 			const res = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
@@ -71,13 +69,12 @@ const drand = async (round, amount, fees, gas, isNewRandom) => {
 			latest: {},
 		});
 		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-		console.log("latest round: ", latest);
-
-		return {
+		const returnValue = {
 			latest: latest.data,
 			currentFees: currentFees.data,
 			pubkey: pubkey.data,
 		};
+		return returnValue;
 	} else if (round && round !== "") {
 		// query a specific round information
 		const queryRoundInput = JSON.stringify({
