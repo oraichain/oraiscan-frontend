@@ -31,13 +31,13 @@ const AddressCard = memo(({moniker, operatorAddress, address}) => {
 				<div className={cx("address")}>
 					<div className={cx("address-type")}>Operator address</div>
 					<div className={cx("address-value")}>
-						<Address address={operatorAddress} size='sm' showCopyIcon={true} />
+						<Address address={operatorAddress} size='md' showCopyIcon={true} />
 					</div>
 				</div>
 				<div className={cx("address")}>
 					<div className={cx("address-type")}>Address</div>
 					<div className={cx("address-value")}>
-						<Address address={address} size='sm' showCopyIcon={true} />
+						<Address address={address} size='md' showCopyIcon={true} />
 					</div>
 				</div>
 			</div>
