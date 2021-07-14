@@ -7,7 +7,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "./DataSourceTableSkeletonTable";
 import styles from "./DataSourceTable.scss";
 
-const TestCaseTableSkeleton = memo(({rows}) => {
+const DataSourceTableSkeleton = memo(({rows}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -25,30 +25,30 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 			);
 
 			const feeDataCell = (
-				<div className={cx("align-right")}>
+				<div className={cx("align-left")}>
 					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 				</div>
 			);
 
 			const requestsDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={10} height={21} />
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={40} height={21} />
 				</div>
 			);
 
 			const ownerDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
 				</div>
 			);
 
-			const ownerSmartContractCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
+			const smartContractCell = (
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={200} height={21} />
 				</div>
 			);
 
-			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell, ownerSmartContractCell]);
+			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell, smartContractCell]);
 		}
 		return dataRows;
 	};
@@ -59,11 +59,11 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-TestCaseTableSkeleton.propTypes = {
+DataSourceTableSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
-TestCaseTableSkeleton.defaultProps = {
+DataSourceTableSkeleton.defaultProps = {
 	rows: 10,
 };
 
-export default TestCaseTableSkeleton;
+export default DataSourceTableSkeleton;

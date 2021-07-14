@@ -25,24 +25,30 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 			);
 
 			const feeDataCell = (
-				<div className={cx("align-right")}>
+				<div className={cx("align-left")}>
 					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
 				</div>
 			);
 
 			const requestsDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={10} height={21} />
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={40} height={21} />
 				</div>
 			);
 
 			const ownerDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' className={cx("skeleton")} width={60} height={21} />
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={120} height={21} />
 				</div>
 			);
 
-			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell]);
+			const contractDataCell = (
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' className={cx("skeleton")} width={200} height={21} />
+				</div>
+			);
+
+			dataRows.push([testCaseDataCell, descriptionHashDataCell, feeDataCell, requestsDataCell, ownerDataCell, contractDataCell]);
 		}
 		return dataRows;
 	};

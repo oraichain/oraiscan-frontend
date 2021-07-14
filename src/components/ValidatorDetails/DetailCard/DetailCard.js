@@ -169,6 +169,9 @@ const DetailCard = memo(({data}) => {
 						<tr>
 							<td colSpan={2}>{detailsElement}</td>
 						</tr>
+						<tr>
+							<td colSpan={2}>{reportingElement}</td>
+						</tr>
 					</tbody>
 				</table>
 			)}
