@@ -12,7 +12,7 @@ export const getHeaderRow = () => {
 	const feeHeaderCell = <div className={cx("header-cell", "align-left")}>Fee</div>;
 	const requestsHeaderCell = <div className={cx("header-cell", "align-left")}>Requests</div>;
 	const ownerHeaderCell = <div className={cx("header-cell", "align-left")}>Owner</div>;
-	const smartContractHeaderCell = <div className={cx("header-cell", "align-left")}> Smart Contract</div>;
+	const smartContractHeaderCell = <div className={cx("header-cell", "align-left")}>Smart Contract</div>;
 	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell, smartContractHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "160px"}, // Data Source
