@@ -7,7 +7,6 @@ import {logoBrand} from "src/constants/logoBrand";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import {Tooltip} from "@material-ui/core";
-import Address from "src/components/common/Address";
 import styles from "./DataSourceCardList.scss";
 
 const TestCaseCardList = memo(({data = []}) => {
@@ -66,7 +65,7 @@ const TestCaseCardList = memo(({data = []}) => {
 										) : (
 											<Tooltip title={`${item.owner}`} arrow placement='top-start'>
 												<NavLink className={cx("item-link")} to={`${consts.PATH.ACCOUNT}/${item.owner}`}>
-													<Address address={item.owner} showCopyIcon={false} size='md' />
+													{item.owner}
 												</NavLink>
 											</Tooltip>
 										)}
@@ -81,7 +80,7 @@ const TestCaseCardList = memo(({data = []}) => {
 										) : (
 											<Tooltip title={`${item.contract}`} arrow placement='top-start'>
 												<NavLink className={cx("item-link")} to={`${consts.PATH.SMART_CONTRACT}/${item.contract}`}>
-													<Address address={item.contract} showCopyIcon={false} size='md' />
+													{item.contract}
 												</NavLink>
 											</Tooltip>
 										)}
