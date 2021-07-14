@@ -1,4 +1,5 @@
 import Cosmos from "@oraichain/cosmosjs";
+import {fromPrivateKey} from "bip32";
 import config from "src/config";
 
 const lcd = process.env.REACT_APP_LCD_API || "https://lcd.orai.io";
@@ -29,16 +30,11 @@ const getHandleMessage = (contract, msg, sender, amount) => {
 };
 
 const drand = async (address, round, amount, fees, gas, isNewRandom) => {
-	// const childKeyyyyyy = cosmos.getChildKey(
-	// 	process.env.REACT_APP_TESTING_MNEMONIC ||
-	// 		"strong ceiling chimney develop field patient fine absent sunset rookie law anxiety special jacket tide system alter sunny sniff travel drastic champion pigeon thank"
-	// );
+	const {privateKey, chainCode, network} = await getChildKey();
 
-	const {childKey, address: sender} = await auth();
-	console.log("childKey: ", childKey);
-	// console.log("childKeyyyyyy: ", childKeyyyyyy);
-	// const sender = cosmos.getAddress(childKeyyyyyy);
-	// console.log("sender", sender)
+	const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
+
+	const sender = cosmos.getAddress(childKey);
 
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
@@ -108,8 +104,8 @@ const drand = async (address, round, amount, fees, gas, isNewRandom) => {
 	}
 };
 
-const auth = () => {
-	const popup = window.open(`${config.walletapi}/auth`, "__blank", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
+const getChildKey = () => {
+	const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "__blank", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
 
 	return new Promise((resolve, reject) => {
 		const loop = setInterval(function() {
@@ -122,8 +118,7 @@ const auth = () => {
 			}
 		}, 500);
 		const handler = e => {
-			// console.log(e.data);
-			if (e.data.childKey) {
+			if (e.data.privateKey && e.data.chainCode && e.data.network) {
 				clearInterval(loop);
 				window.removeEventListener("message", handler);
 				resolve(e.data);
