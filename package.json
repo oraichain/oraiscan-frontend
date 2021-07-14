@@ -82,6 +82,7 @@
 		"husky": "^4.3.0",
 		"identity-obj-proxy": "3.0.0",
 		"include-media": "^1.4.9",
+		"interweave": "^12.8.0",
 		"is-empty": "^1.2.0",
 		"jest": "24.9.0",
 		"jest-environment-jsdom-fourteen": "0.1.0",

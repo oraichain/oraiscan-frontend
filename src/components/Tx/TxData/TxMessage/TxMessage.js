@@ -15,6 +15,7 @@ import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import BigNumber from "bignumber.js";
 import copy from "copy-to-clipboard";
+import Interweave from "interweave";
 import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
@@ -145,6 +146,12 @@ const TxMessage = ({msg, data}) => {
 			</InfoRow>
 		);
 
+		const getHtmlRow = (label, value) => (
+			<InfoRow label={label}>
+				<div className={cx("html")}>{_.isNil(value) ? "-" : <Interweave content={value} />}</div>
+			</InfoRow>
+		);
+
 		const getCurrencyRowFromString = (label, inputString) => {
 			if (_.isNil(value)) {
 				return (
@@ -169,7 +176,7 @@ const TxMessage = ({msg, data}) => {
 			);
 		};
 
-		const getCurrencyRowFromObject = (label, inputObject) => {
+		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return null;
 				// (
@@ -182,12 +189,22 @@ const TxMessage = ({msg, data}) => {
 
 			const {amount, denom} = inputObject;
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
+			let formatedAmount;
+			let calculatedValue;
+			if (keepOriginValue) {
+				calculatedValue = amount;
+				formatedAmount = formatOrai(amount, 1);
+			} else {
+				calculatedValue = amount / 1000000;
+				formatedAmount = formatOrai(amount);
+			}
+
 			return (
 				<InfoRow label={label}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(amount) + " "}</span>
+						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
 						<span className={cx("amount-denom")}>{denom}</span>
-						<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat((amount / 1000000) * status.price, 4) + ")" : ""}</span>
+						<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
 					</div>
 				</InfoRow>
 			);
@@ -684,9 +701,9 @@ const TxMessage = ({msg, data}) => {
 						{getAddressRow("Proposer", value?.proposer)}
 						{value?.content && getInfoRow("Proposal type", value?.content["@type"])}
 						{getInfoRow("Title", value?.content?.title)}
-						{getInfoRow("Description", value?.content?.description)}
+						{getHtmlRow("Description", value?.content?.description)}
 						{value?.content && getSubmitProposalContent(value?.content["@type"])}
-						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0])}
+						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0], true)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
