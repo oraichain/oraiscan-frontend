@@ -5,8 +5,10 @@ import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import {useDispatch} from "react-redux";
 import copy from "copy-to-clipboard";
+import * as bech32 from "bech32-buffer";
 import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
+import {logoBrand} from "src/constants/logoBrand";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -62,6 +64,20 @@ const Account = props => {
 		},
 	];
 
+	const decodedObj = bech32.decode(account);
+	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+
+	if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
+		addresses.push({
+			title: "Operator address",
+			icon: copyIcon,
+			value: operatorAddress,
+			onClick: function() {
+				handleCopy(this.value);
+			},
+		});
+	}
+
 	let titleSection;
 	let addressCard;
 	let coinsCard;
@@ -110,11 +126,11 @@ const Account = props => {
 		<Container fixed className={cx("account")}>
 			{titleSection}
 			<Grid container spacing={2} className={cx("card-list")}>
-				<Grid item lg={4} xs={12}>
+				<Grid item lg={5} xs={12}>
 					{addressCard}
 				</Grid>
 
-				<Grid item lg={8} xs={12}>
+				<Grid item lg={7} xs={12}>
 					{coinsCard}
 				</Grid>
 			</Grid>

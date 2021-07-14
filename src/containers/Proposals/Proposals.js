@@ -10,6 +10,7 @@ import {ErrorMessage} from "@hookform/error-message";
 import {Editor} from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
+import * as bech32 from "bech32-buffer";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -19,6 +20,7 @@ import {isNil} from "lodash-es";
 import {myKeystation} from "src/lib/Keystation";
 import {formatFloat} from "src/helpers/helper";
 import consts from "src/constants/consts";
+import {logoBrand} from "src/constants/logoBrand";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -61,7 +63,7 @@ export default function(props) {
 	const [fieldValue, setFieldValue] = useState("UNBONDING_TIME");
 
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const {account} = useSelector(state => state.wallet);
+	const {address, account} = useSelector(state => state.wallet);
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
 
@@ -137,7 +139,10 @@ export default function(props) {
 	let paginationTopSection;
 	let paginationSection;
 
-	if (type === "ParameterChangeProposal") {
+	const decodedObj = bech32.decode(address);
+	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+
+	if (logoBrand.find(item => item.operatorAddress === operatorAddress) && type === "ParameterChangeProposal") {
 		createButton = (
 			<div className={cx("create-button")} onClick={handleOpen}>
 				<span className={cx("create-button-text")}>Create Proposal</span>

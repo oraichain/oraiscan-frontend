@@ -18,10 +18,8 @@ const RequestCardList = memo(({data}) => {
 						<table>
 							<tbody>
 								<tr>
-									<td>
+									<td colSpan={2}>
 										<div className={cx("item-title")}>Requests</div>
-									</td>
-									<td>
 										{_.isNil(item?.request) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
@@ -55,10 +53,8 @@ const RequestCardList = memo(({data}) => {
 								</tr>
 
 								<tr>
-									<td>
+									<td colSpan={2}>
 										<div className={cx("item-title")}>Creator</div>
-									</td>
-									<td>
 										{_.isNil(item?.creator) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (

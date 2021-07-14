@@ -220,9 +220,9 @@ const TxMessage = ({msg, data}) => {
 			return storageData?.[address]?.name;
 		};
 
-		const getAddressRow = (label, address) => (
+		const getAddressRow = (label, address, isSmartContract = false) => (
 			<InfoRow label={label}>
-				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' />
+				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' isSmartContract={isSmartContract} />
 			</InfoRow>
 		);
 
@@ -668,7 +668,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
 					<>
-						{getInfoRow("Contract", value?.contract)}
+						{getAddressRow("Contract", value?.contract, true)}
 						{getAddressRow("Sender", value?.sender)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}

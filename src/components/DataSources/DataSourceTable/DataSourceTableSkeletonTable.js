@@ -15,10 +15,10 @@ export const getHeaderRow = () => {
 	const smartContractHeaderCell = <div className={cx("header-cell", "align-left")}>Smart Contract</div>;
 	const headerCells = [testCaseHeaderCell, descriptionHeaderCell, feeHeaderCell, requestsHeaderCell, ownerHeaderCell, smartContractHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "160px"}, // Data Source
+		{minWidth: "150px"}, // Data Source
 		{minWidth: "220px"}, // Description
 		{minWidth: "100px"}, // Fee
-		{minWidth: "60px"}, // Requests
+		{minWidth: "50px"}, // Requests
 		{minWidth: "160px"}, // Owner
 		{minWidth: "320px"}, // Smart Contract
 	];

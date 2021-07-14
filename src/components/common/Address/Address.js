@@ -13,7 +13,7 @@ import "./Address.css";
 
 const cx = cn.bind(styles);
 
-const Address = memo(({address, showCopyIcon = true, size = "lg", name}) => {
+const Address = memo(({address, showCopyIcon = true, size = "lg", name = null, isSmartContract = false}) => {
 	const dispatch = useDispatch();
 
 	const checkPrefix = address => {
@@ -34,10 +34,15 @@ const Address = memo(({address, showCopyIcon = true, size = "lg", name}) => {
 	}
 
 	let url = "/";
-	if (address.startsWith(consts.ADDRESS_PREFIX.ACCOUNT)) {
-		url = `${consts.PATH.ACCOUNT}/${address}`;
-	} else if (address.startsWith(consts.ADDRESS_PREFIX.VALIDATOR)) {
-		url = `${consts.PATH.VALIDATORS}/${address}`;
+
+	if (isSmartContract) {
+		url = `${consts.PATH.SMART_CONTRACT}/${address}`;
+	} else {
+		if (address.startsWith(consts.ADDRESS_PREFIX.ACCOUNT)) {
+			url = `${consts.PATH.ACCOUNT}/${address}`;
+		} else if (address.startsWith(consts.ADDRESS_PREFIX.VALIDATOR)) {
+			url = `${consts.PATH.VALIDATORS}/${address}`;
+		}
 	}
 
 	return (
