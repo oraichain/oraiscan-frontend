@@ -57,10 +57,6 @@ export default function(props) {
 			label: "Unbonding time",
 			value: "UNBONDING_TIME",
 		},
-		{
-			label: "Title",
-			value: "TITLE",
-		},
 	];
 	const [fieldValue, setFieldValue] = useState("UNBONDING_TIME");
 
