@@ -36,9 +36,11 @@ const Tabs = memo(() => {
 	const [openValidators, setOpenValidators] = React.useState(false);
 	const [openTransactions, setOpenTransactions] = React.useState(false);
 	const [openProposals, setOpenProposals] = React.useState(false);
+	const [openOthers, setOpenOthers] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
+	const othersAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
 		setOpenValidators(true);
@@ -62,6 +64,14 @@ const Tabs = memo(() => {
 
 	const handleCloseProposals = () => {
 		setOpenProposals(false);
+	};
+
+	const handleOpenOthers = () => {
+		setOpenOthers(true);
+	};
+
+	const handleCloseOthers = () => {
+		setOpenOthers(false);
 	};
 
 	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index}) => (
@@ -166,6 +176,18 @@ const Tabs = memo(() => {
 				activePath: "/proposals",
 			},
 		],
+		Others: [
+			{
+				pathName: "/price-feeds",
+				title: "Price Feeds",
+				activePath: "/price-feeds",
+			},
+			{
+				pathName: "/randomness",
+				title: "Randomness",
+				activePath: "/randomness",
+			},
+		],
 	};
 
 	const tabs = [
@@ -218,9 +240,10 @@ const Tabs = memo(() => {
 			route: "/ai_requests",
 		},
 		{
-			name: "Price Feeds",
-			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			name: "Others",
+			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
+			render: renderTabDropdownComponent,
 		},
 	];
 
@@ -264,6 +287,14 @@ const Tabs = memo(() => {
 								open = openProposals;
 								handleOpen = handleOpenProposals;
 								handleClose = handleCloseProposals;
+								break;
+							case "Others":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = othersAnchorRef;
+								open = openOthers;
+								handleOpen = handleOpenOthers;
+								handleClose = handleCloseOthers;
 								break;
 							default:
 								break;
