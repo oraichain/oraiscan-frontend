@@ -12,6 +12,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import * as bech32 from "bech32-buffer";
 import * as yup from "yup";
+import _ from "lodash";
 import {yupResolver} from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
@@ -138,11 +139,18 @@ export default function(props) {
 	let tableSection;
 	let paginationTopSection;
 	let paginationSection;
+	let isValidator = false;
 
-	const decodedObj = bech32.decode(address);
-	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+	if (!_.isNil(address) && address?.trim()?.length === 43) {
+		const decodedObj = bech32.decode(address);
+		const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
 
-	if (logoBrand.find(item => item.operatorAddress === operatorAddress) && type === "ParameterChangeProposal") {
+		if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
+			isValidator = true;
+		}
+	}
+
+	if (isValidator && type === "ParameterChangeProposal") {
 		createButton = (
 			<div className={cx("create-button")} onClick={handleOpen}>
 				<span className={cx("create-button-text")}>Create Proposal</span>
