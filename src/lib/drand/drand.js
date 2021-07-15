@@ -131,3 +131,5 @@ export const getChildKey = () => {
 		window.addEventListener("message", handler);
 	});
 };
+
+export default drand;

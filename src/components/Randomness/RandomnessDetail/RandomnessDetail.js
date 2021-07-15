@@ -64,7 +64,7 @@ const Randomness = ({}) => {
 	};
 
 	const handleGetRandomValue = async () => {
-		const latestData = await drand(parseInt(round), String(data?.currentFees), "0", "200000", false);
+		const latestData = await drand(parseInt(round), false);
 		setLoading(false);
 
 		if (!isNil(latestData) && randomValueRef.current) {
