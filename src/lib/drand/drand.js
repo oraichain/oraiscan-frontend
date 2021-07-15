@@ -11,7 +11,7 @@ const cosmos = new Cosmos(lcd, network);
 cosmos.setBech32MainPrefix("orai");
 const message = Cosmos.message;
 
-const getHandleMessage = (contract, msg, sender, amount) => {
+export const getHandleMessage = (contract, msg, sender, amount) => {
 	const sent_funds = amount ? [{denom: cosmos.bech32MainPrefix, amount}] : null;
 	const msgSend = new message.cosmwasm.wasm.v1beta1.MsgExecuteContract({
 		contract,
@@ -30,14 +30,27 @@ const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-const drand = async (round, amount, fees, gas, isNewRandom) => {
+export const getTxResponse = async (amount, fees, gas) => {
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
 		JSON.stringify({
 			invoke_add: {},
 		})
 	);
+	const {privateKey, chainCode, network} = await getChildKey();
+	const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
 
+	const sender = cosmos.getAddress(childKey);
+	const txBody = getHandleMessage(contract, input, sender, amount);
+	try {
+		const res = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
+		console.log(res, "===============================");
+	} catch (error) {
+		console.log("error: ", error);
+	}
+};
+
+export const drand = async (round, isNewRandom) => {
 	// query current fees required
 	const queryFeesInput = JSON.stringify({
 		get_fees: {},
@@ -53,27 +66,20 @@ const drand = async (round, amount, fees, gas, isNewRandom) => {
 	console.log("pubkey: ", pubkey);
 
 	if (isNewRandom) {
-		const {privateKey, chainCode, network} = await getChildKey();
-		const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
-
-		const sender = cosmos.getAddress(childKey);
-		const txBody = getHandleMessage(contract, input, sender, amount);
-		try {
-			const res = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
-			console.log(res, "===============================");
-		} catch (error) {
-			console.log("error: ", error);
-		}
-
-		const queryLatestInput = JSON.stringify({
-			latest: {},
+		const returnValue = await new Promise(async resolve => {
+			setTimeout(async () => {
+				const queryLatestInput = JSON.stringify({
+					latest: {},
+				});
+				const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+				const returnValue = {
+					latest: latest.data,
+					currentFees: currentFees.data,
+					pubkey: pubkey.data,
+				};
+				resolve(returnValue);
+			}, 16000);
 		});
-		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-		const returnValue = {
-			latest: latest.data,
-			currentFees: currentFees.data,
-			pubkey: pubkey.data,
-		};
 		return returnValue;
 	} else if (round && round !== "") {
 		// query a specific round information
@@ -102,7 +108,7 @@ const drand = async (round, amount, fees, gas, isNewRandom) => {
 	}
 };
 
-const getChildKey = () => {
+export const getChildKey = () => {
 	const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "__blank", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
 
 	return new Promise((resolve, reject) => {
@@ -125,5 +131,3 @@ const getChildKey = () => {
 		window.addEventListener("message", handler);
 	});
 };
-
-export default drand;

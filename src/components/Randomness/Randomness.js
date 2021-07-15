@@ -9,7 +9,7 @@ import {useGet} from "restful-react";
 import copy from "copy-to-clipboard";
 import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
-import drand from "src/lib/drand/drand";
+import {drand, getTxResponse} from "src/lib/drand/drand";
 import CopyIcon from "src/icons/CopyIcon";
 import SearchIcon from "src/icons/SearchIcon";
 import InfoRow from "src/components/common/InfoRow";
@@ -53,35 +53,33 @@ const Randomness = ({}) => {
 	};
 
 	const handleGetRandomValue = async isNewRandom => {
-		const latestData = await drand(parseInt(roundValue), String(data?.currentFees), "0", "200000", isNewRandom);
 		if (isNewRandom) {
-			setTimeout(() => {
-				window.location.reload();
-			}, 16000);
-		} else {
-			setLoading(false);
-			if (!isNil(latestData) && randomValueRef.current) {
-				setData(latestData);
+			const txResponse = await getTxResponse(String(data?.currentFees), "0", "200000");
+		}
+		const latestData = await drand(parseInt(roundValue), isNewRandom);
+		console.log(latestData, "LATEST in UI!!!!!!!!!!!!!!!");
 
-				let currentValue = Array.from(randomValueRef.current.innerHTML);
-				let timeOut = 0;
-				for (let i = 0; i < currentValue.length; i++) {
-					timeOut += 30;
-					let interval = setInterval(() => {
-						let newValue = generateRandomString(1);
-						currentValue[i] = newValue;
-						if (randomValueRef.current) {
-							randomValueRef.current.innerHTML = currentValue.join("");
-						}
-					}, 50);
-					setTimeout(() => {
-						currentValue[i] = Array.from(latestData?.latest?.randomness)?.[i];
-						if (randomValueRef.current) {
-							randomValueRef.current.innerHTML = currentValue.join("");
-						}
-						clearInterval(interval);
-					}, 500 + timeOut);
-				}
+		setLoading(false);
+		if (!isNil(latestData) && randomValueRef.current) {
+			setData(latestData);
+			let currentValue = Array.from(randomValueRef.current.innerHTML);
+			let timeOut = 0;
+			for (let i = 0; i < currentValue.length; i++) {
+				timeOut += 30;
+				let interval = setInterval(() => {
+					let newValue = generateRandomString(1);
+					currentValue[i] = newValue;
+					if (randomValueRef.current) {
+						randomValueRef.current.innerHTML = currentValue.join("");
+					}
+				}, 50);
+				setTimeout(() => {
+					currentValue[i] = Array.from(latestData?.latest?.randomness)?.[i];
+					if (randomValueRef.current) {
+						randomValueRef.current.innerHTML = currentValue.join("");
+					}
+					clearInterval(interval);
+				}, 500 + timeOut);
 			}
 		}
 	};
