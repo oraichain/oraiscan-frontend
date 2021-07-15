@@ -7,7 +7,7 @@ import styles from "./Randomness.module.scss";
 
 const cx = cn.bind(styles);
 
-const RandomnessSkeleton = ({txData}) => {
+const RandomnessSkeleton = ({isLargeScreen}) => {
 	return (
 		<div className={cx("card")}>
 			<h2 className={cx("card-header")}>Information</h2>
@@ -15,14 +15,14 @@ const RandomnessSkeleton = ({txData}) => {
 				<InfoRow label='Random Value'>
 					<div className={cx("address")}>
 						<span className={cx("address-value")}>
-							<Skeleton variant='text' width={400} height={24} />
+							<Skeleton variant='text' width={isLargeScreen ? 400 : 250} height={24} />
 						</span>
 					</div>
 				</InfoRow>
 				<InfoRow label='Signature'>
 					<div className={cx("status")}>
 						<span className={cx("status-text")}>
-							<Skeleton variant='text' width={500} height={24} />
+							<Skeleton variant='text' width={isLargeScreen ? 500 : 250} height={24} />
 						</span>
 					</div>
 				</InfoRow>
