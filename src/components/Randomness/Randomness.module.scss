@@ -157,10 +157,14 @@
 	line-height: 150%;
 }
 
+.random {
+	display: flex;
+	justify-content: center;
+	color: var(--common-textColor);
+}
+
 .button-random {
-	margin: 0 auto;
 	padding: 12px 11px 12px 11px;
-	width: fit-content;
 	border: 1px solid var(--common-borderColor);
 	border-radius: 8px;
 	background: var(--common-activeTabColor);
@@ -174,6 +178,13 @@
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.button-more {
+	margin-left: 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
 }
 
 .info-row {
@@ -217,7 +228,7 @@
 		}
 
 		.search {
-			padding: 5px;
+			padding: 8px;
 			flex-basis: initial;
 			margin-right: 16px;
 			color: var(--common-textColor);
@@ -328,4 +339,38 @@
 
 .pointer {
 	cursor: pointer;
+}
+
+.user-input {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 16px;
+	color: var(--common-textColor);
+	input {
+		padding: 8px;
+		flex-basis: initial;
+		margin-right: 16px;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+
+		@include media(">=large") {
+			flex-basis: 20%;
+		}
+		background: var(--common-blockItemBackgroundColor);
+		border: 1px solid var(--common-borderColor);
+		box-sizing: border-box;
+		border-radius: 8px;
+
+		&::placeholder {
+			color: var(--common-placeholderTextColor);
+		}
+
+		&:focus {
+			outline: none;
+		}
+	}
 }

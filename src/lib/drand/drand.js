@@ -32,11 +32,13 @@ export const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-export const getTxResponse = async (amount, fees, gas) => {
+export const getTxResponse = async (amount, fees, gas, user_input = "") => {
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
 		JSON.stringify({
-			invoke_add: {},
+			invoke_add: {
+				user_input,
+			},
 		})
 	);
 
