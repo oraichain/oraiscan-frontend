@@ -34,6 +34,7 @@ const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
 const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 const Randomness = lazy(() => import(`src/components/Randomness`));
+const RandomnessDetail = lazy(() => import(`src/components/Randomness/RandomnessDetail`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -64,6 +65,7 @@ export default function(props) {
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
+					<Route path='/randomness/:round' component={RandomnessDetail} />
 					<Route path='/randomness' component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
