@@ -114,6 +114,9 @@ const TogglePageBar = ({type}) => {
 			case "price_feeds": {
 				return <div className={cx("title")}> Price Feeds</div>;
 			}
+			case "randomness": {
+				return <div className={cx("title")}> Randomness</div>;
+			}
 
 			default:
 				return null;
