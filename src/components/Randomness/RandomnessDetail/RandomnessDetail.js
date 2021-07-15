@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import React, {useState, useRef, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 import {isNil} from "lodash";
@@ -18,15 +18,34 @@ import {_} from "src/lib/scripts";
 import drand from "src/lib/drand/drand";
 import CopyIcon from "src/icons/CopyIcon";
 import InfoRow from "src/components/common/InfoRow";
+import consts from "src/constants/consts";
 import RandomnessSkeleton from "./RandomnessDetailSkeleton";
 import styles from "./RandomnessDetail.module.scss";
+import config, { isTestnet } from "src/config";
+import axios from "axios";
 
 const cx = cn.bind(styles);
+
+const generateRandomString = length => {
+	let randomString = "";
+	let randomASCII;
+	let ascii_low = 65;
+	let ascii_high = 90;
+	for (let i = 0; i < length; i++) {
+		randomASCII = Math.floor(Math.random() * (ascii_high - ascii_low) + ascii_low);
+		randomString += String.fromCharCode(randomASCII);
+	}
+	return randomString;
+};
+
 
 const Randomness = ({}) => {
 	const {round} = useParams();
 	const theme = useTheme();
+	const history = useHistory();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const { randomnessContractAddress } = config;
+	const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27`;
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -45,23 +64,13 @@ const Randomness = ({}) => {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
+	const [txhash, setTxhash] = useState(null);
 	const randomValueRef = useRef(null);
 
 	useEffect(() => {
 		handleGetRandomValue();
+		handelGetTx();
 	}, []);
-
-	const generateRandomString = length => {
-		let randomString = "";
-		let randomASCII;
-		let ascii_low = 65;
-		let ascii_high = 90;
-		for (let i = 0; i < length; i++) {
-			randomASCII = Math.floor(Math.random() * (ascii_high - ascii_low) + ascii_low);
-			randomString += String.fromCharCode(randomASCII);
-		}
-		return randomString;
-	};
 
 	const handleGetRandomValue = async () => {
 		const latestData = await drand(parseInt(round), String(data?.currentFees), "0", "200000", false);
@@ -87,10 +96,19 @@ const Randomness = ({}) => {
 						randomValueRef.current.innerHTML = currentValue.join("");
 					}
 					clearInterval(interval);
-				}, 500 + timeOut);
+				}, 100 + timeOut);
 			}
 		}
 	};
+
+	const handelGetTx = async () => {
+		const tx = await axios.get(apiGetTx);
+		setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
+	}
+
+	const handleClickTx = () => {
+		history.push("/txs/" + txhash);
+	}
 
 	return (
 		<>
@@ -127,6 +145,11 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
+							<InfoRow label='Transaction Hash'>
+								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
+									<span className={cx("public-key")}>{txhash}</span>
+								</div>
+							</InfoRow>
 							<InfoRow label='Current Fees'>
 								{_.isNil(data?.currentFees) ? (
 									"-"

@@ -3,7 +3,8 @@ import {fromPrivateKey} from "bip32";
 import config, {isTestnet} from "src/config.js";
 
 const lcd = config.LCD_API;
-const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
+// const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
+const contract = config.randomnessContractAddress;
 
 // init cosmos version
 const network = localStorage.getItem("network") || "Oraichain";

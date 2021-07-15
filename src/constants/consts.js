@@ -112,6 +112,7 @@ export default Object.freeze({
 		CLAIM_REWARD: "/cosmos/distribution/v1beta1/delegators",
 		DELEGATION: "/cosmos/staking/v1beta1/delegations",
 		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
+		TXS: "/cosmos/tx/v1beta1/txs",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
