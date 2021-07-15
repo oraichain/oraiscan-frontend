@@ -31,6 +31,11 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 						<Skeleton variant='text' width={250} height={24} />
 					</div>
 				</InfoRow>
+				<InfoRow label='Transaction Hash'>
+					<div className={cx("current-fees")}>
+						<Skeleton variant='text' width={100} height={24} />
+					</div>
+				</InfoRow>
 				<InfoRow label='Current Fees'>
 					<div className={cx("current-fees")}>
 						<Skeleton variant='text' width={100} height={24} />

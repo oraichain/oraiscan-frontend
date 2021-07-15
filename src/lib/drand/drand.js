@@ -62,14 +62,12 @@ export const drand = async (round, isNewRandom) => {
 		get_fees: {},
 	});
 	const currentFees = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
-	console.log("current fees: ", currentFees);
 
 	// query pub key
 	const queryPubkeyInput = JSON.stringify({
 		pub_key: {},
 	});
 	const pubkey = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
-	console.log("pubkey: ", pubkey);
 
 	if (isNewRandom) {
 		const returnValue = await new Promise(async resolve => {
@@ -93,7 +91,6 @@ export const drand = async (round, isNewRandom) => {
 			get: {round},
 		});
 		const roundOutput = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
-		console.log(`round ${round} information: `, roundOutput);
 		return {
 			latest: roundOutput.data,
 			currentFees: currentFees.data,
@@ -104,8 +101,6 @@ export const drand = async (round, isNewRandom) => {
 			latest: {},
 		});
 		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-		console.log("latest round: ", latest);
-
 		return {
 			latest: latest.data,
 			currentFees: currentFees.data,
