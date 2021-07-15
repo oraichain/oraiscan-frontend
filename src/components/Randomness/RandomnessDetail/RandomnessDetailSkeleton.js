@@ -11,6 +11,11 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 		<div className={cx("card")}>
 			<h2 className={cx("card-header")}>Randomness Information</h2>
 			<div className={cx("card-body")}>
+				<InfoRow label='Random Seed (User Input)'>
+					<div className={cx("input-text")}>
+						<Skeleton variant='text' width={isLargeScreen ? 400 : 250} height={24} />
+					</div>
+				</InfoRow>
 				<InfoRow label='Random Value'>
 					<div className={cx("address")}>
 						<span className={cx("address-value")}>
@@ -26,11 +31,6 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 					</div>
 				</InfoRow>
 				<InfoRow label='Public Key'>
-					<div className={cx("public-key")}>
-						<Skeleton variant='text' width={250} height={24} />
-					</div>
-				</InfoRow>
-				<InfoRow label='User Input'>
 					<div className={cx("public-key")}>
 						<Skeleton variant='text' width={250} height={24} />
 					</div>

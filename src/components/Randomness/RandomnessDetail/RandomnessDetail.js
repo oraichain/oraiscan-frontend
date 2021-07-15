@@ -20,8 +20,8 @@ import drand from "src/lib/drand/drand";
 import CopyIcon from "src/icons/CopyIcon";
 import InfoRow from "src/components/common/InfoRow";
 import consts from "src/constants/consts";
-import config, { isTestnet } from "src/config";
-import { generateRandomString } from "src/helpers/helper";
+import config, {isTestnet} from "src/config";
+import {generateRandomString} from "src/helpers/helper";
 import RandomnessSkeleton from "./RandomnessDetailSkeleton";
 import styles from "./RandomnessDetail.module.scss";
 
@@ -33,7 +33,7 @@ const Randomness = ({}) => {
 	const history = useHistory();
 	const [txhash, setTxhash] = useState(null);
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const { randomnessContractAddress } = config;
+	const {randomnessContractAddress} = config;
 	const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27`;
 
 	let titleSection;
@@ -92,11 +92,11 @@ const Randomness = ({}) => {
 	const handelGetTx = async () => {
 		const tx = await axios.get(apiGetTx);
 		setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
-	}
+	};
 
 	const handleClickTx = () => {
 		history.push("/txs/" + txhash);
-	}
+	};
 
 	return (
 		<>
@@ -106,6 +106,9 @@ const Randomness = ({}) => {
 					<div className={cx("card")}>
 						<h2 className={cx("card-header")}>Randomness Information</h2>
 						<div className={cx("card-body")}>
+							<InfoRow label='Random Seed (User Input)'>
+								<div className={cx("input-text")}>{data?.latest?.user_input ? data.latest.user_input : "-"}</div>
+							</InfoRow>
 							<InfoRow label='Random Value'>
 								<div className={cx("address")}>
 									<span ref={randomValueRef} className={cx("address-value")}>
@@ -133,11 +136,6 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
-							<InfoRow label='User Input'>
-								<div className={cx("status")}>
-									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
-								</div>
-							</InfoRow>
 							<InfoRow label='Transaction Hash'>
 								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
 									<span className={cx("public-key")}>{txhash}</span>

@@ -166,9 +166,7 @@ const Randomness = ({}) => {
 						<h2 className={cx("card-header")}>Randomness Information</h2>
 						<div className={cx("card-body")}>
 							<InfoRow label='Random Seed (User Input)'>
-								<div className={cx("status")}>
-									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
-								</div>
+								<div className={cx("input-text")}>{data?.latest?.user_input ? data.latest.user_input : "-"}</div>
 							</InfoRow>
 							<InfoRow label='Random Value'>
 								<div className={cx("address")}>
