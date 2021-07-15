@@ -53,7 +53,7 @@ const Randomness = ({}) => {
 	};
 
 	const handleGetRandomValue = async isNewRandom => {
-		const latestData = await drand(parseInt(roundValue), "5", "0.000001", "200000", isNewRandom);
+		const latestData = await drand(parseInt(roundValue), String(data?.currentFees), "0", "200000", isNewRandom);
 		if (isNewRandom) {
 			setTimeout(() => {
 				window.location.reload();
