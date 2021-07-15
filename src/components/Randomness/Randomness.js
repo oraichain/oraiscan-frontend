@@ -25,6 +25,8 @@ import InfoRow from "src/components/common/InfoRow";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
 import config from "src/config";
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { generateRandomString } from "src/helpers/helper";
 import styles from "./Randomness.module.scss";
 
@@ -46,6 +48,8 @@ const Randomness = ({}) => {
 	const [showModal, setShowModal] = useState(false);
 	const [txResponse, setTxResponse] = useState({});
 	const [txhash, setTxhash] = useState(null);
+	const [showAdvance, setShowAdvance] = useState(false);
+	const [userInput, setUserInput] = useState("");
 
 	const address = wallet?.address;
 
@@ -83,12 +87,13 @@ const Randomness = ({}) => {
 	const handleGetRandomValue = async isNewRandom => {
 		if (isNewRandom) {
 			try {
-				const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000");
+				const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
 				setTxResponse({
 					contract: contract,
 					txHash: response.tx_response?.txhash,
 				});
 				setShowModal(true);
+				setUserInput("");
 			} catch (error) {
 				console.log(error);
 			}
@@ -128,6 +133,14 @@ const Randomness = ({}) => {
 
 	const handleClickTx = () => {
 		history.push("/txs/" + txhash);
+	}
+
+	const showInputAdvance = () => {
+		setShowAdvance(!showAdvance);
+	}
+
+	const handleUserInput = (e) => {
+		setUserInput(e.target.value);
 	}
 
 	let titleSection;
@@ -179,6 +192,11 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
+							<InfoRow label='User Input'>
+								<div className={cx("status")}>
+									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
+								</div>
+							</InfoRow>
 							<InfoRow label='Transaction Hash'>
 								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
 									<span className={cx("public-key")}>{txhash}</span>
@@ -224,9 +242,21 @@ const Randomness = ({}) => {
 							{requestRunning ? (
 								<div className={cx("running")}></div>
 							) : (
-								<div className={cx("button-random")} onClick={random}>
-									New Random
+								<>
+								<div className={cx("random")}>
+									<div className={cx("button-random")} onClick={random}>
+										New Random
+									</div>
+									<div className={cx("button-more")} onClick={showInputAdvance}> Advanced 
+										{showAdvance ? <ExpandLessIcon /> : <ExpandMoreIcon />} </div>
 								</div>
+								{showAdvance && 
+									<div className={cx("user-input")}>
+										User Input: <input type="text" value={userInput} onChange={handleUserInput} />
+									</div>
+								}
+								
+								</>
 							)}
 						</div>
 					</div>

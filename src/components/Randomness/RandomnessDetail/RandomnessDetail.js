@@ -133,6 +133,11 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
+							<InfoRow label='User Input'>
+								<div className={cx("status")}>
+									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
+								</div>
+							</InfoRow>
 							<InfoRow label='Transaction Hash'>
 								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
 									<span className={cx("public-key")}>{txhash}</span>
