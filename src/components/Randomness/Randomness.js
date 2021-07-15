@@ -25,9 +25,9 @@ import InfoRow from "src/components/common/InfoRow";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
 import config from "src/config";
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { generateRandomString } from "src/helpers/helper";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {generateRandomString} from "src/helpers/helper";
 import styles from "./Randomness.module.scss";
 
 const cx = cn.bind(styles);
@@ -64,16 +64,16 @@ const Randomness = ({}) => {
 	}, []);
 
 	useEffect(() => {
-		const { randomnessContractAddress } = config;
+		const {randomnessContractAddress} = config;
 		const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27`;
 		const handelGetTx = async () => {
 			const tx = await axios.get(apiGetTx);
 			setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
-		}
+		};
 		if (data?.latest?.round) {
 			handelGetTx();
 		}
-	}, [data?.latest?.round])
+	}, [data?.latest?.round]);
 
 	const random = () => {
 		if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
@@ -82,7 +82,7 @@ const Randomness = ({}) => {
 			setRequestRunning(true);
 			handleGetRandomValue(true);
 		}
-	};	
+	};
 
 	const handleGetRandomValue = async isNewRandom => {
 		if (isNewRandom) {
@@ -133,15 +133,15 @@ const Randomness = ({}) => {
 
 	const handleClickTx = () => {
 		history.push("/txs/" + txhash);
-	}
+	};
 
 	const showInputAdvance = () => {
 		setShowAdvance(!showAdvance);
-	}
+	};
 
-	const handleUserInput = (e) => {
+	const handleUserInput = e => {
 		setUserInput(e.target.value);
-	}
+	};
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -165,6 +165,11 @@ const Randomness = ({}) => {
 					<div className={cx("card")}>
 						<h2 className={cx("card-header")}>Randomness Information</h2>
 						<div className={cx("card-body")}>
+							<InfoRow label='Random Seed (User Input)'>
+								<div className={cx("status")}>
+									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
+								</div>
+							</InfoRow>
 							<InfoRow label='Random Value'>
 								<div className={cx("address")}>
 									<span ref={randomValueRef} className={cx("address-value")}>
@@ -192,11 +197,6 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
-							<InfoRow label='User Input'>
-								<div className={cx("status")}>
-									<span className={cx("status-text")}>{data?.latest?.user_input}</span>
-								</div>
-							</InfoRow>
 							<InfoRow label='Transaction Hash'>
 								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
 									<span className={cx("public-key")}>{txhash}</span>
@@ -215,9 +215,7 @@ const Randomness = ({}) => {
 									</>
 								)}
 							</InfoRow>
-							<InfoRow label='Current Round'>
-								{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}
-							</InfoRow>
+							<InfoRow label='Current Round'>{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}</InfoRow>
 							<ul className={cx("info-row")}>
 								<li className={cx("label-column")}>Search</li>
 								<li className={cx("value-column")}>
@@ -243,19 +241,21 @@ const Randomness = ({}) => {
 								<div className={cx("running")}></div>
 							) : (
 								<>
-								<div className={cx("random")}>
-									<div className={cx("button-random")} onClick={random}>
-										New Random
+									<div className={cx("random")}>
+										<div className={cx("button-random")} onClick={random}>
+											New Random
+										</div>
+										<div className={cx("button-more")} onClick={showInputAdvance}>
+											{" "}
+											Advanced
+											{showAdvance ? <ExpandLessIcon /> : <ExpandMoreIcon />}{" "}
+										</div>
 									</div>
-									<div className={cx("button-more")} onClick={showInputAdvance}> Advanced 
-										{showAdvance ? <ExpandLessIcon /> : <ExpandMoreIcon />} </div>
-								</div>
-								{showAdvance && 
-									<div className={cx("user-input")}>
-										User Input: <input type="text" value={userInput} onChange={handleUserInput} />
-									</div>
-								}
-								
+									{showAdvance && (
+										<div className={cx("user-input")}>
+											Random Seed (User Input): <input type='text' value={userInput} onChange={handleUserInput} />
+										</div>
+									)}
 								</>
 							)}
 						</div>
