@@ -1,5 +1,6 @@
 import Cosmos from "@oraichain/cosmosjs";
 import {fromPrivateKey} from "bip32";
+import {myKeystation} from "src/lib/Keystation";
 import config, {isTestnet} from "src/config.js";
 
 const lcd = config.LCD_API;
@@ -37,17 +38,21 @@ export const getTxResponse = async (amount, fees, gas) => {
 			invoke_add: {},
 		})
 	);
-	const {privateKey, chainCode, network} = await getChildKey();
-	const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
 
-	const sender = cosmos.getAddress(childKey);
-	const txBody = getHandleMessage(contract, input, sender, amount);
-	try {
-		const res = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
-		console.log(res, "===============================");
-	} catch (error) {
-		console.log("error: ", error);
-	}
+	return new Promise(async (resolve, reject) => {
+		try {
+			const {privateKey, chainCode, network} = await getChildKey();
+			const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
+
+			const sender = cosmos.getAddress(childKey);
+			const txBody = getHandleMessage(contract, input, sender, amount);
+
+			const response = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
+			resolve({response, contract});
+		} catch (error) {
+			reject(error);
+		}
+	});
 };
 
 export const drand = async (round, isNewRandom) => {
@@ -109,7 +114,8 @@ export const drand = async (round, isNewRandom) => {
 };
 
 export const getChildKey = () => {
-	const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "__blank", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
+	// const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
+	const popup = myKeystation.openWindow("auth", "");
 
 	return new Promise((resolve, reject) => {
 		const loop = setInterval(function() {
