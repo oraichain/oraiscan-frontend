@@ -21,22 +21,11 @@ import CopyIcon from "src/icons/CopyIcon";
 import InfoRow from "src/components/common/InfoRow";
 import consts from "src/constants/consts";
 import config, { isTestnet } from "src/config";
+import { generateRandomString } from "src/helpers/helper";
 import RandomnessSkeleton from "./RandomnessDetailSkeleton";
 import styles from "./RandomnessDetail.module.scss";
 
 const cx = cn.bind(styles);
-
-const generateRandomString = length => {
-	let randomString = "";
-	let randomASCII;
-	let ascii_low = 65;
-	let ascii_high = 90;
-	for (let i = 0; i < length; i++) {
-		randomASCII = Math.floor(Math.random() * (ascii_high - ascii_low) + ascii_low);
-		randomString += String.fromCharCode(randomASCII);
-	}
-	return randomString;
-};
 
 const Randomness = ({}) => {
 	const {round} = useParams();

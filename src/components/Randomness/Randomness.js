@@ -1,10 +1,11 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {isNil} from "lodash";
 import cn from "classnames/bind";
+import axios from "axios";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import {useTheme} from "@material-ui/core/styles";
@@ -23,6 +24,8 @@ import SearchIcon from "src/icons/SearchIcon";
 import InfoRow from "src/components/common/InfoRow";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
+import config from "src/config";
+import { generateRandomString } from "src/helpers/helper";
 import styles from "./Randomness.module.scss";
 
 const cx = cn.bind(styles);
@@ -32,6 +35,7 @@ const Randomness = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
@@ -41,6 +45,7 @@ const Randomness = ({}) => {
 	const [requestRunning, setRequestRunning] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [txResponse, setTxResponse] = useState({});
+	const [txhash, setTxhash] = useState(null);
 
 	const address = wallet?.address;
 
@@ -54,6 +59,18 @@ const Randomness = ({}) => {
 		handleGetRandomValue(false);
 	}, []);
 
+	useEffect(() => {
+		const { randomnessContractAddress } = config;
+		const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27`;
+		const handelGetTx = async () => {
+			const tx = await axios.get(apiGetTx);
+			setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
+		}
+		if (data?.latest?.round) {
+			handelGetTx();
+		}
+	}, [data?.latest?.round])
+
 	const random = () => {
 		if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
 			setErrorMessage(true);
@@ -61,19 +78,7 @@ const Randomness = ({}) => {
 			setRequestRunning(true);
 			handleGetRandomValue(true);
 		}
-	};
-
-	const generateRandomString = length => {
-		let randomString = "";
-		let randomASCII;
-		let ascii_low = 65;
-		let ascii_high = 90;
-		for (let i = 0; i < length; i++) {
-			randomASCII = Math.floor(Math.random() * (ascii_high - ascii_low) + ascii_low);
-			randomString += String.fromCharCode(randomASCII);
-		}
-		return randomString;
-	};
+	};	
 
 	const handleGetRandomValue = async isNewRandom => {
 		if (isNewRandom) {
@@ -120,6 +125,10 @@ const Randomness = ({}) => {
 	const handleCloseModal = () => {
 		setShowModal(false);
 	};
+
+	const handleClickTx = () => {
+		history.push("/txs/" + txhash);
+	}
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -170,6 +179,11 @@ const Randomness = ({}) => {
 								</div>
 							</InfoRow>
 							<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
+							<InfoRow label='Transaction Hash'>
+								<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
+									<span className={cx("public-key")}>{txhash}</span>
+								</div>
+							</InfoRow>
 							<InfoRow label='Current Fees'>
 								{_.isNil(data?.currentFees) ? (
 									"-"
@@ -183,7 +197,9 @@ const Randomness = ({}) => {
 									</>
 								)}
 							</InfoRow>
-							<InfoRow label='Current Round'>{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}</InfoRow>
+							<InfoRow label='Current Round'>
+								{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}
+							</InfoRow>
 							<ul className={cx("info-row")}>
 								<li className={cx("label-column")}>Search</li>
 								<li className={cx("value-column")}>

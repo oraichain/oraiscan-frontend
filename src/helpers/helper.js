@@ -176,3 +176,15 @@ export const decodeTx = encodedTx => {
 export const formatUSD = (value, orai2usd) => {
 	return new BigNumber(value).multipliedBy(orai2usd).toFormat(2);
 };
+
+export const generateRandomString = length => {
+	let randomString = "";
+	let randomASCII;
+	let ascii_low = 65;
+	let ascii_high = 90;
+	for (let i = 0; i < length; i++) {
+		randomASCII = Math.floor(Math.random() * (ascii_high - ascii_low) + ascii_low);
+		randomString += String.fromCharCode(randomASCII);
+	}
+	return randomString;
+};
