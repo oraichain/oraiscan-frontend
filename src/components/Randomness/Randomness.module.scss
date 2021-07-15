@@ -23,6 +23,16 @@
 	}
 }
 
+.input-text {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	word-break: break-all;
+}
+
 .address {
 	&-value {
 		display: inline-block;
