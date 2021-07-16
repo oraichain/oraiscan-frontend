@@ -36,10 +36,12 @@ const Tabs = memo(() => {
 	const [openValidators, setOpenValidators] = React.useState(false);
 	const [openTransactions, setOpenTransactions] = React.useState(false);
 	const [openProposals, setOpenProposals] = React.useState(false);
+	const [openOracleScripts, setOpenOracleScripts] = React.useState(false);
 	const [openOthers, setOpenOthers] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
+	const oracleScriptsAnchorRef = React.useRef(null);
 	const othersAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
@@ -66,6 +68,14 @@ const Tabs = memo(() => {
 		setOpenProposals(false);
 	};
 
+	const handleOpenOracleScripts = () => {
+		setOpenOracleScripts(true);
+	};
+
+	const handleCloseOracleScripts = () => {
+		setOpenOracleScripts(false);
+	};
+
 	const handleOpenOthers = () => {
 		setOpenOthers(true);
 	};
@@ -74,7 +84,7 @@ const Tabs = memo(() => {
 		setOpenOthers(false);
 	};
 
-	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index}) => (
+	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName}) => (
 		<button
 			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
 			ref={anchorRef}
@@ -103,7 +113,7 @@ const Tabs = memo(() => {
 				transition>
 				{({TransitionProps, placement}) => (
 					<Grow {...TransitionProps}>
-						<Paper>
+						<Paper className={cx(dropdownClassName)}>
 							<ClickAwayListener onClickAway={handleClose}>
 								<MenuList>
 									{childs?.map(item => (
@@ -141,11 +151,6 @@ const Tabs = memo(() => {
 				title: "Accounts",
 				activePath: "/accounts",
 			},
-			{
-				pathName: "/smart-contracts",
-				title: "Smart contracts",
-				activePath: "/smart-contracts",
-			},
 		],
 		Transactions: [
 			{
@@ -174,6 +179,18 @@ const Tabs = memo(() => {
 				pathName: "/proposals?type=TextProposal",
 				title: "Text proposal",
 				activePath: "/proposals",
+			},
+		],
+		"Oracle Scripts": [
+			{
+				pathName: "/oracle-scripts",
+				title: "Oracle Scripts",
+				activePath: "/oracle-scripts",
+			},
+			{
+				pathName: "/smart-contracts",
+				title: "Smart contracts",
+				activePath: "/smart-contracts",
 			},
 		],
 		Others: [
@@ -211,12 +228,14 @@ const Tabs = memo(() => {
 			name: "Transactions",
 			img: <TransactionsTabIcon className={cx("tab-icon")}></TransactionsTabIcon>,
 			route: "/txs",
+			dropdownClassName: "txs-dropdown",
 			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Proposals",
 			img: <ProposalsTabIcon className={cx("tab-icon")}></ProposalsTabIcon>,
 			route: "/proposals",
+			dropdownClassName: "proposals-dropdown",
 			render: renderTabDropdownComponent,
 		},
 		{
@@ -233,6 +252,8 @@ const Tabs = memo(() => {
 			name: "Oracle Scripts",
 			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
 			route: "/oracle-scripts",
+			dropdownClassName: "oracle-scripts-dropdown",
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Requests",
@@ -243,6 +264,7 @@ const Tabs = memo(() => {
 			name: "Others",
 			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
+			dropdownClassName: "others-dropdown",
 			render: renderTabDropdownComponent,
 		},
 	];
@@ -254,7 +276,7 @@ const Tabs = memo(() => {
 				<div className={cx("close")}>
 					<img src={backIcon} alt='' className={cx("close-icon")} onClick={() => dispatch(closePageBar())} />
 				</div>
-				{tabs.map(({name, img, route, render}, index) => {
+				{tabs.map(({name, img, route, render, dropdownClassName}, index) => {
 					let tab;
 					if (!isNil(render)) {
 						let classNameDropdown;
@@ -288,6 +310,14 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenProposals;
 								handleClose = handleCloseProposals;
 								break;
+							case "Oracle Scripts":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = oracleScriptsAnchorRef;
+								open = openOracleScripts;
+								handleOpen = handleOpenOracleScripts;
+								handleClose = handleCloseOracleScripts;
+								break;
 							case "Others":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
@@ -305,11 +335,12 @@ const Tabs = memo(() => {
 							anchorRef: anchorRef,
 							handleOpen: handleOpen,
 							handleClose: handleClose,
-							open: open,
-							name: name,
-							route: route,
-							img: img,
-							index: index,
+							open,
+							name,
+							route,
+							img,
+							index,
+							dropdownClassName,
 						});
 					} else
 						tab = (
