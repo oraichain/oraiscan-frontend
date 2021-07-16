@@ -75,7 +75,7 @@ const DetailsCard = memo(({data}) => {
 	);
 	const votingStartElement = (
 		<>
-			<div className={cx("item-text")}>{data?.voting_start ? formatDateTime(data.voting_start) : "-"}</div>
+			<div className={cx("item-text")}>{data?.voting_start && data?.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(data.voting_start) : "-"}</div>
 		</>
 	);
 	const submitTimeElement = (
@@ -85,7 +85,7 @@ const DetailsCard = memo(({data}) => {
 	);
 	const votingEndElement = (
 		<>
-			<div className={cx("item-text")}>{data?.voting_end ? formatDateTime(data.voting_end) : "-"}</div>
+			<div className={cx("item-text")}>{data?.voting_end && data?.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(data.voting_end) : "-"}</div>
 		</>
 	);
 	const depositEndTimeElement = (

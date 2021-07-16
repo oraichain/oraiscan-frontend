@@ -81,7 +81,9 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 													<div className={cx("item-title")}>Voting Start</div>
 												</td>
 												<td>
-													<div className={cx("item-text")}>{item?.voting_start_time ? formatDateTime(item.voting_start_time) : "-"}</div>
+													<div className={cx("item-text")}>
+														{item?.voting_start_time && item.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(item.voting_start_time) : "-"}
+													</div>
 												</td>
 											</tr>
 
@@ -90,7 +92,9 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 													<div className={cx("item-title")}>Voting End</div>
 												</td>
 												<td>
-													<div className={cx("item-text")}>{item?.voting_end_time ? formatDateTime(item.voting_end_time) : "-"}</div>
+													<div className={cx("item-text")}>
+														{item?.voting_end_time && item.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(item.voting_end_time) : "-"}
+													</div>
 												</td>
 											</tr>
 
