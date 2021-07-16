@@ -99,7 +99,7 @@ const Randomness = ({}) => {
 	const handleGenerateNewRandom = () => {
 		setLoading(true);
 		handleGetRandomValue(false);
-	}
+	};
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -135,9 +135,7 @@ const Randomness = ({}) => {
 										className={cx("search")}
 										value={roundValue}
 									/>
-									<button
-										onClick={handleGenerateNewRandom}
-										className={cx("search-button")}>
+									<button onClick={handleGenerateNewRandom} className={cx("search-button")}>
 										<SearchIcon className={cx("search-button-icon")} />
 									</button>
 								</li>

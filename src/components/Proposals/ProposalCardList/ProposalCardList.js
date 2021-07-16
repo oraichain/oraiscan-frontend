@@ -112,7 +112,7 @@ const ProposalCardList = memo(({data = [], type = ""}) => {
 										<div className={cx("item-title")}>Voting Start</div>
 									</td>
 									<td>
-										{_.isNil(item?.voting_start_time) ? (
+										{_.isNil(item?.voting_start_time) || item.status === "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("item-text")}>{item.voting_start_time}</div>

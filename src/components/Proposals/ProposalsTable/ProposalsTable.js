@@ -115,21 +115,22 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 				</div>
 			);
 
-			const votingStartDataCell = _.isNil(item?.voting_start_time) ? (
-				<div className={cx("align-right")}>-</div>
-			) : (
-				<div className={cx("voting-start-data-cell", "align-right")}>
-					{" "}
-					{setAgoTime(item.voting_start_time)} ({formatDateTime(item.voting_start_time)} )
-				</div>
-			);
+			const votingStartDataCell =
+				_.isNil(item?.voting_start_time) || item.status === "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? (
+					<div className={cx("align-right")}>-</div>
+				) : (
+					<div className={cx("voting-start-data-cell", "align-right")}>
+						{" "}
+						{setAgoTime(item.voting_start_time)} ({formatDateTime(item.voting_start_time)} )
+					</div>
+				);
 
 			const submitTimeDataCell = _.isNil(item?.submit_time) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("submit-time-data-cell", "align-right")}>
 					{" "}
-					{setAgoTime(item.voting_start_time)} ({formatDateTime(item.submit_time)})
+					{setAgoTime(item.submit_time)} ({formatDateTime(item.submit_time)})
 				</div>
 			);
 

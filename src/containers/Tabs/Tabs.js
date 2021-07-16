@@ -84,17 +84,7 @@ const Tabs = memo(() => {
 		setOpenOthers(false);
 	};
 
-	const renderTabDropdownComponent = ({classNameDropdown,
-				childs,
-				anchorRef,
-				handleOpen,
-				handleClose,
-				open,
-				name,
-				route,
-				img,
-				index,
-				dropdownClassName}) => (
+	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName}) => (
 		<button
 			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
 			ref={anchorRef}
