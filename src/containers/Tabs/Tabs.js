@@ -181,16 +181,16 @@ const Tabs = memo(() => {
 				activePath: "/proposals",
 			},
 		],
-		"Oracle Scripts": [
+		"Smart Contracts": [
+			{
+				pathName: "/smart-contracts",
+				title: "Smart Contracts",
+				activePath: "/smart-contracts",
+			},
 			{
 				pathName: "/oracle-scripts",
 				title: "Oracle Scripts",
 				activePath: "/oracle-scripts",
-			},
-			{
-				pathName: "/smart-contracts",
-				title: "Smart contracts",
-				activePath: "/smart-contracts",
 			},
 		],
 		Others: [
@@ -249,9 +249,9 @@ const Tabs = memo(() => {
 			route: "/test-cases",
 		},
 		{
-			name: "Oracle Scripts",
+			name: "Smart Contracts",
 			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
-			route: "/oracle-scripts",
+			route: "/smart-contracts",
 			dropdownClassName: "oracle-scripts-dropdown",
 			render: renderTabDropdownComponent,
 		},
@@ -310,7 +310,7 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenProposals;
 								handleClose = handleCloseProposals;
 								break;
-							case "Oracle Scripts":
+							case "Smart Contracts":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = oracleScriptsAnchorRef;
