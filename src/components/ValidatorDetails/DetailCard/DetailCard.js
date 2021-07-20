@@ -7,6 +7,7 @@ import styles from "./DetailCard.scss";
 import {formatInteger, formatPercentage} from "src/helpers/helper";
 import {NavLink} from "react-router-dom";
 import {Progress} from "antd";
+import RightArrowIcon from "src/icons/RightArrowIcon";
 
 const cx = classNames.bind(styles);
 
@@ -110,6 +111,10 @@ const DetailCard = memo(({data}) => {
 							strokeColor={formatPercentage(data.reporting_rate, 2) === 100 ? "#52c41a" : "#1890ff"}
 							trailColor='#bfbfbf'
 						/>
+						<button className={cx("more-button")}>
+							More information
+							<RightArrowIcon className={cx("more-button-icon")} />
+						</button>
 					</>
 				) : (
 					"-"

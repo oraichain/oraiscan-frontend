@@ -8,6 +8,8 @@ import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
+import queryString from "query-string";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
 import {formatInteger} from "src/helpers/helper";
@@ -24,12 +26,16 @@ import RequestGridViewSkeleton from "src/components/Requests/RequestGridView/Req
 import RequestListView from "src/components/Requests/RequestListView";
 import RequestListViewSkeleton from "src/components/Requests/RequestListView/RequestListViewSkeleton";
 import styles from "./Requests.module.scss";
+import {isNil} from "lodash";
 
 const cx = cn.bind(styles);
 
 const Requests = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	// const history = useHistory();
+	// const queryStringParse = queryString.parse(history.location.search) || {};
+	// const creator = queryStringParse?.creator ?? "";
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(1);
@@ -112,6 +118,12 @@ const Requests = () => {
 			totalPagesRef.current = null;
 			requestCard = <RequestsCard totalItems='-'>{isGridView ? <RequestGridView data={[]} /> : <RequestListView data={[]} />}</RequestsCard>;
 		} else {
+			// let filterData = null;
+			// if (!isNil(creator)) {
+			// 	filterData = data?.tx_responses?.filter(item => {
+			// 		return item?.tx?.body?.messages?.[0]?.creator === creator;
+			// 	});
+			// }
 			const calculateTotalPage = data?.pagination?.total / consts.REQUEST.LIMIT;
 			totalPagesRef.current = calculateTotalPage !== parseInt(calculateTotalPage) ? parseInt(calculateTotalPage) + 1 : calculateTotalPage;
 

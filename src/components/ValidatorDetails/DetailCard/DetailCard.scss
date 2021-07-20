@@ -59,3 +59,28 @@
 .skeleton {
 	display: inline-block;
 }
+
+.more-button {
+	margin-top: 15px;
+	padding: 8px;
+	background: var(--common-activeTabColor);
+	color: var(--common-activeTabTextColor);
+	border: 1px solid var(--common-borderColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+	cursor: pointer;
+
+	&-icon {
+		position: relative;
+		top: 2px;
+		display: inline-block;
+		margin-left: 8px;
+		width: auto;
+		height: 16px;
+	}
+}

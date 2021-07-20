@@ -48,18 +48,18 @@ const Footer = memo(() => {
 									<li className={cx("nav-item")}>
 										<span className={cx("nav-title")}>About</span>
 									</li>
-									<li className={cx("nav-item")}>
+									{/* <li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://orai.io/presentations/intro.pdf' target='_blank'>
 											Introduction
 										</a>
-									</li>
+									</li> */}
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://orai.io/presentations/Binance-talk-Oct28-EN.pdf' target='_blank'>
+										<a className={cx("nav-link")} href='https://orai.io/pdf/BinanceTalk.pdf' target='_blank'>
 											Binance Talk
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://gov.orai.io/c/knowledge-base/7' target='_blank'>
+										<a className={cx("nav-link")} href='https://gov.orai.io/' target='_blank'>
 											FAQ
 										</a>
 									</li>
