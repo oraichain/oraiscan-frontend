@@ -21,10 +21,12 @@ import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
 import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
 import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
 import backIcon from "src/assets/header/back_ic.svg";
+import config from "src/config.js";
 
 import "./Tabs.css";
 
 const cx = cn.bind(styles);
+const contract = config.randomnessContractAddress;
 
 const Tabs = memo(() => {
 	const {pathname} = useLocation();
@@ -200,9 +202,9 @@ const Tabs = memo(() => {
 				activePath: "/price-feeds",
 			},
 			{
-				pathName: "/randomness",
+				pathName: "/randomness/" + contract,
 				title: "Randomness",
-				activePath: "/randomness",
+				activePath: "/randomness/" + contract,
 			},
 		],
 	};
