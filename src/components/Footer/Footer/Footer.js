@@ -49,10 +49,10 @@ const Footer = memo(() => {
 										<span className={cx("nav-title")}>About</span>
 									</li>
 									{/* <li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://orai.io/presentations/intro.pdf' target='_blank'>
+										<a className={cx("nav-link")} href='https://docs.orai.io/docs/whitepaper/introduction/' target='_blank'>
 											Introduction
 										</a>
-									</li> */}
+									</li>  */}
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://orai.io/pdf/BinanceTalk.pdf' target='_blank'>
 											Binance Talk
@@ -74,16 +74,6 @@ const Footer = memo(() => {
 								<ul className={cx("nav")}>
 									<li className={cx("nav-item")}>
 										<span className={cx("nav-title")}>Product</span>
-									</li>
-									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://scan.orai.io/' target='_blank'>
-											LMP
-										</a>
-									</li>
-									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://liquidity.orai.io/' target='_blank'>
-											LME
-										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://yai.finance/' target='_blank'>
