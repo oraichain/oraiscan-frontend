@@ -5,8 +5,10 @@ import Loading from "src/components/common/Loading";
 import {usePreload} from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
 import styles from "./Router.scss";
+import config from "src/config.js";
 
 const cx = cn.bind(styles);
+const contract = config.randomnessContractAddress;
 
 const Dashboard = lazy(() => import(`src/containers/Dashboard`));
 // const Validator = lazy(() => import(`src/containers/Validator`));
@@ -65,8 +67,8 @@ export default function(props) {
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
-					<Route path='/randomness/:round' component={RandomnessDetail} />
-					<Route path='/randomness' component={Randomness} />
+					<Route path={`/randomness/${contract}/:round`} component={RandomnessDetail} />
+					<Route path={`/randomness/${contract}`} component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
 					<Route render={() => <NotFound />} />

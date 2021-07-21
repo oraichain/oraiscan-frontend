@@ -21,10 +21,12 @@ import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
 import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
 import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
 import backIcon from "src/assets/header/back_ic.svg";
+import config from "src/config.js";
 
 import "./Tabs.css";
 
 const cx = cn.bind(styles);
+const contract = config.randomnessContractAddress;
 
 const Tabs = memo(() => {
 	const {pathname} = useLocation();
@@ -181,16 +183,16 @@ const Tabs = memo(() => {
 				activePath: "/proposals",
 			},
 		],
-		"Oracle Scripts": [
+		"Smart Contracts": [
+			{
+				pathName: "/smart-contracts",
+				title: "Smart Contracts",
+				activePath: "/smart-contracts",
+			},
 			{
 				pathName: "/oracle-scripts",
 				title: "Oracle Scripts",
 				activePath: "/oracle-scripts",
-			},
-			{
-				pathName: "/smart-contracts",
-				title: "Smart contracts",
-				activePath: "/smart-contracts",
 			},
 		],
 		Others: [
@@ -200,9 +202,9 @@ const Tabs = memo(() => {
 				activePath: "/price-feeds",
 			},
 			{
-				pathName: "/randomness",
+				pathName: "/randomness/" + contract,
 				title: "Randomness",
-				activePath: "/randomness",
+				activePath: "/randomness/" + contract,
 			},
 		],
 	};
@@ -249,9 +251,9 @@ const Tabs = memo(() => {
 			route: "/test-cases",
 		},
 		{
-			name: "Oracle Scripts",
+			name: "Smart Contracts",
 			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
-			route: "/oracle-scripts",
+			route: "/smart-contracts",
 			dropdownClassName: "oracle-scripts-dropdown",
 			render: renderTabDropdownComponent,
 		},
@@ -310,7 +312,7 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenProposals;
 								handleClose = handleCloseProposals;
 								break;
-							case "Oracle Scripts":
+							case "Smart Contracts":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = oracleScriptsAnchorRef;

@@ -71,7 +71,7 @@ const Result = ({data, loading, error, id, activeTab, setActiveTab}) => {
 				<div className={cx("total-item")}>
 					<span className={cx("total-item-title")}>Result </span>
 					<span className={cx("total-item-value")}>({totalItems}) -</span>
-					{!isNil(data?.status) && data?.status === "pending" ? (
+					{(!isNil(data?.status) && data?.status === "pending") || data?.status === "" || data?.results?.length === "0" ? (
 						<span className={cx("total-item-status-pending")}>Pending</span>
 					) : (
 						<span className={cx("total-item-status-finished")}>Finished</span>
