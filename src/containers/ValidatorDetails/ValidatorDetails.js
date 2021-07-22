@@ -74,7 +74,14 @@ const ValidatorDetails = ({match}) => {
 			addressCard = <AddressCard moniker='-' operatorAddress='-' address='-' />;
 			detailCard = <DetailCard data={{}} />;
 		} else {
-			addressCard = <AddressCard moniker={data?.moniker ?? "-"} operatorAddress={data?.operator_address ?? "-"} address={data?.account_address ?? "-"} />;
+			addressCard = (
+				<AddressCard
+					moniker={data?.moniker ?? "-"}
+					operatorAddress={data?.operator_address ?? "-"}
+					address={data?.account_address ?? "-"}
+					isInactive={data?.jailed}
+				/>
+			);
 			detailCard = <DetailCard data={data} />;
 		}
 	}

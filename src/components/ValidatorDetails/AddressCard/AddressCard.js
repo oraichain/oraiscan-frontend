@@ -6,13 +6,35 @@ import styles from "./AddressCard.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import checkIcon from "src/assets/validatorDetails/check.svg";
 import CheckIcon from "src/icons/Validators/CheckIcon";
+import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 
 const cx = classNames.bind(styles);
 
-const AddressCard = memo(({moniker, operatorAddress, address}) => {
+const AddressCard = memo(({moniker, operatorAddress, address, isInactive}) => {
 	const logoItem = logoBrand.find(it => operatorAddress === it.operatorAddress) || {};
 	const logoURL = logoItem.customLogo ? false : logoItem.logo;
 	const logoName = moniker || "";
+
+	const renderValidatorStatus = () => {
+		if (isInactive === true) {
+			return (
+				<>
+					<div className={cx("validator-status-inactive")}>
+						<RejectedIcon className={cx("validator-status-inactive-icon")}></RejectedIcon>
+						<span className={cx("validator-status-inactive-text")}>Inactive</span>
+					</div>
+				</>
+			);
+		} else
+			return (
+				<>
+					<div className={cx("validator-status-active")}>
+						<CheckIcon className={cx("validator-status-active-icon")}></CheckIcon>
+						<span className={cx("validator-status-active-text")}>Active</span>
+					</div>
+				</>
+			);
+	};
 
 	return (
 		<div className={cx("address-card")}>
@@ -22,10 +44,7 @@ const AddressCard = memo(({moniker, operatorAddress, address}) => {
 					{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
 					<span className={cx("validator-account-name")}>{moniker?.length > 22 ? moniker?.substring(0, 18) + "..." : moniker}</span>
 				</div>
-				<div className={cx("validator-status")}>
-					<CheckIcon className={cx("validator-status-icon")}></CheckIcon>
-					<span className={cx("validator-status-text")}>Active</span>
-				</div>
+				{renderValidatorStatus()}
 			</div>
 			<div className={cx("address-card-body")}>
 				<div className={cx("address")}>

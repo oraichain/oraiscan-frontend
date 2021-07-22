@@ -38,13 +38,40 @@
 				}
 			}
 
-			&-status {
+			&-status-active {
 				display: flex;
 				flex-direction: row;
 				justify-content: flex-start;
 				align-items: center;
 				padding: 6px;
 				background: var(--validators-validatorDetails-binanceStacking-activeLabelColor);
+				border-radius: 4px;
+
+				&-icon {
+					display: inline-block;
+					width: auto;
+					height: 16px;
+					margin-right: 4;
+					color: var(--validators-validatorDetails-binanceStacking-activeLabelTextColor);
+				}
+
+				&-active-text {
+					color: var(--validators-validatorDetails-binanceStacking-activeLabelTextColor);
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 12px;
+					line-height: 150%;
+				}
+			}
+
+			&-status-inactive {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				padding: 6px;
+				background: var(--validators-validatorDetails-missedBlocksTable-failedColor);
 				border-radius: 4px;
 
 				&-icon {
