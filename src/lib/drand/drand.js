@@ -2,6 +2,7 @@ import Cosmos from "@oraichain/cosmosjs";
 import {fromPrivateKey} from "bip32";
 import {myKeystation} from "src/lib/Keystation";
 import config, {isTestnet} from "src/config.js";
+import consts from "src/constants/consts";
 
 const lcd = config.LCD_API;
 // const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
@@ -63,13 +64,13 @@ export const drand = async (round, isNewRandom) => {
 	const queryFeesInput = JSON.stringify({
 		get_fees: {},
 	});
-	const currentFees = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
+	const currentFees = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
 
 	// query pub key
 	const queryPubkeyInput = JSON.stringify({
 		pub_key: {},
 	});
-	const pubkey = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
+	const pubkey = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
 
 	if (isNewRandom) {
 		const returnValue = await new Promise(async resolve => {
@@ -77,7 +78,7 @@ export const drand = async (round, isNewRandom) => {
 				const queryLatestInput = JSON.stringify({
 					latest: {},
 				});
-				const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+				const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
 				const returnValue = {
 					latest: latest.data,
 					currentFees: currentFees.data,
@@ -92,7 +93,7 @@ export const drand = async (round, isNewRandom) => {
 		const queryRoundInput = JSON.stringify({
 			get: {round},
 		});
-		const roundOutput = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+		const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
 		return {
 			latest: roundOutput.data,
 			currentFees: currentFees.data,
@@ -102,7 +103,7 @@ export const drand = async (round, isNewRandom) => {
 		const queryLatestInput = JSON.stringify({
 			latest: {},
 		});
-		const latest = await cosmos.get(`/wasm/v1beta1/contract/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+		const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
 		return {
 			latest: latest.data,
 			currentFees: currentFees.data,

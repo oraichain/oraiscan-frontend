@@ -14,10 +14,11 @@ import {pricePair} from "src/constants/priceFeed";
 import {priceFeedNetworks} from "src/constants/priceFeed";
 import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
+import {isNil} from "lodash";
 
 const cx = cn.bind(styles);
 
-const PriceFeedsGridView = ({data, lastUpdate, keyword, reports, network}) => {
+const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, network}) => {
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
@@ -25,19 +26,21 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports, network}) => {
 	const polygonRef = useRef();
 
 	useEffect(() => {
-		let newData = pricePair;
-		if (keyword) {
-			newData = pricePair.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
-		}
-		newData = newData.map(value => {
-			const findedPair = data.find(v => v.name === value.name);
-			if (findedPair) {
-				value = {...value, ...findedPair, status: "Active"};
+		if (!isNil(priceData)) {
+			let newData = pricePair;
+			if (keyword) {
+				newData = pricePair.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
 			}
-			return value;
-		});
-		setShowData(newData);
-	}, [data, keyword]);
+			newData = newData.map(value => {
+				const findedPair = priceData.find(v => v.name === value.name);
+				if (findedPair) {
+					value = {...value, ...findedPair, status: "Active"};
+				}
+				return value;
+			});
+			setShowData(newData);
+		}
+	}, [priceData, keyword]);
 
 	const handleCloseModal = () => {
 		setShowModal(false);
@@ -130,7 +133,7 @@ const PriceFeedsGridView = ({data, lastUpdate, keyword, reports, network}) => {
 				</Grid>
 			</div>
 
-			<TransactionModal open={showModal} closeDialog={handleCloseModal} reports={reports} />
+			<TransactionModal open={showModal} closeDialog={handleCloseModal} requestData={requestData} />
 		</div>
 	);
 };

@@ -4,6 +4,7 @@ import kadiaChain from "src/assets/validators/kardia.png";
 import vaiot from "src/assets/validators/vaiot.png";
 import titan from "src/assets/validators/titan.jpeg";
 import stakementLogo from "src/assets/validators/stakement.png";
+import antOraiLogo from "src/assets/validators/antOraiLogo.png";
 
 export const logoBrand = [
 	{
@@ -34,7 +35,7 @@ export const logoBrand = [
 	{
 		name: "Antorai",
 		operatorAddress: "oraivaloper13ckyvg0ah9vuujtd49yner2ky92lej6nwjvrjv",
-		logo: "https://yai.finance/static/5.fc8e5744.jpg",
+		logo: antOraiLogo,
 	},
 	{
 		name: "Stakement",
