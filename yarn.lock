@@ -2207,10 +2207,10 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-0.18.2.tgz#a0f15d2ef752567713c1f59f69c6742edb03030c"
   integrity sha512-+0P+PrP9qSFVaayNdek4P1OAGE+PEl2SsufuHDRmUpOY25Wzjo7Atyar56Trjc32jkNy4lID6ZFT6BahsR9P9A==
 
-"@oraichain/cosmosjs@^0.0.67":
-  version "0.0.67"
-  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.0.67.tgz#e1f4be18cb4421f565207d43c532750986fec8a3"
-  integrity sha512-fw5v7bkDKxw0Xs1dPWBR800cjZXIl4z8TNW43VQVxnm1jhCiV/W+UEunJTLVkI5aro1jQYPeHTcU/viLlWU//g==
+"@oraichain/cosmosjs@^0.0.70":
+  version "0.0.70"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.0.70.tgz#5af9fc8834ad9bbf2a944dbcc68fa05d09aa4b48"
+  integrity sha512-E2GgIWYW0a8h2lOyUHS9CgKZmQpA9PoxmMOBvJwjYdEE8hczd2QLYQfzdj6vEIRCc5Hrz4JMaQ29FAhEKdEotg==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^2.0.5"

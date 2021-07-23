@@ -13,7 +13,7 @@ import styles from "./TransactionModal.scss";
 
 const cx = cn.bind(styles);
 
-const TransactionModal = ({open, closeDialog, reports}) => {
+const TransactionModal = ({open, closeDialog, requestData}) => {
 	const [txTableData, setTxTableData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -22,24 +22,25 @@ const TransactionModal = ({open, closeDialog, reports}) => {
 			setLoading(true);
 			const results = [];
 			const blockHeights = [];
-			if (!reports) {
+			if (!requestData) {
 				setLoading(false);
 				return;
 			}
-			for (let i = 0; i < reports.length; i++) {
-				const {blockHeight} = reports[i];
-				if (blockHeights.includes(blockHeight)) {
-					continue;
-				} else {
-					blockHeights.push(blockHeight);
-				}
-				const {data: blockHeightInfo} = await axios.get(
-					`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=message.action%3D%27create_report%27&order_by=2&events=tx.height%3D${blockHeight}`
+			for (let i = 0; i < requestData.reports.length; i++) {
+				// const blockHeight = reports[i].block_height;
+				// if (blockHeights.includes(blockHeight)) {
+				// 	continue;
+				// } else {
+				// 	blockHeights.push(blockHeight);
+				// }
+				const {data: transactionInfor} = await axios.get(
+					`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=wasm.contract_address%3D%27${process.env.REACT_APP_CONTRACT_PRICE_FEED}%27&events=wasm.request_id%3D%27${requestData.request_id}%27&events=wasm.function_type%3D%27aggregate_and_report%27&order_by=2`
 				);
-				if (blockHeightInfo && blockHeightInfo.tx_responses && blockHeightInfo.tx_responses.length) {
-					blockHeightInfo.tx_responses.forEach(tx => {
+
+				if (transactionInfor && transactionInfor.tx_responses && transactionInfor.tx_responses.length) {
+					transactionInfor.tx_responses.forEach(tx => {
 						results.push({
-							requestID: reports[i].requestID,
+							requestID: requestData.request_id,
 							blockHeight: tx.height,
 							txhash: tx.txhash,
 						});
@@ -54,7 +55,7 @@ const TransactionModal = ({open, closeDialog, reports}) => {
 		if (open) {
 			getTxTableData();
 		}
-	}, [reports, open]);
+	}, [requestData, open]);
 
 	if (loading) {
 		return <LoadingOverlay />;

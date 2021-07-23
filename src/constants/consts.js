@@ -113,6 +113,7 @@ export default Object.freeze({
 		DELEGATION: "/cosmos/staking/v1beta1/delegations",
 		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
 		TXS: "/cosmos/tx/v1beta1/txs",
+		WASM: "/wasm/v1beta1/contract",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

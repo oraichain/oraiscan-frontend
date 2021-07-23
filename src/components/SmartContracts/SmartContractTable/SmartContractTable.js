@@ -59,7 +59,7 @@ const SmartContractTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.creator}`}>
-					{item.address}
+					{item.creator}
 				</NavLink>
 			);
 

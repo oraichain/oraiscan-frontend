@@ -32,6 +32,7 @@ const PriceFeeds = ({}) => {
 	const [data, setData] = useState({
 		data: [],
 	});
+	console.log(data, "THIS DATA");
 	const [renewPriceFeed, setRenewPriceFeed] = useState(0);
 
 	let titleSection;
@@ -73,6 +74,7 @@ const PriceFeeds = ({}) => {
 			try {
 				setIsLoading(true);
 				const data = await getPriceBSCTestnet(pricePair);
+				console.log(data, "sadsadasdas");
 				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(data);
 				setIsLoading(false);
 			} catch (e) {
