@@ -5,6 +5,9 @@ import vaiot from "src/assets/validators/vaiot.png";
 import titan from "src/assets/validators/titan.jpeg";
 import stakementLogo from "src/assets/validators/stakement.png";
 import antOraiLogo from "src/assets/validators/antOraiLogo.png";
+import serenityLogo from "src/assets/validators/serenityLogo.png";
+import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
+import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
 
 export const logoBrand = [
 	{
@@ -45,7 +48,7 @@ export const logoBrand = [
 	{
 		name: "StakeWithOraiKing",
 		operatorAddress: "oraivaloper1h89umsrsstyeuet8kllwvf2tp630n77aymck78",
-		logo: "https://yai.finance/static/8.01cee929.jpg",
+		logo: stakeWithOraiKingLogo,
 	},
 	{
 		name: "The_firm_samorai_D",
@@ -65,7 +68,7 @@ export const logoBrand = [
 	{
 		name: "SerenityT",
 		operatorAddress: "oraivaloper1r5mmcqyspyj3sm9997gpv8kv6j6809m2pj39s6",
-		logo: "https://yai.finance/static/3.3b569465.png",
+		logo: serenityLogo,
 	},
 	{
 		name: "titan_moniker",
@@ -113,5 +116,10 @@ export const logoBrand = [
 		name: "Binnostake",
 		operatorAddress: "oraivaloper18ky5clarney7345wssqcnncjnqkaa58z3veqde",
 		logo: "https://i.imgur.com/s6KMIbC.png",
+	},
+	{
+		name: "Oraibots Validator",
+		operatorAddress: "oraivaloper1yc9nysml8dxy447hp3aytr0nssr9pd9a47l7gx",
+		logo: oraiBotValidatorLogo,
 	},
 ];

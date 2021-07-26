@@ -48,7 +48,9 @@ const DataSourceTable = memo(({data}) => {
 			const contractDataCell = _.isNil(item?.contract) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("contract-data-cell", "align-left")}>{item?.contract}</div>
+				<NavLink className={cx("contract-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
+					{item?.contract}
+				</NavLink>
 			);
 
 			const ownerDataCell = _.isNil(item?.owner) ? (
