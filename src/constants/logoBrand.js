@@ -7,6 +7,7 @@ import stakementLogo from "src/assets/validators/stakement.png";
 import antOraiLogo from "src/assets/validators/antOraiLogo.png";
 import serenityLogo from "src/assets/validators/serenityLogo.png";
 import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
+import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
 
 export const logoBrand = [
 	{
@@ -115,5 +116,10 @@ export const logoBrand = [
 		name: "Binnostake",
 		operatorAddress: "oraivaloper18ky5clarney7345wssqcnncjnqkaa58z3veqde",
 		logo: "https://i.imgur.com/s6KMIbC.png",
+	},
+	{
+		name: "Oraibots Validator",
+		operatorAddress: "oraivaloper1yc9nysml8dxy447hp3aytr0nssr9pd9a47l7gx",
+		logo: oraiBotValidatorLogo,
 	},
 ];
