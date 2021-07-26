@@ -20,9 +20,17 @@
 	line-height: 150%;
 }
 
-.name-data-cell,
-.contract-data-cell {
+.name-data-cell {
 	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.contract-data-cell {
+	color: var(--common-linkColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;

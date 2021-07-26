@@ -19,7 +19,9 @@ const DetailCard = memo(({data}) => {
 	const websiteElement = (
 		<div className={cx("info")}>
 			<div className={cx("info-title")}>Website</div>
-			<div className={cx("info-link")}>{websiteInfo}</div>
+			<a target='_blank' href={websiteInfo} className={cx("info-link")}>
+				{websiteInfo}
+			</a>
 		</div>
 	);
 
@@ -111,10 +113,10 @@ const DetailCard = memo(({data}) => {
 							strokeColor={formatPercentage(data.reporting_rate, 2) === 100 ? "#52c41a" : "#1890ff"}
 							trailColor='#bfbfbf'
 						/>
-						<button className={cx("more-button")}>
+						{/* <button className={cx("more-button")}>
 							More information
 							<RightArrowIcon className={cx("more-button-icon")} />
-						</button>
+						</button> */}
 					</>
 				) : (
 					"-"
