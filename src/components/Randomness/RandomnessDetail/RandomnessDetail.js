@@ -11,10 +11,10 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import drand from "src/lib/drand/drand";
 import RandomnessSkeleton from "./RandomnessDetailSkeleton";
 import RandomnessView from "../RandomnessView";
 import styles from "./RandomnessDetail.module.scss";
+import {getRound} from "src/lib/drand/drand";
 
 const cx = cn.bind(styles);
 
@@ -45,7 +45,7 @@ const Randomness = () => {
 	}, []);
 
 	const handleGetRandomValue = async () => {
-		const latestData = await drand(parseInt(round), false);
+		const latestData = await getRound(round, false);
 		setLoading(false);
 
 		if (!isNil(latestData)) {

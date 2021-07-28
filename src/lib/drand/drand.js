@@ -61,59 +61,44 @@ export const getTxResponse = async (amount, fees, gas, userInput = btoa("")) => 
 	});
 };
 
-export const drand = async (round, isNewRandom) => {
+export const getLatestRound = async () => {
+	const currentFees = await getCurrentFees();
+	const queryLatestInput = JSON.stringify({
+		latest_round: {},
+	});
+	const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+	return {
+		latest: latest.data,
+		currentFees: currentFees,
+		// pubkey: pubkey.data,
+	};
+};
+
+export const getRound = async round => {
+	const currentFees = await getCurrentFees();
+	// query a specific round information
+	const queryRoundInput = JSON.stringify({
+		get_round: {round: parseInt(round)},
+	});
+	const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+	return {
+		latest: roundOutput.data,
+		currentFees: currentFees,
+		// pubkey: pubkey.data,
+	};
+};
+
+const getCurrentFees = async () => {
 	// query current fees required
 	const queryFeesInput = JSON.stringify({
 		contract_info: {},
 	});
 	const contractInfo = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
 	const currentFees = contractInfo.data.fee ? contractInfo.data.fee.amount : 0;
-
-	// query pub key
-	// const queryPubkeyInput = JSON.stringify({
-	// 	pub_key: {},
-	// });
-	// const pubkey = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
-
-	if (isNewRandom) {
-		const returnValue = await new Promise(async resolve => {
-			setTimeout(async () => {
-				const queryLatestInput = JSON.stringify({
-					latest_round: {},
-				});
-				const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-				const returnValue = {
-					latest: latest.data,
-					currentFees: currentFees,
-					// pubkey: "",
-				};
-				resolve(returnValue);
-			}, 8000);
-		});
-		return returnValue;
-	} else if (round && round !== "") {
-		// query a specific round information
-		const queryRoundInput = JSON.stringify({
-			get_round: {round},
-		});
-		const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
-		return {
-			latest: roundOutput.data,
-			currentFees: currentFees,
-			// pubkey: pubkey.data,
-		};
-	} else {
-		const queryLatestInput = JSON.stringify({
-			latest_round: {},
-		});
-		const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-		return {
-			latest: latest.data,
-			currentFees: currentFees,
-			// pubkey: pubkey.data,
-		};
-	}
+	return currentFees;
 };
+
+export const requestNewRound = async () => {};
 
 export const getChildKey = () => {
 	// const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
@@ -139,5 +124,3 @@ export const getChildKey = () => {
 		window.addEventListener("message", handler);
 	});
 };
-
-export default drand;
