@@ -11,8 +11,9 @@ const config = Object.freeze({
 		? process.env.REACT_APP_WALLET_API_TESTNET || "https://testnet-wallet.web.app"
 		: process.env.REACT_APP_WALLET_API || "https://api.wallet.orai.io",
 	hasTestnetNetwork: process.env.REACT_APP_API_TESTNET && process.env.REACT_APP_WALLET_API_TESTNET,
-	randomnessContractAddress: isTestnet ? (process.env.REACT_APP_CONTRACT_RANDOMNESS_TESTNET || 'orai13c48uxk48467sqd7tanejh3ukmzhrzhg8475ek')
-		: (process.env.REACT_APP_CONTRACT_RANDOMNESS ||  'orai1ydf66dllp5dgwvqad09pl2rdmu7665avkdtkrc'),
+	randomnessContractAddress: isTestnet
+		? process.env.REACT_APP_CONTRACT_RANDOMNESS_TESTNET || "orai13c48uxk48467sqd7tanejh3ukmzhrzhg8475ek"
+		: process.env.REACT_APP_CONTRACT_RANDOMNESS || "orai1ydf66dllp5dgwvqad09pl2rdmu7665avkdtkrc",
 });
 
 export default config;

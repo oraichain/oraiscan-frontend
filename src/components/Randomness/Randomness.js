@@ -64,6 +64,7 @@ const Randomness = ({}) => {
 		if (isNewRandom) {
 			try {
 				const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
+				console.log("response: ", response);
 				setTxResponse({
 					contract: contract,
 					txHash: response.tx_response?.txhash,
@@ -75,7 +76,11 @@ const Randomness = ({}) => {
 			}
 			setRequestRunning(false);
 		}
-		const latestData = await drand(parseInt(roundValue), isNewRandom);
+		let latestData = await drand(parseInt(roundValue), isNewRandom);
+		console.log("latest data: ", latestData);
+		while (!latestData || !latestData.latest || latestData.latest.aggregate_sig.sender === "") {
+			latestData = await drand(parseInt(roundValue), isNewRandom);
+		}
 
 		setShowModal(false);
 		setLoading(false);

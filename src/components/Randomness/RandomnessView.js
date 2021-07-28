@@ -28,7 +28,7 @@ const RandomnessView = ({data, errorMessage}) => {
 
 	const handelGetTx = async () => {
 		const {randomnessContractAddress} = config;
-		const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27`;
+		const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27&events=wasm.function_type%3D%27aggregate_sig%27`;
 		const tx = await axios.get(apiGetTx);
 		setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
 	};
@@ -55,7 +55,7 @@ const RandomnessView = ({data, errorMessage}) => {
 					}
 				}, 50);
 				setTimeout(() => {
-					currentValue[i] = Array.from(data?.latest?.randomness)?.[i];
+					currentValue[i] = Array.from(data?.latest?.aggregate_sig?.randomness)?.[i];
 					if (randomValueRef.current) {
 						randomValueRef.current.innerHTML = currentValue.join("");
 					}
@@ -66,22 +66,22 @@ const RandomnessView = ({data, errorMessage}) => {
 		if (randomValueRef.current && randomValueRef.current.innerHTML) {
 			rotateWordAnimation();
 		}
-	}, [data?.latest?.randomness]);
+	}, [data?.latest?.aggregate_sig?.randomness]);
 
 	return (
 		<>
 			<InfoRow label='Random Seed (User Input)'>
-				<div className={cx("input-text")}>{data?.latest?.user_input ? data.latest.user_input : "-"}</div>
+				<div className={cx("input-text")}>{data?.latest?.input ? atob(data.latest.input) : "-"}</div>
 			</InfoRow>
 			<InfoRow label='Random Value'>
 				<div className={cx("address")}>
 					<span ref={randomValueRef} className={cx("address-value")}>
-						{data?.latest?.randomness}
+						{data?.latest?.aggregate_sig?.randomness}
 					</span>
 					<span
 						className={cx("address-copy")}
 						onClick={() => {
-							copy(data?.latest?.randomness);
+							copy(data?.latest?.aggregate_sig?.randomness);
 							dispatch(
 								showAlert({
 									show: true,
@@ -96,13 +96,28 @@ const RandomnessView = ({data, errorMessage}) => {
 			</InfoRow>
 			<InfoRow label='Signature'>
 				<div className={cx("status")}>
-					<span className={cx("status-text")}>{data?.latest?.signature}</span>
+					<span className={cx("status-text")}>{data?.latest?.aggregate_sig?.sig}</span>
 				</div>
 			</InfoRow>
-			<InfoRow label='Public Key'>{_.isNil(data?.pubkey) ? "-" : <div className={cx("public-key")}>{data?.pubkey}</div>}</InfoRow>
 			<InfoRow label='Transaction Hash'>
-				<div className={cx("public-key", "pointer")} onClick={handleClickTx}>
-					<span className={cx("public-key")}>{txhash}</span>
+				<div className={cx("public-key", "pointer")}>
+					<NavLink className={cx("txhash-link")} to={`${consts.PATH.TXLIST}/${txhash}`}>
+						{txhash}
+					</NavLink>
+					<div
+						className={cx("address-copy")}
+						onClick={() => {
+							copy(txhash);
+							dispatch(
+								showAlert({
+									show: true,
+									message: "Copied",
+									autoHideDuration: 1500,
+								})
+							);
+						}}>
+						<CopyIcon />
+					</div>
 				</div>
 			</InfoRow>
 			<InfoRow label='Current Fees'>
