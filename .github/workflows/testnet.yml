@@ -15,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    runs-on: orai-self-hosted #ubuntu-20.04
+    runs-on: [orai-self-hosted, runner-aws2, runner-do2, ubuntu-20.04]
     strategy:
       matrix:
         node-version: [14.16.0]
