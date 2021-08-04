@@ -14,14 +14,18 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import RandomnessSkeleton from "./RandomnessDetailSkeleton";
 import RandomnessView from "../RandomnessView";
 import styles from "./RandomnessDetail.module.scss";
-import {getRound} from "src/lib/drand/drand";
+import {getRound, getRoundOld} from "src/lib/drand/drand";
+import RandomnessViewOld from "../RandomnessViewOld";
+import RandomnessSkeletonOld from "../RandomnessSkeletonOld";
+import config from "src/config";
 
 const cx = cn.bind(styles);
 
 const Randomness = () => {
-	const {round} = useParams();
+	const {round, contract} = useParams();
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const {oldRandomnessContractAddress} = config;
 
 	let titleSection;
 	if (isLargeScreen) {
@@ -40,12 +44,21 @@ const Randomness = () => {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 
+	const DisplayRandomness = () => {
+		return contract === oldRandomnessContractAddress ? <RandomnessViewOld data={data} /> : <RandomnessView data={data} />;
+	};
+	const DisplayRandomnessSkeleton = () => {
+		return contract === oldRandomnessContractAddress ? <RandomnessSkeletonOld isLargeScreen={isLargeScreen} /> : <RandomnessSkeleton data={data} />;
+	};
+
 	useEffect(() => {
 		handleGetRandomValue();
 	}, []);
 
 	const handleGetRandomValue = async () => {
-		const latestData = await getRound(round, false);
+		let latestData = {};
+		if (contract === "orai15vwlf8y9sygv72ju8qszs8n9gnuvwa7fu77tka") latestData = await getRoundOld(round, contract);
+		else latestData = await getRound(round, contract);
 		setLoading(false);
 
 		if (!isNil(latestData)) {
@@ -61,11 +74,11 @@ const Randomness = () => {
 					<div className={cx("card")}>
 						<h2 className={cx("card-header")}>Randomness Information</h2>
 						<div className={cx("card-body")}>
-							<RandomnessView data={data} />
+							<DisplayRandomness />
 						</div>
 					</div>
 				) : (
-					<RandomnessSkeleton isLargeScreen={isLargeScreen} />
+					<DisplayRandomnessSkeleton />
 				)}
 			</Container>
 		</>

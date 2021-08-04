@@ -61,8 +61,8 @@ export const getTxResponse = async (amount, fees, gas, userInput = btoa("")) => 
 	});
 };
 
-export const getLatestRound = async () => {
-	const currentFees = await getCurrentFees();
+export const getLatestRound = async (contract = config.randomnessContractAddress) => {
+	const currentFees = await getCurrentFees(contract);
 	const queryLatestInput = JSON.stringify({
 		latest_round: {},
 	});
@@ -74,8 +74,8 @@ export const getLatestRound = async () => {
 	};
 };
 
-export const getRound = async round => {
-	const currentFees = await getCurrentFees();
+export const getRound = async (round, contract = config.randomnessContractAddress) => {
+	const currentFees = await getCurrentFees(contract);
 	// query a specific round information
 	const queryRoundInput = JSON.stringify({
 		get_round: {round: parseInt(round)},
@@ -88,7 +88,7 @@ export const getRound = async round => {
 	};
 };
 
-const getCurrentFees = async () => {
+const getCurrentFees = async contract => {
 	// query current fees required
 	const queryFeesInput = JSON.stringify({
 		contract_info: {},
@@ -99,7 +99,29 @@ const getCurrentFees = async () => {
 	return currentFees;
 };
 
-export const requestNewRound = async () => {};
+export const getRoundOld = async (round, contract) => {
+	// query current fees required
+	const queryFeesInput = JSON.stringify({
+		get_fees: {},
+	});
+	const currentFees = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
+
+	// query pub key
+	const queryPubkeyInput = JSON.stringify({
+		pub_key: {},
+	});
+	const pubkey = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
+
+	const queryRoundInput = JSON.stringify({
+		get: {round: parseInt(round)},
+	});
+	const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+	return {
+		latest: roundOutput.data,
+		currentFees: currentFees.data,
+		pubkey: pubkey.data,
+	};
+};
 
 export const getChildKey = () => {
 	// const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");

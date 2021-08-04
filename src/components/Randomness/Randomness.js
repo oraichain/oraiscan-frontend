@@ -1,6 +1,7 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 import PropTypes from "prop-types";
 import {isNil, reject} from "lodash";
 import cn from "classnames/bind";
@@ -28,7 +29,7 @@ const Randomness = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-
+	const {contract} = useParams();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -73,7 +74,7 @@ const Randomness = ({}) => {
 			return;
 		}
 		// if failed to retrieve latest data => we retry it
-		setTimeout(handleGetLatestRound, 5000);
+		setTimeout(handleGetLatestRound, 10000);
 	};
 
 	useEffect(() => {
