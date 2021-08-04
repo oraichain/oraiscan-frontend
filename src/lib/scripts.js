@@ -137,3 +137,19 @@ export const recursiveExpand = (x, result) => {
 		);
 	else return `${refined(result)}${x}`;
 };
+
+export const tryParseMessage = obj => {
+	try {
+		if (!obj) return;
+		for (let key in obj) {
+			if (obj[key].msg && typeof obj[key].msg === "string") {
+				try {
+					obj[key].msg = JSON.parse(atob(obj[key].msg));
+				} catch {}
+			}
+		}
+		return obj;
+	} catch (e) {
+		return {data: obj};
+	}
+};

@@ -25,7 +25,7 @@ import useGithubSource from "src/hooks/useGithubSource";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
-import {_} from "src/lib/scripts";
+import {_, tryParseMessage} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -34,22 +34,6 @@ import styles from "./TxMessage.module.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
-
-const tryParseMessage = obj => {
-	try {
-		if (!obj) return;
-		for (let key in obj) {
-			if (obj[key].msg && typeof obj[key].msg === "string") {
-				try {
-					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch {}
-			}
-		}
-		return obj;
-	} catch (e) {
-		return {data: obj};
-	}
-};
 
 const tryParseMessageBinary = data => {
 	try {

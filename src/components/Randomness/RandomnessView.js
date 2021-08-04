@@ -16,12 +16,16 @@ import consts from "src/constants/consts";
 import config from "src/config";
 import {generateRandomString} from "src/helpers/helper";
 import styles from "./Randomness.module.scss";
+import ReactJson from "react-json-view";
+import {themeIds} from "src/constants/themes";
+import {tryParseMessage} from "src/lib/scripts";
 
 const cx = cn.bind(styles);
 
 const RandomnessView = ({data, errorMessage}) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const activeThemeId = useSelector(state => state.activeThemeId);
 
 	const randomValueRef = useRef(null);
 	const [txhash, setTxhash] = useState(null);
@@ -55,7 +59,7 @@ const RandomnessView = ({data, errorMessage}) => {
 					}
 				}, 50);
 				setTimeout(() => {
-					currentValue[i] = Array.from(data?.latest?.aggregate_sig?.randomness)?.[i];
+					currentValue[i] = Array.from(data.latest.aggregate_sig.randomness)?.[i];
 					if (randomValueRef.current) {
 						randomValueRef.current.innerHTML = currentValue.join("");
 					}
@@ -93,6 +97,17 @@ const RandomnessView = ({data, errorMessage}) => {
 						<CopyIcon />
 					</span>
 				</div>
+			</InfoRow>
+			<InfoRow label='Signature shares'>
+				<ReactJson
+					style={{backgroundColor: "transparent", wordBreak: "break-all"}}
+					name={false}
+					theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+					displayObjectSize={true}
+					displayDataTypes={false}
+					collapsed={true}
+					src={tryParseMessage(data?.latest?.sigs)}
+				/>
 			</InfoRow>
 			<InfoRow label='Signature'>
 				<div className={cx("status")}>

@@ -94,6 +94,7 @@ const getCurrentFees = async () => {
 		contract_info: {},
 	});
 	const contractInfo = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
+	console.log("contract info: ", contractInfo);
 	const currentFees = contractInfo.data.fee ? contractInfo.data.fee.amount : 0;
 	return currentFees;
 };
