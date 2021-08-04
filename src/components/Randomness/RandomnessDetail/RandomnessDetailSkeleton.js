@@ -23,13 +23,6 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 						</span>
 					</div>
 				</InfoRow>
-				<InfoRow label='Signature shares'>
-					<div className={cx("status")}>
-						<span className={cx("status-text")}>
-							<Skeleton variant='text' width={isLargeScreen ? 500 : 250} height={24} />
-						</span>
-					</div>
-				</InfoRow>
 				<InfoRow label='Signature'>
 					<div className={cx("status")}>
 						<span className={cx("status-text")}>

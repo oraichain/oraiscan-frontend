@@ -67,7 +67,7 @@ export default function(props) {
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
-					<Route path={`/randomness/:contract/:round`} component={RandomnessDetail} />
+					<Route path={`/randomness/${contract}/:round`} component={RandomnessDetail} />
 					<Route path={`/randomness/${contract}`} component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />

@@ -1,9 +1,8 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router";
 import PropTypes from "prop-types";
-import {isNil, reject} from "lodash";
+import {isNil} from "lodash";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
 import {useTheme} from "@material-ui/core/styles";
@@ -13,7 +12,7 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import {useGet} from "restful-react";
-import {getLatestRound, getRound, getTxResponse} from "src/lib/drand/drand";
+import {drand, getTxResponse} from "src/lib/drand/drand";
 import SearchIcon from "src/icons/SearchIcon";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
@@ -29,7 +28,7 @@ const Randomness = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-	const {contract} = useParams();
+
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -48,37 +47,8 @@ const Randomness = ({}) => {
 
 	const balance = amountData?.balances?.[0]?.amount / 10 ** 6;
 
-	const loadData = data => {
-		setData(data);
-		setShowModal(false);
-		setLoading(false);
-	};
-
-	const handleGetLatestRound = async () => {
-		const latestData = await getLatestRound();
-		console.log("latest data: ", latestData);
-		if (latestData && latestData.latest) {
-			if (latestData.latest.aggregate_sig.sender === "") {
-				let round = latestData.latest.round - 1;
-				let roundResult = {};
-				do {
-					roundResult = await getRound(round);
-					console.log("round result: ", roundResult);
-					round = round - 1;
-				} while (!roundResult || !roundResult.latest || roundResult.latest.aggregate_sig.sender === "");
-				loadData(roundResult);
-				return;
-			}
-			// if data is valid and has enough info => set it
-			loadData(latestData);
-			return;
-		}
-		// if failed to retrieve latest data => we retry it
-		setTimeout(handleGetLatestRound, 10000);
-	};
-
 	useEffect(() => {
-		handleGetLatestRound();
+		handleGetRandomValue(false);
 	}, []);
 
 	const random = () => {
@@ -86,68 +56,32 @@ const Randomness = ({}) => {
 			setErrorMessage(true);
 		} else {
 			setRequestRunning(true);
-			handleGetRandomValue();
+			handleGetRandomValue(true);
 		}
 	};
 
-	const handleSearch = async () => {
-		setLoading(true);
-		console.log("round value: ", roundValue);
-		const searchResult = await getRound(roundValue);
-		// if the round value is valid, we stop searching
-		console.log("search result: ", searchResult);
-		if (searchResult && searchResult.latest && searchResult.latest.aggregate_sig.sender !== "") {
-			loadData(searchResult);
-			return;
-		}
-		// else, we by default get the latest valid round
-		await handleGetLatestRound();
-	};
-
-	const handleGetRound = async round => {
-		const returnValue = await new Promise(async (resolve, reject) => {
-			setTimeout(async () => {
-				try {
-					const returnValue = await getRound(round);
-					resolve(returnValue);
-				} catch (error) {
-					reject(error);
-				}
-			}, 8000);
-		});
-		return returnValue;
-	};
-
-	const handleGetRandomValue = async () => {
-		try {
-			const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
-			console.log("response: ", response);
-			// if the transaction passes => we collect the round that the user requests
-			if (response.tx_response && response.tx_response.code === 0) {
-				// fixed position for collecting round from a transaction result
-				const round = response.tx_response.logs[0].events[1].attributes[3].value;
-				console.log("round: ", round);
+	const handleGetRandomValue = async isNewRandom => {
+		if (isNewRandom) {
+			try {
+				const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
 				setTxResponse({
 					contract: contract,
 					txHash: response.tx_response?.txhash,
 				});
 				setShowModal(true);
 				setUserInput("");
-				let wantedRound = {};
-
-				do {
-					wantedRound = await handleGetRound(round);
-					console.log("wanted round: ", wantedRound);
-				} while (!wantedRound || !wantedRound.latest || wantedRound.latest.aggregate_sig.sender === "");
-
-				setShowModal(false);
-				setLoading(false);
-				setData(wantedRound);
+			} catch (error) {
+				console.log(error);
 			}
-		} catch (error) {
-			console.log(error);
+			setRequestRunning(false);
 		}
-		setRequestRunning(false);
+		const latestData = await drand(parseInt(roundValue), isNewRandom);
+
+		setShowModal(false);
+		setLoading(false);
+		if (!isNil(latestData)) {
+			setData(latestData);
+		}
 	};
 
 	const handleCloseModal = () => {
@@ -201,7 +135,7 @@ const Randomness = ({}) => {
 										className={cx("search")}
 										value={roundValue}
 									/>
-									<button onClick={handleSearch} className={cx("search-button")}>
+									<button onClick={handleGenerateNewRandom} className={cx("search-button")}>
 										<SearchIcon className={cx("search-button-icon")} />
 									</button>
 								</li>
