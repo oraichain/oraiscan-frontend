@@ -3,19 +3,20 @@ import {fromPrivateKey} from "bip32";
 import {myKeystation} from "src/lib/Keystation";
 import config, {isTestnet} from "src/config.js";
 import consts from "src/constants/consts";
+import {networks} from "../../constants/networks";
 
 const lcd = config.LCD_API;
 // const contract = isTestnet ? "orai15tyssrtmk4dwmadf9gr5ee4xjgtmgq9qu584h6" : "orai1e5rcy5azgah7rllnd7qvzz66mrsq6ehxma6g4m";
 const contract = config.randomnessContractAddress;
 
 // init cosmos version
-const network = localStorage.getItem("network") || "Oraichain";
+const network = isTestnet ? networks.TESTNET : networks.MAINNET;
 const cosmos = new Cosmos(lcd, network);
 cosmos.setBech32MainPrefix("orai");
 const message = Cosmos.message;
 
 export const getHandleMessage = (contract, msg, sender, amount) => {
-	const sent_funds = amount ? [{denom: cosmos.bech32MainPrefix, amount}] : null;
+	const sent_funds = amount && amount !== "0" ? [{denom: cosmos.bech32MainPrefix, amount}] : null;
 	const msgSend = new message.cosmwasm.wasm.v1beta1.MsgExecuteContract({
 		contract,
 		msg,
@@ -33,15 +34,16 @@ export const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-export const getTxResponse = async (amount, fees, gas, user_input = "") => {
+export const getTxResponse = async (amount, fees, gas, userInput = btoa("")) => {
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
 	const input = Buffer.from(
 		JSON.stringify({
-			invoke_add: {
-				user_input,
+			request_random: {
+				input: btoa(userInput),
 			},
 		})
 	);
+	console.log("network: ", network);
 
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -59,7 +61,45 @@ export const getTxResponse = async (amount, fees, gas, user_input = "") => {
 	});
 };
 
-export const drand = async (round, isNewRandom) => {
+export const getLatestRound = async (contract = config.randomnessContractAddress) => {
+	const currentFees = await getCurrentFees(contract);
+	const queryLatestInput = JSON.stringify({
+		latest_round: {},
+	});
+	const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
+	return {
+		latest: latest.data,
+		currentFees: currentFees,
+		// pubkey: pubkey.data,
+	};
+};
+
+export const getRound = async (round, contract = config.randomnessContractAddress) => {
+	const currentFees = await getCurrentFees(contract);
+	// query a specific round information
+	const queryRoundInput = JSON.stringify({
+		get_round: {round: parseInt(round)},
+	});
+	const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+	return {
+		latest: roundOutput.data,
+		currentFees: currentFees,
+		// pubkey: pubkey.data,
+	};
+};
+
+const getCurrentFees = async contract => {
+	// query current fees required
+	const queryFeesInput = JSON.stringify({
+		contract_info: {},
+	});
+	const contractInfo = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryFeesInput).toString("base64")}`);
+	console.log("contract info: ", contractInfo);
+	const currentFees = contractInfo.data.fee ? contractInfo.data.fee.amount : 0;
+	return currentFees;
+};
+
+export const getRoundOld = async (round, contract) => {
 	// query current fees required
 	const queryFeesInput = JSON.stringify({
 		get_fees: {},
@@ -72,44 +112,15 @@ export const drand = async (round, isNewRandom) => {
 	});
 	const pubkey = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryPubkeyInput).toString("base64")}`);
 
-	if (isNewRandom) {
-		const returnValue = await new Promise(async resolve => {
-			setTimeout(async () => {
-				const queryLatestInput = JSON.stringify({
-					latest: {},
-				});
-				const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-				const returnValue = {
-					latest: latest.data,
-					currentFees: currentFees.data,
-					pubkey: pubkey.data,
-				};
-				resolve(returnValue);
-			}, 16000);
-		});
-		return returnValue;
-	} else if (round && round !== "") {
-		// query a specific round information
-		const queryRoundInput = JSON.stringify({
-			get: {round},
-		});
-		const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
-		return {
-			latest: roundOutput.data,
-			currentFees: currentFees.data,
-			pubkey: pubkey.data,
-		};
-	} else {
-		const queryLatestInput = JSON.stringify({
-			latest: {},
-		});
-		const latest = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryLatestInput).toString("base64")}`);
-		return {
-			latest: latest.data,
-			currentFees: currentFees.data,
-			pubkey: pubkey.data,
-		};
-	}
+	const queryRoundInput = JSON.stringify({
+		get: {round: parseInt(round)},
+	});
+	const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
+	return {
+		latest: roundOutput.data,
+		currentFees: currentFees.data,
+		pubkey: pubkey.data,
+	};
 };
 
 export const getChildKey = () => {
@@ -136,5 +147,3 @@ export const getChildKey = () => {
 		window.addEventListener("message", handler);
 	});
 };
-
-export default drand;

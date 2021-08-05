@@ -1,15 +1,16 @@
 import * as React from "react";
+import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
 import InfoRow from "src/components/common/InfoRow";
-import styles from "./RandomnessDetail.module.scss";
+import styles from "./Randomness.module.scss";
 
 const cx = cn.bind(styles);
 
-const RandomnessSkeleton = ({isLargeScreen}) => {
+const RandomnessSkeletonOld = ({isLargeScreen}) => {
 	return (
 		<div className={cx("card")}>
-			<h2 className={cx("card-header")}>Randomness Information</h2>
+			<h2 className={cx("card-header")}>Information</h2>
 			<div className={cx("card-body")}>
 				<InfoRow label='Random Seed (User Input)'>
 					<div className={cx("input-text")}>
@@ -20,13 +21,6 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 					<div className={cx("address")}>
 						<span className={cx("address-value")}>
 							<Skeleton variant='text' width={isLargeScreen ? 400 : 250} height={24} />
-						</span>
-					</div>
-				</InfoRow>
-				<InfoRow label='Signature shares'>
-					<div className={cx("status")}>
-						<span className={cx("status-text")}>
-							<Skeleton variant='text' width={isLargeScreen ? 500 : 250} height={24} />
 						</span>
 					</div>
 				</InfoRow>
@@ -62,8 +56,10 @@ const RandomnessSkeleton = ({isLargeScreen}) => {
 	);
 };
 
-RandomnessSkeleton.propTypes = {};
+RandomnessSkeletonOld.propTypes = {
+	txData: PropTypes.any,
+};
 
-RandomnessSkeleton.defaultProps = {};
+RandomnessSkeletonOld.defaultProps = {};
 
-export default RandomnessSkeleton;
+export default RandomnessSkeletonOld;
