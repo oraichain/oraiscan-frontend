@@ -687,7 +687,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Title", value?.content?.title)}
 						{getHtmlRow("Description", value?.content?.description)}
 						{value?.content && getSubmitProposalContent(value?.content["@type"])}
-						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0], true)}
+						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0])}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
