@@ -197,14 +197,14 @@ const Tabs = memo(() => {
 		],
 		Others: [
 			{
-				pathName: "/price-feeds",
-				title: "Price Feeds",
-				activePath: "/price-feeds",
+				pathName: "/data-sources",
+				title: "Data Sources (Legacy)",
+				activePath: "/data-soruces",
 			},
 			{
-				pathName: "/randomness/" + contract,
-				title: "Randomness",
-				activePath: "/randomness/" + contract,
+				pathName: "/test-cases",
+				title: "Test Cases (Legacy)",
+				activePath: "/test-cases",
 			},
 		],
 	};
@@ -241,14 +241,14 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
-			name: "Data Sources",
-			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
-			route: "/data-sources",
+			name: "Price Feeds",
+			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			route: "/price-feeds",
 		},
 		{
-			name: "Test Cases",
-			img: <TestCaseTabIcon className={cx("tab-icon")}></TestCaseTabIcon>,
-			route: "/test-cases",
+			name: "Randomness",
+			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
+			route: "/randomness/" + contract,
 		},
 		{
 			name: "Smart Contracts",
@@ -265,7 +265,7 @@ const Tabs = memo(() => {
 		{
 			name: "Others",
 			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/price-feeds",
+			route: "/data-sources",
 			dropdownClassName: "others-dropdown",
 			render: renderTabDropdownComponent,
 		},

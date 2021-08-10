@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 import {useGet} from "restful-react";
 import {useHistory} from "react-router-dom";
 import queryString from "query-string";
@@ -19,6 +20,9 @@ import ChartCardSkeleton from "src/components/ProposalDetails/ChartCard/ChartCar
 import TransactionsCard from "src/components/ProposalDetails/TransactionsCard";
 import styles from "./ProposalsDetail.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
+import Long from "long";
+import BigNumber from "bignumber.js";
+import {myKeystation} from "src/lib/Keystation";
 
 const cx = cn.bind(styles);
 
@@ -28,18 +32,66 @@ export default function(props) {
 	const proposalId = props?.match?.params?.id;
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
+	const {address, account} = useSelector(state => state.wallet);
 	const type = queryStringParse?.type ?? "";
-
+	const [fee, setFee] = useState(0);
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
+
+	// TODO: DEPOSIT & VOTING
+	const onDeposit = () => {
+		console.log("AAAAAAAAAAAAAAAAAAAAA");
+		const minFee = (fee * 1000000 + "").split(".")[0];
+		const payload = {
+			type: "/cosmos.gov.v1beta1.MsgDeposit",
+			value: {
+				msg: {
+					type: "/cosmos.gov.v1beta1.MsgDeposit",
+					value: {
+						proposal_id: new Long(data?.proposal_id),
+						depositor: address,
+						// amount: [{ denom: "orai", amount: new BigNumber(1).multipliedBy(1000000).toString(), }],
+						amount: [{denom: "orai", amount: new BigNumber(1).toString()}],
+					},
+				},
+				fee: {
+					amount: [minFee],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: data.memo || "",
+			},
+		};
+		console.log("account: ", account);
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	};
 
 	let titleText;
 	let titleSection;
 	let detailsCard;
 	let chartCard;
 	let transactionsCard;
+	let finalButton;
+
+	let voteButton = (
+		<div className={cx("create-button")}>
+			<span className={cx("create-button-text")}>Vote</span>
+		</div>
+	);
+
+	let depositButton = (
+		<div className={cx("create-button")} onClick={onDeposit}>
+			<span className={cx("create-button-text")}>Deposit tokens</span>
+		</div>
+	);
 
 	switch (type) {
 		case "SoftwareUpgradeProposal":
@@ -56,20 +108,6 @@ export default function(props) {
 			break;
 	}
 
-	titleSection = isLargeScreen ? (
-		<Container fixed>
-			<TitleWrapper>
-				<PageTitle title={titleText} />
-				<StatusBox />
-			</TitleWrapper>
-		</Container>
-	) : (
-		<>
-			<TogglePageBar type='proposals' />
-			<NavigateBackBar type='proposals' />
-		</>
-	);
-
 	if (loading) {
 		detailsCard = <DetailsCardSkeleton />;
 		chartCard = <ChartCardSkeleton />;
@@ -81,7 +119,38 @@ export default function(props) {
 			detailsCard = <DetailsCard data={data} />;
 			chartCard = <ChartCard data={data} />;
 		}
+
+		// handle button state
+		switch (data?.status) {
+			case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
+				console.log("deposit period");
+				finalButton = depositButton;
+				break;
+			case "PROPOSAL_STATUS_VOTING_PERIOD":
+				console.log("voting period");
+				finalButton = voteButton;
+				break;
+			default:
+				console.log("Finished");
+				finalButton = <div></div>;
+				break;
+		}
 	}
+
+	titleSection = isLargeScreen ? (
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={titleText} />
+				<StatusBox />
+			</TitleWrapper>
+			{finalButton}
+		</Container>
+	) : (
+		<>
+			<TogglePageBar type='proposals' />
+			<NavigateBackBar type='proposals' />
+		</>
+	);
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;
 	return (
