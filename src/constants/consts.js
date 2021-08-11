@@ -100,6 +100,7 @@ export default Object.freeze({
 		TEST_CASES: "/test_cases",
 		FIREBASE_FCM_TOKEN: "/firebase_token",
 		SMART_CONTRACTS: "/smart_contracts",
+		REQUESTS_VALIDATOR: "/validator/requests",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",

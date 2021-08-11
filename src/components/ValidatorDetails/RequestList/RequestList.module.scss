@@ -1,0 +1,82 @@
+@import "src/styles/utils";
+
+.requests-card {
+	margin-top: 20px;
+	padding: 30px;
+	background: var(--common-containerBackgroundColor);
+	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	border-radius: 8px;
+
+	&-header {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-bottom: 25px;
+
+		@include media(">=large") {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+}
+
+.total {
+	margin-bottom: 20px;
+
+	@include media(">=large") {
+		margin-bottom: 0;
+	}
+
+	&-title {
+		display: inline-block;
+		margin-right: 4px;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+
+	&-value {
+		display: inline-block;
+		color: var(--common-placeholderTextColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+	}
+}
+
+.create-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px 10px;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-text {
+		display: inline-block;
+		margin-right: 8px;
+		color: var(--common-buttonTextColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-icon {
+		width: 12px;
+		height: auto;
+		color: var(--common-buttonTextColor);
+	}
+}
