@@ -70,6 +70,7 @@ const DetailCard = memo(() => {
 
 	const showMoreElement = (
 		<div className={cx("info")}>
+			<div className={cx("info-title")}>Reporting</div>
 			<Skeleton className={cx("skeleton")} variant='text' width={100} height={21} />
 		</div>
 	);
