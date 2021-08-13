@@ -62,7 +62,7 @@
 }
 
 .more-button {
-	margin-top: 15px;
+	// margin-top: 15px;
 	padding: 8px;
 	background: var(--common-activeTabColor);
 	color: var(--common-activeTabTextColor);
@@ -84,4 +84,17 @@
 		width: auto;
 		height: 16px;
 	}
+}
+
+.preview {
+	position: relative;
+	padding: 16px;
+}
+
+.close-button {
+	position: absolute;
+	top: 8px;
+	right: 16px;
+	cursor: pointer;
+	display: inline-block;
 }
