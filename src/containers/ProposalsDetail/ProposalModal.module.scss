@@ -1,0 +1,210 @@
+@import "src/styles/utils";
+
+@mixin font-deposit {
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+	@include media("<medium") {
+		font-size: 14px;
+	}
+}
+
+.btn {
+	display: inline-block;
+	padding: 8px 16px;
+	border-radius: 6px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	cursor: pointer;
+	user-select: none;
+	@include media("<medium") {
+		font-size: 14px;
+	}
+}
+
+.btn-primary {
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	border: 1px solid var(--validators-deletegateButtonBorderColor);
+}
+
+.btn-outline-primary {
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	border: 1px solid var(--validators-deletegateButtonBorderColor);
+
+	&:hover {
+		color: #ffffff;
+		background: #00b1e9;
+		border-color: #00b1e9;
+	}
+}
+
+.btn-outline-secondary {
+	padding: 8px 16px;
+	color: var(--common-textColor);
+	background: var(--common-modal-buttonCancelBackgroundColor);
+	border: 1px solid var(--common-borderColor);
+	cursor: pointer;
+
+	&:hover {
+		color: #ffffff;
+		background: #6c757d;
+		border-color: #6c757d;
+	}
+}
+
+.label {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 150%;
+	@include media("<medium") {
+		font-size: 14px;
+	}
+}
+
+.text-field {
+	display: block;
+	width: 100%;
+	padding: 8px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	color: var(--common-textColor);
+	border: 1px solid var(--common-borderColor);
+	box-sizing: border-box;
+	border-radius: 6px;
+	outline: none;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.space-between {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.m-2 {
+	margin: 8px;
+}
+
+.form-field {
+	position: relative;
+	padding-bottom: 32px;
+}
+
+.error-message {
+	position: absolute;
+	top: 46px;
+	left: 0;
+	color: #dc3545;
+}
+
+.deposit-title {
+	font-family: Roboto;
+	font-size: 20px;
+	font-weight: 500;
+	@include media("<medium") {
+		font-size: 16px;
+	}
+}
+
+.balance-title {
+	@include font-deposit;
+	margin-top: 10px;
+}
+
+.amount-reward {
+	margin-top: 10px;
+	.input {
+		color: var(--common-textColor);
+		border: 1px solid var(--common-borderColor);
+		background: var(--common-blockItemBackgroundColor);
+		box-sizing: border-box;
+		border-radius: 8px;
+		font-family: Roboto;
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 2;
+		@include media("<medium") {
+			font-size: 14px;
+		}
+	}
+}
+
+.balance-row {
+	.left {
+		font-family: Roboto;
+		font-size: 18px;
+		margin-top: 5px;
+		@include media("<medium") {
+			font-size: 14px;
+		}
+	}
+	.uppercase {
+		text-transform: uppercase;
+	}
+	.right {
+		font-family: Roboto;
+		font-size: 18px;
+		margin-top: 5px;
+		display: flex;
+		align-items: center;
+		.dollar {
+			margin-left: 5px;
+		}
+		@include media("<medium") {
+			font-size: 14px;
+		}
+	}
+}
+
+.amount-row {
+	margin-top: 20px;
+	.left {
+		@include font-deposit;
+	}
+	.right {
+		font-family: Roboto;
+		font-size: 18px;
+	}
+}
+
+.earning-row {
+	@include font-deposit;
+	margin-top: 25px;
+}
+
+.estimate-orai-row {
+	@include font-deposit;
+	color: #3cc526;
+	margin-top: 10px;
+}
+
+.estimate-dollar-row {
+	font-family: Roboto;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 30px;
+	@include media("<medium") {
+		font-size: 14px;
+	}
+}
+
+.custom-fee {
+	padding: 0;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}

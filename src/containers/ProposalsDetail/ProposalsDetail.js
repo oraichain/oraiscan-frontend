@@ -20,9 +20,8 @@ import ChartCardSkeleton from "src/components/ProposalDetails/ChartCard/ChartCar
 import TransactionsCard from "src/components/ProposalDetails/TransactionsCard";
 import styles from "./ProposalsDetail.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
-import Long from "long";
-import BigNumber from "bignumber.js";
-import {myKeystation} from "src/lib/Keystation";
+import ProposalVoteModal from "./ProposalVoteModal";
+import ProposalDepositModal from "./ProposalDepositModal";
 
 const cx = cn.bind(styles);
 
@@ -34,44 +33,17 @@ export default function(props) {
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const {address, account} = useSelector(state => state.wallet);
 	const type = queryStringParse?.type ?? "";
-	const [fee, setFee] = useState(0);
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
+	const [showModal, setShowModal] = useState(false);
+	const handleCloseModal = () => {
+		setShowModal(false);
+	};
 
-	// TODO: DEPOSIT & VOTING
 	const onDeposit = () => {
-		console.log("AAAAAAAAAAAAAAAAAAAAA");
-		const minFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.gov.v1beta1.MsgDeposit",
-			value: {
-				msg: {
-					type: "/cosmos.gov.v1beta1.MsgDeposit",
-					value: {
-						proposal_id: new Long(data?.proposal_id),
-						depositor: address,
-						// amount: [{ denom: "orai", amount: new BigNumber(1).multipliedBy(1000000).toString(), }],
-						amount: [{denom: "orai", amount: new BigNumber(1).toString()}],
-					},
-				},
-				fee: {
-					amount: [minFee],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: data.memo || "",
-			},
-		};
-		console.log("account: ", account);
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		setShowModal(true);
 	};
 
 	let titleText;
@@ -169,6 +141,7 @@ export default function(props) {
 					</Grid>
 				</Grid>
 			</Container>
+			{data && <ProposalDepositModal open={showModal} onClose={handleCloseModal} data={data} />}
 		</>
 	);
 }
