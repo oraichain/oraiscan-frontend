@@ -9,6 +9,8 @@ import serenityLogo from "src/assets/validators/serenityLogo.png";
 import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
 import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
 import tothemoonLogo from "src/assets/validators/tothemoonLogo.png";
+import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png";
+import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
 
 export const logoBrand = [
 	{
@@ -115,8 +117,8 @@ export const logoBrand = [
 	},
 	{
 		name: "Binnostake",
-		operatorAddress: "oraivaloper18ky5clarney7345wssqcnncjnqkaa58z3veqde",
-		logo: "https://i.imgur.com/s6KMIbC.png",
+		operatorAddress: "oraivaloper12ru3276mkzuuay6vhmg3t6z9hpvrsnplm2994n",
+		logo: binnostakeLogo,
 	},
 	{
 		name: "Oraibots Validator",
@@ -127,5 +129,10 @@ export const logoBrand = [
 		name: "tothemoon",
 		operatorAddress: "oraivaloper164kva2j3h637plt2frxeqzdtjg9c0ks60mnq0d",
 		logo: tothemoonLogo,
+	},
+	{
+		name: "Connecting_beagle",
+		operatorAddress: "oraivaloper1ty92s269qtktyzkl35zzhvp9j74e9u37ht6zgm",
+		logo: connectingBeagleLogo,
 	},
 ];
