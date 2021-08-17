@@ -70,7 +70,7 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({data = []}) => {
-	const [sortField, setSortField] = useState(sortFields.RANK);
+	const [sortField, setSortField] = useState(sortFields.COMMISSION);
 	const [sortDirection, setSortDirection] = useState(sortDirections.ASC);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
