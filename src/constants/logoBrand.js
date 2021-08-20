@@ -11,6 +11,7 @@ import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png
 import tothemoonLogo from "src/assets/validators/tothemoonLogo.png";
 import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png";
 import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
+import chandraLogo from "src/assets/validators/chandraLogo.png";
 
 export const logoBrand = [
 	{
@@ -134,5 +135,10 @@ export const logoBrand = [
 		name: "Connecting_beagle",
 		operatorAddress: "oraivaloper1ty92s269qtktyzkl35zzhvp9j74e9u37ht6zgm",
 		logo: connectingBeagleLogo,
+	},
+	{
+		name: "Chandra",
+		operatorAddress: "oraivaloper109vcny07r3waj9sld4ejasjyal0rudskeax7uc",
+		logo: chandraLogo,
 	},
 ];
