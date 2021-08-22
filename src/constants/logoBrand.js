@@ -12,6 +12,7 @@ import tothemoonLogo from "src/assets/validators/tothemoonLogo.png";
 import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png";
 import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
 import chandraLogo from "src/assets/validators/chandraLogo.png";
+import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
 
 export const logoBrand = [
 	{
@@ -57,7 +58,7 @@ export const logoBrand = [
 	{
 		name: "The_firm_samorai_D",
 		operatorAddress: "oraivaloper1qdcln9krzqwywxru8jx6yq2qs9cjqcvvhyjyet",
-		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912214/20201212_160050_1_-_D_V_Dyk_l9l5bl.jpg",
+		logo: SamoraiDLogo,
 	},
 	{
 		name: "rikkei_moniker",
