@@ -9,21 +9,20 @@
 }
 
 .form-input {
-	margin-bottom: 10px !important;
+	margin-bottom: 5px !important;
 	textarea {
 		border-color: var(--common-borderColor);
 		padding-left: 15px;
 		padding-top: 10px;
-		font-size: 16px;
+		font-size: 15px;
 		&::-webkit-input-placeholder {
 			color: var(--common-placeholderTextColor);
-			font-size: 16px;
+			font-size: 15px;
 		}
 	}
 	.new-label {
 		color: var(--common-placeholderTextColor);
-		font-size: 14px;
-		margin-top: 5px;
+		font-size: 13px;
 		.open-dialog {
 			color: #008bd9;
 			cursor: pointer;
@@ -38,17 +37,18 @@
 .row-balance {
 	display: flex;
 	justify-content: space-between;
-	padding: 8px;
+	// padding: 8px;
 	width: 100%;
-	margin-bottom: 15px;
-	padding-left: 0px;
+	margin-bottom: 10px;
+	padding-left: 8px;
+	padding-right: 8px;
 	.title {
 		font-weight: 500;
-		font-size: 18px;
+		font-size: 17px;
 	}
 	.value {
 		font-weight: normal;
-		font-size: 16px;
+		font-size: 15px;
 	}
 	.title-right {
 		text-align: left;
@@ -63,7 +63,7 @@
 
 	.left {
 		@media screen and (max-width: 650px) {
-			margin-bottom: 15px;
+			margin-bottom: 10px;
 		}
 	}
 }
@@ -71,7 +71,7 @@
 .switch-multisend {
 	font-family: Roboto;
 	font-weight: 500;
-	font-size: 18px;
+	font-size: 17px;
 	padding: 8px;
 	padding-left: 0;
 	button {
@@ -80,7 +80,7 @@
 }
 
 .tab-wrapper {
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 	display: flex;
 	flex-flow: row;
 	align-self: flex-end;
@@ -107,7 +107,7 @@
 
 		p {
 			font-family: "Open Sans", serif;
-			font-size: 18px;
+			font-size: 17px;
 			font-weight: normal;
 			font-stretch: normal;
 			font-style: normal;
@@ -138,8 +138,8 @@
 
 .label {
 	font-weight: 500;
-	font-size: 18px;
-	margin-bottom: 10px;
+	font-size: 17px;
+	margin-bottom: 5px;
 	padding-left: 2px;
 	.optional {
 		color: var(--common-placeholderTextColor);
@@ -155,7 +155,7 @@
 	.right {
 		button {
 			cursor: pointer;
-			font-size: 16px;
+			font-size: 15px;
 			color: var(--common-modal-modalCommonTextColor);
 			padding: 8px 15px;
 			border: 1px solid var(--common-modal-modalCommonBorderColor);
@@ -168,8 +168,8 @@
 }
 
 .btn-action-group {
-	margin-top: 15px;
-	margin-bottom: 30px;
+	margin-top: 10px;
+	margin-bottom: 25px;
 	padding: 0px 18px;
 	width: 100%;
 	display: flex;
@@ -187,7 +187,7 @@
 	padding: 11px 0px !important;
 	margin-right: 20px !important;
 	text-transform: none !important;
-	font-size: 18px !important;
+	font-size: 17px !important;
 }
 
 .btn-submit {
@@ -195,17 +195,17 @@
 	border: 1px solid var(--common-modal-buttonSubmitBackgroundColor) !important;
 	border-radius: 8px !important;
 	text-transform: none !important;
-	font-size: 18px !important;
+	font-size: 17px !important;
 	span:first-child {
 		color: #ffffff !important;
 	}
 }
 
 .switch-control {
-	margin-top: 10px;
+	margin-top: 5px;
 	.switch-blue {
 		font-family: Roboto;
-		font-size: 16px;
+		font-size: 15px;
 		color: var(--common-linkColor);
 		cursor: pointer;
 		svg {
@@ -221,7 +221,7 @@
 	.row {
 		padding: 2px;
 		.amount-error-message {
-			font-size: 12px;
+			font-size: 11px;
 			color: var(--common-resultIconFailureColor);
 		}
 	}
@@ -242,7 +242,6 @@
 	justify-content: flex-end;
 	color: #f3574f;
 	margin-right: 5px;
-	margin-top: 5px;
 	margin-bottom: 1px;
 
 	&-icon {
@@ -256,7 +255,7 @@
 
 .address-dialog {
 	width: 480px;
-	height: 334px;
+	height: 300px;
 	padding-left: 30px;
 	font-weight: 500;
 	font-family: Roboto;
@@ -264,17 +263,17 @@
 	line-height: 150%;
 	color: var(--common-textColor);
 	.address-dialog-header {
-		margin-bottom: 20px;
+		margin-bottom: 15px;
 		.title {
 			height: 36px;
-			font-size: 24px;
+			font-size: 23px;
 		}
 	}
 	.address-dialog-label {
-		margin-bottom: 25px;
+		margin-bottom: 20px;
 		.label {
-			font-size: 18px;
-			margin-bottom: 10px;
+			font-size: 17px;
+			margin-bottom: 5px;
 			height: 27px;
 		}
 		.input {
@@ -286,7 +285,7 @@
 			box-sizing: border-box;
 			border-radius: 6px;
 			padding-left: 15px;
-			font-size: 16px;
+			font-size: 15px;
 			&::placeholder {
 				color: var(--common-placeholderTextColor);
 				opacity: 1; /* Firefox */
@@ -307,15 +306,15 @@
 		}
 	}
 	.address-dialog-value {
-		margin-bottom: 30px;
+		margin-bottom: 25px;
 		.address-label {
-			font-size: 18px;
+			font-size: 17px;
 			margin-bottom: 5px;
 			height: 27px;
 		}
 		.address-value {
 			color: var(--common-textColor);
-			font-size: 16px;
+			font-size: 15px;
 			font-weight: normal;
 			height: 24px;
 		}
@@ -324,7 +323,7 @@
 		.button-cancel {
 			cursor: pointer;
 			width: 200px;
-			height: 50px;
+			height: 40px;
 			background: var(--common-containerBackgroundColor);
 			border: 1px solid var(--common-modal-modalCommonBorderColor);
 			box-sizing: border-box;
@@ -335,7 +334,7 @@
 		.button-add {
 			cursor: pointer;
 			width: 200px;
-			height: 50px;
+			height: 40px;
 			background: var(--common-modal-buttonSubmitBackgroundColor);
 			border-radius: 8px;
 			color: var(--common-activeTabTextColor);
@@ -349,7 +348,7 @@
 	justify-self: flex-start;
 	align-items: center;
 	font-weight: 500;
-	font-size: 18px;
+	font-size: 17px;
 	padding-left: 2px;
 	&-name {
 		display: inline-block;
