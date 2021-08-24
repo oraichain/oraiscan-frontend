@@ -37,13 +37,24 @@ export default function(props) {
 	const {data, loading, error} = useGet({
 		path: path,
 	});
-	const [showModal, setShowModal] = useState(false);
-	const handleCloseModal = () => {
-		setShowModal(false);
+	const [showDepositModal, setShowDepositModal] = useState(false);
+	const handleCloseDepositModal = () => {
+		setShowDepositModal(false);
 	};
 
+	const [showVoteModal, setShowVoteModal] = useState(false);
+	const handleCloseVoteModal = () => {
+		setShowVoteModal(false);
+	};
+
+	const [voteOption, setVoteOption] = useState("VOTE_OPTION_YES");
+
 	const onDeposit = () => {
-		setShowModal(true);
+		setShowDepositModal(true);
+	};
+
+	const onVote = () => {
+		setShowVoteModal(true);
 	};
 
 	let titleText;
@@ -54,8 +65,8 @@ export default function(props) {
 	let finalButton;
 
 	let voteButton = (
-		<div className={cx("create-button")}>
-			<span className={cx("create-button-text")}>Vote</span>
+		<div className={cx("create-button")} onClick={onVote}>
+			<span className={cx("create-button-text")}>Vote proposal</span>
 		</div>
 	);
 
@@ -141,7 +152,8 @@ export default function(props) {
 					</Grid>
 				</Grid>
 			</Container>
-			{data && <ProposalDepositModal open={showModal} onClose={handleCloseModal} data={data} />}
+			{data && <ProposalDepositModal open={showDepositModal} onClose={handleCloseDepositModal} data={data} />}
+			{data && <ProposalVoteModal open={showVoteModal} onClose={handleCloseVoteModal} data={data} />}
 		</>
 	);
 }
