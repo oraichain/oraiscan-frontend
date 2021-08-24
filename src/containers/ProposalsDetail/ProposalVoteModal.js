@@ -52,6 +52,7 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 	const [voteField, setVoteOption] = useState("Yes");
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const field = {
 		Yes: "VOTE_OPTION_YES",
@@ -102,6 +103,11 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 		}
 	};
 
+	const handleClose = () => {
+		setErrorMessage("");
+		onClose();
+	};
+
 	useEffect(() => {
 		document.addEventListener("click", clickListener, true);
 
@@ -145,6 +151,7 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 			}, 500);
 		} else {
 			// TODO: show error here
+			setErrorMessage("You must log in first to vote for the proposal");
 		}
 	};
 
@@ -184,9 +191,10 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 					<div className={cx("balance-title")}> Fee </div>
 					<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
 					<Gas gas={gas} onChangeGas={setGas} />
+					<div className={cx("error-message-vote")}>{errorMessage}</div>
 				</DialogContent>
 				<DialogActions>
-					<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={onClose}>
+					<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={handleClose}>
 						Cancel
 					</button>
 					<button type='button' className={cx("btn", "btn-primary", "m-2")} onClick={onVote}>
@@ -199,7 +207,7 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 
 	return (
 		<div className={cx("deposit")}>
-			<Dialog onClose={onClose} aria-labelledby='deposit-dialog' open={open} maxWidth='sm' fullWidth={true}>
+			<Dialog onClose={handleClose} aria-labelledby='deposit-dialog' open={open} maxWidth='sm' fullWidth={true}>
 				<div className={cx("content-tab", "deposit-dialog")}>
 					<FormProvider>{render()}</FormProvider>
 				</div>
