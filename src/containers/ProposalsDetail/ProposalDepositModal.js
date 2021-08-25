@@ -64,11 +64,6 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	const [balanceInfo, setBalanceInfo] = useState({});
 	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
-	const [rewardCalculator, setRewardCalculator] = useState({
-		amount: 0,
-		monthlyORAI: 0,
-		yearlyORAI: 0,
-	});
 	const percents = [25, 50, 75, 100];
 	const [percent, setPercent] = useState(25);
 	const [amount, setAmount] = useState(0);
@@ -173,7 +168,7 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 				memo: data.memo || "",
 			},
 		};
-		console.log("account: ", account);
+		console.log("payload: ", payload);
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {

@@ -1,67 +1,219 @@
-import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
-import PropTypes from "prop-types";
+// @ts-nocheck
+import React, {memo, useState, useEffect, useMemo, useCallback, useReducer, useRef} from "react";
 import cn from "classnames/bind";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
-import copy from "copy-to-clipboard";
-import {showAlert} from "src/store/modules/global";
-import InfoRow from "src/components/common/InfoRow";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import {Divider, Input, Spin} from "antd";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
+import _ from "lodash";
+import BigNumber from "bignumber.js";
+
+import {InputNumberOrai} from "src/components/common/form-controls";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
+import {Fee, Gas} from "src/components/common/Fee";
+import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
-import CopyIcon from "src/icons/CopyIcon";
+import {useFetch} from "src/hooks";
+import {myKeystation} from "src/lib/Keystation";
 import styles from "./ProposalModal.module.scss";
-import SelectBox from "src/components/common/SelectBox";
+import Long from "long";
+import axios from "axios";
+import DownAngleIcon from "src/icons/DownAngleIcon";
 
 const cx = cn.bind(styles);
 
-const ProposalVoteModal = ({open, onClose}) => {
-	const [fieldValue, setFieldValue] = useState("VOTE_OPTION_YES");
+const DialogContent = withStyles(theme => ({
+	root: {
+		padding: "0 30px",
+	},
+	"root:fist-child": {
+		"padding-top": "0",
+	},
+}))(MuiDialogContent);
 
-	const fields = [
-		{
-			label: "Yes",
-			value: "VOTE_OPTION_YES",
-		},
-		{
-			label: "Abstain",
-			value: "VOTE_OPTION_ABSTAIN",
-		},
-		{
-			label: "No",
-			value: "VOTE_OPTION_NO",
-		},
-		{
-			label: "No with veto",
-			value: "VOTE_OPTION_NO_WITH_VETO",
-		},
-	];
+const DialogActions = withStyles(theme => ({
+	root: {
+		margin: 0,
+		padding: theme.spacing(1),
+	},
+}))(MuiDialogActions);
 
-	const onVote = () => {};
+const ProposalVoteModal = memo(({open, onClose, data}) => {
+	const {address, account} = useSelector(state => state.wallet);
+	const minFee = useSelector(state => state.blockchain.minFee);
+	const [fee, setFee] = useState(0);
+	const [gas, setGas] = useState(200000);
+	const dropDownRef = useRef(null);
+	const [voteField, setVoteOption] = useState("Yes");
+	const selectedItemRef = useRef(null);
+	const listRef = useRef(null);
+	const [errorMessage, setErrorMessage] = useState("");
 
-	// const {
-	//     handleSubmit,
-	//     register,
-	//     control,
-	//     formState: { errors },
-	// } = useForm({ defaultValues, resolver: yupResolver(schema) });
+	const field = {
+		Yes: "VOTE_OPTION_YES",
+		Abstain: "VOTE_OPTION_ABSTAIN",
+		No: "VOTE_OPTION_NO",
+		"No with veto": "VOTE_OPTION_NO_WITH_VETO",
+	};
+
+	const objectField = {
+		VOTE_OPTION_YES: "Yes",
+		ABSTAIN: "Abstain",
+		NO: "No",
+		NO_WITH_VETO: "No with veto",
+	};
+
+	const showList = () => {
+		if (!_.isNil(listRef.current)) {
+			listRef.current.style.display = "block";
+		}
+	};
+
+	const hideList = () => {
+		if (!_.isNil(listRef.current)) {
+			listRef.current.style.display = "none";
+		}
+	};
+
+	const clickListener = event => {
+		// console.log("event target: ", event.target);
+		// console.log("selected item ref: ", selectedItemRef);
+		if (event.target.hasAttribute("vote-option")) {
+			setVoteOption(event.target.getAttribute("vote-option"));
+			hideList();
+			return;
+		}
+
+		if (selectedItemRef?.current?.contains?.(event?.target)) {
+			if (listRef?.current?.style?.display === "block") {
+				hideList();
+			} else {
+				showList();
+			}
+			return;
+		}
+
+		if (!_.isNil(listRef.current) && !listRef?.current?.contains?.(event?.target)) {
+			hideList();
+		}
+	};
+
+	const handleClose = () => {
+		setErrorMessage("");
+		onClose();
+	};
+
+	useEffect(() => {
+		document.addEventListener("click", clickListener, true);
+
+		return () => {
+			document.removeEventListener("click", clickListener);
+		};
+	}, []);
+
+	// TODO: DEPOSIT & VOTING
+	const onVote = () => {
+		// can only vote if use has logged in
+		if (address) {
+			console.log("vote option: ", voteField);
+			const minFee = (fee * 1000000 + "").split(".")[0];
+			const payload = {
+				type: "/cosmos.gov.v1beta1.MsgVote",
+				value: {
+					msg: {
+						type: "/cosmos.gov.v1beta1.MsgVote",
+						value: {
+							proposal_id: new Long(data.proposal_id),
+							voter: address,
+							option: voteField,
+						},
+					},
+					fee: {
+						amount: [minFee],
+						gas,
+					},
+					signatures: null,
+					memo: data.memo || "",
+				},
+			};
+			console.log("payload: ", payload);
+
+			const popup = myKeystation.openWindow("transaction", payload, account);
+			let popupTick = setInterval(function() {
+				if (popup.closed) {
+					clearInterval(popupTick);
+				}
+			}, 500);
+		} else {
+			// TODO: show error here
+			setErrorMessage("You must log in first to vote for the proposal");
+		}
+	};
+
+	useEffect(() => {
+		const callBack = function(e) {
+			if (e && e.data === "deny") {
+				return onClose();
+			}
+			if (e?.data?.txhash) {
+				onClose();
+			}
+		};
+		window.addEventListener("message", callBack, false);
+		return () => {
+			window.removeEventListener("message", callBack);
+		};
+	}, []);
+
+	const render = () => {
+		return (
+			<form>
+				<DialogContent>
+					<div className={cx("deposit-title")}> Vote for proposal id {data.proposal_id} </div>
+					<div className={cx("vote-dropdown")}>
+						<div className={cx("selected-item")} ref={selectedItemRef}>
+							<input type='text' className={cx("text-field")} value={voteField} readOnly />
+							<DownAngleIcon className={cx("arrow")} />
+						</div>
+						<div className={cx("list")} ref={listRef}>
+							{Object.values(objectField).map((item, index) => (
+								<div key={"list-item-" + index} className={cx("list-item")} vote-option={item}>
+									{item}
+								</div>
+							))}
+						</div>
+					</div>
+					<div className={cx("balance-title")}> Fee </div>
+					<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
+					<Gas gas={gas} onChangeGas={setGas} />
+					<div className={cx("error-message-vote")}>{errorMessage}</div>
+				</DialogContent>
+				<DialogActions>
+					<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={handleClose}>
+						Cancel
+					</button>
+					<button type='button' className={cx("btn", "btn-primary", "m-2")} onClick={onVote}>
+						Vote
+					</button>
+				</DialogActions>
+			</form>
+		);
+	};
 
 	return (
-		<Dialog open={open} onClose={onClose} maxWidth='lg' fullWidth={true}>
-			{/* <form onSubmit={handleSubmit(onVote)}>
-                <div className={cx("tx_response")}>
-                    <div className={cx("field")}>
-                        <SelectBox value={fieldValue} data={fields} onChange={setFieldValue} />
-                    </div>
-                </div>
-            </form> */}
-		</Dialog>
+		<div className={cx("deposit")}>
+			<Dialog onClose={handleClose} aria-labelledby='deposit-dialog' open={open} maxWidth='sm' fullWidth={true}>
+				<div className={cx("content-tab", "deposit-dialog")}>
+					<FormProvider>{render()}</FormProvider>
+				</div>
+			</Dialog>
+		</div>
 	);
-};
-
-ProposalVoteModal.propTypes = {
-	data: PropTypes.any,
-};
-
-ProposalVoteModal.defaultProps = {};
+});
 
 export default ProposalVoteModal;

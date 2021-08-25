@@ -3,7 +3,7 @@ import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
 import kadiaChain from "src/assets/validators/kardia.png";
 import vaiot from "src/assets/validators/vaiot.png";
 import titan from "src/assets/validators/titan.jpeg";
-import stakementLogo from "src/assets/validators/stakement.png";
+import stakementLogo from "src/assets/validators/stakement_orai_explorer.jpg";
 import antOraiLogo from "src/assets/validators/antOraiLogo.png";
 import serenityLogo from "src/assets/validators/serenityLogo.png";
 import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
