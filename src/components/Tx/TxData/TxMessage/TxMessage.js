@@ -101,7 +101,7 @@ const TxMessage = ({msg, data}) => {
 					<div className={cx("align-center")}>-</div>
 				) : (
 					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
-						{item?.address}
+						{item?.address_tag || item?.address}
 					</NavLink>
 				);
 
@@ -204,9 +204,9 @@ const TxMessage = ({msg, data}) => {
 			return storageData?.[address]?.name;
 		};
 
-		const getAddressRow = (label, address, isSmartContract = false) => (
+		const getAddressRow = (label, address, name, isSmartContract = false) => (
 			<InfoRow label={label}>
-				<Address name={getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' isSmartContract={isSmartContract} />
+				<Address name={name ?? getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' isSmartContract={isSmartContract} />
 			</InfoRow>
 		);
 
@@ -362,7 +362,7 @@ const TxMessage = ({msg, data}) => {
 			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
 					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.value)}
 						{getInfoRow("Min Self Delegation", value?.min_self_delegation)}
@@ -394,7 +394,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_DELEGATE && (
 					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
@@ -402,22 +402,22 @@ const TxMessage = ({msg, data}) => {
 				.
 				{type === txTypes.COSMOS_SDK.MSG_UNDELEGATE && (
 					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_SEND && (
 					<>
-						{getAddressRow("From Address", value?.from_address)}
-						{getAddressRow("To Address", value?.to_address)}
+						{getAddressRow("From Address", value?.from_address, value?.from_address_tag)}
+						{getAddressRow("To Address", value?.to_address, value?.to_address_tag)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
 						{getInfoRow("Memo", memo)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_MULTI_SEND && (
 					<>
-						{getAddressRow("From Address", value?.inputs?.[0]?.address)}
+						{getAddressRow("From Address", value?.inputs?.[0]?.address, value?.inputs?.[0]?.address_tag)}
 						{getCurrencyRowFromObject("Total Amount", value?.inputs?.[0]?.coins?.[0])}
 						{getMultiAddressRow("To Address", value?.outputs)}
 						{getInfoRow("Memo", memo)}
@@ -441,7 +441,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATOR_REWARD && (
 					<>
-						{getAddressRow("Delegator Address", value?.delegator_address)}
+						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
@@ -452,7 +452,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
@@ -461,7 +461,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
@@ -471,7 +471,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
 				)}
@@ -482,7 +482,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
 						{getCurrencyRowFromString("New Transaction Fee", value?.new_transaction_fee)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 					</>
 				)}
 				{type === txTypes.PROVIDER.CREATE_ORACLE_SCRIPT && (
@@ -490,7 +490,7 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("Name", value?.name)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 					</>
 				)}
 				{type === txTypes.PROVIDER.EDIT_ORACLE_SCRIPT && (
@@ -499,14 +499,14 @@ const TxMessage = ({msg, data}) => {
 						{getInfoRow("Description", value?.description)}
 						{getInfoRow("New Name", value?.new_name)}
 						{getInfoRow("Old Name", value?.old_name)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 					</>
 				)}
 				{type === txTypes.PROVIDER.SET_TESTCASE && (
 					<>
 						{getInfoRow("Contract", value?.contract)}
 						{getInfoRow("Description", value?.description)}
-						{getAddressRow("Owner", value?.owner)}
+						{getAddressRow("Owner", value?.owner, value?.owner_tag)}
 						{getInfoRow("Test Case Name", value?.test_case_name)}
 						{getCurrencyRowFromString("Transaction Fee", value?.transaction_fee)}
 					</>
@@ -514,7 +514,7 @@ const TxMessage = ({msg, data}) => {
 				{type === txTypes.WEBSOCKET.CREATE_REPORT && (
 					<>
 						{getCurrencyRowFromObject("Report Fee", value?.fees?.[0])}
-						{getAddressRow("Reporter Address", value?.reporter?.address)}
+						{getAddressRow("Reporter Address", value?.reporter?.address, value?.reporter?.address_tag)}
 						{getInfoRow("Reporter Name", value?.reporter?.name)}
 						{getAddressRow("Reporter Validator", value?.reporter?.validator)}
 						{getInfoRow("Request Id", value?.requestID)}
@@ -615,7 +615,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.AIREQUEST.SET_AI_REQUEST && (
 					<>
-						{getAddressRow("Creator", value?.creator)}
+						{getAddressRow("Creator", value?.creator, value?.creator_tag)}
 						{getInfoRow("Expected Output", atob(value?.expected_output) || "-")}
 						{getCurrencyRowFromString("Transaction Fee", value?.fees)}
 						{getInfoRow("Input", atob(value?.input) || "-")}
@@ -628,14 +628,14 @@ const TxMessage = ({msg, data}) => {
 					<>
 						{getInfoRow("Option", value?.option)}
 						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
-						{getAddressRow("Voter", value?.voter)}
+						{getAddressRow("Voter", value?.voter, value?.voter_tag)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT && (
 					<>
 						{getInfoRow("Code Id", value?.code_id)}
 						{getInfoRow("Label", value?.label)}
-						{getAddressRow("Sender", value?.sender)}
+						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
@@ -652,8 +652,8 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
 					<>
-						{getAddressRow("Contract", value?.contract, true)}
-						{getAddressRow("Sender", value?.sender)}
+						{getAddressRow("Contract", value?.contract, "", true)}
+						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}
 						<InfoRow label='Message'>
@@ -670,7 +670,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
 					<>
-						{getAddressRow("Sender", value?.sender)}
+						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{getInfoRow("Builder", value?.builder)}
 						{getInfoRow("Instantiate permission", value?.instantiate_permission)}
 						<InfoRow
@@ -682,7 +682,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_SUBMIT_PROPOSAL && (
 					<>
-						{getAddressRow("Proposer", value?.proposer)}
+						{getAddressRow("Proposer", value?.proposer, value?.proposer_tag)}
 						{value?.content && getInfoRow("Proposal type", value?.content["@type"])}
 						{getInfoRow("Title", value?.content?.title)}
 						{getHtmlRow("Description", value?.content?.description)}
@@ -692,7 +692,7 @@ const TxMessage = ({msg, data}) => {
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
 					<>
-						{getAddressRow("Depositor", value?.depositor)}
+						{getAddressRow("Depositor", value?.depositor, value?.depositor_tag)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
 						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 					</>
