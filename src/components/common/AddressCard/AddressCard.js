@@ -13,7 +13,6 @@ const FG_COLOR = "#1B57F0";
 const cx = classNames.bind(styles);
 
 const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, nameTagData}) => {
-	console.log(nameTagData, "zz");
 	const [open, setOpen] = useState(false);
 	const value = qrValue ? qrValue : addresses?.[0]?.value ?? "";
 
