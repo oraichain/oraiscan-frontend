@@ -29,9 +29,14 @@ const Account = props => {
 	const cx = cn.bind(styles);
 	const account = props?.match?.params?.account ?? 0;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
+	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
 
 	const {data: coinsData, loading: coinsLoading, error: coinsError} = useGet({
 		path: coinsPath,
+	});
+
+	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
+		path: nameTagPath,
 	});
 
 	const handleCopy = address => {
@@ -93,7 +98,7 @@ const Account = props => {
 	);
 
 	if (addresses) {
-		addressCard = <AddressCard headerTitle='QR Code' addresses={addresses} />;
+		addressCard = <AddressCard nameTagData={nameTagData} headerTitle='QR Code' addresses={addresses} />;
 	} else {
 		addressCard = <AddressCardSkeleton />;
 	}
