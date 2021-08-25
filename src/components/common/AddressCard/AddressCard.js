@@ -6,12 +6,14 @@ import classNames from "classnames/bind";
 import Address from "src/components/common/Address";
 import QRCode from "src/components/common/QRCode";
 import styles from "./AddressCard.scss";
+import {isNil} from "lodash";
 
 const BG_COLOR = "#FFFFFF";
 const FG_COLOR = "#1B57F0";
 const cx = classNames.bind(styles);
 
 const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, nameTagData}) => {
+	console.log(nameTagData, "zz");
 	const [open, setOpen] = useState(false);
 	const value = qrValue ? qrValue : addresses?.[0]?.value ?? "";
 
@@ -36,6 +38,13 @@ const AddressCard = memo(({headerIcon, headerTitle, qrValue, addresses, nameTagD
 				</div>
 
 				<span className={cx("header-title")}>{headerTitle}</span>
+			</div>
+
+			<div className={cx("nametag")}>
+				<div className={cx("nametag-title")}>
+					<span className={cx("nametag-title-text")}>Name Tag</span>
+				</div>
+				<div className={cx("nametag-value")}>{!isNil(nameTagData?.title) ? nameTagData?.title : ""}</div>
 			</div>
 
 			{addresses.map((address, index) => (
