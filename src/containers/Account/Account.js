@@ -59,29 +59,19 @@ const Account = props => {
 				handleCopy(this.value);
 			},
 		},
-		{
-			title: "Reward Address",
-			icon: copyIcon,
-			value: account,
-			onClick: function() {
-				handleCopy(this.value);
-			},
-		},
 	];
 
 	const decodedObj = bech32.decode(account);
 	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
 
-	if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
-		addresses.push({
-			title: "Operator address",
-			icon: copyIcon,
-			value: operatorAddress,
-			onClick: function() {
-				handleCopy(this.value);
-			},
-		});
-	}
+	addresses.push({
+		title: "Operator address",
+		icon: copyIcon,
+		value: operatorAddress,
+		onClick: function() {
+			handleCopy(this.value);
+		},
+	});
 
 	let titleSection;
 	let addressCard;
