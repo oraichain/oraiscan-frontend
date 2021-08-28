@@ -142,4 +142,9 @@ export const logoBrand = [
 		operatorAddress: "oraivaloper109vcny07r3waj9sld4ejasjyal0rudskeax7uc",
 		logo: chandraLogo,
 	},
+	{
+		name: "AInode",
+		operatorAddress: "oraivaloper156mv0rjd60sz0ecdwen54e7m9y66grxn47jh4m",
+		logo: "https://i.ibb.co/CnfwQy1/bender-ainode.png",
+	},
 ];
