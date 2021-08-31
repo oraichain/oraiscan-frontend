@@ -101,6 +101,7 @@ export default Object.freeze({
 		FIREBASE_FCM_TOKEN: "/firebase_token",
 		SMART_CONTRACTS: "/smart_contracts",
 		REQUESTS_VALIDATOR: "/validator/requests",
+		ORACLE_REQUESTS: "/oracle_requests",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",

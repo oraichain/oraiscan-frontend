@@ -1,0 +1,99 @@
+@import "src/styles/utils";
+
+.request-card {
+	height: 100%;
+	padding: 20px;
+	background: var(--common-blockItemBackgroundColor);
+	border: 1px solid var(--common-borderColor);
+	box-sizing: border-box;
+	border-radius: 8px;
+}
+
+.request {
+	width: 100%;
+	height: 100%;
+	color: var(--common-textColor);
+
+	tr {
+		border-bottom: 1px solid var(--common-borderColor);
+
+		td {
+			padding: 10px 0;
+		}
+
+		td:nth-child(1) {
+			width: 40%;
+			text-align: left;
+		}
+		td:nth-child(2) {
+			width: 60%;
+			text-align: right;
+		}
+
+		&:first-child {
+			td {
+				padding-top: 0;
+			}
+		}
+
+		&:last-child {
+			border-bottom: none;
+			td {
+				padding-bottom: 0;
+			}
+		}
+	}
+
+	&-icon {
+		width: 24px;
+		height: auto;
+		vertical-align: bottom;
+	}
+
+	&-text {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+		word-break: break-all;
+
+		&-denom {
+			color: var(--common-oraiDenomTextColor);
+		}
+	}
+
+	&-link {
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
+.fee {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-value {
+		display: inline-block;
+		margin-right: 4px;
+		color: var(--common-textColor);
+	}
+
+	&-denom {
+		display: inline-block;
+		color: var(--common-oraiDenomTextColor);
+		text-transform: uppercase;
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}
