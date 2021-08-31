@@ -12,7 +12,7 @@
 }
 
 .header-cell {
-	color: #546a8a;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
@@ -31,7 +31,7 @@
 	}
 
 	.address {
-		color: #1b57f0;
+		color: var(--common-linkColor);
 		font-family: Roboto;
 		font-style: normal;
 		font-weight: normal;
@@ -55,7 +55,7 @@
 
 .staked-data-cell,
 .claimable-rewards-data-cell {
-	color: #181818;
+	color: var(--common-textColor);
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
