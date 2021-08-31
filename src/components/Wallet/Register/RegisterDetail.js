@@ -11,7 +11,7 @@ export default function({address, validatorAddress}) {
 	return (
 		<>
 			<YourValidatorCard validatorAddress={validatorAddress} />
-			<DelegatorCard address={address} />
+			<DelegatorCard address={validatorAddress} />
 		</>
 	);
 }
