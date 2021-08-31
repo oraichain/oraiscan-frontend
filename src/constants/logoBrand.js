@@ -13,6 +13,7 @@ import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png
 import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
 import chandraLogo from "src/assets/validators/chandraLogo.png";
 import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
+import scavLogo from "src/assets/validators/scav_node.jpg";
 
 export const logoBrand = [
 	{
@@ -146,5 +147,10 @@ export const logoBrand = [
 		name: "AInode",
 		operatorAddress: "oraivaloper156mv0rjd60sz0ecdwen54e7m9y66grxn47jh4m",
 		logo: "https://i.ibb.co/CnfwQy1/bender-ainode.png",
+	},
+	{
+		name: "Scav_node",
+		operatorAddress: "oraivaloper17zr98cwzfqdwh69r8v5nrktsalmgs5sa83gpd9",
+		logo: scavLogo,
 	},
 ];
