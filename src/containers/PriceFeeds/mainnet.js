@@ -4,7 +4,7 @@ import consts from "src/constants/consts";
 
 export const getPriceFeedMainnet = async () => {
 	const {data: fullRequestData} = await axios.get(
-		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${process.env.REACT_APP_CONTRACT_PRICE_FEED}/smart/eyJvcmFjbGVfcXVlcnkiOnsibXNnIjp7ImdldF9yZXF1ZXN0cyI6e319fX0=`
+		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${process.env.REACT_APP_CONTRACT_PRICE_FEED}/smart/eyJvcmFjbGVfcXVlcnkiOnsibXNnIjp7ImdldF9yZXF1ZXN0cyI6eyJsaW1pdCI6NX19fX0=`
 	);
 
 	if (fullRequestData?.data?.items?.length > 0) {
