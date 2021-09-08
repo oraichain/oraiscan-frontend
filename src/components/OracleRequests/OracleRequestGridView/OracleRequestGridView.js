@@ -41,7 +41,7 @@ const OracleRequestGridView = ({data}) => {
 										{_.isNil(item?.request_id) ? (
 											<div className={cx("request-link")}>-</div>
 										) : (
-											<NavLink className={cx("request-link")} to={`${consts.API.ORACLE_REQUESTS}/${item?.request_id}`}>
+											<NavLink className={cx("request-link")} to={`${consts.PATH.ORACLE_REQUEST}/${item?.contract}/${item?.request_id}`}>
 												{item?.request_id}
 											</NavLink>
 										)}

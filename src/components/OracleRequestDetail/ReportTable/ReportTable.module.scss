@@ -1,0 +1,158 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	color: var(--common-headerTextColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.validator-data-cell {
+	.validator {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			object-fit: contain;
+			margin-right: 8px;
+		}
+
+		&-name {
+			text-align: left;
+			color: var(--common-linkColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.address-data-cell {
+	color: var(--common-linkColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-value {
+		cursor: pointer;
+	}
+}
+
+.height-data-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.result-data-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 150%;
+	overflow-y: scroll;
+	max-height: 100px;
+}
+
+.fees-data-cell {
+	.amount {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			margin-right: 8px;
+		}
+
+		&-denom {
+			text-transform: uppercase;
+		}
+	}
+}
+
+.status-data-cell {
+	.status {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		&-icon {
+			display: inline-block;
+			width: 16px;
+			height: auto;
+			margin-right: 8px;
+
+			&-success {
+				width: 16px;
+				color: var(--common-resultIconSuccessColor);
+			}
+
+			&-pending {
+				width: 16px;
+				color: #ffae74;
+			}
+
+			&-fail {
+				width: 9px;
+				color: var(--common-resultIconFailureColor);
+			}
+		}
+
+		&-text {
+			display: inline-block;
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}
+
+.more-data-cell {
+	.more {
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+		text-decoration-line: underline;
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

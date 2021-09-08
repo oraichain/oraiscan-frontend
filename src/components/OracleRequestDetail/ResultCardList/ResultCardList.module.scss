@@ -1,0 +1,148 @@
+@import "src/styles/utils";
+
+.result-card-list {
+	&-item {
+		padding: 15px;
+		margin-bottom: 15px;
+		background-color: var(--common-containerBackgroundColor);
+		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		border-radius: 8px;
+
+		table {
+			width: 100%;
+
+			tr {
+				td {
+					padding-bottom: 15px;
+				}
+
+				td:nth-child(1) {
+					text-align: left;
+					width: 50%;
+				}
+
+				td:nth-child(2) {
+					text-align: right;
+					width: 50%;
+				}
+
+				&:last-child {
+					td {
+						padding-bottom: 0;
+					}
+				}
+			}
+		}
+
+		.item-title {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-text {
+			color: var(--common-textColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
+		}
+
+		.item-link {
+			color: var(--common-linkColor);
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+	}
+}
+
+.validator {
+	vertical-align: middle;
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&-icon {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		object-fit: contain;
+		margin-right: 8px;
+	}
+
+	&-name {
+		color: var(--common-linkColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
+.voting-power {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+
+	&-value {
+		color: var(--common-textColor);
+	}
+
+	&-percent {
+		color: var(--common-placeholderTextColor);
+	}
+}
+
+.status {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&-icon {
+		display: inline-block;
+		height: auto;
+		margin-right: 8px;
+
+		&-success {
+			color: var(--common-resultIconSuccessColor);
+			width: 16px;
+		}
+
+		&-pending {
+			color: #ffae74;
+			width: 16px;
+		}
+		&-fail {
+			color: var(--common-resultIconFailureColor);
+			width: 9px;
+		}
+	}
+
+	&-text {
+		display: inline-block;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+	}
+}
+
+.skeleton {
+	display: inline-block;
+	vertical-align: middle;
+}

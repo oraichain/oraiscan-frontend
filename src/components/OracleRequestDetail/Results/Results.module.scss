@@ -1,0 +1,70 @@
+@import "src/styles/utils";
+
+.card {
+	&-header {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-bottom: 20px;
+
+		@include media(">=large") {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	&-body {
+	}
+}
+
+.total-item {
+	&-title {
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		letter-spacing: 0.4px;
+	}
+
+	&-value {
+		color: var(--common-placeholderTextColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		letter-spacing: 0.4px;
+	}
+
+	&-status {
+		&-pending {
+			margin-left: 10px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+			letter-spacing: 0.4px;
+			color: var(--common-resultIconPendingColor);
+		}
+
+		&-finished {
+			margin-left: 10px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 150%;
+			letter-spacing: 0.4px;
+			color: var(--common-resultIconSuccessColor);
+		}
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}
