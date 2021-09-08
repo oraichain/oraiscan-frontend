@@ -21,17 +21,9 @@ import NavigateBackBar from "src/components/common/NavigateBackBar";
 
 const cx = cn.bind(styles);
 
-export const tabs = {
-	AI_DATA_SOURCES: "AI data sources",
-	TEST_CASE: "Test cases",
-	REPORTS: "Reports",
-	RESULT: "Result",
-};
-
 const OracleRequestDetail = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const [activeTab, setActiveTab] = React.useState(tabs.AI_DATA_SOURCES);
 	const params = useParams();
 	const id = params?.["id"];
 	// const history = useHistory();

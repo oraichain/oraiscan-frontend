@@ -103,6 +103,7 @@ export default Object.freeze({
 		SMART_CONTRACTS: "/smart_contracts",
 		REQUESTS_VALIDATOR: "/validator/requests",
 		ORACLE_REQUESTS: "/oracle_requests",
+		ORACLE_REPORT: "/oracle_report",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
