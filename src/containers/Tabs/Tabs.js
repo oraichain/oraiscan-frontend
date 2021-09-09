@@ -345,7 +345,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseOracleScripts;
 								break;
 							case "Requests":
-								classNameDropdown = "dropdown-requests";
+								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = requestsAnchorRef;
 								open = openRequests;
