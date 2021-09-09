@@ -22,7 +22,7 @@ const cx = classNames.bind(styles);
 export const getHeaderRow = () => {
 	const nameHeaderCell = <div className={cx("header-cell", "align-left")}>Contract</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-left")}>Result</div>;
-	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
+	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Status</div>;
 
 	const headerCells = [nameHeaderCell, resultHeaderCell, statusHeaderCell];
 	const headerCellStyles = [
@@ -95,7 +95,7 @@ const TCResultTable = memo(({data}) => {
 							// }}
 						>
 							{/* <CopyIcon className={cx("copy-icon")}></CopyIcon> */}
-							{Base64.decode(item?.result)}
+							{item?.result}
 						</div>
 					</div>
 				</div>

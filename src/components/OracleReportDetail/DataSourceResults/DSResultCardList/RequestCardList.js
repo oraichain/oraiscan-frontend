@@ -64,9 +64,7 @@ const RequestCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>Result</div>
 									</td>
-									<td>
-										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{Base64.decode(item?.result)}</div>}
-									</td>
+									<td>{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.result}</div>}</td>
 								</tr>
 
 								<tr>

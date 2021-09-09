@@ -22,6 +22,7 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import DataSourceResults from "src/components/OracleReportDetail/DataSourceResults";
 import TestCaseResults from "src/components/OracleReportDetail/TestCaseResults";
 import styles from "./OracleReportDetail.scss";
+import {formatOrai} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -177,82 +178,13 @@ export default function() {
 
 				<Grid container spacing={2} className={cx("request-table-area")}>
 					<Grid item lg={6} xs={12}>
-						<DataSourceResults contract={contract} id={id} address={address} />
+						<TestCaseResults contract={contract} id={id} address={address} />
 					</Grid>
 					<Grid item lg={6} xs={12}>
-						<TestCaseResults contract={contract} id={id} address={address} />
+						<TestCaseResults contract={contract} id={id} address={address} tcCheck={true} />
 					</Grid>
 				</Grid>
 			</Container>
 		</>
 	);
 }
-
-// const OracleReportDetail = ({}) => {
-// 	const theme = useTheme();
-// 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-// 	const params = useParams();
-// 	const id = params?.["id"];
-// 	const contract = params?.["contract"];
-// 	const history = useHistory();
-// 	const queryStringParse = queryString.parse(history.location.search) || {};
-// 	const address = queryStringParse?.reporter_address ?? "";
-
-// 	const path = `${consts.API.ORACLE_REPORT}/${address}?request_id=${id}&contract=${contract}`;
-// 	const {data, loading, error} = useGet({
-// 		path: path,
-// 	});
-
-// 	let titleSection;
-// 	if (isLargeScreen) {
-// 		titleSection = (
-// 			<Container fixed>
-// 				<TitleWrapper>
-// 					<PageTitle title={"Report Details"} />
-// 					<StatusBox />
-// 				</TitleWrapper>
-// 			</Container>
-// 		);
-// 	} else {
-// 		titleSection = (
-// 			<>
-// 				<TogglePageBar type='ai_requests' />
-// 				<NavigateBackBar type='request_report' id={id} />
-// 			</>
-// 		);
-// 	}
-
-// 	let reportDetailCard;
-// 	let proposedBlocksCard;
-// 	let missedBlocksCard;
-// 	let delegatorsCard;
-
-// 	if (loading) {
-// 		reportDetailCard = <ReportDetailCardSkeleton />;
-// 	} else {
-// 		if (error) {
-// 			reportDetailCard = <ReportDetailCard data={{}} />;
-// 		} else {
-// 			reportDetailCard = <ReportDetailCard data={data} />;
-// 		}
-// 	}
-
-// 	let reportDetailCard = <OracleReportDetail contract={contract} id={id} address={address}/>;
-// 	let reportResultCard = <ReportDetail contract={contract} id={id} address={address}/>;
-
-// 	return (
-// 		<>
-// 			{titleSection}
-// 			<Container fixed className={cx("request-details")}>
-// 				{reportDetailCard}
-// 				{reportResultCard}
-// 				{reportResultCard}
-// 			</Container>
-// 		</>
-// 	);
-// };
-
-// OracleReportDetail.propTypes = {};
-// OracleReportDetail.defaultProps = {};
-
-// export default OracleReportDetail;

@@ -50,8 +50,8 @@ const OracleRequestDetail = ({}) => {
 		);
 	}
 
-	let dataSourcesCard = <DataSources contract={contract} id={id} />;
-	// let testCasesCard = <DataSources contract={contract} id={id} />;
+	let testCasesCard = <DataSources contract={contract} id={id} />;
+	let dataSourcesCard = <DataSources contract={contract} id={id} dsCheck={true} />;
 	let reportsCard = <Reports contract={contract} id={id} />;
 	let resultsCard = <Results contract={contract} id={id} />;
 
@@ -60,9 +60,9 @@ const OracleRequestDetail = ({}) => {
 			{titleSection}
 			<Container fixed className={cx("request-details")}>
 				{dataSourcesCard}
-				{/* {testCasesCard} */}
 				{reportsCard}
 				{resultsCard}
+				{testCasesCard}
 			</Container>
 		</>
 	);

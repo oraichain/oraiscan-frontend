@@ -17,7 +17,7 @@ import styles from "./TestCaseResult.module.scss";
 
 const cx = classNames.bind(styles);
 
-const TestCaseResults = memo(({contract, id, address}) => {
+const TestCaseResults = memo(({contract, id, address, tcCheck}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -28,7 +28,9 @@ const TestCaseResults = memo(({contract, id, address}) => {
 	};
 
 	const limit = 5;
-	const path = `${consts.API.ORACLE_REPORT}/tc_results/${address}?request_id=${id}&contract=${contract}&limit=${limit}&page_id${pageId}`;
+	const pathTC = `${consts.API.ORACLE_REPORT}/tc_results/${address}?request_id=${id}&contract=${contract}&limit=${limit}&page_id${pageId}`;
+	const pathDS = `${consts.API.ORACLE_REPORT}/ds_results/${address}?request_id=${id}&contract=${contract}&limit=${limit}&page_id${pageId}`;
+	let path = tcCheck ? pathTC : pathDS;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
@@ -74,6 +76,7 @@ TestCaseResults.propTypes = {
 	id: PropTypes.any,
 	address: PropTypes.string,
 	contract: PropTypes.string,
+	tcCheck: PropTypes.bool,
 };
 TestCaseResults.defaultProps = {};
 

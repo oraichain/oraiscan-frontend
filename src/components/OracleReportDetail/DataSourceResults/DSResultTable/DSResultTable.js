@@ -96,7 +96,7 @@ const DSResultTable = memo(({data = []}) => {
 							// }}
 						>
 							{/* <CopyIcon className={cx("copy-icon")}></CopyIcon>  */}
-							{Base64.decode(item?.result)}
+							{item?.result}
 						</div>
 					</div>
 				</div>

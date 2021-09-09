@@ -19,11 +19,8 @@ import styles from "./DataSources.module.scss";
 
 const cx = cn.bind(styles);
 
-const DataSources = ({contract, id}) => {
+const DataSources = ({contract, id, dsCheck}) => {
 	const [pageId, setPageId] = useState(1);
-	// const calculateTotalPage = data?.length / consts.REQUEST.LIMIT;
-	// const totalPages = calculateTotalPage !== parseInt(calculateTotalPage.toString()) ? parseInt(calculateTotalPage.toString()) + 1 : calculateTotalPage;
-	// const currentPageData = data?.filter((item, index) => index >= (pageId - 1) * consts.REQUEST.LIMIT);
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const totalPagesRef = useRef(null);
@@ -33,7 +30,8 @@ const DataSources = ({contract, id}) => {
 	};
 
 	const limit = 5;
-	const path = `${consts.API.ORACLE_REQUESTS_DATA_SOURCES}/${id}?contract=${contract}&limit=${limit}&page_id=${pageId}`;
+	let path = dsCheck ? `${consts.API.ORACLE_REQUESTS_DATA_SOURCES}` : `${consts.API.ORACLE_REQUESTS_TEST_CASE}`;
+	path += `/${id}?contract=${contract}&limit=${limit}&page_id=${pageId}`;
 	const {data, loading, error} = useGet({
 		path: path,
 	});
@@ -49,7 +47,7 @@ const DataSources = ({contract, id}) => {
 		if (error) {
 			totalItems = "-";
 			totalPagesRef.current = null;
-			tableSection = <Pending />;
+			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page) && !isNaN(data?.page?.total_item)) {
 				totalItems = data.page.total_item;
@@ -58,34 +56,22 @@ const DataSources = ({contract, id}) => {
 				totalItems = "-";
 				totalPagesRef.current = null;
 			}
-			// if (isNaN(data?.length)) {
-			// 	totalItems = "-";
-			// } else {
-			// 	totalItems = formatInteger(data?.length);
-			// }
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
 				tableSection = isLargeScreen ? <DataSourceTable data={data.data} /> : <DataSourceCardList data={data.data} />;
 			} else {
-				tableSection = <Pending />;
+				tableSection = <NoResult />;
 			}
-
-			// if (Array.isArray(data) && data.length > 0) {
-			// 	tableSection = isLargeScreen ? <DataSourceTable data={currentPageData} /> : <DataSourceCardList data={currentPageData} />;
-			// } else {
-			// 	tableSection = <Pending />;
-			// }
 		}
 	}
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
-	// paginationSection = totalPages ? <Pagination pages={totalPages} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<div className={cx("card")}>
 			<div className={cx("card-header")}>
 				<div className={cx("total-item")}>
-					<span className={cx("total-item-title")}>Ai data sources </span>
+					{dsCheck ? <span className={cx("total-item-title")}>Data Sources </span> : <span className={cx("total-item-title")}>Test Cases </span>}
 					<span className={cx("total-item-value")}>({totalItems})</span>
 				</div>
 			</div>
@@ -100,6 +86,7 @@ const DataSources = ({contract, id}) => {
 DataSources.propTypes = {
 	id: PropTypes.any,
 	contract: PropTypes.any,
+	dsCheck: PropTypes.bool,
 };
 DataSources.defaultProps = {};
 
