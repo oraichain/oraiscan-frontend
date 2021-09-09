@@ -4,10 +4,10 @@ import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/containers/RequestReportDetail/TestCaseCard/TestCaseTable/TestCaseTable";
-import styles from "./TestCaseTable.module.scss";
+import {getHeaderRow} from "src/components/RequestDetails/ReportTable/ReportTable";
+import styles from "./ReportTable.module.scss";
 
-const TestCaseTableSkeleton = memo(({rows}) => {
+const ReportTableSkeleton = memo(({rows}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -15,6 +15,18 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 			const nameDataCell = (
 				<div className={cx("align-left")}>
 					<Skeleton variant='text' width={150} height={21} className={cx("skeleton")} />
+				</div>
+			);
+
+			const testCaseResultsDataCell = (
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' width={90} height={21} className={cx("skeleton")} />
+				</div>
+			);
+
+			const heightDataCell = (
+				<div className={cx("align-left")}>
+					<Skeleton variant='text' width={48} height={21} className={cx("skeleton")} />
 				</div>
 			);
 
@@ -30,7 +42,13 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 				</div>
 			);
 
-			dataRows.push([nameDataCell, resultDataCell, statusDataCell]);
+			const moreDataCell = (
+				<div className={cx("align-right")}>
+					<Skeleton variant='text' width={65} height={21} className={cx("skeleton")} />
+				</div>
+			);
+
+			dataRows.push([nameDataCell, testCaseResultsDataCell, heightDataCell, resultDataCell, statusDataCell, moreDataCell]);
 		}
 		return dataRows;
 	};
@@ -41,11 +59,11 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-TestCaseTableSkeleton.propTypes = {
+ReportTableSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
-TestCaseTableSkeleton.defaultProps = {
+ReportTableSkeleton.defaultProps = {
 	rows: 5,
 };
 
-export default TestCaseTableSkeleton;
+export default ReportTableSkeleton;
