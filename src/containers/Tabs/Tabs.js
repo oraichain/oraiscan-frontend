@@ -207,14 +207,14 @@ const Tabs = memo(() => {
 		],
 		Requests: [
 			{
-				pathName: "/ai_requests",
-				title: "Requests",
-				activePath: "/ai_requests",
+				pathName: "/ai-requests",
+				title: "AI Requests",
+				activePath: "/ai-requests",
 			},
 			{
-				pathName: "/oracle-requests",
-				title: "Oracle Requests",
-				activePath: "/oracle-requests",
+				pathName: "/ai_requests",
+				title: "AI Requests (Legacy)",
+				activePath: "/ai_requests",
 			},
 		],
 		Others: [
@@ -282,7 +282,7 @@ const Tabs = memo(() => {
 		{
 			name: "Requests",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai_requests",
+			route: "/ai-requests",
 			dropdownClassName: "requests-dropdown",
 			render: renderTabDropdownComponent,
 		},

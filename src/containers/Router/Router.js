@@ -66,7 +66,7 @@ export default function(props) {
 					<Route path='/ai_requests/:id/report' component={RequestReportDetail} />
 					<Route path='/ai_requests/:id' component={RequestDetails} />
 					<Route path='/ai_requests' component={Requests} />
-					<Route path='/oracle-requests' component={OracleRequests} />
+					<Route path='/ai-requests' component={OracleRequests} />
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
@@ -75,8 +75,8 @@ export default function(props) {
 					<Route path={`/randomness/${contract}`} component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
-					<Route path='/oracle_request/:contract/:id/report' component={OracleReportDetail} />
-					<Route path='/oracle_request/:contract/:id' component={OracleRequestDetail} />
+					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
+					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>
