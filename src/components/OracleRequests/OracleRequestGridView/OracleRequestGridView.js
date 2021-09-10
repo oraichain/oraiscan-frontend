@@ -51,7 +51,6 @@ const OracleRequestGridView = ({data}) => {
 												{item?.contract}
 											</NavLink>
 										)}
-										{/* // <div className={cx("request-text")}>{_.isNil(item?.contract) ? "-" : item?.contract}</div> */}
 									</td>
 								</tr>
 								<tr>

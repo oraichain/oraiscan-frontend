@@ -180,7 +180,7 @@ export default Object.freeze({
 		REQUESTS_REPORTS: "/requests_reports",
 		SMART_CONTRACT: "/smart-contract",
 		SMART_CONTRACTS: "/smart-contracts",
-		ORACLE_REQUEST: "/oracle_request",
+		ORACLE_REQUEST: "/ai-request",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
