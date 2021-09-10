@@ -116,9 +116,11 @@ export default function() {
 									{_.isNil(data?.contract) ? (
 										<div className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type1")}>-</div>
 									) : (
-										<span className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type1")}>
+										<NavLink
+											className={cx("data-request-table__info-code-item-content", "data-request-table__info-code-item-content-type1")}
+											to={`${consts.PATH.SMART_CONTRACT}/${data?.contract}`}>
 											{data?.contract}
-										</span>
+										</NavLink>
 									)}
 								</div>
 							</div>
@@ -153,7 +155,11 @@ export default function() {
 								{_.isNil(data?.reporter_address) ? (
 									<div className={cx("data-request-table__info-code-item-content")}>-</div>
 								) : (
-									<div className={cx("data-request-table__info-code-item-content")}>{data?.reporter_address}</div>
+									<div className={cx("data-request-table__info-code-item-content")}>
+										<NavLink className={cx("data-request-table__info-code-item-content-type1")} to={`${consts.PATH.ACCOUNT}/${data?.reporter_address}`}>
+											{data?.reporter_address}
+										</NavLink>
+									</div>
 								)}
 							</div>
 							<div className={cx("data-request-table__info-code-item")}>
@@ -161,7 +167,11 @@ export default function() {
 								{_.isNil(data?.reporter_name) ? (
 									<div className={cx("data-request-table__info-code-item-content")}>-</div>
 								) : (
-									<div className={cx("data-request-table__info-code-item-content")}>{data?.reporter_name}</div>
+									<div className={cx("data-request-table__info-code-item-content")}>
+										<NavLink className={cx("data-request-table__info-code-item-content-type1")} to={`${consts.PATH.VALIDATORS}/${data?.reporter_validator}`}>
+											{data?.reporter_name}
+										</NavLink>
+									</div>
 								)}
 							</div>
 							<div className={cx("data-request-table__info-code-item")}>
@@ -169,7 +179,11 @@ export default function() {
 								{_.isNil(data?.reporter_validator) ? (
 									<div className={cx("data-request-table__info-code-item-content")}>-</div>
 								) : (
-									<div className={cx("data-request-table__info-code-item-content")}>{data?.reporter_validator}</div>
+									<div className={cx("data-request-table__info-code-item-content")}>
+										<NavLink className={cx("data-request-table__info-code-item-content-type1")} to={`${consts.PATH.VALIDATORS}/${data?.reporter_validator}`}>
+											{data?.reporter_validator}
+										</NavLink>
+									</div>
 								)}
 							</div>
 						</div>

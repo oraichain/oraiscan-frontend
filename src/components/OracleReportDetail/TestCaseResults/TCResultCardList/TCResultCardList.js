@@ -53,7 +53,15 @@ const TCResultCardList = memo(({data}) => {
 									<td>
 										<div className={cx("item-title")}>Contract</div>
 									</td>
-									<td>{_.isNil(item?.contract) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.contract}</div>}</td>
+									<td>
+										{_.isNil(item?.contract) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
+												{item?.contract}
+											</NavLink>
+										)}
+									</td>
 								</tr>
 
 								<tr>

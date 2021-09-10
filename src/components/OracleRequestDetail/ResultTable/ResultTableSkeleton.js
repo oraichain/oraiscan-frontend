@@ -3,7 +3,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/RequestDetails/ResultTable/ResultTable";
+import {getHeaderRow} from "./ResultTable";
 import styles from "./ResultTable.module.scss";
 
 const ResultTableSkeleton = memo(({rows = 5}) => {
@@ -35,7 +35,7 @@ const ResultTableSkeleton = memo(({rows = 5}) => {
 			);
 
 			const votingPowerDataCell = (
-				<div className={cx("voting-power-data-cell", "align-left")}>
+				<div className={cx("voting-power-data-cell", "align-right")}>
 					<div className={cx("voting-power")}>
 						<div className={cx("voting-power-value")}>
 							<Skeleton variant='text' width={70} height={21} className={cx("skeleton")} />

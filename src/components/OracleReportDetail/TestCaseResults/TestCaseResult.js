@@ -39,7 +39,7 @@ const TestCaseResults = memo(({contract, id, address, tcCheck}) => {
 	let paginationSection;
 
 	if (loading) {
-		tableSection = isLargeScreen ? <TCResultTableSkeleton /> : <TCResultCardList />;
+		tableSection = isLargeScreen ? <TCResultTableSkeleton /> : <TCResultCardListSkeleton />;
 	} else {
 		if (error) {
 			totalPagesRef.current = null;
@@ -63,7 +63,11 @@ const TestCaseResults = memo(({contract, id, address, tcCheck}) => {
 
 	return (
 		<div className={cx("test-case-card")}>
-			<div className={cx("test-case-card-header")}> Test Case Results </div>
+			{tcCheck ? (
+				<div className={cx("test-case-card-header")}> Test Case Results </div>
+			) : (
+				<div className={cx("test-case-card-header")}> Data Source Results </div>
+			)}
 			<div className={cx("test-case-card-body")}>
 				{tableSection}
 				{paginationSection}

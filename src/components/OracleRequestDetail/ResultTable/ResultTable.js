@@ -22,7 +22,7 @@ export const getHeaderRow = () => {
 	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
 	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-left")}>Result</div>;
-	const votingPowerHeaderCell = <div className={cx("header-cell", "align-left")}>Successful Report Count</div>;
+	const votingPowerHeaderCell = <div className={cx("header-cell", "align-right")}>Successful Report Count</div>;
 	const statusHeaderCell = <div className={cx("header-cell", "align-right")}>Status</div>;
 	const headerCells = [validatorHeaderCell, addressHeaderCell, resultHeaderCell, votingPowerHeaderCell, statusHeaderCell];
 	const headerCellStyles = [
@@ -87,9 +87,9 @@ const ResultTable = memo(({data = []}) => {
 			);
 
 			const votingPowerDataCell = _.isNil(item?.successful_report_count) ? (
-				<div className={cx("align-left")}>-</div>
+				<div className={cx("align-right")}>-</div>
 			) : (
-				<div className={cx("voting-power-data-cell", "align-left")}>
+				<div className={cx("voting-power-data-cell", "align-right")}>
 					<div className={cx("voting-power")}>
 						<div className={cx("voting-power-value")}>{formatInteger(item?.successful_report_count)}</div>
 					</div>

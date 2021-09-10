@@ -73,7 +73,10 @@ const TCResultTable = memo(({data}) => {
 			const nameDataCell = _.isNil(item?.contract) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("name-data-cell", "align-left")}>{item?.contract}</div>
+				// <div className={cx("name-data-cell", "align-left")}>{item?.contract}</div>
+				<NavLink className={cx("contract-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
+					{item?.contract}
+				</NavLink>
 			);
 
 			const resultDataCell = _.isNil(item?.result) ? (
