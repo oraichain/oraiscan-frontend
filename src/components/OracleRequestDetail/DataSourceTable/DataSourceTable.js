@@ -56,15 +56,15 @@ const DataSourceTable = memo(({data}) => {
 			const ownerDataCell = _.isNil(item?.script_url) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("owner-data-cell", "align-left")} to={`${item?.script_url}`}>
+				<a target='_blank' href={item?.script_url} className={cx("owner-data-cell", "align-left")}>
 					{item?.script_url}
-				</NavLink>
+				</a>
 			);
 
 			const descriptionDataCell = _.isNil(item?.parameters) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("description-data-cell", "align-left")}>{item.parameters.toString()}</div>
+				<div className={cx("description-data-cell", "align-left")}>{item?.parameters.toString()}</div>
 			);
 
 			const feesDataCell = _.isNil(item?.fees) ? (

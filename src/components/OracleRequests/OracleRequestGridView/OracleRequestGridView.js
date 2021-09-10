@@ -27,14 +27,6 @@ const OracleRequestGridView = ({data}) => {
 							<table className={cx("request")}>
 								<tr>
 									<td>
-										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Contract</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
-									</td>
-									<td>
-										<div className={cx("request-text")}>{_.isNil(item?.contract) ? "-" : item?.contract}</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
 										<div className={cx("request-title")}>Request id</div>
 									</td>
 									<td>
@@ -45,6 +37,21 @@ const OracleRequestGridView = ({data}) => {
 												{item?.request_id}
 											</NavLink>
 										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Contract</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
+									</td>
+									<td>
+										{_.isNil(item?.contract) ? (
+											<div className={cx("request-text")}>-</div>
+										) : (
+											<NavLink className={cx("request-link")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
+												{item?.contract}
+											</NavLink>
+										)}
+										{/* // <div className={cx("request-text")}>{_.isNil(item?.contract) ? "-" : item?.contract}</div> */}
 									</td>
 								</tr>
 								<tr>

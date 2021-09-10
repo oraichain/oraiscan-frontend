@@ -36,7 +36,7 @@ const OracleRequests = () => {
 	// const history = useHistory();
 	// const queryStringParse = queryString.parse(history.location.search) || {};
 	// const creator = queryStringParse?.creator ?? "";
-	const [isGridView, setIsGridView] = useState(false);
+	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(1);
 	const totalPagesRef = useRef(null);
