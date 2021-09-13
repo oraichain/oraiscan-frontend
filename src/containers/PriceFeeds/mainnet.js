@@ -39,7 +39,6 @@ export const getPriceFeedMainnet = async () => {
 
 				aggregatedResult.forEach(result => {
 					result.forEach(d => {
-						console.log("d: ", d);
 						if (holder.hasOwnProperty(d.name)) {
 							holder[d.name] = holder[d.name] + d.price;
 							holder[d.name + "count"] += 1;

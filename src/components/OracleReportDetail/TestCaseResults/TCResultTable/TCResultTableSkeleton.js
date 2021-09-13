@@ -4,10 +4,10 @@ import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/containers/RequestReportDetail/TestCaseCard/TestCaseTable/TestCaseTable";
-import styles from "./TestCaseTable.module.scss";
+import {getHeaderRow} from "./TCResultTable";
+import styles from "./TCResultTable.module.scss";
 
-const TestCaseTableSkeleton = memo(({rows}) => {
+const TCResultTableSkeleton = memo(({rows}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -41,11 +41,11 @@ const TestCaseTableSkeleton = memo(({rows}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-TestCaseTableSkeleton.propTypes = {
+TCResultTableSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
-TestCaseTableSkeleton.defaultProps = {
+TCResultTableSkeleton.defaultProps = {
 	rows: 5,
 };
 
-export default TestCaseTableSkeleton;
+export default TCResultTableSkeleton;

@@ -150,6 +150,13 @@ const DetailCard = memo(({data}) => {
 		</div>
 	);
 
+	const missedBlockElement = (
+		<div className={cx("info")}>
+			<div className={cx("info-title")}>Missed Block Number</div>
+			<div className={cx("info-text")}>{data?.missed_block}</div>
+		</div>
+	);
+
 	return (
 		<div className={cx("detail-card")}>
 			{isLargeScreen ? (
@@ -182,6 +189,9 @@ const DetailCard = memo(({data}) => {
 						<Grid item xs={4}>
 							{requestsElement}
 						</Grid>
+						<Grid item xs={4}>
+							{missedBlockElement}
+						</Grid>
 					</Grid>
 				</Grid>
 			) : (
@@ -195,7 +205,8 @@ const DetailCard = memo(({data}) => {
 							<td>{uptimeElement}</td>
 						</tr>
 						<tr>
-							<td colSpan={2}>{votingPowerElement}</td>
+							<td>{votingPowerElement}</td>
+							<td>{missedBlockElement}</td>
 						</tr>
 						<tr>
 							<td>{selfBondedElement}</td>

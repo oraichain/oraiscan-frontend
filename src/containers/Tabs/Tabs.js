@@ -39,11 +39,13 @@ const Tabs = memo(() => {
 	const [openTransactions, setOpenTransactions] = React.useState(false);
 	const [openProposals, setOpenProposals] = React.useState(false);
 	const [openOracleScripts, setOpenOracleScripts] = React.useState(false);
+	const [openRequests, setOpenRequests] = React.useState(false);
 	const [openOthers, setOpenOthers] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
 	const oracleScriptsAnchorRef = React.useRef(null);
+	const requestsAnchorRef = React.useRef(null);
 	const othersAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
@@ -76,6 +78,14 @@ const Tabs = memo(() => {
 
 	const handleCloseOracleScripts = () => {
 		setOpenOracleScripts(false);
+	};
+
+	const handleOpenRequests = () => {
+		setOpenRequests(true);
+	};
+
+	const handleCloseRequests = () => {
+		setOpenRequests(false);
 	};
 
 	const handleOpenOthers = () => {
@@ -195,6 +205,18 @@ const Tabs = memo(() => {
 				activePath: "/oracle-scripts",
 			},
 		],
+		Requests: [
+			{
+				pathName: "/ai-requests",
+				title: "AI Requests",
+				activePath: "/ai-requests",
+			},
+			{
+				pathName: "/ai_requests",
+				title: "AI Requests (Legacy)",
+				activePath: "/ai_requests",
+			},
+		],
 		Others: [
 			{
 				pathName: "/data-sources",
@@ -260,7 +282,9 @@ const Tabs = memo(() => {
 		{
 			name: "Requests",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai_requests",
+			route: "/ai-requests",
+			dropdownClassName: "requests-dropdown",
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Others",
@@ -319,6 +343,14 @@ const Tabs = memo(() => {
 								open = openOracleScripts;
 								handleOpen = handleOpenOracleScripts;
 								handleClose = handleCloseOracleScripts;
+								break;
+							case "Requests":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = requestsAnchorRef;
+								open = openRequests;
+								handleOpen = handleOpenRequests;
+								handleClose = handleCloseRequests;
 								break;
 							case "Others":
 								classNameDropdown = "dropdown-transactions";
