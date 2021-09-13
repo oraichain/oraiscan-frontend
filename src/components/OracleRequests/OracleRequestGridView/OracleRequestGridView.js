@@ -27,20 +27,6 @@ const OracleRequestGridView = ({data}) => {
 							<table className={cx("request")}>
 								<tr>
 									<td>
-										<div className={cx("request-title")}>Request id</div>
-									</td>
-									<td>
-										{_.isNil(item?.request_id) ? (
-											<div className={cx("request-link")}>-</div>
-										) : (
-											<NavLink className={cx("request-link")} to={`${consts.PATH.ORACLE_REQUEST}/${item?.contract}/${item?.request_id}`}>
-												{item?.request_id}
-											</NavLink>
-										)}
-									</td>
-								</tr>
-								<tr>
-									<td>
 										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Contract</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
 									</td>
 									<td>
@@ -49,6 +35,20 @@ const OracleRequestGridView = ({data}) => {
 										) : (
 											<NavLink className={cx("request-link")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
 												{item?.contract}
+											</NavLink>
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("request-title")}>Request id</div>
+									</td>
+									<td>
+										{_.isNil(item?.request_id) ? (
+											<div className={cx("request-link")}>-</div>
+										) : (
+											<NavLink className={cx("request-link")} to={`${consts.PATH.ORACLE_REQUEST}/${item?.contract}/${item?.request_id}`}>
+												{item?.request_id}
 											</NavLink>
 										)}
 									</td>
