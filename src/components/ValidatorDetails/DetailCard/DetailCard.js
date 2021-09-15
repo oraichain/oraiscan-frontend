@@ -11,10 +11,11 @@ import RightArrowIcon from "src/icons/RightArrowIcon";
 import Dialog from "@material-ui/core/Dialog";
 import RequestsCard from "src/components/ValidatorDetails/RequestsCard";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {isNil} from "lodash";
 
 const cx = classNames.bind(styles);
 
-const DetailCard = memo(({data}) => {
+const DetailCard = memo(({data, selfBondedData}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [open, setOpen] = useState(false);
@@ -92,7 +93,7 @@ const DetailCard = memo(({data}) => {
 	const selfBondedElement = (
 		<div className={cx("info")}>
 			<div className={cx("info-title")}>Self Bonded</div>
-			<div className={cx("info-link")}>-</div>
+			<div className={cx("info-text")}>{!isNil(selfBondedData?.pagination?.total) ? selfBondedData?.pagination?.total : "-"}</div>
 		</div>
 	);
 
@@ -153,7 +154,9 @@ const DetailCard = memo(({data}) => {
 	const missedBlockElement = (
 		<div className={cx("info")}>
 			<div className={cx("info-title")}># missed blocks</div>
-			<div className={cx("info-text")}>{data?.missed_block}</div>
+			<div className={cx("info-text")}>
+				{data?.missed_block ?? "-"} / {data?.blocks ?? "-"}
+			</div>
 		</div>
 	);
 
