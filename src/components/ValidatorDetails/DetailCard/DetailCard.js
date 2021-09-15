@@ -152,7 +152,7 @@ const DetailCard = memo(({data}) => {
 
 	const missedBlockElement = (
 		<div className={cx("info")}>
-			<div className={cx("info-title")}>Missed Block Number</div>
+			<div className={cx("info-title")}># missed blocks</div>
 			<div className={cx("info-text")}>{data?.missed_block}</div>
 		</div>
 	);
