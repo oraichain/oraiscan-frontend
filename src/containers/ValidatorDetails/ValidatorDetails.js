@@ -45,6 +45,13 @@ const ValidatorDetails = ({match}) => {
 		path: path,
 	});
 
+	const limit = 1;
+	const countTotal = true;
+	const selfBondedPath = `${consts.LCD_API_BASE}${consts.LCD_API.VALIDATOR}/${validatorAddress}/delegations?pagination.offset=${limit}&pagination.limit=${limit}&pagination.count_total=${countTotal}`;
+	const {data: selfBondedData, loading: elfBondedLoading, error: elfBondedError} = useGet({
+		path: selfBondedPath,
+	});
+
 	const titleSection = isLargeScreen ? (
 		<Container fixed>
 			<TitleWrapper>
@@ -82,7 +89,7 @@ const ValidatorDetails = ({match}) => {
 					isInactive={data?.jailed}
 				/>
 			);
-			detailCard = <DetailCard data={data} />;
+			detailCard = <DetailCard data={data} selfBondedData={selfBondedData} />;
 		}
 	}
 
