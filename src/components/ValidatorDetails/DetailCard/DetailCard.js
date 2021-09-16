@@ -4,7 +4,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import styles from "./DetailCard.scss";
-import {formatInteger, formatPercentage} from "src/helpers/helper";
+import {formatOrai, formatInteger, formatPercentage} from "src/helpers/helper";
 import {NavLink} from "react-router-dom";
 import {Progress} from "antd";
 import RightArrowIcon from "src/icons/RightArrowIcon";
@@ -15,7 +15,7 @@ import {isNil} from "lodash";
 
 const cx = classNames.bind(styles);
 
-const DetailCard = memo(({data, selfBondedData}) => {
+const DetailCard = memo(({data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [open, setOpen] = useState(false);
@@ -93,7 +93,9 @@ const DetailCard = memo(({data, selfBondedData}) => {
 	const selfBondedElement = (
 		<div className={cx("info")}>
 			<div className={cx("info-title")}>Self Bonded</div>
-			<div className={cx("info-text")}>{!isNil(selfBondedData?.pagination?.total) ? selfBondedData?.pagination?.total : "-"}</div>
+			<div className={cx("info-text")}>
+				{!isNil(data?.self_bonded) ? formatOrai(data?.self_bonded) : "-"} <span className={cx("info-denom")}>ORAI</span>{" "}
+			</div>
 		</div>
 	);
 

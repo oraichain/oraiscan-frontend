@@ -118,7 +118,6 @@ export default Object.freeze({
 		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/wasm/v1beta1/contract",
-		VALIDATOR: "/cosmos/staking/v1beta1/validators",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
