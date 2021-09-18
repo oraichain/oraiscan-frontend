@@ -35,6 +35,33 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 
 const cx = cn.bind(styles);
 
+const getTxTypeNew = (type, rawLog = "[]", result = "") => {
+	const typeArr = type.split(".");
+	let typeMsg = typeArr[typeArr.length - 1];
+	if (typeMsg === "MsgExecuteContract" && result === "Success") {
+		let rawLogArr = JSON.parse(rawLog);
+		for (let event of rawLogArr[0].events) {
+			if (event["type"] === "wasm") {
+				for (let att of event["attributes"]) {
+					if (att["key"] === "action") {
+						let attValue = att["value"]
+							.split("_")
+							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+							.join("");
+						typeMsg += "/" + attValue;
+
+						break;
+					}
+				}
+
+				break;
+			}
+		}
+	}
+
+	return typeMsg;
+};
+
 const tryParseMessageBinary = data => {
 	try {
 		const obj = JSON.parse(atob(data));
@@ -720,7 +747,7 @@ const TxMessage = ({msg, data}) => {
 		<div className={cx("card")}>
 			<div className={cx("card-header")}>
 				{toolTippedImg}
-				<span className={cx("title")}>{getTxType(type)}</span>
+				<span className={cx("title")}>{getTxTypeNew(data.messages[0]["@type"], data?.raw_log, data?.result)}</span>
 			</div>
 			<div className={cx("card-body")}>{messageDetails}</div>
 		</div>
