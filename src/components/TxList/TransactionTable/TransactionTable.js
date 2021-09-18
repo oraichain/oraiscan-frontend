@@ -17,11 +17,6 @@ import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
-const getTxTypeNew = type => {
-	const typeArr = type.split(".");
-	return typeArr[typeArr.length - 1];
-};
-
 export const getHeaderRow = () => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
@@ -48,9 +43,30 @@ export const getHeaderRow = () => {
 
 const TransactionTable = memo(({data, rowMotions, account}) => {
 	const status = useSelector(state => state.blockchain.status);
-	const getTxTypeNew = type => {
+	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
-		return typeArr[typeArr.length - 1];
+		let typeMsg = typeArr[typeArr.length - 1];
+		if (typeMsg === "MsgExecuteContract" && result === "Success") {
+			let rawLogArr = JSON.parse(rawLog);
+			for (let event of rawLogArr[0].events) {
+				if (event["type"] === "wasm") {
+					for (let att of event["attributes"]) {
+						if (att["key"] === "action") {
+							let attValue = att["value"]
+								.split("_")
+								.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+								.join("");
+							typeMsg += "/" + attValue;
+							break;
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		return typeMsg;
 	};
 
 	const getDataRows = data => {
@@ -71,7 +87,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
