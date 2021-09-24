@@ -25,7 +25,7 @@ import useGithubSource from "src/hooks/useGithubSource";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
-import {_, tryParseMessage} from "src/lib/scripts";
+import {_, tryParseMessage, recursiveExpand} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -691,6 +691,17 @@ const TxMessage = ({msg, data}) => {
 								displayObjectSize={false}
 								displayDataTypes={false}
 								src={tryParseMessage(value?.msg)}
+							/>
+						</InfoRow>
+						<InfoRow label='Event logs'>
+							<ReactJson
+								style={{backgroundColor: "transparent"}}
+								name={false}
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+								displayObjectSize={false}
+								displayDataTypes={false}
+								// collapsed={true}
+								src={JSON.parse(data?.raw_log)}
 							/>
 						</InfoRow>
 					</>
