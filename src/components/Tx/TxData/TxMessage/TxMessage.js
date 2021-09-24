@@ -700,7 +700,7 @@ const TxMessage = ({msg, data}) => {
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
 								displayDataTypes={false}
-								// collapsed={true}
+								collapsed={true}
 								src={JSON.parse(data?.raw_log)}
 							/>
 						</InfoRow>
