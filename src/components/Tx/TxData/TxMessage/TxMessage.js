@@ -701,7 +701,7 @@ const TxMessage = ({msg, data}) => {
 								displayObjectSize={false}
 								displayDataTypes={false}
 								collapsed={true}
-								src={JSON.parse(data?.raw_log)}
+								src={data?.result === "Success" ? JSON.parse(data?.raw_log) : JSON.parse("[{}]")}
 							/>
 						</InfoRow>
 					</>
