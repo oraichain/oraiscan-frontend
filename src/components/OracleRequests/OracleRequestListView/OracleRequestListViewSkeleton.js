@@ -17,20 +17,20 @@ const OracleRequestListViewSkeleton = ({rows}) => {
 					<table className={cx("request")}>
 						<tr>
 							<td>
-								<Skeleton className={cx("skeleton", "request-icon")} variant='circle' width={24} height={24} />
-							</td>
-							<td>
-								<div className={cx("request-text")}>Oracle script name</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
 								<div className={cx("request-title")}>Request id</div>
 							</td>
 							<td>
 								<div className={cx("request-link")}>
 									<Skeleton className={cx("skeleton")} variant='text' width={70} height={21} />
 								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<Skeleton className={cx("skeleton", "request-icon")} variant='circle' width={24} height={24} />
+							</td>
+							<td>
+								<div className={cx("request-text")}>Contract</div>
 							</td>
 						</tr>
 						<tr>
@@ -55,7 +55,7 @@ const OracleRequestListViewSkeleton = ({rows}) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Creator</div>
+								<div className={cx("request-title")}>Status</div>
 							</td>
 							<td>
 								<div className={cx("request-text")}>
