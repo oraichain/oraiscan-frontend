@@ -80,6 +80,7 @@ export const getRound = async (round, contract = config.randomnessContractAddres
 	const queryRoundInput = JSON.stringify({
 		get_round: {round: parseInt(round)},
 	});
+
 	const roundOutput = await cosmos.get(`${consts.LCD_API.WASM}/${contract}/smart/${Buffer.from(queryRoundInput).toString("base64")}`);
 	return {
 		latest: roundOutput.data,
