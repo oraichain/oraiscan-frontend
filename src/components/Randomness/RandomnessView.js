@@ -30,6 +30,7 @@ const RandomnessView = ({data, errorMessage}) => {
 	const [sigs, setSigs] = useState([]);
 	const randomValueRef = useRef(null);
 	const [txhash, setTxhash] = useState(null);
+	const randomness = data?.latest?.randomness || data?.latest?.aggregate_sig?.randomness;
 
 	const handelGetTx = async () => {
 		try {
@@ -77,7 +78,7 @@ const RandomnessView = ({data, errorMessage}) => {
 					}
 				}, 50);
 				setTimeout(() => {
-					currentValue[i] = Array.from(data.latest.randomness)?.[i];
+					currentValue[i] = Array.from(randomness)?.[i];
 					if (randomValueRef.current) {
 						randomValueRef.current.innerHTML = currentValue.join("");
 					}
@@ -88,7 +89,7 @@ const RandomnessView = ({data, errorMessage}) => {
 		if (randomValueRef.current && randomValueRef.current.innerHTML) {
 			rotateWordAnimation();
 		}
-	}, [data?.latest?.randomness]);
+	}, [randomness]);
 
 	return (
 		<>
@@ -98,12 +99,12 @@ const RandomnessView = ({data, errorMessage}) => {
 			<InfoRow label='Random Value'>
 				<div className={cx("address")}>
 					<span ref={randomValueRef} className={cx("address-value")}>
-						{data?.latest?.randomness}
+						{randomness}
 					</span>
 					<span
 						className={cx("address-copy")}
 						onClick={() => {
-							copy(data?.latest?.randomness);
+							copy(randomness);
 							dispatch(
 								showAlert({
 									show: true,
@@ -129,7 +130,7 @@ const RandomnessView = ({data, errorMessage}) => {
 			</InfoRow>
 			<InfoRow label='Signature'>
 				<div className={cx("status")}>
-					<span className={cx("status-text")}>{data?.latest?.combined_sig}</span>
+					<span className={cx("status-text")}>{data?.latest?.combined_sig ?? data?.latest?.aggregate_sig?.sig}</span>
 				</div>
 			</InfoRow>
 			<InfoRow label='Current Fees'>
