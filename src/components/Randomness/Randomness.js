@@ -68,6 +68,16 @@ const Randomness = ({}) => {
 				} while (!roundResult || !roundResult.latest || !roundResult.latest.combined_sig);
 				loadData(roundResult);
 				return;
+			} else if (latestData.latest.aggregate_sig?.sender === "") {
+				let round = latestData.latest.round - 1;
+				let roundResult = {};
+				do {
+					roundResult = await getRound(round);
+					console.log("round result: ", roundResult);
+					round = round - 1;
+				} while (!roundResult || !roundResult.latest || roundResult.latest.aggregate_sig.sender === "");
+				loadData(roundResult);
+				return;
 			}
 			// if data is valid and has enough info => set it
 			loadData(latestData);
@@ -96,7 +106,7 @@ const Randomness = ({}) => {
 		const searchResult = await getRound(roundValue);
 		// if the round value is valid, we stop searching
 		console.log("search result: ", searchResult);
-		if (searchResult && searchResult.latest && searchResult.latest.combined_sig) {
+		if (searchResult && searchResult.latest && (searchResult.latest.combined_sig || searchResult.latest.aggregate_sig.sender !== "")) {
 			loadData(searchResult);
 			return;
 		}
