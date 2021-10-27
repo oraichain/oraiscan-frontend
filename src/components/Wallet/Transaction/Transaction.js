@@ -14,10 +14,14 @@ import styles from "./Transaction.scss";
 
 const cx = classNames.bind(styles);
 
-const Transaction = memo(({account = "", minHeight = 222}) => {
+const Transaction = memo(({account = "", royalty = false, minHeight = 222}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
+	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
+	if (royalty) {
+		basePath = `${consts.API.TXS_ROYALTY}/${account}?limit=${consts.REQUEST.LIMIT}`;
+	}
+
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
 		path: path,
