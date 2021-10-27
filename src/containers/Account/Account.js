@@ -19,6 +19,7 @@ import EmptyCoinsCard from "src/components/common/CoinsCard/EmptyCoinsCard";
 import CoinsCardSkeleton from "src/components/common/CoinsCard/CoinsCardSkeleton";
 import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
+import Tabs from "src/components/TxList/Tabs";
 import TransactionCard from "src/components/Account/TransactionCard";
 import styles from "./Account.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
@@ -27,6 +28,7 @@ const Account = props => {
 	const dispatch = useDispatch();
 
 	const cx = cn.bind(styles);
+	const [activeTab, setActiveTab] = React.useState(0);
 	const account = props?.match?.params?.account ?? 0;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
 	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
@@ -115,7 +117,6 @@ const Account = props => {
 
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
-	transactionCard = <TransactionCard account={account} />;
 
 	return (
 		<Container fixed className={cx("account")}>
@@ -138,7 +139,11 @@ const Account = props => {
 					{unbondingCard}
 				</Grid>
 				<Grid item xs={12}>
-					{transactionCard}
+					<div className={cx("transaction-card")}>
+						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+						{activeTab === 0 && <TransactionCard account={account} />}
+						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
+					</div>
 				</Grid>
 			</Grid>
 		</Container>

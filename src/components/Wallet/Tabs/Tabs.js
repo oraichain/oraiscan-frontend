@@ -18,6 +18,10 @@ export default function({activeTab, setActiveTab, isBecomeValidator}) {
 				<TransactionsIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Transactions</div>
 			</div>
+			<div className={cx("tab", activeTab === 1 ? "active" : "")} onClick={() => setActiveTab(1)}>
+				<TransactionsIcon className={cx("tab-icon")} />
+				<div className={cx("tab-text")}>Royalty Transactions</div>
+			</div>
 			{isBecomeValidator && (
 				<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
 					<ValidatorsIcon className={cx("tab-icon")} />
