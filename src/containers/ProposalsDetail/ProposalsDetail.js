@@ -126,7 +126,6 @@ export default function(props) {
 				<PageTitle title={titleText} />
 				<StatusBox />
 			</TitleWrapper>
-			{finalButton}
 		</Container>
 	) : (
 		<>
@@ -140,6 +139,7 @@ export default function(props) {
 		<>
 			{titleSection}
 			<Container fixed className={cx("proposal-details")}>
+				{finalButton}
 				<Grid container spacing={2}>
 					<Grid item lg={9} xs={12}>
 						{detailsCard}

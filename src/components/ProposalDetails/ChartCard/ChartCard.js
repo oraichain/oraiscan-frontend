@@ -23,7 +23,9 @@ const ChartCard = memo(({data}) => {
 			<div className={cx("chart-card-header")}>
 				<div className={cx("total-orai")}>
 					<div className={cx("total-orai-label")}>Total ORAI</div>
-					<div className={cx("total-orai-value")}>{!isNaN(data?.total_orai) ? formatOrai(data.total_orai) : "-"}</div>
+					<div className={cx("total-orai-value")}>
+						{!isNaN(data?.total_orai) ? formatOrai(data.total_orai) : "-"} ({data?.vote_percentage} %)
+					</div>
 				</div>
 			</div>
 			<div className={cx("chart-card-body")}>

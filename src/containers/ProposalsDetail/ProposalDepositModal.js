@@ -86,7 +86,7 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	}, []);
 
 	const getAmount = balanceInfo => {
-		if (balanceInfo.data) return new BigNumber(balanceInfo.data.balances[0].amount);
+		if (balanceInfo?.data) return new BigNumber(balanceInfo?.data?.balances?.[0]?.amount);
 		return new BigNumber(0);
 	};
 
