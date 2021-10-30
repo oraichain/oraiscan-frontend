@@ -53,7 +53,11 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />;
+				tableSection = isLargeScreen ? (
+					<TransactionTable data={data.data} account={account} royalty={royalty} />
+				) : (
+					<TransactionCardList data={data.data} account={account} royalty={royalty} />
+				);
 			} else {
 				tableSection = <NoResult />;
 			}
