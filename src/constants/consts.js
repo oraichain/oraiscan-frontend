@@ -190,4 +190,5 @@ export default Object.freeze({
 	ANIMATION: {
 		DELAY: 100,
 	},
+	ROYALTY_DECIMAL_POINT_PERCENT: 10000000,
 });

@@ -17,6 +17,21 @@ import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
+const handleRoyaltyPercentage = royalty => {
+	royalty = (royalty / consts.ROYALTY_DECIMAL_POINT_PERCENT).toFixed(9);
+	let zeroCount = 0;
+	for (let i = royalty.length - 1; i >= 0; i--) {
+		if (royalty[i] == "0") zeroCount++;
+		if (royalty[i] === ".") {
+			zeroCount++;
+			break;
+		}
+		if (royalty[i] != "0") break;
+	}
+	royalty = royalty.substring(0, royalty.length - zeroCount) + "%";
+	return royalty;
+};
+
 export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
@@ -89,7 +104,7 @@ export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
 		}
 	}
 
-	return newRoyalty;
+	return handleRoyaltyPercentage(newRoyalty);
 };
 
 export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {

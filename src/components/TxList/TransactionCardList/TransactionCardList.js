@@ -92,29 +92,6 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 						);
 				}
 
-				const newRoyaltyDataCell = (
-					<tr>
-						<td>
-							<div className={cx("item-title")}>New Royalty</div>
-						</td>
-						<td>
-							{_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
-								<div className={cx("item-text")}>-</div>
-							) : (
-								<div className={cx("fee-data-cell", "align-right")}>
-									<div className={cx("fee")}>
-										<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
-										<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
-										{/* <span className={cx("fee-usd")}>
-											{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-										</span> */}
-									</div>
-								</div>
-							)}
-						</td>
-					</tr>
-				);
-
 				if (
 					account &&
 					(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
