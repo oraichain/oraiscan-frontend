@@ -17,16 +17,16 @@ import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
-export const getHeaderRow = () => {
+export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
-	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
+	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
-	const headerCellStyles = [
+	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
+	let headerCellStyles = [
 		{width: "14%", minWidth: "140px"}, // TxHash
 		{width: "18%", minWidth: "180px"}, // Type
 		{width: "10%", minWidth: "100px"}, // Result
@@ -35,13 +35,111 @@ export const getHeaderRow = () => {
 		{width: "10%", minWidth: "100px"}, // Height
 		{width: "10%", minWidth: "100px"}, // Time
 	];
+
+	if (royalty) {
+		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
+		headerCells.push(newRoyaltyHeaderCell);
+		headerCellStyles = [
+			{width: "12%", minWidth: "120px"}, // TxHash
+			{width: "18%", minWidth: "180px"}, // Type
+			{width: "10%", minWidth: "100px"}, // Result
+			{width: "16%", minWidth: "160px"}, // Royalty Amount
+			{width: "14%", minWidth: "120px"}, // Fee
+			{width: "10%", minWidth: "100px"}, // Height
+			{width: "10%", minWidth: "100px"}, // Time
+			{width: "10%", minWidth: "120px"}, // New Royalty
+		];
+	}
+
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const TransactionTable = memo(({data, rowMotions, account}) => {
+export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
+	let newRoyalty = "-";
+	if (result === "Failure") {
+		return newRoyalty;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	let checkRoyalty = false;
+	let checkAccount = false;
+	for (let event of rawLogArr[0].events) {
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
+					checkRoyalty = true;
+					continue;
+				}
+
+				if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
+					checkAccount = true;
+					continue;
+				}
+
+				if (checkAccount && att["key"] === "new_royalty") {
+					newRoyalty = att["value"];
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
+	return newRoyalty;
+};
+
+export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
+	let royaltyAmount = "0";
+	if (result === "Failure") {
+		return royaltyAmount;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	let checkRoyalty = false;
+	let checkRoyaltyAmount = false;
+	for (let index = rawLogArr[0].events.length - 1; index > -1; index--) {
+		const event = rawLogArr[0].events[index];
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "royalty" && att["value"] === "true") {
+					checkRoyalty = true;
+					break;
+				}
+			}
+
+			if (!checkRoyalty) {
+				break;
+			}
+
+			continue;
+		}
+
+		if (event["type"] === "transfer" && checkRoyalty) {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "recipient" && att["value"] === account) {
+					checkRoyaltyAmount = true;
+					continue;
+				}
+
+				if (checkRoyaltyAmount && att["key"] === "amount") {
+					royaltyAmount = att["value"].split("orai")[0];
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
+	const obj = {royalty: checkRoyalty, amount: royaltyAmount};
+	return obj;
+};
+
+const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
@@ -137,35 +235,50 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				}
 			}
 
-			let amount;
-			let denom;
-			if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-				amount = item.amount[0].amount;
-				denom = item.amount[0].denom;
-			} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-				amount = item.amount[0].amount;
-				denom = item.amount[0].denom;
-			}
-
-			const amountDataCell =
-				_.isNil(amount) || _.isNil(denom) ? (
-					<div className={cx("amount-data-cell", "align-right")}>
-						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>0</span>
-							<span className={cx("amount-denom")}>ORAI</span>
-							<div className={cx("amount-usd")}>($0)</div>
-						</div>
-					</div>
-				) : (
+			let amountDataCell;
+			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
+			if (royalty && objRoyaltyAmount.royalty) {
+				amountDataCell = (
 					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-							<span className={cx("amount-denom")}>{denom}</span>
-							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+							<span className={cx("amount-value")}>{formatOrai(objRoyaltyAmount.amount)}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")" : ""}</div>
 						</div>
 					</div>
 				);
+			} else {
+				let amount;
+				let denom;
+				if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+					amount = item.amount[0].amount;
+					denom = item.amount[0].denom;
+				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+					amount = item.amount[0].amount;
+					denom = item.amount[0].denom;
+				}
+
+				amountDataCell =
+					_.isNil(amount) || _.isNil(denom) ? (
+						<div className={cx("amount-data-cell", "align-right")}>
+							<div className={cx("amount")}>
+								<span className={cx("amount-value")}>0</span>
+								<span className={cx("amount-denom")}>ORAI</span>
+								<div className={cx("amount-usd")}>($0)</div>
+							</div>
+						</div>
+					) : (
+						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
+							{transferStatus && transferStatus}
+							<div className={cx("amount")}>
+								<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+								<span className={cx("amount-denom")}>{denom}</span>
+								<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+							</div>
+						</div>
+					);
+			}
 
 			const feeDataCell = _.isNil(item?.fee?.amount) ? (
 				<div className={cx("align-right")}>-</div>
@@ -188,16 +301,24 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 					{item.height}
 				</NavLink>
 			);
+
 			const timeDataCell = _.isNil(item?.timestamp) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("time-data-cell", "align-right")}>{setAgoTime(item.timestamp)}</div>
 			);
+
+			const newRoyaltyDataCell = <div className={cx("time-data-cell", "align-right")}>{getNewRoyalty(account, item?.raw_log, item?.result)}</div>;
+
+			if (royalty) {
+				return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
+			}
+
 			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
 	};
 
-	const headerRow = useMemo(() => getHeaderRow(), []);
+	const headerRow = useMemo(() => getHeaderRow(royalty), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
 	return (
