@@ -37,7 +37,7 @@ export const getHeaderRow = (royalty = false) => {
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
 	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
-	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
+	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
@@ -152,6 +152,29 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 
 	const obj = {royalty: checkRoyalty, amount: royaltyAmount};
 	return obj;
+};
+
+export const getTokenId = (rawLog = "[]", result = "") => {
+	let tokenId = "";
+	if (result === "Failure") {
+		return tokenId;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	for (let event of rawLogArr[0].events) {
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "token_id") {
+					tokenId = att["value"];
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
+	return tokenId;
 };
 
 const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => {
@@ -295,19 +318,25 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					);
 			}
 
-			const feeDataCell = _.isNil(item?.fee?.amount) ? (
-				<div className={cx("align-right")}>-</div>
-			) : (
-				<div className={cx("fee-data-cell", "align-right")}>
-					<div className={cx("fee")}>
-						<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0] || 0)}</span>
-						<span className={cx("fee-denom")}>ORAI</span>
-						{/* <span className={cx("fee-usd")}>
-								{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-							</span> */}
+			let feeDataCell;
+			if (royalty) {
+				const tokenId = getTokenId(item?.raw_log, item?.result);
+				feeDataCell = <div className={cx("align-right")}>{tokenId}</div>;
+			} else {
+				feeDataCell = _.isNil(item?.fee?.amount) ? (
+					<div className={cx("align-right")}>-</div>
+				) : (
+					<div className={cx("fee-data-cell", "align-right")}>
+						<div className={cx("fee")}>
+							<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0] || 0)}</span>
+							<span className={cx("fee-denom")}>ORAI</span>
+							{/* <span className={cx("fee-usd")}>
+									{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
+								</span> */}
+						</div>
 					</div>
-				</div>
-			);
+				);
+			}
 
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-right")}>-</div>

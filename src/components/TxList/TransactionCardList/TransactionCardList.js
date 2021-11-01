@@ -7,11 +7,12 @@ import PropTypes from "prop-types";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
-import {getNewRoyalty, getRoyaltyAmount} from "src/components/TxList/TransactionTable/TransactionTable";
+import {getNewRoyalty, getRoyaltyAmount, getTokenId} from "src/components/TxList/TransactionTable/TransactionTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
+import {Tooltip} from "@material-ui/core";
 
 const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
@@ -157,10 +158,12 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 										{_.isNil(item?.messages?.[0]?.["@type"]) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
-											<div className={cx("type-data-cell")}>
-												<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
-												{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
-											</div>
+											<Tooltip title={getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)} arrow placement='top-start'>
+												<div className={cx("type-data-cell")}>
+													<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
+													{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
+												</div>
+											</Tooltip>
 										)}
 									</td>
 								</tr>
@@ -178,10 +181,12 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Fee</div>
+										<div className={cx("item-title")}>{royalty ? "Token Id" : "Fee"}</div>
 									</td>
 									<td>
-										{_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
+										{royalty ? (
+											<div className={cx("item-text")}>{getTokenId(item?.raw_log, item?.result)}</div>
+										) : _.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("fee-data-cell", "align-right")}>
@@ -189,8 +194,8 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 													<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
 													<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
 													{/* <span className={cx("fee-usd")}>
-														{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-													</span> */}
+															{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
+														</span> */}
 												</div>
 											</div>
 										)}
