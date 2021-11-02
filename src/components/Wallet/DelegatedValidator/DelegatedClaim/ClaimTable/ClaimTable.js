@@ -59,7 +59,7 @@ const ClaimTable = memo(({data}) => {
 				],
 				fee: {
 					amount: [0],
-					gas: 200000,
+					gas: 2000000,
 				},
 				signatures: null,
 				memo: "",
