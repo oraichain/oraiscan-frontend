@@ -16,22 +16,69 @@ import giftIcon from "src/assets/wallet/gift.svg";
 
 const cx = classNames.bind(styles);
 
-export const getHeaderRow = () => {
-	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
-	const stakedHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
-	const claimableRewardsHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
-	const claimHeaderCell = <div className={cx("header-cell", "align-center")}> </div>;
-	const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
-	const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}];
-	return {
-		headerCells,
-		headerCellStyles,
-	};
-};
-
 const ClaimTable = memo(({data}) => {
 	const {address, account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
+
+	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
+		let msg = [];
+		data.forEach(element => {
+			let msgEle;
+			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+				msgEle = {
+					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+					value: {
+						delegator_address: address,
+						validator_address: element.validator_address,
+					},
+				};
+			}
+
+			msg.push(msgEle);
+		});
+
+		const payload = {
+			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+			value: {
+				msg: msg,
+				fee: {
+					amount: [0],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	};
+
+	const getHeaderRow = () => {
+		const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
+		const stakedHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
+		const claimableRewardsHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
+		const claimHeaderCell = (
+			<div className={cx("header-cell", "align-center")}>
+				<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>
+					<button className={cx("button")}>
+						Claim All
+						<img alt='/' className={cx("button-icon")} src={giftIcon} />
+					</button>
+				</div>
+			</div>
+		);
+		const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
+		const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}];
+		return {
+			headerCells,
+			headerCellStyles,
+		};
+	};
 
 	const handleClickClaim = (validatorAddress, claimableRewards) => {
 		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
