@@ -114,35 +114,22 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 	}
 
 	let rawLogArr = JSON.parse(rawLog);
-	let checkRoyalty = false;
 	let checkRoyaltyAmount = false;
 	for (let index = rawLogArr[0].events.length - 1; index > -1; index--) {
 		const event = rawLogArr[0].events[index];
 		if (event["type"] === "wasm") {
 			for (let att of event["attributes"]) {
-				if (att["key"] === "royalty" && att["value"] === "true") {
-					checkRoyalty = true;
-					break;
-				}
-			}
-
-			if (!checkRoyalty) {
-				break;
-			}
-
-			continue;
-		}
-
-		if (event["type"] === "transfer" && checkRoyalty) {
-			for (let att of event["attributes"]) {
-				if (att["key"] === "recipient" && att["value"] === account) {
+				if (att["key"] === "action" && att["value"] === "pay_royalty") {
 					checkRoyaltyAmount = true;
 					continue;
 				}
 
-				if (checkRoyaltyAmount && att["key"] === "amount") {
-					royaltyAmount = att["value"].split("orai")[0];
+				if (att["key"] === "action" && att["value"] === "finish_pay_royalty") {
 					break;
+				}
+
+				if (checkRoyaltyAmount && att["key"].startsWith(`royalty_${account}_`)) {
+					royaltyAmount = att["value"].endsWith("orai") ? att["value"].split("orai")[0] : "0";
 				}
 			}
 
@@ -150,7 +137,7 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 		}
 	}
 
-	const obj = {royalty: checkRoyalty, amount: royaltyAmount};
+	const obj = {royalty: checkRoyaltyAmount, amount: royaltyAmount};
 	return obj;
 };
 
