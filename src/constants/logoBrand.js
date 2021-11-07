@@ -14,6 +14,7 @@ import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
 import chandraLogo from "src/assets/validators/chandraLogo.png";
 import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
 import scavLogo from "src/assets/validators/scav_node.jpg";
+import TrinityLogo from "src/assets/validators/TrinityLogo.jpg";
 
 export const logoBrand = [
 	{
@@ -152,5 +153,10 @@ export const logoBrand = [
 		name: "Scav_node",
 		operatorAddress: "oraivaloper17zr98cwzfqdwh69r8v5nrktsalmgs5sa83gpd9",
 		logo: scavLogo,
+	},
+	{
+		name: "Trinity Node",
+		operatorAddress: "oraivaloper1v26tdegnk79edw7xkk2xh8qn89vy6qej6yhsev",
+		logo: TrinityLogo,
 	},
 ];
