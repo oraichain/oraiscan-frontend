@@ -42,7 +42,11 @@ const Transaction = memo(({account = "", royalty = false, minHeight = 222}) => {
 		<div className={cx("transaction")}>
 			{Array.isArray(data?.data) && data.data.length > 0 ? (
 				<>
-					{isLargeScreen ? <TransactionTable data={data.data} account={account} /> : <TransactionCardList data={data.data} account={account} />}
+					{isLargeScreen ? (
+						<TransactionTable data={data.data} account={account} royalty={true} />
+					) : (
+						<TransactionCardList data={data.data} account={account} royalty={true} />
+					)}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (
