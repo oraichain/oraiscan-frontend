@@ -98,17 +98,21 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 												</td>
 											</tr>
 
-											<tr>
+											{/* <tr>
 												<td colSpan={2}>
 													<NavLink className={cx("view-more")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) ? "?type=" + type : ""}`}>
 														<span className={cx("view-more-text")}>View more</span>
 														<ViewMoreIcon className={cx("view-more-icon")} />
 													</NavLink>
 												</td>
-											</tr>
+											</tr> */}
 										</tbody>
 									</table>
 								</div>
+								<NavLink className={cx("view-more")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) ? "?type=" + type : ""}`}>
+									<span className={cx("view-more-text")}>View more</span>
+									<ViewMoreIcon className={cx("view-more-icon")} />
+								</NavLink>
 							</div>
 						</Grid>
 					);

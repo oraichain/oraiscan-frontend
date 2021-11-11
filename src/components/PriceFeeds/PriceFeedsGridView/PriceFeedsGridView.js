@@ -27,17 +27,19 @@ const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, networ
 
 	useEffect(() => {
 		if (!isNil(priceData)) {
-			let newData = pricePair;
+			let newData = [];
 			if (keyword) {
-				newData = pricePair.filter(v => v.name.toLowerCase().includes(keyword.toLowerCase()));
+				priceData.map(v => {
+					if (v.name.toLowerCase().includes(keyword.toLowerCase())) {
+						v.price > 0 ? newData.push({...v, status: "Active"}) : newData.push({...v, status: "Inactive"});
+					}
+				});
+			} else {
+				priceData.map(v => {
+					v.price > 0 ? newData.push({...v, status: "Active"}) : newData.push({...v, status: "Inactive"});
+				});
 			}
-			newData = newData.map(value => {
-				const findedPair = priceData.find(v => v.name === value.name);
-				if (findedPair) {
-					value = {...value, ...findedPair, status: "Active"};
-				}
-				return value;
-			});
+
 			setShowData(newData);
 		}
 	}, [priceData, keyword]);
