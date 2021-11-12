@@ -97,7 +97,7 @@ const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, networ
 							<Grid item lg={3} md={4} sm={12} xs={12} key={key}>
 								<div className={cx("price-feeds-card")}>
 									<div className={cx("price-feeds-card-pair")}>
-										<img src={`/icons/price-feed/${name}.svg`} className={cx("price-feeds-card-pair-icon")} alt='' />
+										<img src={`/icons/price-feed/${name}.png`} className={cx("price-feeds-card-pair-icon")} alt='' />
 										<div className={cx("price-feeds-card-pair-text")}>{name} / USD</div>
 									</div>
 									<div className={cx("price-feeds-card-price")} onClick={handleOpenModal}>
