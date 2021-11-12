@@ -15,6 +15,7 @@ import chandraLogo from "src/assets/validators/chandraLogo.png";
 import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
 import scavLogo from "src/assets/validators/scav_node.jpg";
 import TrinityLogo from "src/assets/validators/TrinityLogo.jpg";
+import BlockValLogo from "src/assets/validators/block_val.png";
 
 export const logoBrand = [
 	{
@@ -158,5 +159,10 @@ export const logoBrand = [
 		name: "Trinity Node",
 		operatorAddress: "oraivaloper1v26tdegnk79edw7xkk2xh8qn89vy6qej6yhsev",
 		logo: TrinityLogo,
+	},
+	{
+		name: "BlockVal",
+		operatorAddress: "oraivaloper1f6q9wjn8qp3ll8y8ztd8290vtec2yxyxxygyy2",
+		logo: BlockValLogo,
 	},
 ];
