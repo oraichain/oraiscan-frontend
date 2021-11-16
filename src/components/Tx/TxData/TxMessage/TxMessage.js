@@ -79,7 +79,7 @@ const tryParseMessageBinary = data => {
 	}
 };
 
-const TxMessage = ({msg, data}) => {
+const TxMessage = ({key, msg, data}) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
@@ -383,6 +383,37 @@ const TxMessage = ({msg, data}) => {
 				default:
 					break;
 			}
+		};
+
+		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
+			let checkTransfer = false;
+			let msgTransfer = [];
+			console.log("aaaaaaa");
+			if (result === "Success") {
+				let rawLogArr = JSON.parse(rawLog);
+				for (let event of rawLogArr[key].events) {
+					if (event["type"] === "transfer") {
+						checkTransfer = true;
+						msgTransfer.push(...event["attributes"]);
+						break;
+					}
+				}
+			}
+
+			return (
+				checkTransfer && (
+					<InfoRow label='Transfer'>
+						<ReactJson
+							style={{backgroundColor: "transparent"}}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							src={msgTransfer}
+						/>
+					</InfoRow>
+				)
+			);
 		};
 
 		return (
@@ -693,7 +724,8 @@ const TxMessage = ({msg, data}) => {
 								src={tryParseMessage(value?.msg)}
 							/>
 						</InfoRow>
-						<InfoRow label='Event logs'>
+						{getTransfer(key, data?.raw_log, data?.result)}
+						{/* <InfoRow label='Event logs'>
 							<ReactJson
 								style={{backgroundColor: "transparent"}}
 								name={false}
@@ -703,7 +735,7 @@ const TxMessage = ({msg, data}) => {
 								collapsed={true}
 								src={data?.result === "Success" ? JSON.parse(data?.raw_log) : JSON.parse("[{}]")}
 							/>
-						</InfoRow>
+						</InfoRow> */}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
