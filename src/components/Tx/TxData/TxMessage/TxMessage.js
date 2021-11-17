@@ -151,6 +151,72 @@ const TxMessage = ({key, msg, data}) => {
 			});
 		};
 
+		const getRoyaltyHeaderRow = () => {
+			const validatorHeaderCell = <div className={cx("header-cell")}>Address</div>;
+			const royaltyAmountHeaderCell = <div className={cx("header-cell")}>Royalty Amount</div>;
+			const newRoyalHeaderCell = <div className={cx("header-cell")}>New Royalty</div>;
+			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
+			const headerCellStyles = [
+				{minWidth: "120px"}, // Address
+				{minWidth: "100px"}, // Royalty Amount
+				{minWidth: "80px"}, // New Royalty
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
+		const getRoyaltyDataRows = data => {
+			return data.map(item => {
+				const addressDataCell = _.isNil(item?.address) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
+						{item?.address_tag || item?.address}
+					</NavLink>
+				);
+
+				const royaltyAmountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount + " "}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}</span>
+						</div>
+					</div>
+				);
+
+				const newRoyaltyDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.newRoyalty + " "}</span>
+							<span className={cx("amount-denom")}>%</span>
+						</div>
+					</div>
+				);
+
+				return [addressDataCell, royaltyAmountDataCell, newRoyaltyDataCell];
+			});
+		};
+
+		const getMultiRoyaltyRow = (label, key = 0, rawLog = "[]", result = "") => {
+			const royalty = getRoyaltyDetail(key, rawLog, result);
+
+			return (
+				royalty.checkRoyalty && (
+					<InfoRow label={label}>
+						<ThemedTable
+							headerCellStyles={getRoyaltyHeaderRow()?.headerCellStyles}
+							headerCells={getRoyaltyHeaderRow()?.headerCells}
+							dataRows={getRoyaltyDataRows(royalty.royaltys)}
+						/>
+					</InfoRow>
+				)
+			);
+		};
+
 		const getInfoRow = (label, value) => (
 			<InfoRow label={label}>
 				<span className={cx("text")}>{_.isNil(value) ? "-" : value}</span>
@@ -388,7 +454,6 @@ const TxMessage = ({key, msg, data}) => {
 		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
-			console.log("aaaaaaa");
 			if (result === "Success") {
 				let rawLogArr = JSON.parse(rawLog);
 				for (let event of rawLogArr[key].events) {
@@ -414,6 +479,46 @@ const TxMessage = ({key, msg, data}) => {
 					</InfoRow>
 				)
 			);
+		};
+
+		const getRoyaltyDetail = (key = 0, rawLog = "[]", result = "") => {
+			let royaltys = [];
+			let checkRoyaltyAmount = false;
+			if (result === "Success") {
+				let rawLogArr = JSON.parse(rawLog);
+				for (let index = rawLogArr[key].events.length - 1; index > -1; index--) {
+					const event = rawLogArr[key].events[index];
+					if (event["type"] === "wasm") {
+						for (let att of event["attributes"]) {
+							if (att["key"] === "action" && att["value"] === "pay_royalty") {
+								checkRoyaltyAmount = true;
+								continue;
+							}
+
+							if (att["key"] === "action" && att["value"] === "finish_pay_royalty") {
+								break;
+							}
+
+							if (checkRoyaltyAmount && att["key"].startsWith("royalty_")) {
+								const royaltyInfoArr = att["key"].split("_");
+								const index = att["value"].indexOf("orai");
+								const royaltyAmount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								const obj = {
+									address: royaltyInfoArr[1] ? royaltyInfoArr[1] : "0",
+									amount: formatOrai(royaltyAmount),
+									newRoyalty: formatOrai(royaltyInfoArr[2] ? royaltyInfoArr[2] : 0, 10000000, 2),
+								};
+
+								royaltys.push(obj);
+							}
+						}
+
+						break;
+					}
+				}
+			}
+
+			return {checkRoyalty: checkRoyaltyAmount, royaltys: royaltys};
 		};
 
 		return (
@@ -725,17 +830,7 @@ const TxMessage = ({key, msg, data}) => {
 							/>
 						</InfoRow>
 						{getTransfer(key, data?.raw_log, data?.result)}
-						{/* <InfoRow label='Event logs'>
-							<ReactJson
-								style={{backgroundColor: "transparent"}}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								collapsed={true}
-								src={data?.result === "Success" ? JSON.parse(data?.raw_log) : JSON.parse("[{}]")}
-							/>
-						</InfoRow> */}
+						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
