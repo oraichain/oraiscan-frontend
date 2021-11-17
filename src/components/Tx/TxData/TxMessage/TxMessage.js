@@ -154,12 +154,12 @@ const TxMessage = ({key, msg, data}) => {
 		const getRoyaltyHeaderRow = () => {
 			const validatorHeaderCell = <div className={cx("header-cell")}>Address</div>;
 			const royaltyAmountHeaderCell = <div className={cx("header-cell")}>Royalty Amount</div>;
-			const newRoyalHeaderCell = <div className={cx("header-cell")}>New Royalty</div>;
+			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
 			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
 			const headerCellStyles = [
 				{minWidth: "120px"}, // Address
 				{minWidth: "100px"}, // Royalty Amount
-				{minWidth: "80px"}, // New Royalty
+				{minWidth: "80px"}, // Royalty Percentage
 			];
 
 			return {
