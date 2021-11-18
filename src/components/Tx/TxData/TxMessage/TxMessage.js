@@ -157,9 +157,9 @@ const TxMessage = ({key, msg, data}) => {
 			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
 			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
 			const headerCellStyles = [
-				{minWidth: "120px"}, // Address
-				{minWidth: "100px"}, // Royalty Amount
-				{minWidth: "80px"}, // Royalty Percentage
+				{width: "110px"}, // Address
+				{width: "110px"}, // Royalty Amount
+				{width: "80px"}, // Royalty Percentage
 			];
 
 			return {
@@ -451,6 +451,23 @@ const TxMessage = ({key, msg, data}) => {
 			}
 		};
 
+		const getTransferHeaderRow = () => {
+			const recipientHeaderCell = <div className={cx("header-cell")}>Recipient</div>;
+			const senderHeaderCell = <div className={cx("header-cell")}>Sender</div>;
+			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
+			const headerCells = [recipientHeaderCell, senderHeaderCell, amountHeaderCell];
+			const headerCellStyles = [
+				{width: "326px"}, // Recipient
+				{width: "326px"}, // Sender
+				{minWidth: "80px"}, // Amount
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
 		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
@@ -459,26 +476,86 @@ const TxMessage = ({key, msg, data}) => {
 				for (let event of rawLogArr[key].events) {
 					if (event["type"] === "transfer") {
 						checkTransfer = true;
-						msgTransfer.push(...event["attributes"]);
+						let start = false;
+						let obj = {};
+						for (let att of event["attributes"]) {
+							if (att["key"] === "recipient") {
+								start = true;
+								obj = {recipient: att["value"]};
+								continue;
+							}
+
+							if (start && att["key"] === "sender") {
+								obj.sender = att["value"];
+								continue;
+							}
+
+							if (start && att["key"] === "amount") {
+								const index = att["value"].indexOf("orai");
+								const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								obj.amount = formatOrai(amount);
+								start = false;
+								msgTransfer.push(obj);
+								continue;
+							}
+						}
+
 						break;
 					}
 				}
 			}
 
+			return {checkTransfer: checkTransfer, transfers: msgTransfer};
+		};
+
+		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
+			const transfer = getTransfer(key, rawLog, result);
+
 			return (
-				checkTransfer && (
-					<InfoRow label='Transfer'>
-						<ReactJson
-							style={{backgroundColor: "transparent"}}
-							name={false}
-							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-							displayObjectSize={false}
-							displayDataTypes={false}
-							src={msgTransfer}
+				transfer.checkTransfer && (
+					<InfoRow isTransfer={true} label={label}>
+						<ThemedTable
+							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
+							headerCells={getTransferHeaderRow()?.headerCells}
+							dataRows={getTransferDataRows(transfer.transfers)}
 						/>
 					</InfoRow>
 				)
 			);
+		};
+
+		const getTransferDataRows = data => {
+			return data.map(item => {
+				const recipientDataCell = _.isNil(item?.recipient) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.recipient}`}>
+						{item?.recipient}
+					</NavLink>
+				);
+
+				const senderDataCell = _.isNil(item?.sender) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.sender}`}>
+						{item?.sender}
+					</NavLink>
+				);
+
+				const amountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount ? item?.amount : "0" + " "}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-usd")}>
+								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
+							</span>
+						</div>
+					</div>
+				);
+
+				return [recipientDataCell, senderDataCell, amountDataCell];
+			});
 		};
 
 		const getRoyaltyDetail = (key = 0, rawLog = "[]", result = "") => {
@@ -829,7 +906,7 @@ const TxMessage = ({key, msg, data}) => {
 								src={tryParseMessage(value?.msg)}
 							/>
 						</InfoRow>
-						{getTransfer(key, data?.raw_log, data?.result)}
+						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 					</>
 				)}
