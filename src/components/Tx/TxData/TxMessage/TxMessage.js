@@ -79,7 +79,7 @@ const tryParseMessageBinary = data => {
 	}
 };
 
-const TxMessage = ({msg, data}) => {
+const TxMessage = ({key, msg, data}) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
@@ -149,6 +149,72 @@ const TxMessage = ({msg, data}) => {
 
 				return [addressDataCell, amountDataCell];
 			});
+		};
+
+		const getRoyaltyHeaderRow = () => {
+			const validatorHeaderCell = <div className={cx("header-cell")}>Address</div>;
+			const royaltyAmountHeaderCell = <div className={cx("header-cell")}>Royalty Amount</div>;
+			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
+			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
+			const headerCellStyles = [
+				{width: "110px"}, // Address
+				{width: "110px"}, // Royalty Amount
+				{width: "80px"}, // Royalty Percentage
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
+		const getRoyaltyDataRows = data => {
+			return data.map(item => {
+				const addressDataCell = _.isNil(item?.address) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
+						{item?.address_tag || item?.address}
+					</NavLink>
+				);
+
+				const royaltyAmountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount + " "}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}</span>
+						</div>
+					</div>
+				);
+
+				const newRoyaltyDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.newRoyalty + " "}</span>
+							<span className={cx("amount-denom")}>%</span>
+						</div>
+					</div>
+				);
+
+				return [addressDataCell, royaltyAmountDataCell, newRoyaltyDataCell];
+			});
+		};
+
+		const getMultiRoyaltyRow = (label, key = 0, rawLog = "[]", result = "") => {
+			const royalty = getRoyaltyDetail(key, rawLog, result);
+
+			return (
+				royalty.checkRoyalty && (
+					<InfoRow label={label}>
+						<ThemedTable
+							headerCellStyles={getRoyaltyHeaderRow()?.headerCellStyles}
+							headerCells={getRoyaltyHeaderRow()?.headerCells}
+							dataRows={getRoyaltyDataRows(royalty.royaltys)}
+						/>
+					</InfoRow>
+				)
+			);
 		};
 
 		const getInfoRow = (label, value) => (
@@ -383,6 +449,153 @@ const TxMessage = ({msg, data}) => {
 				default:
 					break;
 			}
+		};
+
+		const getTransferHeaderRow = () => {
+			const recipientHeaderCell = <div className={cx("header-cell")}>Recipient</div>;
+			const senderHeaderCell = <div className={cx("header-cell")}>Sender</div>;
+			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
+			const headerCells = [recipientHeaderCell, senderHeaderCell, amountHeaderCell];
+			const headerCellStyles = [
+				{width: "326px"}, // Recipient
+				{width: "326px"}, // Sender
+				{minWidth: "80px"}, // Amount
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
+		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
+			let checkTransfer = false;
+			let msgTransfer = [];
+			if (result === "Success") {
+				let rawLogArr = JSON.parse(rawLog);
+				for (let event of rawLogArr[key].events) {
+					if (event["type"] === "transfer") {
+						checkTransfer = true;
+						let start = false;
+						let obj = {};
+						for (let att of event["attributes"]) {
+							if (att["key"] === "recipient") {
+								start = true;
+								obj = {recipient: att["value"]};
+								continue;
+							}
+
+							if (start && att["key"] === "sender") {
+								obj.sender = att["value"];
+								continue;
+							}
+
+							if (start && att["key"] === "amount") {
+								const index = att["value"].indexOf("orai");
+								const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								obj.amount = formatOrai(amount);
+								start = false;
+								msgTransfer.push(obj);
+								continue;
+							}
+						}
+
+						break;
+					}
+				}
+			}
+
+			return {checkTransfer: checkTransfer, transfers: msgTransfer};
+		};
+
+		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
+			const transfer = getTransfer(key, rawLog, result);
+
+			return (
+				transfer.checkTransfer && (
+					<InfoRow isTransfer={true} label={label}>
+						<ThemedTable
+							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
+							headerCells={getTransferHeaderRow()?.headerCells}
+							dataRows={getTransferDataRows(transfer.transfers)}
+						/>
+					</InfoRow>
+				)
+			);
+		};
+
+		const getTransferDataRows = data => {
+			return data.map(item => {
+				const recipientDataCell = _.isNil(item?.recipient) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.recipient}`}>
+						{item?.recipient}
+					</NavLink>
+				);
+
+				const senderDataCell = _.isNil(item?.sender) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.sender}`}>
+						{item?.sender}
+					</NavLink>
+				);
+
+				const amountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount ? item?.amount : "0" + " "}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-usd")}>
+								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
+							</span>
+						</div>
+					</div>
+				);
+
+				return [recipientDataCell, senderDataCell, amountDataCell];
+			});
+		};
+
+		const getRoyaltyDetail = (key = 0, rawLog = "[]", result = "") => {
+			let royaltys = [];
+			let checkRoyaltyAmount = false;
+			if (result === "Success") {
+				let rawLogArr = JSON.parse(rawLog);
+				for (let index = rawLogArr[key].events.length - 1; index > -1; index--) {
+					const event = rawLogArr[key].events[index];
+					if (event["type"] === "wasm") {
+						for (let att of event["attributes"]) {
+							if (att["key"] === "action" && att["value"] === "pay_royalty") {
+								checkRoyaltyAmount = true;
+								continue;
+							}
+
+							if (att["key"] === "action" && att["value"] === "finish_pay_royalty") {
+								break;
+							}
+
+							if (checkRoyaltyAmount && att["key"].startsWith("royalty_")) {
+								const royaltyInfoArr = att["key"].split("_");
+								const index = att["value"].indexOf("orai");
+								const royaltyAmount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								const obj = {
+									address: royaltyInfoArr[1] ? royaltyInfoArr[1] : "0",
+									amount: formatOrai(royaltyAmount),
+									newRoyalty: formatOrai(royaltyInfoArr[2] ? royaltyInfoArr[2] : 0, 10000000, 2),
+								};
+
+								royaltys.push(obj);
+							}
+						}
+
+						break;
+					}
+				}
+			}
+
+			return {checkRoyalty: checkRoyaltyAmount, royaltys: royaltys};
 		};
 
 		return (
@@ -693,17 +906,8 @@ const TxMessage = ({msg, data}) => {
 								src={tryParseMessage(value?.msg)}
 							/>
 						</InfoRow>
-						<InfoRow label='Event logs'>
-							<ReactJson
-								style={{backgroundColor: "transparent"}}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								collapsed={true}
-								src={data?.result === "Success" ? JSON.parse(data?.raw_log) : JSON.parse("[{}]")}
-							/>
-						</InfoRow>
+						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
+						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (

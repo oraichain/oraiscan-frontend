@@ -276,7 +276,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 							<span className={cx("amount-denom")}>ORAI</span>
 							<div className={cx("amount-usd")}>
 								{objRoyaltyAmount.amount === "0"
-									? "($0)"
+									? " ($0)"
 									: status?.price
 									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
 									: ""}
