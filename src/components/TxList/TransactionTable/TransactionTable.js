@@ -18,6 +18,10 @@ import styles from "./TransactionTable.module.scss";
 const cx = classNames.bind(styles);
 
 const handleRoyaltyPercentage = royalty => {
+	if (royalty === "-") {
+		return royalty;
+	}
+
 	royalty = (royalty / consts.ROYALTY_DECIMAL_POINT_PERCENT).toFixed(9);
 	let zeroCount = 0;
 	for (let i = royalty.length - 1; i >= 0; i--) {
@@ -129,7 +133,8 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 				}
 
 				if (checkRoyaltyAmount && att["key"].startsWith(`royalty_${account}_`)) {
-					royaltyAmount = att["value"].endsWith("orai") ? att["value"].split("orai")[0] : "0";
+					let index = att["value"].indexOf("orai");
+					royaltyAmount = index !== -1 ? att["value"].slice(0, index) : "0";
 				}
 			}
 
@@ -267,9 +272,15 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(objRoyaltyAmount.amount)}</span>
+							<span className={cx("amount-value")}>{objRoyaltyAmount.amount === "0" ? objRoyaltyAmount.amount : formatOrai(objRoyaltyAmount.amount)}</span>
 							<span className={cx("amount-denom")}>ORAI</span>
-							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")" : ""}</div>
+							<div className={cx("amount-usd")}>
+								{objRoyaltyAmount.amount === "0"
+									? " ($0)"
+									: status?.price
+									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
+									: ""}
+							</div>
 						</div>
 					</div>
 				);

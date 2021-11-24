@@ -43,9 +43,9 @@ const Transaction = memo(({account = "", royalty = false, minHeight = 222}) => {
 			{Array.isArray(data?.data) && data.data.length > 0 ? (
 				<>
 					{isLargeScreen ? (
-						<TransactionTable data={data.data} account={account} royalty={true} />
+						<TransactionTable data={data.data} account={account} royalty={royalty} />
 					) : (
-						<TransactionCardList data={data.data} account={account} royalty={true} />
+						<TransactionCardList data={data.data} account={account} royalty={royalty} />
 					)}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
