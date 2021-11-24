@@ -40,7 +40,7 @@ export const logoBrand = [
 	},
 	{
 		name: "ORAI_Vanguard",
-		operatorAddress: "oraivaloper1p926xnuet2xd7rajsahsghzeg8sg0tp2e9s22z",
+		operatorAddress: "oraivaloper1uhcwtfntsvk8gpwfxltesyl4e28aalmq9v9z0x",
 		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912662/Superman_4_-_SAL_L_nwykie.jpg",
 	},
 	{
