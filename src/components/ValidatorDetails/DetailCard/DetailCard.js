@@ -48,7 +48,7 @@ const DetailCard = memo(({data}) => {
 	if (isNaN(data?.uptime)) {
 		uptimeInfo = "-";
 	} else {
-		const uptime = formatPercentage(data?.uptime);
+		const uptime = formatPercentage(data?.uptime, 2);
 		uptimeInfo = uptime + "%";
 	}
 	const uptimeElement = (
