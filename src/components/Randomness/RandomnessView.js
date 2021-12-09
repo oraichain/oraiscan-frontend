@@ -19,6 +19,7 @@ import styles from "./Randomness.module.scss";
 import ReactJson from "react-json-view";
 import {themeIds} from "src/constants/themes";
 import {tryParseMessage} from "src/lib/scripts";
+import {Base64} from "js-base64";
 
 const cx = cn.bind(styles);
 
@@ -28,6 +29,7 @@ const RandomnessView = ({data, errorMessage}) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 
 	const [sigs, setSigs] = useState([]);
+	const [verify, setVerify] = useState("");
 	const randomValueRef = useRef(null);
 	const [txhash, setTxhash] = useState(null);
 	const randomness = data?.latest?.randomness || data?.latest?.aggregate_sig?.randomness;
@@ -56,12 +58,26 @@ const RandomnessView = ({data, errorMessage}) => {
 		}
 	};
 
+	const getVerified = async () => {
+		try {
+			const obj = {verify_round: data?.latest?.round};
+			let objJsonStr = JSON.stringify(obj);
+			const queryVerified = Base64.encode(objJsonStr);
+			const {randomnessContractAddress} = config;
+			const apiGetVerified = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${randomnessContractAddress}/smart/${queryVerified}`;
+			const verified = await axios.get(apiGetVerified);
+			setVerify(verified.data?.data);
+		} catch (error) {
+			console.log("🚀 ~ file: RandomnessView.js ~ line 54 ~ getVerified ~ error", error);
+		}
+	};
+
 	const handleClickTx = () => {
 		history.push("/txs/" + txhash);
 	};
 
 	useEffect(() => {
-		data?.latest?.round && handelGetTx();
+		data?.latest?.round && handelGetTx() && getVerified();
 	}, [data?.latest?.round]);
 
 	useEffect(() => {
@@ -147,6 +163,9 @@ const RandomnessView = ({data, errorMessage}) => {
 				)}
 			</InfoRow>
 			<InfoRow label='Current Round'>{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}</InfoRow>
+			<InfoRow label='Verified'>
+				<div className={cx("status-text")}>{`${verify}`}</div>
+			</InfoRow>
 		</>
 	);
 };
