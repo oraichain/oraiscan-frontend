@@ -10,7 +10,7 @@ import giftIcon from "src/assets/wallet/gift.svg";
 
 const cx = classNames.bind(styles);
 
-const ClaimCardList = memo(({data = []}) => {
+const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -39,10 +39,10 @@ const ClaimCardList = memo(({data = []}) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Staked (ORAI)</div>
+										<div className={cx("item-title")}>Staked ({totalStaked} ORAI)</div>
 									</td>
 									<td>
-										<div className={cx("item-title")}>Claimable Reward (ORAI)</div>
+										<div className={cx("item-title")}>Claimable Reward ({totalRewards} ORAI)</div>
 									</td>
 								</tr>
 
