@@ -16,7 +16,7 @@ import giftIcon from "src/assets/wallet/gift.svg";
 
 const cx = classNames.bind(styles);
 
-const ClaimTable = memo(({data}) => {
+const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 	const {address, account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
@@ -60,8 +60,16 @@ const ClaimTable = memo(({data}) => {
 
 	const getHeaderRow = () => {
 		const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
-		const stakedHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
-		const claimableRewardsHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
+		const stakedHeaderCell = (
+			<div className={cx("header-cell", "align-left")}>
+				Staked <span className={cx("total-item-value")}>({formatOrai(totalStaked)} ORAI)</span>
+			</div>
+		);
+		const claimableRewardsHeaderCell = (
+			<div className={cx("header-cell", "align-left")}>
+				Claimable Rewards <span className={cx("total-item-value")}>({formatOrai(totalRewards)} ORAI)</span>
+			</div>
+		);
 		const claimHeaderCell = (
 			<div className={cx("header-cell", "align-center")}>
 				<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>

@@ -106,3 +106,15 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.total-item {
+	&-value {
+		color: var(--common-placeholderTextColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 150%;
+		letter-spacing: 0.4px;
+	}
+}
