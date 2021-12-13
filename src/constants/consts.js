@@ -105,6 +105,7 @@ export default Object.freeze({
 		REQUESTS_VALIDATOR: "/validator/requests",
 		ORACLE_REQUESTS: "/oracle_requests",
 		ORACLE_REPORT: "/oracle_report",
+		EXPORT_DATA: "/account/txs_csv",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -182,6 +183,7 @@ export default Object.freeze({
 		SMART_CONTRACT: "/smart-contract",
 		SMART_CONTRACTS: "/smart-contracts",
 		ORACLE_REQUEST: "/ai-request",
+		EXPORT_DATA: "/export-data",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
