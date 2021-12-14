@@ -81,7 +81,7 @@ const ExportData = ({}) => {
 				<div className={cx("card")}>
 					<h2 className={cx("card-header")}>The information you requested can be downloaded from this page.</h2>
 					<div className={cx("card-body")}>
-						<label className={cx("input-text")}>Export the earliest 5000 records starting from</label>
+						<label className={cx("input-text")}>Export the latest transaction records starting from</label>
 						<div className={cx("date-select")}>
 							<div style={{marginRight: 20}} className={cx("date")}>
 								<DatePicker
