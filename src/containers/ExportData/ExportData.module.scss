@@ -386,3 +386,65 @@
 		}
 	}
 }
+
+.date-select {
+	margin-bottom: 24px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.divider-text {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+		color: var(--common-textColor);
+		align-self: flex-end;
+	}
+
+	.date {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: 50px;
+		width: 285px;
+
+		.calendar-icon {
+			position: absolute;
+			right: 12px;
+			color: var(--common-textColor);
+			cursor: text;
+		}
+
+		.datepicker-wrapper {
+			border-radius: 8px;
+			input {
+				width: 100%;
+				padding: 10px;
+				border: 1px solid var(--common-borderColor);
+				background: var(--common-blockItemBackgroundColor);
+				color: var(--common-textColor);
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 15px;
+				line-height: 150%;
+
+				&:focus {
+					outline: none;
+				}
+			}
+
+			.datepicker {
+				// position: fixed !important;
+				// z-index: 999;
+
+				// :global(.react-datepicker-wrapper) {
+				// 	z-index: 99;
+				// }
+			}
+		}
+	}
+}
