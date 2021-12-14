@@ -2,6 +2,7 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useParams} from "react-router";
+import {loadReCaptcha, ReCaptcha} from "react-recaptcha-google";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
@@ -17,6 +18,7 @@ import styles from "./ExportData.module.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "src/assets/account/CalendarIcon";
+import moment from "moment";
 
 const cx = cn.bind(styles);
 
@@ -25,10 +27,17 @@ const ExportData = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [showModal, setShowModal] = useState(false);
 	const [txResponse, setTxResponse] = useState({});
-	const [startDate, setStartDate] = useState(Date.now());
-	const [endDate, setEndDate] = useState(Date.now());
+	const currentDateUTC = moment.utc().toDate();
+	currentDateUTC.setHours(0, 0, 0);
+	const [startDate, setStartDate] = useState(currentDateUTC);
+	const [endDate, setEndDate] = useState(currentDateUTC);
 	const params = useParams();
 	const account = params?.["account"];
+	const [disabledSubmit, setDisabledSubmit] = useState(true);
+
+	useEffect(() => {
+		loadReCaptcha();
+	}, []);
 
 	console.log(startDate, endDate, "aaaa");
 
@@ -76,15 +85,16 @@ const ExportData = ({}) => {
 						<div className={cx("date-select")}>
 							<div style={{marginRight: 20}} className={cx("date")}>
 								<DatePicker
-									minDate={Date.now()}
+									// minDate={Date.now()}
 									selected={startDate}
 									endDate={startDate}
 									onChange={date => {
+										date.setHours(0, 0, 0);
 										setStartDate(date);
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
-									dateFormat='MMMM d, yyyy h:mm aa'
+									dateFormat='MMMM dd, yyyy'
 									// maxDate={new Date().setDate(new Date().getDate() + 7)}
 								/>
 								<CalendarIcon className={cx("calendar-icon")} />
@@ -92,21 +102,37 @@ const ExportData = ({}) => {
 							<span className={cx("divider-text")}>To</span>
 							<div style={{marginLeft: 20}} className={cx("date")}>
 								<DatePicker
-									minDate={Date.now()}
+									// minDate={Date.now()}
 									selected={endDate}
 									endDate={endDate}
 									onChange={date => {
+										date.setHours(0, 0, 0);
 										setEndDate(date);
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
-									dateFormat='MMMM d, yyyy h:mm aa'
+									dateFormat='MMMM dd, yyyy'
 									// maxDate={new Date().setDate(new Date().getDate() + 7)}
 								/>
 								<CalendarIcon className={cx("calendar-icon")} />
 							</div>
 						</div>
-						<script src='https://www.google.com/recaptcha/api.js'></script>
+						<div className={cx("captcha-wrapper")}>
+							<ReCaptcha
+								// ref={el => {
+								// 	this.captchaDemo = el;
+								// }}
+								size='normal'
+								data-theme='dark'
+								render='explicit'
+								sitekey='6Lf1Q58dAAAAANpYQhO6J0IOSUMnOULmcOPBkktQ'
+								onloadCallback={() => {}}
+								verifyCallback={() => {
+									setDisabledSubmit(false);
+								}}
+							/>
+						</div>
+						{/* <script src='https://www.google.com/recaptcha/api.js'></script> */}
 						{/* <RandomnessView data={data} errorMessage={errorMessage} /> */}
 						{/* <ul className={cx("info-row")}>
 								<li className={cx("label-column")}>Search</li>
@@ -126,9 +152,9 @@ const ExportData = ({}) => {
 							</ul> */}
 						<>
 							<div className={cx("random")}>
-								<div className={cx("button-random")} onClick={download}>
+								<button disabled={disabledSubmit} className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={download}>
 									Download
-								</div>
+								</button>
 							</div>
 						</>
 					</div>

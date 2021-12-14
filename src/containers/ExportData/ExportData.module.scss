@@ -190,6 +190,11 @@
 	&:hover {
 		cursor: pointer;
 	}
+
+	&-disabled {
+		cursor: default;
+		opacity: 0.6;
+	}
 }
 
 .button-more {
@@ -385,6 +390,13 @@
 			outline: none;
 		}
 	}
+}
+
+.captcha-wrapper {
+	margin-bottom: 24px;
+	display: flex;
+	justify-content: center;
+	align-self: center;
 }
 
 .date-select {
