@@ -28,10 +28,10 @@ const ExportData = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [showModal, setShowModal] = useState(false);
 	const [txResponse, setTxResponse] = useState({});
-	// const currentDateUTC = moment.utc().toDate();
-	// currentDateUTC.setHours(0, 0, 0);
-	const [startDate, setStartDate] = useState(new Date().toISOString());
-	const [endDate, setEndDate] = useState(new Date().toISOString());
+	const currentDateUTC = moment().toDate();
+	currentDateUTC.setHours(0, 0, 0, 0);
+	const [startDate, setStartDate] = useState(currentDateUTC);
+	const [endDate, setEndDate] = useState(currentDateUTC);
 	const params = useParams();
 	const account = params?.["account"];
 	const [disabledSubmit, setDisabledSubmit] = useState(true);
@@ -45,6 +45,8 @@ const ExportData = ({}) => {
 	const download = async () => {
 		// const result = await axios.get("https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee");
 		// console.log(result);
+		console.log(startDate.toISOString(), "I!!!!!!!!!!!!");
+		console.log(endDate.toISOString(), "I!!!!!!!!!!!!");
 		axios({
 			method: "get",
 			url: "https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee",
@@ -96,7 +98,7 @@ const ExportData = ({}) => {
 									onChange={date => {
 										// date.setHours(0, 0, 0);
 										// setEndDate(date);
-										setStartDate(date.toISOString());
+										setStartDate(date);
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
@@ -112,8 +114,7 @@ const ExportData = ({}) => {
 									selected={endDate}
 									endDate={endDate}
 									onChange={date => {
-										// date.setHours(0, 0, 0);
-										// setEndDate(date);
+										setEndDate(date);
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
@@ -158,7 +159,7 @@ const ExportData = ({}) => {
 							</ul> */}
 						<>
 							<div className={cx("random")}>
-								<button disabled={disabledSubmit} className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={download}>
+								<button className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={download}>
 									Download
 								</button>
 							</div>
