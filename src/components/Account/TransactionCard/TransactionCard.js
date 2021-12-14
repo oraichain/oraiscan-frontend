@@ -74,8 +74,9 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 			<span className={cx("text")}>
 				[ Download{" "}
 				<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${account}`}>
-					CSV Export ]
-				</NavLink>
+					CSV Export
+				</NavLink>{" "}
+				]
 			</span>
 		</div>
 	);

@@ -43,14 +43,16 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	color: var(--common-textColor);
+	align-items: center;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+	margin-top: -16px;
 
 	&-link {
 		color: var(--common-linkColor);
-		align-items: center;
-		font-family: Roboto;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		line-height: 150%;
+		margin: 4px;
 	}
 }
