@@ -13,7 +13,6 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import {useGet} from "restful-react";
 import consts from "src/constants/consts";
 import styles from "./ExportData.module.scss";
 import DatePicker from "react-datepicker";
@@ -40,16 +39,10 @@ const ExportData = ({}) => {
 		loadReCaptcha();
 	}, []);
 
-	console.log(startDate, endDate, "aaaa");
-
 	const download = async () => {
-		// const result = await axios.get("https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee");
-		// console.log(result);
-		console.log(startDate.toISOString(), "I!!!!!!!!!!!!");
-		console.log(endDate.toISOString(), "I!!!!!!!!!!!!");
 		axios({
 			method: "get",
-			url: "https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee",
+			url: `${consts.API_BASE}${consts.API.EXPORT_DATA}/${account}?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
 			responseType: "arraybuffer",
 		})
 			.then(response => {
@@ -96,8 +89,6 @@ const ExportData = ({}) => {
 									selected={startDate}
 									endDate={startDate}
 									onChange={date => {
-										// date.setHours(0, 0, 0);
-										// setEndDate(date);
 										setStartDate(date);
 									}}
 									popperClassName={cx("datepicker")}
@@ -126,9 +117,6 @@ const ExportData = ({}) => {
 						</div>
 						<div className={cx("captcha-wrapper")}>
 							<ReCaptcha
-								// ref={el => {
-								// 	this.captchaDemo = el;
-								// }}
 								size='normal'
 								data-theme='dark'
 								render='explicit'
@@ -139,27 +127,9 @@ const ExportData = ({}) => {
 								}}
 							/>
 						</div>
-						{/* <script src='https://www.google.com/recaptcha/api.js'></script> */}
-						{/* <RandomnessView data={data} errorMessage={errorMessage} /> */}
-						{/* <ul className={cx("info-row")}>
-								<li className={cx("label-column")}>Search</li>
-								<li className={cx("value-column")}>
-									<input
-										onChange={e => {
-											setRoundValue(e.currentTarget.value);
-										}}
-										placeholder={"Search for round.."}
-										className={cx("search")}
-										value={roundValue}
-									/>
-									<button onClick={handleSearch} className={cx("search-button")}>
-										<SearchIcon className={cx("search-button-icon")} />
-									</button>
-								</li>
-							</ul> */}
 						<>
 							<div className={cx("random")}>
-								<button className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={download}>
+								<button className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={disabledSubmit || download}>
 									Download
 								</button>
 							</div>
