@@ -4,6 +4,7 @@ import {useState, useEffect, useRef} from "react";
 import {useParams} from "react-router";
 import {loadReCaptcha, ReCaptcha} from "react-recaptcha-google";
 import PropTypes from "prop-types";
+import axios from "axios";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
 import {useTheme} from "@material-ui/core/styles";
@@ -41,24 +42,28 @@ const ExportData = ({}) => {
 
 	console.log(startDate, endDate, "aaaa");
 
-	const download = () => {
-		// if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
-		// 	setErrorMessage(true);
-		// } else {
-		// 	setRequestRunning(true);
-		// 	handleGetRandomValue();
-		// }
-		// danh();
+	const download = async () => {
+		// const result = await axios.get("https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee");
+		// console.log(result);
+		axios({
+			method: "get",
+			url: "https://api.scan.orai.io/v1/account/txs_csv/orai1qq6p65m7ma4epy6g8svs3j8zf758p4gsf5nmee",
+			responseType: "arraybuffer",
+		})
+			.then(response => {
+				var link = document.createElement("a");
+				link.href = window.URL.createObjectURL(new Blob([response.data], {type: "application/octet-stream"}));
+				link.download = `export-${account}.csv`;
+
+				document.body.appendChild(link);
+
+				link.click();
+				setTimeout(function() {
+					window.URL.revokeObjectURL(link);
+				}, 200);
+			})
+			.catch(error => {});
 	};
-
-	// const danh = async () => {
-	// 	const path = consts.API.EXPORT_DATA + "/" + account;
-	// 	const {data} = await useGet({
-	// 		path: path,
-	// 	});
-
-	// 	return data;
-	// };
 
 	let titleSection;
 	if (isLargeScreen) {
