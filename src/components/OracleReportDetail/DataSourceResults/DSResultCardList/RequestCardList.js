@@ -1,7 +1,6 @@
 // @ts-nocheck
 import React, {memo} from "react";
 import copy from "copy-to-clipboard";
-import {Base64} from "js-base64";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import styles from "./RequestCardList.scss";

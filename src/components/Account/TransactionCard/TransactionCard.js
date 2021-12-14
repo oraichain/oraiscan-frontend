@@ -2,6 +2,7 @@ import React, {memo, useState, useRef} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {NavLink} from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -70,6 +71,13 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 		<div className={cx("transaction-card-body")}>
 			{tableSection}
 			{paginationSection}
+			<span className={cx("text")}>
+				[ Download{" "}
+				<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${account}`}>
+					CSV Export
+				</NavLink>{" "}
+				]
+			</span>
 		</div>
 	);
 });
