@@ -2,7 +2,6 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import copy from "copy-to-clipboard";
-import {Base64} from "js-base64";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
