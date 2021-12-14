@@ -28,10 +28,10 @@ const ExportData = ({}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [showModal, setShowModal] = useState(false);
 	const [txResponse, setTxResponse] = useState({});
-	const currentDateUTC = moment.utc().toDate();
-	currentDateUTC.setHours(0, 0, 0);
-	const [startDate, setStartDate] = useState(currentDateUTC);
-	const [endDate, setEndDate] = useState(currentDateUTC);
+	// const currentDateUTC = moment.utc().toDate();
+	// currentDateUTC.setHours(0, 0, 0);
+	const [startDate, setStartDate] = useState(new Date().toISOString());
+	const [endDate, setEndDate] = useState(new Date().toISOString());
 	const params = useParams();
 	const account = params?.["account"];
 	const [disabledSubmit, setDisabledSubmit] = useState(true);
@@ -94,8 +94,9 @@ const ExportData = ({}) => {
 									selected={startDate}
 									endDate={startDate}
 									onChange={date => {
-										date.setHours(0, 0, 0);
-										setStartDate(date);
+										// date.setHours(0, 0, 0);
+										// setEndDate(date);
+										setStartDate(date.toISOString());
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
@@ -111,8 +112,8 @@ const ExportData = ({}) => {
 									selected={endDate}
 									endDate={endDate}
 									onChange={date => {
-										date.setHours(0, 0, 0);
-										setEndDate(date);
+										// date.setHours(0, 0, 0);
+										// setEndDate(date);
 									}}
 									popperClassName={cx("datepicker")}
 									wrapperClassName={cx("datepicker-wrapper")}
