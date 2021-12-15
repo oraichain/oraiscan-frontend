@@ -6,6 +6,7 @@ import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
 import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
 import CopyIcon from "src/icons/CopyIcon";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
@@ -81,6 +82,16 @@ const TxInfo = ({data}) => {
 						<NavLink className={cx("height")} to={`/blocks/${data.height}`}>
 							{data.height}
 						</NavLink>
+					)}
+				</InfoRow>
+				<InfoRow label='Fee'>
+					{_.isNil(data?.fee) ? (
+						"-"
+					) : (
+						<div className={cx("time")}>
+							<span className={cx("time-value")}>{formatOrai(data?.fee.amount[0]?.amount)}</span>
+							<span className={cx("time-denom")}>ORAI</span>
+						</div>
 					)}
 				</InfoRow>
 				<InfoRow label='Time'>
