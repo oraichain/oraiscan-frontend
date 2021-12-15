@@ -25,7 +25,7 @@ const Block = () => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
 	const height = parseInt(params?.["height"]);
-	const path = `${consts.API_BASE}${consts.API.BLOCKLIST}?&limit=1&before=${height + 1}`;
+	const path = `${consts.API_BASE}${consts.API.BLOCK}/${height}`;
 	const {data: data, loading: loading, error: error} = useGet({
 		path: path,
 	});
@@ -54,7 +54,7 @@ const Block = () => {
 		if (error) {
 			return <NotFound message={"Sorry! Block Not Found"} />;
 		} else {
-			headerCard = <HeaderCard data={data?.data?.[0]} />;
+			headerCard = <HeaderCard data={data} />;
 		}
 	}
 

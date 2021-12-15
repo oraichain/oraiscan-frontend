@@ -48,6 +48,7 @@ export default Object.freeze({
 	API: {
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
+		BLOCK: "/block",
 		TXS_BLOCK: "/txs-block",
 		ACCOUNT: "/account",
 		ACCOUNTS: "/accounts",

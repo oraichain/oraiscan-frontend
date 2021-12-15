@@ -36,6 +36,12 @@ const HeaderCardSkeleton = ({data}) => {
 					</div>
 				</InfoRow>
 
+				<InfoRow label='Total Fees'>
+					<div className={cx("tx-number")}>
+						<Skeleton variant='text' width={24} height={24} />
+					</div>
+				</InfoRow>
+
 				<InfoRow label='Moniker'>
 					<div className={cx("moniker")}>
 						<Skeleton variant='text' width={200} height={24} />
