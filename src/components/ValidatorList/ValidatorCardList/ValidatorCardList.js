@@ -3,7 +3,7 @@ import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatPercentage, formatInteger} from "src/helpers/helper";
+import {formatPercentage, formatInteger, formatOrai} from "src/helpers/helper";
 import {computeTotalVotingPower} from "src/components/ValidatorList/ValidatorTable/ValidatorTable";
 import Delegate from "src/components/common/Delegate";
 import styles from "./ValidatorCardList.scss";
@@ -128,7 +128,14 @@ const ValidatorCardList = memo(({data = []}) => {
 								</tr>
 
 								<tr>
-									<td colSpan={2}>
+									<td>
+										<div className={cx("item-title")}>Self Bonded</div>
+										<div className={cx("voting-power-data-cell")}>
+											<span>{formatOrai(item?.self_bonded)}</span>
+											<span>ORAI</span>
+										</div>
+									</td>
+									<td>
 										<Delegate
 											operatorAddress={item.operator_address}
 											openButtonText='Delegate'
