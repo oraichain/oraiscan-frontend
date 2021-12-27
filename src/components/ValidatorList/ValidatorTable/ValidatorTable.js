@@ -33,6 +33,7 @@ const sortFields = {
 	VOTING_POWER: "voting_power",
 	UPTIME: "uptime",
 	COMMISSION: "commission_rate",
+	SELFBONDED: "self_bonded",
 };
 
 export const computeTotalVotingPower = data => {
@@ -70,8 +71,8 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({data = []}) => {
-	const [sortField, setSortField] = useState(sortFields.COMMISSION);
-	const [sortDirection, setSortDirection] = useState(sortDirections.ASC);
+	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
+	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 
