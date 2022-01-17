@@ -1,4 +1,4 @@
-import {networks} from "./constants/networks";
+import { networks } from "./constants/networks";
 
 export const isTestnet = process.env.REACT_APP_IS_TEST_NET || localStorage?.getItem("network") === networks.TESTNET;
 
@@ -15,6 +15,8 @@ const config = Object.freeze({
 		? process.env.REACT_APP_CONTRACT_RANDOMNESS_TESTNET || "orai18al3kesrjcxp8t24ss6684yq22pua5acwnj5ma"
 		: process.env.REACT_APP_CONTRACT_RANDOMNESS || "orai1s4ptqk79g5379glas3hwevq73xfm0nye4m0l6h",
 	oldRandomnessContractAddress: "orai15vwlf8y9sygv72ju8qszs8n9gnuvwa7fu77tka",
+	AIORACLE_BACKEND: isTestnet ? process.env.REACT_APP_AIORACLE_BACKEND || "http://18.223.108.118:8080" : "foobar",
+	AIORACLE_CONTRACT_ADDR: isTestnet ? process.env.REACT_APP_AIORACLE_TESTNET_CONTRACT_ADDR : process.env.REACT_APP_AIORACLE_CONTRACT_ADDR,
 });
 
 export default config;

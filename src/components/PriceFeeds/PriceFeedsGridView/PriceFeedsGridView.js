@@ -1,24 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-undef */
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import {_} from "src/lib/scripts";
+import { _ } from "src/lib/scripts";
 import NumberFormat from "react-number-format";
-import {Tooltip} from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
-import {getTotalTime, setAgoTime} from "src/lib/scripts";
-import {pricePair} from "src/constants/priceFeed";
-import {priceFeedNetworks} from "src/constants/priceFeed";
+import { getTotalTime, setAgoTime } from "src/lib/scripts";
+import { pricePair } from "src/constants/priceFeed";
+import { priceFeedNetworks } from "src/constants/priceFeed";
 import TransactionModal from "../Transactions";
 import styles from "./PriceFeedsGridView.module.scss";
-import {isNil} from "lodash";
+import { isNil } from "lodash";
 
 const cx = cn.bind(styles);
 
-const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, network}) => {
+const PriceFeedsGridView = ({ priceData, lastUpdate, keyword, requestData, network }) => {
 	const [showData, setShowData] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [renewTimeAgo, setRenewTimeAgo] = useState(0);
@@ -31,15 +31,14 @@ const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, networ
 			if (keyword) {
 				priceData.map(v => {
 					if (v.name.toLowerCase().includes(keyword.toLowerCase())) {
-						v.price > 0 ? newData.push({...v, status: "Active"}) : newData.push({...v, status: "Inactive"});
+						v.price > 0 ? newData.push({ ...v, status: "Active" }) : newData.push({ ...v, status: "Inactive" });
 					}
 				});
 			} else {
 				priceData.map(v => {
-					v.price > 0 ? newData.push({...v, status: "Active"}) : newData.push({...v, status: "Inactive"});
+					v.price > 0 ? newData.push({ ...v, status: "Active" }) : newData.push({ ...v, status: "Inactive" });
 				});
 			}
-
 			setShowData(newData);
 		}
 	}, [priceData, keyword]);
@@ -92,7 +91,7 @@ const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, networ
 
 			<div className={cx("price-feeds-body")}>
 				<Grid container spacing={2}>
-					{showData?.map(({name, price, status}, key) => {
+					{showData?.map(({ name, price, status }, key) => {
 						return (
 							<Grid item lg={3} md={4} sm={12} xs={12} key={key}>
 								<div className={cx("price-feeds-card")}>
@@ -101,7 +100,7 @@ const PriceFeedsGridView = ({priceData, lastUpdate, keyword, requestData, networ
 										<div className={cx("price-feeds-card-pair-text")}>{name} / USD</div>
 									</div>
 									<div className={cx("price-feeds-card-price")} onClick={handleOpenModal}>
-										<NumberFormat value={price.toFixed(7)} displayType={"text"} thousandSeparator={true} prefix='$' />
+										<NumberFormat value={parseFloat(price).toFixed(7)} displayType={"text"} thousandSeparator={true} prefix='$' />
 									</div>
 									<div className={cx("price-feeds-card-info")}>
 										<div className={cx("price-feeds-card-info-item")}>
