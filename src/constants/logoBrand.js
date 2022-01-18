@@ -16,7 +16,8 @@ import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
 import scavLogo from "src/assets/validators/scav_node.jpg";
 import TrinityLogo from "src/assets/validators/TrinityLogo.jpg";
 import BlockValLogo from "src/assets/validators/block_val.png";
-import indusNodeLogo from 'src/assets/validators/indus_node.jpg';
+import indusNodeLogo from "src/assets/validators/indus_node.jpg";
+import megaoraiLogo from "src/assets/validators/megaorai.png";
 
 export const logoBrand = [
 	{
@@ -48,6 +49,11 @@ export const logoBrand = [
 		name: "INDUS_NODE",
 		operatorAddress: "oraivaloper1ucx0gm8kca2zvyr9d39z249j62y2t8r0rwtmr6",
 		logo: indusNodeLogo,
+	},
+	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: megaoraiLogo,
 	},
 	{
 		name: "Antorai",
