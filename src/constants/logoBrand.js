@@ -8,6 +8,7 @@ import antOraiLogo from "src/assets/validators/antOraiLogo.png";
 import serenityLogo from "src/assets/validators/serenityLogo.png";
 import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
 import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
+import megaoraiLogo from "src/assets/validators/megaorai.png";
 import tothemoonLogo from "src/assets/validators/tothemoonLogo.png";
 import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png";
 import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
@@ -171,4 +172,9 @@ export const logoBrand = [
 		operatorAddress: "oraivaloper1f6q9wjn8qp3ll8y8ztd8290vtec2yxyxxygyy2",
 		logo: BlockValLogo,
 	},
+	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: megaoraiLogo,
+	}
 ];
