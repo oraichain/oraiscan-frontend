@@ -31,7 +31,7 @@ export const getPriceFeedMainnet = async () => {
 	const [merkleRootHeight, merkleRootTxHash] = await getRequestMerkleRootInfor(stage);
 	if (stage) {
 		const { data: fullRequestData } = await axios.get(
-			`${config.AIORACLE_BACKEND}/get_reports?request_id=${parseInt(stage)}&contract_addr=${config.AIORACLE_CONTRACT_ADDR}`
+			`${config.AIORACLE_BACKEND}/report-info/get-reports?request_id=${parseInt(stage)}&contract_addr=${config.AIORACLE_CONTRACT_ADDR}`
 		);
 
 		if (fullRequestData?.data.length > 0) {
