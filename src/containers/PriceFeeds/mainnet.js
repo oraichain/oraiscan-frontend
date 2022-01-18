@@ -5,7 +5,7 @@ import consts from "src/constants/consts";
 
 export const getAiOracleRequests = async () => {
 	const { data: fullRequestData } = await axios.get(
-		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_CONTRACT_ADDR}/smart/eyJnZXRfcmVxdWVzdHMiOnsibGltaXQiOjEwLCJvcmRlciI6Mn19`
+		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_CONTRACT_ADDR}/smart/eyJnZXRfcmVxdWVzdHNfYnlfc2VydmljZSI6eyJzZXJ2aWNlIjoicHJpY2UiLCJsaW1pdCI6MTAsIm9yZGVyIjoyfX0=`
 	);
 	if (fullRequestData?.data?.length > 0) {
 		for (let stageData of fullRequestData.data) {
