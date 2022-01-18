@@ -138,9 +138,6 @@ export const logoBrand = [
 		logo: oraiBotValidatorLogo,
 	},
 	{
-		name: "megaorai",
-		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
-		logo: megaoraiLogo,
 		name: "tothemoon",
 		operatorAddress: "oraivaloper164kva2j3h637plt2frxeqzdtjg9c0ks60mnq0d",
 		logo: tothemoonLogo,
@@ -175,4 +172,9 @@ export const logoBrand = [
 		operatorAddress: "oraivaloper1f6q9wjn8qp3ll8y8ztd8290vtec2yxyxxygyy2",
 		logo: BlockValLogo,
 	},
+	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: megaoraiLogo,
+	}
 ];
