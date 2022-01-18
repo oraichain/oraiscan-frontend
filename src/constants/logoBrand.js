@@ -8,6 +8,7 @@ import antOraiLogo from "src/assets/validators/antOraiLogo.png";
 import serenityLogo from "src/assets/validators/serenityLogo.png";
 import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
 import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
+import megaoraiLogo from "src/assets/validators/megaorai.png";
 
 export const logoBrand = [
 	{
@@ -121,5 +122,10 @@ export const logoBrand = [
 		name: "Oraibots Validator",
 		operatorAddress: "oraivaloper1yc9nysml8dxy447hp3aytr0nssr9pd9a47l7gx",
 		logo: oraiBotValidatorLogo,
+	},
+	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: megaoraiLogo,
 	},
 ];
