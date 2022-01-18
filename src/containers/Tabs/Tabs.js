@@ -39,11 +39,13 @@ const Tabs = memo(() => {
 	const [openTransactions, setOpenTransactions] = React.useState(false);
 	const [openProposals, setOpenProposals] = React.useState(false);
 	const [openOracleScripts, setOpenOracleScripts] = React.useState(false);
+	const [openRequests, setOpenRequests] = React.useState(false);
 	const [openOthers, setOpenOthers] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
 	const oracleScriptsAnchorRef = React.useRef(null);
+	const requestsAnchorRef = React.useRef(null);
 	const othersAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
@@ -76,6 +78,14 @@ const Tabs = memo(() => {
 
 	const handleCloseOracleScripts = () => {
 		setOpenOracleScripts(false);
+	};
+
+	const handleOpenRequests = () => {
+		setOpenRequests(true);
+	};
+
+	const handleCloseRequests = () => {
+		setOpenRequests(false);
 	};
 
 	const handleOpenOthers = () => {
@@ -195,16 +205,28 @@ const Tabs = memo(() => {
 				activePath: "/oracle-scripts",
 			},
 		],
-		Others: [
+		Requests: [
 			{
-				pathName: "/price-feeds",
-				title: "Price Feeds",
-				activePath: "/price-feeds",
+				pathName: "/ai-requests",
+				title: "AI Requests",
+				activePath: "/ai-requests",
 			},
 			{
-				pathName: "/randomness/" + contract,
-				title: "Randomness",
-				activePath: "/randomness/" + contract,
+				pathName: "/ai_requests",
+				title: "AI Requests (Legacy)",
+				activePath: "/ai_requests",
+			},
+		],
+		Others: [
+			{
+				pathName: "/data-sources",
+				title: "Data Sources (Legacy)",
+				activePath: "/data-soruces",
+			},
+			{
+				pathName: "/test-cases",
+				title: "Test Cases (Legacy)",
+				activePath: "/test-cases",
 			},
 		],
 	};
@@ -241,14 +263,14 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
-			name: "Data Sources",
-			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
-			route: "/data-sources",
+			name: "Price Feeds",
+			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			route: "/price-feeds",
 		},
 		{
-			name: "Test Cases",
-			img: <TestCaseTabIcon className={cx("tab-icon")}></TestCaseTabIcon>,
-			route: "/test-cases",
+			name: "Randomness",
+			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
+			route: "/randomness/" + contract,
 		},
 		{
 			name: "Smart Contracts",
@@ -260,12 +282,14 @@ const Tabs = memo(() => {
 		{
 			name: "Requests",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai_requests",
+			route: "/ai-requests",
+			dropdownClassName: "requests-dropdown",
+			render: renderTabDropdownComponent,
 		},
 		{
 			name: "Others",
 			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/price-feeds",
+			route: "/data-sources",
 			dropdownClassName: "others-dropdown",
 			render: renderTabDropdownComponent,
 		},
@@ -319,6 +343,14 @@ const Tabs = memo(() => {
 								open = openOracleScripts;
 								handleOpen = handleOpenOracleScripts;
 								handleClose = handleCloseOracleScripts;
+								break;
+							case "Requests":
+								classNameDropdown = "dropdown-transactions";
+								childs = childDropdown?.[name];
+								anchorRef = requestsAnchorRef;
+								open = openRequests;
+								handleOpen = handleOpenRequests;
+								handleClose = handleCloseRequests;
 								break;
 							case "Others":
 								classNameDropdown = "dropdown-transactions";

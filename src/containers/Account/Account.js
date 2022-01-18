@@ -19,6 +19,7 @@ import EmptyCoinsCard from "src/components/common/CoinsCard/EmptyCoinsCard";
 import CoinsCardSkeleton from "src/components/common/CoinsCard/CoinsCardSkeleton";
 import DelegationCard from "src/components/Account/DelegationCard";
 import UnbondingCard from "src/components/Account/UnbondingCard";
+import Tabs from "src/components/TxList/Tabs";
 import TransactionCard from "src/components/Account/TransactionCard";
 import styles from "./Account.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
@@ -27,11 +28,17 @@ const Account = props => {
 	const dispatch = useDispatch();
 
 	const cx = cn.bind(styles);
+	const [activeTab, setActiveTab] = React.useState(0);
 	const account = props?.match?.params?.account ?? 0;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
+	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
 
 	const {data: coinsData, loading: coinsLoading, error: coinsError} = useGet({
 		path: coinsPath,
+	});
+
+	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
+		path: nameTagPath,
 	});
 
 	const handleCopy = address => {
@@ -54,29 +61,19 @@ const Account = props => {
 				handleCopy(this.value);
 			},
 		},
-		{
-			title: "Reward Address",
-			icon: copyIcon,
-			value: account,
-			onClick: function() {
-				handleCopy(this.value);
-			},
-		},
 	];
 
 	const decodedObj = bech32.decode(account);
 	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
 
-	if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
-		addresses.push({
-			title: "Operator address",
-			icon: copyIcon,
-			value: operatorAddress,
-			onClick: function() {
-				handleCopy(this.value);
-			},
-		});
-	}
+	addresses.push({
+		title: "Operator address",
+		icon: copyIcon,
+		value: operatorAddress,
+		onClick: function() {
+			handleCopy(this.value);
+		},
+	});
 
 	let titleSection;
 	let addressCard;
@@ -93,7 +90,7 @@ const Account = props => {
 	);
 
 	if (addresses) {
-		addressCard = <AddressCard headerTitle='QR Code' addresses={addresses} />;
+		addressCard = <AddressCard nameTagData={nameTagData} headerTitle='QR Code' addresses={addresses} />;
 	} else {
 		addressCard = <AddressCardSkeleton />;
 	}
@@ -120,7 +117,6 @@ const Account = props => {
 
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
-	transactionCard = <TransactionCard account={account} />;
 
 	return (
 		<Container fixed className={cx("account")}>
@@ -143,7 +139,11 @@ const Account = props => {
 					{unbondingCard}
 				</Grid>
 				<Grid item xs={12}>
-					{transactionCard}
+					<div className={cx("transaction-card")}>
+						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+						{activeTab === 0 && <TransactionCard account={account} />}
+						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
+					</div>
 				</Grid>
 			</Grid>
 		</Container>

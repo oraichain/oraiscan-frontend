@@ -7,17 +7,40 @@ import PropTypes from "prop-types";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {formatFloat, formatOrai} from "src/helpers/helper";
+import {getNewRoyalty, getRoyaltyAmount, getTokenId} from "src/components/TxList/TransactionTable/TransactionTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
+import {Tooltip} from "@material-ui/core";
 
-const getTxTypeNew = type => {
+const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
-	return typeArr[typeArr.length - 1];
+	let typeMsg = typeArr[typeArr.length - 1];
+	if (typeMsg === "MsgExecuteContract" && result === "Success") {
+		let rawLogArr = JSON.parse(rawLog);
+		for (let event of rawLogArr[0].events) {
+			if (event["type"] === "wasm") {
+				for (let att of event["attributes"]) {
+					if (att["key"] === "action") {
+						let attValue = att["value"]
+							.split("_")
+							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+							.join("");
+						typeMsg += "/" + attValue;
+						break;
+					}
+				}
+
+				break;
+			}
+		}
+	}
+
+	return typeMsg;
 };
 
-const TransactionCardList = memo(({data = [], account}) => {
+const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
 
@@ -25,6 +48,51 @@ const TransactionCardList = memo(({data = [], account}) => {
 		<div className='transaction-card-list'>
 			{data.map((item, index) => {
 				let transferStatus = null;
+				let amountDataCell;
+				const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
+				if (objRoyaltyAmount.royalty) {
+					amountDataCell = (
+						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+							{transferStatus && transferStatus}
+							<div className={cx("amount")}>
+								<span className={cx("amount-value")}>{formatOrai(objRoyaltyAmount.amount)} </span>
+								<span className={cx("amount-denom")}>ORAI</span>
+								<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (objRoyaltyAmount.amount / 1000000), 4) + ")" : ""}</div>
+							</div>
+						</div>
+					);
+				} else {
+					let amount;
+					let denom;
+					if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
+						amount = item.messages[0].amount[0].amount;
+						denom = item.messages[0].amount[0].denom;
+					} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
+						amount = item.messages[0].amount.amount;
+						denom = item.messages[0].amount.denom;
+					}
+
+					amountDataCell =
+						_.isNil(denom) || _.isNil(amount) ? (
+							<div className={cx("amount-data-cell")}>
+								<div className={cx("amount")}>
+									<span className={cx("amount-value")}>0</span>
+									<span className={cx("amount-denom")}>ORAI</span>
+									<div className={cx("amount-usd")}>($0)</div>
+								</div>
+							</div>
+						) : (
+							<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+								{transferStatus && transferStatus}
+								<div className={cx("amount")}>
+									<span className={cx("amount-value")}>{formatOrai(amount)} </span>
+									<span className={cx("amount-denom")}>{denom}</span>
+									<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
+								</div>
+							</div>
+						);
+				}
+
 				if (
 					account &&
 					(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
@@ -63,16 +131,6 @@ const TransactionCardList = memo(({data = [], account}) => {
 					);
 				}
 
-				let amount;
-				let denom;
-				if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
-					amount = item.messages[0].amount[0].amount;
-					denom = item.messages[0].amount[0].denom;
-				} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
-					amount = item.messages[0].amount.amount;
-					denom = item.messages[0].amount.denom;
-				}
-
 				return (
 					<div className={cx("transaction-card-list-item")} key={"transaction-card-list-item-" + index}>
 						<table>
@@ -100,10 +158,12 @@ const TransactionCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.messages?.[0]?.["@type"]) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
-											<div className={cx("type-data-cell")}>
-												<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
-												{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
-											</div>
+											<Tooltip title={getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)} arrow placement='top-start'>
+												<div className={cx("type-data-cell")}>
+													<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
+													{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
+												</div>
+											</Tooltip>
 										)}
 									</td>
 								</tr>
@@ -114,34 +174,19 @@ const TransactionCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.result) ? <div className={cx("item-text")}>-</div> : <div className={cx("result-data-cell")}>{resultDataCellContent}</div>}
 									</td>
 									<td>
-										<div className={cx("item-title")}>Amount</div>
-										{_.isNil(denom) || _.isNil(amount) ? (
-											<div className={cx("amount-data-cell")}>
-												<div className={cx("amount")}>
-													<span className={cx("amount-value")}>0</span>
-													<span className={cx("amount-denom")}>ORAI</span>
-													<div className={cx("amount-usd")}>($0)</div>
-												</div>
-											</div>
-										) : (
-											<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
-												{transferStatus && transferStatus}
-												<div className={cx("amount")}>
-													<span className={cx("amount-value")}>{formatOrai(amount)} </span>
-													<span className={cx("amount-denom")}>{denom}</span>
-													<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
-												</div>
-											</div>
-										)}
+										<div className={cx("item-title")}>{royalty ? "Royalty Amount" : "Amount"}</div>
+										{amountDataCell}
 									</td>
 								</tr>
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Fee</div>
+										<div className={cx("item-title")}>{royalty ? "Token Id" : "Fee"}</div>
 									</td>
 									<td>
-										{_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
+										{royalty ? (
+											<div className={cx("item-text")}>{getTokenId(item?.raw_log, item?.result)}</div>
+										) : _.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("fee-data-cell", "align-right")}>
@@ -149,8 +194,8 @@ const TransactionCardList = memo(({data = [], account}) => {
 													<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0].amount)}</span>
 													<span className={cx("fee-denom")}>{item.fee.amount[0].denom}</span>
 													{/* <span className={cx("fee-usd")}>
-														{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-													</span> */}
+															{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
+														</span> */}
 												</div>
 											</div>
 										)}
@@ -173,6 +218,20 @@ const TransactionCardList = memo(({data = [], account}) => {
 										{_.isNil(item?.timestamp) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{setAgoTime(item.timestamp)}</div>}
 									</td>
 								</tr>
+								{!royalty || (
+									<tr>
+										<td>
+											<div className={cx("item-title")}>New Royalty</div>
+										</td>
+										<td>
+											{_.isNil(item?.fee?.amount?.[0]?.amount) || _.isNil(item?.fee?.amount?.[0]?.denom) ? (
+												<div className={cx("item-text")}>-</div>
+											) : (
+												<div className={cx("item-text", "align-right")}>{getNewRoyalty(account, item?.raw_log, item?.result)}</div>
+											)}
+										</td>
+									</tr>
+								)}
 							</tbody>
 						</table>
 					</div>
@@ -186,6 +245,7 @@ TransactionCardList.propTypes = {
 	data: PropTypes.array,
 	account: PropTypes.string,
 	pending: PropTypes.bool,
+	royalty: PropTypes.bool,
 };
 
 TransactionCardList.defaultProps = {

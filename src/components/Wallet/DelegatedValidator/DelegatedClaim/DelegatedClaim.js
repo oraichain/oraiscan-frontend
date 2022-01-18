@@ -27,7 +27,11 @@ export default function({setActiveTab, address}) {
 
 	if (data) {
 		if (Array.isArray(data?.claim_reward) && data.claim_reward.length > 0) {
-			tableSection = isLargeScreen ? <ClaimTable data={data.claim_reward} /> : <ClaimCardList data={data.claim_reward} />;
+			tableSection = isLargeScreen ? (
+				<ClaimTable data={data.claim_reward} totalStaked={data?.total_staked} totalRewards={data?.total_rewards} />
+			) : (
+				<ClaimCardList data={data.claim_reward} totalStaked={data?.total_staked} totalRewards={data?.total_rewards} />
+			);
 		} else {
 			tableSection = <NoResult />;
 		}

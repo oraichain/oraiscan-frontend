@@ -4,7 +4,7 @@ import consts from "src/constants/consts";
 
 export const getPriceFeedMainnet = async () => {
 	const {data: fullRequestData} = await axios.get(
-		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${process.env.REACT_APP_CONTRACT_PRICE_FEED}/smart/eyJvcmFjbGVfcXVlcnkiOnsibXNnIjp7ImdldF9yZXF1ZXN0cyI6e319fX0=`
+		`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${process.env.REACT_APP_CONTRACT_PRICE_FEED}/smart/eyJvcmFjbGVfcXVlcnkiOnsibXNnIjp7ImdldF9yZXF1ZXN0cyI6eyJsaW1pdCI6NX19fX0=`
 	);
 
 	if (fullRequestData?.data?.items?.length > 0) {
@@ -21,20 +21,33 @@ export const getPriceFeedMainnet = async () => {
 					const resultDecode = JSON.parse(atob(report.aggregated_result));
 					aggregatedResult = aggregatedResult.concat(resultDecode);
 				}
-				aggregatedResult = aggregatedResult.map(result => ({...result, price: parseFloat(result.price)}));
+				aggregatedResult = aggregatedResult.map(result => {
+					let names = result.name;
+					let prices = result.price;
+					let newAggregatedResult = [];
+					for (let i = 0; i < names.length; i++) {
+						newAggregatedResult.push({
+							name: names[i],
+							price: parseFloat(prices[i]),
+						});
+					}
+					return newAggregatedResult;
+				});
 
 				let holder = {};
 				let uniqueSymbols = [];
 
-				aggregatedResult.forEach(d => {
-					if (holder.hasOwnProperty(d.name)) {
-						holder[d.name] = holder[d.name] + d.price;
-						holder[d.name + "count"] += 1;
-					} else {
-						uniqueSymbols.push(d.name);
-						holder[d.name] = d.price;
-						holder[d.name + "count"] = 1;
-					}
+				aggregatedResult.forEach(result => {
+					result.forEach(d => {
+						if (holder.hasOwnProperty(d.name)) {
+							holder[d.name] = holder[d.name] + d.price;
+							holder[d.name + "count"] += 1;
+						} else {
+							uniqueSymbols.push(d.name);
+							holder[d.name] = d.price;
+							holder[d.name + "count"] = 1;
+						}
+					});
 				});
 
 				uniqueSymbols.forEach(d => {

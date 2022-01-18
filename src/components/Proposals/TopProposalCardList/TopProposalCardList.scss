@@ -12,6 +12,8 @@
 
 	.top-proposal-card {
 		padding: 20px;
+		display: flex;
+		flex-direction: column;
 		background: var(--common-containerBackgroundColor);
 		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 		border-radius: 8px;
@@ -238,46 +240,47 @@
 					}
 				}
 			}
-
-			.view-more {
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				align-items: center;
-				height: 24px;
-				width: 100%;
-				background: var(--common-buttonBackgroundColor);
-				border: 1px solid var(--common-activeTabColor);
-				box-sizing: border-box;
-				border-radius: 4px;
-				padding: 24px;
-
-				&-text {
-					display: inline-block;
-					color: var(--common-buttonTextColor);
-					font-family: Roboto;
-					font-style: normal;
-					font-weight: normal;
-					font-size: 16px;
-
-					@media screen and (min-width: 1280px) {
-						line-height: 150%;
-						font-size: 14px;
-					}
-				}
-
-				&-icon {
-					display: inline-block;
-					color: var(--common-buttonTextColor);
-					width: auto;
-					height: 8px;
-					margin-left: 8px;
-				}
-			}
 		}
 	}
 }
 
 .skeleton {
 	display: inline-block;
+}
+
+.view-more {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 24px;
+	width: 100%;
+	margin-top: auto;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	padding: 24px;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+
+		@media screen and (min-width: 1280px) {
+			line-height: 150%;
+			font-size: 14px;
+		}
+	}
+
+	&-icon {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		width: auto;
+		height: 8px;
+		margin-left: 8px;
+	}
 }

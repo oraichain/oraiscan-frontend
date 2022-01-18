@@ -128,3 +128,41 @@
 		cursor: pointer;
 	}
 }
+
+.nametag {
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 15px;
+
+	&-title {
+		margin-bottom: 5px;
+
+		&-text {
+			display: inline-block;
+			margin-right: 8px;
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+			color: var(--common-textColor);
+			vertical-align: middle;
+		}
+
+		&-icon {
+			display: inline-block;
+			vertical-align: middle;
+			cursor: pointer;
+		}
+	}
+
+	&-value {
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+		color: var(--common-textColor);
+	}
+}

@@ -110,7 +110,6 @@ function openWindowV2(type, payload, account = "", self) {
 	}
 
 	const network = isTestnet ? networks.TESTNET : networks.MAINNET;
-
 	return PopupCenter(
 		self.keystationUrl +
 			"/" +

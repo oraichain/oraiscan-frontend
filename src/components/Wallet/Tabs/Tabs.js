@@ -18,10 +18,17 @@ export default function({activeTab, setActiveTab, isBecomeValidator}) {
 				<TransactionsIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Transactions</div>
 			</div>
-			<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
-				<ValidatorsIcon className={cx("tab-icon")} />
-				<div className={cx("tab-text")}> {isBecomeValidator ? "Your Delegators" : "Become A Validator"}</div>
+			<div className={cx("tab", activeTab === 1 ? "active" : "")} onClick={() => setActiveTab(1)}>
+				<TransactionsIcon className={cx("tab-icon")} />
+				<div className={cx("tab-text")}>Royalty Transactions</div>
 			</div>
+			{isBecomeValidator && (
+				<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
+					<ValidatorsIcon className={cx("tab-icon")} />
+					{/* <div className={cx("tab-text")}> {isBecomeValidator ? "Your Delegators" : "Become A Validator"}</div> */}
+					<div className={cx("tab-text")}> Your Delegators</div>
+				</div>
+			)}
 			<div className={cx("tab", activeTab === 2 ? "active" : "")} onClick={() => setActiveTab(2)}>
 				<DelegatedIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Delegated Validator</div>

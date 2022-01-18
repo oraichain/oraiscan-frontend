@@ -1,19 +1,24 @@
-import React, {memo} from "react";
+import React, {memo, useState} from "react";
 import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import styles from "./DetailCard.scss";
-import {formatInteger, formatPercentage} from "src/helpers/helper";
+import {formatOrai, formatInteger, formatPercentage} from "src/helpers/helper";
 import {NavLink} from "react-router-dom";
 import {Progress} from "antd";
 import RightArrowIcon from "src/icons/RightArrowIcon";
+import Dialog from "@material-ui/core/Dialog";
+import RequestsCard from "src/components/ValidatorDetails/RequestsCard";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {isNil} from "lodash";
 
 const cx = classNames.bind(styles);
 
 const DetailCard = memo(({data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [open, setOpen] = useState(false);
 
 	const websiteInfo = data?.description?.website ?? "-";
 	const websiteElement = (
@@ -43,7 +48,7 @@ const DetailCard = memo(({data}) => {
 	if (isNaN(data?.uptime)) {
 		uptimeInfo = "-";
 	} else {
-		const uptime = formatPercentage(data?.uptime);
+		const uptime = formatPercentage(data?.uptime, 2);
 		uptimeInfo = uptime + "%";
 	}
 	const uptimeElement = (
@@ -88,7 +93,9 @@ const DetailCard = memo(({data}) => {
 	const selfBondedElement = (
 		<div className={cx("info")}>
 			<div className={cx("info-title")}>Self Bonded</div>
-			<div className={cx("info-link")}>-</div>
+			<div className={cx("info-text")}>
+				{!isNil(data?.self_bonded) ? formatOrai(data?.self_bonded) : "-"} <span className={cx("info-denom")}>ORAI</span>{" "}
+			</div>
 		</div>
 	);
 
@@ -113,14 +120,44 @@ const DetailCard = memo(({data}) => {
 							strokeColor={formatPercentage(data.reporting_rate, 2) === 100 ? "#52c41a" : "#1890ff"}
 							trailColor='#bfbfbf'
 						/>
-						{/* <button className={cx("more-button")}>
-							More information
-							<RightArrowIcon className={cx("more-button-icon")} />
-						</button> */}
 					</>
 				) : (
 					"-"
 				)}
+			</div>
+		</div>
+	);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const requestsElement = (
+		<div className={cx("info")}>
+			<button className={cx("more-button")} onClick={handleOpen}>
+				Request information
+				<RightArrowIcon className={cx("more-button-icon")} />
+			</button>
+			<Dialog open={open} maxWidth='lg' fullWidth={true} aria-labelledby='source-dialog' onClose={handleClose} scroll={"body"}>
+				{/* <div className={cx("preview")}> */}
+				{/* <div className={cx("close-button")} onClick={handleClose}>
+						<CloseIcon />
+					</div> */}
+				<RequestsCard operatorAddress={data?.operator_address ?? "-"} />
+				{/* </div> */}
+			</Dialog>
+		</div>
+	);
+
+	const missedBlockElement = (
+		<div className={cx("info")}>
+			<div className={cx("info-title")}># missed blocks</div>
+			<div className={cx("info-text")}>
+				{data?.missed_block ?? "-"} / {data?.blocks ?? "-"}
 			</div>
 		</div>
 	);
@@ -154,6 +191,12 @@ const DetailCard = memo(({data}) => {
 						<Grid item xs={4}>
 							{selfBondedElement}
 						</Grid>
+						<Grid item xs={4}>
+							{requestsElement}
+						</Grid>
+						<Grid item xs={4}>
+							{missedBlockElement}
+						</Grid>
 					</Grid>
 				</Grid>
 			) : (
@@ -167,7 +210,8 @@ const DetailCard = memo(({data}) => {
 							<td>{uptimeElement}</td>
 						</tr>
 						<tr>
-							<td colSpan={2}>{votingPowerElement}</td>
+							<td>{votingPowerElement}</td>
+							<td>{missedBlockElement}</td>
 						</tr>
 						<tr>
 							<td>{selfBondedElement}</td>

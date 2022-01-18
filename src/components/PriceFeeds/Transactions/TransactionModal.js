@@ -10,6 +10,7 @@ import consts from "src/constants/consts";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import TransactionTable from "./TransactionTable";
 import styles from "./TransactionModal.scss";
+import {element} from "prop-types";
 
 const cx = cn.bind(styles);
 
@@ -47,7 +48,6 @@ const TransactionModal = ({open, closeDialog, requestData}) => {
 					});
 				}
 			}
-			console.log("results = ", results);
 			setTxTableData(results);
 			setLoading(false);
 		}

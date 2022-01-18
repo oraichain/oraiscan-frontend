@@ -26,7 +26,11 @@ export default function(props) {
 	const {data} = useGet({
 		path: path,
 	});
-	const isBecomeValidator = data?.operator_address ? true : false;
+	const isBecomeValidator = !data ? false : data.operator_address ? true : false;
+
+	React.useEffect(() => {
+		console.log("data: ", isBecomeValidator);
+	}, []);
 
 	return (
 		<Container fixed className={cx("wallet")}>
@@ -36,9 +40,9 @@ export default function(props) {
 			<StatusBar />
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} />
 			{activeTab === 0 && <Transaction account={address} />}
-			{activeTab === 1 && <YourDelelgator />}
+			{activeTab === 1 && <Transaction account={address} royalty={true} />}
 			{activeTab === 2 && <DelegatedValidator address={address} />}
-			{activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />}
+			{/* {activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />} */}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail address={address} validatorAddress={data?.operator_address} />}
 			{activeTab === 4 && <Contact />}
 		</Container>

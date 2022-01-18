@@ -48,6 +48,7 @@ export default Object.freeze({
 	API: {
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
+		BLOCK: "/block",
 		TXS_BLOCK: "/txs-block",
 		ACCOUNT: "/account",
 		ACCOUNTS: "/accounts",
@@ -68,6 +69,7 @@ export default Object.freeze({
 		VALIDATORS: "/validators",
 		UNBONDINGS: "/account/unbonding",
 		TXS_ACCOUNT: "/txs-account",
+		TXS_ROYALTY: "/txs-royalty",
 		TXS_CONTRACT: "/txs-contract",
 		ORAICHAIN_INFO: "/oraichain_info",
 		ACCOUNT_COINS: "/account/coins",
@@ -93,13 +95,18 @@ export default Object.freeze({
 		ORACLE_SCRIPTS: "oracle-scripts",
 		REQUESTS: "/ai_requests",
 		SMART_CONTRACT: "/smart_contract",
-		REQUESTS_AI_DATA_SOURCES: "ai_requests/data_source",
-		REQUESTS_REPORTS: "/requests_reports",
-		REQUESTS_RESULTS: "/requests_results",
+		ORACLE_REQUESTS_DATA_SOURCES: "/oracle_request/data_source",
+		ORACLE_REQUESTS_TEST_CASE: "/oracle_request/test_case",
+		REQUESTS_REPORTS: "/oracle_request/reports",
+		REQUESTS_RESULTS: "/oracle_request/results",
 		REQUESTS_REPORTS_TEST_CASE_RESULTS: "/requests_reports/detail/tc_results",
 		TEST_CASES: "/test_cases",
 		FIREBASE_FCM_TOKEN: "/firebase_token",
 		SMART_CONTRACTS: "/smart_contracts",
+		REQUESTS_VALIDATOR: "/validator/requests",
+		ORACLE_REQUESTS: "/oracle_requests",
+		ORACLE_REPORT: "/oracle_report",
+		EXPORT_DATA: "/account/txs_csv",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -176,6 +183,8 @@ export default Object.freeze({
 		REQUESTS_REPORTS: "/requests_reports",
 		SMART_CONTRACT: "/smart-contract",
 		SMART_CONTRACTS: "/smart-contracts",
+		ORACLE_REQUEST: "/ai-request",
+		EXPORT_DATA: "/export-data",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
@@ -184,4 +193,5 @@ export default Object.freeze({
 	ANIMATION: {
 		DELAY: 100,
 	},
+	ROYALTY_DECIMAL_POINT_PERCENT: 10000000,
 });

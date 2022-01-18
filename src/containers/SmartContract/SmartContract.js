@@ -18,6 +18,8 @@ import NotFound from "src/components/common/NotFound";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TransactionCard from "./TransactionCard";
 import styles from "./SmartContract.module.scss";
+import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
+import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 
 const cx = cn.bind(styles);
 
@@ -32,6 +34,7 @@ const SmartContract = () => {
 	});
 
 	let titleSection;
+	let tableSection;
 
 	titleSection = isLargeScreen ? (
 		<Container fixed>
@@ -49,11 +52,13 @@ const SmartContract = () => {
 
 	if (loading) {
 		// headerCard = <SmartContractCardSkeleton />;
+		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
 		if (error) {
 			return <NotFound message={"Sorry! Smart Contract Not Found"} />;
 		} else {
 			// headerCard = <SmartContractCard data={data} />;
+			tableSection = <TransactionCard address={data?.address} />;
 		}
 	}
 
@@ -70,7 +75,7 @@ const SmartContract = () => {
 					</Grid>
 				</div>
 				<SmartContractCodeCard data={data} />
-				<TransactionCard address={data?.address} />
+				{tableSection}
 			</Container>
 		</>
 	);

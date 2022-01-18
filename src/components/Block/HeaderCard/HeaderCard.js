@@ -6,6 +6,7 @@ import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
+import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import CopyIcon from "src/icons/CopyIcon";
 import {getTotalTime, setAgoTime} from "src/lib/scripts";
@@ -57,6 +58,17 @@ const HeaderCard = ({data}) => {
 
 				<InfoRow label='Number Of Transactions'>
 					<div className={cx("tx-number")}>{isNaN(data?.num_txs) ? "-" : data.num_txs}</div>
+				</InfoRow>
+
+				<InfoRow label='Total Fees'>
+					{isNaN(data?.total_fees) ? (
+						<div className={cx("tx-number")}>-</div>
+					) : (
+						<div className={cx("tx-number")}>
+							<span className={cx("tx-number-value")}>{formatOrai(data?.total_fees)}</span>
+							<span className={cx("tx-number-denom")}>ORAI</span>
+						</div>
+					)}
 				</InfoRow>
 
 				<InfoRow label='Moniker'>

@@ -19,6 +19,7 @@ import styles from "./Randomness.module.scss";
 import ReactJson from "react-json-view";
 import {themeIds} from "src/constants/themes";
 import {tryParseMessage} from "src/lib/scripts";
+import {Base64} from "js-base64";
 
 const cx = cn.bind(styles);
 
@@ -27,14 +28,48 @@ const RandomnessView = ({data, errorMessage}) => {
 	const history = useHistory();
 	const activeThemeId = useSelector(state => state.activeThemeId);
 
+	const [sigs, setSigs] = useState([]);
+	const [verify, setVerify] = useState("");
 	const randomValueRef = useRef(null);
 	const [txhash, setTxhash] = useState(null);
+	const randomness = data?.latest?.randomness || data?.latest?.aggregate_sig?.randomness;
 
 	const handelGetTx = async () => {
-		const {randomnessContractAddress} = config;
-		const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27&events=wasm.function_type%3D%27aggregate_sig%27`;
-		const tx = await axios.get(apiGetTx);
-		setTxhash(tx?.data?.tx_responses?.[0]?.txhash);
+		try {
+			const {randomnessContractAddress} = config;
+			const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27&events=wasm.action%3D%27share_sig%27`;
+			const tx = await axios.get(apiGetTx);
+
+			let mapTx = {};
+			tx.data.tx_responses.forEach(item => {
+				mapTx[item.tx.body.messages[0].sender] = item.txhash;
+			});
+
+			let tempData = [];
+			data.latest.sigs.forEach(item => {
+				tempData.push({
+					...item,
+					tx_hash: mapTx[item.sender],
+				});
+			});
+			setSigs(tempData);
+		} catch (error) {
+			console.log("🚀 ~ file: RandomnessView.js ~ line 54 ~ handelGetTx ~ error", error);
+		}
+	};
+
+	const getVerified = async () => {
+		try {
+			const obj = {verify_round: data?.latest?.round};
+			let objJsonStr = JSON.stringify(obj);
+			const queryVerified = Base64.encode(objJsonStr);
+			const {randomnessContractAddress} = config;
+			const apiGetVerified = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${randomnessContractAddress}/smart/${queryVerified}`;
+			const verified = await axios.get(apiGetVerified);
+			setVerify(verified.data?.data);
+		} catch (error) {
+			console.log("🚀 ~ file: RandomnessView.js ~ line 54 ~ getVerified ~ error", error);
+		}
 	};
 
 	const handleClickTx = () => {
@@ -42,7 +77,7 @@ const RandomnessView = ({data, errorMessage}) => {
 	};
 
 	useEffect(() => {
-		data?.latest?.round && handelGetTx();
+		data?.latest?.round && handelGetTx() && getVerified();
 	}, [data?.latest?.round]);
 
 	useEffect(() => {
@@ -59,7 +94,7 @@ const RandomnessView = ({data, errorMessage}) => {
 					}
 				}, 50);
 				setTimeout(() => {
-					currentValue[i] = Array.from(data.latest.aggregate_sig.randomness)?.[i];
+					currentValue[i] = Array.from(randomness)?.[i];
 					if (randomValueRef.current) {
 						randomValueRef.current.innerHTML = currentValue.join("");
 					}
@@ -70,7 +105,7 @@ const RandomnessView = ({data, errorMessage}) => {
 		if (randomValueRef.current && randomValueRef.current.innerHTML) {
 			rotateWordAnimation();
 		}
-	}, [data?.latest?.aggregate_sig?.randomness]);
+	}, [randomness]);
 
 	return (
 		<>
@@ -80,12 +115,12 @@ const RandomnessView = ({data, errorMessage}) => {
 			<InfoRow label='Random Value'>
 				<div className={cx("address")}>
 					<span ref={randomValueRef} className={cx("address-value")}>
-						{data?.latest?.aggregate_sig?.randomness}
+						{randomness}
 					</span>
 					<span
 						className={cx("address-copy")}
 						onClick={() => {
-							copy(data?.latest?.aggregate_sig?.randomness);
+							copy(randomness);
 							dispatch(
 								showAlert({
 									show: true,
@@ -104,35 +139,14 @@ const RandomnessView = ({data, errorMessage}) => {
 					name={false}
 					theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 					displayObjectSize={true}
-					displayDataTypes={false}
+					displayDataTypes={true}
 					collapsed={true}
-					src={tryParseMessage(data?.latest?.sigs)}
+					src={tryParseMessage(sigs)}
 				/>
 			</InfoRow>
 			<InfoRow label='Signature'>
 				<div className={cx("status")}>
-					<span className={cx("status-text")}>{data?.latest?.aggregate_sig?.sig}</span>
-				</div>
-			</InfoRow>
-			<InfoRow label='Transaction Hash'>
-				<div className={cx("public-key", "pointer")}>
-					<NavLink className={cx("txhash-link")} to={`${consts.PATH.TXLIST}/${txhash}`}>
-						{txhash}
-					</NavLink>
-					<div
-						className={cx("address-copy")}
-						onClick={() => {
-							copy(txhash);
-							dispatch(
-								showAlert({
-									show: true,
-									message: "Copied",
-									autoHideDuration: 1500,
-								})
-							);
-						}}>
-						<CopyIcon />
-					</div>
+					<span className={cx("status-text")}>{data?.latest?.combined_sig ?? data?.latest?.aggregate_sig?.sig}</span>
 				</div>
 			</InfoRow>
 			<InfoRow label='Current Fees'>
@@ -149,6 +163,9 @@ const RandomnessView = ({data, errorMessage}) => {
 				)}
 			</InfoRow>
 			<InfoRow label='Current Round'>{_.isNil(data?.latest?.round) ? "-" : <div className={cx("public-key")}>{data?.latest?.round}</div>}</InfoRow>
+			<InfoRow label='Verified'>
+				<div className={cx("status-text")}>{`${verify}`}</div>
+			</InfoRow>
 		</>
 	);
 };

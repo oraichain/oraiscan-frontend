@@ -45,7 +45,7 @@ TestCaseTableSkeleton.propTypes = {
 	rows: PropTypes.number,
 };
 TestCaseTableSkeleton.defaultProps = {
-	rows: 10,
+	rows: 5,
 };
 
 export default TestCaseTableSkeleton;

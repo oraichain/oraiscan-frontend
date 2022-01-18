@@ -34,6 +34,8 @@ const TestCaseTable = memo(({data = []}) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
+		data = data.filter((element, index, self) => index === self.findIndex(selfElement => selfElement.txhash === element.txhash));
+		console.log("data: ", data);
 
 		return data.map(item => {
 			console.log(item);

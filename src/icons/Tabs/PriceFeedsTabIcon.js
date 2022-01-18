@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const PriceFeedsTabIcon = ({className}) => {
 	return (
-		<svg className={className} width='17' height='16' viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
 				d='M8 16C5.86312 16 3.85413 15.1679 2.34313 13.6569C0.832125 12.1459 0 10.1369 0 8C0 5.86312 0.832156 3.85416 2.34313 2.34313C3.85409 0.832094 5.86312 0 8 0C10.1369 0 12.1459 0.832125 13.6569 2.34313C15.1679 3.85413 16 5.86312 16 8C16 10.1369 15.1678 12.1458 13.6569 13.6569C12.1459 15.1679 10.1369 16 8 16ZM8 1C4.14019 1 1 4.14019 1 8C1 11.8598 4.14019 15 8 15C11.8598 15 15 11.8598 15 8C15 4.14019 11.8598 1 8 1Z'
 				fill='currentColor'

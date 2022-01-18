@@ -17,21 +17,35 @@ import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
-const getTxTypeNew = type => {
-	const typeArr = type.split(".");
-	return typeArr[typeArr.length - 1];
+const handleRoyaltyPercentage = royalty => {
+	if (royalty === "-") {
+		return royalty;
+	}
+
+	royalty = (royalty / consts.ROYALTY_DECIMAL_POINT_PERCENT).toFixed(9);
+	let zeroCount = 0;
+	for (let i = royalty.length - 1; i >= 0; i--) {
+		if (royalty[i] == "0") zeroCount++;
+		if (royalty[i] === ".") {
+			zeroCount++;
+			break;
+		}
+		if (royalty[i] != "0") break;
+	}
+	royalty = royalty.substring(0, royalty.length - zeroCount) + "%";
+	return royalty;
 };
 
-export const getHeaderRow = () => {
+export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
-	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
-	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>Fee</div>;
+	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
+	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
-	const headerCellStyles = [
+	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
+	let headerCellStyles = [
 		{width: "14%", minWidth: "140px"}, // TxHash
 		{width: "18%", minWidth: "180px"}, // Type
 		{width: "10%", minWidth: "100px"}, // Result
@@ -40,17 +54,147 @@ export const getHeaderRow = () => {
 		{width: "10%", minWidth: "100px"}, // Height
 		{width: "10%", minWidth: "100px"}, // Time
 	];
+
+	if (royalty) {
+		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
+		headerCells.push(newRoyaltyHeaderCell);
+		headerCellStyles = [
+			{width: "12%", minWidth: "120px"}, // TxHash
+			{width: "18%", minWidth: "180px"}, // Type
+			{width: "10%", minWidth: "100px"}, // Result
+			{width: "16%", minWidth: "160px"}, // Royalty Amount
+			{width: "14%", minWidth: "120px"}, // Fee
+			{width: "10%", minWidth: "100px"}, // Height
+			{width: "10%", minWidth: "100px"}, // Time
+			{width: "10%", minWidth: "120px"}, // New Royalty
+		];
+	}
+
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const TransactionTable = memo(({data, rowMotions, account}) => {
+export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
+	let newRoyalty = "-";
+	if (result === "Failure") {
+		return newRoyalty;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	let checkRoyalty = false;
+	let checkAccount = false;
+	for (let event of rawLogArr[0].events) {
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
+					checkRoyalty = true;
+					continue;
+				}
+
+				if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
+					checkAccount = true;
+					continue;
+				}
+
+				if (checkAccount && att["key"] === "new_royalty") {
+					newRoyalty = att["value"];
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
+	return handleRoyaltyPercentage(newRoyalty);
+};
+
+export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
+	let royaltyAmount = "0";
+	if (result === "Failure") {
+		return royaltyAmount;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	let checkRoyaltyAmount = false;
+	for (let index = rawLogArr[0].events.length - 1; index > -1; index--) {
+		const event = rawLogArr[0].events[index];
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "action" && att["value"] === "pay_royalty") {
+					checkRoyaltyAmount = true;
+					continue;
+				}
+
+				if (att["key"] === "action" && att["value"] === "finish_pay_royalty") {
+					break;
+				}
+
+				if (checkRoyaltyAmount && att["key"].startsWith(`royalty_${account}_`)) {
+					let index = att["value"].indexOf("orai");
+					royaltyAmount = index !== -1 ? att["value"].slice(0, index) : "0";
+				}
+			}
+
+			break;
+		}
+	}
+
+	const obj = {royalty: checkRoyaltyAmount, amount: royaltyAmount};
+	return obj;
+};
+
+export const getTokenId = (rawLog = "[]", result = "") => {
+	let tokenId = "";
+	if (result === "Failure") {
+		return tokenId;
+	}
+
+	let rawLogArr = JSON.parse(rawLog);
+	for (let event of rawLogArr[0].events) {
+		if (event["type"] === "wasm") {
+			for (let att of event["attributes"]) {
+				if (att["key"] === "token_id") {
+					tokenId = att["value"];
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
+	return tokenId;
+};
+
+const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => {
 	const status = useSelector(state => state.blockchain.status);
-	const getTxTypeNew = type => {
+	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
-		return typeArr[typeArr.length - 1];
+		let typeMsg = typeArr[typeArr.length - 1];
+		if (typeMsg === "MsgExecuteContract" && result === "Success") {
+			let rawLogArr = JSON.parse(rawLog);
+			for (let event of rawLogArr[0].events) {
+				if (event["type"] === "wasm") {
+					for (let att of event["attributes"]) {
+						if (att["key"] === "action") {
+							let attValue = att["value"]
+								.split("_")
+								.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+								.join("");
+							typeMsg += "/" + attValue;
+							break;
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		return typeMsg;
 	};
 
 	const getDataRows = data => {
@@ -71,7 +215,7 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"])}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
@@ -121,49 +265,76 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 				}
 			}
 
-			let amount;
-			let denom;
-			if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-				amount = item.amount[0].amount;
-				denom = item.amount[0].denom;
-			} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-				amount = item.amount[0].amount;
-				denom = item.amount[0].denom;
-			}
-
-			const amountDataCell =
-				_.isNil(amount) || _.isNil(denom) ? (
-					<div className={cx("amount-data-cell", "align-right")}>
-						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>0</span>
-							<span className={cx("amount-denom")}>ORAI</span>
-							<div className={cx("amount-usd")}>($0)</div>
-						</div>
-					</div>
-				) : (
+			let amountDataCell;
+			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
+			if (royalty && objRoyaltyAmount.royalty) {
+				amountDataCell = (
 					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-							<span className={cx("amount-denom")}>{denom}</span>
-							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+							<span className={cx("amount-value")}>{objRoyaltyAmount.amount === "0" ? objRoyaltyAmount.amount : formatOrai(objRoyaltyAmount.amount)}</span>
+							<span className={cx("amount-denom")}>ORAI</span>
+							<div className={cx("amount-usd")}>
+								{objRoyaltyAmount.amount === "0"
+									? " ($0)"
+									: status?.price
+									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
+									: ""}
+							</div>
 						</div>
 					</div>
 				);
+			} else {
+				let amount;
+				let denom;
+				if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+					amount = item.amount[0].amount;
+					denom = item.amount[0].denom;
+				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+					amount = item.amount[0].amount;
+					denom = item.amount[0].denom;
+				}
 
-			const feeDataCell = _.isNil(item?.fee?.amount) ? (
-				<div className={cx("align-right")}>-</div>
-			) : (
-				<div className={cx("fee-data-cell", "align-right")}>
-					<div className={cx("fee")}>
-						<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0] || 0)}</span>
-						<span className={cx("fee-denom")}>ORAI</span>
-						{/* <span className={cx("fee-usd")}>
-								{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-							</span> */}
+				amountDataCell =
+					_.isNil(amount) || _.isNil(denom) ? (
+						<div className={cx("amount-data-cell", "align-right")}>
+							<div className={cx("amount")}>
+								<span className={cx("amount-value")}>0</span>
+								<span className={cx("amount-denom")}>ORAI</span>
+								<div className={cx("amount-usd")}>($0)</div>
+							</div>
+						</div>
+					) : (
+						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
+							{transferStatus && transferStatus}
+							<div className={cx("amount")}>
+								<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+								<span className={cx("amount-denom")}>{denom}</span>
+								<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+							</div>
+						</div>
+					);
+			}
+
+			let feeDataCell;
+			if (royalty) {
+				const tokenId = getTokenId(item?.raw_log, item?.result);
+				feeDataCell = <div className={cx("align-right")}>{tokenId}</div>;
+			} else {
+				feeDataCell = _.isNil(item?.fee?.amount) ? (
+					<div className={cx("align-right")}>-</div>
+				) : (
+					<div className={cx("fee-data-cell", "align-right")}>
+						<div className={cx("fee")}>
+							<span className={cx("fee-value")}>{formatOrai(item.fee.amount[0] || 0)}</span>
+							<span className={cx("fee-denom")}>ORAI</span>
+							{/* <span className={cx("fee-usd")}>
+									{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
+								</span> */}
+						</div>
 					</div>
-				</div>
-			);
+				);
+			}
 
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-right")}>-</div>
@@ -172,16 +343,24 @@ const TransactionTable = memo(({data, rowMotions, account}) => {
 					{item.height}
 				</NavLink>
 			);
+
 			const timeDataCell = _.isNil(item?.timestamp) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("time-data-cell", "align-right")}>{setAgoTime(item.timestamp)}</div>
 			);
+
+			const newRoyaltyDataCell = <div className={cx("time-data-cell", "align-right")}>{getNewRoyalty(account, item?.raw_log, item?.result)}</div>;
+
+			if (royalty) {
+				return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
+			}
+
 			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
 	};
 
-	const headerRow = useMemo(() => getHeaderRow(), []);
+	const headerRow = useMemo(() => getHeaderRow(royalty), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
 	return (

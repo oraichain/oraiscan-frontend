@@ -37,6 +37,11 @@ const TxInfoSkeleton = ({txData}) => {
 						<Skeleton variant='text' width={80} height={24} />
 					</div>
 				</InfoRow>
+				<InfoRow label='Fee'>
+					<div className={cx("time")}>
+						<Skeleton variant='text' width={80} height={24} />
+					</div>
+				</InfoRow>
 				<InfoRow label='Time'>
 					<div className={cx("time")}>
 						<Skeleton variant='text' width={80} height={24} />

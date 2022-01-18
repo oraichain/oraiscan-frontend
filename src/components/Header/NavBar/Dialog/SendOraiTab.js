@@ -257,7 +257,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 							{" "}
 							Memo <span className={cx("optional")}> (Optional) </span>{" "}
 						</div>
-						<TextArea name='memo' placeholder='Insert memo here' rows={5} />
+						<TextArea name='memo' placeholder='Insert memo here' rows={4} />
 					</Grid>
 					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>

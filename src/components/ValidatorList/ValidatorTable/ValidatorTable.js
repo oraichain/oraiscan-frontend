@@ -1,16 +1,16 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
-import {Tooltip} from "antd";
-import {QuestionCircleOutlined} from "@ant-design/icons";
+import React, { useState, memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import classNames from "classnames/bind";
-import {_} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
-import {sortDirections} from "src/constants/sortDirections";
+import { _ } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
+import { sortDirections } from "src/constants/sortDirections";
 import consts from "src/constants/consts";
-import {formatPercentage, formatInteger} from "src/helpers/helper";
-import {compareTwoValues} from "src/helpers/compare";
+import { formatPercentage, formatInteger, formatOrai } from "src/helpers/helper";
+import { compareTwoValues } from "src/helpers/compare";
 import Delegate from "src/components/common/Delegate";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ValidatorTable.scss";
@@ -20,9 +20,9 @@ import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
 import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
 import kadiaChain from "src/assets/validators/kardia.png";
-import {css} from "highcharts";
-import {logoBrand} from "src/constants/logoBrand";
-import {Progress} from "antd";
+import { css } from "highcharts";
+import { logoBrand } from "src/constants/logoBrand";
+import { Progress } from "antd";
 import "./style.css";
 
 const cx = classNames.bind(styles);
@@ -33,6 +33,7 @@ const sortFields = {
 	VOTING_POWER: "voting_power",
 	UPTIME: "uptime",
 	COMMISSION: "commission_rate",
+	SELFBONDED: "self_bonded",
 };
 
 export const computeTotalVotingPower = data => {
@@ -54,8 +55,8 @@ const getCumulativeShareCell = (previousValue, currentValue, totalValue) => {
 
 	return (
 		<>
-			<div className={cx("previous-graph")} style={{width: previousPercent + "%"}}></div>
-			<div className={cx("current-graph")} style={{left: previousPercent + "%", width: currentPercent + "%"}}></div>
+			<div className={cx("previous-graph")} style={{ width: previousPercent + "%" }}></div>
+			<div className={cx("current-graph")} style={{ left: previousPercent + "%", width: currentPercent + "%" }}></div>
 			<div className={cx("total-value")}>{totalPercent} %</div>
 		</>
 	);
@@ -69,9 +70,9 @@ const toggleDirection = direction => {
 	}
 };
 
-const ValidatorTable = memo(({data = []}) => {
-	const [sortField, setSortField] = useState(sortFields.RANK);
-	const [sortDirection, setSortDirection] = useState(sortDirections.ASC);
+const ValidatorTable = memo(({ data = [] }) => {
+	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
+	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 
@@ -124,6 +125,22 @@ const ValidatorTable = memo(({data = []}) => {
 				</button>
 			</div>
 		);
+		const selfBondedHeaderCell = (
+			<div className={cx("header-cell", "align-right")}>
+				Self Bonded
+				<Tooltip style={{ paddingLeft: '10px' }} title='The self bonded value is the number of tokens this validator self-delegates. A trustworthy validator will have a high self-bonded value' className={cx("tooltip-header-cell")}>
+					<QuestionCircleOutlined />
+				</Tooltip>
+				<button
+					type='button'
+					className={cx("sort-button")}
+					onClick={() => {
+						sortBy(sortFields.SELFBONDED);
+					}}>
+					<img src={getSortIcon(sortFields.SELFBONDED)} alt='' />
+				</button>
+			</div>
+		);
 		const cumulativeShareHeaderCell = <div className={cx("header-cell", "align-right")}>Cumulative Share %</div>;
 		const uptimeHeaderCell = (
 			<div className={cx("header-cell", "align-right")}>
@@ -167,6 +184,7 @@ const ValidatorTable = memo(({data = []}) => {
 			rankHeaderCell,
 			validatorHeaderCell,
 			votingPowerHeaderCell,
+			selfBondedHeaderCell,
 			cumulativeShareHeaderCell,
 			uptimeHeaderCell,
 			commissionHeaderCell,
@@ -174,14 +192,15 @@ const ValidatorTable = memo(({data = []}) => {
 			delegateHeaderCell,
 		];
 		const headerCellStyles = [
-			{width: "40px"}, // Rank
-			{minWidth: "180px"}, // Validator
-			{width: "160px"}, // Voting Power
-			{width: "240px"}, // Cumulative Share
-			{width: "110px"}, // Uptime
-			{width: "140px"}, // Commission
-			{width: "110px"}, // EstAPRCell
-			{width: "80px"}, // Delegate
+			{ width: "30px" }, // Rank
+			{ minWidth: "180px" }, // Validator
+			{ width: "150px" }, // Voting Power
+			{ width: "160px" }, // Self Bonded
+			{ width: "160px" }, // Cumulative Share
+			{ width: "110px" }, // Uptime
+			{ width: "140px" }, // Commission
+			{ width: "110px" }, // EstAPRCell
+			{ width: "60px" }, // Delegate
 		];
 		return {
 			headerCells,
@@ -194,7 +213,7 @@ const ValidatorTable = memo(({data = []}) => {
 			return [];
 		}
 
-		return [...data].sort(function(a, b) {
+		return [...data].sort(function (a, b) {
 			if (a[sortField] === b[sortField]) {
 				return compareTwoValues(a[extraSortField], b[extraSortField], toggleDirection(sortDirection));
 			} else {
@@ -244,6 +263,13 @@ const ValidatorTable = memo(({data = []}) => {
 				);
 			}
 
+			let selfBonded = (
+				<div className={cx("voting-power-data-cell", "align-right")}>
+					<div>{formatOrai(item?.self_bonded)}</div>
+					<div>ORAI</div>
+				</div>
+			);
+
 			const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 			previousVotingPower += currentVotingPower;
 			const uptimeDataCell = (
@@ -266,7 +292,8 @@ const ValidatorTable = memo(({data = []}) => {
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
 
-			const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
+			// const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
+			const estAPR = item?.apr.toFixed(2);
 
 			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{estAPR} %</div>;
 
@@ -280,6 +307,7 @@ const ValidatorTable = memo(({data = []}) => {
 				rankDataCell, //Rank
 				validatorDataCell, //Validator
 				votingPowerDataCell, // Voting Power
+				selfBonded,
 				cumulativeShareDataCell, // Cumulative Share
 				uptimeDataCell, // Uptime
 				commissionDataCell, // Commission

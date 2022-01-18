@@ -14,6 +14,7 @@ export default function useGithubSource() {
 		}
 
 		const result = extractSource(source);
+		console.log("result: ", result);
 
 		if (_.isNil(result)) {
 			return;

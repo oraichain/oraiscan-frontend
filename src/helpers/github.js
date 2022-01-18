@@ -1,5 +1,7 @@
 export const getContentApiUrl = (owner, repo, path, ref = "master") => {
-	return `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${ref}`;
+	const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${ref}`;
+	console.log("url: ", url);
+	return url;
 };
 
 export const extractSource = source => {
@@ -9,16 +11,21 @@ export const extractSource = source => {
 	if (domainIndex === -1) {
 		return null;
 	}
+	console.log("source parts: ", sourceParts);
 
 	const owner = sourceParts[domainIndex + 1];
 	const repo = sourceParts[domainIndex + 2];
-	const ref = sourceParts[sourceParts.length - 1];
-	const start = source.indexOf(repo) + repo.length + 1;
-	const end = source.indexOf(ref) - 1;
-	let path = source.substring(start, end);
-	path = path.split("/");
-	path.splice(0, 2);
-	path = path.join("/") + "/src";
+	const ref = sourceParts[domainIndex + 4];
+	const start = sourceParts.indexOf(ref) + 1;
+	const end = sourceParts.length;
+	let path = "";
+	let indexPath = start;
+	while (indexPath !== end) {
+		path = path.concat(`${sourceParts[indexPath]}/`);
+		indexPath += 1;
+	}
+	console.log("path: ", path);
+	path = path.concat("src");
 	return {
 		owner: owner,
 		repo: repo,
