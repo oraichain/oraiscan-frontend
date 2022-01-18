@@ -19,7 +19,7 @@ export const getAiOracleRequests = async () => {
 
 export const getRequestMerkleRootInfor = async (stage) => {
 	const { data: transactionInfor } = await axios.get(
-		`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=wasm.contract_address%3D%27${process.env.REACT_APP_AIORACLE_CONTRACT_ADDR}%27&events=wasm.current_stage%3D%27${stage}%27&events=wasm.action%3D%27register_merkle_root%27`);
+		`${consts.LCD_API_BASE}${consts.LCD_API.AI_REQUEST_DATA}?events=wasm.contract_address%3D%27${config.AIORACLE_CONTRACT_ADDR}%27&events=wasm.current_stage%3D%27${stage}%27&events=wasm.action%3D%27register_merkle_root%27`);
 	return [transactionInfor?.tx_responses[0].height, transactionInfor?.tx_responses[0].txhash]
 }
 
