@@ -1,30 +1,30 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {Tooltip} from "antd";
-import {QuestionCircleOutlined} from "@ant-design/icons";
-import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
-import {useSelector} from "react-redux";
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { useForm, FormProvider } from "react-hook-form";
+import { withStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input, Spin} from "antd";
+import { Divider, Input, Spin } from "antd";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
-import {InputNumberOrai} from "src/components/common/form-controls";
+import { InputNumberOrai } from "src/components/common/form-controls";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {Fee, Gas} from "src/components/common/Fee";
-import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
+import { Fee, Gas } from "src/components/common/Fee";
+import { ReactComponent as ExchangeIconGrey } from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
-import {myKeystation} from "src/lib/Keystation";
+import { useFetch } from "src/hooks";
+import { myKeystation } from "src/lib/Keystation";
 import styles from "./Delegate.scss";
 import "./Delegate.css";
-import {formatOrai, formatPercentage} from "src/helpers/helper";
+import { formatOrai, formatPercentage } from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -39,7 +39,7 @@ const TABS = [
 	},
 ];
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-delegate",
 		exclusive: false,
@@ -76,10 +76,10 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const Delegate = memo(({a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
+const Delegate = memo(({ a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator" }) => {
 	const [open, setOpen] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [balanceInfo, , , , setUrl] = useFetch();
@@ -129,7 +129,7 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, watch, getValues, register, trigger} = methods;
+	const { handleSubmit, setValue, errors, setError, clearErrors, watch, getValues, register, trigger } = methods;
 	// let values = watch() || "";
 
 	const handleClickDelegate = async () => {
@@ -172,7 +172,7 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 		};
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				closeDialog();
 				clearInterval(popupTick);
@@ -181,7 +181,7 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
@@ -244,7 +244,7 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 								{" "}
 								{"Min self delegation: "}
 								<Tooltip
-									title="The minimum number of ORAIs this validator must self-delegate to be bonded. If the validator's self delegated tokens fall below this value, all delegators\' tokens will automatically undelegate (move to unbonding state)."
+									title="The minimum number of ORAIs this validator must self-delegate to be bonded. If the validator's self delegated tokens fall below this value, all delegators\' tokens will automatically undelegate (move to unbonding state). This parameter can be increased only."
 									className={cx("tooltip-header-cell")}
 									zIndex={9999999999999}>
 									<QuestionCircleOutlined />
@@ -308,7 +308,7 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 		}
 
 		if (id === 2) {
-			const {amount, monthlyORAI, yearlyORAI} = rewardCalculator;
+			const { amount, monthlyORAI, yearlyORAI } = rewardCalculator;
 			return (
 				<>
 					<DialogContent>
@@ -359,9 +359,9 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
 				<div className={cx("tab-wrapper")}>
-					{TABS.map(({id, name}, index) => {
+					{TABS.map(({ id, name }, index) => {
 						return (
-							<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
+							<button className={cx({ selected: id === activeTabId })} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
 								<p> {name} </p>
 							</button>
 						);
