@@ -137,6 +137,7 @@ const ValidatorCardList = memo(({data = []}) => {
 									</td>
 									<td>
 										<Delegate
+											a={item}
 											operatorAddress={item.operator_address}
 											openButtonText='Delegate'
 											delegateText={`Delegate for "${item?.moniker}"`}
