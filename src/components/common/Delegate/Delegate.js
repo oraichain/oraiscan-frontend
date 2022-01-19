@@ -1,6 +1,8 @@
 // @ts-nocheck
 import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
+import {Tooltip} from "antd";
+import {QuestionCircleOutlined} from "@ant-design/icons";
 import {useForm, FormProvider} from "react-hook-form";
 import {withStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
@@ -22,6 +24,7 @@ import {useFetch} from "src/hooks";
 import {myKeystation} from "src/lib/Keystation";
 import styles from "./Delegate.scss";
 import "./Delegate.css";
+import {formatOrai, formatPercentage} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -73,7 +76,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const Delegate = memo(({openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
+const Delegate = memo(({a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
 	const [open, setOpen] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const {address, account} = useSelector(state => state.wallet);
@@ -207,7 +210,55 @@ const Delegate = memo(({openButtonText = "Delegate for this validator", operator
 				<form>
 					<DialogContent>
 						<div className={cx("delegate-title")}> {delegateText} </div>
-						<div className={cx("balance-title")}>Balance</div>
+						<div className={cx("space-between", "commission-row")}>
+							<div className={cx("left")}>
+								{"Commission max rate: "}
+								<Tooltip
+									title='The maximum commission this validator can set. This parameter cannot be modified.'
+									className={cx("tooltip-header-cell")}
+									zIndex={9999999999999}>
+									<QuestionCircleOutlined />
+								</Tooltip>
+							</div>
+							<div className={cx("right")}>
+								{" "}
+								<span className={cx("percentage")}> {formatPercentage(a.commission_max_rate, 2)} %</span>
+							</div>
+						</div>
+						<div className={cx("space-between", "commission-row")}>
+							<div className={cx("left")}>
+								{"Commission max change rate: "}
+								<Tooltip
+									title='The maximum change rate this validator can set. Eg: If the maximum commission change rate is 2%, then a validator can only increase his commission from 1% to maximum 3% per day. This parameter cannot be modified.'
+									className={cx("tooltip-header-cell")}
+									zIndex={9999999999999}>
+									<QuestionCircleOutlined />
+								</Tooltip>
+							</div>
+							<div className={cx("right")}>
+								<span className={cx("percentage")}> {formatPercentage(a.commission_max_change_rate, 2)} %</span>
+							</div>
+						</div>
+						<div className={cx("space-between", "commission-row")}>
+							<div className={cx("left")}>
+								{" "}
+								{"Min self delegation: "}
+								<Tooltip
+									title="The minimum number of ORAIs this validator must self-delegate to be bonded. If the validator's self delegated tokens fall below this value, all delegators\' tokens will automatically undelegate (move to unbonding state)."
+									className={cx("tooltip-header-cell")}
+									zIndex={9999999999999}>
+									<QuestionCircleOutlined />
+								</Tooltip>
+							</div>
+							<div className={cx("right")}>
+								{" "}
+								<span className={cx("percentage")}>
+									{" "}
+									{formatOrai(a.min_self_delegation)} <span className={cx("percentage-denom")}>ORAI</span>
+								</span>
+							</div>
+						</div>
+						<div className={cx("balance-title")}>Your balance</div>
 						<div className={cx("space-between", "balance-row")}>
 							<div className={cx("left", "uppercase")}>
 								{" "}
