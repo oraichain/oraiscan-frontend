@@ -17,6 +17,7 @@ export default Object.freeze({
 		INSTANTIATE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgInstantiateContract",
 		EXECUTE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
 		STORE_CODE: "/cosmwasm.wasm.v1beta1.MsgStoreCode",
+		MSG_BEGIN_REDELEGATE: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
 	},
 
 	//  DEX
