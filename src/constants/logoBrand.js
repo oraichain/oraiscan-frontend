@@ -18,6 +18,7 @@ import scavLogo from "src/assets/validators/scav_node.jpg";
 import TrinityLogo from "src/assets/validators/TrinityLogo.jpg";
 import BlockValLogo from "src/assets/validators/block_val.png";
 import indusNodeLogo from 'src/assets/validators/indus_node.jpg';
+import DimeLogo from 'src/assets/validators/Dime.jpg';
 
 export const logoBrand = [
 	{
@@ -176,5 +177,10 @@ export const logoBrand = [
 		name: "megaorai",
 		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
 		logo: megaoraiLogo,
+	},
+	{
+		name: "PanteraStaking-Dime",
+		operatorAddress: "oraivaloper1h9gg3xavqdau6uy3r36vn4juvzsg0lqvszgtvc",
+		logo: DimeLogo,
 	}
 ];
