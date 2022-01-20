@@ -25,7 +25,7 @@ import useGithubSource from "src/hooks/useGithubSource";
 import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {divide} from "src/lib/Big";
-import {_, tryParseMessage, recursiveExpand} from "src/lib/scripts";
+import {_, tryParseMessage, setAgoTime, getTotalTime} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -524,6 +524,28 @@ const TxMessage = ({key, msg, data}) => {
 			);
 		};
 
+		const getRedelegateTime = (key = 0, rawLog = "[]", result = "") => {
+			let time = null;
+			if (result === "Success") {
+				let rawLogArr = JSON.parse(rawLog);
+				for (let event of rawLogArr[key].events) {
+					if (event["type"] === "redelegate") {
+						for (let att of event["attributes"]) {
+							if (att["key"] === "completion_time") {
+								time = att["value"];
+
+								break;
+							}
+						}
+
+						break;
+					}
+				}
+			}
+
+			return time;
+		};
+
 		const getTransferDataRows = data => {
 			return data.map(item => {
 				const recipientDataCell = _.isNil(item?.recipient) ? (
@@ -937,6 +959,23 @@ const TxMessage = ({key, msg, data}) => {
 						{getAddressRow("Depositor", value?.depositor, value?.depositor_tag)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
 						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE && (
+					<>
+						{getAddressRow("Source Validator", value?.validator_src_address, "")}
+						{getAddressRow("Destination Validator", value?.validator_dst_address, "")}
+						{getCurrencyRowFromObject("Amount", value?.amount)}
+						<InfoRow label='Time'>
+							<div className={cx("text")}>
+								{_.isNil(getRedelegateTime(key, data?.raw_log, data?.result))
+									? "-"
+									: setAgoTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
+									  " (" +
+									  getTotalTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
+									  ")"}
+							</div>
+						</InfoRow>
 					</>
 				)}
 			</div>
