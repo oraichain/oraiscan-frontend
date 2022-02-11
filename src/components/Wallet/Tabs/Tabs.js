@@ -11,7 +11,7 @@ import TransactionsIcon from "src/icons/Tabs/TransactionsTabIcon";
 
 const cx = cn.bind(styles);
 
-export default function({activeTab, setActiveTab, isBecomeValidator}) {
+export default function ({ activeTab, setActiveTab, isBecomeValidator }) {
 	return (
 		<div className={cx("tabs")}>
 			<div className={cx("tab", activeTab === 0 ? "active" : "")} onClick={() => setActiveTab(0)}>
@@ -36,6 +36,10 @@ export default function({activeTab, setActiveTab, isBecomeValidator}) {
 			<div className={cx("tab", activeTab === 4 ? "active" : "")} onClick={() => setActiveTab(4)}>
 				<ContactIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Contact</div>
+			</div>
+			<div className={cx("tab", activeTab === 5 ? "active" : "")} onClick={() => setActiveTab(5)}>
+				<DelegatedIcon className={cx("tab-icon")} />
+				<div className={cx("tab-text")}>AI Request Fees</div>
 			</div>
 		</div>
 	);

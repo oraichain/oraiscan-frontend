@@ -17,6 +17,7 @@ const config = Object.freeze({
 	oldRandomnessContractAddress: "orai15vwlf8y9sygv72ju8qszs8n9gnuvwa7fu77tka",
 	AIORACLE_BACKEND: isTestnet ? process.env.REACT_APP_AIORACLE_BACKEND || "https://testnet-aioracle-svr.orai.io" : "foobar",
 	AIORACLE_CONTRACT_ADDR: isTestnet ? process.env.REACT_APP_AIORACLE_TESTNET_CONTRACT_ADDR : process.env.REACT_APP_AIORACLE_CONTRACT_ADDR,
+	AIORACLE_SERVICE_FEES_ADDR: isTestnet ? process.env.REACT_APP_AIORACLE_TESTNET_SERVICE_FEES_ADDR : process.env.REACT_APP_AIORACLE_SERVICE_FEES_ADDR,
 });
 
 export default config;
