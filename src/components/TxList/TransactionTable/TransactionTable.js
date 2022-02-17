@@ -251,16 +251,16 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			);
 
 			let transferStatus = null;
-			if (
-				account &&
-				(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
-				item?.amount?.[0]?.amount &&
-				item?.messages?.[0]?.from_address &&
-				item?.messages?.[0]?.to_address
-			) {
+			if (account && getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" && item?.messages?.[0]?.from_address) {
 				if (account === item.messages[0].from_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
-				} else if (account === item.messages[0].to_address) {
+				} else {
+					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
+				}
+			} else if (account && getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend" && item?.messages[0]?.inputs[0]?.address) {
+				if (account === item.messages[0].inputs[0].address) {
+					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+				} else {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
 			}
