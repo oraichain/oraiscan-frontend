@@ -1,24 +1,5 @@
 import aiIcon from "src/assets/common/ai_ic.svg";
-import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
-import kadiaChain from "src/assets/validators/kardia.png";
-import vaiot from "src/assets/validators/vaiot.png";
-import titan from "src/assets/validators/titan.jpeg";
-import stakementLogo from "src/assets/validators/stakement_orai_explorer.jpg";
-import antOraiLogo from "src/assets/validators/antOraiLogo.png";
-import serenityLogo from "src/assets/validators/serenityLogo.png";
-import stakeWithOraiKingLogo from "src/assets/validators/stakeWithOraiKingLogo.png";
-import oraiBotValidatorLogo from "src/assets/validators/oraiBotValidatorLogo.png";
-import megaoraiLogo from "src/assets/validators/megaorai.png";
-import tothemoonLogo from "src/assets/validators/tothemoonLogo.png";
-import connectingBeagleLogo from "src/assets/validators/connectingBeagleLogo.png";
-import binnostakeLogo from "src/assets/validators/binnostakeLogo.png";
-import chandraLogo from "src/assets/validators/chandraLogo.png";
 import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
-import scavLogo from "src/assets/validators/scav_node.jpg";
-import TrinityLogo from "src/assets/validators/TrinityLogo.jpg";
-import BlockValLogo from "src/assets/validators/block_val.png";
-import indusNodeLogo from 'src/assets/validators/indus_node.jpg';
-import DimeLogo from 'src/assets/validators/Dime.jpg';
 
 export const logoBrand = [
 	{
@@ -29,7 +10,7 @@ export const logoBrand = [
 	{
 		name: "vaiot-validator",
 		operatorAddress: "oraivaloper130jsl66rgss6eq7qur02yfr6tzppdvxglz7n7g",
-		logo: vaiot,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501772/vaiot.png',
 	},
 	{
 		name: "QuantumSamORAI",
@@ -49,22 +30,27 @@ export const logoBrand = [
 	{
 		name: "INDUS_NODE",
 		operatorAddress: "oraivaloper1ucx0gm8kca2zvyr9d39z249j62y2t8r0rwtmr6",
-		logo: indusNodeLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501839/indus_node.jpg',
+	},
+	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501867/megaorai.png',
 	},
 	{
 		name: "Antorai",
 		operatorAddress: "oraivaloper13ckyvg0ah9vuujtd49yner2ky92lej6nwjvrjv",
-		logo: antOraiLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501901/antOraiLogo.jpg',
 	},
 	{
 		name: "Stakement",
 		operatorAddress: "oraivaloper1cp0jml5fxkdvmajcwvkue9d0sym6s0vqly88hg",
-		logo: stakementLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501939/stakement_orai_explorer.jpg',
 	},
 	{
 		name: "StakeWithOraiKing",
 		operatorAddress: "oraivaloper1h89umsrsstyeuet8kllwvf2tp630n77aymck78",
-		logo: stakeWithOraiKingLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501963/stakeWithOraiKingLogo.jpg',
 	},
 	{
 		name: "The_firm_samorai_D",
@@ -74,22 +60,12 @@ export const logoBrand = [
 	{
 		name: "rikkei_moniker",
 		operatorAddress: "oraivaloper1lwsq3768lunk78wdsj836svlfpfs09m3mre3wk",
-		logo: rikkeiLogo,
-	},
-	{
-		name: "KardiaChain",
-		operatorAddress: "oraivaloper18g6e9vej5vpg5jqsf4kmuya0ur0vyp66hge8ps",
-		logo: kadiaChain,
-	},
-	{
-		name: "SerenityT",
-		operatorAddress: "oraivaloper1r5mmcqyspyj3sm9997gpv8kv6j6809m2pj39s6",
-		logo: serenityLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501697/rikkei.png',
 	},
 	{
 		name: "titan_moniker",
 		operatorAddress: "oraivaloper1u2344d8jwtsx5as7u5jw7vel28puh34q7d3y64",
-		logo: titan,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502101/titan.jpg',
 	},
 	{
 		name: "g1_moniker",
@@ -100,23 +76,11 @@ export const logoBrand = [
 		name: "banana",
 		operatorAddress: "oraivaloper14nz2pqskfv9kcez8u0a9gnnsgwjerzqxpmne0y",
 		logo: aiIcon,
-		customLogo: true,
 	},
 	{
 		name: "g2_moniker",
 		operatorAddress: "oraivaloper1rqq57xt5r5pnuguffcrltnvkul7n0jdxxdgey0",
 		logo: aiIcon,
-	},
-	{
-		name: "TetrisBlock",
-		operatorAddress: "oraivaloper17a8cjfd3yztf2clhecp6096394veg99elw576y",
-		logo: "https://res.cloudinary.com/c-ng-ty-c-ph-n-rikkeisoft/image/upload/v1617003009/tetris-block_uqsx3a.png",
-	},
-	{
-		name: "ebash.team",
-		operatorAddress: "oraivaloper1vzkxmksm22su8c9wqxp4sgepwzzc26th66rpfe",
-		logo: aiIcon,
-		customLogo: true,
 	},
 	{
 		name: "mortys_node",
@@ -131,27 +95,22 @@ export const logoBrand = [
 	{
 		name: "Binnostake",
 		operatorAddress: "oraivaloper12ru3276mkzuuay6vhmg3t6z9hpvrsnplm2994n",
-		logo: binnostakeLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502148/binnostakeLogo.png',
 	},
 	{
 		name: "Oraibots Validator",
 		operatorAddress: "oraivaloper1yc9nysml8dxy447hp3aytr0nssr9pd9a47l7gx",
-		logo: oraiBotValidatorLogo,
-	},
-	{
-		name: "tothemoon",
-		operatorAddress: "oraivaloper164kva2j3h637plt2frxeqzdtjg9c0ks60mnq0d",
-		logo: tothemoonLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502169/oraiBotValidatorLogo.png',
 	},
 	{
 		name: "Connecting_beagle",
 		operatorAddress: "oraivaloper1ty92s269qtktyzkl35zzhvp9j74e9u37ht6zgm",
-		logo: connectingBeagleLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502188/connectingBeagleLogo.png',
 	},
 	{
 		name: "Chandra",
 		operatorAddress: "oraivaloper109vcny07r3waj9sld4ejasjyal0rudskeax7uc",
-		logo: chandraLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502209/chandraLogo.png',
 	},
 	{
 		name: "AInode",
@@ -161,26 +120,26 @@ export const logoBrand = [
 	{
 		name: "Scav_node",
 		operatorAddress: "oraivaloper17zr98cwzfqdwh69r8v5nrktsalmgs5sa83gpd9",
-		logo: scavLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502237/scav_node.jpg',
 	},
 	{
 		name: "Trinity Node",
 		operatorAddress: "oraivaloper1v26tdegnk79edw7xkk2xh8qn89vy6qej6yhsev",
-		logo: TrinityLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502256/TrinityLogo.jpg',
 	},
 	{
 		name: "BlockVal",
 		operatorAddress: "oraivaloper1f6q9wjn8qp3ll8y8ztd8290vtec2yxyxxygyy2",
-		logo: BlockValLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502281/block_val.png',
 	},
 	{
-		name: "megaorai",
-		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
-		logo: megaoraiLogo,
+		name: "Synergy",
+		operatorAddress: "oraivaloper1xesqr8vjvy34jhu027zd70ypl0nnev5euy9nyl",
+		logo: "https://res.cloudinary.com/oraichain/image/upload/v1645432916/synergy.jpg"
 	},
 	{
 		name: "PanteraStaking-Dime",
 		operatorAddress: "oraivaloper1h9gg3xavqdau6uy3r36vn4juvzsg0lqvszgtvc",
-		logo: DimeLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502659/dime.jpg',
 	}
 ];
