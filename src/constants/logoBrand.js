@@ -28,9 +28,9 @@ export const logoBrand = [
 		logo: "https://res.cloudinary.com/dcpwvhglr/image/upload/v1611912662/Superman_4_-_SAL_L_nwykie.jpg",
 	},
 	{
-		name: "INDUS_NODE",
+		name: "STRONG_NODE",
 		operatorAddress: "oraivaloper1ucx0gm8kca2zvyr9d39z249j62y2t8r0rwtmr6",
-		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501839/indus_node.jpg',
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645933033/strong_node.jpg',
 	},
 	{
 		name: "megaorai",
