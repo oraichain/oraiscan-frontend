@@ -1,18 +1,18 @@
-import React, {useMemo, useEffect} from "react";
-import {NavLink} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import React, { useMemo, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
-import {Fade, Tooltip} from "@material-ui/core";
+import { Fade, Tooltip } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
-import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { agate } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { foundation } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import BigNumber from "bignumber.js";
 import copy from "copy-to-clipboard";
 import Interweave from "interweave";
@@ -20,12 +20,12 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
-import {themeIds} from "src/constants/themes";
+import { themeIds } from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
-import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
-import {showAlert} from "src/store/modules/global";
-import {divide} from "src/lib/Big";
-import {_, tryParseMessage, setAgoTime, getTotalTime} from "src/lib/scripts";
+import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
+import { showAlert } from "src/store/modules/global";
+import { divide } from "src/lib/Big";
+import { _, tryParseMessage, setAgoTime, getTotalTime } from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -70,25 +70,25 @@ const tryParseMessageBinary = data => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch {}
+				} catch { }
 			}
 		}
 		return obj;
 	} catch (e) {
-		return {data};
+		return { data };
 	}
 };
 
-const TxMessage = ({key, msg, data}) => {
+const TxMessage = ({ key, msg, data }) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const activeThemeId = useSelector(state => state.activeThemeId);
-	const {data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode} = useGithubSource();
+	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
 	const value = msg;
 	let type = msg["@type"] || "";
-	const {memo} = data;
+	const { memo } = data;
 
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
@@ -108,8 +108,8 @@ const TxMessage = ({key, msg, data}) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [validatorHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{minWidth: "150px"}, // Address
-				{minWidth: "150px"}, // Amount
+				{ minWidth: "150px" }, // Address
+				{ minWidth: "150px" }, // Amount
 			];
 
 			return {
@@ -157,9 +157,9 @@ const TxMessage = ({key, msg, data}) => {
 			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
 			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
 			const headerCellStyles = [
-				{width: "110px"}, // Address
-				{width: "110px"}, // Royalty Amount
-				{width: "80px"}, // Royalty Percentage
+				{ width: "110px" }, // Address
+				{ width: "110px" }, // Royalty Amount
+				{ width: "80px" }, // Royalty Percentage
 			];
 
 			return {
@@ -238,7 +238,7 @@ const TxMessage = ({key, msg, data}) => {
 				);
 			}
 
-			const {valueString, unitString} = extractValueAndUnit(inputString);
+			const { valueString, unitString } = extractValueAndUnit(inputString);
 			const amount = parseFloat(valueString);
 			const denom = unitString;
 
@@ -264,7 +264,7 @@ const TxMessage = ({key, msg, data}) => {
 				// );
 			}
 
-			const {amount, denom} = inputObject;
+			const { amount, denom } = inputObject;
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
@@ -375,7 +375,7 @@ const TxMessage = ({key, msg, data}) => {
 										</AccordionSummary>
 										<AccordionDetails>
 											<SyntaxHighlighter
-												customStyle={{background: "none", overflow: "auto", width: "100%"}}
+												customStyle={{ background: "none", overflow: "auto", width: "100%" }}
 												language='rust'
 												style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
 												{item?.content ?? "-"}
@@ -421,7 +421,7 @@ const TxMessage = ({key, msg, data}) => {
 						<>
 							<InfoRow label='Plan'>
 								<ReactJson
-									style={{backgroundColor: "transparent"}}
+									style={{ backgroundColor: "transparent" }}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -436,7 +436,7 @@ const TxMessage = ({key, msg, data}) => {
 						<>
 							<InfoRow label='Changes'>
 								<ReactJson
-									style={{backgroundColor: "transparent"}}
+									style={{ backgroundColor: "transparent" }}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -457,9 +457,9 @@ const TxMessage = ({key, msg, data}) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [recipientHeaderCell, senderHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{width: "326px"}, // Recipient
-				{width: "326px"}, // Sender
-				{minWidth: "80px"}, // Amount
+				{ width: "326px" }, // Recipient
+				{ width: "326px" }, // Sender
+				{ minWidth: "80px" }, // Amount
 			];
 
 			return {
@@ -481,7 +481,7 @@ const TxMessage = ({key, msg, data}) => {
 						for (let att of event["attributes"]) {
 							if (att["key"] === "recipient") {
 								start = true;
-								obj = {recipient: att["value"]};
+								obj = { recipient: att["value"] };
 								continue;
 							}
 
@@ -505,7 +505,7 @@ const TxMessage = ({key, msg, data}) => {
 				}
 			}
 
-			return {checkTransfer: checkTransfer, transfers: msgTransfer};
+			return { checkTransfer: checkTransfer, transfers: msgTransfer };
 		};
 
 		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
@@ -617,7 +617,7 @@ const TxMessage = ({key, msg, data}) => {
 				}
 			}
 
-			return {checkRoyalty: checkRoyaltyAmount, royaltys: royaltys};
+			return { checkRoyalty: checkRoyaltyAmount, royaltys: royaltys };
 		};
 
 		return (
@@ -795,7 +795,7 @@ const TxMessage = ({key, msg, data}) => {
 									))
 								) : (
 									<ReactJson
-										style={{backgroundColor: "transparent"}}
+										style={{ backgroundColor: "transparent" }}
 										name={false}
 										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 										displayObjectSize={false}
@@ -816,7 +816,7 @@ const TxMessage = ({key, msg, data}) => {
 												{getInfoRow("Data Source", item?.name)}
 												<InfoRow label='Result'>
 													<ReactJson
-														style={{backgroundColor: "transparent"}}
+														style={{ backgroundColor: "transparent" }}
 														name={false}
 														theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 														displayObjectSize={false}
@@ -847,7 +847,7 @@ const TxMessage = ({key, msg, data}) => {
 																{getInfoRow("Data Source", item?.name)}
 																<InfoRow label='Result'>
 																	<ReactJson
-																		style={{backgroundColor: "transparent"}}
+																		style={{ backgroundColor: "transparent" }}
 																		name={false}
 																		theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 																		displayObjectSize={false}
@@ -901,7 +901,7 @@ const TxMessage = ({key, msg, data}) => {
 						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -920,7 +920,7 @@ const TxMessage = ({key, msg, data}) => {
 						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -930,6 +930,30 @@ const TxMessage = ({key, msg, data}) => {
 						</InfoRow>
 						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_IBC_TRANSFER && (
+					<>
+						{getInfoRow("Source Port", value?.source_port)}
+						{getInfoRow("Source Channel", value?.source_channel)}
+						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
+						{getCurrencyRowFromObject("Token", value?.token)}
+						{getAddressRow("Sender", value?.sender, false)}
+						{getAddressRow("Receiver", value?.receiver, false)}
+						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
+						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
+						{/* <InfoRow label='Message'>
+							<ReactJson
+								style={{ backgroundColor: "transparent" }}
+								name={false}
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+								displayObjectSize={false}
+								displayDataTypes={false}
+								src={tryParseMessage(value?.msg)}
+							/>
+						</InfoRow> */}
+						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
+						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
@@ -971,9 +995,9 @@ const TxMessage = ({key, msg, data}) => {
 								{_.isNil(getRedelegateTime(key, data?.raw_log, data?.result))
 									? "-"
 									: setAgoTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
-									  " (" +
-									  getTotalTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
-									  ")"}
+									" (" +
+									getTotalTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
+									")"}
 							</div>
 						</InfoRow>
 					</>
@@ -988,7 +1012,7 @@ const TxMessage = ({key, msg, data}) => {
 			<Tooltip
 				placement='right-start'
 				TransitionComponent={Fade}
-				TransitionProps={{timeout: 300}}
+				TransitionProps={{ timeout: 300 }}
 				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
 				disableTouchListener
 				disableFocusListener>
