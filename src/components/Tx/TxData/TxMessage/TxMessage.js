@@ -956,6 +956,38 @@ const TxMessage = ({ key, msg, data }) => {
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
 					</>
 				)}
+				{type === txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT && (
+					<>
+						{getAddressRow("Signer", value?.signer, false)}
+						{getInfoRow("Client ID", value?.client_id)}
+						{getInfoRow("Block", value?.header.signed_header.header.version.block)}
+						{getInfoRow("App", value?.header.signed_header.header.version.app)}
+						{getInfoRow("Chain ID", value?.header.signed_header.header.chain_id)}
+						{getInfoRow("Height", value?.header.signed_header.header.height)}
+						{getInfoRow("Time", value?.header.signed_header.header.time)}
+						{getInfoRow("Last Commit Hash", value?.header.signed_header.header.last_commit_hash)}
+						{getInfoRow("Data Hash", value?.header.signed_header.header.data_hash)}
+						{getInfoRow("Validators Hash", value?.header.signed_header.header.validators_hash)}
+						{getInfoRow("Next Validators Hash", value?.header.signed_header.header.next_validators_hash)}
+						{getInfoRow("Consensus Hash", value?.header.signed_header.header.consensus_hash)}
+						{getInfoRow("App Hash", value?.header.signed_header.header.app_hash)}
+						{getInfoRow("Last Results Hash", value?.header.signed_header.header.last_results_hash)}
+						{getInfoRow("Evidence Hash", value?.header.signed_header.header.evidence_hash)}
+						{getInfoRow("Proposer Address", value?.header.signed_header.header.proposer_address)}
+						{/* <InfoRow label='Message'>
+							<ReactJson
+								style={{ backgroundColor: "transparent" }}
+								name={false}
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+								displayObjectSize={false}
+								displayDataTypes={false}
+								src={tryParseMessage(value?.msg)}
+							/>
+						</InfoRow> */}
+						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
+						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
+					</>
+				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
 					<>
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
