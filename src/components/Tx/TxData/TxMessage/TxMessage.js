@@ -223,6 +223,18 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
+		const getIbcReceivedRows = (value) => {
+			const data = JSON.parse(atob(value));
+			return (
+				<div>
+					{getInfoRow("Denom", data.denom)}
+					{getInfoRow("Amount", data.amount)}
+					{getAddressRow("Receiver", data.receiver)}
+					{getInfoRow("Sender", data.sender)}
+				</div>
+			)
+		};
+
 		const getHtmlRow = (label, value) => (
 			<InfoRow label={label}>
 				<div className={cx("html")}>{_.isNil(value) ? "-" : <Interweave content={value} />}</div>
@@ -938,8 +950,8 @@ const TxMessage = ({ key, msg, data }) => {
 						{getInfoRow("Source Channel", value?.source_channel)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{getCurrencyRowFromObject("Token", value?.token)}
-						{getAddressRow("Sender", value?.sender, false)}
-						{getAddressRow("Receiver", value?.receiver, false)}
+						{getAddressRow("Sender", value?.sender)}
+						{getAddressRow("Receiver", value?.receiver)}
 						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
 						{/* <InfoRow label='Message'>
@@ -954,6 +966,36 @@ const TxMessage = ({ key, msg, data }) => {
 						</InfoRow> */}
 						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Client ID", value?.client_id)}
+						{getInfoRow("Block", value?.header.signed_header.header.version.block)}
+						{getInfoRow("App", value?.header.signed_header.header.version.app)}
+						{getInfoRow("Chain ID", value?.header.signed_header.header.chain_id)}
+						{getInfoRow("Height", value?.header.signed_header.header.height)}
+						{getInfoRow("Time", value?.header.signed_header.header.time)}
+						{getInfoRow("Last Commit Hash", value?.header.signed_header.header.last_commit_hash)}
+						{getInfoRow("Data Hash", value?.header.signed_header.header.data_hash)}
+						{getInfoRow("Validators Hash", value?.header.signed_header.header.validators_hash)}
+						{getInfoRow("Next Validators Hash", value?.header.signed_header.header.next_validators_hash)}
+						{getInfoRow("Consensus Hash", value?.header.signed_header.header.consensus_hash)}
+						{getInfoRow("App Hash", value?.header.signed_header.header.app_hash)}
+						{getInfoRow("Last Results Hash", value?.header.signed_header.header.last_results_hash)}
+						{getInfoRow("Evidence Hash", value?.header.signed_header.header.evidence_hash)}
+						{getInfoRow("Proposer Address", value?.header.signed_header.header.proposer_address)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_IBC_RECV_PACKET && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Sequence", value?.packet.sequence)}
+						{getInfoRow("Source Channel", value?.packet.source_channel)}
+						{getInfoRow("Destination Channel", value?.packet.destination_channel)}
+						{getInfoRow("Proof Height", value?.proof_height.revision_height)}
+						{getIbcReceivedRows(value?.packet.data)}
 					</>
 				)}
 				{type === txTypes.COSMOS_SDK.STORE_CODE && (
@@ -1025,7 +1067,7 @@ const TxMessage = ({ key, msg, data }) => {
 		<div className={cx("card")}>
 			<div className={cx("card-header")}>
 				{toolTippedImg}
-				<span className={cx("title")}>{getTxTypeNew(data.messages[0]["@type"], data?.raw_log, data?.result)}</span>
+				<span className={cx("title")}>{getTxTypeNew(type, data?.raw_log, data?.result)}</span>
 			</div>
 			<div className={cx("card-body")}>{messageDetails}</div>
 		</div>

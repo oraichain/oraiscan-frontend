@@ -1,18 +1,18 @@
 // @ts-nocheck
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatFloat, formatOrai} from "src/helpers/helper";
-import {getNewRoyalty, getRoyaltyAmount, getTokenId} from "src/components/TxList/TransactionTable/TransactionTable";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { formatFloat, formatOrai } from "src/helpers/helper";
+import { getNewRoyalty, getRoyaltyAmount, getTokenId } from "src/components/TxList/TransactionTable/TransactionTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionCardList.scss";
-import {Tooltip} from "@material-ui/core";
+import { Tooltip } from "@material-ui/core";
 
 const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
@@ -40,7 +40,7 @@ const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	return typeMsg;
 };
 
-const TransactionCardList = memo(({data = [], account, royalty = false}) => {
+const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
 
@@ -52,7 +52,7 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 				const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 				if (objRoyaltyAmount.royalty) {
 					amountDataCell = (
-						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
 							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>{formatOrai(objRoyaltyAmount.amount)} </span>
@@ -82,7 +82,7 @@ const TransactionCardList = memo(({data = [], account, royalty = false}) => {
 								</div>
 							</div>
 						) : (
-							<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+							<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
 								{transferStatus && transferStatus}
 								<div className={cx("amount")}>
 									<span className={cx("amount-value")}>{formatOrai(amount)} </span>
