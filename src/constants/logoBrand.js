@@ -130,7 +130,7 @@ export const logoBrand = [
 	{
 		name: "BlockVal",
 		operatorAddress: "oraivaloper1f6q9wjn8qp3ll8y8ztd8290vtec2yxyxxygyy2",
-		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502281/block_val.png',
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1646573946/Blockval.png',
 	},
 	{
 		name: "Synergy",
