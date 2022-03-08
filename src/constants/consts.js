@@ -73,6 +73,7 @@ export default Object.freeze({
 		TXS_CONTRACT: "/txs-contract",
 		ORAICHAIN_INFO: "/oraichain_info",
 		ACCOUNT_COINS: "/account/coins",
+		ACCOUNT_BALANCE: "/account/balance",
 		VALIDATOR: "/validator",
 		DELEGATOR: "/delegator",
 		PROPOSED_BLOCKS: "/proposed-blocks",
