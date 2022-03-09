@@ -2,11 +2,17 @@
 
 .coins-card {
 	height: 100%;
-	padding: 35px;
-	background: var(--common-containerBackgroundColor);
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	// padding: 35px;
+	// background: var(--common-containerBackgroundColor);
+	// box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
 	border-radius: 8px;
 
+	@media screen and (min-width: 960px) {
+		// padding-bottom: 35px;
+	}
+	@media screen and (max-width: 959px) {
+		padding: 35px;
+	}
 	.denom {
 		text-transform: uppercase;
 	}
@@ -135,6 +141,10 @@
 				}
 			}
 		}
+	}
+	.assets {
+		display: flex;
+		justify-content: space-between;
 	}
 }
 
