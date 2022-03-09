@@ -40,7 +40,7 @@ export const logoBrand = [
 	{
 		name: "megaorai",
 		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
-		logo: megaoraiLogo,
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501867/megaorai.png',
 	},
 	{
 		name: "Antorai",
