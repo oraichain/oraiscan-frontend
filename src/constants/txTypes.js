@@ -17,6 +17,10 @@ export default Object.freeze({
 		INSTANTIATE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgInstantiateContract",
 		EXECUTE_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
 		STORE_CODE: "/cosmwasm.wasm.v1beta1.MsgStoreCode",
+		MSG_BEGIN_REDELEGATE: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+		MSG_IBC_TRANSFER: "/ibc.applications.transfer.v1.MsgTransfer",
+		MSG_IBC_UPDATE_CLIENT: "/ibc.core.client.v1.MsgUpdateClient",
+		MSG_IBC_RECV_PACKET: "/ibc.core.channel.v1.MsgRecvPacket",
 	},
 
 	//  DEX

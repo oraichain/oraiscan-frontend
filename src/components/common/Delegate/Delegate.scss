@@ -123,7 +123,7 @@
 
 .balance-title {
 	@include font-delegate;
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 .amount-reward {
@@ -169,6 +169,41 @@
 			font-size: 14px;
 		}
 	}
+}
+
+.commission-row {
+	.left {
+		font-family: Roboto;
+		font-size: 14px;
+		margin-top: 5px;
+		@include media("<medium") {
+			font-size: 14px;
+		}
+	}
+	// .uppercase {
+	// 	text-transform: uppercase;
+	// }
+	.right {
+		font-family: Roboto;
+		font-size: 14px;
+		margin-top: 5px;
+		display: flex;
+		align-items: center;
+		.percentage {
+			margin-right: 5px;
+			&-denom {
+				text-transform: uppercase;
+				color: var(--validators-validatorDetails-delegatorsTable-oraiTextColor);
+			}
+		}
+		@include media("<medium") {
+			font-size: 14px;
+		}
+	}
+}
+
+.tooltip-header-cell {
+	margin-left: 5px;
 }
 
 .amount-row {
