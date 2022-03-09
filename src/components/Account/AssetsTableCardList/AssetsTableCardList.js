@@ -46,12 +46,12 @@ const AssetsTableCardList = memo(({data = []}) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Total Value</div>
-										{_.isNil(item?.reward) || _.isNil(item?.denom) ? (
+										{_.isNil(item?.reward) || _.isNil(item?.denom_reward) ? (
 											<div className={cx("item-text")}>-</div>
 										) : (
 											<div className={cx("reward")}>
 												<span className={cx("reward-value")}>{formatOrai(item.reward)}</span>
-												<span className={cx("reward-denom")}>{item.denom}</span>
+												<span className={cx("reward-denom")}>{item.denom_reward}</span>
 											</div>
 										)}
 									</td>

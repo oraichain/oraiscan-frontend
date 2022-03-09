@@ -29,22 +29,25 @@ import AssetsTable from "src/components/Account/AssetsTable";
 import AssetsTableCardList from "src/components/Account/AssetsTableCardList/AssetsTableCardList";
 import Pagination from "src/components/common/Pagination";
 import AssetSearch from "src/components/Account/AssetSearch";
-import Skeleton from "react-skeleton-loader";
 import MobileSkeleton from "../RequestReportDetail/RequestContainer/MobileSkeleton";
+import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableSkeleton";
+import { priceBalance } from "src/constants/priceBalance";
+import * as api from "src/lib/api";
 
-const Account = props => {
+const Account = (props) => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const cx = cn.bind(styles);
+	const arrayAssetSearch = ['native', '', 'ibc'];
 	const [activeTab, setActiveTab] = React.useState(0);
 	const [assetSearch, setAssetSearch] = React.useState(0);
+	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
 	const [pageId, setPageId] = React.useState(1);
-	const token_type = assetSearch === 1 ? `` : assetSearch === 2 ? `?token_type=native&page_id=${pageId}&limit=5` : `?token_type=ibc&page_id=${pageId}&limit=5`;
+	const token_type = `token_type=${arrayAssetSearch[assetSearch]}`;
 	const account = props?.match?.params?.account ?? 0;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
 	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
-	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}` + `${token_type}`;
-	const pricePath = `${consts.API.ACCOUNT_PRICE}`
+	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}&limit=5&page_id=${pageId}`;
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const totalPagesRef = useRef(null);
 	const { data: coinsData, loading: coinsLoading, error: coinsError } = useGet({
@@ -56,7 +59,21 @@ const Account = props => {
 	const { data: nameTagData, loading: nameTagLoading, error: nameTagError } = useGet({
 		path: nameTagPath,
 	});
-	
+
+	useEffect(() => {
+		fetchData();
+	}, [balanceData])
+
+
+	const fetchData = async () => {
+		const arrayCoin = balanceData?.balances?.reduce((acc, cur) => {
+			const denom = cur?.denom?.split("/");
+			let coin = denom?.[0]?.slice(0, 1) === 'u' ? priceBalance[denom?.[0]?.slice(1, denom?.[0]?.length)] : priceBalance[denom?.[0]];
+			return acc === '' ? coin : acc + ',' + coin;
+		}, '');
+		let price = await api.getGeckoMarketBalance(arrayCoin);
+		setArrayPriceBalance(price?.data);
+	}
 
 	const onPageChange = page => {
 		setPageId(page);
@@ -101,9 +118,6 @@ const Account = props => {
 	let coinsCard;
 	let delegationCard;
 	let unbondingCard;
-	let transactionCard;
-
-
 	let tableSection;
 	let paginationSection;
 
@@ -113,6 +127,10 @@ const Account = props => {
 			<StatusBox />
 		</TitleWrapper>
 	);
+
+	if (assetSearch === 1) {
+
+	}
 
 	if (addresses) {
 		addressCard = <AddressCard nameTagData={nameTagData} headerTitle='QR Code' addresses={addresses} />;
@@ -140,9 +158,8 @@ const Account = props => {
 		}
 	}
 
-
 	if (balanceLoading) {
-		// tableSection = isLargeScreen ? <Skeleton /> : <MobileSkeleton />;
+		tableSection = isLargeScreen ? <AssetsTableSkeleton /> : <MobileSkeleton />;
 	} else {
 		if (balanceError) {
 			totalPagesRef.current = null;
@@ -155,13 +172,25 @@ const Account = props => {
 			}
 
 			if (Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) {
-				tableSection = isLargeScreen ? <AssetsTable data={balanceData?.balances} /> : <AssetsTableCardList data={balanceData?.balances} />;
+				let data = balanceData?.balances?.map((e, i) => {
+					const denom = e?.denom?.split("/");
+					const ids = denom?.[0];
+					let coin = ids?.slice(0, 1) === 'u' ? priceBalance[ids?.slice(1, ids?.length)] : priceBalance[ids];
+					let reward = arrayPriceBalance?.[coin]?.['usd'] * e?.amount;
+					return {
+						...e,
+						validator_address: e?.denom,
+						denom: ids,
+						reward,
+						denom_reward: 'usd'
+					}
+				})
+				tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
 			} else {
 				tableSection = <NoResult />;
 			}
 		}
 	}
-
 	paginationSection = totalPagesRef.current ? <Pagination pages={Math.ceil(totalPagesRef.current / 5) || 1} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	delegationCard = <DelegationCard account={account} />;

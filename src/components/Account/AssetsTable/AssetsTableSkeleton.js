@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Account/DelegationTable/DelegationTable";
-import styles from "./DelegationTable.scss";
+import styles from "./AssetsTable.scss";
 
 const AssetsTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

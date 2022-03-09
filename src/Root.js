@@ -7,7 +7,7 @@ import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import App from "./App";
-// import "./firebase"
+import "./firebase"
 //  comment this out if you do not plan on using firebase
 // import "./firebase";
 //  redux

@@ -55,13 +55,13 @@ const AssetsTable = memo(({data = []}) => {
 				);
 
 			const rewardDataCell =
-				_.isNil(item?.reward) || _.isNil(item?.denom) ? (
+				_.isNil(item?.reward) || _.isNil(item?.denom_reward) ? (
 					<div className={cx("reward-data-cell", "align-right")}>-</div>
 				) : (
 					<div className={cx("reward-data-cell", "align-right")}>
 						<div className={cx("reward")}>
 							<span className={cx("reward-value")}>{formatOrai(item.reward)}</span>
-							<span className={cx("reward-denom")}>{item.denom}</span>
+							<span className={cx("reward-denom")}>{item.denom_reward}</span>
 						</div>
 					</div>
 				);
