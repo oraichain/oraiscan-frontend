@@ -1,14 +1,14 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai, formatFloat} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { formatOrai, formatFloat } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
@@ -46,27 +46,27 @@ export const getHeaderRow = (royalty = false) => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	let headerCellStyles = [
-		{width: "14%", minWidth: "140px"}, // TxHash
-		{width: "18%", minWidth: "180px"}, // Type
-		{width: "10%", minWidth: "100px"}, // Result
-		{width: "24%", minWidth: "240px"}, // Amount
-		{width: "14%", minWidth: "140px"}, // Fee
-		{width: "10%", minWidth: "100px"}, // Height
-		{width: "10%", minWidth: "100px"}, // Time
+		{ width: "14%", minWidth: "140px" }, // TxHash
+		{ width: "18%", minWidth: "180px" }, // Type
+		{ width: "10%", minWidth: "100px" }, // Result
+		{ width: "24%", minWidth: "240px" }, // Amount
+		{ width: "14%", minWidth: "140px" }, // Fee
+		{ width: "10%", minWidth: "100px" }, // Height
+		{ width: "10%", minWidth: "100px" }, // Time
 	];
 
 	if (royalty) {
 		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
 		headerCells.push(newRoyaltyHeaderCell);
 		headerCellStyles = [
-			{width: "12%", minWidth: "120px"}, // TxHash
-			{width: "18%", minWidth: "180px"}, // Type
-			{width: "10%", minWidth: "100px"}, // Result
-			{width: "16%", minWidth: "160px"}, // Royalty Amount
-			{width: "14%", minWidth: "120px"}, // Fee
-			{width: "10%", minWidth: "100px"}, // Height
-			{width: "10%", minWidth: "100px"}, // Time
-			{width: "10%", minWidth: "120px"}, // New Royalty
+			{ width: "12%", minWidth: "120px" }, // TxHash
+			{ width: "18%", minWidth: "180px" }, // Type
+			{ width: "10%", minWidth: "100px" }, // Result
+			{ width: "16%", minWidth: "160px" }, // Royalty Amount
+			{ width: "14%", minWidth: "120px" }, // Fee
+			{ width: "10%", minWidth: "100px" }, // Height
+			{ width: "10%", minWidth: "100px" }, // Time
+			{ width: "10%", minWidth: "120px" }, // New Royalty
 		];
 	}
 
@@ -142,7 +142,7 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 		}
 	}
 
-	const obj = {royalty: checkRoyaltyAmount, amount: royaltyAmount};
+	const obj = { royalty: checkRoyaltyAmount, amount: royaltyAmount };
 	return obj;
 };
 
@@ -169,7 +169,7 @@ export const getTokenId = (rawLog = "[]", result = "") => {
 	return tokenId;
 };
 
-const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => {
+const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
@@ -211,11 +211,11 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 				</NavLink>
 			);
 
-			const typeDataCell = _.isNil(item?.messages?.[0]?.["@type"]) ? (
+			const typeDataCell = _.isNil(item?.messages?.[item?.messages?.length - 1]?.["@type"]) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[item?.messages?.length - 1]["@type"], item?.raw_log, item?.result)}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);
@@ -251,16 +251,16 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			);
 
 			let transferStatus = null;
-			if (
-				account &&
-				(getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" || getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend") &&
-				item?.amount?.[0]?.amount &&
-				item?.messages?.[0]?.from_address &&
-				item?.messages?.[0]?.to_address
-			) {
+			if (account && getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgSend" && item?.messages?.[0]?.from_address) {
 				if (account === item.messages[0].from_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
-				} else if (account === item.messages[0].to_address) {
+				} else {
+					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
+				}
+			} else if (account && getTxTypeNew(item?.messages?.[0]["@type"]) === "MsgMultiSend" && item?.messages[0]?.inputs[0]?.address) {
+				if (account === item.messages[0].inputs[0].address) {
+					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+				} else {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
 			}
@@ -269,7 +269,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
 				amountDataCell = (
-					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
+					<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{objRoyaltyAmount.amount === "0" ? objRoyaltyAmount.amount : formatOrai(objRoyaltyAmount.amount)}</span>
@@ -278,8 +278,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 								{objRoyaltyAmount.amount === "0"
 									? " ($0)"
 									: status?.price
-									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
-									: ""}
+										? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
+										: ""}
 							</div>
 						</div>
 					</div>
@@ -305,7 +305,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 							</div>
 						</div>
 					) : (
-						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
+						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
 							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>{formatOrai(amount)}</span>

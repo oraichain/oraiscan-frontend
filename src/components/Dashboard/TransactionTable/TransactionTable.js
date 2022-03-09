@@ -1,12 +1,12 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.scss";
 
@@ -45,10 +45,10 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // TxHash
-		{width: "auto"}, // Type
-		{width: "auto"}, // Height
-		{width: "auto"}, // Time
+		{ width: "auto" }, // TxHash
+		{ width: "auto" }, // Type
+		{ width: "auto" }, // Height
+		{ width: "auto" }, // Time
 	];
 	return {
 		headerCells,
@@ -56,7 +56,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
+const TransactionTable = memo(({ data = [], rowMotions = [], account }) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -72,11 +72,11 @@ const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 				</NavLink>
 			);
 
-			const typeDataCell = _.isNil(item?.messages?.[0]?.["@type"]) ? (
+			const typeDataCell = _.isNil(item?.messages?.[item?.messages.length - 1]?.["@type"]) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("type-data-cell")}>
-					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[0]["@type"], item?.raw_log, item?.result)}</div>
+					<div className={cx("first-message-type")}>{getTxTypeNew(item.messages[item?.messages.length - 1]["@type"], item?.raw_log, item?.result)}</div>
 					{item.messages.length > 1 && <div className={cx("number-of-message")}>+{item.messages.length - 1}</div>}
 				</div>
 			);

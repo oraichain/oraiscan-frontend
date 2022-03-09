@@ -1,21 +1,21 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import copy from "copy-to-clipboard";
 import Skeleton from "@material-ui/lab/Skeleton";
-import {showAlert} from "src/store/modules/global";
-import {formatOrai} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
-import {myKeystation} from "src/lib/Keystation";
-import {initWallet} from "src/store/modules/wallet";
+import { showAlert } from "src/store/modules/global";
+import { formatOrai } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
+import { myKeystation } from "src/lib/Keystation";
+import { initWallet } from "src/store/modules/wallet";
 import consts from "src/constants/consts";
 import BigNumber from "bignumber.js";
 import Dialog from "../Dialog";
@@ -24,14 +24,14 @@ import AccountIcon from "src/icons/AccountIcon";
 import WalletIcon from "src/icons/WalletIcon";
 import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
-import {updateToken} from "src/firebase-cloud-message";
+import { updateToken } from "src/firebase-cloud-message";
 
 const cx = cn.bind(styles);
 
 const connectWallet = () => {
 	const prefix = "orai";
 	const popup = myKeystation.openWindow("signin", prefix);
-	let popupTick = setInterval(function() {
+	let popupTick = setInterval(function () {
 		if (popup.closed) {
 			clearInterval(popupTick);
 		}
@@ -39,7 +39,7 @@ const connectWallet = () => {
 };
 
 const Wallet = props => {
-	const {path, title, handleClick, init} = props.data;
+	const { path, title, handleClick, init } = props.data;
 	if (init || !title) {
 		return (
 			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
@@ -51,11 +51,11 @@ const Wallet = props => {
 	return <WalletWithAdress {...props} />;
 };
 
-const WalletWithAdress = ({data: props, collapse}) => {
+const WalletWithAdress = ({ data: props, collapse }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {path, title} = props;
-	const {account} = useSelector(state => state.wallet);
+	const { path, title } = props;
+	const { account } = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -63,12 +63,13 @@ const WalletWithAdress = ({data: props, collapse}) => {
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 	const [mobileOpenWallet, setMobileOpenWallet] = useState(false);
 
-	const {data, loading, error, refetch} = useGet({
+	const { data, loading, error, refetch } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
 	});
 
-	const amount = data?.balances?.[0]?.amount;
-	const denom = data?.balances?.[0]?.denom;
+	const balance = data?.balances?.find(balance => balance.denom === 'orai');
+	const amount = balance?.amount;
+	const denom = balance?.denom;
 
 	const showDropdown = e => {
 		if (isTransactionModalVisible) {
@@ -133,9 +134,9 @@ const WalletWithAdress = ({data: props, collapse}) => {
 					{isNaN(price) || isNaN(amount)
 						? `($-)`
 						: `($${new BigNumber(amount)
-								.dividedBy(1000000)
-								.multipliedBy(price)
-								.toFormat(2)})`}
+							.dividedBy(1000000)
+							.multipliedBy(price)
+							.toFormat(2)})`}
 				</span>
 			);
 		}

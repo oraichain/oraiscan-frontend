@@ -1,38 +1,38 @@
-import React, {useState, useEffect, useMemo, useRef} from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
-import _, {add, constant} from "lodash";
+import _, { add, constant } from "lodash";
 import BigNumber from "bignumber.js";
-import {Switch, Input, InputNumber} from "antd";
+import { Switch, Input, InputNumber } from "antd";
 import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
-import {EditOutlined} from "@material-ui/icons";
+import { EditOutlined } from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
 
 import consts from "src/constants/consts";
-import {reduceString} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
-import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
-import {Fee, Gas} from "src/components/common/Fee";
+import { reduceString } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { InputNumberOrai, TextArea, InputTextWithIcon } from "src/components/common/form-controls";
+import { ReactComponent as ExchangeIcon } from "src/assets/icons/switch-blue.svg";
+import { Fee, Gas } from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
-import {useSelector} from "src/hooks";
+import { useSelector } from "src/hooks";
 
 const cx = cn.bind(styles);
-const {TextArea: TextAreaAnt} = Input;
+const { TextArea: TextAreaAnt } = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
+export default function FormDialog({ address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee }) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
-	const {errors, setValue, getValues, watch, register} = methods;
+	const { errors, setValue, getValues, watch, register } = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
@@ -127,7 +127,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			return (
 				<>
 					<div className={cx("summary")}>
-						{listAddress.map(({address, amount}, index) => {
+						{listAddress.map(({ address, amount }, index) => {
 							return (
 								<div className={cx("row")}>
 									<span> {index + 1}. </span>
@@ -137,6 +137,13 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</div>
 							);
 						})}
+						<Grid item xs={12} className={cx("form-input")}>
+							<div className={cx("label")}>
+								{" "}
+								Memo <span className={cx("optional")}> (Optional) </span>{" "}
+							</div>
+							<TextArea name='memo' placeholder='Insert memo here' rows={4} />
+						</Grid>
 					</div>
 					{renderSwitchBtn()}
 				</>
