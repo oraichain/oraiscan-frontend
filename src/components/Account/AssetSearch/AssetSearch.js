@@ -23,9 +23,9 @@ export default function ({ assetSearch, setAssetSearch }) {
 	};
 
 	const clickListener = event => {
-		if (event?.target?.hasAttribute("data-network")) {
+		if (event?.target?.hasAttribute("data-assets")) {
 			hideList();
-			setAssetSearch(arraySearch.findIndex(e => e === event?.target?.getAttribute("data-network")));
+			setAssetSearch(arraySearch.findIndex(e => e === event?.target?.getAttribute("data-assets")));
 			return;
 		}
 
@@ -65,7 +65,7 @@ export default function ({ assetSearch, setAssetSearch }) {
 					</div>
 					<div className={cx("list")} ref={listRef}>
 						{arraySearch.map((item, index) => (
-							<div key={"list-item-" + index} className={cx("list-item")} data-network={item}>
+							<div key={"list-item-" + index} className={cx("list-item")} data-assets={item}>
 								{item}
 							</div>
 						))}
