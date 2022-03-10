@@ -2,7 +2,7 @@ import _ from "lodash";
 import empty from "is-empty";
 import moment from "moment";
 
-export {_, empty};
+export { _, empty };
 
 //  remove t from bnb address
 export const refineAddress = address => (_.isString(address) ? (address.charAt(0) === "t" ? address.substr(1) : address) : "-");
@@ -13,6 +13,8 @@ export const nilCheck = arr => !_.every(arr, el => !_.isNil(el));
 
 //  planning on recreating this with css and components in the future(already mostly done)
 export const reduceString = (str, from, end) => (str ? str.substring(0, from) + " ... " + str.substring(str.length - end) : "-");
+
+export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end)  : "") : "-");
 
 export const stringNumCheck = input => !empty(input) && !isNaN(Number(input));
 
@@ -145,11 +147,11 @@ export const tryParseMessage = obj => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch {}
+				} catch { }
 			}
 		}
 		return obj;
 	} catch (e) {
-		return {data: obj};
+		return { data: obj };
 	}
 };

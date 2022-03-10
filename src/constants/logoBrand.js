@@ -38,6 +38,11 @@ export const logoBrand = [
 		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501867/megaorai.png',
 	},
 	{
+		name: "megaorai",
+		operatorAddress: "oraivaloper1adws4xkzmktf7h3eqwdpl4t30tenfxedssp272",
+		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501867/megaorai.png',
+	},
+	{
 		name: "Antorai",
 		operatorAddress: "oraivaloper13ckyvg0ah9vuujtd49yner2ky92lej6nwjvrjv",
 		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501901/antOraiLogo.jpg',

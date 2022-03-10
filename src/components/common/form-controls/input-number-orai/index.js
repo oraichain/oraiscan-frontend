@@ -1,11 +1,11 @@
-import React, {useRef, useState} from "react";
-import {useSelector} from "react-redux";
-import {useFormContext, Controller} from "react-hook-form";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useFormContext, Controller } from "react-hook-form";
 import cn from "classnames/bind";
-import {ReactComponent as ExchangeIcon} from "src/assets/icons/exchange.svg";
+import { ReactComponent as ExchangeIcon } from "src/assets/icons/exchange.svg";
 
 import styles from "./index.scss";
-import {commafy, formatUSD} from "src/helpers/helper";
+import { commafy, formatUSD } from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -39,9 +39,9 @@ function validatePaste(evt) {
 
 function FormInput(props) {
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
-	const {getValues, setValue, register, watch} = useFormContext();
+	const { getValues, setValue, register, watch } = useFormContext();
 	const previousValueRef = useRef("");
-	const {name, placeholder, label, errorobj} = props;
+	const { name, placeholder, label, errorobj } = props;
 
 	let value = watch(name);
 
@@ -60,6 +60,7 @@ function FormInput(props) {
 					ref={register}
 					name={name}
 					defaultValue={""}
+					placeholder={placeholder}
 					value={value}
 					onChange={e => {
 						let amount = e.currentTarget.value.replace(/,/g, "");
