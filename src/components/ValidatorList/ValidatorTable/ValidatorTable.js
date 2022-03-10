@@ -18,8 +18,6 @@ import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
-import rikkeiLogo from "src/assets/validators/rikkeiLogo.png";
-import kadiaChain from "src/assets/validators/kardia.png";
 import { css } from "highcharts";
 import { logoBrand } from "src/constants/logoBrand";
 import { Progress } from "antd";
@@ -128,7 +126,10 @@ const ValidatorTable = memo(({ data = [] }) => {
 		const selfBondedHeaderCell = (
 			<div className={cx("header-cell", "align-right")}>
 				Self Bonded
-				<Tooltip style={{ paddingLeft: '10px' }} title='The self bonded value is the number of tokens this validator self-delegates. A trustworthy validator will have a high self-bonded value' className={cx("tooltip-header-cell")}>
+				<Tooltip
+					style={{ paddingLeft: "10px" }}
+					title='The self bonded value is the number of tokens this validator self-delegates. A trustworthy validator will have a high self-bonded value'
+					className={cx("tooltip-header-cell")}>
 					<QuestionCircleOutlined />
 				</Tooltip>
 				<button
@@ -299,7 +300,13 @@ const ValidatorTable = memo(({ data = [] }) => {
 
 			const delegateDataCell = (
 				<div className={cx("delegate-data-cell", "align-center")}>
-					<Delegate operatorAddress={item.operator_address} openButtonText='Delegate' delegateText={`Delegate for "${item?.moniker}"`} estAPR={estAPR / 100} />
+					<Delegate
+						a={item}
+						operatorAddress={item.operator_address}
+						openButtonText='Delegate'
+						delegateText={`Delegate for "${item?.moniker}"`}
+						estAPR={estAPR / 100}
+					/>
 				</div>
 			);
 

@@ -1,35 +1,35 @@
 // @ts-nocheck
-import React, {useState, useEffect, memo} from "react";
-import {useGet} from "restful-react";
+import React, { useState, useEffect, memo } from "react";
+import { useGet } from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {useForm, FormProvider} from "react-hook-form";
-import {useHistory} from "react-router-dom";
+import { useForm, FormProvider } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _ from "lodash";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import axios from "axios";
 
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import consts from "src/constants/consts";
-import {showAlert} from "src/store/modules/global";
-import {myKeystation} from "src/lib/Keystation";
+import { showAlert } from "src/store/modules/global";
+import { myKeystation } from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendTrasactionTab from "./SendTrasactionTab";
-import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 
 import styles from "./Dialog.scss";
 import "./Dialog.css";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "test-name",
 		exclusive: false,
@@ -58,7 +58,7 @@ const TABS = [
 // 	return address.substr(0, 10) + "..." + address.substr(30);
 // };
 
-const FormDialog = memo(({show, handleClose, address, account, amount}) => {
+const FormDialog = memo(({ show, handleClose, address, account, amount }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
@@ -90,7 +90,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const {handleSubmit, errors, register, setValue, getValues, setError, watch, trigger} = methods;
+	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
 
 	// let values = watch() || "";
 
@@ -150,7 +150,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 						gas,
 					},
 					signatures: null,
-					memo: (data && data.memo) || "",
+					memo: (data && data.memo) || getValues("memo") || "",
 				},
 			};
 		} else {
@@ -169,7 +169,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 		}
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -177,7 +177,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return handleClose();
 			}
@@ -254,9 +254,9 @@ const FormDialog = memo(({show, handleClose, address, account, amount}) => {
 				</DialogTitle>
 				<DialogContent>
 					<div className={cx("tab-wrapper")}>
-						{TABS.map(({id, name}, index) => {
+						{TABS.map(({ id, name }, index) => {
 							return (
-								<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
+								<button className={cx({ selected: id === activeTabId })} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
 									<p className={cx("nowrap")}> {name} </p>
 								</button>
 							);
