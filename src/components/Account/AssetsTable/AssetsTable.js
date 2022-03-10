@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {formatOrai} from "src/helpers/helper";
-import {_, reduceString} from "src/lib/scripts";
+import {_, reduceString , reduceStringAssets } from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./AssetsTable.scss";
@@ -16,9 +16,9 @@ export const getHeaderRow = () => {
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "100px"}, // Name
-		{minWidth: "100px"}, // Amount
-		{minWidth: "100px"}, // Total Value
+		{minWidth: "140px"}, // Name
+		{minWidth: "80px"}, // Amount
+		{minWidth: "80px"}, // Total Value
 	];
 
 	return {
@@ -37,9 +37,13 @@ const AssetsTable = memo(({data = []}) => {
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
-					{reduceString(item.validator_address, 6, 6)}
-				</NavLink>
+				<div className={cx("align-left")}>
+					{reduceStringAssets(item.validator_address, 30, 0)}
+				</div>
+				// <NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
+				// 	{reduceString(item.validator_address, 15, 0)}
+				// 	{item.validator_address}
+				// </NavLink>
 			);
 
 			const amountDataCell =
@@ -49,7 +53,7 @@ const AssetsTable = memo(({data = []}) => {
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
-							<span className={cx("amount-denom")}>{item.denom}</span>
+							<span className={cx("amount-denom")}>{reduceStringAssets(item.denom,7,3)}</span>
 						</div>
 					</div>
 				);

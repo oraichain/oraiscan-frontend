@@ -38,16 +38,16 @@ const Account = (props) => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const cx = cn.bind(styles);
-	const arrayAssetSearch = ['native', '', 'ibc'];
+	const arrayAssetSearch = ['', '', 'ibc','native'];
 	const [activeTab, setActiveTab] = React.useState(0);
 	const [assetSearch, setAssetSearch] = React.useState(0);
 	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
 	const [pageId, setPageId] = React.useState(1);
-	const token_type = `token_type=${arrayAssetSearch[assetSearch]}`;
+	const token_type = assetSearch === 0 ? '' :`token_type=${arrayAssetSearch[assetSearch]}&limit=5&page_id=${pageId}`;
 	const account = props?.match?.params?.account ?? 0;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
 	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
-	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}&limit=5&page_id=${pageId}`;
+	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}`;
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const totalPagesRef = useRef(null);
 	const { data: coinsData, loading: coinsLoading, error: coinsError } = useGet({
@@ -175,12 +175,12 @@ const Account = (props) => {
 				let data = balanceData?.balances?.map((e, i) => {
 					const denom = e?.denom?.split("/");
 					const ids = denom?.[0];
-					let coin = ids?.slice(0, 1) === 'u' ? priceBalance[ids?.slice(1, ids?.length)] : priceBalance[ids];
-					let reward = arrayPriceBalance?.[coin]?.['usd'] * e?.amount;
+					let coin = ids?.slice(0, 1) === 'u' ? ids?.slice(1, ids?.length) : ids;
+					let reward = arrayPriceBalance?.[priceBalance[coin]]?.['usd'] * e?.amount;
 					return {
 						...e,
 						validator_address: e?.denom,
-						denom: ids,
+						denom: coin,
 						reward,
 						denom_reward: 'usd'
 					}
