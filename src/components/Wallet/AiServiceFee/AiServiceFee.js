@@ -50,7 +50,9 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const serviceFeeQuery = btoa(JSON.stringify({ get_service_fees: { addr: address } }));
-	const maxExecutorFeeQuery = btoa(JSON.stringify({ get_maximum_executor_fee: {} }));
+	const maxExecutorFeeQuery = btoa(JSON.stringify({ get_bound_executor_fee: {} }));
+	const pingQuery = btoa(JSON.stringify({ get_ping_info: pubkey }));
+	const baseRewardQuery = btoa(JSON.stringify({ get_state: {} }));
 
 	const path = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_SERVICE_FEES_ADDR}/smart/${serviceFeeQuery}`;
 	const { data } = useGet({
@@ -68,6 +70,17 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 	const { data: currentRewardPoolData } = useGet({
 		path: currentRewardPoolPath,
 	});
+
+	const pingQueryPath = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.PING_ADDR}/smart/${pingQuery}`;
+	const { data: currentPingData } = useGet({
+		path: pingQueryPath,
+	});
+
+	const baseRewardPath = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.PING_ADDR}/smart/${baseRewardQuery}`;
+	const { data: baseRewardData } = useGet({
+		path: baseRewardPath,
+	});
+
 	const rewardStatus = currentRewardPoolData?.data?.trusting_pool?.withdraw_height === 0 ? REWARD_POOL_STATUS.BONDED : (currentRewardPoolData?.data?.trusting_pool?.withdraw_height + currentRewardPoolData?.data?.trusting_period) > currentRewardPoolData?.data?.current_height ? REWARD_POOL_STATUS.UNBONDING : REWARD_POOL_STATUS.UNBONDED;
 
 	const handleCopy = address => {
@@ -80,6 +93,45 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 			})
 		);
 	};
+
+	const claimBaseReward = () => {
+
+		const msg = JSON.stringify({
+			claim_reward: {
+				pubkey,
+			}
+		})
+
+		const payload = {
+			type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+			gasType: "auto",
+			value: {
+				msg: [
+					{
+						type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+						value: {
+							contract: config.PING_ADDR,
+							msg,
+							sender: address,
+							sent_funds: null,
+						},
+					},
+				],
+				fee: {
+					amount: [0],
+					gas: 200000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function () {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	}
 
 	const unbond = () => {
 
@@ -185,12 +237,38 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 	const maxExecutorFeeElement =
 		executorFeeData ? (
 			<>
-				<div className={cx("validator-title")}>Maximum executor fees</div>
+				<div className={cx("validator-title")}>Minimum executor fees for requesters</div>
 				<div className={cx("validator-text")}>{formatOrai(parseInt(executorFeeData?.data?.amount)) + ' ' + executorFeeData?.data?.denom.toUpperCase()}</div>
 			</>
 		) : (
 			<>
-				<div className={cx("validator-title")}>Maximum executor fees</div>
+				<div className={cx("validator-title")}>Minimum executor fees for requesters</div>
+				<div className={cx("validator-text")}>{'-'}</div>
+			</>
+		);
+
+	const pingDataElement =
+		currentPingData ? (
+			<>
+				<div className={cx("validator-title")}>Current number of ping rounds</div>
+				<div className={cx("validator-text")}>{parseInt(currentPingData?.data?.ping_info?.total_ping)}</div>
+			</>
+		) : (
+			<>
+				<div className={cx("validator-title")}>Current number of ping rounds</div>
+				<div className={cx("validator-text")}>{'-'}</div>
+			</>
+		);
+
+	const baseRewardDataElement =
+		baseRewardData ? (
+			<>
+				<div className={cx("validator-title")}>Base reward</div>
+				<div className={cx("validator-text")}>{formatOrai(parseInt(baseRewardData?.data?.base_reward?.amount)) + ' ' + baseRewardData?.data?.base_reward?.denom.toUpperCase()}</div>
+			</>
+		) : (
+			<>
+				<div className={cx("validator-title")}>Base reward</div>
 				<div className={cx("validator-text")}>{'-'}</div>
 			</>
 		);
@@ -264,6 +342,18 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 			Update Fees
 		</button>;
 
+	const claimRewardElement =
+		<button
+			className={cx("button")}
+			onClick={() => {
+				if (process.env.REACT_APP_WALLET_VERSION == 2) {
+					console.log("Data: ", data);
+					claimBaseReward();
+				}
+			}}>
+			Claim Base Reward
+		</button>;
+
 	return (
 		<FormProvider {...methods}>
 			<div className={cx("your-validator-card")}>
@@ -294,6 +384,15 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 							<Grid item xs={6} className={cx("validator-detail")}>
 								{withdrawPoolButtonElement}
 							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{pingDataElement}
+							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{baseRewardDataElement}
+							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{claimRewardElement}
+							</Grid>
 						</Grid>
 					) : (
 						<Grid container spacing={0}>
@@ -314,6 +413,15 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 							</Grid>
 							<Grid item xs={6} className={cx("validator-detail")}>
 								{withdrawPoolButtonElement}
+							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{pingDataElement}
+							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{baseRewardDataElement}
+							</Grid>
+							<Grid item xs={6} className={cx("validator-detail")}>
+								{claimRewardElement}
 							</Grid>
 						</Grid>
 					)}
