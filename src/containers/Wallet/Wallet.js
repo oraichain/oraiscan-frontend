@@ -29,9 +29,9 @@ export default function (props) {
 	});
 	const isBecomeValidator = !data ? false : data.operator_address ? true : false;
 
-	React.useEffect(() => {
-		console.log("data: ", isBecomeValidator);
-	}, []);
+	const { data: walletInfo } = useGet({
+		path: `${consts.LCD_API_BASE}${consts.LCD_API.ACCOUNT_DETAIL}/accounts/${address}`,
+	});
 
 	return (
 		<Container fixed className={cx("wallet")}>
@@ -46,7 +46,7 @@ export default function (props) {
 			{/* {activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />} */}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail address={address} validatorAddress={data?.operator_address} />}
 			{activeTab === 4 && <Contact />}
-			{activeTab === 5 && <AiServiceFee address={address} />}
+			{activeTab === 5 && <AiServiceFee address={address} pubkey={walletInfo?.account?.pub_key?.key} />}
 		</Container>
 	);
 }

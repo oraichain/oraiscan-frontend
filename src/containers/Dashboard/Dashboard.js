@@ -28,6 +28,8 @@ export default function(props) {
 	let blocksCard;
 	let transactionCard;
 
+	console.log("hajwjw");
+
 	titleSection = isLargeScreen ? (
 		<Container fixed>
 			<TitleWrapper>

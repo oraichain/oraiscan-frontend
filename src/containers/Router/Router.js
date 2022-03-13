@@ -42,6 +42,7 @@ const RandomnessDetail = lazy(() => import(`src/components/Randomness/Randomness
 const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
+const Relayers = lazy(() => import(`src/containers/Relayers`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -81,6 +82,7 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
+					<Route path='/relayers' component={Relayers} />
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>

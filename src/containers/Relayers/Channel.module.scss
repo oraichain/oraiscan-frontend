@@ -1,0 +1,43 @@
+.channel-list-wrapper {
+	padding: 10px;
+
+	.body-list {
+		border: 1px solid #e6e6e6;
+		border-radius: 8px;
+		margin-top: 10px;
+		padding: 10px 0;
+		color: #4b525d;
+	}
+
+	.channel-name {
+		background: #f5f5f5;
+		border-radius: 8px;
+		padding: 8px;
+	}
+
+	.line-wrapper {
+		width: 100px;
+		height: 4px;
+		margin: 18px -40px;
+		z-index: 1;
+		background: #37cc6e;
+	}
+
+	.dot {
+		background-color: #37cc6e;
+		border-radius: 50%;
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+	}
+
+	.flexCenter {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
+:global(.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow) {
+	top: 50%;
+}
