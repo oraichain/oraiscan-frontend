@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import { logoBrand } from "src/constants/logoBrand";
-import { formatOrai } from "src/helpers/helper";
+import { formatOrai, formatNumber } from "src/helpers/helper";
 import { _ } from "src/lib/scripts";
 import { Tooltip } from "@material-ui/core";
 import styles from "./AssetsIbcCardList.scss";
@@ -46,14 +46,14 @@ const TestCaseCardList = memo(({ data = [] }) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Supply</div>
-										{_.isNil(item?.prices) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.prices?.supply}</div>}
+										{_.isNil(item?.prices) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{formatNumber(item?.prices?.supply)}</div>}
 									</td>
 								</tr>
 
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Total Value</div>
-										{_.isNil(item?.prices) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item?.prices?.TotalValue}</div>}
+										{_.isNil(item?.prices) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{formatNumber(item?.prices?.TotalValue)}</div>}
 									</td>
 								</tr>
 							</tbody>
