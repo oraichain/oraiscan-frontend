@@ -109,6 +109,8 @@ export default Object.freeze({
 		ORACLE_REQUESTS: "/oracle_requests",
 		ORACLE_REPORT: "/oracle_report",
 		EXPORT_DATA: "/account/txs_csv",
+		IBC_TOKENS: "/ibc/tokens"
+
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",

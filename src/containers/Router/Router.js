@@ -22,6 +22,7 @@ const Tx = lazy(() => import(`src/containers/Tx`));
 const NotFound = lazy(() => import(`src/containers/NotFound`));
 const Account = lazy(() => import(`src/containers/Account`));
 const DataSources = lazy(() => import(`src/containers/DataSources`));
+const Ibc = lazy(() => import(`src/containers/Ibc`));
 const DataSourcesDetail = lazy(() => import(`src/containers/DataSourcesDetail`));
 const TestCases = lazy(() => import(`src/containers/TestCases`));
 const OracleScripts = lazy(() => import(`src/containers/OracleScripts`));
@@ -61,6 +62,7 @@ export default function(props) {
 					<Route path='/accounts' component={AccountList} />
 					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 					<Route path='/data-sources' component={DataSources} />
+					<Route path='/ibc' component={Ibc} />
 					<Route path='/test-cases' component={TestCases} />
 					<Route path='/proposals/:id' component={ProposalsDetail} />
 					<Route path='/proposals' component={Proposals} />
