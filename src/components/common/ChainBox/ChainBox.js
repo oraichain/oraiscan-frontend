@@ -17,7 +17,7 @@ const ChainBox = memo(({ chainValue }) => {
 	return (
 		<div className={cx("status-box")}>
 			<div className={cx("status-box-item")}>
-				<span className={cx("status-label")}>Chain Value: </span>
+				<span className={cx("status-label")}>Oraichain Total Value: </span>
 				<span className={cx("status-value")}>$ {formatNumber(+chainValue, 2)}</span>
 			</div>
 		</div>

@@ -240,7 +240,7 @@ const Tabs = memo(() => {
 		// 		activePath: "/test-cases",
 		// 	},
 		// ],
-		Ibc: [
+		IBC: [
 			{
 				pathName: "/ibc",
 				title: "Assets",
@@ -281,6 +281,13 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
+			name: "IBC",
+			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			route: "/ibc",
+			dropdownClassName: "ibc-dropdown",
+			render: renderTabDropdownComponent,
+		},
+		{
 			name: "Price Feeds",
 			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
@@ -311,13 +318,6 @@ const Tabs = memo(() => {
 		// 	dropdownClassName: "others-dropdown",
 		// 	render: renderTabDropdownComponent,
 		// },
-		{
-			name: "Ibc",
-			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/ibc",
-			dropdownClassName: "ibc-dropdown",
-			render: renderTabDropdownComponent,
-		},
 	];
 
 	return (
@@ -385,7 +385,7 @@ const Tabs = memo(() => {
 							// 	handleOpen = handleOpenOthers;
 							// 	handleClose = handleCloseOthers;
 							// 	break;
-							case "Ibc":
+							case "IBC":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = ibcAnchorRef;
