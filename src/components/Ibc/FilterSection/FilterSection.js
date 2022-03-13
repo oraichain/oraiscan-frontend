@@ -10,7 +10,7 @@ import _ from "lodash";
 
 const cx = cn.bind(styles);
 
-const FilterSection = ({ keyword, setKeyword, assetSearch, setAssetSearch , onChange }) => {
+const FilterSection = ({ keyword, setKeyword, assetSearch, setAssetSearch, onChange }) => {
 	const selectedPriceFeedNetworkRef = useRef(null);
 	const listPriceFeedNetworks = useRef(null);
 
@@ -61,7 +61,7 @@ const FilterSection = ({ keyword, setKeyword, assetSearch, setAssetSearch , onCh
 				<div className={cx("search-box")}>
 					<SearchInput
 						className={cx("search-input")}
-						placeholder='Search Ibc'
+						placeholder='Search Asset'
 						value={keyword}
 						// onChange={e => {
 						// 	const query = {
