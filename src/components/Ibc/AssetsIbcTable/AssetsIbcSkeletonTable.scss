@@ -1,0 +1,63 @@
+@import "src/styles/utils";
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+	color: var(--common-headerTextColor);
+}
+
+.name-data-cell,
+.price-data-cell,
+.total-value-data-cell {
+	color: var(--common-textColor);
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.supply-data-cell {
+	.supply {
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		color: var(--common-textColor);
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
+
+		&-value {
+			display: inline-block;
+			padding-right: 4px;
+		}
+
+		&-denom {
+			color: var(--common-oraiDenomTextColor);
+			display: inline-block;
+			text-transform: uppercase;
+		}
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

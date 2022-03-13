@@ -1,4 +1,4 @@
-import {floor} from "lodash";
+import { floor } from "lodash";
 import numeral from "numeral";
 import bigInt from "big-integer";
 import _ from "lodash";
@@ -103,6 +103,13 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
+export const formatNumber = (value, numberOfDigitsAfterDecimalPoint = 2) => {
+	if (value === undefined || value === null) {
+		return "_";
+	}
+	let valuetoFix = value.toFixed(numberOfDigitsAfterDecimalPoint)
+	return valuetoFix.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 
 export const replaceQueryString = (path, key, value) => {
 	const searchParams = new URLSearchParams(path);
