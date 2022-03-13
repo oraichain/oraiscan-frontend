@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames/bind";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
-import Button from "antd/lib/button";
+import Pagination from "antd/lib/pagination";
 
 // styles
 import styles from "./Channel.module.scss";
@@ -121,6 +121,9 @@ const ChannelList = () => {
 					<div>xxxxx</div>
 				</Col>
 			</Row>
+			<div className={cx("pagination")}>
+				<Pagination simple defaultCurrent={2} total={50} />
+			</div>
 		</div>
 	);
 };

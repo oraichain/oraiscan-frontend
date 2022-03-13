@@ -1,9 +1,34 @@
 @import "src/styles/utils";
 
-.relayers {
-	padding: 100px;
-}
-
 .item-list {
 	margin-bottom: 10px;
+}
+
+.extra-list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-info {
+		color: #89909b;
+		margin-top: 6px;
+	}
+}
+
+.dot {
+	background-color: #37cc6e;
+	border-radius: 50%;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 5px;
+}
+
+.extra-list-tag {
+	border-radius: 160px;
+	font-weight: 600;
+	padding: 5px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }

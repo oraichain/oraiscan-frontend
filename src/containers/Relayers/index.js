@@ -55,9 +55,12 @@ const Relayers = () => {
 			return (
 				<List.Item key={item.id}>
 					<List.Item.Meta avatar={<Avatar src={item.picture.large} />} title={<a href='https://ant.design'>{item.name.last}</a>} description={item.email} />
-					<div>
-						<Tag color={STATUS_COLOR.OPENED}>Opened</Tag>
-						<div>Channel 1/1</div>
+					<div className={cx("extra-list")}>
+						<div className={cx("extra-list-tag")} style={{background: "rgba(55,204,110,.1)", color: `${STATUS_COLOR.OPENED}`}}>
+							<span className={cx("dot")} />
+							<div>Opened</div>
+						</div>
+						<div className={cx("extra-list-info")}>Channel 1/1</div>
 					</div>
 				</List.Item>
 			);
@@ -77,7 +80,7 @@ const Relayers = () => {
 	}, [data]);
 
 	return (
-		<Container fixed className={cx("dashboard")}>
+		<Container fixed className={cx("relayers")}>
 			<div
 				id='scrollableDiv'
 				style={{
