@@ -7,6 +7,8 @@
 		padding: 5px 0;
 		color: #4b525d;
 		border-radius: 8px;
+		align-items: center;
+		display: flex;
 	}
 
 	.channel-name {
@@ -35,6 +37,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.channel-name.partners {
+		display: flex;
+		align-items: center;
+
+		.dot {
+			margin-right: 10px;
+		}
 	}
 
 	.pagination {

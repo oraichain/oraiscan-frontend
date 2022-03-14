@@ -1,5 +1,16 @@
 @import "src/styles/utils";
 
+.page-title {
+	margin-bottom: 10px;
+
+	h1 {
+		text-transform: uppercase;
+		font-size: 24px;
+		font-weight: 500;
+		color: #fff;
+	}
+}
+
 .item-list {
 	margin-bottom: 10px;
 }
@@ -31,4 +42,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+:global(h4.ant-list-item-meta-title) {
+	font-size: 16px;
+	font-weight: 500;
+	text-transform: uppercase;
 }
