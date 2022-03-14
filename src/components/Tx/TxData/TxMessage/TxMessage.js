@@ -20,6 +20,7 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
+import { reduceStringAssets } from "src/lib/scripts";
 import { themeIds } from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
 import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
@@ -480,6 +481,21 @@ const TxMessage = ({ key, msg, data }) => {
 			};
 		};
 
+		const getFundsHeaderRow = () => {
+			const denomHeaderCell = <div className={cx("header-cell")}>Denom</div>;
+			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
+			const headerCells = [denomHeaderCell, amountHeaderCell];
+			const headerCellStyles = [
+				{ width: "652px" }, // Demon
+				{ minWidth: "80px" }, // Amount
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
 		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
@@ -503,11 +519,24 @@ const TxMessage = ({ key, msg, data }) => {
 							}
 
 							if (start && att["key"] === "amount") {
-								const index = att["value"].indexOf("orai");
-								const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
-								obj.amount = formatOrai(amount);
-								start = false;
-								msgTransfer.push(obj);
+								// const index = att["value"].indexOf("orai");
+								const value = att["value"].split(",");
+								// const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								// obj.amount = value;
+								for (let i = 0; i < value.length; i++) {
+									const e = value[i];
+									let splitValue = e.split('/');
+									let splitTextNumber = processText(splitValue?.[0])
+									obj = {
+										...obj,
+										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
+										demon: splitTextNumber?.[0]?.[1],
+										txs: splitValue?.[1],
+									}
+									msgTransfer.push(obj);
+								}
+								// start = false;
+								// msgTransfer.push(obj);
 								continue;
 							}
 						}
@@ -516,9 +545,17 @@ const TxMessage = ({ key, msg, data }) => {
 					}
 				}
 			}
-
 			return { checkTransfer: checkTransfer, transfers: msgTransfer };
 		};
+
+		const processText = (inputText) => {
+			let output = [];
+			let json = inputText.split(' ');
+			json.forEach(function (item) {
+				output.push(item.replace(/\'/g, '').split(/(\d+)/).filter(Boolean));
+			});
+			return output;
+		}
 
 		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
 			const transfer = getTransfer(key, rawLog, result);
@@ -530,6 +567,20 @@ const TxMessage = ({ key, msg, data }) => {
 							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
 							headerCells={getTransferHeaderRow()?.headerCells}
 							dataRows={getTransferDataRows(transfer.transfers)}
+						/>
+					</InfoRow>
+				)
+			);
+		};
+
+		const getFundsRow = (label, key = 0, rawLog = [], result = "") => {
+			return (
+				(
+					<InfoRow isTransfer={true} label={label}>
+						<ThemedTable
+							headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+							headerCells={getFundsHeaderRow()?.headerCells}
+							dataRows={getFundsDataRows(rawLog)}
 						/>
 					</InfoRow>
 				)
@@ -580,15 +631,42 @@ const TxMessage = ({ key, msg, data }) => {
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{item?.amount ? item?.amount : "0" + " "}</span>
-							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-denom")}>{item?.demon}</span>
 							<span className={cx("amount-usd")}>
-								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
+								{/* {!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""} */}
+								{item?.txs ? reduceStringAssets(item?.txs, 3, 3) : " "}
 							</span>
 						</div>
 					</div>
 				);
 
 				return [recipientDataCell, senderDataCell, amountDataCell];
+			});
+		};
+
+		const getFundsDataRows = data => {
+			return data.map(item => {
+				let denomSplit = item?.denom?.split('/') || [];
+				const denomDataCell = _.isNil(item?.denom) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.denom}`}>
+						{item?.denom}
+					</NavLink>
+				);
+				const amountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0" + " "}</span>
+							<span className={cx("amount-denom")}>{item?.demom || denomSplit?.[0]}</span>
+							{/* <span className={cx("amount-usd")}>
+								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
+							</span> */}
+						</div>
+					</div>
+				);
+
+				return [denomDataCell, amountDataCell];
 			});
 		};
 
@@ -929,7 +1007,8 @@ const TxMessage = ({ key, msg, data }) => {
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}
+						{/* {getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])} */}
+						{getFundsRow("Sent funds", key, data?.messages?.[0]?.sent_funds, data?.result)}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
