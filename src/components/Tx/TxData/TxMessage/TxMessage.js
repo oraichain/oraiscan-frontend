@@ -90,7 +90,6 @@ const TxMessage = ({ key, msg, data }) => {
 	const value = msg;
 	let type = msg["@type"] || "";
 	const { memo } = data;
-
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
 			const loadStoreCode = async () => {
@@ -224,6 +223,12 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
+		const getInfoRowSummary = (label, value) => (
+			<InfoRow label={label}>
+				<span className={cx("text")}>{_.isNil(value) ? "-" : reduceStringAssets(value, 80, 10)}</span>
+			</InfoRow>
+		);
+
 		const getIbcReceivedRows = (value) => {
 			const data = JSON.parse(atob(value));
 			return (
@@ -315,6 +320,7 @@ const TxMessage = ({ key, msg, data }) => {
 				<Address name={name ?? getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' isSmartContract={isSmartContract} />
 			</InfoRow>
 		);
+
 
 		const getMultiAddressRow = (label, address) => (
 			<InfoRow label={label}>
@@ -563,11 +569,11 @@ const TxMessage = ({ key, msg, data }) => {
 			return (
 				transfer.checkTransfer && (
 					<InfoRow isTransfer={true} label={label}>
-						<ThemedTable
+						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && <ThemedTable
 							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
 							headerCells={getTransferHeaderRow()?.headerCells}
 							dataRows={getTransferDataRows(transfer.transfers)}
-						/>
+						/>}
 					</InfoRow>
 				)
 			);
@@ -577,11 +583,14 @@ const TxMessage = ({ key, msg, data }) => {
 			return (
 				(
 					<InfoRow isTransfer={true} label={label}>
-						<ThemedTable
-							headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
-							headerCells={getFundsHeaderRow()?.headerCells}
-							dataRows={getFundsDataRows(rawLog)}
-						/>
+						{
+							Array.isArray(rawLog) && rawLog.length !== 0 && <ThemedTable
+								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+								headerCells={getFundsHeaderRow()?.headerCells}
+								dataRows={getFundsDataRows(rawLog)}
+							/>
+						}
+
 					</InfoRow>
 				)
 			);
@@ -657,11 +666,12 @@ const TxMessage = ({ key, msg, data }) => {
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0" + " "}</span>
+							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0"}</span>
 							<span className={cx("amount-denom")}>{item?.demom || denomSplit?.[0]}</span>
-							{/* <span className={cx("amount-usd")}>
-								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
-							</span> */}
+							<span className={cx("amount-usd")}>
+								{/* {!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""} */}
+								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
+							</span>
 						</div>
 					</div>
 				);
@@ -1123,6 +1133,114 @@ const TxMessage = ({ key, msg, data }) => {
 						</InfoRow>
 					</>
 				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Connection ID", value?.connection_id)}
+						{getInfoRow("Height", value?.proof_height?.revision_height)}
+						{getInfoRow("Number", value?.proof_height?.revision_number)}
+						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+					</>
+				)}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
+							{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
+							{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+						</>
+					)
+				}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Counterparty Version", value?.counterparty_version)}
+							{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Client ID", value?.client_id)}
+							{getInfoRow("Delay", value?.delay_period)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRowSummary("Version", value?.channel?.version)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRow("Version", value?.counterparty_version)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+							
+						</>
+					)
+				}
+
+				
 			</div>
 		);
 	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
