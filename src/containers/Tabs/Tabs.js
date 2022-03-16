@@ -1,14 +1,14 @@
 // @ts-nocheck
-import React, {memo, useState} from "react";
-import {useLocation, useHistory} from "react-router-dom";
+import React, { memo, useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
-import {Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList, useMediaQuery} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList, useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import cn from "classnames/bind";
-import {closePageBar} from "src/store/modules/global";
-import {useDispatch} from "react-redux";
-import {ExpandMore} from "@material-ui/icons";
-import {isNil} from "lodash-es";
+import { closePageBar } from "src/store/modules/global";
+import { useDispatch } from "react-redux";
+import { ExpandMore } from "@material-ui/icons";
+import { isNil } from "lodash-es";
 import styles from "./Tabs.scss";
 import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
 import BlocksTabIcon from "src/icons/Tabs/BlocksTabIcon";
@@ -29,7 +29,7 @@ const cx = cn.bind(styles);
 const contract = config.randomnessContractAddress;
 
 const Tabs = memo(() => {
-	const {pathname} = useLocation();
+	const { pathname } = useLocation();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -41,12 +41,14 @@ const Tabs = memo(() => {
 	const [openOracleScripts, setOpenOracleScripts] = React.useState(false);
 	const [openRequests, setOpenRequests] = React.useState(false);
 	const [openOthers, setOpenOthers] = React.useState(false);
+	const [openIbc, setOpenIbc] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
 	const oracleScriptsAnchorRef = React.useRef(null);
 	const requestsAnchorRef = React.useRef(null);
 	const othersAnchorRef = React.useRef(null);
+	const ibcAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
 		setOpenValidators(true);
@@ -96,9 +98,18 @@ const Tabs = memo(() => {
 		setOpenOthers(false);
 	};
 
-	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName}) => (
+	const handleOpenIbc = () => {
+		setOpenIbc(true);
+	};
+
+	const handleCloseIbc = () => {
+		setOpenIbc(false);
+	};
+
+
+	const renderTabDropdownComponent = ({ classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName }) => (
 		<button
-			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
+			className={cx("tab", { "active-dropdown": childs?.find(item => item?.activePath === pathname) })}
 			ref={anchorRef}
 			onMouseEnter={isLargeScreen ? handleOpen : null}
 			onMouseLeave={isLargeScreen ? handleClose : null}
@@ -123,7 +134,7 @@ const Tabs = memo(() => {
 				anchorEl={anchorRef?.current}
 				disablePortal={isLargeScreen ? false : true}
 				transition>
-				{({TransitionProps, placement}) => (
+				{({ TransitionProps, placement }) => (
 					<Grow {...TransitionProps}>
 						<Paper className={cx(dropdownClassName)}>
 							<ClickAwayListener onClickAway={handleClose}>
@@ -217,18 +228,25 @@ const Tabs = memo(() => {
 				activePath: "/ai_requests",
 			},
 		],
-		Others: [
+		// Others: [
+		// 	{
+		// 		pathName: "/data-sources",
+		// 		title: "Data Sources (Legacy)",
+		// 		activePath: "/data-soruces",
+		// 	},
+		// 	{
+		// 		pathName: "/test-cases",
+		// 		title: "Test Cases (Legacy)",
+		// 		activePath: "/test-cases",
+		// 	},
+		// ],
+		IBC: [
 			{
-				pathName: "/data-sources",
-				title: "Data Sources (Legacy)",
-				activePath: "/data-soruces",
+				pathName: "/ibc",
+				title: "Assets",
+				activePath: "/ibc",
 			},
-			{
-				pathName: "/test-cases",
-				title: "Test Cases (Legacy)",
-				activePath: "/test-cases",
-			},
-		],
+		]
 	};
 
 	const tabs = [
@@ -263,6 +281,13 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
+			name: "IBC",
+			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+			route: "/ibc",
+			dropdownClassName: "ibc-dropdown",
+			render: renderTabDropdownComponent,
+		},
+		{
 			name: "Price Feeds",
 			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
@@ -286,13 +311,13 @@ const Tabs = memo(() => {
 			dropdownClassName: "requests-dropdown",
 			render: renderTabDropdownComponent,
 		},
-		{
-			name: "Others",
-			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/data-sources",
-			dropdownClassName: "others-dropdown",
-			render: renderTabDropdownComponent,
-		},
+		// {
+		// 	name: "Others",
+		// 	// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
+		// 	route: "/data-sources",
+		// 	dropdownClassName: "others-dropdown",
+		// 	render: renderTabDropdownComponent,
+		// },
 	];
 
 	return (
@@ -302,7 +327,7 @@ const Tabs = memo(() => {
 				<div className={cx("close")}>
 					<img src={backIcon} alt='' className={cx("close-icon")} onClick={() => dispatch(closePageBar())} />
 				</div>
-				{tabs.map(({name, img, route, render, dropdownClassName}, index) => {
+				{tabs.map(({ name, img, route, render, dropdownClassName }, index) => {
 					let tab;
 					if (!isNil(render)) {
 						let classNameDropdown;
@@ -352,13 +377,21 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenRequests;
 								handleClose = handleCloseRequests;
 								break;
-							case "Others":
+							// case "Others":
+							// 	classNameDropdown = "dropdown-transactions";
+							// 	childs = childDropdown?.[name];
+							// 	anchorRef = othersAnchorRef;
+							// 	open = openOthers;
+							// 	handleOpen = handleOpenOthers;
+							// 	handleClose = handleCloseOthers;
+							// 	break;
+							case "IBC":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
-								anchorRef = othersAnchorRef;
-								open = openOthers;
-								handleOpen = handleOpenOthers;
-								handleClose = handleCloseOthers;
+								anchorRef = ibcAnchorRef;
+								open = openIbc;
+								handleOpen = handleOpenIbc;
+								handleClose = handleCloseIbc;
 								break;
 							default:
 								break;
@@ -379,7 +412,7 @@ const Tabs = memo(() => {
 					} else
 						tab = (
 							<div
-								className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
+								className={cx("tab", { active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1 })}
 								onClick={() => {
 									history.push(route);
 									dispatch(closePageBar());

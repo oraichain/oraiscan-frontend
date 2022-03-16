@@ -4,9 +4,9 @@ import cn from "classnames/bind";
 import styles from "./AssetSearch.scss";
 import _ from "lodash";
 import DownAngleIcon from "src/icons/DownAngleIcon";
+import {assetsNetworks} from "src/constants/ibc";
 const cx = cn.bind(styles);
 
-let arraySearch = ['All Assets', 'Native', 'IBC Coins'];
 export default function ({ assetSearch, setAssetSearch }) {
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
@@ -25,7 +25,7 @@ export default function ({ assetSearch, setAssetSearch }) {
 	const clickListener = event => {
 		if (event?.target?.hasAttribute("data-assets")) {
 			hideList();
-			setAssetSearch(arraySearch.findIndex(e => e === event?.target?.getAttribute("data-assets")));
+			setAssetSearch(assetsNetworks.findIndex(e => e === event?.target?.getAttribute("data-assets")));
 			return;
 		}
 
@@ -57,14 +57,17 @@ export default function ({ assetSearch, setAssetSearch }) {
 			<div className={cx("assets__title")}>
 				Assets
 			</div>
-			<div >
+			<div className={cx("assets__form")}>
 				<div className={cx("network-switcher")}>
+					{/* <div className={cx("selected-item")}>
+						<input type='text' className={cx("text-field")} readOnly />
+					</div> */}
 					<div className={cx("selected-item")} ref={selectedItemRef}>
-						<input type='text' className={cx("text-field")} value={arraySearch[assetSearch]} readOnly />
+						<input type='text' className={cx("text-field")} value={assetsNetworks[assetSearch]} readOnly />
 						<DownAngleIcon className={cx("arrow")} />
 					</div>
 					<div className={cx("list")} ref={listRef}>
-						{arraySearch.map((item, index) => (
+						{assetsNetworks.map((item, index) => (
 							<div key={"list-item-" + index} className={cx("list-item")} data-assets={item}>
 								{item}
 							</div>
