@@ -3,10 +3,12 @@
 
 	.body-list {
 		border: 1px solid #e6e6e6;
-		border-radius: 8px;
 		margin-top: 10px;
-		padding: 10px 0;
+		padding: 5px 0;
 		color: #4b525d;
+		border-radius: 8px;
+		align-items: center;
+		display: flex;
 	}
 
 	.channel-name {
@@ -35,6 +37,21 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.channel-name.partners {
+		display: flex;
+		align-items: center;
+
+		.dot {
+			margin-right: 10px;
+		}
+	}
+
+	.pagination {
+		display: flex;
+		flex-direction: row-reverse;
+		margin-top: 15px;
 	}
 }
 
