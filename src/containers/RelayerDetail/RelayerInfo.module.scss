@@ -1,0 +1,29 @@
+.card {
+	box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+	border-radius: 4px;
+	background: var(--common-backgroundColor);
+	height: 90px;
+	padding: 13px 32px 16px 16px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	&-value,
+	&-sub-value {
+		align-self: flex-end;
+	}
+}
+
+.channel-info {
+	margin-top: 15px;
+	padding: 24px;
+	border-radius: 4px;
+	box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+
+	.channel-container {
+		height: 252px;
+		border: 0.1rem solid #e6e6e6;
+		border-radius: 8px;
+		padding: 10px 15px;
+	}
+}
