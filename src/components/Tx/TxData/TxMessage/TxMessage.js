@@ -20,6 +20,7 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
+import { reduceStringAssets } from "src/lib/scripts";
 import { themeIds } from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
 import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
@@ -89,7 +90,6 @@ const TxMessage = ({ key, msg, data }) => {
 	const value = msg;
 	let type = msg["@type"] || "";
 	const { memo } = data;
-
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
 			const loadStoreCode = async () => {
@@ -223,6 +223,12 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
+		const getInfoRowSummary = (label, value) => (
+			<InfoRow label={label}>
+				<span className={cx("text")}>{_.isNil(value) ? "-" : reduceStringAssets(value, 80, 10)}</span>
+			</InfoRow>
+		);
+
 		const getIbcReceivedRows = (value) => {
 			const data = JSON.parse(atob(value));
 			return (
@@ -314,6 +320,7 @@ const TxMessage = ({ key, msg, data }) => {
 				<Address name={name ?? getNameByAddress(address)} address={address} showCopyIcon={true} size='lg' isSmartContract={isSmartContract} />
 			</InfoRow>
 		);
+
 
 		const getMultiAddressRow = (label, address) => (
 			<InfoRow label={label}>
@@ -480,6 +487,21 @@ const TxMessage = ({ key, msg, data }) => {
 			};
 		};
 
+		const getFundsHeaderRow = () => {
+			const denomHeaderCell = <div className={cx("header-cell")}>Denom</div>;
+			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
+			const headerCells = [denomHeaderCell, amountHeaderCell];
+			const headerCellStyles = [
+				{ width: "652px" }, // Demon
+				{ minWidth: "80px" }, // Amount
+			];
+
+			return {
+				headerCells,
+				headerCellStyles,
+			};
+		};
+
 		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
@@ -503,11 +525,24 @@ const TxMessage = ({ key, msg, data }) => {
 							}
 
 							if (start && att["key"] === "amount") {
-								const index = att["value"].indexOf("orai");
-								const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
-								obj.amount = formatOrai(amount);
-								start = false;
-								msgTransfer.push(obj);
+								// const index = att["value"].indexOf("orai");
+								const value = att["value"].split(",");
+								// const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
+								// obj.amount = value;
+								for (let i = 0; i < value.length; i++) {
+									const e = value[i];
+									let splitValue = e.split('/');
+									let splitTextNumber = processText(splitValue?.[0])
+									obj = {
+										...obj,
+										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
+										demon: splitTextNumber?.[0]?.[1],
+										txs: splitValue?.[1],
+									}
+									msgTransfer.push(obj);
+								}
+								// start = false;
+								// msgTransfer.push(obj);
 								continue;
 							}
 						}
@@ -516,9 +551,17 @@ const TxMessage = ({ key, msg, data }) => {
 					}
 				}
 			}
-
 			return { checkTransfer: checkTransfer, transfers: msgTransfer };
 		};
+
+		const processText = (inputText) => {
+			let output = [];
+			let json = inputText.split(' ');
+			json.forEach(function (item) {
+				output.push(item.replace(/\'/g, '').split(/(\d+)/).filter(Boolean));
+			});
+			return output;
+		}
 
 		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
 			const transfer = getTransfer(key, rawLog, result);
@@ -526,11 +569,28 @@ const TxMessage = ({ key, msg, data }) => {
 			return (
 				transfer.checkTransfer && (
 					<InfoRow isTransfer={true} label={label}>
-						<ThemedTable
+						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && <ThemedTable
 							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
 							headerCells={getTransferHeaderRow()?.headerCells}
 							dataRows={getTransferDataRows(transfer.transfers)}
-						/>
+						/>}
+					</InfoRow>
+				)
+			);
+		};
+
+		const getFundsRow = (label, key = 0, rawLog = [], result = "") => {
+			return (
+				(
+					<InfoRow isTransfer={true} label={label}>
+						{
+							Array.isArray(rawLog) && rawLog.length !== 0 && <ThemedTable
+								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+								headerCells={getFundsHeaderRow()?.headerCells}
+								dataRows={getFundsDataRows(rawLog)}
+							/>
+						}
+
 					</InfoRow>
 				)
 			);
@@ -580,15 +640,43 @@ const TxMessage = ({ key, msg, data }) => {
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{item?.amount ? item?.amount : "0" + " "}</span>
-							<span className={cx("amount-denom")}>ORAI</span>
+							<span className={cx("amount-denom")}>{item?.demon}</span>
 							<span className={cx("amount-usd")}>
-								{!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""}
+								{/* {!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""} */}
+								{item?.txs ? reduceStringAssets(item?.txs, 3, 3) : " "}
 							</span>
 						</div>
 					</div>
 				);
 
 				return [recipientDataCell, senderDataCell, amountDataCell];
+			});
+		};
+
+		const getFundsDataRows = data => {
+			return data.map(item => {
+				let denomSplit = item?.denom?.split('/') || [];
+				const denomDataCell = _.isNil(item?.denom) ? (
+					<div className={cx("align-center")}>-</div>
+				) : (
+					<NavLink className={cx("address-data-cell")} to={`${consts.PATH.ACCOUNT}/${item?.denom}`}>
+						{item?.denom}
+					</NavLink>
+				);
+				const amountDataCell = (
+					<div className={cx("amount-data-cell")}>
+						<div className={cx("amount")}>
+							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0"}</span>
+							<span className={cx("amount-denom")}>{item?.demom || denomSplit?.[0]}</span>
+							<span className={cx("amount-usd")}>
+								{/* {!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""} */}
+								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
+							</span>
+						</div>
+					</div>
+				);
+
+				return [denomDataCell, amountDataCell];
 			});
 		};
 
@@ -929,7 +1017,8 @@ const TxMessage = ({ key, msg, data }) => {
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-						{getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])}
+						{/* {getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])} */}
+						{getFundsRow("Sent funds", key, data?.messages?.[0]?.sent_funds, data?.result)}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
@@ -1044,6 +1133,114 @@ const TxMessage = ({ key, msg, data }) => {
 						</InfoRow>
 					</>
 				)}
+
+				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Connection ID", value?.connection_id)}
+						{getInfoRow("Height", value?.proof_height?.revision_height)}
+						{getInfoRow("Number", value?.proof_height?.revision_number)}
+						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+					</>
+				)}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
+							{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
+							{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+						</>
+					)
+				}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Counterparty Version", value?.counterparty_version)}
+							{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Client ID", value?.client_id)}
+							{getInfoRow("Delay", value?.delay_period)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRowSummary("Version", value?.channel?.version)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRow("Version", value?.counterparty_version)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+							
+						</>
+					)
+				}
+
+				
 			</div>
 		);
 	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
