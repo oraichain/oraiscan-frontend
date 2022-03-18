@@ -1,8 +1,8 @@
-import React, {lazy, Suspense} from "react";
-import {Route, Switch} from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { Route, Switch } from "react-router-dom";
 import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
-import {usePreload} from "src/hooks";
+import { usePreload } from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
 import styles from "./Router.scss";
 import config from "src/config.js";
@@ -42,8 +42,9 @@ const RandomnessDetail = lazy(() => import(`src/components/Randomness/Randomness
 const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
+const Relayers = lazy(() => import(`src/containers/Relayers`));
 
-export default function(props) {
+export default function (props) {
 	//  preload stuff that needs preloading
 	usePreload();
 	return (
@@ -62,7 +63,7 @@ export default function(props) {
 					<Route path='/accounts' component={AccountList} />
 					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 					<Route path='/data-sources' component={DataSources} />
-					<Route path='/ibc' component={Ibc} />
+					<Route path='/ibc/assets' component={Ibc} />
 					<Route path='/test-cases' component={TestCases} />
 					<Route path='/proposals/:id' component={ProposalsDetail} />
 					<Route path='/proposals' component={Proposals} />
@@ -81,6 +82,7 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
+					<Route path='/ibc/relayers' component={Relayers} />
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>

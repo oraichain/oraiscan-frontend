@@ -49,6 +49,7 @@ const colors = {
 	FREE_SPEECH_GREEN: "#12C90E",
 	ROSE_BUD: "#FF9A9A",
 	DEEP_SKY_BLUE: "#00B1E9",
+	GRAY: "#f5f5f5",
 };
 
 export const themes = {
@@ -76,6 +77,7 @@ export const themes = {
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
+					backGroundColorGray: colors.BLUE_WHALE,
 					modal: {
 						modalCommonTextColor: colors.HAWKES_BLUE,
 						modalCommonBorderColor: colors.VENICE_BLUE,
@@ -290,6 +292,7 @@ export const themes = {
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.NEON_BLUE,
+					backGroundColorGray: colors.GRAY,
 					modal: {
 						modalCommonTextColor: colors.PACIFIC_BLUE,
 						modalCommonBorderColor: colors.PACIFIC_BLUE,

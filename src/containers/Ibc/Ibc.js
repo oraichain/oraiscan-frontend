@@ -24,7 +24,7 @@ import FilterSection from "src/components/Ibc/FilterSection";
 import styles from "./Ibc.scss";
 const cx = cn.bind(styles);
 
-const DataSources = props => {
+const IbcAssets = props => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const history = useHistory();
@@ -72,7 +72,7 @@ const DataSources = props => {
 			listFilter = data;
 		} else {
 			if (keyword && !assetSearch) {
-				listFilter = data && data.filter(ele => ele.symbol.indexOf(keyword) !== -1 );
+				listFilter = data && data.filter(ele => ele.symbol.indexOf(keyword) !== -1);
 			} else if (!keyword && assetSearch) {
 				assetSearch === 0 ? listFilter = data : listFilter = data && data.filter(ele => assetSearch === 1 ? !ele.channelId : ele.channelId);
 			} else {
@@ -149,4 +149,4 @@ const DataSources = props => {
 	);
 };
 
-export default DataSources;
+export default IbcAssets;

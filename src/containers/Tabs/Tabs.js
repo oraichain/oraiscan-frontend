@@ -242,9 +242,14 @@ const Tabs = memo(() => {
 		// ],
 		IBC: [
 			{
-				pathName: "/ibc",
+				pathName: "/ibc/assets",
 				title: "Assets",
-				activePath: "/ibc",
+				activePath: "/ibc/assets",
+			},
+			{
+				pathName: "/ibc/relayers",
+				title: "Relayers",
+				activePath: "/ibc/relayers",
 			},
 		]
 	};
@@ -283,7 +288,7 @@ const Tabs = memo(() => {
 		{
 			name: "IBC",
 			// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/ibc",
+			route: "/ibc/assets",
 			dropdownClassName: "ibc-dropdown",
 			render: renderTabDropdownComponent,
 		},

@@ -15,7 +15,7 @@ export default Object.freeze({
 	API_COINGECKO: {
 		// BASE: "https://api.coingecko.com/api/v3",
 		// GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
-		PRICE: (ids, currency) => `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${currency}`
+		PRICE: (ids, currency) => `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${currency}`,
 	},
 	COIN_ID: "oraichain-token",
 	DENOM: "orai",
@@ -112,6 +112,7 @@ export default Object.freeze({
 		IBC_TOKENS: "/ibc/tokens",
 		UPLOAD_IMAGES_VALIDATORS: '/validator/update-image',
 		GET_IMAGES_VALIDATORS: '/validator-detail',
+		IBC_RELAYERS: "/ibc/relayers",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -197,7 +198,6 @@ export default Object.freeze({
 		OSMOS_ACCOUNT: "osmo",
 		COSMOS_ACCOUNT: "cosmos",
 		TERRA_ACCOUNT: "terra",
-
 	},
 	ANIMATION: {
 		DELAY: 100,

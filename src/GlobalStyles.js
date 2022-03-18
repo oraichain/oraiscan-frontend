@@ -41,6 +41,7 @@ let common = theme => {
   --common-transactions-amountTransactionLabelOutColor: ${theme?.data?.common?.transactions?.amountTransactionLabelOutColor};
   --common-transactions-amountTransactionTextOutColor: ${theme?.data?.common?.transactions?.amountTransactionTextOutColor};
   --common-transactions-amountTransactionBackgroundOutColor: ${theme?.data?.common?.transactions?.amountTransactionBackgroundOutColor};
+  --common-backGroundColorGray: ${theme?.data?.common?.backGroundColorGray};
 `;
 };
 
