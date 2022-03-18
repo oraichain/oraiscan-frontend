@@ -1,9 +1,9 @@
 import React from "react";
-import {Provider} from "react-redux";
-import {BrowserRouter} from "react-router-dom";
-import {RestfulProvider} from "restful-react"; //  Thank you Tejas - I'm not gonna lie, swr looks more juicy these days
-import {PersistGate} from "redux-persist/integration/react";
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { RestfulProvider } from "restful-react"; //  Thank you Tejas - I'm not gonna lie, swr looks more juicy these days
+import { PersistGate } from "redux-persist/integration/react";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import App from "./App";
@@ -11,7 +11,7 @@ import App from "./App";
 //  comment this out if you do not plan on using firebase
 // import "./firebase";
 //  redux
-import store, {persistor} from "./store/configure";
+import store, { persistor } from "./store/configure";
 
 const theme = createMuiTheme({
 	palette: {
@@ -39,7 +39,7 @@ const theme = createMuiTheme({
 	// xl, extra-large: 1920px or larger
 });
 
-export default function(props) {
+export default function (props) {
 	return (
 		<MuiThemeProvider theme={theme}>
 			<RestfulProvider base={consts.API_BASE}>

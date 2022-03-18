@@ -35,6 +35,7 @@ export default function({
 			if (
 				_.includes(history.location.pathname, "/txs/") ||
 				_.includes(history.location.pathname, "/blocks/") ||
+				
 				_.includes(history.location.pathname, "/account/")
 			)
 				history.push("/assets/" + v.asset);

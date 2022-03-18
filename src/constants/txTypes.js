@@ -21,6 +21,15 @@ export default Object.freeze({
 		MSG_IBC_TRANSFER: "/ibc.applications.transfer.v1.MsgTransfer",
 		MSG_IBC_UPDATE_CLIENT: "/ibc.core.client.v1.MsgUpdateClient",
 		MSG_IBC_RECV_PACKET: "/ibc.core.channel.v1.MsgRecvPacket",
+		MSG_CONNECTION_OPEN_CONFIRM: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
+		MSG_CREATE_CLIENT: "/ibc.core.client.v1.MsgCreateClient",
+		MSG_CONNECTION_OPEN_TRY: "/ibc.core.connection.v1.MsgConnectionOpenTry",
+		MSG_CHANNEL_OPEN_TRY: "/ibc.core.channel.v1.MsgChannelOpenTry",
+		MSG_CHANNEL_OPEN_CONFIRM: "/ibc.core.channel.v1.MsgChannelOpenConfirm",
+		MSG_CONNECT_OPEN_INIT: "/ibc.core.connection.v1.MsgConnectionOpenInit",
+		MSG_CONNECTION_OPEN_ACK: "/ibc.core.connection.v1.MsgConnectionOpenAck",
+		MSG_CHANNEL_OPEN_INIT: "/ibc.core.channel.v1.MsgChannelOpenInit",
+		MSG_CHANNEL_OPEN_ACK: "/ibc.core.channel.v1.MsgChannelOpenAck"
 	},
 
 	//  DEX
