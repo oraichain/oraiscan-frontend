@@ -4,6 +4,8 @@ import Container from "@material-ui/core/Container";
 
 // components
 import RelayerInfo from "./RelayerInfo";
+import RelayerAsset from "./RelayerAssset";
+import RelayerTransaction from "./RelayerTransactions";
 
 // styles
 import styles from "./RelayerDetail.module.scss";
@@ -15,6 +17,8 @@ const RelayerDetail = () => {
 		<Container fixed className={cx("relayers")}>
 			<div className={cx("page-title")}>IBC Relayer Detail</div>
 			<RelayerInfo />
+			<RelayerAsset />
+			<RelayerTransaction />
 		</Container>
 	);
 };

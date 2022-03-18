@@ -1,0 +1,45 @@
+.relayer-asset {
+	margin-top: 10px;
+	height: 500px;
+
+	.chart {
+		padding: 16px;
+		border-radius: 4px;
+		box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+		height: 100%;
+	}
+
+	.asset-container {
+		.asset {
+			padding: 16px;
+			box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+			border-radius: 4px;
+			height: 100%;
+
+			.header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+		}
+	}
+
+	.asset-header {
+		padding: 10px 20px;
+	}
+
+	.asset-body {
+		margin: 0 !important;
+		padding-top: 10px;
+		border: 1px solid #e6e6e6;
+		border-radius: 8px;
+
+		.info-container {
+			display: flex;
+
+			.channel-info {
+				margin-left: 10px;
+			}
+		}
+	}
+}

@@ -25,5 +25,20 @@
 		border: 0.1rem solid #e6e6e6;
 		border-radius: 8px;
 		padding: 10px 15px;
+
+		.channel-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			&-info {
+				display: flex;
+			}
+
+			&-status {
+				border-radius: 8px;
+				color: var(--common-textColor);
+			}
+		}
 	}
 }
