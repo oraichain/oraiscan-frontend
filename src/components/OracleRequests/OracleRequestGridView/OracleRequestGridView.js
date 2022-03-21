@@ -2,15 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
+import { formatOrai, } from "src/helpers/helper";
+import { reduceStringAssets } from "src/lib/scripts";
 import styles from "./OracleRequestGridView.module.scss";
 import consts from "src/constants/consts";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const cx = cn.bind(styles);
 
-const OracleRequestGridView = ({data}) => {
+const OracleRequestGridView = ({ data }) => {
 	return (
 		<Grid container spacing={2}>
 			{data?.map((item, key) => {
@@ -27,61 +28,64 @@ const OracleRequestGridView = ({data}) => {
 							<table className={cx("request")}>
 								<tr>
 									<td>
-										<div className={cx("request-title")}>Request id</div>
+										<div className={cx("request-title")}>Stage</div>
 									</td>
 									<td>
-										{_.isNil(item?.request_id) ? (
-											<div className={cx("request-link")}>-</div>
-										) : (
-											<NavLink className={cx("request-link")} to={`${consts.PATH.ORACLE_REQUEST}/${item?.contract}/${item?.request_id}`}>
-												{item?.request_id}
-											</NavLink>
-										)}
+										<div className={cx("request-text")}>{item?.stage}</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Contract</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
+										{_.isNil(item?.icon) ? <span className={cx("request-icon")}>Requester</span> : <img className={cx("request-icon")} src={item.icon} alt='' />}
 									</td>
 									<td>
-										{_.isNil(item?.contract) ? (
+										{_.isNil(item?.requester) ? (
 											<div className={cx("request-text")}>-</div>
 										) : (
-											<NavLink className={cx("request-link")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract}`}>
-												{item?.contract}
-											</NavLink>
-										)}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div className={cx("request-title")}>Fee</div>
-									</td>
-									<td>
-										{_.isNil(item?.fees) ? (
-											<div className={cx("fee")}>-</div>
-										) : (
-											<div className={cx("fee")}>
-												<span className={cx("fee-value")}>{formatOrai(item?.fees)}</span>
-												<span className={cx("fee-denom")}>ORAI</span>
+											<div className={cx("request-link")}>
+												{item?.requester}
 											</div>
 										)}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("request-title")}>Input</div>
+										<div className={cx("request-title")}>Height</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{item?.input}</div>
+										<div className={cx("request-text")}>{item?.request_height}</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("request-title")}>Status</div>
+										<div className={cx("request-title")}>Merkle Height</div>
 									</td>
 									<td>
-										<div className={cx("request-text")}>{item?.status ? "Success" : "Fail"}</div>
+										<div className={cx("request-text")}>{item?.submit_merkle_height}</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("request-title")}>Merkle Root</div>
+									</td>
+									<td>
+										<div className={cx("request-text")}>{reduceStringAssets(item?.merkle_root, 10, 5)}</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("request-title")}>Threshold</div>
+									</td>
+									<td>
+										<div className={cx("request-text")}>{item?.threshold}</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("request-title")}>Service</div>
+									</td>
+									<td>
+										<div className={cx("request-text")}>{item?.service}</div>
 									</td>
 								</tr>
 							</table>
