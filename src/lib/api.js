@@ -2,6 +2,7 @@ import axios from "axios";
 import consts from "src/constants/consts";
 import { _ } from "src/lib/scripts";
 
+
 export const getAssets = cancelToken => {
 	return axios.get(`${consts.API_BASE}${consts.API.ASSETS}`, { cancelToken });
 };
@@ -89,3 +90,8 @@ export const getListTxs = cancelToken => {
 export const getGeckoMarketBalance = async (ids = '', currency = 'usd') => {
 	return await axios(`${consts.API_COINGECKO.PRICE(ids, currency)}`);
 };
+
+export const getListRequest = (aiOracle,aiRequest) => {
+	return axios.get(`${consts.LCD_API_BASE}/${consts.LCD_API.WASM}/${aiOracle}/smart/${aiRequest}`);
+};
+
