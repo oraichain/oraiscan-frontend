@@ -67,28 +67,31 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 			formData.append('image', file);
 			formData.append('address', sender?.sender);
 			formData.append('signature_hash', signature_hash);
-			const uploadImages = await api.uploadImagesValidator({
-				method: "post",
-				data: formData,
-				headers: { "Content-Type": "multipart/form-data" },
-			})
-			if (uploadImages?.data?.status) {
-				notification.success({
-					message: 'Upload Image Validator',
-					description:
-						uploadImages?.data?.status,
-				});
-			} else if (uploadImages?.status) {
-				notification.info({
-					message: 'Upload Image Validator',
-					description: uploadImages?.data,
-				});
-			} else {
+			try {
+				const uploadImages = await api.uploadImagesValidator({
+					method: "post",
+					data: formData,
+					headers: { "Content-Type": "multipart/form-data" },
+				})
+				if (uploadImages?.data?.status) {
+					notification.success({
+						message: 'Upload Image Validator',
+						description:
+							uploadImages?.data?.status,
+					});
+				} else if (uploadImages?.status) {
+					notification.info({
+						message: 'Upload Image Validator',
+						description: uploadImages?.data,
+					});
+				}
+			} catch (error) {
 				notification.error({
 					message: 'Upload Image Validator',
-					description: 'Upload Faild',
+					description: error?.response?.data,
 				});
 			}
+
 			setTimeout(() => {
 				notification.destroy();
 			}, 5000);
