@@ -37,8 +37,22 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 		}
 	}, [src]);
 
+	const restrictFile = () => {
+		notification.info({
+			message: 'Upload Image Validator',
+			description: 'File type is not in the correct format',
+		});
+		setTimeout(() => {
+			notification.destroy();
+		}, 5000);
+	}
+
 	const props = {
 		action: async (file) => {
+			const restrict = file?.type?.split('/');
+			if (restrict?.[0] !== "image" || restrict?.[1] === "svg+xml") {
+				return restrictFile();
+			}
 			const sender = await getAddressValidator();
 			const formData = new FormData();
 			const buff = Buffer.from(
@@ -58,7 +72,6 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 				data: formData,
 				headers: { "Content-Type": "multipart/form-data" },
 			})
-			console.log({ uploadImages });
 			if (uploadImages?.data?.status) {
 				notification.success({
 					message: 'Upload Image Validator',
