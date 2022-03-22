@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _, reduceString } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 import styles from "./WithdrawCardList.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 
 const cx = classNames.bind(styles);
 
-const WithdrawCardList = memo(({data = []}) => {
+const WithdrawCardList = memo(({ data = [] }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -60,7 +60,7 @@ const WithdrawCardList = memo(({data = []}) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Unbounded (ORAI)</div>
+										<div className={cx("item-title")}>Unbonding (ORAI)</div>
 									</td>
 									<td>
 										<div className={cx("item-title")}>Reward</div>
@@ -80,6 +80,16 @@ const WithdrawCardList = memo(({data = []}) => {
 										<div className={cx("withdraw-data-cell")}>
 											<button className={cx("button")}>
 												Withdraw
+												<img className={cx("button-icon")} src={arrowIcon} />
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colSpan={2}>
+										<div className={cx("withdraw-data-cell")}>
+											<button className={cx("button")}>
+												Redelegate
 												<img className={cx("button-icon")} src={arrowIcon} />
 											</button>
 										</div>
