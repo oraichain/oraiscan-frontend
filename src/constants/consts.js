@@ -110,6 +110,8 @@ export default Object.freeze({
 		ORACLE_REPORT: "/oracle_report",
 		EXPORT_DATA: "/account/txs_csv",
 		IBC_TOKENS: "/ibc/tokens",
+		UPLOAD_IMAGES_VALIDATORS: '/validator/update-image',
+		GET_IMAGES_VALIDATORS: '/validator-detail',
 		IBC_RELAYERS: "/ibc/relayers",
 	},
 	LCD_API: {
