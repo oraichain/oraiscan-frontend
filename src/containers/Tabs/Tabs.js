@@ -227,6 +227,11 @@ const Tabs = memo(() => {
 				title: "AI Requests (Legacy)",
 				activePath: "/ai_requests",
 			},
+			{
+				pathName: "/ai-executors",
+				title: "AI Executors",
+				activePath: "/ai-executors",
+			},
 		],
 		// Others: [
 		// 	{
