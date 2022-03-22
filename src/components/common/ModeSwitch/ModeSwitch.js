@@ -7,10 +7,13 @@ import {setActiveThemeId} from "src/store/modules/activeThemeId.js";
 import SunIcon from "src/icons/SunIcon";
 import MoonIcon from "src/icons/MoonIcon";
 import styles from "./ModeSwitch.scss";
+import {Switch} from "antd";
+import {ThemeSetup} from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
 const ModeSwitch = memo(() => {
+	const {isDarkTheme} = ThemeSetup();
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const dispatch = useDispatch();
 
@@ -31,9 +34,16 @@ const ModeSwitch = memo(() => {
 	}
 
 	return (
-		<div className={cx("mode-switch", stateClassName)} onClick={toggleMode}>
-			{iconElement}
-		</div>
+		// <div className={cx("mode-switch", stateClassName)} onClick={toggleMode}>
+		// 	{iconElement}
+		// </div>
+		<Switch
+			style={{background: isDarkTheme ? "#292B39" : "#2D2A83"}}
+			className={cx("toggle")}
+			onClick={toggleMode}
+			checkedChildren={<SunIcon />}
+			unCheckedChildren={<MoonIcon />}
+		/>
 	);
 });
 

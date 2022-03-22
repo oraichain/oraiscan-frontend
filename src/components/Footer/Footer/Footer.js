@@ -43,9 +43,9 @@ const Footer = memo(() => {
 								</div> */}
 							</Grid>
 
-							<Grid item xs={6}>
+							{/* <Grid item xs={6}>
 								<ModeSwitch />
-							</Grid>
+							</Grid> */}
 						</Grid>
 						<Grid className={cx("top-section-grid-1")} container spacing={1} item lg={8} xs={12}>
 							<Grid item lg={3} xs={6}>

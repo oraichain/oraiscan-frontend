@@ -10,6 +10,7 @@ import DownAngleIcon from "src/icons/DownAngleIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
 import OraiLogo from "src/icons/OraiIcon";
+import ModeSwitch from "src/components/common/ModeSwitch";
 
 const cx = cn.bind(styles);
 
@@ -33,6 +34,7 @@ const NavBarDesktop = ({initialNavLinks}) => {
 			</NavLink>
 			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
 				<ul className={cx("navbar-nav")}>
+					<ModeSwitch />
 					{initialNavLinks.map((item, index) => {
 						const {title, path, children, type} = item;
 						if (children) {
