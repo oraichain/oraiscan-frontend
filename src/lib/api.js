@@ -92,6 +92,6 @@ export const getGeckoMarketBalance = async (ids = '', currency = 'usd') => {
 };
 
 export const getListRequest = (aiOracle,aiRequest) => {
-	return axios.get(`${consts.LCD_API_BASE}/${consts.LCD_API.WASM}/${aiOracle}/smart/${aiRequest}`);
+	return axios.get(`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${aiOracle}/smart/${aiRequest}`);
 };
 
