@@ -26,7 +26,7 @@ export const getHeaderRow = () => {
 	const withdrawHeaderCell = <div className={cx("header-cell", "align-center")}>Withdraw</div>;
 	const redelegateHeaderCell = <div className={cx("header-cell", "align-center")}>Redelegate</div>;
 	const headerCells = [validatorHeaderCell, stakedHeaderCell, rewardsHeaderCell, unbondingHeaderCell, withdrawableHeaderCell, withdrawHeaderCell, redelegateHeaderCell];
-	const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }];
+	const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }, { width: "150px" }];
 	return {
 		headerCells,
 		headerCellStyles,
