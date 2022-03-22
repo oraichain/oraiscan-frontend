@@ -1,15 +1,15 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
-import {useSelector} from "react-redux";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime, getTotalTime} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { _, reduceString, setAgoTime, getTotalTime } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./BlockTable.scss";
-import {logoBrand} from "src/constants/logoBrand";
+import { logoBrand } from "src/constants/logoBrand";
 
 const cx = classNames.bind(styles);
 
@@ -21,11 +21,11 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [heightHeaderCell, blockHashHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "10%", minWidth: "100px"}, // Height
-		{width: "33%", minWidth: "200px"}, // Block Hash
-		{width: "33%", minWidth: "180px"}, // Proposer
-		{width: "10%", minWidth: "80px"}, // Txs
-		{width: "14%", minWidth: "150px"}, // Time
+		{ width: "10%", minWidth: "100px" }, // Height
+		{ width: "33%", minWidth: "200px" }, // Block Hash
+		{ width: "33%", minWidth: "180px" }, // Proposer
+		{ width: "10%", minWidth: "80px" }, // Txs
+		{ width: "14%", minWidth: "150px" }, // Time
 	];
 	return {
 		headerCells,
@@ -33,7 +33,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const BlockTable = memo(({data = [], rowMotions = []}) => {
+const BlockTable = memo(({ data = [], rowMotions = [] }) => {
 	const validators = useSelector(state => state.blockchain.validators);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -41,8 +41,9 @@ const BlockTable = memo(({data = [], rowMotions = []}) => {
 		}
 
 		return data.map(item => {
-			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || {customLogo: ""};
-			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || { customLogo: "" };
+			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoURL = item?.moniker_image ? item.moniker_image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
 
 			const heightDataCell = _.isNil(item?.height) ? (

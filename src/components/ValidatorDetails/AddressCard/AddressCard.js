@@ -18,8 +18,10 @@ const cx = classNames.bind(styles);
 
 const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => {
 	const [src, setSrc] = React.useState('');
+	const logoItem = logoBrand.find(it => it.operatorAddress === operatorAddress);
 	const [dataDetails, setDataDetails] = React.useState({ image: '', nonce: 0 });
-	const logoURL = src ? src : dataDetails?.image;
+	const [logoURL, setLogoURL] = React.useState('');
+	// const logoURL = src ? src : dataDetails?.image ? dataDetails?.image : logoItem.logo ? logoItem.logo : "";
 	const logoName = moniker || "";
 
 	React.useEffect(() => {
@@ -28,6 +30,11 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 
 	const fetchImages = async () => {
 		const detail = await api.getImagesValidator(operatorAddress);
+		if (detail && detail.data && detail.data.image) {
+			setLogoURL(detail.data.image);
+		} else {
+			setLogoURL(logoItem.logo ? logoItem.logo : "")
+		}
 		setDataDetails(detail?.data)
 	};
 

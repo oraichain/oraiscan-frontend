@@ -233,7 +233,9 @@ const ValidatorTable = memo(({ data = [] }) => {
 		return data.map(item => {
 			// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
 			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-			const logoURL = item?.image;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || { customLogo: "" };
+			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
 
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
