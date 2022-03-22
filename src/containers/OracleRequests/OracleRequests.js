@@ -1,19 +1,19 @@
 // @ts-nocheck
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import cn from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
-import {formatInteger} from "src/helpers/helper";
-import {myKeystation} from "src/lib/Keystation";
+import { formatInteger } from "src/helpers/helper";
+import { myKeystation } from "src/lib/Keystation";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -26,7 +26,9 @@ import OracleRequestGridViewSkeleton from "src/components/OracleRequests/OracleR
 import OracleRequestListView from "src/components/OracleRequests/OracleRequestListView";
 import OracleRequestListViewSkeleton from "src/components/OracleRequests/OracleRequestListView/OracleRequestListViewSkeleton";
 import styles from "./OracleRequests.module.scss";
-import {isNil} from "lodash";
+import * as api from "src/lib/api";
+import { isNil } from "lodash";
+import config from "src/config";
 
 const cx = cn.bind(styles);
 
@@ -39,24 +41,13 @@ const OracleRequests = () => {
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(1);
+	const [total, setTotal] = useState(1);
 	const totalPagesRef = useRef(null);
 	// const listRequestsRef = useRef([]);
-
+	const [listRequest, setListRequest] = useState([]);
 	const onPageChange = page => {
 		setPageId(page);
 	};
-
-	const basePath = `${consts.API.ORACLE_REQUESTS}?limit=${consts.REQUEST.LIMIT}`;
-	let path;
-	if (keyword) {
-		path = `${basePath}&page_id=${pageId}&request_id=${keyword}`;
-	} else {
-		path = `${basePath}&page_id=${pageId}`;
-	}
-
-	const {data, loading, error} = useGet({
-		path: path,
-	});
 
 	let titleSection;
 	let filterSection;
@@ -66,6 +57,58 @@ const OracleRequests = () => {
 	// const createAIRequest = () => {
 	// 	myKeystation.openWindow("ai-request", "");
 	// };
+
+	useEffect(() => {
+		fetchData(false, pageId);
+	}, [keyword, pageId]);
+
+
+	useEffect(() => {
+		fetchData(true);
+	}, []);
+
+	const fetchData = async (checkOffset, pageId) => {
+		let obj = {};
+		if (!checkOffset) {
+			obj = keyword ? { request: { stage: +keyword } } : { get_requests: { order: 2, limit: consts.REQUEST.LIMIT, offset: total - (pageId - 1) * consts.REQUEST.LIMIT } }
+		} else {
+			obj = { get_requests: { order: 2, limit: consts.REQUEST.LIMIT } }
+		}
+		const buff = Buffer.from(
+			JSON.stringify(obj)
+		);
+		let aiRequest = buff.toString('base64');
+		let listRequestData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, aiRequest);
+		switch (checkOffset) {
+			case true:
+				fetchFirst(listRequestData);
+				break;
+			case false:
+				fetchSecond(listRequestData);
+				break;
+		}
+	}
+
+	const fetchFirst = async (listRequestAPI) => {
+		let total = listRequestAPI?.data?.data?.[0]?.stage;
+		console.log({ total });
+		totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
+		setTotal(total)
+		setListRequest(listRequestAPI?.data?.data)
+	}
+
+	const fetchSecond = async (listRequestAPI) => {
+		if (keyword) {
+			totalPagesRef.current = 1;
+		}else {
+			totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
+		}
+		setListRequest(keyword ? [{
+			...listRequestAPI?.data?.data,
+			stage: +keyword
+		}] : listRequestAPI?.data?.data)
+	}
+
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -82,39 +125,18 @@ const OracleRequests = () => {
 
 	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;
 
-	if (loading) {
+	if (!listRequest?.length) {
 		oracleRequestCard = (
 			<OracleRequestsCard totalItems={<Skeleton className={cx("skeleton")} variant='text' width={24} height={30} />}>
 				{isGridView ? <OracleRequestGridViewSkeleton /> : <OracleRequestListViewSkeleton />}
 			</OracleRequestsCard>
 		);
 	} else {
-		if (error) {
-			totalPagesRef.current = null;
-			oracleRequestCard = (
-				<OracleRequestsCard totalItems='-'>{isGridView ? <OracleRequestGridView data={[]} /> : <OracleRequestListView data={[]} />}</OracleRequestsCard>
-			);
-		} else {
-			// let filterData = null;
-			// if (!isNil(creator)) {
-			// 	filterData = data?.tx_responses?.filter(item => {
-			// 		return item?.tx?.body?.messages?.[0]?.creator === creator;
-			// 	});
-			// }
-			// const calculateTotalPage = data?.pagination?.total / consts.REQUEST.LIMIT;
-			// totalPagesRef.current = calculateTotalPage !== parseInt(calculateTotalPage) ? parseInt(calculateTotalPage) + 1 : calculateTotalPage;
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
-
-			oracleRequestCard = (
-				<OracleRequestsCard totalItems={isNaN(data?.page?.total_item) ? "-" : formatInteger(data?.page?.total_item)}>
-					{isGridView ? <OracleRequestGridView data={data?.data} /> : <OracleRequestListView data={data?.data} />}
-				</OracleRequestsCard>
-			);
-		}
+		oracleRequestCard = (
+			<OracleRequestsCard totalItems={isNaN(total) ? "-" : formatInteger(total)}>
+				{isGridView ? <OracleRequestGridView data={listRequest} /> : <OracleRequestListView data={listRequest} />}
+			</OracleRequestsCard>
+		);
 	}
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;

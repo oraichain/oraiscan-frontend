@@ -231,11 +231,9 @@ const ValidatorTable = memo(({ data = [] }) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
-			// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-			const logoURL = item?.image;
+			const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
+			const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
-
 			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>

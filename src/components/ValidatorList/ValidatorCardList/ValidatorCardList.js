@@ -57,9 +57,9 @@ const ValidatorCardList = memo(({data = []}) => {
 				previousVotingPower += currentVotingPower;
 				const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
 
-				// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
-				// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-				const logoURL = item?.image;
+				const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
+				const logoURL = logoItem.customLogo ? false : logoItem.logo;
+
 				const validatorCardListItem = (
 					<div className={cx("validator-card-list-item")} key={"validator-card-list-item-" + index}>
 						<table>
