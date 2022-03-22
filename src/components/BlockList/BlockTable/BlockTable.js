@@ -42,9 +42,8 @@ const BlockTable = memo(({data = [], rowMotions = []}) => {
 
 		return data.map(item => {
 			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || {customLogo: ""};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
-			const logoURL = item?.moniker_image ? item.moniker_image :  logoItem.customLogo ? false : logoItem.logo;
 
 			const heightDataCell = _.isNil(item?.height) ? (
 				<div className={cx("align-left")}>-</div>
