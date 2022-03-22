@@ -72,7 +72,7 @@
 		justify-content: center;
 		flex: auto;
 		height: 60px;
-		background-color: var(--common-containerBackgroundColor);
+		background-color: var(--common-tabColor);
 
 		@include media("<large") {
 			width: 220px;
@@ -186,7 +186,7 @@
 }
 
 .tab-tx-item {
-	font-family: Roboto;
+	font-family: "IBM Plex Sans";
 	font-weight: 500;
 	font-size: 14px;
 	color: var(--common-textColor);

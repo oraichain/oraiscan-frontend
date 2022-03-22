@@ -1,7 +1,7 @@
 .dropdown-validators .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -18,7 +18,7 @@
 	height: auto;
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -39,7 +39,7 @@
 .dropdown-transactions .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -57,7 +57,7 @@
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
 	margin-left: 27px;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -78,7 +78,7 @@
 .dropdown-proposals .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -96,7 +96,7 @@
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
 	margin-left: 27px;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;

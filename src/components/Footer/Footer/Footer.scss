@@ -1,18 +1,86 @@
 @import "src/styles/utils";
 
 .footer {
+	position: relative;
+
+	.background {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	:global(.MuiGrid-item) {
+		z-index: 99;
+	}
 }
 
 .top-section {
+	position: relative;
 	padding: 40px 0;
-	background-color: #000d20;
+	z-index: 99;
+
+	.intro {
+		@include media("<=428px") {
+			margin-bottom: 24px;
+		}
+
+		&-logo {
+			margin-bottom: 20px;
+
+			@include media("<=428px") {
+				margin-bottom: 0;
+			}
+		}
+
+		&-description {
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 160%;
+			color: #cbd2dd;
+		}
+	}
+
+	&-grid {
+		margin-bottom: 64px !important;
+		justify-content: space-between;
+	}
+
+	.social-section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		&-link {
+			margin-bottom: 24px;
+			display: flex;
+			align-items: center;
+
+			.social-link {
+				margin-bottom: 0px;
+				margin-right: 32px;
+			}
+		}
+
+		&-text {
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 160%;
+			color: #cbd2dd;
+		}
+	}
 
 	.email {
 		margin-bottom: 16px;
 
 		&-function {
 			color: #e7eef8;
-			font-family: Roboto;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 500;
 			font-size: 14px;
@@ -22,7 +90,7 @@
 
 		&-address {
 			color: #e7eef8;
-			font-family: Roboto;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -34,7 +102,7 @@
 	.address {
 		p {
 			color: #8aa2c9;
-			font-family: Roboto;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -49,27 +117,29 @@
 		&-title {
 			display: inline-block;
 			margin-bottom: 10px;
-			color: #e7eef8;
-			font-family: Roboto;
+			color: #cbd2dd;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
-			font-weight: 500;
-			font-size: 16px;
-			line-height: 150%;
+			font-weight: 700;
+			font-size: 18px;
+			line-height: 160%;
 		}
 
 		&-link {
 			display: inline-block;
 			margin-bottom: 10px;
-			color: #acc7f2;
-			font-family: Roboto;
+			color: #cbd2dd;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
-			font-weight: normal;
-			font-size: 14px;
-			line-height: 150%;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 160%;
 		}
 
 		&-icon {
-			margin-right: 4px;
+			width: 20px;
+			height: 18px;
+			color: #ffffff;
 		}
 	}
 }
@@ -91,7 +161,7 @@
 		.copy-right {
 			padding: 13px 0;
 			color: #99aac2;
-			font-family: Roboto;
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 500;
 			font-size: 13px;
@@ -119,7 +189,7 @@
 				margin-right: 12px;
 				padding: 13px 0;
 				color: #99aac2;
-				font-family: Roboto;
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: 500;
 				font-size: 13px;

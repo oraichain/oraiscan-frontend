@@ -19,6 +19,7 @@ import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
 import {updateToken} from "src/firebase-cloud-message";
 import NavBarDesktop from "./NavBarDesktop";
+import {ThemeSetup} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 
@@ -82,6 +83,7 @@ function isSlowBlock(lastest, blocks) {
 const NavBar = ({toggleSearchArea}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const {isDarkTheme} = ThemeSetup();
 	const dispatch = useDispatch();
 	const {address} = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
@@ -127,7 +129,11 @@ const NavBar = ({toggleSearchArea}) => {
 	}, [address]);
 
 	return (
-		<div className={cx("background")}>
+		<div
+			style={{
+				background: isDarkTheme ? "#0F1017" : "#444193",
+			}}
+			className={cx("background")}>
 			{isMaintaining && (
 				<div className={cx("maintain")}>
 					<div className={cx("maintain-text")}>
