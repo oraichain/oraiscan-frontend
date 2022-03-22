@@ -11,14 +11,14 @@ import { formatNumber } from "src/helpers/helper";
 
 import styles from "./ChainBox.scss";
 
-const ChainBox = memo(({ chainValue }) => {
+const ChainBox = memo(({ chainValue, label, statusValue }) => {
 	const cx = classNames.bind(styles);
 
 	return (
 		<div className={cx("status-box")}>
 			<div className={cx("status-box-item")}>
-				<span className={cx("status-label")}>Oraichain Total Value: </span>
-				<span className={cx("status-value")}>$ {formatNumber(+chainValue, 2)}</span>
+				<span className={cx("status-label")}>{label ? label : "Oraichain Total Value"}: </span>
+				<span className={cx("status-value")}> {!statusValue ? '$' + `${formatNumber(+chainValue, 2)}` : chainValue}</span>
 			</div>
 		</div>
 	);

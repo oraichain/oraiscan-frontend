@@ -111,6 +111,14 @@ const TogglePageBar = ({type}) => {
 					</div>
 				);
 			}
+			case "ai-executors": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<RequestsTabIcon className={cx("title-icon")} /> All executors
+					</div>
+				);
+			}
 			case "price_feeds": {
 				return <div className={cx("title")}> Price Feeds</div>;
 			}
