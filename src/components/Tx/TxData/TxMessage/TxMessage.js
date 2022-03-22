@@ -1118,10 +1118,11 @@ const TxMessage = ({ key, msg, data }) => {
 				)}
 				{type === txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE && (
 					<>
+						{getAddressRow("Delegator Address", value?.delegator_address, "")}
 						{getAddressRow("Source Validator", value?.validator_src_address, "")}
 						{getAddressRow("Destination Validator", value?.validator_dst_address, "")}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
-						<InfoRow label='Time'>
+						{/* <InfoRow label='Time'>
 							<div className={cx("text")}>
 								{_.isNil(getRedelegateTime(key, data?.raw_log, data?.result))
 									? "-"
@@ -1130,7 +1131,7 @@ const TxMessage = ({ key, msg, data }) => {
 									getTotalTime(getRedelegateTime(key, data?.raw_log, data?.result)) +
 									")"}
 							</div>
-						</InfoRow>
+						</InfoRow> */}
 					</>
 				)}
 
@@ -1235,12 +1236,12 @@ const TxMessage = ({ key, msg, data }) => {
 							{getInfoRow("Channel ID", value?.channel_id)}
 							{getInfoRow("Version", value?.counterparty_version)}
 							{getInfoRowSummary("Proof Try", value?.proof_try)}
-							
+
 						</>
 					)
 				}
 
-				
+
 			</div>
 		);
 	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
