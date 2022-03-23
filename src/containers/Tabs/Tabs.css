@@ -36,6 +36,14 @@
 	}
 }
 
+.dropdown-transactions {
+	z-index: 3;
+}
+
+.dropdown-validators {
+	z-index: 3;
+}
+
 .dropdown-transactions .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
