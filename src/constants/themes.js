@@ -62,6 +62,9 @@ const colors = {
 	LINK_COLOR: "#D6CCF4",
 	LABEL_BG_GRAY: "#2D2D35",
 	LABEL_TEXT_GRAY: "#E2E4EB",
+	LABEL_LIGHT_BG: "#EEEEF3",
+	LABEL_LIGHT_TEXT: "#737998",
+	LABEL_LIGHT_BORDER: "none"
 };
 
 export const themes = {
@@ -322,9 +325,9 @@ export const themes = {
 					},
 					transactions: {
 						moreIconColor: colors.DARK_TANGERINE,
-						transactionTypeLabelColor: colors.LABEL_BG_GRAY,
-						transactionTypeBackgroundColor: colors.LABEL_BG_GRAY,
-						transactionTypeTextColor: colors.LABEL_TEXT_GRAY,
+						transactionTypeLabelColor: colors.LABEL_LIGHT_BG,
+						transactionTypeBackgroundColor: colors.LABEL_LIGHT_BG,
+						transactionTypeTextColor: colors.LABEL_LIGHT_TEXT,
 						amountTransactionLabelInColor: colors.LIME_GREEN,
 						amountTransactionBackgroundInColor: "none",
 						amountTransactionTextInColor: colors.LIME_GREEN,
