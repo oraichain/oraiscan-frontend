@@ -3,7 +3,7 @@
 .filter-section {
 	&-left {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -45,7 +45,7 @@
 				background: var(--common-containerBackgroundColor);
 				color: var(--common-textColor);
 				border: none;
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: 500;
 				font-size: 18px;
@@ -80,7 +80,7 @@
 				&-item {
 					padding: 20px 15px;
 					color: var(--common-textColor);
-					font-family: Roboto;
+					font-family: 'IBM Plex Sans';
 					font-style: normal;
 					font-weight: 500;
 					font-size: 14px;

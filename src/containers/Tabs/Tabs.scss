@@ -32,6 +32,7 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	user-select: none;
+	background: var(--common-backgroundColor);
 
 	@include media("<large") {
 		position: absolute;
@@ -54,6 +55,8 @@
 
 		@include media("<large") {
 			display: flex;
+			justify-content: space-between;
+			align-items: center;
 		}
 
 		&-icon {
@@ -62,6 +65,37 @@
 			width: 16px;
 			height: auto;
 			cursor: pointer;
+		}
+
+		.mode-switch {
+			margin-right: 15px;
+		}
+	}
+
+	.network-switcher {
+		display: none;
+
+		@include media("<large") {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		&-title {
+			margin-top: 15px;
+			margin-left: 10px;
+			margin-bottom: 5px;
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: 400;
+			font-size: 13px;
+			line-height: 150%;
+			color: #9a9a9a;
+		}
+
+		&-select {
+			margin-left: 10px;
+			margin-bottom: 15px;
 		}
 	}
 
@@ -72,7 +106,7 @@
 		justify-content: center;
 		flex: auto;
 		height: 60px;
-		background-color: var(--common-containerBackgroundColor);
+		background-color: var(--common-tabColor);
 
 		@include media("<large") {
 			width: 220px;
@@ -112,6 +146,8 @@
 			margin: 0;
 			margin-right: 5px;
 			color: var(--common-textColor);
+			width: 16px;
+			height: 16px;
 
 			@include media("<large") {
 				margin-left: 10px;
@@ -127,10 +163,11 @@
 		&-title {
 			display: inline-block;
 			color: var(--common-textColor);
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 500;
 			font-size: 14px;
-			line-height: 60px;
+			line-height: 150%;
 		}
 	}
 
@@ -186,7 +223,7 @@
 }
 
 .tab-tx-item {
-	font-family: Roboto;
+	font-family: "IBM Plex Sans";
 	font-weight: 500;
 	font-size: 14px;
 	color: var(--common-textColor);

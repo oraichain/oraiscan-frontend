@@ -13,7 +13,7 @@
 }
 
 .header-cell {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -25,7 +25,7 @@
 .description-data-cell,
 .request-data-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -39,7 +39,7 @@
 		justify-content: flex-start;
 		align-items: center;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -62,7 +62,7 @@
 	.owner {
 		display: inline-block;
 		color: var(--common-linkColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -74,7 +74,7 @@
 	.contract {
 		display: inline-block;
 		color: var(--common-linkColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;

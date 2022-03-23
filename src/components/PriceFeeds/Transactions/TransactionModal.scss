@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 @mixin font-delegate {
-	font-family: Roboto;
+	font-family: "IBM Plex Sans";
 	font-weight: 500;
 	font-size: 18px;
 	@include media("<medium") {
@@ -14,7 +14,7 @@
 }
 
 .title {
-	font-family: "Roboto", serif;
+	font-family: "IBM Plex Sans";
 	font-size: 25px;
 	font-weight: 500;
 	line-height: 150%;

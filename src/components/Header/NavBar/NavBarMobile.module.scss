@@ -15,7 +15,7 @@
 	&-text {
 		color: #ffffff;
 		display: inline-block;
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 18px;
@@ -43,14 +43,15 @@
 			width: auto;
 			height: 32px;
 			margin-right: 12px;
+			color: var(--common-textColor);
 		}
 
 		&-text {
 			color: #ffffff;
 			display: inline-block;
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
-			font-weight: 500;
+			font-weight: 400;
 			font-size: 18px;
 			line-height: 150%;
 		}
@@ -162,7 +163,7 @@
 		display: inline-block;
 		padding: 24px 0px 24px 0px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		line-height: 150%;
@@ -218,7 +219,7 @@
 		@include media(">=large") {
 			height: auto;
 			right: 0;
-			top: 62px;
+			top: 67px;
 			left: 16px;
 		}
 	}
@@ -233,7 +234,7 @@
 		display: flex;
 		padding: 15px 20px 15px 20px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 400;
 		line-height: 150%;

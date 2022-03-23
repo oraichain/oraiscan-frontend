@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 @mixin font-delegate {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-weight: 500;
 	font-size: 18px;
 	@include media("<medium") {
@@ -13,7 +13,7 @@
 	display: inline-block;
 	padding: 8px 16px;
 	border-radius: 6px;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -59,7 +59,7 @@
 
 .label {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
@@ -73,7 +73,7 @@
 	display: block;
 	width: 100%;
 	padding: 8px;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -113,7 +113,7 @@
 }
 
 .delegate-title {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-size: 20px;
 	font-weight: 500;
 	@include media("<medium") {
@@ -134,7 +134,7 @@
 		background: var(--common-blockItemBackgroundColor);
 		box-sizing: border-box;
 		border-radius: 8px;
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-weight: normal;
 		font-size: 18px;
 		line-height: 2;
@@ -146,7 +146,7 @@
 
 .balance-row {
 	.left {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 18px;
 		margin-top: 5px;
 		@include media("<medium") {
@@ -157,7 +157,7 @@
 		text-transform: uppercase;
 	}
 	.right {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 18px;
 		margin-top: 5px;
 		display: flex;
@@ -173,7 +173,7 @@
 
 .commission-row {
 	.left {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 14px;
 		margin-top: 5px;
 		@include media("<medium") {
@@ -184,7 +184,7 @@
 	// 	text-transform: uppercase;
 	// }
 	.right {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 14px;
 		margin-top: 5px;
 		display: flex;
@@ -212,7 +212,7 @@
 		@include font-delegate;
 	}
 	.right {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 18px;
 	}
 }
@@ -229,7 +229,7 @@
 }
 
 .estimate-dollar-row {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-size: 16px;
 	margin-top: 5px;
 	margin-bottom: 30px;
