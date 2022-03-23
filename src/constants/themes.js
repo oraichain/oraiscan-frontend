@@ -59,7 +59,9 @@ const colors = {
 	MEDIUM_STATE_BLUE: "#7664E4",
 	BLUE_ZODIAC: "#423F5A",
 	PURPLE_HEART: "#5A38BA",
-	LAVENDER: "#D6CCF4",
+	LINK_COLOR: "#D6CCF4",
+	LABEL_BG_GRAY: "#2D2D35",
+	LABEL_TEXT_GRAY: "#E2E4EB",
 };
 
 export const themes = {
@@ -69,12 +71,12 @@ export const themes = {
 			data: {
 				common: {
 					textColor: colors.HAWKES_BLUE,
-					linkColor: colors.LAVENDER,
+					linkColor: colors.LINK_COLOR,
 					tabColor: colors.BASTILLE,
 					activeTabColor: colors.MEDIUM_STATE_BLUE,
 					activeTabTextColor: colors.HAWKES_BLUE,
 					buttonTextColor: colors.HAWKES_BLUE,
-					buttonBackgroundColor: colors.DODGER_BLUE,
+					buttonBackgroundColor: colors.MEDIUM_STATE_BLUE,
 					backgroundColor: colors.SAPPHIRE,
 					containerBackgroundColor: colors.PURPLE_1,
 					blockItemBackgroundColor: colors.HAITI,
@@ -104,9 +106,9 @@ export const themes = {
 					},
 					transactions: {
 						moreIconColor: colors.YELLOW_SEA,
-						transactionTypeLabelColor: colors.NEON_BLUE,
-						transactionTypeBackgroundColor: colors.NEON_BLUE,
-						transactionTypeTextColor: colors.HAWKES_BLUE,
+						transactionTypeLabelColor: colors.LABEL_BG_GRAY,
+						transactionTypeBackgroundColor: colors.LABEL_BG_GRAY,
+						transactionTypeTextColor: colors.LABEL_TEXT_GRAY,
 						amountTransactionLabelInColor: colors.DODGER_BLUE,
 						amountTransactionBackgroundInColor: colors.DODGER_BLUE,
 						amountTransactionTextInColor: colors.HAWKES_BLUE,
@@ -174,27 +176,27 @@ export const themes = {
 						proposalTable: {
 							statusRejectedTextColor: colors.HAWKES_BLUE,
 							statusRejectedBorderColor: colors.VIOLET_RED,
-							statusRejectedBackgroundColor: colors.VIOLET_RED,
+							statusRejectedBackgroundColor: "none",
 
 							statusPassedTextColor: colors.HAWKES_BLUE,
 							statusPassedBorderColor: colors.DODGER_BLUE,
-							statusPassedBackgroundColor: colors.DODGER_BLUE,
+							statusPassedBackgroundColor: "none",
 
 							statusFailedTextColor: colors.HAWKES_BLUE,
 							statusFailedBorderColor: colors.SUNSET_ORANGE,
-							statusFailedBackgroundColor: colors.SUNSET_ORANGE,
+							statusFailedBackgroundColor: "none",
 
 							statusDepositPeriodTextColor: colors.HAWKES_BLUE,
 							statusDepositPeriodBorderColor: colors.PELOROUS,
-							statusDepositPeriodBackgroundColor: colors.PELOROUS,
+							statusDepositPeriodBackgroundColor: "none",
 
 							statusUnspecifiedTextColor: colors.HAWKES_BLUE,
 							statusUnspecifiedBorderColor: colors.YELLOW_SEA,
-							statusUnspecifiedBackgroundColor: colors.YELLOW_SEA,
+							statusUnspecifiedBackgroundColor: "none",
 
 							statusVotingPeriodTextColor: colors.HAWKES_BLUE, // notsure, lack of design
 							statusVotingPeriodBorderColor: colors.YELLOW_SEA, // notsure, lack of design
-							statusVotingPeriodBackgroundColor: colors.YELLOW_SEA, // notsure, lack of design
+							statusVotingPeriodBackgroundColor: "none", // notsure, lack of design
 						},
 						proposalDetails: {
 							graphColor_yes: colors.CERULEAN,
@@ -320,9 +322,9 @@ export const themes = {
 					},
 					transactions: {
 						moreIconColor: colors.DARK_TANGERINE,
-						transactionTypeLabelColor: colors.NEON_BLUE,
-						transactionTypeBackgroundColor: "none",
-						transactionTypeTextColor: colors.NEON_BLUE,
+						transactionTypeLabelColor: colors.LABEL_BG_GRAY,
+						transactionTypeBackgroundColor: colors.LABEL_BG_GRAY,
+						transactionTypeTextColor: colors.LABEL_TEXT_GRAY,
 						amountTransactionLabelInColor: colors.LIME_GREEN,
 						amountTransactionBackgroundInColor: "none",
 						amountTransactionTextInColor: colors.LIME_GREEN,
