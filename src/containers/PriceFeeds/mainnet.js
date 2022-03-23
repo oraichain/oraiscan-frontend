@@ -34,9 +34,9 @@ export const getPriceFeedMainnet = async () => {
 			`${config.AIORACLE_BACKEND}/report/reports?request_id=${parseInt(stage)}&contract_addr=${config.AIORACLE_CONTRACT_ADDR}`
 		);
 
-		if (fullRequestData?.data.length > 0) {
+		if (fullRequestData?.data?.data.length > 0) {
 			let aggregatedResult = [];
-			aggregatedResult = fullRequestData.data.map(item => JSON.parse(atob(item.data)));
+			aggregatedResult = fullRequestData.data.data.map(item => JSON.parse(atob(item.report.data)));
 
 			// collect block data to display last updated info
 			const { data: blockData } = await axios.get(
