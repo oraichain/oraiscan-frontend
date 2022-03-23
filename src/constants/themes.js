@@ -74,6 +74,7 @@ const colors = {
 	STATUS_FAIL_DARK: "#EEAFAC",
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
 	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
+	SEPARATE_LINE_DARK: "#423F5A",
 };
 
 export const themes = {
@@ -103,6 +104,7 @@ export const themes = {
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
 					backGroundColorGray: colors.BLUE_WHALE,
+					separateLine: colors.SEPARATE_LINE_DARK,
 					modal: {
 						modalCommonTextColor: colors.HAWKES_BLUE,
 						modalCommonBorderColor: colors.VENICE_BLUE,
@@ -319,6 +321,7 @@ export const themes = {
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.NEON_BLUE,
 					backGroundColorGray: colors.GRAY,
+					separateLine: colors.GAINSBORO,
 					modal: {
 						modalCommonTextColor: colors.PACIFIC_BLUE,
 						modalCommonBorderColor: colors.PACIFIC_BLUE,

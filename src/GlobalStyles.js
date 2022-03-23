@@ -22,6 +22,7 @@ let common = theme => {
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
   --common-resultIconPendingColor: ${theme?.data?.common?.resultIconPendingColor};
   --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
+  --common-separateLine: ${theme?.data?.common?.separateLine};
   --common-modal-modalCommonTextColor: ${theme?.data?.common?.modal?.modalCommonTextColor};
   --common-modal-modalCommonBorderColor: ${theme?.data?.common?.modal?.modalCommonBorderColor};
   --common-modal-modalCommonBackgroundColor: ${theme?.data?.common?.modal?.modalCommonBackgroundColor};
