@@ -13,7 +13,7 @@ import GitHubIcon from "src/icons/GitHubIcon";
 import MediumIcon from "src/icons/MediumIcon";
 import CoinMarketCapIcon from "src/icons/CoinMarketCapIcon";
 import ModeSwitch from "src/components/common/ModeSwitch";
-import OraiLogo from "src/icons/OraiIcon";
+import OraiLogo from "src/icons/OraiLogo";
 import {ThemeSetup} from "src/helpers/helper";
 
 const cx = classNames.bind(styles);

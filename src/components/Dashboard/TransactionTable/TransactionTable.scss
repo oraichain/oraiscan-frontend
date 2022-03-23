@@ -25,7 +25,7 @@
 }
 
 .tx-hash-data-cell {
-	color: var(--common-textColor);
+	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
@@ -184,10 +184,19 @@
 	}
 }
 
-.time-data-cell,
-.height-data-cell {
+.time-data-cell {
 	display: block;
 	color: var(--common-textColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.height-data-cell {
+	display: block;
+	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;

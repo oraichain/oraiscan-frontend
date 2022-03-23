@@ -67,7 +67,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 	const series =
 		activeThemeId === themeIds.LIGHT
 			? {
-					color: "#1958FA",
+					color: "#682FC5",
 					fillColor: {
 						linearGradient: {
 							x1: 0,
@@ -79,35 +79,35 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 							[
 								0,
 								highcharts
-									.color("#1958FA")
-									.setOpacity(0.6)
+									.color("#704BD8")
+									.setOpacity(0.75)
 									.get("rgba"),
 							],
 							[
 								0.6,
 								highcharts
-									.color("#94B2FF")
-									.setOpacity(0.4)
+									.color("#704BD8")
+									.setOpacity(0.5)
 									.get("rgba"),
 							],
 							[
 								0.8,
 								highcharts
-									.color("#638fff")
-									.setOpacity(0.3)
+									.color("#704BD8")
+									.setOpacity(0.4)
 									.get("rgba"),
 							],
 							[
 								0.9,
 								highcharts
-									.color("#85a7ff")
+									.color("#704BD8")
 									.setOpacity(0.2)
 									.get("rgba"),
 							],
 							[
 								1,
 								highcharts
-									.color("#ffffff")
+									.color("transparent")
 									.setOpacity(0.05)
 									.get("rgba"),
 							],

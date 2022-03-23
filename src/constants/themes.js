@@ -58,6 +58,7 @@ const colors = {
 	MULLED_WINE_2: "#4E4A5B",
 	MEDIUM_STATE_BLUE: "#7664E4",
 	BLUE_ZODIAC: "#423F5A",
+	PURPLE_HEART: "#5A38BA",
 };
 
 export const themes = {
@@ -283,11 +284,11 @@ export const themes = {
 			data: {
 				common: {
 					textColor: colors.NERO,
-					linkColor: colors.ROYAL_BLUE,
+					linkColor: colors.PURPLE_HEART,
 					tabColor: colors.WHITE,
-					activeTabColor: colors.ROYAL_BLUE,
+					activeTabColor: colors.MEDIUM_STATE_BLUE,
 					activeTabTextColor: colors.WHITE,
-					buttonTextColor: colors.ROYAL_BLUE,
+					buttonTextColor: colors.MEDIUM_STATE_BLUE,
 					buttonBackgroundColor: "none",
 					backgroundColor: colors.SOLITUDE,
 					containerBackgroundColor: colors.WHITE,

@@ -25,17 +25,18 @@
 			border-bottom: none;
 		}
 		padding-bottom: 12px;
-		.icon {
+		.logo {
 			display: flex;
 			width: fit-content;
 
-			img {
+			&-icon {
 				width: 32px;
 				height: 32px;
-				content: url("../../../../assets/common/orai_favicon.png");
+				color: var(--common-textColor);
+				// content: url("../../../../assets/common/orai_favicon.png");
 			}
 
-			.text {
+			&-text {
 				display: block;
 				width: fit-content;
 				margin-top: 4px;

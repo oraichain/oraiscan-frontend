@@ -9,7 +9,7 @@ import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
-import OraiLogo from "src/icons/OraiIcon";
+import OraiLogo from "src/icons/OraiLogo";
 import ModeSwitch from "src/components/common/ModeSwitch";
 
 const cx = cn.bind(styles);
