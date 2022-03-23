@@ -54,17 +54,26 @@ const colors = {
 	PURPLE_1: "#302737",
 	BASTILLE: "#2C2B2D",
 	HAITI: "#1C1720",
-	MULLED_WINE: "#594A68",
+	MULLED_WINE: "#322636",
 	MULLED_WINE_2: "#4E4A5B",
 	MEDIUM_STATE_BLUE: "#7664E4",
 	BLUE_ZODIAC: "#423F5A",
 	PURPLE_HEART: "#5A38BA",
+	DEEP_DARK: "#322E36",
 	LINK_COLOR: "#D6CCF4",
 	LABEL_BG_GRAY: "#2D2D35",
 	LABEL_TEXT_GRAY: "#E2E4EB",
 	LABEL_LIGHT_BG: "#EEEEF3",
 	LABEL_LIGHT_TEXT: "#737998",
-	LABEL_LIGHT_BORDER: "none"
+	LABEL_LIGHT_BORDER: "none",
+	STATUS_PASSES_DARK: "#BBF8B1",
+	STATUS_REJECTED_DARK: "#F2BCED",
+	STATUS_UNSPECIFIED_DARK: "#F9CEA7",
+	STATUS_DEPOSIT_PERIOD_DARK: "#A7CDF0",
+	STATUS_VOTING_PERIOD_DARK: "#B4FBEE",
+	STATUS_FAIL_DARK: "#EEAFAC",
+	PAGINGNATION_TEXT_DARK: "#EBEAEF",
+	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
 };
 
 export const themes = {
@@ -86,8 +95,8 @@ export const themes = {
 					blockItemBackgroundColorDarken: colors.REGAL_BLUE_3,
 					borderColor: colors.MULLED_WINE,
 					headerTextColor: colors.HAWKES_BLUE,
-					paginationTextColor: colors.BERMUDA_GREY,
-					paginationActiveTextColor: colors.HAWKES_BLUE,
+					paginationTextColor: colors.PAGINGNATION_TEXT_DARK,
+					paginationActiveTextColor: colors.PAGINGNATION_ACTIVE_TEXT_DARK,
 					resultIconSuccessColor: colors.DODGER_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
 					resultIconPendingColor: colors.YELLOW_SEA,
@@ -165,41 +174,41 @@ export const themes = {
 					},
 					proposals: {
 						topProposalCard: {
-							statusPassedBorderColor: colors.CARIBBEAN_GREEN,
-							statusPassedBackgroundColor: colors.CARIBBEAN_GREEN,
-							statusPassedTextColor: colors.REGAL_BLUE_1,
-							statusRejectedBorderColor: colors.SUNSET_ORANGE,
-							statusRejectedBackgroundColor: colors.SUNSET_ORANGE,
-							statusRejectedTextColor: colors.REGAL_BLUE_1,
+							statusPassedBorderColor: colors.STATUS_PASSES_DARK,
+							statusPassedBackgroundColor: "#322E36",
+							statusPassedTextColor: colors.STATUS_PASSES_DARK,
+							statusRejectedBorderColor: colors.STATUS_REJECTED_DARK,
+							statusRejectedBackgroundColor: "#322E36",
+							statusRejectedTextColor: colors.STATUS_REJECTED_DARK,
 							graphColor_yes: colors.CERULEAN, // not sure, lack of design
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
 						},
 						proposalTable: {
-							statusRejectedTextColor: colors.HAWKES_BLUE,
-							statusRejectedBorderColor: colors.VIOLET_RED,
-							statusRejectedBackgroundColor: "none",
+							statusRejectedTextColor: colors.STATUS_REJECTED_DARK,
+							statusRejectedBorderColor: colors.STATUS_REJECTED_DARK,
+							statusRejectedBackgroundColor: "#322E36",
 
-							statusPassedTextColor: colors.HAWKES_BLUE,
-							statusPassedBorderColor: colors.DODGER_BLUE,
-							statusPassedBackgroundColor: "none",
+							statusPassedTextColor: colors.STATUS_PASSES_DARK,
+							statusPassedBorderColor: colors.STATUS_PASSES_DARK,
+							statusPassedBackgroundColor: "#322E36",
 
-							statusFailedTextColor: colors.HAWKES_BLUE,
-							statusFailedBorderColor: colors.SUNSET_ORANGE,
-							statusFailedBackgroundColor: "none",
+							statusFailedTextColor: colors.STATUS_FAIL_DARK,
+							statusFailedBorderColor: colors.STATUS_FAIL_DARK,
+							statusFailedBackgroundColor: "#322E36",
 
-							statusDepositPeriodTextColor: colors.HAWKES_BLUE,
-							statusDepositPeriodBorderColor: colors.PELOROUS,
-							statusDepositPeriodBackgroundColor: "none",
+							statusDepositPeriodTextColor: colors.STATUS_DEPOSIT_PERIOD_DARK,
+							statusDepositPeriodBorderColor: colors.STATUS_DEPOSIT_PERIOD_DARK,
+							statusDepositPeriodBackgroundColor: "#322E36",
 
-							statusUnspecifiedTextColor: colors.HAWKES_BLUE,
-							statusUnspecifiedBorderColor: colors.YELLOW_SEA,
-							statusUnspecifiedBackgroundColor: "none",
+							statusUnspecifiedTextColor: colors.STATUS_UNSPECIFIED_DARK,
+							statusUnspecifiedBorderColor: colors.STATUS_UNSPECIFIED_DARK,
+							statusUnspecifiedBackgroundColor: "#322E36",
 
-							statusVotingPeriodTextColor: colors.HAWKES_BLUE, // notsure, lack of design
-							statusVotingPeriodBorderColor: colors.YELLOW_SEA, // notsure, lack of design
-							statusVotingPeriodBackgroundColor: "none", // notsure, lack of design
+							statusVotingPeriodTextColor: colors.STATUS_VOTING_PERIOD_DARK, // notsure, lack of design
+							statusVotingPeriodBorderColor: colors.STATUS_VOTING_PERIOD_DARK, // notsure, lack of design
+							statusVotingPeriodBackgroundColor: "#322E36", // notsure, lack of design
 						},
 						proposalDetails: {
 							graphColor_yes: colors.CERULEAN,
