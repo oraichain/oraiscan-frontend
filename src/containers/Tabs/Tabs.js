@@ -360,7 +360,7 @@ const Tabs = memo(() => {
 						let handleClose;
 						switch (name) {
 							case "Validators":
-								classNameDropdown = "dropdown-validators";
+								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = validatorsAnchorRef;
 								open = openValidators;

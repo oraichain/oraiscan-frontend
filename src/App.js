@@ -20,11 +20,13 @@ import Alert from "src/components/common/Alert/Alert";
 import SearchArea from "src/components/Dashboard/SearchArea";
 import {GlobalStyles} from "src/GlobalStyles";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import DarkModeTopBackground from "src/assets/common/dark_mode_top_background.png";
 import useGlobalApp from "./useGlobalApp";
 import {updateToken, onMessageListener} from "src/firebase-cloud-message";
 import {showAlert} from "src/store/modules/global";
 import {isMobile} from "react-device-detect";
 import styles from "./App.scss";
+import {ThemeSetup} from "./helpers/helper";
 
 const cx = classNames.bind(styles);
 
@@ -51,6 +53,7 @@ export default function() {
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const {isDarkTheme} = ThemeSetup();
 	const {openPageBar} = useSelector(state => state.global);
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const {address} = useSelector(state => state.wallet);
@@ -100,9 +103,12 @@ export default function() {
 
 	if (isLargeScreen) {
 		searchArea = (
-			<Container>
-				<SearchArea />
-			</Container>
+			<>
+				{isDarkTheme && <img className={cx("top-background")} src={DarkModeTopBackground} />}
+				<Container>
+					<SearchArea />
+				</Container>
+			</>
 		);
 	} else {
 		searchArea = (

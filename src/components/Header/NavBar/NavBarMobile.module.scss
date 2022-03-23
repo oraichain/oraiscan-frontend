@@ -15,7 +15,7 @@
 	&-text {
 		color: #ffffff;
 		display: inline-block;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 500;
 		font-size: 18px;
@@ -31,6 +31,8 @@
 	padding: 20px;
 	width: 100%;
 	height: 50px;
+	padding-left: 0px;
+	padding-right: 0px;
 
 	&-brand {
 		display: inline-flex;
@@ -43,13 +45,13 @@
 			width: auto;
 			height: 32px;
 			margin-right: 12px;
-			color: var(--common-textColor);
+			color: #ffffff;
 		}
 
 		&-text {
 			color: #ffffff;
 			display: inline-block;
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 400;
 			font-size: 18px;
@@ -163,7 +165,7 @@
 		display: inline-block;
 		padding: 24px 0px 24px 0px;
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 500;
 		line-height: 150%;
@@ -234,7 +236,7 @@
 		display: flex;
 		padding: 15px 20px 15px 20px;
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 400;
 		line-height: 150%;

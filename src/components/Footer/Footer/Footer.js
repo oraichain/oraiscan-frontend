@@ -6,6 +6,8 @@ import classNames from "classnames/bind";
 import styles from "./Footer.scss";
 import TwitterIcon from "src/icons/TwitterIcon";
 import FooterBackground from "src/assets/footer/footer_background.png";
+import DecorIconDark from "src/assets/footer/decor-icon-dark.png";
+import DecorIconLight from "src/assets/footer/decor-icon-light.png";
 import TelegramIcon from "src/icons/TelegramIcon";
 import CoinGeckoIcon from "src/icons/CoinGeckoIcon";
 import DiscordIcon from "src/icons/DiscordIcon";
@@ -23,6 +25,7 @@ const Footer = memo(() => {
 
 	return (
 		<div className={cx("footer")}>
+			<img src={isDarkTheme ? DecorIconDark : DecorIconLight} className={cx("decor-icon")} />
 			<img style={{opacity: isDarkTheme ? "0.3" : "1"}} src={FooterBackground} className={cx("background")} />
 			<div className={cx("top-section")}>
 				<Container>

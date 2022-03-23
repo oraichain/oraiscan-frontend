@@ -10,6 +10,13 @@
 		object-fit: cover;
 	}
 
+	.decor-icon {
+		position: absolute;
+		top: -28.5px;
+		left: calc(50% - 26px);
+		z-index: 1;
+	}
+
 	:global(.MuiGrid-item) {
 		z-index: 99;
 	}
