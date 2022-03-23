@@ -142,13 +142,13 @@ export const themes = {
 						highChartLinearBorderColor_2: colors.COLUMBIA_BLUE,
 					},
 					validators: {
-						deletegateButtonBorderColor: colors.DODGER_BLUE,
-						deletegateButtonBackgroundColor: colors.DODGER_BLUE,
+						deletegateButtonBorderColor: colors.MEDIUM_STATE_BLUE,
+						deletegateButtonBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						deletegateButtonTextColor: colors.HAWKES_BLUE,
-						cumulativeShareBarColor_1: colors.DODGER_BLUE,
-						cumulativeShareBarColor_2: colors.VIKING,
+						cumulativeShareBarColor_1: "#352E45",
+						cumulativeShareBarColor_2: "#4B455F",
 						logoBorder: colors.WHITE,
-						selectActiveBackgroundBtn: colors.DODGER_BLUE,
+						selectActiveBackgroundBtn: colors.MEDIUM_STATE_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.DODGER_BLUE,
 							totalBlocksLabelBackgroundColor: colors.DODGER_BLUE,
