@@ -1,16 +1,30 @@
 .card {
 	box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
 	border-radius: 4px;
-	background: var(--common-backgroundColor);
+	background: var(--common-containerBackgroundColor);
 	height: 90px;
 	padding: 13px 32px 16px 16px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	color: var(--common-textColor);
 
 	&-value,
 	&-sub-value {
 		align-self: flex-end;
+	}
+
+	.card-status-label-state {
+		background: #fff;
+		border-radius: 16px;
+		padding: 0 10px;
+		width: fit-content;
+		font-size: 12px;
+	}
+
+	.card-sub-value.status,
+	.card-value.status {
+		color: #fff;
 	}
 }
 

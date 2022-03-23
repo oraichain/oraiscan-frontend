@@ -111,6 +111,7 @@ export default Object.freeze({
 		EXPORT_DATA: "/account/txs_csv",
 		IBC_TOKENS: "/ibc/tokens",
 		IBC_RELAYERS: "/ibc/relayers",
+		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",

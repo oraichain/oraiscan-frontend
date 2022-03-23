@@ -6,6 +6,7 @@ import Col from "antd/lib/col";
 import Pagination from "antd/lib/pagination";
 import Space from "antd/lib/space";
 import Avatar from "antd/lib/avatar/avatar";
+import {useHistory} from "react-router-dom";
 
 // constant
 import {STATUS_COLOR} from "./constants";
@@ -22,6 +23,7 @@ const dataLimit = 10;
 
 const ChannelList = ({channels, channelName, image}) => {
 	const [currentPage, setCurrentPage] = useState(1);
+	const history = useHistory();
 
 	const onChangePage = page => {
 		setCurrentPage(page);
@@ -74,6 +76,10 @@ const ChannelList = ({channels, channelName, image}) => {
 		);
 	}, [channelName]);
 
+	const redirectRelayerDetail = channelId => {
+		return history.push(`/ibc/relayers/${channelId}`);
+	};
+
 	const renderChannels = useMemo(() => {
 		const renderChannelItem = (item, index) => {
 			var createdAt = moment(item?.channel?.created_at, "YYYY-MM-DD");
@@ -81,7 +87,7 @@ const ChannelList = ({channels, channelName, image}) => {
 			const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
 
 			return (
-				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("body-list")}>
+				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("body-list")} onClick={() => redirectRelayerDetail(item?.channel?.channel_id)}>
 					<Col span={1}>
 						<div>{index + 1}</div>
 					</Col>

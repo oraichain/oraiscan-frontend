@@ -3,4 +3,22 @@
 	box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
 	border-radius: 4px;
 	margin-top: 10px;
+	background: var(--common-containerBackgroundColor);
+	color: var(--common-textColor);
+
+	.title {
+		color: var(--common-textColor);
+		margin-bottom: 20px;
+		font-size: 16px;
+	}
+}
+
+.custom-table {
+}
+
+:global(td.ant-table-cell p) {
+	width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

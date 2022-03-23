@@ -83,7 +83,7 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
-					<Route path='/ibc/relayer-detail' component={RelayerDetail} />
+					<Route path='/ibc/relayers/:channelId' component={RelayerDetail} />
 					<Route path='/ibc/relayers' component={Relayers} />
 					<Route render={() => <NotFound />} />
 				</Switch>

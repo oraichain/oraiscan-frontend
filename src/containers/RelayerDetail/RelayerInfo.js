@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames/bind";
+import moment from "moment";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import Card from "antd/lib/card";
@@ -10,43 +11,64 @@ import Divider from "antd/lib/divider";
 // styles
 import styles from "./RelayerInfo.module.scss";
 
+// constants
+import {STATE, STATUS_COLOR} from "src/containers/Relayers/constants";
+
 const cx = cn.bind(styles);
 
 const {Meta} = Card;
 const {Title} = Typography;
 
-const RelayerInfo = () => {
+const RelayerInfo = ({data}) => {
+	console.log("🚀 ~ file: RelayerInfo.js ~ line 23 ~ RelayerInfo ~ data", data);
+	const createdAt = moment(data?.channel?.created_at, "YYYY-MM-DD");
+	const currentDate = moment().startOf("day");
+	const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
+	const lastUpdateTime = moment(data?.last_updated, "YYYYMMDD").fromNow();
+
+	const CHANNEL_NAME = {
+		[STATE.STATE_OPEN]: "Well-known",
+		[STATE.STATE_INIT || STATE.STATE_TRYOPEN || STATE.STATE_UNINITIALIZED_UNSPECIFIED]: "Unknown",
+	};
+
+	const STATUS_COLOR = {
+		[STATE.STATE_OPEN]: "#37cc6e",
+		[STATE.STATE_INIT || STATE.STATE_TRYOPEN || STATE.STATE_UNINITIALIZED_UNSPECIFIED]: "#ffb323",
+	};
+
 	return (
 		<>
 			<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
 				<Col span={6}>
-					<div className={cx("card")}>
-						<div className={cx("card-label-state")}>label</div>
-						<div className={cx("card-sub-value")}>sub value</div>
-						<div className={cx("card-value")}>value</div>
+					<div className={cx("card")} style={{background: STATUS_COLOR[data?.channel?.status], color: STATUS_COLOR[data?.channel?.status]}}>
+						<p className={cx("card-status-label-state")}>{CHANNEL_NAME[data?.channel?.status]}</p>
+						<div className={cx("card-sub-value", "status")}>Total Transfer value</div>
+						<div className={cx("card-value", "status")}>$&nbsp;{data?.total_value?.toFixed(2)}</div>
 					</div>
 				</Col>
 				<Col span={6}>
 					<div className={cx("card")}>
-						<div className={cx("card-label-state")}>label</div>
-						<div className={cx("card-value")}>value</div>
+						<div className={cx("card-label-state")}>IBC Total Txs</div>
+						<div className={cx("card-value")}>{data?.total_txs}</div>
 					</div>
 				</Col>
 				<Col span={6}>
 					<div className={cx("card")}>
-						<div className={cx("card-label-state")}>label</div>
-						<div className={cx("card-value")}>value</div>
+						<div className={cx("card-label-state")}>Last Update Time</div>
+						<div className={cx("card-value")}>{lastUpdateTime}</div>
 					</div>
 				</Col>
 				<Col span={6}>
 					<div className={cx("card")}>
-						<div className={cx("card-label-state")}>label</div>
-						<div className={cx("card-value")}>value</div>
+						<div className={cx("card-label-state")}>Operating Period</div>
+						<div className={cx("card-value")}>
+							{operatingPeriod}&nbsp;{operatingPeriod > 1 ? "Days" : "Day"}
+						</div>
 					</div>
 				</Col>
 			</Row>
 
-			<div className={cx("channel-info")}>
+			{/* <div className={cx("channel-info")}>
 				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
 					<Col span={11}>
 						<div className={cx("channel-container")}>
@@ -108,7 +130,7 @@ const RelayerInfo = () => {
 						</div>
 					</Col>
 				</Row>
-			</div>
+			</div> */}
 		</>
 	);
 };
