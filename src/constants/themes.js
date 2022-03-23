@@ -59,6 +59,7 @@ const colors = {
 	MEDIUM_STATE_BLUE: "#7664E4",
 	BLUE_ZODIAC: "#423F5A",
 	PURPLE_HEART: "#5A38BA",
+	LAVENDER: "#D6CCF4",
 };
 
 export const themes = {
@@ -68,7 +69,7 @@ export const themes = {
 			data: {
 				common: {
 					textColor: colors.HAWKES_BLUE,
-					linkColor: colors.DODGER_BLUE,
+					linkColor: colors.LAVENDER,
 					tabColor: colors.BASTILLE,
 					activeTabColor: colors.MEDIUM_STATE_BLUE,
 					activeTabTextColor: colors.HAWKES_BLUE,
