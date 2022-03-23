@@ -27,5 +27,7 @@
 }
 
 .toggle {
-	// background-color: #2d2a83;
+	:global(.ant-switch-handle::before) {
+		background-color: #7664e4;
+	}
 }

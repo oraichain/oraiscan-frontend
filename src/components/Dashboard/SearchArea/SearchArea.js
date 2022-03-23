@@ -12,12 +12,15 @@ export default function({isDropdownVisible = true, closeMobileNavigateBar = () =
 	return (
 		<div className={cx("search-area")}>
 			<Grid container spacing={2} alignItems='center'>
-				<Grid item lg={4} xs={12}>
+				{/* <Grid item lg={4} xs={12}>
 					<div className={cx("title")}>Oraichain Explorer</div>
-				</Grid>
+				</Grid> */}
 				{isDropdownVisible && (
-					<Grid item lg={2} xs={12}>
-						{hasTestnetAPI && <NetworkSwitcher />}
+					<Grid item lg={6} xs={12}>
+						<div className={cx("switch-network")}>
+							<div className={cx("switch-network-title")}>Choose network: </div>
+							{hasTestnetAPI && <NetworkSwitcher />}
+						</div>
 					</Grid>
 				)}
 
