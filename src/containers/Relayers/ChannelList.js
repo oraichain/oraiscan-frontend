@@ -9,7 +9,7 @@ import Avatar from "antd/lib/avatar/avatar";
 import {useHistory} from "react-router-dom";
 
 // constant
-import {STATUS_COLOR} from "./constants";
+import {STATUS_COLOR, STATE} from "./constants";
 
 // logo
 import OraiLogo from "src/assets/header/logo.svg";
@@ -76,7 +76,9 @@ const ChannelList = ({channels, channelName, image}) => {
 		);
 	}, [channelName]);
 
-	const redirectRelayerDetail = channelId => {
+	const redirectRelayerDetail = (channelId, status) => {
+		if (status === STATE.STATE_CLOSED) return;
+
 		return history.push(`/ibc/relayers/${channelId}`);
 	};
 
@@ -87,7 +89,10 @@ const ChannelList = ({channels, channelName, image}) => {
 			const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
 
 			return (
-				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("body-list")} onClick={() => redirectRelayerDetail(item?.channel?.channel_id)}>
+				<Row
+					gutter={{xs: 8, sm: 16, md: 24, lg: 32}}
+					className={cx("body-list")}
+					onClick={() => redirectRelayerDetail(item?.channel?.channel_id, item?.channel?.status)}>
 					<Col span={1}>
 						<div>{index + 1}</div>
 					</Col>
