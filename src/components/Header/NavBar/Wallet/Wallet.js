@@ -127,7 +127,7 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 			denomElement = <span className={cx("denom")}>-</span>;
 			priceElement = <span className={cx("price")}>-</span>;
 		} else {
-			amountElement = <span className={cx("amount")}>{isNaN(amount) ? "-" : formatOrai(amount || 0, 1000000, 2) + " "}</span>;
+			amountElement = <span className={cx("amount")}>{isNaN(amount) ? "-" : formatOrai(amount || 0, 1000000, 6) + " "}</span>;
 			denomElement = <span className={cx("denom")}>{_.isNil(denom) ? "-" : denom}</span>;
 			priceElement = (
 				<span className={cx("price")}>
