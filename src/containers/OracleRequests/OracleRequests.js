@@ -40,7 +40,7 @@ const OracleRequests = () => {
 	// const creator = queryStringParse?.creator ?? "";
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
-	const [pageId, setPageId] = useState(1);
+	const [pageId, setPageId] = useState(0);
 	const [total, setTotal] = useState(1);
 	const totalPagesRef = useRef(null);
 	// const listRequestsRef = useRef([]);
@@ -59,18 +59,20 @@ const OracleRequests = () => {
 	// };
 
 	useEffect(() => {
-		fetchData(false, pageId);
-	}, [keyword, pageId]);
-
-
-	useEffect(() => {
 		fetchData(true);
 	}, []);
+
+	useEffect(() => {
+		fetchData(false, pageId);
+	}, [pageId]);
 
 	const fetchData = async (checkOffset, pageId) => {
 		let obj = {};
 		if (!checkOffset) {
-			obj = keyword ? { request: { stage: +keyword } } : { get_requests: { order: 2, limit: consts.REQUEST.LIMIT, offset: total - (pageId - 1) * consts.REQUEST.LIMIT } }
+			let offsetObj = {
+				offset: pageId ? total - (pageId - 1) * consts.REQUEST.LIMIT : undefined
+			}
+			obj = keyword ? { request: { stage: +keyword } } : { get_requests: { order: 2, limit: consts.REQUEST.LIMIT, ...offsetObj } }
 		} else {
 			obj = { get_requests: { order: 2, limit: consts.REQUEST.LIMIT } }
 		}
@@ -79,6 +81,7 @@ const OracleRequests = () => {
 		);
 		let aiRequest = buff.toString('base64');
 		let listRequestData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, aiRequest);
+		console.log({ listRequestData });
 		switch (checkOffset) {
 			case true:
 				fetchFirst(listRequestData);
@@ -90,6 +93,7 @@ const OracleRequests = () => {
 	}
 
 	const fetchFirst = async (listRequestAPI) => {
+		console.log({ fetch: "fetchFirst" });
 		let total = listRequestAPI?.data?.data?.[0]?.stage;
 		console.log({ total });
 		totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
@@ -98,6 +102,7 @@ const OracleRequests = () => {
 	}
 
 	const fetchSecond = async (listRequestAPI) => {
+		console.log({ fetch: "fetchSecond", listRequestAPI });
 		if (keyword) {
 			totalPagesRef.current = 1;
 		} else {
@@ -108,6 +113,26 @@ const OracleRequests = () => {
 			stage: +keyword
 		}] : listRequestAPI?.data?.data)
 	}
+
+	function debounce(func, wait, immediate) {
+		let timeout;
+		return function executedFunction() {
+		  const context = this;
+		  const args = arguments;
+		  const later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		  };
+		  const callNow = immediate && !timeout;
+		  clearTimeout(timeout);
+		  timeout = setTimeout(later, wait);
+		  if (callNow) func.apply(context, args);
+		};
+	  };
+
+	useEffect(() => {
+		debounce(fetchData(false), 1000);
+	}, [keyword]);
 
 
 	if (isLargeScreen) {
@@ -139,7 +164,7 @@ const OracleRequests = () => {
 		);
 	}
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId ? pageId : pageId + 1} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<>
