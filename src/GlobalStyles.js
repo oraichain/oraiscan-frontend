@@ -4,6 +4,7 @@ let common = theme => {
 	return `
   --common-textColor: ${theme?.data?.common?.textColor};
   --common-linkColor: ${theme?.data?.common?.linkColor};
+  --common-tabColor: ${theme?.data?.common?.tabColor};
   --common-activeTabColor: ${theme?.data?.common?.activeTabColor};
   --common-activeTabTextColor: ${theme?.data?.common?.activeTabTextColor};
   --common-buttonTextColor: ${theme?.data?.common?.buttonTextColor};

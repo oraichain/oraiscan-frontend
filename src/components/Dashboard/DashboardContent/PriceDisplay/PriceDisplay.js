@@ -8,6 +8,7 @@ import Skeleton from "react-skeleton-loader";
 import {useSelector} from "react-redux";
 
 import BlockTimeIcon from "src/icons/Dashboard/BlockTimeIcon";
+import OraiIcon from "src/icons/OraiIcon";
 
 const cx = cn.bind(styles);
 
@@ -27,9 +28,10 @@ export default function(props) {
 		() => (
 			<div className={cx("PriceDisplay")}>
 				<div className={cx("iconBlockTime-wrapper")}>
-					<div className={cx("icon")}>
-						<img alt='ORAI_icon' />
-						<div className={cx("text")}>ORAI</div>
+					<div className={cx("logo")}>
+						{/* <img alt='ORAI_icon' /> */}
+						<OraiIcon className={cx("logo-icon")} />
+						<div className={cx("logo-text")}>ORAI</div>
 					</div>
 					<div className={cx("BlockTime")}>
 						<BlockTimeIcon className={cx("BlockTime-icon")}></BlockTimeIcon>

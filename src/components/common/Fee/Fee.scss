@@ -16,7 +16,7 @@
 		border-radius: 6px;
 		cursor: pointer;
 		.title {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-size: 16px;
 			line-height: 150%;
 			@include media("<medium") {
@@ -24,7 +24,7 @@
 			}
 		}
 		.amount {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-size: 14px;
 			line-height: 150%;
 			.amount-number {

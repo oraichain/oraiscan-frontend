@@ -20,7 +20,7 @@ const stylesReactSelect = {
 	}),
 	placeholder: (provided, state) => ({
 		...provided,
-		fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+		fontFamily: "'IBM Plex Sans', Helvetica, Arial, sans-serif",
 		color: state.selectProps.error ? "#f44336" : "rgba(0, 0, 0, 0.54)",
 	}),
 	control: (provided, state) => ({

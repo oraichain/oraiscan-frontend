@@ -11,7 +11,7 @@
 		padding-bottom: 10px;
 		color: var(--common-textColor);
 		border-bottom: 1px solid var(--common-borderColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -25,7 +25,7 @@
 
 .input-text {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -37,7 +37,7 @@
 	&-value {
 		display: inline-block;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -49,7 +49,7 @@
 		display: inline-block;
 		margin-left: 8px;
 		color: var(--common-linkColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -79,7 +79,7 @@
 
 	&-text {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -108,7 +108,7 @@
 
 .height {
 	width: 100%;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -127,7 +127,7 @@
 
 .public-key {
 	color: var(--common-linkColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -139,7 +139,7 @@
 
 .current-fees {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -153,7 +153,7 @@
 
 .time {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -162,7 +162,7 @@
 
 .raw-log {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -181,7 +181,7 @@
 	border-radius: 8px;
 	background: var(--common-activeTabColor);
 	color: var(--common-activeTabTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -222,7 +222,7 @@
 		flex-basis: initial;
 		margin-right: 16px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;
@@ -249,7 +249,7 @@
 			flex-basis: initial;
 			margin-right: 16px;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -290,7 +290,7 @@
 	margin-top: 8px;
 	display: block;
 	color: #f44336;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 12px;
@@ -320,7 +320,7 @@
 	padding: 20px;
 
 	.message {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 25px;
 		font-weight: 500;
 		line-height: 150%;
@@ -332,7 +332,7 @@
 	.txhash {
 		&-link {
 			color: var(--common-linkColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -344,7 +344,7 @@
 			display: inline-block;
 			margin-left: 8px;
 			color: var(--common-linkColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -368,7 +368,7 @@
 		flex-basis: initial;
 		margin-right: 16px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;
@@ -407,7 +407,7 @@
 	justify-content: center;
 
 	.divider-text {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;
@@ -438,7 +438,7 @@
 				border: 1px solid var(--common-borderColor);
 				background: var(--common-blockItemBackgroundColor);
 				color: var(--common-textColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: 500;
 				font-size: 15px;

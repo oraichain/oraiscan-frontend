@@ -2,7 +2,7 @@
 
 .header-cell {
 	color: var(--common-headerTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -11,7 +11,7 @@
 
 .address-data-cell {
 	color: var(--common-linkColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -20,7 +20,7 @@
 
 .amount-data-cell {
 	.amount {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -54,7 +54,7 @@
 		align-items: center;
 		padding: 8px 16px;
 		border-bottom: 1px solid var(--common-borderColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -81,7 +81,7 @@
 .title {
 	display: inline-block;
 	color: #00fff0;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -93,7 +93,7 @@
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -120,7 +120,7 @@
 
 .text {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;

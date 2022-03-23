@@ -14,7 +14,7 @@
 
 .header-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -42,7 +42,7 @@
 .validator-data-cell {
 	display: block;
 	color: var(--common-linkColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -57,7 +57,7 @@
 .voting-power-data-cell {
 	& > div:nth-child(1) {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -67,7 +67,7 @@
 
 	& > div:nth-child(2) {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -107,7 +107,7 @@
 	width: 100%;
 	height: 100%;
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
