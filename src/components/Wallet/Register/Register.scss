@@ -1,7 +1,7 @@
 .Register {
 	padding: 30px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 
 	.title {
@@ -116,7 +116,7 @@
 			margin-bottom: 7px;
 		}
 		.new-label {
-			color: #949494;
+			color: var(--common-placeholderTextColor);
 			font-size: 14px;
 			margin-top: 5px;
 			.open-dialog {

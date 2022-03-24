@@ -2,7 +2,7 @@
 
 .table-container {
 	background: var(--common-themedTable-headerBackgroundColor);
-	box-shadow: var(--shadow1);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 }
 
@@ -12,7 +12,7 @@
 .header-cell,
 .data-cell {
 	position: relative;
-	border: 1px solid var(--common-borderColor);
+	border: 1px solid var(--common-themedTable-tableBorderColor);
 	color: var(--common-textColor);
 }
 

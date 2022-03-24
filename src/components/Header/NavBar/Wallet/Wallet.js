@@ -127,7 +127,7 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 			denomElement = <span className={cx("denom")}>-</span>;
 			priceElement = <span className={cx("price")}>-</span>;
 		} else {
-			amountElement = <span className={cx("amount")}>{isNaN(amount) ? "-" : formatOrai(amount || 0, 1000000, 2) + " "}</span>;
+			amountElement = <span className={cx("amount")}>{isNaN(amount) ? "-" : formatOrai(amount || 0, 1000000, 6) + " "}</span>;
 			denomElement = <span className={cx("denom")}>{_.isNil(denom) ? "-" : denom}</span>;
 			priceElement = (
 				<span className={cx("price")}>
@@ -212,6 +212,11 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 
 				<Grid container className={cx("button-group")} spacing={2}>
 					<Grid item lg={6} xs={12}>
+						<div className={cx("button", "button-outline")} onClick={closeWallet}>
+							Close Wallet
+						</div>
+					</Grid>
+					<Grid item lg={6} xs={12}>
 						<div
 							className={cx("button", "button-fill")}
 							onClick={() => {
@@ -222,11 +227,6 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 								showTransactionModal();
 							}}>
 							Send
-						</div>
-					</Grid>
-					<Grid item lg={6} xs={12}>
-						<div className={cx("button", "button-outline")} onClick={closeWallet}>
-							Close Wallet
 						</div>
 					</Grid>
 				</Grid>

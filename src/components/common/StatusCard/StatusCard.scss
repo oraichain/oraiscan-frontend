@@ -3,7 +3,7 @@
 .status-card {
 	padding: 20px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: var(--shadow1);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 	height: 100%;
 
@@ -29,7 +29,7 @@
 
 	&-label {
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -38,7 +38,7 @@
 
 	&-value {
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 500;
 		font-size: 24px;
@@ -48,7 +48,7 @@
 	&-comment {
 		margin-top: 5px;
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;

@@ -16,7 +16,7 @@
 		border-radius: 6px;
 		cursor: pointer;
 		.title {
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-size: 16px;
 			line-height: 150%;
 			@include media("<medium") {
@@ -24,7 +24,7 @@
 			}
 		}
 		.amount {
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-size: 14px;
 			line-height: 150%;
 			.amount-number {
@@ -37,7 +37,7 @@
 
 	.active {
 		border: 1px solid var(--common-modal-modalCommonBorderColor);
-		color: var(--common-modal-modalCommonTextColor);
+		color: var(--common-textColor);
 		background: var(--common-buttonBackgroundColor);
 	}
 }

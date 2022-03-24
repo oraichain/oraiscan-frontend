@@ -35,7 +35,7 @@
 				height: 50px;
 				padding: 15px;
 				background: var(--common-containerBackgroundColor);
-				box-shadow: 0 2px 8px rgba(174, 195, 210, 0.25);
+				box-shadow: 0 2px 8px var(--common-boxShadowColor);
 				border-radius: 8px;
 				cursor: pointer;
 			}

@@ -44,10 +44,10 @@ const RelayerInfo = ({data}) => {
 				<Col xs={12} xl={6}>
 					<div className={cx("card")} style={{background: STATUS_COLOR[data?.channel?.status], color: STATUS_COLOR[data?.channel?.status]}}>
 						<p className={cx("card-status-label-state")}>{CHANNEL_NAME[data?.channel?.status]}</p>
-						<div className={cx("card-sub-value", "status")} style={!isLargeScreen && {fontSize: "12px"}}>
+						<div className={cx("card-sub-value", "status")} style={!isLargeScreen ? {fontSize: "12px"} : {}}>
 							Total Transfer value
 						</div>
-						<div className={cx("card-value", "status")} style={!isLargeScreen && {fontSize: "12px"}}>
+						<div className={cx("card-value", "status")} style={!isLargeScreen ? {fontSize: "12px"} : {}}>
 							$&nbsp;{data?.total_value?.toFixed(2)}
 						</div>
 					</div>

@@ -224,22 +224,17 @@ const Tabs = memo(() => {
 				activePath: "/oracle-scripts",
 			},
 		],
-		Requests: [
+		"Subnetworks": [
 			{
-				pathName: "/ai-requests",
-				title: "AI Requests",
-				activePath: "/ai-requests",
+				pathName: "/ai-oracle",
+				title: "AI Oracle",
+				activePath: "/ai-oracle",
 			},
 			{
-				pathName: "/ai_requests",
-				title: "AI Requests (Legacy)",
-				activePath: "/ai_requests",
-			},
-			{
-				pathName: "/ai-executors",
-				title: "AI Executors",
-				activePath: "/ai-executors",
-			},
+				pathName: `/randomness/${contract}`,
+				title: "VRF",
+				activePath: `/randomness/${contract}`,
+			}
 		],
 		// Others: [
 		// 	{
@@ -280,6 +275,13 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
+			name: "Subnetworks",
+			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
+			route: "/ai-oracle",
+			dropdownClassName: "requests-dropdown",
+			render: renderTabDropdownComponent,
+		},
+		{
 			name: "Blocks",
 			img: <BlocksTabIcon className={cx("tab-icon")}></BlocksTabIcon>,
 			route: "/blocks",
@@ -310,11 +312,11 @@ const Tabs = memo(() => {
 			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
 			route: "/price-feeds",
 		},
-		{
-			name: "Randomness",
-			img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
-			route: "/randomness/" + contract,
-		},
+		// {
+		// 	name: "Randomness",
+		// 	img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
+		// 	route: "/randomness/" + contract,
+		// },
 		{
 			name: "Smart Contracts",
 			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
@@ -322,13 +324,7 @@ const Tabs = memo(() => {
 			dropdownClassName: "oracle-scripts-dropdown",
 			render: renderTabDropdownComponent,
 		},
-		{
-			name: "Requests",
-			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai-requests",
-			dropdownClassName: "requests-dropdown",
-			render: renderTabDropdownComponent,
-		},
+
 		// {
 		// 	name: "Others",
 		// 	// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
@@ -396,7 +392,7 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenOracleScripts;
 								handleClose = handleCloseOracleScripts;
 								break;
-							case "Requests":
+							case "Subnetworks":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = requestsAnchorRef;

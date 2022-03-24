@@ -41,7 +41,7 @@ const OracleRequests = () => {
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(0);
-	const [total, setTotal] = useState(1);
+	const [total, setTotal] = useState(0);
 	const totalPagesRef = useRef(null);
 	// const listRequestsRef = useRef([]);
 	const [listRequest, setListRequest] = useState([]);
@@ -54,16 +54,14 @@ const OracleRequests = () => {
 	let oracleRequestCard;
 	let paginationSection;
 
-	// const createAIRequest = () => {
-	// 	myKeystation.openWindow("ai-request", "");
-	// };
-
 	useEffect(() => {
 		fetchData(true);
 	}, []);
 
 	useEffect(() => {
-		fetchData(false, pageId);
+		if (pageId) {
+			fetchData(false, pageId);
+		}
 	}, [pageId]);
 
 	const fetchData = async (checkOffset, pageId) => {
@@ -95,44 +93,45 @@ const OracleRequests = () => {
 	const fetchFirst = async (listRequestAPI) => {
 		console.log({ fetch: "fetchFirst" });
 		let total = listRequestAPI?.data?.data?.[0]?.stage;
-		console.log({ total });
-		totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
+		// console.log({ total });
+		// totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
 		setTotal(total)
 		setListRequest(listRequestAPI?.data?.data)
 	}
 
 	const fetchSecond = async (listRequestAPI) => {
-		console.log({ fetch: "fetchSecond", listRequestAPI });
-		if (keyword) {
-			totalPagesRef.current = 1;
-		} else {
-			totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
-		}
+		console.log({ fetch: "fetchSecond", listRequestAPI, keyword });
+		// if (keyword) {
+		// 	totalPagesRef.current = 1;
+		// } else {
+		// 	totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT);
+		// 	console.log({ totalPagesRef, total });
+		// }
 		setListRequest(keyword ? [{
 			...listRequestAPI?.data?.data,
 			stage: +keyword
 		}] : listRequestAPI?.data?.data)
 	}
 
-	function debounce(func, wait, immediate) {
+	useEffect(() => {
+		debounce(fetchData(false), 300);
+	}, [keyword]);
+
+	const debounce = (func, wait, immediate) => {
 		let timeout;
 		return function executedFunction() {
-		  const context = this;
-		  const args = arguments;
-		  const later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		  };
-		  const callNow = immediate && !timeout;
-		  clearTimeout(timeout);
-		  timeout = setTimeout(later, wait);
-		  if (callNow) func.apply(context, args);
+			const context = this;
+			const args = arguments;
+			const later = function () {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			const callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
 		};
-	  };
-
-	useEffect(() => {
-		debounce(fetchData(false), 1000);
-	}, [keyword]);
+	};
 
 
 	if (isLargeScreen) {
@@ -148,7 +147,7 @@ const OracleRequests = () => {
 		titleSection = <TogglePageBar type='ai_requests' />;
 	}
 
-	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;
+	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />; //setKeyword={setKeyword}
 
 	if (!listRequest?.length) {
 		oracleRequestCard = (
@@ -164,7 +163,7 @@ const OracleRequests = () => {
 		);
 	}
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId ? pageId : pageId + 1} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = total ? <Pagination pages={Math.ceil(total / consts.REQUEST.LIMIT)} page={pageId ? pageId : pageId + 1} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<>

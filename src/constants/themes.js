@@ -13,7 +13,7 @@ const colors = {
 	VENICE_BLUE: "#2B5072",
 	BERMUDA_GREY: "#69809D",
 	ROYAL_BLUE: "#1B57F0",
-	CARIBBEAN_GREEN: "#00CF7E",
+	MINT_GREEN: "#00CF7E",
 	LIME_GREEN: "#3FCC28",
 	BLUE_WHALE: "#192B40",
 	REGAL_BLUE_1: "#1E344D",
@@ -60,6 +60,7 @@ const colors = {
 	BLUE_ZODIAC: "#423F5A",
 	PURPLE_HEART: "#5A38BA",
 	DEEP_DARK: "#322E36",
+	PERANO: "#A79CEB",
 	LINK_COLOR: "#D6CCF4",
 	LABEL_BG_GRAY: "#2D2D35",
 	LABEL_TEXT_GRAY: "#E2E4EB",
@@ -75,6 +76,9 @@ const colors = {
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
 	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
 	SEPARATE_LINE_DARK: "#423F5A",
+	MINT_GREEN: '#37cc6e',
+	HOVER_DARK: "#403845",
+	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
 };
 
 export const themes = {
@@ -94,29 +98,31 @@ export const themes = {
 					containerBackgroundColor: colors.PURPLE_1,
 					blockItemBackgroundColor: colors.HAITI,
 					blockItemBackgroundColorDarken: colors.REGAL_BLUE_3,
-					borderColor: colors.MULLED_WINE,
+					borderColor: colors.BLUE_ZODIAC,
 					headerTextColor: colors.HAWKES_BLUE,
 					paginationTextColor: colors.PAGINGNATION_TEXT_DARK,
 					paginationActiveTextColor: colors.PAGINGNATION_ACTIVE_TEXT_DARK,
-					resultIconSuccessColor: colors.DODGER_BLUE,
+					resultIconSuccessColor: colors.MEDIUM_STATE_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
-					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
+					oraiDenomTextColor: colors.LINK_COLOR,
 					backGroundColorGray: colors.BLUE_WHALE,
 					separateLine: colors.SEPARATE_LINE_DARK,
+					boxShadowColor: "none",
 					modal: {
-						modalCommonTextColor: colors.HAWKES_BLUE,
-						modalCommonBorderColor: colors.VENICE_BLUE,
+						modalCommonTextColor: colors.PERANO,
+						modalCommonBorderColor: colors.PERANO,
 						modalCommonBackgroundColor: colors.REGAL_BLUE_1,
-						buttonCancelBackgroundColor: colors.REGAL_BLUE_2,
-						buttonSubmitBackgroundColor: colors.DODGER_BLUE,
+						buttonCancelBackgroundColor: "transparent",
+						buttonSubmitBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						modalSliderColor: colors.DODGER_BLUE,
 					},
 					themedTable: {
 						headerBackgroundColor: colors.MULLED_WINE_2,
 						oddRowBackgroundColor: colors.HAITI,
 						evenRowBackgroundColor: colors.HAITI,
+						tableBorderColor: colors.MULLED_WINE,
 					},
 					transactions: {
 						moreIconColor: colors.YELLOW_SEA,
@@ -147,24 +153,25 @@ export const themes = {
 						deletegateButtonBorderColor: colors.MEDIUM_STATE_BLUE,
 						deletegateButtonBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						deletegateButtonTextColor: colors.HAWKES_BLUE,
+						deletegateButtonBackgroundColorHover: "#6657C0",
 						cumulativeShareBarColor_1: "#352E45",
 						cumulativeShareBarColor_2: "#4B455F",
 						logoBorder: colors.WHITE,
 						selectActiveBackgroundBtn: colors.MEDIUM_STATE_BLUE,
 						validatorDetails: {
-							totalBlocksLabel: colors.DODGER_BLUE,
-							totalBlocksLabelBackgroundColor: colors.DODGER_BLUE,
+							totalBlocksLabel: colors.MEDIUM_STATE_BLUE,
+							totalBlocksLabelBackgroundColor: colors.MEDIUM_STATE_BLUE,
 							totalBlocksLabelTextColor: colors.HAWKES_BLUE,
 							binanceStaking: {
 								activeLabelTextColor: colors.REGAL_BLUE_1,
-								activeLabelColor: colors.CARIBBEAN_GREEN,
+								activeLabelColor: colors.MINT_GREEN,
 							},
 							delegatorsTable: {
-								oraiTextColor: colors.CARIBBEAN_GREEN,
+								oraiTextColor: colors.LINK_COLOR,
 							},
 							missedBlocksTable: {
 								failedColor: colors.SUNSET_ORANGE,
-								successColor: colors.DODGER_BLUE,
+								successColor: colors.MEDIUM_STATE_BLUE,
 							},
 						},
 					},
@@ -217,8 +224,8 @@ export const themes = {
 							graphColor_no: colors.VIKING,
 							graphColor_abstain: colors.ROMANTIC,
 							graphColor_nowithveto: colors.MAGIC_MINT,
-							oraiTextColor: colors.CARIBBEAN_GREEN,
-							labelPassedColor: colors.CARIBBEAN_GREEN,
+							oraiTextColor: colors.LINK_COLOR,
+							labelPassedColor: colors.MINT_GREEN,
 						},
 					},
 					dataSources: {
@@ -227,7 +234,7 @@ export const themes = {
 							requestTable: {
 								statusSuccessColor: colors.DODGER_BLUE,
 								statusPendingColor: colors.YELLOW_SEA,
-								ownerTextColor: colors.CARIBBEAN_GREEN,
+								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
 								// pending
@@ -240,7 +247,7 @@ export const themes = {
 							requestTable: {
 								statusSuccessColor: colors.DODGER_BLUE,
 								statusPendingColor: colors.YELLOW_SEA,
-								ownerTextColor: colors.CARIBBEAN_GREEN,
+								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
 								// pending
@@ -251,10 +258,10 @@ export const themes = {
 						statusSuccessColor: colors.DODGER_BLUE,
 						statusPendingColor: colors.YELLOW_SEA,
 						requestTable: {
-							ownerTextColor: colors.CARIBBEAN_GREEN,
+							ownerTextColor: colors.MINT_GREEN,
 						},
 						requestDetails: {
-							oraiTextColor: colors.CARIBBEAN_GREEN,
+							oraiTextColor: colors.LINK_COLOR,
 						},
 					},
 					accounts: {
@@ -279,7 +286,7 @@ export const themes = {
 						},
 						registerSuccessForm: {
 							validatorNameColor: colors.ROYAL_BLUE,
-							statusActiveColor: colors.CARIBBEAN_GREEN,
+							statusActiveColor: colors.MINT_GREEN,
 						},
 						delegatorTable: {
 							addressLabelColor: colors.NEON_BLUE,
@@ -292,7 +299,7 @@ export const themes = {
 					contact: {},
 				},
 				priceFeed: {
-					priceFeedHover: "#274669",
+					priceFeedHover: "#403845",
 				},
 			},
 		},
@@ -318,22 +325,24 @@ export const themes = {
 					resultIconSuccessColor: colors.LIME_GREEN,
 					resultIconFailureColor: colors.RADICAL_RED,
 					resultIconPendingColor: colors.YELLOW_SEA,
-					placeholderTextColor: colors.LIGHT_GREY,
+					placeholderTextColor: colors.SEPARATE_LINE_DARK,
 					oraiDenomTextColor: colors.NEON_BLUE,
 					backGroundColorGray: colors.GRAY,
 					separateLine: colors.GAINSBORO,
+					boxShadowColor: colors.BOX_SHADOW_LIGHT,
 					modal: {
-						modalCommonTextColor: colors.PACIFIC_BLUE,
-						modalCommonBorderColor: colors.PACIFIC_BLUE,
-						modalCommonBackgroundColor: colors.PACIFIC_BLUE,
+						modalCommonTextColor: colors.MEDIUM_STATE_BLUE,
+						modalCommonBorderColor: colors.MEDIUM_STATE_BLUE,
+						modalCommonBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						buttonCancelBackgroundColor: "none",
-						buttonSubmitBackgroundColor: colors.DEEP_SKY_BLUE,
+						buttonSubmitBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						modalSliderColor: colors.PACIFIC_BLUE,
 					},
 					themedTable: {
 						headerBackgroundColor: colors.WHITE_SMOKE,
 						oddRowBackgroundColor: colors.WHITE,
 						evenRowBackgroundColor: colors.WHITE_SMOKE,
+						tableBorderColor: colors.GAINSBORO,
 					},
 					transactions: {
 						moreIconColor: colors.DARK_TANGERINE,
@@ -361,14 +370,15 @@ export const themes = {
 						highChartLinearBorderColor_2: colors.COLUMBIA_BLUE,
 					},
 					validators: {
-						deletegateButtonBorderColor: colors.PACIFIC_BLUE,
+						deletegateButtonBorderColor: colors.MEDIUM_STATE_BLUE,
 						deletegateButtonBackgroundColor: "none",
-						deletegateButtonTextColor: colors.PACIFIC_BLUE,
+						deletegateButtonTextColor: colors.MEDIUM_STATE_BLUE,
+						deletegateButtonBackgroundColorHover: "#ECEAFA",
 						cumulativeShareBarColor_1: colors.CREAM,
 						cumulativeShareBarColor_2: colors.PALE_GREEN,
 						logoBorder: colors.ROYAL_BLUE,
 						selectBackgroundBtn: colors.WHITE,
-						selectActiveBackgroundBtn: colors.PACIFIC_BLUE,
+						selectActiveBackgroundBtn: colors.MEDIUM_STATE_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.NEON_BLUE,
 							totalBlocksLabelBackgroundColor: "none",
@@ -382,7 +392,7 @@ export const themes = {
 							},
 							missedBlocksTable: {
 								failedColor: colors.ROSE_BUD,
-								successColor: colors.COLUMBIA_BLUE,
+								successColor: colors.LINK_COLOR,
 							},
 						},
 					},
@@ -436,8 +446,8 @@ export const themes = {
 							graphColor_no: colors.VIKING,
 							graphColor_abstain: colors.ROMANTIC,
 							graphColor_nowithveto: colors.MAGIC_MINT,
-							oraiTextColor: colors.CARIBBEAN_GREEN,
-							labelPassedColor: colors.CARIBBEAN_GREEN,
+							oraiTextColor: colors.NEON_BLUE,
+							labelPassedColor: colors.MINT_GREEN,
 						},
 					},
 					dataSources: {
@@ -446,7 +456,7 @@ export const themes = {
 							requestTable: {
 								statusSuccessColor: colors.DODGER_BLUE,
 								statusPendingColor: colors.YELLOW_SEA,
-								ownerTextColor: colors.CARIBBEAN_GREEN,
+								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
 								// pending
@@ -459,7 +469,7 @@ export const themes = {
 							requestTable: {
 								statusSuccessColor: colors.DODGER_BLUE,
 								statusPendingColor: colors.YELLOW_SEA,
-								ownerTextColor: colors.CARIBBEAN_GREEN,
+								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
 								// pending
@@ -470,10 +480,10 @@ export const themes = {
 						statusSuccessColor: colors.DODGER_BLUE,
 						statusPendingColor: colors.YELLOW_SEA,
 						requestTable: {
-							ownerTextColor: colors.CARIBBEAN_GREEN,
+							ownerTextColor: colors.MINT_GREEN,
 						},
 						requestDetails: {
-							oraiTextColor: colors.CARIBBEAN_GREEN,
+							oraiTextColor: colors.NEON_BLUE,
 						},
 					},
 					accounts: {
@@ -498,7 +508,7 @@ export const themes = {
 						},
 						registerSuccessForm: {
 							validatorNameColor: colors.ROYAL_BLUE,
-							statusActiveColor: colors.CARIBBEAN_GREEN,
+							statusActiveColor: colors.MINT_GREEN,
 						},
 						delegatorTable: {
 							addressLabelColor: colors.NEON_BLUE,
