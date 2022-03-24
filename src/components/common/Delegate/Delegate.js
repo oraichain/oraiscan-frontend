@@ -76,6 +76,11 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
+const displayBalance = (balance) => {
+	let result = balance.dividedBy(1000000).toString();
+	return result;
+};
+
 const Delegate = memo(({ a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator" }) => {
 	const [open, setOpen] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
@@ -93,9 +98,9 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 	});
 	const percents = [25, 50, 75, 100];
 
-	const balance = new BigNumber(balanceInfo?.data?.balances?.[0]?.amount ?? 0);
+	const denom = consts.DENOM;
+	const balance = new BigNumber(balanceInfo?.data?.balances.find(balance => balance.denom === denom)?.amount ?? 0);
 	// const balance = new BigNumber("38172");
-	const denom = balanceInfo?.data?.balances?.[0]?.denom ?? "ORAI";
 	const formatUSD = (orai, divide = false) => {
 		if (divide) {
 			return new BigNumber(orai)
@@ -262,7 +267,7 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 						<div className={cx("space-between", "balance-row")}>
 							<div className={cx("left", "uppercase")}>
 								{" "}
-								{calculateAmount(balance, 100)} {denom}{" "}
+								{displayBalance(balance)} {denom}{" "}
 							</div>
 							<div className={cx("right")}>
 								{" "}

@@ -38,7 +38,7 @@ const ModeSwitch = memo(() => {
 		// 	{iconElement}
 		// </div>
 		<Switch
-			style={{background: isDarkTheme ? "#292B39" : "#2D2A83"}}
+			style={{background: isDarkTheme ? "#292B39" : "#2D2A83", marginRight: "12px"}}
 			className={cx("toggle")}
 			onClick={toggleMode}
 			checkedChildren={<SunIcon />}
