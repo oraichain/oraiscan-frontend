@@ -216,17 +216,17 @@ const Tabs = memo(() => {
 				activePath: "/oracle-scripts",
 			},
 		],
-		"Sub Networks": [
-			{
-				pathName: `/randomness/${contract}`,
-				title: "VRF",
-				activePath: `/randomness/${contract}`,
-			},
+		"Subnetworks": [
 			{
 				pathName: "/ai-oracle",
 				title: "AI Oracle",
 				activePath: "/ai-oracle",
 			},
+			{
+				pathName: `/randomness/${contract}`,
+				title: "VRF",
+				activePath: `/randomness/${contract}`,
+			}
 		],
 		// Others: [
 		// 	{
@@ -267,9 +267,9 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
-			name: "Sub Networks",
+			name: "Subnetworks",
 			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai-requests",
+			route: "/ai-oracle",
 			dropdownClassName: "requests-dropdown",
 			render: renderTabDropdownComponent,
 		},
@@ -375,7 +375,7 @@ const Tabs = memo(() => {
 								handleOpen = handleOpenOracleScripts;
 								handleClose = handleCloseOracleScripts;
 								break;
-							case "Sub Networks":
+							case "Subnetworks":
 								classNameDropdown = "dropdown-transactions";
 								childs = childDropdown?.[name];
 								anchorRef = requestsAnchorRef;
