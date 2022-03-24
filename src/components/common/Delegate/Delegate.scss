@@ -37,9 +37,7 @@
 	border: 1px solid var(--validators-deletegateButtonBorderColor);
 
 	&:hover {
-		color: #ffffff;
-		background: #6657c0;
-		border-color: #6657c0;
+		background: var(--validators-deletegateButtonBackgroundColorHover);
 	}
 }
 
