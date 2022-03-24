@@ -34,6 +34,7 @@ let common = theme => {
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
   --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};
   --common-themedTable-evenRowBackgroundColor: ${theme?.data?.common?.themedTable?.evenRowBackgroundColor};
+  --common-themedTable-tableBorderColor: ${theme?.data?.common?.themedTable?.tableBorderColor};
   --common-transactions-moreIconColor: ${theme?.data?.common?.transactions?.moreIconColor};
   --common-transactions-transactionTypeLabelColor: ${theme?.data?.common?.transactions?.transactionTypeLabelColor};
   --common-transactions-transactionTypeBackgroundColor: ${theme?.data?.common?.transactions?.transactionTypeBackgroundColor};

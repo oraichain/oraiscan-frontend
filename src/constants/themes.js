@@ -97,7 +97,7 @@ export const themes = {
 					containerBackgroundColor: colors.PURPLE_1,
 					blockItemBackgroundColor: colors.HAITI,
 					blockItemBackgroundColorDarken: colors.REGAL_BLUE_3,
-					borderColor: colors.MULLED_WINE,
+					borderColor: colors.BLUE_ZODIAC,
 					headerTextColor: colors.HAWKES_BLUE,
 					paginationTextColor: colors.PAGINGNATION_TEXT_DARK,
 					paginationActiveTextColor: colors.PAGINGNATION_ACTIVE_TEXT_DARK,
@@ -121,6 +121,7 @@ export const themes = {
 						headerBackgroundColor: colors.MULLED_WINE_2,
 						oddRowBackgroundColor: colors.HAITI,
 						evenRowBackgroundColor: colors.HAITI,
+						tableBorderColor: colors.MULLED_WINE,
 					},
 					transactions: {
 						moreIconColor: colors.YELLOW_SEA,
@@ -339,6 +340,7 @@ export const themes = {
 						headerBackgroundColor: colors.WHITE_SMOKE,
 						oddRowBackgroundColor: colors.WHITE,
 						evenRowBackgroundColor: colors.WHITE_SMOKE,
+						tableBorderColor: colors.GAINSBORO,
 					},
 					transactions: {
 						moreIconColor: colors.DARK_TANGERINE,
