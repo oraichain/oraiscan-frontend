@@ -56,7 +56,7 @@
 	border-radius: 8px;
 	background: var(--common-tabColor);
 	z-index: 10;
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 
 	&-item {
 		padding: 15px 20px;

@@ -75,6 +75,8 @@ const colors = {
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
 	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
 	SEPARATE_LINE_DARK: "#423F5A",
+	HOVER_DARK: "#403845",
+	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
 };
 
 export const themes = {
@@ -105,6 +107,7 @@ export const themes = {
 					oraiDenomTextColor: colors.CARIBBEAN_GREEN,
 					backGroundColorGray: colors.BLUE_WHALE,
 					separateLine: colors.SEPARATE_LINE_DARK,
+					boxShadowColor: "none",
 					modal: {
 						modalCommonTextColor: colors.HAWKES_BLUE,
 						modalCommonBorderColor: colors.VENICE_BLUE,
@@ -292,7 +295,7 @@ export const themes = {
 					contact: {},
 				},
 				priceFeed: {
-					priceFeedHover: "#274669",
+					priceFeedHover: "#403845",
 				},
 			},
 		},
@@ -322,6 +325,7 @@ export const themes = {
 					oraiDenomTextColor: colors.NEON_BLUE,
 					backGroundColorGray: colors.GRAY,
 					separateLine: colors.GAINSBORO,
+					boxShadowColor: colors.BOX_SHADOW_LIGHT,
 					modal: {
 						modalCommonTextColor: colors.PACIFIC_BLUE,
 						modalCommonBorderColor: colors.PACIFIC_BLUE,
