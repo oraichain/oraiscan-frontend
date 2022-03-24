@@ -375,7 +375,7 @@ export const themes = {
 						cumulativeShareBarColor_2: colors.PALE_GREEN,
 						logoBorder: colors.ROYAL_BLUE,
 						selectBackgroundBtn: colors.WHITE,
-						selectActiveBackgroundBtn: colors.PACIFIC_BLUE,
+						selectActiveBackgroundBtn: colors.MEDIUM_STATE_BLUE,
 						validatorDetails: {
 							totalBlocksLabel: colors.NEON_BLUE,
 							totalBlocksLabelBackgroundColor: "none",
