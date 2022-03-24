@@ -1,9 +1,9 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import {NavLink} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import cn from "classnames/bind";
 import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
@@ -14,7 +14,7 @@ import ModeSwitch from "src/components/common/ModeSwitch";
 
 const cx = cn.bind(styles);
 
-const NavBarDesktop = ({initialNavLinks}) => {
+const NavBarDesktop = ({ initialNavLinks }) => {
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
 
@@ -36,7 +36,7 @@ const NavBarDesktop = ({initialNavLinks}) => {
 				<ul className={cx("navbar-nav")}>
 					<ModeSwitch />
 					{initialNavLinks.map((item, index) => {
-						const {title, path, children, type} = item;
+						const { title, path, children, type } = item;
 						if (children) {
 							return (
 								<li className={cx("nav-item")} key={"nav-item" + index}>
@@ -46,7 +46,7 @@ const NavBarDesktop = ({initialNavLinks}) => {
 											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 										</span>
 										<div className={cx("dropdown-menu")}>
-											{children.map(({title, path, Icon}, idx) => {
+											{children.map(({ title, path, Icon }, idx) => {
 												if (Icon) {
 													return (
 														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
