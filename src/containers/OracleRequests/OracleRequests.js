@@ -133,6 +133,7 @@ const OracleRequests = () => {
 		};
 	};
 
+
 	if (isLargeScreen) {
 		titleSection = (
 			<Container fixed>

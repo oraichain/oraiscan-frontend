@@ -7,12 +7,12 @@
 }
 
 .select-gas-custom .input-range .input-range__slider {
-	background: var(--common-modal-modalSliderColor);
+	/* background: var(--common-modal-modalSliderColor); */
 	border: 1px solid var(--common-modal-commonModalBorderColor);
 }
 
 .select-gas-custom .input-range .input-range__track--active {
-	background: #00b1e9;
+	background: #6657c0;
 }
 
 .select-gas-custom .input-range .input-range__track {

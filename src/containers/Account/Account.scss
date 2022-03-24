@@ -24,14 +24,14 @@
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
 		background: var(--common-containerBackgroundColor);
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		border-radius: 8px;
 	}
 
 	&-header {
 		margin-bottom: 20px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -59,14 +59,14 @@
 	@media screen and (min-width: 1280px) {
 		padding: 20px;
 		background: var(--common-containerBackgroundColor);
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		border-radius: 8px;
 	}
 
 	&-header {
 		margin-bottom: 20px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;

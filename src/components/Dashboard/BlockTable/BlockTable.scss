@@ -14,7 +14,7 @@
 
 .header-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -32,7 +32,7 @@
 }
 
 .data-cell {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -40,7 +40,7 @@
 }
 
 .color-blue {
-	color: var(--common-textColor);
+	color: var(--common-linkColor);
 }
 
 .color-black {

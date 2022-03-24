@@ -4,7 +4,7 @@
 	&-item {
 		padding: 15px;
 		margin-bottom: 15px;
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		background-color: var(--common-containerBackgroundColor);
 
 		table {
@@ -33,7 +33,7 @@
 
 		.item-title {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -42,7 +42,7 @@
 
 		.item-text {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -51,7 +51,7 @@
 
 		.item-link {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;

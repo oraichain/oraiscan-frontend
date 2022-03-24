@@ -4,7 +4,7 @@
 		width: auto;
 	}
 	* {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 	}
 }
 
@@ -24,7 +24,7 @@
 		color: var(--common-placeholderTextColor);
 		font-size: 13px;
 		.open-dialog {
-			color: #008bd9;
+			color: var(--common-linkColor);
 			cursor: pointer;
 		}
 	}
@@ -69,7 +69,7 @@
 }
 
 .switch-multisend {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-weight: 500;
 	font-size: 17px;
 	padding: 8px;
@@ -204,7 +204,7 @@
 .switch-control {
 	margin-top: 5px;
 	.switch-blue {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 15px;
 		color: var(--common-linkColor);
 		cursor: pointer;
@@ -258,7 +258,7 @@
 	height: 300px;
 	padding-left: 30px;
 	font-weight: 500;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	line-height: 150%;
 	color: var(--common-textColor);

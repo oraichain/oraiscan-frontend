@@ -1,4 +1,4 @@
-import { floor } from "lodash";
+import {floor} from "lodash";
 import numeral from "numeral";
 import bigInt from "big-integer";
 import _ from "lodash";
@@ -6,6 +6,8 @@ import BigNumber from "bignumber.js";
 import moment from "moment";
 import sha256 from "js-sha256";
 import message from "src/lib/proto";
+import {useSelector} from "react-redux";
+import {themeIds} from "src/constants/themes";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -103,14 +105,14 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
-export const formatNumber = (value) => {
+export const formatNumber = value => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
 	return value.toString().replace(/^[+-]?\d+/, function(int) {
-		return int.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-	  });
-}
+		return int.replace(/(\d)(?=(\d{3})+$)/g, "$1,");
+	});
+};
 
 export const replaceQueryString = (path, key, value) => {
 	const searchParams = new URLSearchParams(path);
@@ -195,4 +197,13 @@ export const generateRandomString = length => {
 		randomString += String.fromCharCode(randomASCII);
 	}
 	return randomString;
+};
+
+export const ThemeSetup = () => {
+	const activeThemeId = useSelector(state => state.activeThemeId);
+	const isDarkTheme = activeThemeId === themeIds.DARK;
+
+	return {
+		isDarkTheme: isDarkTheme,
+	};
 };

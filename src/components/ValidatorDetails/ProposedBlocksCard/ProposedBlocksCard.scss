@@ -11,7 +11,7 @@
 		padding: 20px;
 		margin-top: 0;
 		background: var(--common-containerBackgroundColor);
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		border-radius: 8px;
 	}
 
@@ -24,7 +24,7 @@
 
 		.title {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 20px;
@@ -61,7 +61,7 @@
 				display: inline-block;
 				height: 20px;
 				color: var(--validators-validatorDetails-totalBlocksLabelTextColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
 				font-size: 13px;

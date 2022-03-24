@@ -13,7 +13,7 @@
 
 .header-cell {
 	color: var(--common-headerTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -42,7 +42,7 @@
 
 		&-name {
 			color: var(--common-linkColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -57,7 +57,7 @@
 .withdrawable-data-cell,
 .withdraw-data-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -74,7 +74,7 @@
 		border: 1px solid var(--common-borderColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;

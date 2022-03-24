@@ -3,7 +3,7 @@
 		margin-bottom: 15px;
 		padding: 15px;
 		background: var(--common-containerBackgroundColor);
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		border-radius: 8px;
 
 		table {
@@ -33,7 +33,7 @@
 
 		.item-title {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -41,7 +41,7 @@
 		}
 
 		.oracle-script {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -59,7 +59,7 @@
 		}
 
 		.request-and-response-time {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -78,7 +78,7 @@
 
 		.description {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;

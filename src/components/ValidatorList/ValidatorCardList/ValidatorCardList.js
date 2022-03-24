@@ -1,15 +1,15 @@
 // @ts-nocheck
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatPercentage, formatInteger, formatOrai} from "src/helpers/helper";
-import {computeTotalVotingPower} from "src/components/ValidatorList/ValidatorTable/ValidatorTable";
+import { formatPercentage, formatInteger, formatOrai } from "src/helpers/helper";
+import { computeTotalVotingPower } from "src/components/ValidatorList/ValidatorTable/ValidatorTable";
 import Delegate from "src/components/common/Delegate";
 import styles from "./ValidatorCardList.scss";
 import aiIcon from "src/assets/common/ai_ic.svg";
-import {logoBrand} from "src/constants/logoBrand";
-import {Progress} from "antd";
+import { logoBrand } from "src/constants/logoBrand";
+import { Progress } from "antd";
 import "./style.css";
 
 const cx = classNames.bind(styles);
@@ -22,15 +22,15 @@ const getCumulativeShareCell = (previousValue, currentValue, totalValue) => {
 	return (
 		<div className={cx("cumulative-share-data-cell")}>
 			<div className={cx("graph")}>
-				<div className={cx("graph-previous")} style={{width: previousPercent + "%"}}></div>
-				<div className={cx("graph-current")} style={{left: previousPercent + "%", width: currentPercent + "%"}}></div>
+				<div className={cx("graph-previous")} style={{ width: previousPercent + "%" }}></div>
+				<div className={cx("graph-current")} style={{ left: previousPercent + "%", width: currentPercent + "%" }}></div>
 			</div>
 			<div className={cx("total-value")}>{totalPercent} %</div>
 		</div>
 	);
 };
 
-const ValidatorCardList = memo(({data = []}) => {
+const ValidatorCardList = memo(({ data = [] }) => {
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 	let previousVotingPower = 0;
 	return (
@@ -114,7 +114,7 @@ const ValidatorCardList = memo(({data = []}) => {
 													<Progress
 														percent={formatPercentage(item.uptime, 2)}
 														showInfo={false}
-														strokeColor={formatPercentage(item.uptime, 2) === 100 ? "#52c41a" : "#1890ff"}
+														strokeColor={formatPercentage(item.uptime, 2) === 100 ? "#37cc6e" : "#7664E4"}
 														trailColor='#bfbfbf'
 													/>
 												)}

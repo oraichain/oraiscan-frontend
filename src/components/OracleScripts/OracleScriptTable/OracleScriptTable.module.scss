@@ -13,7 +13,7 @@
 }
 
 .header-cell {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -22,7 +22,7 @@
 }
 
 .oracle-script-data-cell {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -41,7 +41,7 @@
 
 .description-data-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -51,7 +51,7 @@
 .request-and-response-time-data-cell {
 	.request-value {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;
@@ -60,7 +60,7 @@
 
 	.response-time-value {
 		color: var(--common-placeholderTextColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;

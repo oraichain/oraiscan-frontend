@@ -4,7 +4,7 @@
 	margin-top: 20px;
 	padding: 30px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 
 	&-header {
@@ -33,7 +33,7 @@
 		display: inline-block;
 		margin-right: 4px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -43,7 +43,7 @@
 	&-value {
 		display: inline-block;
 		color: var(--common-placeholderTextColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -67,7 +67,7 @@
 		display: inline-block;
 		margin-right: 8px;
 		color: var(--common-buttonTextColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;

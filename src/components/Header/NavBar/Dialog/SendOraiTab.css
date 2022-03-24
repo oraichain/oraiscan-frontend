@@ -2231,7 +2231,7 @@ html {
 }
 .ant-select-multiple .ant-select-selection-search-input,
 .ant-select-multiple .ant-select-selection-search-mirror {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'IBM Plex Sans', "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.5715;
 	-webkit-transition: all 0.3s;
@@ -20891,7 +20891,7 @@ textarea.ant-input-number {
 	min-width: 32px;
 	height: 32px;
 	margin-right: 8px;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'IBM Plex Sans', "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 30px;
 	text-align: center;
@@ -21011,7 +21011,7 @@ textarea.ant-input-number {
 	min-width: 32px;
 	height: 32px;
 	color: rgba(0, 0, 0, 0.85);
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'IBM Plex Sans', "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 32px;
 	text-align: center;
@@ -23478,7 +23478,7 @@ textarea.ant-mentions {
 .ant-statistic-content {
 	color: rgba(0, 0, 0, 0.85);
 	font-size: 24px;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'IBM Plex Sans', "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 }
 .ant-statistic-content-value {
@@ -23561,7 +23561,7 @@ textarea.ant-mentions {
 	height: 32px;
 	margin: 0 8px 0 0;
 	font-size: 16px;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'IBM Plex Sans', "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 32px;
 	text-align: center;
