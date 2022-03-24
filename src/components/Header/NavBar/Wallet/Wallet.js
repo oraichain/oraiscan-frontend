@@ -212,6 +212,11 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 
 				<Grid container className={cx("button-group")} spacing={2}>
 					<Grid item lg={6} xs={12}>
+						<div className={cx("button", "button-outline")} onClick={closeWallet}>
+							Close Wallet
+						</div>
+					</Grid>
+					<Grid item lg={6} xs={12}>
 						<div
 							className={cx("button", "button-fill")}
 							onClick={() => {
@@ -222,11 +227,6 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 								showTransactionModal();
 							}}>
 							Send
-						</div>
-					</Grid>
-					<Grid item lg={6} xs={12}>
-						<div className={cx("button", "button-outline")} onClick={closeWallet}>
-							Close Wallet
 						</div>
 					</Grid>
 				</Grid>

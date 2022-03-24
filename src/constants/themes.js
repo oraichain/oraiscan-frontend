@@ -60,6 +60,7 @@ const colors = {
 	BLUE_ZODIAC: "#423F5A",
 	PURPLE_HEART: "#5A38BA",
 	DEEP_DARK: "#322E36",
+	PERANO: "#A79CEB",
 	LINK_COLOR: "#D6CCF4",
 	LABEL_BG_GRAY: "#2D2D35",
 	LABEL_TEXT_GRAY: "#E2E4EB",
@@ -109,11 +110,11 @@ export const themes = {
 					separateLine: colors.SEPARATE_LINE_DARK,
 					boxShadowColor: "none",
 					modal: {
-						modalCommonTextColor: colors.HAWKES_BLUE,
-						modalCommonBorderColor: colors.VENICE_BLUE,
+						modalCommonTextColor: colors.PERANO,
+						modalCommonBorderColor: colors.PERANO,
 						modalCommonBackgroundColor: colors.REGAL_BLUE_1,
-						buttonCancelBackgroundColor: colors.REGAL_BLUE_2,
-						buttonSubmitBackgroundColor: colors.DODGER_BLUE,
+						buttonCancelBackgroundColor: "transparent",
+						buttonSubmitBackgroundColor: colors.MEDIUM_STATE_BLUE,
 						modalSliderColor: colors.DODGER_BLUE,
 					},
 					themedTable: {
