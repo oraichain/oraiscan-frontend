@@ -1,18 +1,19 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {useSelector, useDispatch} from "react-redux";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
-import {logoBrand} from "src/constants/logoBrand";
+import { useSelector, useDispatch } from "react-redux";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
+import { logoBrand } from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import WithdrawBtn from "./WithdrawBtn";
 import styles from "./WithdrawTable.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
+import RedelegateBtn from "./RedelegateBtn";
 
 const cx = classNames.bind(styles);
 
@@ -20,29 +21,30 @@ export const getHeaderRow = () => {
 	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
 	const stakedHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
 	const rewardsHeaderCell = <div className={cx("header-cell", "align-left")}>Rewards (ORAI)</div>;
-	const ubondedHeaderCell = <div className={cx("header-cell", "align-left")}>Unbonded (ORAI)</div>;
+	const unbondingHeaderCell = <div className={cx("header-cell", "align-left")}>Unbonding (ORAI)</div>;
 	const withdrawableHeaderCell = <div className={cx("header-cell", "align-left")}>Withdrawable (ORAI)</div>;
 	const withdrawHeaderCell = <div className={cx("header-cell", "align-center")}>Withdraw</div>;
-	const headerCells = [validatorHeaderCell, stakedHeaderCell, rewardsHeaderCell, ubondedHeaderCell, withdrawableHeaderCell, withdrawHeaderCell];
-	const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}];
+	const redelegateHeaderCell = <div className={cx("header-cell", "align-center")}>Redelegate</div>;
+	const headerCells = [validatorHeaderCell, stakedHeaderCell, rewardsHeaderCell, unbondingHeaderCell, withdrawableHeaderCell, withdrawHeaderCell, redelegateHeaderCell];
+	const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }, { width: "150px" }];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const BtnComponent = ({handleClick}) => {
+const BtnComponent = ({ handleClick, buttonName }) => {
 	return (
 		<div className={cx("withdraw-data-cell", "align-center")}>
 			<button className={cx("button")} onClick={handleClick}>
-				Withdraw
+				{buttonName}
 				<img alt='/' className={cx("button-icon")} src={arrowIcon} />
 			</button>
 		</div>
 	);
 };
 
-const WithdrawTable = memo(({data}) => {
+const WithdrawTable = memo(({ data }) => {
 	// const {address, account} = useSelector(state => state.wallet);
 	// const dispatch = useDispatch();
 
@@ -94,7 +96,11 @@ const WithdrawTable = memo(({data}) => {
 			);
 
 			const withdrawDataCell = (
-				<WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={BtnComponent} validatorName={item.validator} />
+				<WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })} validatorName={item.validator} />
+			);
+
+			const redelegateDataCell = (
+				<RedelegateBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate" })} validatorName={item.validator} />
 			);
 
 			// const withdrawDataCell = (
@@ -106,7 +112,7 @@ const WithdrawTable = memo(({data}) => {
 			// 	</div>
 			// );
 
-			return [validatorDataCell, stakedDataCell, rewardsDataCell, unbondedDataCell, withdrawableDataCell, withdrawDataCell];
+			return [validatorDataCell, stakedDataCell, rewardsDataCell, unbondedDataCell, withdrawableDataCell, withdrawDataCell, redelegateDataCell];
 		});
 	};
 
