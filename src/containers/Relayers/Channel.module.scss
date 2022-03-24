@@ -11,6 +11,11 @@
 		display: flex;
 	}
 
+	.body-list.mobile {
+		border: 1px solid #e6e6e6;
+		padding: 10px;
+	}
+
 	.channel-name {
 		background: var(--common-backGroundColorGray);
 		border-radius: 8px;
@@ -21,6 +26,13 @@
 		width: 100px;
 		height: 2px;
 		margin: 18px -40px;
+		z-index: 1;
+	}
+
+	.line-wrapper.mobile {
+		width: 66px;
+		height: 2px;
+		margin: -34px -26px;
 		z-index: 1;
 	}
 
@@ -56,4 +68,8 @@
 :global(.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow) {
 	top: 50%;
 	color: var(--common-textColor);
+}
+
+.fontSize12 {
+	font-size: 12px;
 }
