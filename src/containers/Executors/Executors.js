@@ -68,6 +68,7 @@ const Executors = () => {
 		);
 		let listExecutorsParse = buffList.toString('base64');
 		let listExecutorsData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, listExecutorsParse);
+		console.log("list executor data: ", listExecutorsData);
 		let dt = listExecutorsData?.data?.data;
 		switch (checkOffset) {
 			case true:

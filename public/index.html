@@ -1,176 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=option" rel="stylesheet" async />
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=option" rel="stylesheet" async />
-		<link
-			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=option"
-			rel="stylesheet"
-			async
-		/>
-		<meta charset="utf-8" />
-		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-		<link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
-		<link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5" />
-		<link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-		<meta name="msapplication-TileColor" content="#da532c" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<meta name="theme-color" content="#000000" />
-		<title>Oraichain (ORAI) Blockchain Explorer</title>
-		<meta
-			name="description"
-			content="A search engine for data and service information within Oraichain network - the world's first AI-powered oracle and ecosystem for blockchains."
-		/>
-		<meta name="keywords" content="Oraichain, Oraiscan, AI Oracle" />
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=option" rel="stylesheet" async />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=option" rel="stylesheet"
+		async />
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=option"
+		rel="stylesheet" async />
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+	<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+	<link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5" />
+	<link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+	<meta name="msapplication-TileColor" content="#da532c" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<meta property="og:url" content="https://scan.orai.io" />
-		<meta property="og:type" content="website" />
-		<meta property="og:title" content="Oraichain (ORAI) Blockchain Explorer" />
-		<meta
-			property="og:description"
-			content="A search engine for data and service information within Oraichain network - the world's first AI-powered oracle and ecosystem for blockchains."
-		/>
-		<meta property="og:image" content="https://scan.orai.io/orai-rectangle.png" />
+	<meta name="theme-color" content="#000000" />
+	<title>Oraichain (ORAI) Blockchain Explorer</title>
+	<meta name="description"
+		content="A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services" />
+	<meta name="keywords" content="Oraichain, Oraiscan, AI Oracle" />
 
-		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:url" content="https://scan.orai.io" />
-		<meta name="twitter:title" content="Oraichain (ORAI) Blockchain Explorer" />
-		<meta
-			name="twitter:description"
-			content="A search engine for data and service information within Oraichain network - the world's first AI-powered oracle and ecosystem for blockchains."
-		/>
-		<meta name="twitter:image" content="https://scan.orai.io/orai-rectangle.png" />
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-177363054-1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag("js", new Date());
+	<meta property="og:url" content="https://scan.orai.io" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Oraichain (ORAI) Blockchain Explorer" />
+	<meta property="og:description"
+		content="A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services" />
+	<meta property="og:image" content="https://scan.orai.io/orai-rectangle.png" />
 
-			gtag("config", "UA-177363054-1");
-		</script>
-		<style>
-			/*
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content="https://scan.orai.io" />
+	<meta name="twitter:title" content="Oraichain (ORAI) Blockchain Explorer" />
+	<meta name="twitter:description"
+		content="A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services" />
+	<meta name="twitter:image" content="https://scan.orai.io/orai-rectangle.png" />
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-177363054-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag("js", new Date());
+
+		gtag("config", "UA-177363054-1");
+	</script>
+	<style>
+		/*
 Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine (@thingsinjars)
 */
 
-			.hljs {
-				display: block;
-				overflow-x: auto;
-				padding: 0.5em;
-				color: #000;
-				background: #f8f8ff;
-			}
+		.hljs {
+			display: block;
+			overflow-x: auto;
+			padding: 0.5em;
+			color: #000;
+			background: #f8f8ff;
+		}
 
-			.hljs-comment,
-			.hljs-quote {
-				color: #408080;
-				font-style: italic;
-			}
+		.hljs-comment,
+		.hljs-quote {
+			color: #408080;
+			font-style: italic;
+		}
 
-			.hljs-keyword,
-			.hljs-selector-tag,
-			.hljs-literal,
-			.hljs-subst {
-				color: #954121;
-			}
+		.hljs-keyword,
+		.hljs-selector-tag,
+		.hljs-literal,
+		.hljs-subst {
+			color: #954121;
+		}
 
-			.hljs-number {
-				color: #40a070;
-			}
+		.hljs-number {
+			color: #40a070;
+		}
 
-			.hljs-string,
-			.hljs-doctag {
-				color: #219161;
-			}
+		.hljs-string,
+		.hljs-doctag {
+			color: #219161;
+		}
 
-			.hljs-selector-id,
-			.hljs-selector-class,
-			.hljs-section,
-			.hljs-type {
-				color: #19469d;
-			}
+		.hljs-selector-id,
+		.hljs-selector-class,
+		.hljs-section,
+		.hljs-type {
+			color: #19469d;
+		}
 
-			.hljs-params {
-				color: #00f;
-			}
+		.hljs-params {
+			color: #00f;
+		}
 
-			.hljs-title {
-				color: #458;
-				font-weight: bold;
-			}
+		.hljs-title {
+			color: #458;
+			font-weight: bold;
+		}
 
-			.hljs-tag,
-			.hljs-name,
-			.hljs-attribute {
-				color: #000080;
-				font-weight: normal;
-			}
+		.hljs-tag,
+		.hljs-name,
+		.hljs-attribute {
+			color: #000080;
+			font-weight: normal;
+		}
 
-			.hljs-variable,
-			.hljs-template-variable {
-				color: #008080;
-			}
+		.hljs-variable,
+		.hljs-template-variable {
+			color: #008080;
+		}
 
-			.hljs-regexp,
-			.hljs-link {
-				color: #b68;
-			}
+		.hljs-regexp,
+		.hljs-link {
+			color: #b68;
+		}
 
-			.hljs-symbol,
-			.hljs-bullet {
-				color: #990073;
-			}
+		.hljs-symbol,
+		.hljs-bullet {
+			color: #990073;
+		}
 
-			.hljs-built_in,
-			.hljs-builtin-name {
-				color: #0086b3;
-			}
+		.hljs-built_in,
+		.hljs-builtin-name {
+			color: #0086b3;
+		}
 
-			.hljs-meta {
-				color: #999;
-				font-weight: bold;
-			}
+		.hljs-meta {
+			color: #999;
+			font-weight: bold;
+		}
 
-			.hljs-deletion {
-				background: #fdd;
-			}
+		.hljs-deletion {
+			background: #fdd;
+		}
 
-			.hljs-addition {
-				background: #dfd;
-			}
+		.hljs-addition {
+			background: #dfd;
+		}
 
-			.hljs-emphasis {
-				font-style: italic;
-			}
+		.hljs-emphasis {
+			font-style: italic;
+		}
 
-			.hljs-strong {
-				font-weight: bold;
-			}
-		</style>
-		<script>
-			window.dataLayer = window.dataLayer || [];
+		.hljs-strong {
+			font-weight: bold;
+		}
+	</style>
+	<script>
+		window.dataLayer = window.dataLayer || [];
 
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag("js", new Date());
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag("js", new Date());
 
-			gtag("config", "G-4MJXJPXQK7");
-		</script>
-	</head>
+		gtag("config", "G-4MJXJPXQK7");
+	</script>
+</head>
 
-	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
-		<div id="root"></div>
-		<!--
+<body>
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+	<div id="root"></div>
+	<!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -180,5 +174,6 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-	</body>
+</body>
+
 </html>

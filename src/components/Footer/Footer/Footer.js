@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -16,17 +16,17 @@ import MediumIcon from "src/icons/MediumIcon";
 import CoinMarketCapIcon from "src/icons/CoinMarketCapIcon";
 import ModeSwitch from "src/components/common/ModeSwitch";
 import OraiLogo from "src/icons/OraiLogo";
-import {ThemeSetup} from "src/helpers/helper";
+import { ThemeSetup } from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
 const Footer = memo(() => {
-	const {isDarkTheme} = ThemeSetup();
+	const { isDarkTheme } = ThemeSetup();
 
 	return (
 		<div className={cx("footer")}>
 			<img src={isDarkTheme ? DecorIconDark : DecorIconLight} className={cx("decor-icon")} />
-			<img style={{opacity: isDarkTheme ? "0.3" : "1"}} src={FooterBackground} className={cx("background")} />
+			<img style={{ opacity: isDarkTheme ? "0.3" : "1" }} src={FooterBackground} className={cx("background")} />
 			<div className={cx("top-section")}>
 				<Container>
 					<Grid className={cx("top-section-grid")} container spacing={2}>
@@ -35,8 +35,7 @@ const Footer = memo(() => {
 								<div className={cx("intro")}>
 									<OraiLogo className={cx("intro-logo")} />
 									<div className={cx("intro-description")}>
-										Oraichain is the world’s first AI-powered oracle and AI Layer 1 with a complete AI ecosystem, serving as a foundational layer for the
-										creation of a new generation of smart contracts and Dapps
+										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services
 									</div>
 								</div>
 
