@@ -44,6 +44,7 @@ const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetai
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
 const Relayers = lazy(() => import(`src/containers/Relayers`));
+const OracleAI = lazy(() => import(`src/containers/OracleAI`));
 
 export default function (props) {
 	//  preload stuff that needs preloading
@@ -71,8 +72,9 @@ export default function (props) {
 					<Route path='/ai_requests/:id/report' component={RequestReportDetail} />
 					<Route path='/ai_requests/:id' component={RequestDetails} />
 					<Route path='/ai_requests' component={Requests} />
-					<Route path='/ai-requests' component={OracleRequests} />
-					<Route path='/ai-executors' component={Executors} />
+					{/* <Route path='/ai-requests' component={OracleRequests} /> */}
+					<Route path='/ai-oracle' component={OracleAI} />
+					{/* <Route path='/ai-executors' component={Executors} /> */}
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 					<Route path='/oracle-scripts' component={OracleScripts} />
 					<Route path='/wallet' component={Wallet} />
