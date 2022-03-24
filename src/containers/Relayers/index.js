@@ -25,6 +25,7 @@ const Relayers = () => {
 	});
 
 	const dataSource = data && Object.values(data);
+	console.log("🚀 ~ file: index.js ~ line 28 ~ Relayers ~ dataSource", dataSource);
 
 	const renderList = useMemo(() => {
 		const genHeader = item => {

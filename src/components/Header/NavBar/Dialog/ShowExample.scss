@@ -1,14 +1,14 @@
 .show-example {
 	&-button {
 		&-text {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-size: 16px;
 			color: var(--common-linkColor);
 			cursor: pointer;
 		}
 
 		&-icon {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-size: 16px;
 			color: var(--common-linkColor);
 			cursor: pointer;
@@ -31,7 +31,7 @@
 	&-text {
 		display: inline-block;
 		margin-left: 8px;
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 16px;
 		color: var(--common-textColor);
 		cursor: pointer;
@@ -40,7 +40,7 @@
 	&-icon {
 		display: inline-block;
 
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-size: 16px;
 		color: var(--common-textColor);
 		cursor: pointer;

@@ -19,7 +19,7 @@
 		.header-title {
 			display: inline-block;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 20px;
@@ -59,7 +59,7 @@
 			&-text {
 				display: inline-block;
 				margin-right: 8px;
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: 500;
 				font-size: 16px;
@@ -76,7 +76,7 @@
 		}
 
 		.address-value {
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 12px;
@@ -103,7 +103,7 @@
 	&-title {
 		padding: 0 30px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -140,7 +140,7 @@
 		&-text {
 			display: inline-block;
 			margin-right: 8px;
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -157,7 +157,7 @@
 	}
 
 	&-value {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-weight: 500;

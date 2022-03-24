@@ -9,6 +9,8 @@ import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
+import OraiLogo from "src/icons/OraiLogo";
+import ModeSwitch from "src/components/common/ModeSwitch";
 
 const cx = cn.bind(styles);
 
@@ -26,11 +28,13 @@ const NavBarDesktop = ({initialNavLinks}) => {
 	return (
 		<div className={cx("navbar")}>
 			<NavLink to='/' className={cx("navbar-brand")}>
-				<img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
-				<span className={cx("navbar-brand-text")}>Oraiscan</span>
+				{/* <img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
+				<span className={cx("navbar-brand-text")}>Oraiscan</span> */}
+				<OraiLogo />
 			</NavLink>
 			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
 				<ul className={cx("navbar-nav")}>
+					<ModeSwitch />
 					{initialNavLinks.map((item, index) => {
 						const {title, path, children, type} = item;
 						if (children) {

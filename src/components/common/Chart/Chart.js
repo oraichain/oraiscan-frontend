@@ -18,16 +18,22 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 	const xAxis = {
 		visible: true,
 		labels: {
+			x: 10,
 			overflow: "allow",
 			align: "center",
 			formatter: function() {
 				return getHours(this.value);
 			},
 			maxStaggerLines: 1,
+			style: {
+				color: activeThemeId === themeIds.LIGHT ? "#4b525d" : "#EBEAEF",
+				fontSize: "11px",
+				opacity: "0.6",
+			},
 		},
 		minPadding: 0,
 		maxPadding: 0,
-		gridLineColor: activeThemeId === themeIds.LIGHT ? "#eeeeee" : "#69809D",
+		gridLineColor: activeThemeId === themeIds.LIGHT ? "#eeeeee" : "#423F5A",
 		tickPosition: "outside",
 		tickColor: "transaprent",
 		endOnTick: false,
@@ -43,14 +49,15 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 			x: -25,
 			y: 4,
 			style: {
-				color: activeThemeId === themeIds.LIGHT ? "#4b525d" : "#69809D",
+				color: activeThemeId === themeIds.LIGHT ? "#4b525d" : "#EBEAEF",
 				fontSize: "11px",
+				opacity: "0.8",
 			},
 			formatter: function() {
 				return `$${this.value > 999 ? formatNumber(Math.floor(this.value), 3) : this.value}`;
 			},
 		},
-		gridLineColor: activeThemeId === themeIds.LIGHT ? "#e6e6e6" : "#2B5072",
+		gridLineColor: activeThemeId === themeIds.LIGHT ? "#e6e6e6" : "#423F5A",
 		title: {
 			text: "",
 		},
@@ -60,7 +67,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 	const series =
 		activeThemeId === themeIds.LIGHT
 			? {
-					color: "#1958FA",
+					color: "#682FC5",
 					fillColor: {
 						linearGradient: {
 							x1: 0,
@@ -72,35 +79,35 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 							[
 								0,
 								highcharts
-									.color("#1958FA")
-									.setOpacity(0.6)
+									.color("#704BD8")
+									.setOpacity(0.75)
 									.get("rgba"),
 							],
 							[
 								0.6,
 								highcharts
-									.color("#94B2FF")
-									.setOpacity(0.4)
+									.color("#704BD8")
+									.setOpacity(0.5)
 									.get("rgba"),
 							],
 							[
 								0.8,
 								highcharts
-									.color("#638fff")
-									.setOpacity(0.3)
+									.color("#704BD8")
+									.setOpacity(0.4)
 									.get("rgba"),
 							],
 							[
 								0.9,
 								highcharts
-									.color("#85a7ff")
+									.color("#704BD8")
 									.setOpacity(0.2)
 									.get("rgba"),
 							],
 							[
 								1,
 								highcharts
-									.color("#ffffff")
+									.color("transparent")
 									.setOpacity(0.05)
 									.get("rgba"),
 							],
@@ -108,7 +115,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 					},
 			  }
 			: {
-					color: "#3196D3",
+					color: "#A584DB",
 					fillColor: {
 						linearGradient: {
 							x1: 0,
@@ -120,35 +127,35 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 							[
 								0,
 								highcharts
-									.color("#233D5C")
+									.color("#271E2D")
 									.setOpacity(0.6)
 									.get("rgba"),
 							],
 							[
 								0.6,
 								highcharts
-									.color("#42B6F6")
+									.color("#704BD8")
 									.setOpacity(0.4)
 									.get("rgba"),
 							],
 							[
 								0.8,
 								highcharts
-									.color("#3196D3")
+									.color("#704BD8")
 									.setOpacity(0.3)
 									.get("rgba"),
 							],
 							[
 								0.9,
 								highcharts
-									.color("#233D5C")
+									.color("#704BD8")
 									.setOpacity(0.2)
 									.get("rgba"),
 							],
 							[
 								1,
 								highcharts
-									.color("#ffffff")
+									.color("transparent")
 									.setOpacity(0.05)
 									.get("rgba"),
 							],
@@ -173,7 +180,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 			width: null,
 			spacing: [20, 20, 20, 20],
 			renderTo: "container",
-			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "#1E344D",
+			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "transparent",
 		},
 		plotOptions: {
 			series: {
@@ -219,7 +226,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 		},
 		tooltip: {
 			enabled: true,
-			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "#1E344D",
+			backgroundColor: activeThemeId === themeIds.LIGHT ? "#ffffff" : "transparent",
 			borderColor: activeThemeId === themeIds.LIGHT ? "#e6e6e6" : "#2B5072",
 			style: {
 				color: activeThemeId === themeIds.LIGHT ? "#333333" : "#F6F7FB",

@@ -7,7 +7,7 @@ import styles from "./OracleRequestGridView.module.scss";
 
 const cx = cn.bind(styles);
 
-const OracleRequestGridViewSkeleton = ({rows}) => {
+const OracleRequestGridViewSkeleton = ({ rows }) => {
 	let requestGridViewItem = [];
 
 	for (let i = 0; i < rows; i++) {
@@ -17,7 +17,7 @@ const OracleRequestGridViewSkeleton = ({rows}) => {
 					<table className={cx("request")}>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Request id</div>
+								<div className={cx("request-title")}>Stage</div>
 							</td>
 							<td>
 								<div className={cx("request-link")}>
@@ -27,15 +27,16 @@ const OracleRequestGridViewSkeleton = ({rows}) => {
 						</tr>
 						<tr>
 							<td>
+								<div className={cx("request-text")}>Requester</div>
+							</td>
+							<td>
 								<Skeleton className={cx("skeleton", "request-icon")} variant='circle' width={24} height={24} />
 							</td>
-							<td>
-								<div className={cx("request-text")}>Contract</div>
-							</td>
+
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Fee</div>
+								<div className={cx("request-title")}>Height</div>
 							</td>
 							<td>
 								<div className={cx("request-text")}>
@@ -45,7 +46,7 @@ const OracleRequestGridViewSkeleton = ({rows}) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Input</div>
+								<div className={cx("request-title")}>Merkle Height</div>
 							</td>
 							<td>
 								<div className={cx("request-text")}>
@@ -55,7 +56,7 @@ const OracleRequestGridViewSkeleton = ({rows}) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("request-title")}>Status</div>
+								<div className={cx("request-title")}>Merkle Root</div>
 							</td>
 							<td>
 								<div className={cx("request-text")}>
@@ -63,6 +64,27 @@ const OracleRequestGridViewSkeleton = ({rows}) => {
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<div className={cx("request-title")}>Threshold</div>
+							</td>
+							<td>
+								<div className={cx("request-text")}>
+									<Skeleton className={cx("skeleton")} variant='text' width={70} height={21} />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div className={cx("request-title")}>Service</div>
+							</td>
+							<td>
+								<div className={cx("request-text")}>
+									<Skeleton className={cx("skeleton")} variant='text' width={70} height={21} />
+								</div>
+							</td>
+						</tr>
+
 					</table>
 				</div>
 			</Grid>

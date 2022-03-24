@@ -33,7 +33,7 @@
 
 		.item-title {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -42,7 +42,7 @@
 
 		.item-text {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -50,8 +50,8 @@
 		}
 
 		.item-link {
-			color: var(--common-textColor);
-			font-family: Roboto;
+			color: var(--common-linkColor);
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -72,7 +72,7 @@
 				border-radius: 4px;
 				background: var(--common-transactions-transactionTypeBackgroundColor);
 				color: var(--common-transactions-transactionTypeTextColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
 				font-size: 12px;
@@ -81,7 +81,7 @@
 
 			.number-of-message {
 				color: var(--common-transactions-transactionTypeLabelColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
 				font-size: 12px;
@@ -101,7 +101,7 @@
 
 				&-text {
 					color: var(--common-textColor);
-					font-family: Roboto;
+					font-family: 'IBM Plex Sans';
 					font-style: normal;
 					font-weight: normal;
 					font-size: 16px;
@@ -130,7 +130,7 @@
 					display: inline-block;
 					margin-right: 8px;
 					color: var(--common-textColor);
-					font-family: Roboto;
+					font-family: 'IBM Plex Sans';
 					font-style: normal;
 					font-weight: normal;
 					font-size: 16px;
@@ -144,7 +144,7 @@
 
 			.amount {
 				color: var(--common-textColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
 				font-size: 16px;
@@ -168,7 +168,7 @@
 				padding: 7px;
 				border-radius: 4px;
 				background: var(--common-containerBackgroundColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: bold;
 				font-size: 11px;
@@ -189,7 +189,7 @@
 		.fee-data-cell {
 			.fee {
 				color: var(--common-textColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
 				font-size: 16px;

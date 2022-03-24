@@ -2,17 +2,18 @@
 
 .nav-link {
 	display: inline-block;
-	padding: 22px 15px;
+	padding: 32px 15px;
 	color: var(--common-activeTabTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 26px;
 	cursor: pointer;
 
 	@include media(">=large") {
 		color: var(--common-activeTabTextColor);
+		font-size: 18px;
 	}
 }
 
@@ -82,7 +83,7 @@
 	&-name {
 		margin-bottom: 15px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -97,7 +98,7 @@
 				display: inline-block;
 				margin-right: 8px;
 				color: var(--common-textColor);
-				font-family: Roboto;
+				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: 500;
 				font-size: 18px;
@@ -112,7 +113,7 @@
 
 		&-value {
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -132,7 +133,7 @@
 			display: inline-block;
 			margin-right: 8px;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 18px;
@@ -145,7 +146,7 @@
 			justify-content: flex-start;
 			align-items: center;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 16px;
@@ -170,7 +171,7 @@
 			color: var(--common-linkColor);
 			display: inline-block;
 			margin-left: 8px;
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -189,7 +190,7 @@
 	align-items: center;
 	width: 100%;
 	border-radius: 6px;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;

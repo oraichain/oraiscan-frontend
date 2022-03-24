@@ -4,6 +4,7 @@ let common = theme => {
 	return `
   --common-textColor: ${theme?.data?.common?.textColor};
   --common-linkColor: ${theme?.data?.common?.linkColor};
+  --common-tabColor: ${theme?.data?.common?.tabColor};
   --common-activeTabColor: ${theme?.data?.common?.activeTabColor};
   --common-activeTabTextColor: ${theme?.data?.common?.activeTabTextColor};
   --common-buttonTextColor: ${theme?.data?.common?.buttonTextColor};
@@ -21,6 +22,7 @@ let common = theme => {
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
   --common-resultIconPendingColor: ${theme?.data?.common?.resultIconPendingColor};
   --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
+  --common-separateLine: ${theme?.data?.common?.separateLine};
   --common-modal-modalCommonTextColor: ${theme?.data?.common?.modal?.modalCommonTextColor};
   --common-modal-modalCommonBorderColor: ${theme?.data?.common?.modal?.modalCommonBorderColor};
   --common-modal-modalCommonBackgroundColor: ${theme?.data?.common?.modal?.modalCommonBackgroundColor};
