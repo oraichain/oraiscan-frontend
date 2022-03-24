@@ -102,7 +102,7 @@ export const themes = {
 					headerTextColor: colors.HAWKES_BLUE,
 					paginationTextColor: colors.PAGINGNATION_TEXT_DARK,
 					paginationActiveTextColor: colors.PAGINGNATION_ACTIVE_TEXT_DARK,
-					resultIconSuccessColor: colors.DODGER_BLUE,
+					resultIconSuccessColor: colors.MEDIUM_STATE_BLUE,
 					resultIconFailureColor: colors.RADICAL_RED,
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
