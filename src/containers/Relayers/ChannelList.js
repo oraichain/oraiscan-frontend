@@ -16,7 +16,10 @@ import {STATUS_COLOR, STATE} from "./constants";
 import Pagination from "src/components/common/Pagination";
 
 // logo
-import OraiLogo from "src/assets/header/logo.svg";
+import OraiLogoLight from "src/assets/header/logo.svg";
+import OraiLogoDark from "src/assets/header/logo.svg";
+
+import OraiIcon from "src/icons/OraiIcon";
 
 // styles
 import styles from "./Channel.module.scss";
@@ -53,7 +56,7 @@ const ChannelList = ({channels, channelName, image}) => {
 				<Col span={4}>
 					<div className={cx("flexCenter")}>
 						<Space>
-							<Avatar size='small' src={<img src={OraiLogo} />} />
+							<Avatar size='small' src={<OraiIcon className={cx("logo-icon")} />} />
 							Oraichain
 						</Space>
 					</div>
@@ -99,6 +102,7 @@ const ChannelList = ({channels, channelName, image}) => {
 				<Row
 					gutter={{xs: 8, sm: 16, md: 24, lg: 32}}
 					className={cx("body-list")}
+					style={{cursor: "pointer"}}
 					onClick={() => redirectRelayerDetail(item?.channel?.channel_id, item?.channel?.status)}>
 					<Col span={1}>
 						<div>{index + 1}</div>

@@ -60,4 +60,9 @@
 			}
 		}
 	}
+
+	:global(.ant-select-selector) {
+		background-color: var(--common-containerBackgroundColor) !important;
+		color: var(--common-textColor) !important;
+	}
 }
