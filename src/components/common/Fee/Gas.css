@@ -7,7 +7,7 @@
 }
 
 .select-gas-custom .input-range .input-range__slider {
-	background: var(--common-modal-modalSliderColor);
+	/* background: var(--common-modal-modalSliderColor); */
 	border: 1px solid var(--common-modal-commonModalBorderColor);
 }
 

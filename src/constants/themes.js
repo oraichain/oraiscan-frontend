@@ -368,9 +368,9 @@ export const themes = {
 						highChartLinearBorderColor_2: colors.COLUMBIA_BLUE,
 					},
 					validators: {
-						deletegateButtonBorderColor: colors.PACIFIC_BLUE,
+						deletegateButtonBorderColor: colors.MEDIUM_STATE_BLUE,
 						deletegateButtonBackgroundColor: "none",
-						deletegateButtonTextColor: colors.PACIFIC_BLUE,
+						deletegateButtonTextColor: colors.MEDIUM_STATE_BLUE,
 						cumulativeShareBarColor_1: colors.CREAM,
 						cumulativeShareBarColor_2: colors.PALE_GREEN,
 						logoBorder: colors.ROYAL_BLUE,
