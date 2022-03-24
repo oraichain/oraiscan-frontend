@@ -2,7 +2,7 @@
 
 .information {
 	background: var(--colorWhite);
-	box-shadow: var(--shadow1);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: var(--radius1);
 	padding: 20px 30px;
 	@include media("<medium") {

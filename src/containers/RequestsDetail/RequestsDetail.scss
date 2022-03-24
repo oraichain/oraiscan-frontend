@@ -14,12 +14,12 @@
 .data-request-table {
 	padding: 20px 20px;
 	background-color: var(--colorWhite);
-	box-shadow: var(--shadow1);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	box-sizing: border-box;
 	border-radius: var(--radius1);
 
 	&__title {
-		@include Typo('IBM Plex Sans', normal, 500, 20px, 30px);
+		@include Typo("IBM Plex Sans", normal, 500, 20px, 30px);
 		margin-bottom: 20px;
 
 		span {
@@ -34,7 +34,7 @@
 		&-head {
 			border-bottom: var(--border1);
 			padding: 15px 20px;
-			@include Typo('IBM Plex Sans', normal, 500, 16px, 24px);
+			@include Typo("IBM Plex Sans", normal, 500, 16px, 24px);
 		}
 
 		&-code {
@@ -52,12 +52,12 @@
 
 				&-title {
 					width: 110px;
-					@include Typo('IBM Plex Sans', normal, 500, 16px, 24px);
+					@include Typo("IBM Plex Sans", normal, 500, 16px, 24px);
 				}
 
 				&-content {
 					margin-left: 43px;
-					@include Typo('IBM Plex Sans', normal, 400, 16px, 24px);
+					@include Typo("IBM Plex Sans", normal, 400, 16px, 24px);
 
 					@include media("<medium") {
 						margin-left: 0px;
@@ -97,7 +97,7 @@
 
 					&-title {
 						@include FlexCombo(row, flex-start, center);
-						@include Typo('IBM Plex Sans', normal, 500, 16px, 24px);
+						@include Typo("IBM Plex Sans", normal, 500, 16px, 24px);
 						width: 114px;
 						margin-right: 15px;
 					}
@@ -113,7 +113,7 @@
 
 					&-title {
 						@include FlexCombo(row, flex-start, center);
-						@include Typo('IBM Plex Sans', normal, 500, 16px, 24px);
+						@include Typo("IBM Plex Sans", normal, 500, 16px, 24px);
 						width: 114px;
 						margin-right: 15px;
 					}
