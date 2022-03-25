@@ -1240,6 +1240,33 @@ const TxMessage = ({ key, msg, data }) => {
 						</>
 					)
 				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_ACKNOWLEDGEMENT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Sequence", value?.packet.sequence)}
+							{getInfoRow("Source Port", value?.packet?.source_port)}
+							{getInfoRow("Source Channel", value?.packet?.source_channel)}
+							{getInfoRow("Desination Port", value?.packet?.destination_port)}
+							{getInfoRow("Desination Channel", value?.packet?.destination_channel)}
+							<InfoRow label='Data'>
+								<ReactJson
+									style={{ backgroundColor: "transparent" }}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									src={JSON.parse(atob(value?.packet?.data))}
+								/>
+							</InfoRow>
+							{getInfoRow("Revision Number", value?.packet?.timeout_height?.revision_number)}
+							{getInfoRow("Revision Height", value?.packet?.timeout_height?.revision_height)}
+							{getInfoRow("Proof Number", value?.proof_height?.revision_number)}
+							{getInfoRow("Proof Height", value?.proof_height?.revision_height)}
+							{getInfoRow("Timeout Timestamp", new Date(value?.packet?.timeout_timestamp / Math.pow(10, 9)).toTimeString())}
+						</>
+					)
+				}
 
 
 			</div>
