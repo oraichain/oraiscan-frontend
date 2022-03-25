@@ -193,8 +193,6 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				}
 			}
 		}
-		console.log("type msg: ", typeMsg)
-
 		return typeMsg;
 	};
 
