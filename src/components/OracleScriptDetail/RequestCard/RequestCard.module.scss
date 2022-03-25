@@ -4,7 +4,7 @@
 	padding: 20px;
 	margin-bottom: 20px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 
 	&-header {
@@ -16,7 +16,7 @@
 }
 
 .request {
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-size: 20px;
 	line-height: 150%;
@@ -50,7 +50,7 @@
 		display: inline-block;
 		margin-right: 8px;
 		color: var(--common-activeTabColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;

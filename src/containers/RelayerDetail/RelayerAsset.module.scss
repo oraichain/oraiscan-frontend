@@ -1,9 +1,8 @@
 .relayer-asset {
 	margin-top: 10px;
-	height: 500px;
 
 	.chart {
-		padding: 16px;
+		// padding: 16px;
 		border-radius: 4px;
 		box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
 		height: 100%;
@@ -60,5 +59,10 @@
 				}
 			}
 		}
+	}
+
+	:global(.ant-select-selector) {
+		background-color: var(--common-containerBackgroundColor) !important;
+		color: var(--common-textColor) !important;
 	}
 }

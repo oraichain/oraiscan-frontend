@@ -10,7 +10,7 @@
 
 .header-cell {
 	color: var(--common-headerTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -21,7 +21,7 @@
 .name-data-cell {
 	.name,
 	.result {
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -70,7 +70,7 @@
 		&-text {
 			display: inline-block;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;

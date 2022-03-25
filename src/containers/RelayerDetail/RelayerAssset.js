@@ -6,8 +6,13 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import {Select} from "antd";
 import Avatar from "antd/lib/avatar";
-import Pagination from "antd/lib/pagination";
 import "antd/dist/antd.css";
+
+// helper
+import {ThemeSetup} from "src/helpers/helper";
+
+// components
+import Pagination from "src/components/common/Pagination";
 
 // styles
 import styles from "./RelayerAsset.module.scss";
@@ -17,21 +22,30 @@ import {TX_TYPE} from "./index";
 
 const cx = cn.bind(styles);
 const {Option} = Select;
-const dataLimit = 10;
+const dataLimit = 5;
 
 const RelayerAsset = ({relayerAssetDaily, relayerAssetList, changeTxType, txType}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const dataCategories = relayerAssetDaily && Object.keys(relayerAssetDaily);
 	const dataReceived = dataCategories?.map(item => relayerAssetDaily[item]?.Receive);
 	const dataTransfer = dataCategories?.map(item => relayerAssetDaily[item]?.Transfer);
+	const {isDarkTheme} = ThemeSetup();
+	const totalPages = Math.ceil(relayerAssetList?.length / dataLimit);
 
 	const options = {
 		chart: {
 			type: "column",
+			height: 460,
+			backgroundColor: isDarkTheme ? "#302737" : "#FFFF",
 		},
 
 		title: {
 			text: "Weekly Transferred Value",
+			style: {
+				fontSize: "14px",
+				fontWeight: 500,
+				color: isDarkTheme ? "#F6F7FB" : "#181818",
+			},
 		},
 
 		subtitle: {
@@ -42,6 +56,10 @@ const RelayerAsset = ({relayerAssetDaily, relayerAssetList, changeTxType, txType
 			align: "right",
 			verticalAlign: "middle",
 			layout: "vertical",
+
+			itemStyle: {
+				color: isDarkTheme ? "#F6F7FB" : "#181818",
+			},
 		},
 
 		xAxis: {
@@ -122,31 +140,35 @@ const RelayerAsset = ({relayerAssetDaily, relayerAssetList, changeTxType, txType
 	const listAssets = getPaginatedData();
 
 	const renderListAssets = useMemo(() => {
-		return listAssets?.map(item => (
-			<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("asset-body")}>
-				<Col span={12} className={cx("info-container")}>
-					<Avatar size='default' src={item?.images?.large} />
-					<div className={cx("channel-info")}>
-						<div className={cx("channel-name")}>{item?.denom}</div>
-						<div className={cx("channel-desc")}>{item?.channel_id}</div>
-					</div>
-				</Col>
-				<Col span={4}>{item?.total_txs}</Col>
-				<Col span={4}>{item?.total_value.toFixed(2)}</Col>
-			</Row>
-		));
+		const renderListItem = item => {
+			return (
+				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("asset-body")}>
+					<Col span={12} className={cx("info-container")}>
+						<Avatar size='default' src={item?.images?.large} />
+						<div className={cx("channel-info")}>
+							<div className={cx("channel-name")}>{item?.denom}</div>
+							<div className={cx("channel-desc")}>{item?.channel_id}</div>
+						</div>
+					</Col>
+					<Col span={4}>{item?.total_txs}</Col>
+					<Col span={4}>{item?.total_value.toFixed(2)}</Col>
+				</Row>
+			);
+		};
+
+		return listAssets?.map(item => renderListItem(item));
 	}, [listAssets]);
 
 	return (
 		<div className={cx("relayer-asset")}>
-			<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} style={{height: "100%"}}>
-				<Col span={8}>
+			<Row gutter={[24, 24]} style={{height: "100%"}}>
+				<Col xs={24} xl={8}>
 					<div className={cx("chart")}>
 						<HighchartsReact highcharts={Highcharts} options={options} />
 					</div>
 				</Col>
 
-				<Col span={16} className={cx("asset-container")}>
+				<Col xs={24} xl={16} className={cx("asset-container")}>
 					<div className={cx("asset")}>
 						<div className={cx("header")}>
 							<div className={cx("title")}>Relayed Assets</div>
@@ -167,16 +189,7 @@ const RelayerAsset = ({relayerAssetDaily, relayerAssetList, changeTxType, txType
 						{renderListAssets}
 
 						<div className={cx("pagination")}>
-							{relayerAssetList?.length > 10 && (
-								<Pagination
-									defaultCurrent={1}
-									total={relayerAssetList?.length}
-									size='small'
-									onChange={onChangePage}
-									current={currentPage}
-									pageSize={dataLimit}
-								/>
-							)}
+							{totalPages > 1 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onChangePage(page)} />}
 						</div>
 					</div>
 				</Col>

@@ -20,10 +20,10 @@
 	box-sizing: border-box;
 	border-radius: 8px;
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 150%;
 
 	@include media("<large") {

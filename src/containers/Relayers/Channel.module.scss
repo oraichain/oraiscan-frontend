@@ -2,13 +2,18 @@
 	padding: 10px;
 
 	.body-list {
-		// border: 1px solid #e6e6e6;
+		border: 1px solid #e6e6e6;
 		margin-top: 10px;
 		padding: 5px 0;
 		color: var(--common-textColor);
 		border-radius: 8px;
 		align-items: center;
 		display: flex;
+	}
+
+	.body-list.mobile {
+		border: 1px solid #e6e6e6;
+		padding: 10px;
 	}
 
 	.channel-name {
@@ -21,6 +26,13 @@
 		width: 100px;
 		height: 2px;
 		margin: 18px -40px;
+		z-index: 1;
+	}
+
+	.line-wrapper.mobile {
+		width: 64px;
+		height: 2px;
+		margin: -34px -26px;
 		z-index: 1;
 	}
 
@@ -51,9 +63,19 @@
 		flex-direction: row-reverse;
 		margin-top: 15px;
 	}
+
+	.logo-icon {
+		color: var(--common-textColor);
+		height: 24px;
+		width: 24px;
+	}
 }
 
 :global(.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow) {
 	top: 50%;
 	color: var(--common-textColor);
+}
+
+.fontSize12 {
+	font-size: 10px;
 }

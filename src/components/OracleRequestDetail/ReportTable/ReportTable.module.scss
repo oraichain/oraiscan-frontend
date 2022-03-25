@@ -13,7 +13,7 @@
 
 .header-cell {
 	color: var(--common-headerTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -38,7 +38,7 @@
 		&-name {
 			text-align: left;
 			color: var(--common-linkColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -49,7 +49,7 @@
 
 .address-data-cell {
 	color: var(--common-linkColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -62,7 +62,7 @@
 
 .height-data-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -71,7 +71,7 @@
 
 .result-data-cell {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -83,7 +83,7 @@
 .fees-data-cell {
 	.amount {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -132,7 +132,7 @@
 		&-text {
 			display: inline-block;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -144,7 +144,7 @@
 .more-data-cell {
 	.more {
 		color: var(--common-linkColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;

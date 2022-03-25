@@ -31,23 +31,23 @@
 	@include FlexCombo(row, flex-start, center);
 
 	strong {
-		@include Typo(Roboto, normal, 500, 20px, 30px);
+		@include Typo('IBM Plex Sans', normal, 500, 20px, 30px);
 		margin-right: 4px;
 	}
 
 	span {
-		@include Typo(Roboto, normal, 400, 20px, 30px);
+		@include Typo('IBM Plex Sans', normal, 400, 20px, 30px);
 		color: var(--color2);
 	}
 }
 
 .request-cell {
 	color: var(--color1);
-	@include Typo(Roboto, normal, 400, 14px, 21px);
+	@include Typo('IBM Plex Sans', normal, 400, 14px, 21px);
 }
 
 .oracle-script {
-	@include Typo(Roboto, normal, 500, 14px, 21px);
+	@include Typo('IBM Plex Sans', normal, 500, 14px, 21px);
 
 	span {
 		color: var(--color1);
@@ -58,7 +58,7 @@
 .report-status {
 	&__title {
 		@include FlexCombo(row, space-between, center);
-		@include Typo(Roboto, normal, 400, 14px, 21px);
+		@include Typo('IBM Plex Sans', normal, 400, 14px, 21px);
 		margin-bottom: 5px;
 	}
 
@@ -77,14 +77,14 @@
 	@include FlexCombo(row, flex-start, center);
 
 	span {
-		@include Typo(Roboto, normal, 400, 14px, 21px);
+		@include Typo('IBM Plex Sans', normal, 400, 14px, 21px);
 		color: var(--color5);
 		margin-left: 4px;
 	}
 }
 
 .owner {
-	@include Typo(Roboto, normal, 400, 14px, 21px);
+	@include Typo('IBM Plex Sans', normal, 400, 14px, 21px);
 	color: var(--color1);
 }
 
@@ -92,7 +92,7 @@
 	@include FlexCombo(row, flex-start, center);
 
 	strong {
-		@include Typo(Roboto, normal, 500, 20px, 30px);
+		@include Typo('IBM Plex Sans', normal, 500, 20px, 30px);
 		margin-right: 5px;
 	}
 }

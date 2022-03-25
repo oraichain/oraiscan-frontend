@@ -6,7 +6,8 @@ import Col from "antd/lib/col";
 import Card from "antd/lib/card";
 import Avatar from "antd/lib/avatar/avatar";
 import Typography from "antd/lib/typography";
-import Divider from "antd/lib/divider";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 // styles
 import styles from "./RelayerInfo.module.scss";
@@ -20,11 +21,12 @@ const {Meta} = Card;
 const {Title} = Typography;
 
 const RelayerInfo = ({data}) => {
-	console.log("🚀 ~ file: RelayerInfo.js ~ line 23 ~ RelayerInfo ~ data", data);
 	const createdAt = moment(data?.channel?.created_at, "YYYY-MM-DD");
 	const currentDate = moment().startOf("day");
 	const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
 	const lastUpdateTime = moment(data?.last_updated, "YYYYMMDD").fromNow();
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
 	const CHANNEL_NAME = {
 		[STATE.STATE_OPEN]: "Well-known",
@@ -38,27 +40,31 @@ const RelayerInfo = ({data}) => {
 
 	return (
 		<>
-			<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-				<Col span={6}>
+			<Row gutter={[24, 24]}>
+				<Col xs={12} xl={6}>
 					<div className={cx("card")} style={{background: STATUS_COLOR[data?.channel?.status], color: STATUS_COLOR[data?.channel?.status]}}>
 						<p className={cx("card-status-label-state")}>{CHANNEL_NAME[data?.channel?.status]}</p>
-						<div className={cx("card-sub-value", "status")}>Total Transfer value</div>
-						<div className={cx("card-value", "status")}>$&nbsp;{data?.total_value?.toFixed(2)}</div>
+						<div className={cx("card-sub-value", "status")} style={!isLargeScreen ? {fontSize: "12px"} : {}}>
+							Total Transfer value
+						</div>
+						<div className={cx("card-value", "status")} style={!isLargeScreen ? {fontSize: "12px"} : {}}>
+							$&nbsp;{data?.total_value?.toFixed(2)}
+						</div>
 					</div>
 				</Col>
-				<Col span={6}>
+				<Col xs={12} xl={6}>
 					<div className={cx("card")}>
 						<div className={cx("card-label-state")}>IBC Total Txs</div>
 						<div className={cx("card-value")}>{data?.total_txs}</div>
 					</div>
 				</Col>
-				<Col span={6}>
+				<Col xs={12} xl={6}>
 					<div className={cx("card")}>
 						<div className={cx("card-label-state")}>Last Update Time</div>
 						<div className={cx("card-value")}>{lastUpdateTime}</div>
 					</div>
 				</Col>
-				<Col span={6}>
+				<Col xs={12} xl={6}>
 					<div className={cx("card")}>
 						<div className={cx("card-label-state")}>Operating Period</div>
 						<div className={cx("card-value")}>

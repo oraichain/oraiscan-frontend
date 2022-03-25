@@ -285,7 +285,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 							<Progress
 								percent={formatPercentage(item.uptime, 2)}
 								showInfo={false}
-								strokeColor={formatPercentage(item.uptime, 2) === 100 ? "#52c41a" : "#1890ff"}
+								strokeColor={formatPercentage(item.uptime, 2) === 100 ? "#37cc6e" : "#7664E4"}
 								trailColor='#bfbfbf'
 							/>
 						)}

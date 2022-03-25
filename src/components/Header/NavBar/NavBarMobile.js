@@ -17,6 +17,7 @@ import SearchIcon from "src/icons/SearchIcon";
 import styles from "./NavBarMobile.module.scss";
 import CloseIcon from "src/icons/CloseIcon";
 import logoIcon from "src/assets/header/logo.svg";
+import OraiIcon from "src/icons/OraiIcon";
 
 const cx = cn.bind(styles);
 
@@ -44,8 +45,9 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 	return (
 		<div className={cx("navbar")}>
 			<NavLink to='/' className={cx("navbar-brand")}>
-				<img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
-				<span className={cx("navbar-brand-text")}>Oraiscan</span>
+				{/* <img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} /> */}
+				<OraiIcon className={cx("navbar-brand-icon")} />
+				<span className={cx("navbar-brand-text")}>ORAICHAIN</span>
 			</NavLink>
 			{!_.isNil(address) && (
 				<div className={cx("navbar-user")}>

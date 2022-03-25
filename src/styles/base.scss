@@ -1,7 +1,7 @@
 @import url("//cdn.jsdelivr.net/gh/velopert/font-d2coding@1.2.1/d2coding.css");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+@import url("https://fonts.googleapis.com/css?family='IBM Plex Sans':400,500");
 
 :root {
 	//  colors
@@ -190,7 +190,7 @@ section {
 }
 
 body {
-	font-family: Montserrat, "Open Sans", sans-serif;
+	font-family: 'IBM Plex Sans';
 	color: #222222;
 	font-size: 14px;
 	line-height: 1.6;

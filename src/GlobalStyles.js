@@ -4,6 +4,7 @@ let common = theme => {
 	return `
   --common-textColor: ${theme?.data?.common?.textColor};
   --common-linkColor: ${theme?.data?.common?.linkColor};
+  --common-tabColor: ${theme?.data?.common?.tabColor};
   --common-activeTabColor: ${theme?.data?.common?.activeTabColor};
   --common-activeTabTextColor: ${theme?.data?.common?.activeTabTextColor};
   --common-buttonTextColor: ${theme?.data?.common?.buttonTextColor};
@@ -21,6 +22,8 @@ let common = theme => {
   --common-resultIconFailureColor: ${theme?.data?.common?.resultIconFailureColor};
   --common-resultIconPendingColor: ${theme?.data?.common?.resultIconPendingColor};
   --common-oraiDenomTextColor: ${theme?.data?.common?.oraiDenomTextColor};
+  --common-separateLine: ${theme?.data?.common?.separateLine};
+  --common-boxShadowColor: ${theme?.data?.common?.boxShadowColor};
   --common-modal-modalCommonTextColor: ${theme?.data?.common?.modal?.modalCommonTextColor};
   --common-modal-modalCommonBorderColor: ${theme?.data?.common?.modal?.modalCommonBorderColor};
   --common-modal-modalCommonBackgroundColor: ${theme?.data?.common?.modal?.modalCommonBackgroundColor};
@@ -31,6 +34,7 @@ let common = theme => {
   --common-themedTable-headerBackgroundColor: ${theme?.data?.common?.themedTable?.headerBackgroundColor};
   --common-themedTable-oddRowBackgroundColor: ${theme?.data?.common?.themedTable?.oddRowBackgroundColor};
   --common-themedTable-evenRowBackgroundColor: ${theme?.data?.common?.themedTable?.evenRowBackgroundColor};
+  --common-themedTable-tableBorderColor: ${theme?.data?.common?.themedTable?.tableBorderColor};
   --common-transactions-moreIconColor: ${theme?.data?.common?.transactions?.moreIconColor};
   --common-transactions-transactionTypeLabelColor: ${theme?.data?.common?.transactions?.transactionTypeLabelColor};
   --common-transactions-transactionTypeBackgroundColor: ${theme?.data?.common?.transactions?.transactionTypeBackgroundColor};
@@ -65,6 +69,7 @@ let validators = theme => {
 		validators: `
       --validators-deletegateButtonTextColor: ${theme?.data?.tabs?.validators?.deletegateButtonTextColor};
       --validators-deletegateButtonBackgroundColor: ${theme?.data?.tabs?.validators?.deletegateButtonBackgroundColor};
+      --validators-deletegateButtonBackgroundColorHover: ${theme?.data?.tabs?.validators?.deletegateButtonBackgroundColorHover};
       --validators-deletegateButtonBorderColor: ${theme?.data?.tabs?.validators?.deletegateButtonBorderColor};
       --validators-cumulativeShareBarColor_1: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_1};
       --validators-cumulativeShareBarColor_2: ${theme?.data?.tabs?.validators?.cumulativeShareBarColor_2};

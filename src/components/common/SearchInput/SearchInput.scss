@@ -7,7 +7,7 @@
 	align-items: center;
 	padding: 10px 20px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: var(--shadow1);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 }
 
@@ -27,7 +27,7 @@
 
 	&::placeholder {
 		color: var(--common-placeholderTextColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;

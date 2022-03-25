@@ -19,11 +19,11 @@
 		padding-right: 15px;
 		color: var(--common-buttonTextColor);
 		background: var(--common-buttonBackgroundColor);
-		box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 		box-sizing: border-box;
 		border-radius: 8px;
 		border: 1px solid var(--common-activeTabColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;

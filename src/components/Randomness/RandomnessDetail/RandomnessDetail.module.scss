@@ -4,14 +4,14 @@
 	margin-bottom: 30px;
 	padding: 20px;
 	background: var(--common-containerBackgroundColor);
-	box-shadow: 0px 2px 8px rgba(174, 195, 210, 0.25);
+	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
 	border-radius: 8px;
 
 	&-header {
 		padding-bottom: 10px;
 		color: var(--common-textColor);
 		border-bottom: 1px solid var(--common-borderColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 20px;
@@ -25,7 +25,7 @@
 
 .input-text {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -37,7 +37,7 @@
 	&-value {
 		display: inline-block;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -49,7 +49,7 @@
 		display: inline-block;
 		margin-left: 8px;
 		color: var(--common-linkColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -79,7 +79,7 @@
 
 	&-text {
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -108,7 +108,7 @@
 
 .height {
 	width: 100%;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -127,7 +127,7 @@
 
 .public-key {
 	color: var(--common-linkColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -137,7 +137,7 @@
 
 .current-fees {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -151,7 +151,7 @@
 
 .time {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -160,7 +160,7 @@
 
 .raw-log {
 	color: var(--common-textColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -175,7 +175,7 @@
 	border-radius: 8px;
 	background: var(--common-activeTabColor);
 	color: var(--common-activeTabTextColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -210,7 +210,7 @@
 		flex-basis: initial;
 		margin-right: 16px;
 		color: var(--common-textColor);
-		font-family: Roboto;
+		font-family: 'IBM Plex Sans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;
@@ -237,7 +237,7 @@
 			flex-basis: initial;
 			margin-right: 16px;
 			color: var(--common-textColor);
-			font-family: Roboto;
+			font-family: 'IBM Plex Sans';
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;
@@ -278,7 +278,7 @@
 	margin-top: 8px;
 	display: block;
 	color: #f44336;
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	font-style: normal;
 	font-weight: 500;
 	font-size: 12px;

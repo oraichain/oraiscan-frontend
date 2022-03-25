@@ -11,7 +11,7 @@
 .app {
 	min-height: calc(100vh - var(--heightFooter));
 	background-color: var(--common-backgroundColor);
-	font-family: Roboto;
+	font-family: 'IBM Plex Sans';
 	overflow: hidden;
 }
 
@@ -21,4 +21,10 @@
 	&-title {
 		text-align: right;
 	}
+}
+
+.top-background {
+	position: absolute;
+	top: 0;
+	width: 100%;
 }

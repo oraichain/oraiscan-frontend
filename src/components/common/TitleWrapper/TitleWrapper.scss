@@ -1,10 +1,12 @@
 @import "src/styles/utils";
 
 .title-wrapper {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 12px;
+	z-index: 2;
 
 	@include media("<medium") {
 		flex-direction: column;
