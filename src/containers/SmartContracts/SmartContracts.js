@@ -31,7 +31,8 @@ const SmartContracts = () => {
 		setPageId(page);
 	};
 
-	const basePath = `${consts.API.SMART_CONTRACTS}?limit=${consts.REQUEST.LIMIT}`;
+	const basePath = `${consts.API.SMART_CONTRACTS_BY_CODE}?limit=${consts.REQUEST.LIMIT}`;
+	// https://api.scan.orai.io/v1/smart_contracts_by_code_id?limit=10&page_id=1
 	let path = `${basePath}&page_id=${pageId}`;
 	// if (keyword) {
 	// 	path = `${basePath}&page_id=${pageId}&tc_name=${keyword}`;

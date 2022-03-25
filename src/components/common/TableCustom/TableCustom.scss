@@ -1,0 +1,71 @@
+@import "src/styles/utils";
+
+.table-container {
+	background: var(--common-themedTable-headerBackgroundColor);
+	box-shadow: var(--shadow1);
+	border-radius: 8px;
+}
+
+.table {
+}
+
+.header-cell,
+.data-cell {
+	position: relative;
+	border: 1px solid var(--common-borderColor);
+	color: var(--common-textColor);
+}
+
+.table-theme {
+	.header-row {
+		background: var(--common-themedTable-headerBackgroundColor);
+	}
+
+	.data-row {
+		&:nth-child(odd) {
+			background: var(--common-themedTable-oddRowBackgroundColor);
+		}
+
+		&:nth-child(even) {
+			background: var(--common-themedTable-evenRowBackgroundColor);
+		}
+	}
+}
+
+.data-cell-custom {
+	padding-bottom: 0;
+	padding-top: 0;
+	border-bottom: none;
+}
+
+@keyframes fadeIn {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.effect {
+	&-in {
+		animation-name: fadeIn;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+
+	&-out {
+		animation-name: fadeOut;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+}

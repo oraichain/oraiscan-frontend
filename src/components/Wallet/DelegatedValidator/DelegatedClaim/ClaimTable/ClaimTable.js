@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
-import {logoBrand} from "src/constants/logoBrand";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
+import { logoBrand } from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
-import {myKeystation} from "src/lib/Keystation";
-import {showAlert} from "src/store/modules/global";
+import { myKeystation } from "src/lib/Keystation";
+import { showAlert } from "src/store/modules/global";
 import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 
 const cx = classNames.bind(styles);
 
-const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
-	const {address, account} = useSelector(state => state.wallet);
+const ClaimTable = memo(({ data, totalStaked, totalRewards }) => {
+	const { address, account } = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
 	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
@@ -51,7 +51,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 		};
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -81,7 +81,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 			</div>
 		);
 		const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
-		const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}];
+		const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }];
 		return {
 			headerCells,
 			headerCellStyles,
@@ -122,7 +122,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 		};
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -136,10 +136,9 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {customLogo: null};
-			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || { customLogo: null };
 			const logoName = item.validator || "";
-
+			const logoURL = item?.moniker_image ? item?.moniker_image : logoItem.customLogo ? false : logoItem.logo;
 			const validatorDataCell = item?.validator ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator}`}>
 					<div className={cx("validator")}>
