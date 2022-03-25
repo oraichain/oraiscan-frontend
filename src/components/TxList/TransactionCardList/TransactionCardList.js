@@ -105,6 +105,23 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 					} else if (account === item.messages[0].to_address) {
 						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 					}
+				} else if (
+					account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+					if (message?.packet?.data) {
+						const data = JSON.parse(atob(message?.packet?.data));
+						if (account === data.receiver) {
+							transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>IN</div>;
+						}
+					}
+				} else if (
+					account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
+					if (account === message.sender) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+					}
 				}
 
 				let resultDataCellContent;
