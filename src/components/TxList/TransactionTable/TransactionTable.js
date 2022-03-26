@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, reduceStringAssets, setAgoTime , formatNumber} from "src/lib/scripts";
+import { _, reduceString, reduceStringAssets, setAgoTime, formatNumber } from "src/lib/scripts";
 import { formatOrai, formatFloat } from "src/helpers/helper";
 import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -245,17 +245,6 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				);
 			}
 
-			let ibcAmountDataCell = _.isNil(item?.messages) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": "abc" }, "align-right")}>
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatNumber(item?.messages?.[0]?.token?.amount)}</span>
-					</div>
-					<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
-				</div>
-			);
-
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -293,6 +282,17 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 				}
 			}
+
+			let ibcAmountDataCell = _.isNil(item?.messages) ? (
+				<div className={cx("align-left")}>-</div>
+			) : (
+				<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(item?.messages?.[0]?.token?.amount)}</span>
+					</div>
+					<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
+				</div>
+			);
 
 			let amountDataCell;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);

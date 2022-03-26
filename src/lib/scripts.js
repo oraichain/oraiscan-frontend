@@ -14,7 +14,7 @@ export const nilCheck = arr => !_.every(arr, el => !_.isNil(el));
 //  planning on recreating this with css and components in the future(already mostly done)
 export const reduceString = (str, from, end) => (str ? str.substring(0, from) + " ... " + str.substring(str.length - end) : "-");
 
-export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end)  : "") : "-");
+export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end) : "") : "");
 
 export const stringNumCheck = input => !empty(input) && !isNaN(Number(input));
 
