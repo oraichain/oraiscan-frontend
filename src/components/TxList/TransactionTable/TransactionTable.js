@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, reduceStringAssets, setAgoTime , formatNumber} from "src/lib/scripts";
+import { _, reduceString, reduceStringAssets, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket } from "src/lib/scripts";
 import { formatOrai, formatFloat } from "src/helpers/helper";
 import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -244,17 +244,40 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 					</div>
 				);
 			}
-
-			let ibcAmountDataCell = _.isNil(item?.messages) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": "abc" }, "align-right")}>
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatNumber(item?.messages?.[0]?.token?.amount)}</span>
+			let ibcAmountDataCell = null;
+			if (
+				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+			) {
+				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+				if (message?.packet?.data) {
+					const msgRec = JSON.parse(atob(message?.packet?.data));
+					const port = message?.packet?.destination_port;
+					const channel = message?.packet?.destination_channel;
+					ibcAmountDataCell = _.isNil(message?.packet) ? (
+						<div className={cx("align-left")}>-</div>
+					) : (
+						<div className={cx("ibc-data-cell", "align-right")}>
+							<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
+							<div className={cx("ibc-denom")}>{"(" + port + '/' + channel + '/' + msgRec?.denom + ")"}</div>
+						</div >
+					);
+				}
+			} else if (
+				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")
+			) {
+				const rawLog = JSON.parse(item?.raw_log);
+				const rawLogParse = parseIbcMsgTransfer(rawLog);
+				const rawLogDenomSplit = rawLogParse?.denom?.split("/")
+				ibcAmountDataCell = _.isNil(item?.raw_log) ? (
+					<div className={cx("align-left")}>-</div>
+				) : (
+					<div className={cx("ibc-data-cell", "align-right")}>
+						<div className={cx("ibc-value")}>{formatOrai(rawLogParse?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}</div>
+						<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
 					</div>
-					<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
-				</div>
-			);
+				);
+			}
+
 
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>

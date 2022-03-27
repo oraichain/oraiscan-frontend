@@ -17,6 +17,12 @@ const ExecutorsTableSkeleton = memo(({ rows = 2 }) => {
 				</div>
 			);
 
+			const executingKeyDataCell = (
+				<div className={cx("skeleton-data-cell", "align-left")}>
+					<Skeleton />
+				</div>
+			);
+
 			const activeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
@@ -24,7 +30,7 @@ const ExecutorsTableSkeleton = memo(({ rows = 2 }) => {
 			);
 
 
-			dataRows.push([publicKeyDataCell, activeDataCell]);
+			dataRows.push([publicKeyDataCell, executingKeyDataCell, activeDataCell]);
 		}
 		return dataRows;
 	};

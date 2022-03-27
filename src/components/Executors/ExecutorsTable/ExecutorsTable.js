@@ -12,11 +12,13 @@ const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const publicKeyHeaderCell = <div className={cx("header-cell", "align-left")}>Executor Public Keys</div>;
+	const executingHeaderCell = <div className={cx("header-cell", "align-right")}>Executing Power</div>;
 	const activeHeaderCell = <div className={cx("header-cell", "align-right")}>Active</div>;
-	const headerCells = [publicKeyHeaderCell, activeHeaderCell];
+	const headerCells = [publicKeyHeaderCell, executingHeaderCell, activeHeaderCell];
 	const headerCellStyles = [
 		{ minWidth: "140px" }, // Name
-		{ minWidth: "80px" }, // active
+		{ minWidth: "80px" }, // Executing Power
+		{ minWidth: "80px" }, // Active
 	];
 
 	return {
@@ -32,7 +34,7 @@ const ExecutorsTable = memo(({ data = [] }) => {
 		}
 
 		return data.map(item => {
-			const publịcKeyDataCell = _.isNil(item?.pubkey) ? (
+			const publicKeyDataCell = _.isNil(item?.pubkey) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("align-left")}>
@@ -41,19 +43,27 @@ const ExecutorsTable = memo(({ data = [] }) => {
 				</div>
 			);
 
+			const executingKeyDataCell = _.isNil(item?.executing_power) ? (
+				<div className={cx("align-right")}>-</div>
+			) : (
+				<div className={cx("align-right")}>
+					{item.executing_power}
+				</div>
+			);
+
 			const activeDataCell =
-				_.isNil(item?.is_acitve) || _.isNil(item?.is_acitve) ? (
+				_.isNil(item?.is_active) || _.isNil(item?.is_active) ? (
 					<div className={cx("align-right")}>-</div>
 				) : (
 					<div className={cx("active-data-cell", "align-right")}>
 						<div className={cx("active")}>
-							<span className={cx("active-value")}>{item.is_acitve ? 'true' : 'false'}</span>
+							<span className={cx("active-value")}>{item.is_active ? 'true' : 'false'}</span>
 						</div>
 					</div>
 				);
 
 
-			return [publịcKeyDataCell, activeDataCell];
+			return [publicKeyDataCell, executingKeyDataCell, activeDataCell];
 		});
 	};
 

@@ -1,9 +1,9 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import styles from "./TransactionCardList.scss";
 
-const TransactionCardListSkeleton = memo(({rows = 10}) => {
+const TransactionCardListSkeleton = memo(({ rows = 10 }) => {
 	const cx = classNames.bind(styles);
 
 	let transactionCardListItems = [];
@@ -24,6 +24,15 @@ const TransactionCardListSkeleton = memo(({rows = 10}) => {
 						<tr>
 							<td>
 								<div className={cx("item-title")}>Type</div>
+							</td>
+							<td>
+								<Skeleton />
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div className={cx("item-title")}>IBC Amount</div>
 							</td>
 							<td>
 								<Skeleton />

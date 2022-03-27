@@ -94,7 +94,7 @@ export const getImagesValidator = async (address) => {
 	return await axios.get(`${consts.API_BASE}${consts.API.GET_IMAGES_VALIDATORS}/${address}`);
 }
 
-export const getListRequest = (aiOracle,aiRequest) => {
+export const getListRequest = (aiOracle, aiRequest) => {
 	return axios.get(`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${aiOracle}/smart/${aiRequest}`);
 };
 
