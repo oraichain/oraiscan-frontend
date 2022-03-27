@@ -317,6 +317,17 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				}
 			}
 
+			// let ibcAmountDataCell = _.isNil(item?.messages) ? (
+			// 	<div className={cx("align-left")}>-</div>
+			// ) : (
+			// 	<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+			// 		<div className={cx("amount")}>
+			// 			<span className={cx("amount-value")}>{formatOrai(item?.messages?.[0]?.token?.amount)}</span>
+			// 		</div>
+			// 		<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
+			// 	</div>
+			// );
+
 			let amountDataCell;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
