@@ -1,7 +1,7 @@
 import { networks } from "./constants/networks";
 
-// export const isTestnet = process.env.REACT_APP_IS_TEST_NET || localStorage?.getItem("network") === networks.TESTNET;
-export const isTestnet = true;
+export const isTestnet = process.env.REACT_APP_IS_TEST_NET || localStorage?.getItem("network") === networks.TESTNET;
+// export const isTestnet = true;
 const config = Object.freeze({
 	SCAN_API: isTestnet
 		? process.env.REACT_APP_API_TESTNET || "https://api.testnet.scan.orai.io/v1"

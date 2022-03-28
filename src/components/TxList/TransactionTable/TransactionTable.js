@@ -276,6 +276,8 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 						<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
 					</div>
 				);
+			} else {
+				ibcAmountDataCell = <div className={cx("align-right")}>-</div>
 			}
 
 
