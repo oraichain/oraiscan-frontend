@@ -13,7 +13,7 @@
 
 .header-cell {
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -27,7 +27,7 @@
 
 .tx-hash-data-cell {
 	color: var(--common-linkColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -48,7 +48,7 @@
 		color: var(--common-transactions-transactionTypeTextColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 12px;
@@ -57,7 +57,7 @@
 
 	.number-of-message {
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 12px;
@@ -92,7 +92,7 @@
 
 		&-text {
 			color: var(--common-textColor);
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: normal;
 			font-size: 14px;
@@ -113,7 +113,7 @@
 
 	.amount {
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -140,7 +140,7 @@
 		text-align: center;
 		padding: 7px;
 		border-radius: 4px;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: bold;
 		font-size: 11px;
@@ -163,7 +163,7 @@
 .fee-data-cell {
 	.fee {
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -183,11 +183,25 @@
 	}
 }
 
+.ibc-data-cell {
+	.ibc-value {
+		padding-right: 4px;
+		text-transform: uppercase;
+	}
+	.ibc-denom {
+		opacity: 0.5;
+		font-size: 11px;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+	}
+}
+
 .time-data-cell,
 .height-data-cell {
 	display: block;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;

@@ -1,12 +1,12 @@
-import React, {memo, useMemo} from "react";
+import React, { memo, useMemo } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import {tableThemes} from "src/constants/tableThemes";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
+import { getHeaderRow } from "src/components/TxList/TransactionTable/TransactionTable";
 import styles from "./TransactionTable.module.scss";
 
-const TransactionTableSkeleton = memo(({rows = 5}) => {
+const TransactionTableSkeleton = memo(({ rows = 5 }) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -24,6 +24,13 @@ const TransactionTableSkeleton = memo(({rows = 5}) => {
 			);
 
 			const resultDataCell = (
+				<div className={cx("skeleton-data-cell", "align-left")}>
+					<Skeleton />
+				</div>
+			);
+
+
+			const ibcDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
@@ -51,7 +58,7 @@ const TransactionTableSkeleton = memo(({rows = 5}) => {
 					<Skeleton />
 				</div>
 			);
-			dataRows.push([txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
+			dataRows.push([txHashDataCell, typeDataCell, ibcDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
 		}
 		return dataRows;
 	};

@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
-import { _, reduceString, setAgoTime } from "src/lib/scripts";
 import { formatFloat, formatOrai } from "src/helpers/helper";
 import { getNewRoyalty, getRoyaltyAmount, getTokenId } from "src/components/TxList/TransactionTable/TransactionTable";
+import { _, reduceString, setAgoTime, parseIbcMsgTransfer, parseIbcMsgRecvPacket } from "src/lib/scripts";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
@@ -105,6 +105,23 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 					} else if (account === item.messages[0].to_address) {
 						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 					}
+				} else if (
+					account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+					if (message?.packet?.data) {
+						const data = JSON.parse(atob(message?.packet?.data));
+						if (account === data.receiver) {
+							transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>IN</div>;
+						}
+					}
+				} else if (
+					account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
+					if (account === message.sender) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+					}
 				}
 
 				let resultDataCellContent;
@@ -127,6 +144,40 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 						<div className={cx("result")}>
 							<RedoIcon className={cx("result-icon", "result-icon-pending")} />
 							<span className={cx("result-text")}>Pending</span>
+						</div>
+					);
+				}
+
+				let ibcAmountDataCell = null;
+				if (
+					account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+					if (message?.packet?.data) {
+						const msgRec = JSON.parse(atob(message?.packet?.data));
+						const port = message?.packet?.destination_port;
+						const channel = message?.packet?.destination_channel;
+						ibcAmountDataCell = _.isNil(message?.packet) ? (
+							<div className={cx("align-left")}>-</div>
+						) : (
+							<div className={cx("ibc-data-cell", "align-right")}>
+								<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
+								<div className={cx("ibc-denom")}>{"(" + port + '/' + channel + '/' + msgRec?.denom + ")"}</div>
+							</div >
+						);
+					}
+				} else if (
+					account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")
+				) {
+					const rawLog = JSON.parse(item?.raw_log);
+					const rawLogParse = parseIbcMsgTransfer(rawLog);
+					const rawLogDenomSplit = rawLogParse?.denom?.split("/")
+					ibcAmountDataCell = _.isNil(item?.raw_log) ? (
+						<div className={cx("align-left")}>-</div>
+					) : (
+						<div className={cx("ibc-data-cell", "align-right")}>
+							<div className={cx("ibc-value")}>{formatOrai(rawLogParse?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}</div>
+							<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
 						</div>
 					);
 				}
@@ -165,6 +216,16 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 												</div>
 											</Tooltip>
 										)}
+									</td>
+								</tr>
+
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>IBC Amount</div>
+									</td>
+									<td>
+										{ibcAmountDataCell}
 									</td>
 								</tr>
 

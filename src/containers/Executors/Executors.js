@@ -32,7 +32,7 @@ const Executors = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(0);
-	const [total, setTotal] = useState(1);
+	const [total, setTotal] = useState(0);
 	// const [offset, setOffset] = useState('');
 	const totalPagesRef = useRef(null);
 	const [listExecutors, setListExecutors] = useState([]);
@@ -49,9 +49,8 @@ const Executors = () => {
 	let paginationSection;
 
 	useEffect(() => {
-		console.log({ pageId });
 		if (pageId >= 1) {
-			fetchData(false, pageId);
+			fetchData(false);
 		}
 	}, [pageId]);
 
@@ -60,15 +59,13 @@ const Executors = () => {
 		fetchData(true);
 	}, []);
 
-	const fetchData = async (checkOffset, pageId) => {
-		let objList = {};
-		objList = { get_executors: { limit: consts.REQUEST.LIMIT * (+pageId || 1), order: 2 } }
+	const fetchData = async (checkOffset) => {
+		let objList = { get_executors_by_index: { offset: pageId ? ((pageId - 1) * consts.REQUEST.LIMIT) - 1 : undefined, limit: consts.REQUEST.LIMIT, order: 1 } }
 		const buffList = Buffer.from(
 			JSON.stringify(objList)
 		);
 		let listExecutorsParse = buffList.toString('base64');
 		let listExecutorsData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, listExecutorsParse);
-		console.log("list executor data: ", listExecutorsData);
 		let dt = listExecutorsData?.data?.data;
 		switch (checkOffset) {
 			case true:
@@ -90,14 +87,12 @@ const Executors = () => {
 		let totalExecutors = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, totalExecutorsParse);
 		let total = totalExecutors?.data?.data;
 		totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT);
-		// setOffset(dt?.[dt.length - 1]?.pubkey)
 		setTotal(total);
 		setListExecutors(dt);
 	}
 
 	const fetchSecond = async (dt) => {
-		let datafilter = pageId === 1 ? dt : dt?.filter((e, i) => i >= consts.REQUEST.LIMIT * (+pageId - 1));
-		setListExecutors(datafilter);
+		setListExecutors(dt);
 	}
 
 

@@ -79,7 +79,6 @@ const OracleRequests = () => {
 		);
 		let aiRequest = buff.toString('base64');
 		let listRequestData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, aiRequest);
-		console.log({ listRequestData });
 		switch (checkOffset) {
 			case true:
 				fetchFirst(listRequestData);
@@ -91,7 +90,6 @@ const OracleRequests = () => {
 	}
 
 	const fetchFirst = async (listRequestAPI) => {
-		console.log({ fetch: "fetchFirst" });
 		let total = listRequestAPI?.data?.data?.[0]?.stage;
 		// console.log({ total });
 		// totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
@@ -100,7 +98,6 @@ const OracleRequests = () => {
 	}
 
 	const fetchSecond = async (listRequestAPI) => {
-		console.log({ fetch: "fetchSecond", listRequestAPI, keyword });
 		// if (keyword) {
 		// 	totalPagesRef.current = 1;
 		// } else {
