@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useParams, useLocation} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
 import consts from "src/constants/consts";
-import {isTestnet} from "src/config";
+import { isTestnet } from "src/config";
 
 const convertData = (pendingTxState, txHash) => {
 	if (!pendingTxState) {
@@ -55,8 +55,6 @@ const useGetTx = txHash => {
 
 	const location = useLocation();
 	const pendingTxState = location.state;
-
-	console.log("pendingTxState  = ", pendingTxState);
 
 	useEffect(() => {
 		const cancelToken = axios.CancelToken;
@@ -149,4 +147,4 @@ const useGetTx = txHash => {
 	};
 };
 
-export {useGetTx};
+export { useGetTx };

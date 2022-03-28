@@ -33,7 +33,7 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 		if (detail && detail.data && detail.data.image) {
 			setLogoURL(detail.data.image);
 		} else {
-			setLogoURL(logoItem.logo ? logoItem.logo : "")
+			setLogoURL(logoItem?.logo ? logoItem.logo : "")
 		}
 		setDataDetails(detail?.data)
 	};

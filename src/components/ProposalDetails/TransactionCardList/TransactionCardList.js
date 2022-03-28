@@ -1,11 +1,11 @@
 // @ts-nocheck
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatFloat, formatOrai} from "src/helpers/helper";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { formatFloat, formatOrai } from "src/helpers/helper";
 import styles from "./TransactionCardList.module.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
@@ -15,7 +15,7 @@ const getTxTypeNew = type => {
 	return typeArr[typeArr.length - 1];
 };
 
-const TransactionCardList = memo(({data = [], account}) => {
+const TransactionCardList = memo(({ data = [], account }) => {
 	const status = useSelector(state => state.blockchain.status);
 	const cx = classNames.bind(styles);
 	// const status = useSelector(state => state.blockchain.status);
@@ -35,6 +35,23 @@ const TransactionCardList = memo(({data = [], account}) => {
 						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 					} else if (account === item.messages[0].to_address) {
 						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
+					}
+				} else if (
+					account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+					if (message?.packet?.data) {
+						const data = JSON.parse(atob(message?.packet?.data));
+						if (account === data.receiver) {
+							transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>IN</div>;
+						}
+					}
+				} else if (
+					account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
+				) {
+					let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
+					if (account === message.sender) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 					}
 				}
 
@@ -104,7 +121,7 @@ const TransactionCardList = memo(({data = [], account}) => {
 												</div>
 											</div>
 										) : (
-											<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
+											<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
 												{transferStatus && transferStatus}
 												<div className={cx("amount")}>
 													<span className={cx("amount-value")}>{formatOrai(item.amount)} </span>
