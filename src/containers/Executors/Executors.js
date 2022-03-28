@@ -37,9 +37,9 @@ const Executors = () => {
 	const totalPagesRef = useRef(null);
 	const [listExecutors, setListExecutors] = useState([]);
 	const onPageChange = page => {
-		if (page > pageId + 2) {
-			return;
-		}
+		// if (page > pageId + 2) {
+		// 	return;
+		// }
 		setPageId(page);
 	};
 
