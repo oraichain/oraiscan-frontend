@@ -12,12 +12,12 @@ const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
 	const publicKeyHeaderCell = <div className={cx("header-cell", "align-left")}>Executor Public Keys</div>;
-	const executingHeaderCell = <div className={cx("header-cell", "align-right")}>Executing Power</div>;
+	const executingHeaderCell = <div className={cx("header-cell", "align-right")}>Index</div>;
 	const activeHeaderCell = <div className={cx("header-cell", "align-right")}>Active</div>;
 	const headerCells = [publicKeyHeaderCell, executingHeaderCell, activeHeaderCell];
 	const headerCellStyles = [
 		{ minWidth: "140px" }, // Name
-		{ minWidth: "80px" }, // Executing Power
+		{ minWidth: "80px" }, // Index
 		{ minWidth: "80px" }, // Active
 	];
 
@@ -43,11 +43,11 @@ const ExecutorsTable = memo(({ data = [] }) => {
 				</div>
 			);
 
-			const executingKeyDataCell = _.isNil(item?.executing_power) ? (
+			const executingKeyDataCell = _.isNil(item?.index) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("align-right")}>
-					{item.executing_power}
+					{item.index}
 				</div>
 			);
 

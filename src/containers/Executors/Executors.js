@@ -60,7 +60,9 @@ const Executors = () => {
 	}, []);
 
 	const fetchData = async (checkOffset) => {
-		let objList = { get_executors_by_index: { offset: pageId ? ((pageId - 1) * consts.REQUEST.LIMIT) - 1 : undefined, limit: consts.REQUEST.LIMIT, order: 1 } }
+		let offset = pageId ? ((pageId - 1) * consts.REQUEST.LIMIT) - 1 : undefined;
+		if (offset < 0) offset = undefined;
+		let objList = { get_executors_by_index: { offset, limit: consts.REQUEST.LIMIT, order: 1 } }
 		const buffList = Buffer.from(
 			JSON.stringify(objList)
 		);

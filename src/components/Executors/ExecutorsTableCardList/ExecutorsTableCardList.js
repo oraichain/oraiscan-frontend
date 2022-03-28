@@ -34,14 +34,14 @@ const ExecutorsTableCardList = memo(({ data = [] }) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Executing Power</div>
+										<div className={cx("item-title")}>Index</div>
 									</td>
 									<td>
-										{_.isNil(item?.executing_power) ? (
+										{_.isNil(item?.index) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
 											<div className={cx("align-left")}>
-											 {item.executing_power}
+												{item.index}
 											</div>
 										)}
 									</td>
