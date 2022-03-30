@@ -265,11 +265,15 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 			} else if (
 				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")
 			) {
-				const rawLog = JSON.parse(item?.raw_log);
-				const rawLogParse = parseIbcMsgTransfer(rawLog);
-				const rawLogDenomSplit = rawLogParse?.denom?.split("/")
-				ibcAmountDataCell = _.isNil(item?.raw_log) ? (
-					<div className={cx("align-left")}>-</div>
+				let rawLog, rawLogParse, rawLogDenomSplit;
+				if (item?.result === "Success") {
+					rawLog = JSON.parse(item?.raw_log);
+					rawLogParse = rawLog && parseIbcMsgTransfer(rawLog);
+					rawLogDenomSplit = rawLogParse?.denom?.split("/");
+				}
+
+				ibcAmountDataCell = item?.result !== "Success" ? (
+					<div className={cx("align-right")}>-</div>
 				) : (
 					<div className={cx("ibc-data-cell", "align-right")}>
 						<div className={cx("ibc-value")}>{formatOrai(rawLogParse?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}</div>
