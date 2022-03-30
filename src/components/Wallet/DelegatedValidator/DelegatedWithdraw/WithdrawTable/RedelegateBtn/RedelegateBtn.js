@@ -3,7 +3,7 @@ import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
 import { useForm, FormProvider } from "react-hook-form";
 import { withStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -20,6 +20,7 @@ import consts from "src/constants/consts";
 import { myKeystation } from "src/lib/Keystation";
 import { InputNumberOrai, InputTextWithIcon } from "src/components/common/form-controls";
 import styles from "./RedelegateBtn.scss";
+import { useHistory } from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -88,6 +89,8 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 	const [open, setOpen] = useState(false);
 	const { address, account } = useSelector(state => state.wallet);
 	const percents = [25, 50, 75, 100];
+	const history = useHistory();
+	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
 	// const balance = new BigNumber("3817852419082");
 
@@ -167,7 +170,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
-			if (e?.data?.txhash) {
+			if (e?.data?.res?.txhash) {
 				closeDialog();
 			}
 		};
@@ -175,7 +178,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 		return () => {
 			window.removeEventListener("message", callBack);
 		};
-	}, []);
+	}, [dispatch, closeDialog, history]);
 
 	return (
 		<div className={cx("delegate")}>
