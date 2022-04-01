@@ -15,6 +15,9 @@
 	justify-content: flex-end;
 	margin-bottom: 30px;
 	@include media("<medium") {
+		// display: block;
+	}
+	@include media("<small") {
 		display: block;
 	}
 
@@ -41,7 +44,7 @@
 		margin-left: 5px;
 		@include media("<medium") {
 			font-size: 14px;
-		}
+		}	
 
 		&:hover {
 			color: #ffffff;
@@ -51,6 +54,9 @@
 
 		&-active {
 			margin-left: 15px;
+			@include media("<small") {
+				margin-left: 0;
+			}
 		}
 
 		&-is-active {
@@ -78,7 +84,9 @@
 	@include media("<medium") {
 		width: 100%;
 	}
-
+	@include media("<small") {
+		margin-bottom: 10px;
+	}
 	button {
 		position: absolute;
 		right: 18px;

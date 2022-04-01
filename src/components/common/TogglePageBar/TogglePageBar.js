@@ -122,6 +122,22 @@ const TogglePageBar = ({type}) => {
 			case "price_feeds": {
 				return <div className={cx("title")}> Price Feeds</div>;
 			}
+			case "ibc-assets": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<RequestsTabIcon className={cx("title-icon")} /> IBC Assets
+					</div>
+				);
+			}
+			case "ibc-relayers": {
+				return (
+					<div className={cx("title")}>
+						{" "}
+						<RequestsTabIcon className={cx("title-icon")} /> IBC Relayers
+					</div>
+				);
+			}
 			case "randomness": {
 				return <div className={cx("title")}> Randomness</div>;
 			}

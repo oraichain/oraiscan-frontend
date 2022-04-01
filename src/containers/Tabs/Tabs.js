@@ -361,7 +361,7 @@ const Tabs = memo(() => {
 						let handleClose;
 						switch (name) {
 							case "Validators":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions dropdown-validators";
 								childs = childDropdown?.[name];
 								anchorRef = validatorsAnchorRef;
 								open = openValidators;
@@ -369,7 +369,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseValidators;
 								break;
 							case "Transactions":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions ";
 								childs = childDropdown?.[name];
 								anchorRef = transactionsAnchorRef;
 								open = openTransactions;
@@ -377,7 +377,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseTransactions;
 								break;
 							case "Proposals":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions dropdown-proposals";
 								childs = childDropdown?.[name];
 								anchorRef = proposalsAnchorRef;
 								open = openProposals;
@@ -385,7 +385,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseProposals;
 								break;
 							case "Smart Contracts":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions dropdown-smart";
 								childs = childDropdown?.[name];
 								anchorRef = oracleScriptsAnchorRef;
 								open = openOracleScripts;
@@ -393,7 +393,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseOracleScripts;
 								break;
 							case "Subnetworks":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions dropdown-sub";
 								childs = childDropdown?.[name];
 								anchorRef = requestsAnchorRef;
 								open = openRequests;
@@ -409,7 +409,7 @@ const Tabs = memo(() => {
 							// 	handleClose = handleCloseOthers;
 							// 	break;
 							case "IBC":
-								classNameDropdown = "dropdown-transactions";
+								classNameDropdown = "dropdown-transactions dropdown-ibc";
 								childs = childDropdown?.[name];
 								anchorRef = ibcAnchorRef;
 								open = openIbc;
