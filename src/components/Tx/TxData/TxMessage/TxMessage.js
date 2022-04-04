@@ -271,6 +271,10 @@ const TxMessage = ({ key, msg, data }) => {
 			);
 		};
 
+		const parseRawEvents = (events, type) => {
+			return events.find(event => event.type === type);
+		}
+
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return null;
@@ -283,6 +287,18 @@ const TxMessage = ({ key, msg, data }) => {
 			}
 
 			const { amount, denom } = inputObject;
+			let finalDenom = denom;
+			if (denom !== consts.DENOM) {
+				const logs = JSON.parse(data.raw_log);
+				const ibcTransferEvent = parseRawEvents(logs[0].events, 'send_packet');
+				// process denom for msg transfer case
+				if (ibcTransferEvent) {
+					const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === 'packet_data').value).denom;
+					finalDenom = packetData.split("/")[2]; // syntax: transfer/channel-15/uatom. trim the first character and upper everything
+					if (finalDenom.charAt(0) === 'u') finalDenom = finalDenom.substring(1).toUpperCase();
+					else finalDenom = finalDenom.toUpperCase();
+				}
+			}
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
@@ -298,8 +314,8 @@ const TxMessage = ({ key, msg, data }) => {
 				<InfoRow label={label}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
-						<span className={cx("amount-denom")}>{denom}</span>
-						<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
+						<span className={cx("amount-denom")}>{finalDenom}</span>
+						{/* <span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span> */}
 					</div>
 				</InfoRow>
 			);
