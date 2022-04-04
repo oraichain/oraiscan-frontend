@@ -84,7 +84,7 @@
 } */
 
 @media only screen and (max-width: 1280px) {
-	.dropdown-transactions {
+	.dropdown-trans {
 		transform: translate(-103%, 333%) !important;
 	}
 	.dropdown-ibc {

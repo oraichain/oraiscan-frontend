@@ -369,7 +369,7 @@ const Tabs = memo(() => {
 								handleClose = handleCloseValidators;
 								break;
 							case "Transactions":
-								classNameDropdown = "dropdown-transactions ";
+								classNameDropdown = "dropdown-transactions dropdown-trans";
 								childs = childDropdown?.[name];
 								anchorRef = transactionsAnchorRef;
 								open = openTransactions;
