@@ -42,7 +42,10 @@ export default function({setActiveTab, address}) {
 	return (
 		<div className={cx("delegated-withdraw")}>
 			<div className={cx("delegated-withdraw-header")}>
-				<div className={cx("title")}>Withdraw</div>
+				<div className={cx("label")}>
+					<div className={cx("title")}>Withdraw</div>
+					<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
+				</div>
 				<button className={cx("button")} onClick={() => setActiveTab(0)}>
 					Claim Reward
 					<img className={cx("button-icon")} src={arrowIcon} />

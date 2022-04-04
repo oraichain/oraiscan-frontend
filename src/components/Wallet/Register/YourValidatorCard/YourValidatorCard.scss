@@ -24,6 +24,12 @@
 				font-style: normal;
 				font-weight: 500;
 				font-size: 16px;
+				@media (max-width: 480px) {
+					font-size: 14px;
+				}
+				@media (max-width: 375px) {
+					font-size: 13px;
+				}
 			}
 
 			.validator-text {
@@ -33,7 +39,10 @@
 				font-weight: normal;
 				font-size: 18px;
 				line-height: 150%;
-
+				@media (max-width: 550px) {
+					font-size: 15px;
+				}
+				
 				&-blue {
 					color: var(--common-linkColor);
 				}
@@ -86,6 +95,7 @@
 				justify-content: flex-start;
 				align-items: center;
 			}
+			
 
 			.nav-link {
 				display: inline-block;
