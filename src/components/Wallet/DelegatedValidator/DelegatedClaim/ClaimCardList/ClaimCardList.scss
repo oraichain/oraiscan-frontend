@@ -1,6 +1,54 @@
 @import "src/styles/utils";
 
 .claim-card-list {
+	&-claim {
+		table {
+			width: 100%;
+			tr {
+				td:nth-child(1) {
+					text-align: left;
+					width: 50%;
+				}
+				td:nth-child(2) {
+					text-align: right;
+					width: 50%;
+				}
+
+				&:nth-child(1),
+				&:nth-child(3) {
+					td {
+						padding-bottom: 15px;
+					}
+				}
+			}
+		}
+
+		.claim-data-cell {
+			.button {
+				padding: 8px 18px;
+				color: var(--common-linkColor);
+				border: 1px solid var(--common-borderColor);
+				box-sizing: border-box;
+				border-radius: 4px;
+				font-family: 'IBM Plex Sans';
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+				cursor: pointer;
+
+				&-icon {
+					position: relative;
+					top: 2px;
+					display: inline-block;
+					margin-left: 8px;
+					width: auto;
+					height: 16px;
+				}
+			}
+		}
+	}
+
 	&-item {
 		padding: 15px;
 		margin-bottom: 15px;
