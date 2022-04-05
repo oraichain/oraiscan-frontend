@@ -7,7 +7,7 @@
 
 		.title {
 			color: var(--common-textColor);
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 500;
 			font-size: 18px;
@@ -19,13 +19,26 @@
 			}
 		}
 
+		.label {
+			width: 50%;
+		}
+
+		.note {
+			color: var(--common-linkColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 150%;
+		}
+
 		.button {
 			padding: 8px;
 			color: var(--common-linkColor);
 			border: 1px solid var(--common-borderColor);
 			box-sizing: border-box;
 			border-radius: 4px;
-			font-family: 'IBM Plex Sans';
+			font-family: "IBM Plex Sans";
 			font-style: normal;
 			font-weight: 500;
 			font-size: 16px;

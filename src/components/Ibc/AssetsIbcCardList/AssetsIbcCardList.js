@@ -29,7 +29,9 @@ const TestCaseCardList = memo(({ data = [] }) => {
 									<td>
 										<div className={cx("item-title")}>Name</div>
 									</td>
-									<td>{_.isNil(item?.channelId) ? <div className={cx("item-link")}>-</div> : <div className={cx("item-link")}>{item.symbol}</div>}</td>
+									<td>{_.isNil(item?.channelId) ? <div className={cx("item-link")}>-</div> : <>
+									<div className={cx("item-symbol")}>{item.symbol}</div>
+									<div className={cx("item-link")}>{item.channelId}</div></>}</td>
 								</tr>
 
 								<tr>

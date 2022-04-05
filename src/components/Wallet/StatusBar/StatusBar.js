@@ -84,7 +84,7 @@ export default function () {
 	} else {
 		balanceElement = (
 			<div>
-				{formatOrai(amount || 0) + "  "}
+				<span className={cx("amount")}>{formatOrai(amount || 0) + "  "}</span>
 				<span className={cx("symbol")}>{denom}</span>
 				<div className={cx("orai2usd")}>
 					<ExchangeIcon /> {formatUSD()} USD
