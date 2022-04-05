@@ -34,8 +34,8 @@ const SmartContracts = lazy(() => import(`src/containers/SmartContracts`));
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
-const Executors = lazy(() => import('src/containers/Executors'));
-const OracleRequests = lazy(() => import(`src/containers/OracleRequests`));
+// const Executors = lazy(() => import('src/containers/Executors'));
+// const OracleRequests = lazy(() => import(`src/containers/OracleRequests`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
 const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 const Randomness = lazy(() => import(`src/components/Randomness`));
@@ -43,7 +43,7 @@ const RandomnessDetail = lazy(() => import(`src/components/Randomness/Randomness
 const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
-const Relayers = lazy(() => import(`src/containers/Relayers`));
+const Relayers = lazy(() => import(`src/containers/Relayers`));                                      
 const OracleAI = lazy(() => import(`src/containers/OracleAI`));
 
 export default function (props) {

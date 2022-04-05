@@ -12,6 +12,10 @@
 		font-weight: 500;
 		font-size: 24px;
 		line-height: 150%;
+
+		@media (max-width: 500px) {
+			font-size: 20px;
+		}
 	}
 
 	&-body {
@@ -24,6 +28,9 @@
 				font-style: normal;
 				font-weight: 500;
 				font-size: 16px;
+				@media (max-width: 500px) {
+					font-size: 14px;
+				}
 			}
 
 			.validator-text {
@@ -107,6 +114,9 @@
 				font-size: 16px;
 				line-height: 150%;
 				cursor: pointer;
+				@media (max-width: 500px) {
+					font-size: 14px;
+				}
 			}
 		}
 	}

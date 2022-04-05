@@ -128,10 +128,6 @@ const Account = (props) => {
 		</TitleWrapper>
 	);
 
-	if (assetSearch === 1) {
-
-	}
-
 	if (addresses) {
 		addressCard = <AddressCard nameTagData={nameTagData} headerTitle='QR Code' addresses={addresses} />;
 	} else {
@@ -191,7 +187,7 @@ const Account = (props) => {
 			}
 		}
 	}
-	paginationSection = totalPagesRef.current ? <Pagination pages={Math.ceil(totalPagesRef.current / 5) || 1} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? <Pagination pages={Math.ceil(totalPagesRef.current / 2) || 1} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
