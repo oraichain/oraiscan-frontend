@@ -61,8 +61,65 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 		}, 500);
 	};
 
+	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
+		let msg = [];
+		data.forEach(element => {
+			let msgEle;
+			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+				msgEle = {
+					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+					value: {
+						delegator_address: address,
+						validator_address: element.validator_address,
+					},
+				};
+			}
+
+			msg.push(msgEle);
+		});
+
+		const payload = {
+			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+			value: {
+				msg: msg,
+				fee: {
+					amount: [0],
+					gas: 2000000,
+				},
+				signatures: null,
+				memo: "",
+			},
+		};
+
+		const popup = myKeystation.openWindow("transaction", payload, account);
+		let popupTick = setInterval(function() {
+			if (popup.closed) {
+				clearInterval(popupTick);
+			}
+		}, 500);
+	};
+
 	return (
 		<div className='claim-card-list'>
+			<div className={cx("claim-card-list-claim")} key={"claim-card-list-item-11"}>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>
+									<button className={cx("button")}>
+										Claim All
+										<img alt='/' className={cx("button-icon")} src={giftIcon} />
+									</button>
+								</div>
+							</td>
+						</tr>
+						<td>
+							<div className={cx("item-title")}></div>
+						</td>
+					</tbody>
+				</table>
+			</div>
 			{data.map((item, index) => {
 				return (
 					<div className={cx("claim-card-list-item")} key={"claim-card-list-item-" + index}>
@@ -107,7 +164,7 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 
 								<tr>
 									<td colSpan={2}>
-										<div className={cx("claim-data-cell")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)} >
+										<div className={cx("claim-data-cell")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
 											<button className={cx("button")}>
 												Claim
 												<img className={cx("button-icon")} src={giftIcon} />
