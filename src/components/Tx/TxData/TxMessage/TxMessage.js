@@ -315,7 +315,11 @@ const TxMessage = ({ key, msg, data }) => {
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
 						<span className={cx("amount-denom")}>{finalDenom}</span>
-						{/* <span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span> */}
+						{finalDenom === consts.DENOM &&
+							(
+								<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
+							)
+						}
 					</div>
 				</InfoRow>
 			);
