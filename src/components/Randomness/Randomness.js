@@ -1,19 +1,19 @@
 import * as React from "react";
-import {useState, useEffect, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import PropTypes from "prop-types";
-import {isNil, reject} from "lodash";
+import { isNil, reject } from "lodash";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import {useGet} from "restful-react";
-import {getLatestRound, getRound, getTxResponse} from "src/lib/drand/drand";
+import { useGet } from "restful-react";
+import { getLatestRound, getRound, getTxResponse } from "src/lib/drand/drand";
 import SearchIcon from "src/icons/SearchIcon";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
@@ -25,11 +25,11 @@ import styles from "./Randomness.module.scss";
 
 const cx = cn.bind(styles);
 
-const Randomness = ({}) => {
+const Randomness = ({ }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-	const {contract} = useParams();
+	const { contract } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -42,7 +42,7 @@ const Randomness = ({}) => {
 
 	const address = wallet?.address;
 
-	const {data: amountData, loading: amountLoading} = useGet({
+	const { data: amountData, loading: amountLoading } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`,
 	});
 
@@ -130,16 +130,16 @@ const Randomness = ({}) => {
 
 	const handleGetRandomValue = async () => {
 		try {
-			const {response, contract} = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
-			console.log("response: ", response);
+			const { tx_response, contract } = await getTxResponse(String(data?.currentFees), "0", "200000", userInput, address);
+			console.log("response: ", tx_response);
 			// if the transaction passes => we collect the round that the user requests
-			if (response.tx_response && response.tx_response.code === 0) {
+			if (tx_response && tx_response.code === 0) {
 				// fixed position for collecting round from a transaction result
-				const round = response.tx_response.logs[0].events[1].attributes[3].value;
+				const round = tx_response.logs[0].events[1].attributes[3].value;
 				console.log("round: ", round);
 				setTxResponse({
 					contract: contract,
-					txHash: response.tx_response?.txhash,
+					txHash: tx_response?.txhash,
 				});
 				setShowModal(true);
 				setUserInput("");

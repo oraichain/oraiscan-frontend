@@ -34,27 +34,14 @@ export const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-export const getTxResponse = async (amount, fees, gas, userInput = btoa("")) => {
+export const getTxResponse = async (amount, fees, gas, userInput = btoa(""), account) => {
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
-	const input = Buffer.from(
-		JSON.stringify({
-			request_random: {
-				input: btoa(userInput),
-			},
-		})
-	);
 	console.log("network: ", network);
 
 	return new Promise(async (resolve, reject) => {
 		try {
-			const { privateKey, chainCode, network } = await getChildKey();
-			const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
-
-			const sender = cosmos.getAddress(childKey);
-			const txBody = getHandleMessage(contract, input, sender, amount);
-
-			const response = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
-			resolve({ response, contract });
+			const tx_response = await executeRandomness(account, userInput);
+			resolve({ tx_response, contract });
 		} catch (error) {
 			reject(error);
 		}
@@ -163,3 +150,59 @@ export const getChildKey = () => {
 	});
 };
 
+export const executeRandomness = (account, userInput) => {
+
+	const msg =
+		JSON.stringify({
+			request_random: {
+				input: btoa(userInput),
+			},
+		});
+
+	const payload = {
+		type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+		gasType: "auto",
+		value: {
+			msg: [
+				{
+					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+					value: {
+						contract: contract,
+						msg,
+						sender: account,
+						sent_funds: null,
+					},
+				},
+			],
+			fee: {
+				amount: [0],
+				gas: 200000,
+			},
+			signatures: null,
+			memo: "",
+		},
+	};
+
+	// const popup = window.open(`${config.walletapi}/auth?signInFromScan=true`, "", "resizable=1, scrollbars=1, fullscreen=0, width=470, height=760");
+	const popup = myKeystation.openWindow("transaction", payload, account);
+
+	return new Promise((resolve, reject) => {
+		const loop = setInterval(function () {
+			if (!popup) {
+				clearInterval(loop);
+				reject("window-blocked");
+			} else if (popup.closed) {
+				clearInterval(loop);
+				reject("window-closed");
+			}
+		}, 500);
+		const handler = e => {
+			if (e.data.res) {
+				clearInterval(loop);
+				window.removeEventListener("message", handler);
+				resolve(e.data.res);
+			}
+		};
+		window.addEventListener("message", handler);
+	});
+};
