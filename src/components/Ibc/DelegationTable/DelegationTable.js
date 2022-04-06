@@ -113,7 +113,7 @@ const DelegationTable = memo(({data = []}) => {
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(item.transaction?.gas_wanted)}</span>
+							<span className={cx("amount-value")}>{JSON.parse(item?.transaction?.fee)?.amount?.[0]?.value / Math.pow(10,6) || "0"}</span>
 							<span className={cx("amount-denom")}> {JSON.parse(item?.transaction?.fee)?.amount?.[0]?.denom}</span>
 						</div>
 					</div>
