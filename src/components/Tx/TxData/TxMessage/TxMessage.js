@@ -1,18 +1,18 @@
-import React, { useMemo, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, {useMemo, useEffect} from "react";
+import {NavLink} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
 import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
-import { Fade, Tooltip } from "@material-ui/core";
+import {Fade, Tooltip} from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { agate } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { foundation } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import BigNumber from "bignumber.js";
 import copy from "copy-to-clipboard";
 import Interweave from "interweave";
@@ -20,13 +20,14 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
-import { reduceStringAssets } from "src/lib/scripts";
-import { themeIds } from "src/constants/themes";
+import {reduceStringAssets} from "src/lib/scripts";
+import {themeIds} from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
-import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
-import { showAlert } from "src/store/modules/global";
-import { divide } from "src/lib/Big";
-import { _, tryParseMessage, setAgoTime, getTotalTime } from "src/lib/scripts";
+import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
+import {showAlert} from "src/store/modules/global";
+import {loadMore, loadAll} from "src/store/modules/txs";
+import {divide} from "src/lib/Big";
+import {_, tryParseMessage, setAgoTime, getTotalTime} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -71,25 +72,26 @@ const tryParseMessageBinary = data => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch { }
+				} catch {}
 			}
 		}
 		return obj;
 	} catch (e) {
-		return { data };
+		return {data};
 	}
 };
 
-const TxMessage = ({ key, msg, data }) => {
+const TxMessage = ({key, msg, data}) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const activeThemeId = useSelector(state => state.activeThemeId);
-	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
+	const loadMoreValue = useSelector(state => state.txs.loadMore);
+	const {data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode} = useGithubSource();
 	const value = msg;
 	let type = msg["@type"] || "";
-	const { memo } = data;
+	const {memo} = data;
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
 			const loadStoreCode = async () => {
@@ -108,8 +110,8 @@ const TxMessage = ({ key, msg, data }) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [validatorHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{ minWidth: "150px" }, // Address
-				{ minWidth: "150px" }, // Amount
+				{minWidth: "150px"}, // Address
+				{minWidth: "150px"}, // Amount
 			];
 
 			return {
@@ -122,8 +124,8 @@ const TxMessage = ({ key, msg, data }) => {
 			if (!Array.isArray(data)) {
 				return [];
 			}
-
-			return data.map(item => {
+			let dataLoadMore = (loadMoreValue === value?.outputs?.length ? data : data?.slice(0, loadMoreValue * 5)) || [];
+			return dataLoadMore.map(item => {
 				const addressDataCell = _.isNil(item?.address) ? (
 					<div className={cx("align-center")}>-</div>
 				) : (
@@ -157,9 +159,9 @@ const TxMessage = ({ key, msg, data }) => {
 			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
 			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
 			const headerCellStyles = [
-				{ width: "110px" }, // Address
-				{ width: "110px" }, // Royalty Amount
-				{ width: "80px" }, // Royalty Percentage
+				{width: "110px"}, // Address
+				{width: "110px"}, // Royalty Amount
+				{width: "80px"}, // Royalty Percentage
 			];
 
 			return {
@@ -229,7 +231,7 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
-		const getIbcReceivedRows = (value) => {
+		const getIbcReceivedRows = value => {
 			const data = JSON.parse(atob(value));
 			return (
 				<div>
@@ -238,7 +240,7 @@ const TxMessage = ({ key, msg, data }) => {
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
-			)
+			);
 		};
 
 		const getHtmlRow = (label, value) => (
@@ -256,7 +258,7 @@ const TxMessage = ({ key, msg, data }) => {
 				);
 			}
 
-			const { valueString, unitString } = extractValueAndUnit(inputString);
+			const {valueString, unitString} = extractValueAndUnit(inputString);
 			const amount = parseFloat(valueString);
 			const denom = unitString;
 
@@ -282,7 +284,7 @@ const TxMessage = ({ key, msg, data }) => {
 				// );
 			}
 
-			const { amount, denom } = inputObject;
+			const {amount, denom} = inputObject;
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
@@ -321,7 +323,6 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
-
 		const getMultiAddressRow = (label, address) => (
 			<InfoRow label={label}>
 				<ThemedTable
@@ -329,6 +330,22 @@ const TxMessage = ({ key, msg, data }) => {
 					headerCells={getMultiSendHeaderRow()?.headerCells}
 					dataRows={getMultiSendDataRows(address)}
 				/>
+				<div className={cx("load-more")}>
+					<div className={cx("load-more-result")} onClick={() => dispatch(loadMore())}>
+						Load More Result (+5)
+					</div>
+					<div
+						className={cx("load-more-result")}
+						onClick={() =>
+							dispatch(
+								loadAll({
+									loadMore: loadMoreValue !== value?.outputs?.length ? value?.outputs?.length : 1,
+								})
+							)
+						}>
+						{loadMoreValue !== value?.outputs?.length ? "Load More All Result" : "Load More Less"}
+					</div>
+				</div>
 			</InfoRow>
 		);
 
@@ -394,7 +411,7 @@ const TxMessage = ({ key, msg, data }) => {
 										</AccordionSummary>
 										<AccordionDetails>
 											<SyntaxHighlighter
-												customStyle={{ background: "none", overflow: "auto", width: "100%" }}
+												customStyle={{background: "none", overflow: "auto", width: "100%"}}
 												language='rust'
 												style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
 												{item?.content ?? "-"}
@@ -440,7 +457,7 @@ const TxMessage = ({ key, msg, data }) => {
 						<>
 							<InfoRow label='Plan'>
 								<ReactJson
-									style={{ backgroundColor: "transparent" }}
+									style={{backgroundColor: "transparent"}}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -455,7 +472,7 @@ const TxMessage = ({ key, msg, data }) => {
 						<>
 							<InfoRow label='Changes'>
 								<ReactJson
-									style={{ backgroundColor: "transparent" }}
+									style={{backgroundColor: "transparent"}}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -476,9 +493,9 @@ const TxMessage = ({ key, msg, data }) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [recipientHeaderCell, senderHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{ width: "326px" }, // Recipient
-				{ width: "326px" }, // Sender
-				{ minWidth: "80px" }, // Amount
+				{width: "326px"}, // Recipient
+				{width: "326px"}, // Sender
+				{minWidth: "80px"}, // Amount
 			];
 
 			return {
@@ -492,8 +509,8 @@ const TxMessage = ({ key, msg, data }) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [denomHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{ width: "652px" }, // Demon
-				{ minWidth: "80px" }, // Amount
+				{width: "652px"}, // Demon
+				{minWidth: "80px"}, // Amount
 			];
 
 			return {
@@ -515,7 +532,7 @@ const TxMessage = ({ key, msg, data }) => {
 						for (let att of event["attributes"]) {
 							if (att["key"] === "recipient") {
 								start = true;
-								obj = { recipient: att["value"] };
+								obj = {recipient: att["value"]};
 								continue;
 							}
 
@@ -531,14 +548,14 @@ const TxMessage = ({ key, msg, data }) => {
 								// obj.amount = value;
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
-									let splitValue = e.split('/');
-									let splitTextNumber = processText(splitValue?.[0])
+									let splitValue = e.split("/");
+									let splitTextNumber = processText(splitValue?.[0]);
 									obj = {
 										...obj,
 										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
 										demon: splitTextNumber?.[0]?.[1],
 										txs: splitValue?.[1],
-									}
+									};
 									msgTransfer.push(obj);
 								}
 								// start = false;
@@ -551,17 +568,22 @@ const TxMessage = ({ key, msg, data }) => {
 					}
 				}
 			}
-			return { checkTransfer: checkTransfer, transfers: msgTransfer };
+			return {checkTransfer: checkTransfer, transfers: msgTransfer};
 		};
 
-		const processText = (inputText) => {
+		const processText = inputText => {
 			let output = [];
-			let json = inputText.split(' ');
-			json.forEach(function (item) {
-				output.push(item.replace(/\'/g, '').split(/(\d+)/).filter(Boolean));
+			let json = inputText.split(" ");
+			json.forEach(function(item) {
+				output.push(
+					item
+						.replace(/\'/g, "")
+						.split(/(\d+)/)
+						.filter(Boolean)
+				);
 			});
 			return output;
-		}
+		};
 
 		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
 			const transfer = getTransfer(key, rawLog, result);
@@ -569,11 +591,13 @@ const TxMessage = ({ key, msg, data }) => {
 			return (
 				transfer.checkTransfer && (
 					<InfoRow isTransfer={true} label={label}>
-						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && <ThemedTable
-							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
-							headerCells={getTransferHeaderRow()?.headerCells}
-							dataRows={getTransferDataRows(transfer.transfers)}
-						/>}
+						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && (
+							<ThemedTable
+								headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
+								headerCells={getTransferHeaderRow()?.headerCells}
+								dataRows={getTransferDataRows(transfer.transfers)}
+							/>
+						)}
 					</InfoRow>
 				)
 			);
@@ -581,18 +605,15 @@ const TxMessage = ({ key, msg, data }) => {
 
 		const getFundsRow = (label, key = 0, rawLog = [], result = "") => {
 			return (
-				(
-					<InfoRow isTransfer={true} label={label}>
-						{
-							Array.isArray(rawLog) && rawLog.length !== 0 && <ThemedTable
-								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
-								headerCells={getFundsHeaderRow()?.headerCells}
-								dataRows={getFundsDataRows(rawLog)}
-							/>
-						}
-
-					</InfoRow>
-				)
+				<InfoRow isTransfer={true} label={label}>
+					{Array.isArray(rawLog) && rawLog.length !== 0 && (
+						<ThemedTable
+							headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+							headerCells={getFundsHeaderRow()?.headerCells}
+							dataRows={getFundsDataRows(rawLog)}
+						/>
+					)}
+				</InfoRow>
 			);
 		};
 
@@ -655,7 +676,7 @@ const TxMessage = ({ key, msg, data }) => {
 
 		const getFundsDataRows = data => {
 			return data.map(item => {
-				let denomSplit = item?.denom?.split('/') || [];
+				let denomSplit = item?.denom?.split("/") || [];
 				const denomDataCell = _.isNil(item?.denom) ? (
 					<div className={cx("align-center")}>-</div>
 				) : (
@@ -717,7 +738,7 @@ const TxMessage = ({ key, msg, data }) => {
 				}
 			}
 
-			return { checkRoyalty: checkRoyaltyAmount, royaltys: royaltys };
+			return {checkRoyalty: checkRoyaltyAmount, royaltys: royaltys};
 		};
 
 		return (
@@ -895,7 +916,7 @@ const TxMessage = ({ key, msg, data }) => {
 									))
 								) : (
 									<ReactJson
-										style={{ backgroundColor: "transparent" }}
+										style={{backgroundColor: "transparent"}}
 										name={false}
 										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 										displayObjectSize={false}
@@ -916,7 +937,7 @@ const TxMessage = ({ key, msg, data }) => {
 												{getInfoRow("Data Source", item?.name)}
 												<InfoRow label='Result'>
 													<ReactJson
-														style={{ backgroundColor: "transparent" }}
+														style={{backgroundColor: "transparent"}}
 														name={false}
 														theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 														displayObjectSize={false}
@@ -947,7 +968,7 @@ const TxMessage = ({ key, msg, data }) => {
 																{getInfoRow("Data Source", item?.name)}
 																<InfoRow label='Result'>
 																	<ReactJson
-																		style={{ backgroundColor: "transparent" }}
+																		style={{backgroundColor: "transparent"}}
 																		name={false}
 																		theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 																		displayObjectSize={false}
@@ -1001,7 +1022,7 @@ const TxMessage = ({ key, msg, data }) => {
 						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{ backgroundColor: "transparent" }}
+								style={{backgroundColor: "transparent"}}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -1021,7 +1042,7 @@ const TxMessage = ({ key, msg, data }) => {
 						{getFundsRow("Sent funds", key, data?.messages?.[0]?.sent_funds, data?.result)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{ backgroundColor: "transparent" }}
+								style={{backgroundColor: "transparent"}}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -1134,7 +1155,6 @@ const TxMessage = ({ key, msg, data }) => {
 						</InfoRow> */}
 					</>
 				)}
-
 				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
@@ -1144,107 +1164,84 @@ const TxMessage = ({ key, msg, data }) => {
 						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
 					</>
 				)}
-
-				{
-					type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-							{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
-							{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
-							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-							{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
-							{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
-							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
-						</>
-					)
-				}
-
-				{
-					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-							{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
-							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
-							{getInfoRowSummary("Proof Client", value?.proof_client)}
-							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
-							{getInfoRowSummary("Proof Init", value?.proof_init)}
-
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Port ID", value?.port_id)}
-							{getInfoRow("Counterparty Version", value?.counterparty_version)}
-							{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
-							{getInfoRowSummary("Proof Init", value?.proof_init)}
-
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Port ID", value?.port_id)}
-							{getInfoRow("Channel ID", value?.channel_id)}
-							{getInfoRowSummary("Proof Ack", value?.proof_ack)}
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Client ID", value?.client_id)}
-							{getInfoRow("Delay", value?.delay_period)}
-							{getInfoRow("Connection ID", value?.connection_id)}
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-							{getInfoRow("Connection ID", value?.connection_id)}
-							{getInfoRowSummary("Proof Client", value?.proof_client)}
-							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
-							{getInfoRowSummary("Proof Try", value?.proof_try)}
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Port ID", value?.port_id)}
-							{getInfoRowSummary("Version", value?.channel?.version)}
-						</>
-					)
-				}
-				{
-					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
-						<>
-							{getAddressRow("Signer", value?.signer)}
-							{getInfoRow("Port ID", value?.port_id)}
-							{getInfoRow("Channel ID", value?.channel_id)}
-							{getInfoRow("Version", value?.counterparty_version)}
-							{getInfoRowSummary("Proof Try", value?.proof_try)}
-
-						</>
-					)
-				}
-
-
+				{type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+						{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
+						{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
+						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+						{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
+						{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
+						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+						{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
+						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+						{getInfoRowSummary("Proof Client", value?.proof_client)}
+						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+						{getInfoRowSummary("Proof Init", value?.proof_init)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Port ID", value?.port_id)}
+						{getInfoRow("Counterparty Version", value?.counterparty_version)}
+						{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
+						{getInfoRowSummary("Proof Init", value?.proof_init)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Port ID", value?.port_id)}
+						{getInfoRow("Channel ID", value?.channel_id)}
+						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Client ID", value?.client_id)}
+						{getInfoRow("Delay", value?.delay_period)}
+						{getInfoRow("Connection ID", value?.connection_id)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+						{getInfoRow("Connection ID", value?.connection_id)}
+						{getInfoRowSummary("Proof Client", value?.proof_client)}
+						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+						{getInfoRowSummary("Proof Try", value?.proof_try)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Port ID", value?.port_id)}
+						{getInfoRowSummary("Version", value?.channel?.version)}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
+					<>
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Port ID", value?.port_id)}
+						{getInfoRow("Channel ID", value?.channel_id)}
+						{getInfoRow("Version", value?.counterparty_version)}
+						{getInfoRowSummary("Proof Try", value?.proof_try)}
+					</>
+				)}
 			</div>
 		);
-	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
+	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue]);
 
 	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
@@ -1252,7 +1249,7 @@ const TxMessage = ({ key, msg, data }) => {
 			<Tooltip
 				placement='right-start'
 				TransitionComponent={Fade}
-				TransitionProps={{ timeout: 300 }}
+				TransitionProps={{timeout: 300}}
 				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
 				disableTouchListener
 				disableFocusListener>

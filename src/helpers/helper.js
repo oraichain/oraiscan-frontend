@@ -8,6 +8,7 @@ import sha256 from "js-sha256";
 import message from "src/lib/proto";
 import {useSelector} from "react-redux";
 import {themeIds} from "src/constants/themes";
+import {reduceString} from "src/lib/scripts";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -68,6 +69,13 @@ export const formatInteger = (value, thousandsSeparator = ",") => {
 		.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
 };
 
+export const parseIbc = text => {
+	let denom = text?.split("/");
+	let coin =
+		denom?.[denom?.length - 1]?.slice(0, 1) === "u" ? denom?.[denom?.length - 1]?.slice(1, denom?.[denom?.length - 1]?.length) : denom?.[denom?.length - 1];
+	return coin.length > 10 ? reduceString(coin, 6, 3) : coin;
+};
+
 export const formatSeconds = (value, numberOfDigitsAfterDecimalPoint = 2) => {
 	return parseFloat(value).toFixed(numberOfDigitsAfterDecimalPoint);
 };
@@ -86,6 +94,10 @@ export const calculateBefore = (total, limit, page) => {
 
 export const calculateAfter = (total, limit, page) => {
 	return total + 1 - page * limit;
+};
+
+export const fromNowMoment = (date = Date.now(), check = false) => {
+	return moment(date).fromNow(check);
 };
 
 export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalPoint = 6) => {
