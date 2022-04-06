@@ -15,6 +15,7 @@ import {myKeystation} from "src/lib/Keystation";
 import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import styles from "./YourValidatorCard.scss";
 import editIcon from "src/assets/icons/edit.svg";
+import {_,  reduceStringAssets } from "src/lib/scripts";
 // import roleIcon from "src/assets/wallet/role.svg";
 import copyIcon from "src/assets/common/copy_ic.svg";
 
@@ -26,7 +27,7 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-
+	const isLargeScreenMd = useMediaQuery(theme.breakpoints.up("md"));
 	const path = consts.API.WALLET.VALIDATOR + "/" + validatorAddress;
 	const {data} = useGet({
 		path: path,
@@ -120,7 +121,7 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 					}}
 				/>
 			</div>
-			<div className={cx("validator-text")}>{data?.validator_address ?? "-"}</div>
+			<div className={cx("validator-text")}>{isLargeScreenMd ? data?.validator_address : reduceStringAssets(data?.validator_address,30,10) ?? "-"}</div>
 		</>
 	) : (
 		<>
