@@ -99,20 +99,26 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 										</span>
 										<div className={cx("dropdown-menu")}>
-											{children.map(({title, path, Icon}, idx) => {
-												if (Icon) {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															<Icon className={cx("dropdown-item-icon")} /> {title}
-														</a>
-													);
-												} else {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															{title}
-														</a>
-													);
-												}
+											{children.map(({name, list}, idx) => {
+												return (
+													<div key={idx} className={cx("dropdown-item")}>
+														<div className={cx("item")}>
+															<div className={cx("title")}>{name ?? ""}</div>
+															{list && list.length > 0 && (
+																<ul>
+																	{list.map((el, index) => (
+																		<li key={index}>
+																			<a href={el.link} target={el.target ?? "_self"}>
+																				{el.icon ?? ""}
+																				{el.title ?? ""}
+																			</a>
+																		</li>
+																	))}
+																</ul>
+															)}
+														</div>
+													</div>
+												);
 											})}
 										</div>
 									</div>

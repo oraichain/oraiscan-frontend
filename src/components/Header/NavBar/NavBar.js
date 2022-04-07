@@ -21,51 +21,330 @@ import {updateToken} from "src/firebase-cloud-message";
 import NavBarDesktop from "./NavBarDesktop";
 import {ThemeSetup} from "src/helpers/helper";
 
+import {FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle} from "react-icons/fa";
+
 const cx = cn.bind(styles);
 
 const initialNavLinks = [
 	{
-		title: `Product`,
+		title: "Learn",
+		link: "/",
 		children: [
-			// {title: `Liquidity`, path: `https://liquidity.orai.io/`},
-			{title: `yAI Finance`, path: `https://yai.finance`},
-			{title: `aiRight`, path: `https://airight.io`},
-			{title: `AI Marketplace`, path: `https://market.orai.io`},
-			{title: `Oraiscan`, path: `https://scan.orai.io`},
-			{title: `Oraichain Studio`, path: `https://developer.orai.io`},
-			{title: `Oraichain Bridge`, path: `https://bridge.orai.io`},
+			{
+				name: "AI LAYER 1",
+				list: [
+					{
+						title: "Introduction",
+						link: "https://docs.orai.io/white-paper/system-overview/ai-layer-1-for-data-economy-and-oracle-services",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Layer 2 Rollups and Subnetworks",
+						link: "https://docs.orai.io/white-paper/system-overview/layer-2-rollups-and-subnetworks",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Verifiable and trustless AI Execution",
+						link: "https://docs.orai.io/white-paper/system-overview/verifiable-and-trustless-ai-execution",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Decentralized Data and AI platform",
+						link: "https://docs.orai.io/white-paper/system-overview/decentralized-data-and-ai-platform",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "IBC Communication",
+						link: "https://docs.orai.io/white-paper/system-overview/ibc-integration",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "TOKEN",
+				list: [
+					{
+						title: "Utilities",
+						link: "https://docs.orai.io/white-paper/token-economics",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Tokenomics",
+						link: "https://docs.orai.io/white-paper/token-economics",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "WHITEPAPER",
+				list: [
+					{
+						title: "Document link",
+						link: "https://docs.orai.io",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
 		],
 	},
 	{
-		title: `Docs`,
+		title: "Build",
+		link: "/",
 		children: [
-			{title: `Whitepaper`, path: `https://docs.orai.io/docs/whitepaper/introduction/`},
-			{title: `Tokenomics`, path: `https://orai.io/tokenomics`},
-			{title: `FAQs`, path: `https://gov.orai.io/`},
+			{
+				name: "VALIDATORS",
+				list: [
+					{
+						title: "Secure the Oraichain Mainnet 2.0",
+						link: "https://docs.orai.io/developers/networks/mainnet/become-a-validator",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "DEVELOPERS",
+				list: [
+					{
+						title: "Build CosmWasm smart contracts + CosmWasm IDE",
+						link: "https://marketplace.visualstudio.com/items?itemName=oraichain.cosmwasm-ide",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "EXECUTORS",
+				list: [
+					{
+						title: "Operate the subnetworks",
+						link: "https://docs.orai.io/developers/executors/ai-executor",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
 		],
 	},
 	{
-		title: `Events`,
+		title: "Earn",
+		link: "/",
 		children: [
-			{title: `Roadmap`, path: `https://orai.io/roadmap`},
-			{title: `Calendar`, path: `https://orai.io/calendar`},
-			{title: `Milestones`, path: `https://orai.io/calendar#milestones`},
-			{title: `News`, path: `https://medium.com/oraichain`},
-			{title: `Press Releases`, path: `https://orai.io/news`},
+			{
+				name: "STAKING TO EARN 29% APR",
+				list: [
+					{
+						title: "Secure our DPoS network",
+						link: "https://scan.orai.io/validators",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "FARMING WITH ORAI",
+				list: [
+					{
+						title: "Available on Ethereum and Binance Smart Chain",
+						link: "https://yai.finance",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "BUG BOUNTY PROGRAM",
+				list: [
+					{
+						title: "Enhance the security level of Oraichain",
+						link: "https://blog.orai.io/introducing-bug-bounty-program-for-oraichain-and-its-ecosystem-6f65316ef0d",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
 		],
 	},
 	{
-		title: `Community`,
+		title: "Ecosystem",
+		link: "/",
 		children: [
-			{title: `Medium`, path: `https://medium.com/oraichain`, Icon: MediumIcon},
-			{title: `Telegram`, path: `https://t.me/oraichain`, Icon: TelegramIcon},
-			{title: `Twitter`, path: `https://twitter.com/oraichain`, Icon: TwitterIcon},
-			{title: `Youtube`, path: `https://www.youtube.com/channel/UCyckcs_Fm8kU4o2Y1_KPjXg`, Icon: YoutubeIcon},
-			{title: `Reddit`, path: `https://www.reddit.com/r/Oraichain_Official/`, Icon: RedditIcon},
-			{title: `Github`, path: `https://github.com/oraichain`, Icon: GithubIcon},
+			{
+				name: "AI ORACLES",
+				list: [
+					{
+						title: "Price Feed",
+						link: "https://docs.orai.io/price-feeds/binance-smart-chain",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "VRF",
+						link: "https://docs.orai.io/vrf/introduction",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Royalty Protocol",
+						link: "https://blog.orai.io/introducing-royalty-protocol-on-oraichain-b4b78366beaa",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Originality Check",
+						link: "https://airight.io/original-check",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "DEX & DEFI",
+				list: [
+					{
+						title: "OraiDEX",
+						link: "https://oraidex.io",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "yAI.Finance",
+						link: "https://yai.finance",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Trava",
+						link: "https://trava.finance",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "WEB 3.0",
+				list: [
+					{
+						title: "Data Hub",
+						link: "https://datahub.orai.io",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "AI Marketplace",
+						link: "https://market.orai.io",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "NFT",
+				list: [
+					{
+						title: "aiRight",
+						link: "https://airight.io",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "GAMEFI",
+				list: [
+					{
+						title: "Kawaii Islands",
+						link: "https://kawaii.global",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Wen Lambo",
+						link: "https://dcrc-racing.web.app",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "INCUBATOR",
+				list: [
+					{
+						title: "EDVC",
+						link: "https://edvc.org",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "WALLET",
+				list: [
+					{
+						title: "Oraichain Wallet",
+						link: "https://docs.orai.io/oraichain-wallet",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
 		],
 	},
-	{title: "Connect Wallet", path: null, type: "wallet", init: true},
+	{
+		title: "Explore",
+		link: "/",
+		children: [
+			{
+				name: "BLOG",
+				list: [
+					{
+						title: "Get an in-depth understanding of Oraichain",
+						link: "https://blog.orai.io",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "COMMUNITY",
+				list: [
+					{
+						title: "Telegram",
+						link: "https://t.me/oraichain",
+						icon: <FaTelegramPlane />,
+						target: "_blank",
+					},
+					{
+						title: "Twitter",
+						link: "https://twitter.com/oraichain",
+						icon: <FaTwitter />,
+						target: "_blank",
+					},
+					{
+						title: "Discord",
+						link: "https://discord.gg/uUVSh3Xb",
+						icon: <FaDiscord />,
+						target: "_blank",
+					},
+					{
+						title: "Github",
+						link: "https://github.com/oraichain",
+						icon: <FaGithub />,
+						target: "_blank",
+					},
+				],
+			},
+		],
+	},
+	{title: "Connect Wallet", link: null, type: "wallet", children: []},
 ];
 
 function isSlowBlock(lastest, blocks) {
