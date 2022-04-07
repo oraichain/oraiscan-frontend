@@ -1,9 +1,9 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import {NavLink} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import cn from "classnames/bind";
 import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
@@ -11,10 +11,10 @@ import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
 import OraiLogo from "src/icons/OraiLogo";
 import ModeSwitch from "src/components/common/ModeSwitch";
-import {BiChevronDown} from "react-icons/bi";
+import { BiChevronDown } from "react-icons/bi";
 const cx = cn.bind(styles);
 
-const NavBarDesktop = ({initialNavLinks}) => {
+const NavBarDesktop = ({ initialNavLinks }) => {
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
 
@@ -44,10 +44,10 @@ const NavBarDesktop = ({initialNavLinks}) => {
 				<ul>
 					<ModeSwitch />
 					{initialNavLinks.map((item, index) => {
-						const {children, type, path, title} = item;
+						const { children, type, path, title } = item;
 						if (children?.length) {
 							return (
-								<li key={index}>
+								<li key={index} className={cx("pointer")}>
 									<a href={item.link}>
 										{item.title ?? ""} {item.children && item.children.length > 0 && <BiChevronDown onClick={() => handleDropdown(index)} />}
 									</a>

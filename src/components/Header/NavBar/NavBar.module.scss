@@ -5,6 +5,11 @@
 	// background: #000d20;
 }
 
+.pointer {
+	cursor: pointer;
+	// background: #000d20;
+}
+
 // .maintain {
 // 	width: 100%;
 // 	// background: #031c42;
@@ -259,37 +264,43 @@
 // }
 
 .header-menu {
+
 	// height: 100%;
-	> ul {
+	>ul {
 		padding: 0;
 		margin: 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		> li {
+
+		>li {
 			list-style: none;
 			margin: 0 15px;
+
 			&:hover {
-				> .menu-dropdown {
+				>.menu-dropdown {
 					opacity: 1;
 					visibility: visible;
 					transform: translateY(0) translateX(-50%);
 				}
 			}
-			> a {
+
+			>a {
 				color: #fff;
 				text-decoration: none;
 				display: inline-flex;
 				align-items: center;
 				font-size: 15px;
 				font-weight: 600;
-				> svg {
+
+				>svg {
 					font-size: 20px;
 					margin-left: 2px;
 				}
 			}
 		}
 	}
+
 	.menu-dropdown {
 		position: absolute;
 		top: 100%;
@@ -317,12 +328,14 @@
 		@include media(">=large") {
 			right: 0;
 		}
+
 		.menu-item {
 			width: calc(100% / 2);
 			padding: 0 20px;
 			margin-bottom: 20px;
+
 			.item {
-				> .title {
+				>.title {
 					color: #70839f;
 					font-weight: 600;
 					font-size: 13px;
@@ -331,29 +344,36 @@
 					border-bottom: 1px solid #464c55;
 					margin-bottom: 10px;
 				}
-				> ul {
+
+				>ul {
 					padding: 0;
 					margin: 0;
-					> li {
+
+					>li {
 						list-style: none;
 						margin: 10px 0;
+
 						&:last-child {
 							margin-bottom: 0;
 						}
-						> a {
+
+						>a {
 							text-decoration: none;
 							font-size: 14px;
 							color: #acb9cc;
 							display: inline-flex;
 							align-items: center;
+
 							svg,
 							img {
 								width: 20px;
 								max-height: 15px;
 								margin-right: 4px;
 							}
+
 							&:hover {
 								color: #fff;
+
 								img {
 									filter: brightness(0) invert(1);
 								}
@@ -369,11 +389,13 @@
 //responsive
 @media (max-width: 1024px) {
 	.header-menu {
-		> ul {
+		>ul {
 			padding: 15px;
-			> li {
+
+			>li {
 				width: 100%;
 				margin: 10px 0;
+
 				&:hover {
 					.menu-dropdown {
 						transform: none;
@@ -381,6 +403,7 @@
 				}
 			}
 		}
+
 		.menu-dropdown {
 			position: static;
 			visibility: visible;
@@ -407,20 +430,23 @@
 
 @media (max-width: 575px) {
 	.header-menu {
-		> ul {
-			> li {
-				> a {
+		>ul {
+			>li {
+				>a {
 					display: flex;
 					justify-content: space-between;
 					font-size: 16px;
 				}
 			}
 		}
+
 		.menu-dropdown {
 			display: none;
+
 			&.active {
 				display: flex;
 			}
+
 			.menu-item {
 				width: 100%;
 			}
