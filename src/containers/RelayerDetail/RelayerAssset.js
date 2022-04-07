@@ -2,25 +2,25 @@ import React from "react";
 import cn from "classnames/bind";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-import {Select} from "antd";
+import { Select } from "antd";
 import "antd/dist/antd.css";
 
 // helper
-import {ThemeSetup} from "src/helpers/helper";
+import { ThemeSetup } from "src/helpers/helper";
 
 // styles
 import styles from "./RelayerAsset.module.scss";
 
 // constants
 const cx = cn.bind(styles);
-const {Option} = Select;
+const { Option } = Select;
 const dataLimit = 5;
 
 const RelayerAsset = ({relayerAssetDaily}) => {
 	const dataCategories = relayerAssetDaily && Object.keys(relayerAssetDaily);
 	const dataReceived = dataCategories?.map(item => relayerAssetDaily[item]?.Receive);
 	const dataTransfer = dataCategories?.map(item => relayerAssetDaily[item]?.Transfer);
-	const {isDarkTheme} = ThemeSetup();
+	const { isDarkTheme } = ThemeSetup();
 	const options = {
 		chart: {
 			type: "column",
@@ -31,7 +31,7 @@ const RelayerAsset = ({relayerAssetDaily}) => {
 			text: "Weekly Transferred Value",
 			style: {
 				fontSize: "14px",
-				fontWeight: 500,
+				fontWeight: 1000,
 				color: isDarkTheme ? "#F6F7FB" : "#181818",
 			},
 		},
