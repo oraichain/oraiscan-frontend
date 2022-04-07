@@ -1,10 +1,10 @@
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatOrai, parseIbc } from "src/helpers/helper";
-import {_, reduceString} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { formatOrai, parseIbc } from "src/helpers/helper";
+import { _, reduceString } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/CheckIcon";
 import styles from "./DelegationTable.scss";
@@ -24,13 +24,13 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "15%", minWidth: "100px"}, //  Tx Hash
-		{width: "20%", minWidth: "200px"}, // Type
-		{width: "15%", minWidth: "130px"}, // Result
-		{width: "15%", minWidth: "130px"}, // Amount
-		{width: "13%", minWidth: "150px"}, // Fee
-		{width: "10%", minWidth: "80px"}, // Height
-		{width: "12%", minWidth: "80px"}, // Time
+		{ width: "15%", minWidth: "100px" }, //  Tx Hash
+		{ width: "20%", minWidth: "200px" }, // Type
+		{ width: "15%", minWidth: "130px" }, // Result
+		{ width: "15%", minWidth: "130px" }, // Amount
+		{ width: "13%", minWidth: "150px" }, // Fee
+		{ width: "10%", minWidth: "80px" }, // Height
+		{ width: "12%", minWidth: "80px" }, // Time
 	];
 	return {
 		headerCells,
@@ -40,7 +40,7 @@ export const getHeaderRow = () => {
 
 
 
-const DelegationTable = memo(({data = []}) => {
+const DelegationTable = memo(({ data = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -113,7 +113,7 @@ const DelegationTable = memo(({data = []}) => {
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{JSON.parse(item?.transaction?.fee)?.amount?.[0]?.value / Math.pow(10,6) || "0"}</span>
+							<span className={cx("amount-value")}>{JSON.parse(item?.transaction?.fee)?.amount?.[0]?.value / Math.pow(10, 6).toFixed(6) || "0.000000"}</span>
 							<span className={cx("amount-denom")}> {JSON.parse(item?.transaction?.fee)?.amount?.[0]?.denom}</span>
 						</div>
 					</div>
