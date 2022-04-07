@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React, {memo} from "react";
+import React, { memo } from "react";
 import cn from "classnames/bind";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import {formatInteger, formatSeconds, formatNumber,formatFloat} from "src/helpers/helper";
+import { formatInteger, formatSeconds, formatNumber, formatFloat } from "src/helpers/helper";
 import StatusCard from "../StatusCard";
 import styles from "./StatusCardList.scss";
 import IbcTabIcon from "src/icons/Tabs/IbcTabIcon";
@@ -12,7 +12,7 @@ import BlockTimeIcon from "src/icons/Validators/BlockTimeIcon";
 import moment from 'moment';
 const cx = cn.bind(styles);
 
-const StatusCardList = memo(({relayerInfoData}) => {
+const StatusCardList = memo(({ relayerInfoData }) => {
 	let data = [
 		{
 			// icon: <HeightIcon></HeightIcon>,
@@ -23,19 +23,16 @@ const StatusCardList = memo(({relayerInfoData}) => {
 		{
 			icon: <IbcTabIcon></IbcTabIcon>,
 			label: "IBC Total Txs",
-			comment: "-",
 			value: relayerInfoData?.total_txs,
 		},
 		{
 			icon: <BlockTimeIcon></BlockTimeIcon>,
 			label: "Last Update Time",
-			comment: "-",
 			value: moment(relayerInfoData?.last_updated).fromNow(),
 		},
 		{
 			icon: <BondedTokensIcon></BondedTokensIcon>,
 			label: "Operating Period",
-			comment: "-",
 			value: moment(relayerInfoData?.channel?.created_at).fromNow(true),
 		},
 	];
