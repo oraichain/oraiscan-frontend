@@ -1,11 +1,11 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
-import {Container} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { Container } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import _ from "lodash";
 import cn from "classnames/bind";
@@ -21,9 +21,9 @@ import OraiIcon from "src/icons/OraiIcon";
 
 const cx = cn.bind(styles);
 
-const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
-	useEffect(() => {});
-	const {address} = useSelector(state => state.wallet);
+const NavBarMobile = ({ toggleSearchArea, initialNavLinks }) => {
+	useEffect(() => { });
+	const { address } = useSelector(state => state.wallet);
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
 	const [openSearch, setOpenSearch] = useState(false);
@@ -51,7 +51,7 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 			</NavLink>
 			{!_.isNil(address) && (
 				<div className={cx("navbar-user")}>
-					<Wallet data={{init: false, title: address}} key={"wallet"} collapse={collapse} />
+					<Wallet data={{ init: false, title: address }} key={"wallet"} collapse={collapse} />
 				</div>
 			)}
 			<div className={cx("navbar-right")}>
@@ -79,7 +79,7 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 				)}
 				<ul className={cx("navbar-nav")}>
 					{initialNavLinks.map((item, index) => {
-						const {title, path, children, type} = item;
+						const { title, path, children, type } = item;
 						if (children) {
 							return (
 								<li className={cx("nav-item")} key={"nav-item" + index}>
@@ -99,20 +99,26 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 										</span>
 										<div className={cx("dropdown-menu")}>
-											{children.map(({title, path, Icon}, idx) => {
-												if (Icon) {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															<Icon className={cx("dropdown-item-icon")} /> {title}
-														</a>
-													);
-												} else {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															{title}
-														</a>
-													);
-												}
+											{children.map(({ name, list }, idx) => {
+												return (
+													<div key={idx} className={cx("dropdown-item")}>
+														<div className={cx("item")}>
+															<div className={cx("title")}>{name ?? ""}</div>
+															{list && list.length > 0 && (
+																<ul>
+																	{list.map((el, index) => (
+																		<li key={index} className={cx("pointer")}>
+																			<a href={el.link} target={el.target ?? "_self"}>
+																				{el.icon ?? ""}
+																				{el.title ?? ""}
+																			</a>
+																		</li>
+																	))}
+																</ul>
+															)}
+														</div>
+													</div>
+												);
 											})}
 										</div>
 									</div>
