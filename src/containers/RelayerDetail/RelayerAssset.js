@@ -16,7 +16,7 @@ const cx = cn.bind(styles);
 const {Option} = Select;
 const dataLimit = 5;
 
-const RelayerAsset = ({relayerAssetDaily }) => {
+const RelayerAsset = ({relayerAssetDaily}) => {
 	const dataCategories = relayerAssetDaily && Object.keys(relayerAssetDaily);
 	const dataReceived = dataCategories?.map(item => relayerAssetDaily[item]?.Receive);
 	const dataTransfer = dataCategories?.map(item => relayerAssetDaily[item]?.Transfer);
@@ -50,7 +50,18 @@ const RelayerAsset = ({relayerAssetDaily }) => {
 			categories: dataCategories,
 			labels: {
 				x: -10,
+				style: {
+					color:  isDarkTheme ? "#F6F7FB" : "#181818",
+				}
 			},
+			title: {
+				style: {
+					color: "red",
+				},
+			},
+		},
+		credits: {
+			enabled: false,
 		},
 
 		yAxis: {
@@ -58,7 +69,13 @@ const RelayerAsset = ({relayerAssetDaily }) => {
 			title: {
 				text: "Amount",
 			},
+			labels: {
+				style: {
+					color:  isDarkTheme ? "#F6F7FB" : "#181818",
+				}
+			},
 		},
+
 
 		plotOptions: {
 			column: {
@@ -80,7 +97,7 @@ const RelayerAsset = ({relayerAssetDaily }) => {
 			rules: [
 				{
 					condition: {
-						maxWidth: 500,
+						maxWidth: 280,
 					},
 					chartOptions: {
 						legend: {
@@ -92,7 +109,7 @@ const RelayerAsset = ({relayerAssetDaily }) => {
 							labels: {
 								align: "left",
 								x: 0,
-								y: -5,
+								y: -5
 							},
 							title: {
 								text: null,
@@ -113,7 +130,7 @@ const RelayerAsset = ({relayerAssetDaily }) => {
 	return (
 		<div className={cx("chart")}>
 			<div className={cx("chart-list")}>
-					<HighchartsReact highcharts={Highcharts} options={options} />
+				<HighchartsReact highcharts={Highcharts} options={options} />
 			</div>
 		</div>
 	);
