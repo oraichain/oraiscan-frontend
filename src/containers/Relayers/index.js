@@ -5,9 +5,13 @@ import List from "antd/lib/list";
 import Avatar from "antd/lib/avatar";
 import Collapse from "antd/lib/collapse";
 import Container from "@material-ui/core/Container";
-
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 // components
 import ChannelList from "./ChannelList";
+import {useTheme} from "@material-ui/core/styles";
+import TogglePageBar from "src/components/common/TogglePageBar";
+import PageTitle from "src/components/common/PageTitle";
+import TitleWrapper from "src/components/common/TitleWrapper";
 
 // constants
 import {STATUS_COLOR, STATE} from "./constants";
@@ -20,9 +24,23 @@ const cx = cn.bind(styles);
 const {Panel} = Collapse;
 
 const Relayers = () => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const {data} = useGet({
 		path: consts.API.IBC_RELAYERS,
 	});
+
+	let titleSection;
+	titleSection = isLargeScreen ? (
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title={"IBC Relayers"} />
+				{/* <StatusBox /> */}
+			</TitleWrapper>
+		</Container>
+	) : (
+		<TogglePageBar type={"ibc-relayers"} />
+	);
 
 	const dataSource = data && Object.values(data);
 
@@ -61,12 +79,12 @@ const Relayers = () => {
 	}, [dataSource]);
 
 	return (
-		<Container fixed className={cx("relayers")}>
-			<div className={cx("page-title")}>
-				<h1>ibc relayers</h1>
-			</div>
-			{renderList}
-		</Container>
+		<>
+			{titleSection}
+			<Container fixed className={cx("relayers")}>
+				{renderList}
+			</Container>
+		</>
 	);
 };
 

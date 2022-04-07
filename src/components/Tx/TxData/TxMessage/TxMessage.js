@@ -1,18 +1,18 @@
-import React, {useMemo, useEffect} from "react";
-import {NavLink} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import React, { useMemo, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
-import {Fade, Tooltip} from "@material-ui/core";
+import { Fade, Tooltip } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import {agate} from "react-syntax-highlighter/dist/esm/styles/hljs";
-import {foundation} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { agate } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { foundation } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import BigNumber from "bignumber.js";
 import copy from "copy-to-clipboard";
 import Interweave from "interweave";
@@ -20,14 +20,14 @@ import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
 import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
-import {reduceStringAssets} from "src/lib/scripts";
-import {themeIds} from "src/constants/themes";
+import { reduceStringAssets } from "src/lib/scripts";
+import { themeIds } from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
-import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
-import {showAlert} from "src/store/modules/global";
-import {loadMore, loadAll} from "src/store/modules/txs";
-import {divide} from "src/lib/Big";
-import {_, tryParseMessage, setAgoTime, getTotalTime} from "src/lib/scripts";
+import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
+import { showAlert } from "src/store/modules/global";
+import { loadMore, loadAll } from "src/store/modules/txs";
+import { divide } from "src/lib/Big";
+import { _, tryParseMessage, setAgoTime, getTotalTime } from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -72,26 +72,26 @@ const tryParseMessageBinary = data => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch {}
+				} catch { }
 			}
 		}
 		return obj;
 	} catch (e) {
-		return {data};
+		return { data };
 	}
 };
 
-const TxMessage = ({key, msg, data}) => {
+const TxMessage = ({ key, msg, data }) => {
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
-	const {data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode} = useGithubSource();
+	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
 	const value = msg;
 	let type = msg["@type"] || "";
-	const {memo} = data;
+	const { memo } = data;
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
 			const loadStoreCode = async () => {
@@ -110,8 +110,8 @@ const TxMessage = ({key, msg, data}) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [validatorHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{minWidth: "150px"}, // Address
-				{minWidth: "150px"}, // Amount
+				{ minWidth: "150px" }, // Address
+				{ minWidth: "150px" }, // Amount
 			];
 
 			return {
@@ -159,9 +159,9 @@ const TxMessage = ({key, msg, data}) => {
 			const newRoyalHeaderCell = <div className={cx("header-cell")}>Royalty Percentage</div>;
 			const headerCells = [validatorHeaderCell, royaltyAmountHeaderCell, newRoyalHeaderCell];
 			const headerCellStyles = [
-				{width: "110px"}, // Address
-				{width: "110px"}, // Royalty Amount
-				{width: "80px"}, // Royalty Percentage
+				{ width: "110px" }, // Address
+				{ width: "110px" }, // Royalty Amount
+				{ width: "80px" }, // Royalty Percentage
 			];
 
 			return {
@@ -258,7 +258,7 @@ const TxMessage = ({key, msg, data}) => {
 				);
 			}
 
-			const {valueString, unitString} = extractValueAndUnit(inputString);
+			const { valueString, unitString } = extractValueAndUnit(inputString);
 			const amount = parseFloat(valueString);
 			const denom = unitString;
 
@@ -273,6 +273,10 @@ const TxMessage = ({key, msg, data}) => {
 			);
 		};
 
+		const parseRawEvents = (events, type) => {
+			return events.find(event => event.type === type);
+		}
+
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return null;
@@ -284,7 +288,19 @@ const TxMessage = ({key, msg, data}) => {
 				// );
 			}
 
-			const {amount, denom} = inputObject;
+			const { amount, denom } = inputObject;
+			let finalDenom = denom;
+			if (denom !== consts.DENOM) {
+				const logs = JSON.parse(data.raw_log);
+				const ibcTransferEvent = parseRawEvents(logs[0].events, 'send_packet');
+				// process denom for msg transfer case
+				if (ibcTransferEvent) {
+					const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === 'packet_data').value).denom;
+					finalDenom = packetData.split("/")[2]; // syntax: transfer/channel-15/uatom. trim the first character and upper everything
+					if (finalDenom.charAt(0) === 'u') finalDenom = finalDenom.substring(1).toUpperCase();
+					else finalDenom = finalDenom.toUpperCase();
+				}
+			}
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
@@ -300,8 +316,12 @@ const TxMessage = ({key, msg, data}) => {
 				<InfoRow label={label}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
-						<span className={cx("amount-denom")}>{denom}</span>
-						<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
+						<span className={cx("amount-denom")}>{finalDenom}</span>
+						{finalDenom === consts.DENOM &&
+							(
+								<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
+							)
+						}
 					</div>
 				</InfoRow>
 			);
@@ -411,7 +431,7 @@ const TxMessage = ({key, msg, data}) => {
 										</AccordionSummary>
 										<AccordionDetails>
 											<SyntaxHighlighter
-												customStyle={{background: "none", overflow: "auto", width: "100%"}}
+												customStyle={{ background: "none", overflow: "auto", width: "100%" }}
 												language='rust'
 												style={activeThemeId === themeIds.LIGHT ? foundation : agate}>
 												{item?.content ?? "-"}
@@ -457,7 +477,7 @@ const TxMessage = ({key, msg, data}) => {
 						<>
 							<InfoRow label='Plan'>
 								<ReactJson
-									style={{backgroundColor: "transparent"}}
+									style={{ backgroundColor: "transparent" }}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -472,7 +492,7 @@ const TxMessage = ({key, msg, data}) => {
 						<>
 							<InfoRow label='Changes'>
 								<ReactJson
-									style={{backgroundColor: "transparent"}}
+									style={{ backgroundColor: "transparent" }}
 									name={false}
 									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
@@ -493,9 +513,9 @@ const TxMessage = ({key, msg, data}) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [recipientHeaderCell, senderHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{width: "326px"}, // Recipient
-				{width: "326px"}, // Sender
-				{minWidth: "80px"}, // Amount
+				{ width: "326px" }, // Recipient
+				{ width: "326px" }, // Sender
+				{ minWidth: "80px" }, // Amount
 			];
 
 			return {
@@ -509,8 +529,8 @@ const TxMessage = ({key, msg, data}) => {
 			const amountHeaderCell = <div className={cx("header-cell")}>Amount</div>;
 			const headerCells = [denomHeaderCell, amountHeaderCell];
 			const headerCellStyles = [
-				{width: "652px"}, // Demon
-				{minWidth: "80px"}, // Amount
+				{ width: "652px" }, // Demon
+				{ minWidth: "80px" }, // Amount
 			];
 
 			return {
@@ -532,7 +552,7 @@ const TxMessage = ({key, msg, data}) => {
 						for (let att of event["attributes"]) {
 							if (att["key"] === "recipient") {
 								start = true;
-								obj = {recipient: att["value"]};
+								obj = { recipient: att["value"] };
 								continue;
 							}
 
@@ -568,13 +588,13 @@ const TxMessage = ({key, msg, data}) => {
 					}
 				}
 			}
-			return {checkTransfer: checkTransfer, transfers: msgTransfer};
+			return { checkTransfer: checkTransfer, transfers: msgTransfer };
 		};
 
 		const processText = inputText => {
 			let output = [];
 			let json = inputText.split(" ");
-			json.forEach(function(item) {
+			json.forEach(function (item) {
 				output.push(
 					item
 						.replace(/\'/g, "")
@@ -738,7 +758,7 @@ const TxMessage = ({key, msg, data}) => {
 				}
 			}
 
-			return {checkRoyalty: checkRoyaltyAmount, royaltys: royaltys};
+			return { checkRoyalty: checkRoyaltyAmount, royaltys: royaltys };
 		};
 
 		return (
@@ -916,7 +936,7 @@ const TxMessage = ({key, msg, data}) => {
 									))
 								) : (
 									<ReactJson
-										style={{backgroundColor: "transparent"}}
+										style={{ backgroundColor: "transparent" }}
 										name={false}
 										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 										displayObjectSize={false}
@@ -937,7 +957,7 @@ const TxMessage = ({key, msg, data}) => {
 												{getInfoRow("Data Source", item?.name)}
 												<InfoRow label='Result'>
 													<ReactJson
-														style={{backgroundColor: "transparent"}}
+														style={{ backgroundColor: "transparent" }}
 														name={false}
 														theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 														displayObjectSize={false}
@@ -968,7 +988,7 @@ const TxMessage = ({key, msg, data}) => {
 																{getInfoRow("Data Source", item?.name)}
 																<InfoRow label='Result'>
 																	<ReactJson
-																		style={{backgroundColor: "transparent"}}
+																		style={{ backgroundColor: "transparent" }}
 																		name={false}
 																		theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 																		displayObjectSize={false}
@@ -1022,7 +1042,7 @@ const TxMessage = ({key, msg, data}) => {
 						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -1042,7 +1062,7 @@ const TxMessage = ({key, msg, data}) => {
 						{getFundsRow("Sent funds", key, data?.messages?.[0]?.sent_funds, data?.result)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -1164,81 +1184,131 @@ const TxMessage = ({key, msg, data}) => {
 						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-						{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
-						{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
-						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-						{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
-						{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
-						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-						{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
-						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
-						{getInfoRowSummary("Proof Client", value?.proof_client)}
-						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
-						{getInfoRowSummary("Proof Init", value?.proof_init)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Port ID", value?.port_id)}
-						{getInfoRow("Counterparty Version", value?.counterparty_version)}
-						{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
-						{getInfoRowSummary("Proof Init", value?.proof_init)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Port ID", value?.port_id)}
-						{getInfoRow("Channel ID", value?.channel_id)}
-						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Client ID", value?.client_id)}
-						{getInfoRow("Delay", value?.delay_period)}
-						{getInfoRow("Connection ID", value?.connection_id)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-						{getInfoRow("Connection ID", value?.connection_id)}
-						{getInfoRowSummary("Proof Client", value?.proof_client)}
-						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
-						{getInfoRowSummary("Proof Try", value?.proof_try)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Port ID", value?.port_id)}
-						{getInfoRowSummary("Version", value?.channel?.version)}
-					</>
-				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
-					<>
-						{getAddressRow("Signer", value?.signer)}
-						{getInfoRow("Port ID", value?.port_id)}
-						{getInfoRow("Channel ID", value?.channel_id)}
-						{getInfoRow("Version", value?.counterparty_version)}
-						{getInfoRowSummary("Proof Try", value?.proof_try)}
-					</>
-				)}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
+							{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
+							{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+						</>
+					)
+				}
+
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
+							{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
+							{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Counterparty Version", value?.counterparty_version)}
+							{getInfoRow("Channel ID", value?.channel?.counterparty?.channel_id)}
+							{getInfoRowSummary("Proof Init", value?.proof_init)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRowSummary("Proof Ack", value?.proof_ack)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Client ID", value?.client_id)}
+							{getInfoRow("Delay", value?.delay_period)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Chain ID", value?.client_state?.chain_id)}
+							{getInfoRow("Connection ID", value?.connection_id)}
+							{getInfoRowSummary("Proof Client", value?.proof_client)}
+							{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRowSummary("Version", value?.channel?.version)}
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Port ID", value?.port_id)}
+							{getInfoRow("Channel ID", value?.channel_id)}
+							{getInfoRow("Version", value?.counterparty_version)}
+							{getInfoRowSummary("Proof Try", value?.proof_try)}
+
+						</>
+					)
+				}
+				{
+					type === txTypes.COSMOS_SDK.MSG_CHANNEL_ACKNOWLEDGEMENT && (
+						<>
+							{getAddressRow("Signer", value?.signer)}
+							{getInfoRow("Sequence", value?.packet.sequence)}
+							{getInfoRow("Source Port", value?.packet?.source_port)}
+							{getInfoRow("Source Channel", value?.packet?.source_channel)}
+							{getInfoRow("Desination Port", value?.packet?.destination_port)}
+							{getInfoRow("Desination Channel", value?.packet?.destination_channel)}
+							<InfoRow label='Data'>
+								<ReactJson
+									style={{ backgroundColor: "transparent" }}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									src={JSON.parse(atob(value?.packet?.data))}
+								/>
+							</InfoRow>
+							{getInfoRow("Revision Number", value?.packet?.timeout_height?.revision_number)}
+							{getInfoRow("Revision Height", value?.packet?.timeout_height?.revision_height)}
+							{getInfoRow("Proof Number", value?.proof_height?.revision_number)}
+							{getInfoRow("Proof Height", value?.proof_height?.revision_height)}
+							{getInfoRow("Timeout Timestamp", new Date(value?.packet?.timeout_timestamp / Math.pow(10, 9)).toTimeString())}
+						</>
+					)
+				}
+
+
 			</div>
 		);
 	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue]);
@@ -1249,7 +1319,7 @@ const TxMessage = ({key, msg, data}) => {
 			<Tooltip
 				placement='right-start'
 				TransitionComponent={Fade}
-				TransitionProps={{timeout: 300}}
+				TransitionProps={{ timeout: 300 }}
 				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
 				disableTouchListener
 				disableFocusListener>

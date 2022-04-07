@@ -1,7 +1,7 @@
 .dropdown-validators .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -18,7 +18,7 @@
 	height: auto;
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -47,7 +47,7 @@
 .dropdown-transactions .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -65,7 +65,7 @@
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
 	margin-left: 27px;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -77,16 +77,37 @@
 	background-color: var(--common-blockItemBackgroundColor);
 }
 
-@media only screen and (max-width: 1280px) {
+/* @media only screen and (max-width: 1280px) {
 	.dropdown-transactions {
 		transform: translate(-103%, 197%) !important;
+	}
+} */
+
+@media only screen and (max-width: 1280px) {
+	.dropdown-trans {
+		transform: translate(-103%, 333%) !important;
+	}
+	.dropdown-ibc {
+		transform: translate(-103%, 430%) !important;
+	}
+	.dropdown-validators {
+		transform: translate(-103%, 185%) !important;
+	}
+	.dropdown-proposals {
+		transform: translate(-103%, 255%) !important;
+	}
+	.dropdown-smart {
+		transform: translate(-103%, 530%) !important;
+	}
+	.dropdown-sub {
+		transform: translate(-103%, 233%) !important;
 	}
 }
 
 .dropdown-proposals .MuiButtonBase-root {
 	padding: 20px 15px;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -104,7 +125,7 @@
 	background-color: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
 	margin-left: 27px;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -116,8 +137,8 @@
 	background-color: var(--common-blockItemBackgroundColor);
 }
 
-@media only screen and (max-width: 1280px) {
+/* @media only screen and (max-width: 1280px) {
 	.dropdown-proposals {
 		transform: translate(-103%, 197%) !important;
 	}
-}
+} */

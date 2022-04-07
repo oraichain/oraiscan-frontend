@@ -128,6 +128,7 @@ export default Object.freeze({
 		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/wasm/v1beta1/contract",
+		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces"
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",

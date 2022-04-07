@@ -39,16 +39,14 @@ const TestCaseTable = memo(({ data = [] }) => {
 		}
 
 		return data.map(item => {
-			const logoURL = item?.images?.thumb;
+			const logoURL = item?.images?.thumb ?  item?.images?.thumb  : false
 			const nameDataCell = _.isNil(item?.channelId) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				// <div className={cx("name-data-cell", "align-left")}>{item.channelId}</div>
 				<div
 					className={cx("data-cell", "color-blue", "align-left", "logo-brand-custom")}
 				>
 					{logoURL && <img src={logoURL} height={32} width={32} alt='/' className={cx("logo")} />}
-					{/* {!logoURL && <div className={cx("logo-custom")}>{item.channelId} </div>} */}
 					<div className={cx("name-data")}>
 						<div className={cx("name-data-cell", "align-left","symbol")}>{item?.symbol}</div>
 						<div className={cx("name-data-cell", "align-left","channel")}>{item?.channelId}</div>

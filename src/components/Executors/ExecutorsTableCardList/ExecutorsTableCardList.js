@@ -31,16 +31,31 @@ const ExecutorsTableCardList = memo(({ data = [] }) => {
 										)}
 									</td>
 								</tr>
+
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Index</div>
+									</td>
+									<td>
+										{_.isNil(item?.index) ? (
+											<div className={cx("item-link")}>-</div>
+										) : (
+											<div className={cx("align-left")}>
+												{item.index}
+											</div>
+										)}
+									</td>
+								</tr>
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Active</div>
 									</td>
 									<td>
-										{_.isNil(item?.is_acitve) ? (
+										{_.isNil(item?.is_active) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
 											<div className={cx("align-left")}>
-												{item?.is_acitve ? 'true' : 'false'}
+												{item?.is_active ? 'true' : 'false'}
 											</div>
 										)}
 									</td>

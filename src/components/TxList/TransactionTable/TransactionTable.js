@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { _, reduceString, reduceStringAssets, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket } from "src/lib/scripts";
 import { formatOrai, formatFloat } from "src/helpers/helper";
 import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -39,18 +39,20 @@ const handleRoyaltyPercentage = royalty => {
 export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
+	const ibcAmountHeaderCell = <div className={cx("header-cell", "align-center")}>IBC Amount </div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
 	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
+	let headerCells = [txHashHeaderCell, typeHeaderCell, ibcAmountHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	let headerCellStyles = [
 		{ width: "14%", minWidth: "140px" }, // TxHash
 		{ width: "18%", minWidth: "180px" }, // Type
+		{ width: "6%", minWidth: "100px" }, // IBC Amount
 		{ width: "10%", minWidth: "100px" }, // Result
-		{ width: "24%", minWidth: "240px" }, // Amount
-		{ width: "14%", minWidth: "140px" }, // Fee
+		{ width: "22%", minWidth: "220px" }, // Amount
+		{ width: "10%", minWidth: "140px" }, // Fee
 		{ width: "10%", minWidth: "100px" }, // Height
 		{ width: "10%", minWidth: "100px" }, // Time
 	];
@@ -63,7 +65,7 @@ export const getHeaderRow = (royalty = false) => {
 			{ width: "18%", minWidth: "180px" }, // Type
 			{ width: "10%", minWidth: "100px" }, // Result
 			{ width: "16%", minWidth: "160px" }, // Royalty Amount
-			{ width: "14%", minWidth: "120px" }, // Fee
+			{ width: "10%", minWidth: "120px" }, // Fee
 			{ width: "10%", minWidth: "100px" }, // Height
 			{ width: "10%", minWidth: "100px" }, // Time
 			{ width: "10%", minWidth: "120px" }, // New Royalty
@@ -193,7 +195,6 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				}
 			}
 		}
-
 		return typeMsg;
 	};
 
@@ -243,6 +244,46 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 					</div>
 				);
 			}
+			let ibcAmountDataCell = null;
+			if (
+				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+			) {
+				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+				if (message?.packet?.data) {
+					const msgRec = JSON.parse(atob(message?.packet?.data));
+					const port = message?.packet?.destination_port;
+					const channel = message?.packet?.destination_channel;
+					ibcAmountDataCell = _.isNil(message?.packet) ? (
+						<div className={cx("align-left")}>-</div>
+					) : (
+						<div className={cx("ibc-data-cell", "align-right")}>
+							<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
+							<div className={cx("ibc-denom")}>{"(" + port + '/' + channel + '/' + msgRec?.denom + ")"}</div>
+						</div >
+					);
+				}
+			} else if (
+				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")
+			) {
+				let rawLog, rawLogParse, rawLogDenomSplit;
+				if (item?.result === "Success") {
+					rawLog = JSON.parse(item?.raw_log);
+					rawLogParse = rawLog && parseIbcMsgTransfer(rawLog);
+					rawLogDenomSplit = rawLogParse?.denom?.split("/");
+				}
+
+				ibcAmountDataCell = item?.result !== "Success" ? (
+					<div className={cx("align-right")}>-</div>
+				) : (
+					<div className={cx("ibc-data-cell", "align-right")}>
+						<div className={cx("ibc-value")}>{formatOrai(rawLogParse?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}</div>
+						<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
+					</div>
+				);
+			} else {
+				ibcAmountDataCell = <div className={cx("align-right")}>-</div>
+			}
+
 
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
@@ -263,7 +304,35 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				} else {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
+			} else if (
+				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
+			) {
+				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+				if (message?.packet?.data) {
+					const data = JSON.parse(atob(message?.packet?.data));
+					if (account === data.receiver) {
+						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
+					}
+				}
+			} else if (
+				account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
+			) {
+				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
+				if (account === message.sender) {
+					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
+				}
 			}
+
+			// let ibcAmountDataCell = _.isNil(item?.messages) ? (
+			// 	<div className={cx("align-left")}>-</div>
+			// ) : (
+			// 	<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+			// 		<div className={cx("amount")}>
+			// 			<span className={cx("amount-value")}>{formatOrai(item?.messages?.[0]?.token?.amount)}</span>
+			// 		</div>
+			// 		<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
+			// 	</div>
+			// );
 
 			let amountDataCell;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
@@ -297,7 +366,8 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 
 				amountDataCell =
 					_.isNil(amount) || _.isNil(denom) ? (
-						<div className={cx("amount-data-cell", "align-right")}>
+						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>0</span>
 								<span className={cx("amount-denom")}>ORAI</span>
@@ -353,10 +423,10 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 			const newRoyaltyDataCell = <div className={cx("time-data-cell", "align-right")}>{getNewRoyalty(account, item?.raw_log, item?.result)}</div>;
 
 			if (royalty) {
-				return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
+				return [txHashDataCell, typeDataCell, ibcAmountDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
 			}
 
-			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
+			return [txHashDataCell, typeDataCell, ibcAmountDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
 	};
 

@@ -14,7 +14,18 @@ export const nilCheck = arr => !_.every(arr, el => !_.isNil(el));
 //  planning on recreating this with css and components in the future(already mostly done)
 export const reduceString = (str, from, end) => (str ? str.substring(0, from) + " ... " + str.substring(str.length - end) : "-");
 
-export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end)  : "") : "-");
+export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end) : "") : "-");
+
+export const parseIbcMsgTransfer = (rawLog, type = 'send_packet', key = 'packet_data') => {
+	const arrayIbcDemonPacket = (rawLog && rawLog?.[0]?.events?.find(e => e.type === type))
+	const ibcDemonPackData = (arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key));
+	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : { denom: '' };
+	return ibcDemonObj;
+};
+
+export const parseIbcMsgRecvPacket = (denom) => {
+	return denom?.slice(0, 1) === 'u' ? denom?.slice(1, denom?.length) : denom;
+}
 
 export const stringNumCheck = input => !empty(input) && !isNaN(Number(input));
 

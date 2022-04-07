@@ -91,12 +91,11 @@ const IbcAssets = props => {
 		<Container fixed>
 			<TitleWrapper>
 				<PageTitle title={"Assets"} />
-				{/* <StatusBox /> */}
 				<ChainBox chainValue={chainValue} />
 			</TitleWrapper>
 		</Container>
 	) : (
-		<TogglePageBar type='data-sources' />
+		<TogglePageBar type='ibc-assets' />
 	);
 
 	if (!data || !list || (loading && showLoading)) {
@@ -112,8 +111,6 @@ const IbcAssets = props => {
 			<div className={cx("filter-section")}>
 				<FilterSection keyword={keyword} setKeyword={setKeyword} assetSearch={assetSearch} setAssetSearch={setAssetSearch} onChange={(e) => {
 					setKeyword(e.target.value);
-
-
 				}} />
 			</div>
 		);

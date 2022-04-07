@@ -1,8 +1,8 @@
-import React, {lazy, Suspense} from "react";
-import {Route, Switch} from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { Route, Switch } from "react-router-dom";
 import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
-import {usePreload} from "src/hooks";
+import { usePreload } from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
 import styles from "./Router.scss";
 import config from "src/config.js";
@@ -34,8 +34,8 @@ const SmartContracts = lazy(() => import(`src/containers/SmartContracts`));
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
-const Executors = lazy(() => import("src/containers/Executors"));
-const OracleRequests = lazy(() => import(`src/containers/OracleRequests`));
+// const Executors = lazy(() => import('src/containers/Executors'));
+// const OracleRequests = lazy(() => import(`src/containers/OracleRequests`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
 const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 const Randomness = lazy(() => import(`src/components/Randomness`));
@@ -47,7 +47,7 @@ const Relayers = lazy(() => import(`src/containers/Relayers`));
 const RelayerDetail = lazy(() => import(`src/containers/RelayerDetail`));
 const OracleAI = lazy(() => import(`src/containers/OracleAI`));
 
-export default function(props) {
+export default function (props) {
 	//  preload stuff that needs preloading
 	usePreload();
 	return (

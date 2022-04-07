@@ -142,7 +142,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount }) => {
 				];
 			}
 			payload = {
-				type: "/cosmos.tx.v1beta1.Tx",
+				type: msg.length > 1 ? "/cosmos.bank.v1beta1.MsgMultiSend" : "/cosmos.bank.v1beta1.MsgSend",
 				value: {
 					msg,
 					fee: {
