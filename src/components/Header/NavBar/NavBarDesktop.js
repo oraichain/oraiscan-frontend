@@ -11,7 +11,7 @@ import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
 import OraiLogo from "src/icons/OraiLogo";
 import ModeSwitch from "src/components/common/ModeSwitch";
-
+import { BiChevronDown } from "react-icons/bi";
 const cx = cn.bind(styles);
 
 const NavBarDesktop = ({ initialNavLinks }) => {
@@ -25,6 +25,14 @@ const NavBarDesktop = ({ initialNavLinks }) => {
 		}
 	};
 
+	const [active, setActive] = React.useState(-1);
+	const handleDropdown = index => {
+		if (window.innerWidth < 576) {
+			if (active === index) setActive(-1);
+			else setActive(index);
+		}
+	};
+
 	return (
 		<div className={cx("navbar")}>
 			<NavLink to='/' className={cx("navbar-brand")}>
@@ -32,37 +40,40 @@ const NavBarDesktop = ({ initialNavLinks }) => {
 				<span className={cx("navbar-brand-text")}>Oraiscan</span> */}
 				<OraiLogo />
 			</NavLink>
-			<div className={cx("navbar-collapse")} ref={navbarCollapseRef}>
-				<ul className={cx("navbar-nav")}>
+			<nav className={cx("header-menu")} ref={navbarCollapseRef}>
+				<ul>
 					<ModeSwitch />
 					{initialNavLinks.map((item, index) => {
-						const { title, path, children, type } = item;
-						if (children) {
+						const { children, type, path, title } = item;
+						if (children?.length) {
 							return (
-								<li className={cx("nav-item")} key={"nav-item" + index}>
-									<div className={cx("dropdown")}>
-										<span className={cx("nav-link", "dropdown-toggle")}>
-											<span className={cx("dropdown-toggle-text")}>{title}</span>
-											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
-										</span>
-										<div className={cx("dropdown-menu")}>
-											{children.map(({ title, path, Icon }, idx) => {
-												if (Icon) {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															<Icon className={cx("dropdown-item-icon")} /> {title}
-														</a>
-													);
-												} else {
-													return (
-														<a href={path} target='blank' key={"dropdown-item-" + idx} className={cx("dropdown-item")}>
-															{title}
-														</a>
-													);
-												}
-											})}
+								<li key={index} className={cx("pointer")}>
+									<a href={item.link}>
+										{item.title ?? ""} {item.children && item.children.length > 0 && <BiChevronDown onClick={() => handleDropdown(index)} />}
+									</a>
+									{item.children && item.children.length > 0 && (
+										<div className={cx("menu-dropdown", active === index ? "active" : "")}>
+											{item.children.map((child, index) => (
+												<div key={index} className={cx("menu-item")}>
+													<div className={cx("item")}>
+														<div className={cx("title")}>{child.name ?? ""}</div>
+														{child.list && child.list.length > 0 && (
+															<ul>
+																{child.list.map((el, index) => (
+																	<li key={index}>
+																		<a href={el.link} target={el.target ?? "_self"}>
+																			{el.icon ?? ""}
+																			{el.title ?? ""}
+																		</a>
+																	</li>
+																))}
+															</ul>
+														)}
+													</div>
+												</div>
+											))}
 										</div>
-									</div>
+									)}
 								</li>
 							);
 						}
@@ -79,7 +90,7 @@ const NavBarDesktop = ({ initialNavLinks }) => {
 						);
 					})}
 				</ul>
-			</div>
+			</nav>
 		</div>
 	);
 };
