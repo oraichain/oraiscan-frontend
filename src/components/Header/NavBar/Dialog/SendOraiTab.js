@@ -290,20 +290,23 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 						/>
 						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
 					</div> */}
-				</Grid>
-			)}
+				</Grid >
+			)
+			}
 			{isMulti && renderSelectMulti()}
-			{open ? (
-				<AddAddressDialog
-					onClose={handleClose}
-					open={open}
-					recipientAddress={getValues("recipientAddress")}
-					isEdit={existName ? true : false}
-					storageData={storageData}
-				/>
-			) : (
-				""
-			)}
-		</form>
+			{
+				open ? (
+					<AddAddressDialog
+						onClose={handleClose}
+						open={open}
+						recipientAddress={getValues("recipientAddress")}
+						isEdit={existName ? true : false}
+						storageData={storageData}
+					/>
+				) : (
+					""
+				)
+			}
+		</form >
 	);
 }
