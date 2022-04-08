@@ -3,25 +3,37 @@ import cn from "classnames/bind";
 import moment from "moment";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
-import Pagination from "antd/lib/pagination";
 import Space from "antd/lib/space";
 import Avatar from "antd/lib/avatar/avatar";
+import {useHistory} from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 // constant
-import {STATUS_COLOR} from "./constants";
+import {STATUS_COLOR, STATE} from "./constants";
+
+// components
+import Pagination from "src/components/common/Pagination";
 
 // logo
-import OraiLogo from "src/assets/header/logo.svg";
+import OraiLogoLight from "src/assets/header/logo.svg";
+import OraiLogoDark from "src/assets/header/logo.svg";
+
+import OraiIcon from "src/icons/OraiIcon";
 
 // styles
 import styles from "./Channel.module.scss";
 
 const cx = cn.bind(styles);
 
-const dataLimit = 10;
+const dataLimit = 5;
 
 const ChannelList = ({channels, channelName, image}) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [currentPage, setCurrentPage] = useState(1);
+	const history = useHistory();
+	const totalPages = Math.ceil(channels?.length / dataLimit);
 
 	const onChangePage = page => {
 		setCurrentPage(page);
@@ -44,7 +56,7 @@ const ChannelList = ({channels, channelName, image}) => {
 				<Col span={4}>
 					<div className={cx("flexCenter")}>
 						<Space>
-							<Avatar size='small' src={<img src={OraiLogo} />} />
+							<Avatar size='small' src={<OraiIcon className={cx("logo-icon")} />} />
 							Oraichain
 						</Space>
 					</div>
@@ -74,6 +86,12 @@ const ChannelList = ({channels, channelName, image}) => {
 		);
 	}, [channelName]);
 
+	const redirectRelayerDetail = (channelId, status) => {
+		if (status === STATE.STATE_CLOSED) return;
+
+		return history.push(`/ibc/relayers/${channelId}`);
+	};
+
 	const renderChannels = useMemo(() => {
 		const renderChannelItem = (item, index) => {
 			var createdAt = moment(item?.channel?.created_at, "YYYY-MM-DD");
@@ -81,7 +99,11 @@ const ChannelList = ({channels, channelName, image}) => {
 			const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
 
 			return (
-				<Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} className={cx("body-list")}>
+				<Row
+					gutter={{xs: 8, sm: 16, md: 24, lg: 32}}
+					className={cx("body-list")}
+					style={{cursor: "pointer"}}
+					onClick={() => redirectRelayerDetail(item?.channel?.channel_id, item?.channel?.status)}>
 					<Col span={1}>
 						<div>{index + 1}</div>
 					</Col>
@@ -118,17 +140,63 @@ const ChannelList = ({channels, channelName, image}) => {
 			);
 		};
 
-		return listChannels.map((item, index) => renderChannelItem(item, index));
-	}, [listChannels]);
+		const renderChangeItemMobile = (item, index) => {
+			var createdAt = moment(item?.channel?.created_at, "YYYY-MM-DD");
+			const currentDate = moment().startOf("day");
+			const operatingPeriod = moment.duration(currentDate.diff(createdAt)).asDays();
+			return (
+				<Row
+					gutter={{xs: 8, sm: 16, md: 24, lg: 32}}
+					className={cx("body-list", "mobile")}
+					onClick={() => redirectRelayerDetail(item?.channel?.channel_id, item?.channel?.status)}>
+					<Col span={11}>
+						<div>
+							<div className={cx("channel-name", "flexCenter")}>
+								<div>
+									<div className={cx("fontSize12")}>Oraichain</div>
+									<div>{item?.channel?.channel_id}</div>
+								</div>
+								<span className={cx("dot")} style={{background: STATUS_COLOR[item?.channel?.status]}} />
+							</div>
+							<div>Operating Period</div>
+							<div>24h Txs</div>
+							<div>Value</div>
+						</div>
+					</Col>
+
+					<Col span={2} style={{zIndex: 1}}>
+						<div className={cx("line-wrapper", "mobile")} style={{background: STATUS_COLOR[item?.channel?.status]}} />
+					</Col>
+
+					<Col span={11}>
+						<div style={{textAlign: "end"}}>
+							<div className={cx("channel-name", "partners")} style={{justifyContent: "space-between"}}>
+								<span className={cx("dot")} style={{background: STATUS_COLOR[item?.channel?.status]}} />
+								<div>
+									<div className={cx("fontSize12")}>{channelName}</div>
+									<div>{item?.channel?.counterparty_channel_id}</div>
+								</div>
+							</div>
+							<div>
+								{operatingPeriod}&nbsp;{operatingPeriod > 1 ? "Days" : "Day"}
+							</div>
+							<div>{item?.total_txs_within_24h}</div>
+							<div>$&nbsp;{item?.total_value_within_24h?.toFixed(2)}</div>
+						</div>
+					</Col>
+				</Row>
+			);
+		};
+
+		return listChannels.map((item, index) => (isLargeScreen ? renderChannelItem(item, index) : renderChangeItemMobile(item, index)));
+	}, [listChannels, isLargeScreen]);
 
 	return (
 		<div className={cx("channel-list-wrapper")}>
-			{renderHeaderChannels}
+			{isLargeScreen && renderHeaderChannels}
 			{renderChannels}
 			<div className={cx("pagination")}>
-				{channels?.length > 10 && (
-					<Pagination defaultCurrent={1} total={channels?.length} size='small' onChange={onChangePage} current={currentPage} pageSize={dataLimit} />
-				)}
+				{totalPages > 1 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onChangePage(page)} />}
 			</div>
 		</div>
 	);

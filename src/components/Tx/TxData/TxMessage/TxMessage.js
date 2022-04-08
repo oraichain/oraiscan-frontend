@@ -25,6 +25,7 @@ import { themeIds } from "src/constants/themes";
 import useGithubSource from "src/hooks/useGithubSource";
 import { formatOrai, formatFloat, extractValueAndUnit } from "src/helpers/helper";
 import { showAlert } from "src/store/modules/global";
+import { loadMore, loadAll } from "src/store/modules/txs";
 import { divide } from "src/lib/Big";
 import { _, tryParseMessage, setAgoTime, getTotalTime } from "src/lib/scripts";
 import Address from "src/components/common/Address";
@@ -86,6 +87,7 @@ const TxMessage = ({ key, msg, data }) => {
 	const status = useSelector(state => state.blockchain.status);
 	const storageData = useSelector(state => state.contact);
 	const activeThemeId = useSelector(state => state.activeThemeId);
+	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
 	const value = msg;
 	let type = msg["@type"] || "";
@@ -122,8 +124,8 @@ const TxMessage = ({ key, msg, data }) => {
 			if (!Array.isArray(data)) {
 				return [];
 			}
-
-			return data.map(item => {
+			let dataLoadMore = (loadMoreValue === value?.outputs?.length ? data : data?.slice(0, loadMoreValue * 5)) || [];
+			return dataLoadMore.map(item => {
 				const addressDataCell = _.isNil(item?.address) ? (
 					<div className={cx("align-center")}>-</div>
 				) : (
@@ -229,7 +231,7 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
-		const getIbcReceivedRows = (value) => {
+		const getIbcReceivedRows = value => {
 			const data = JSON.parse(atob(value));
 			return (
 				<div>
@@ -238,7 +240,7 @@ const TxMessage = ({ key, msg, data }) => {
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
-			)
+			);
 		};
 
 		const getHtmlRow = (label, value) => (
@@ -341,7 +343,6 @@ const TxMessage = ({ key, msg, data }) => {
 			</InfoRow>
 		);
 
-
 		const getMultiAddressRow = (label, address) => (
 			<InfoRow label={label}>
 				<ThemedTable
@@ -349,6 +350,22 @@ const TxMessage = ({ key, msg, data }) => {
 					headerCells={getMultiSendHeaderRow()?.headerCells}
 					dataRows={getMultiSendDataRows(address)}
 				/>
+				<div className={cx("load-more")}>
+					<div className={cx("load-more-result")} onClick={() => dispatch(loadMore())}>
+						Load More Result (+5)
+					</div>
+					<div
+						className={cx("load-more-result")}
+						onClick={() =>
+							dispatch(
+								loadAll({
+									loadMore: loadMoreValue !== value?.outputs?.length ? value?.outputs?.length : 1,
+								})
+							)
+						}>
+						{loadMoreValue !== value?.outputs?.length ? "Load More All Result" : "Load More Less"}
+					</div>
+				</div>
 			</InfoRow>
 		);
 
@@ -551,14 +568,14 @@ const TxMessage = ({ key, msg, data }) => {
 								// obj.amount = value;
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
-									let splitValue = e.split('/');
-									let splitTextNumber = processText(splitValue?.[0])
+									let splitValue = e.split("/");
+									let splitTextNumber = processText(splitValue?.[0]);
 									obj = {
 										...obj,
 										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
 										demon: splitTextNumber?.[0]?.[1],
 										txs: splitValue?.[1],
-									}
+									};
 									msgTransfer.push(obj);
 								}
 								// start = false;
@@ -574,14 +591,19 @@ const TxMessage = ({ key, msg, data }) => {
 			return { checkTransfer: checkTransfer, transfers: msgTransfer };
 		};
 
-		const processText = (inputText) => {
+		const processText = inputText => {
 			let output = [];
-			let json = inputText.split(' ');
+			let json = inputText.split(" ");
 			json.forEach(function (item) {
-				output.push(item.replace(/\'/g, '').split(/(\d+)/).filter(Boolean));
+				output.push(
+					item
+						.replace(/\'/g, "")
+						.split(/(\d+)/)
+						.filter(Boolean)
+				);
 			});
 			return output;
-		}
+		};
 
 		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
 			const transfer = getTransfer(key, rawLog, result);
@@ -589,11 +611,13 @@ const TxMessage = ({ key, msg, data }) => {
 			return (
 				transfer.checkTransfer && (
 					<InfoRow isTransfer={true} label={label}>
-						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && <ThemedTable
-							headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
-							headerCells={getTransferHeaderRow()?.headerCells}
-							dataRows={getTransferDataRows(transfer.transfers)}
-						/>}
+						{Array.isArray(transfer.transfers) && transfer?.transfers?.length !== 0 && (
+							<ThemedTable
+								headerCellStyles={getTransferHeaderRow()?.headerCellStyles}
+								headerCells={getTransferHeaderRow()?.headerCells}
+								dataRows={getTransferDataRows(transfer.transfers)}
+							/>
+						)}
 					</InfoRow>
 				)
 			);
@@ -601,18 +625,15 @@ const TxMessage = ({ key, msg, data }) => {
 
 		const getFundsRow = (label, key = 0, rawLog = [], result = "") => {
 			return (
-				(
-					<InfoRow isTransfer={true} label={label}>
-						{
-							Array.isArray(rawLog) && rawLog.length !== 0 && <ThemedTable
-								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
-								headerCells={getFundsHeaderRow()?.headerCells}
-								dataRows={getFundsDataRows(rawLog)}
-							/>
-						}
-
-					</InfoRow>
-				)
+				<InfoRow isTransfer={true} label={label}>
+					{Array.isArray(rawLog) && rawLog.length !== 0 && (
+						<ThemedTable
+							headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+							headerCells={getFundsHeaderRow()?.headerCells}
+							dataRows={getFundsDataRows(rawLog)}
+						/>
+					)}
+				</InfoRow>
 			);
 		};
 
@@ -675,7 +696,7 @@ const TxMessage = ({ key, msg, data }) => {
 
 		const getFundsDataRows = data => {
 			return data.map(item => {
-				let denomSplit = item?.denom?.split('/') || [];
+				let denomSplit = item?.denom?.split("/") || [];
 				const denomDataCell = _.isNil(item?.denom) ? (
 					<div className={cx("align-center")}>-</div>
 				) : (
@@ -1154,7 +1175,6 @@ const TxMessage = ({ key, msg, data }) => {
 						</InfoRow> */}
 					</>
 				)}
-
 				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
@@ -1291,7 +1311,7 @@ const TxMessage = ({ key, msg, data }) => {
 
 			</div>
 		);
-	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data]);
+	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue]);
 
 	const toolTippedImg = useMemo(() => {
 		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
