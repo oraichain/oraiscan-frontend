@@ -1,6 +1,6 @@
 import React from "react";
 import {useFormContext, Controller} from "react-hook-form";
-import {TextareaAutosize} from "@material-ui/core";
+import {Checkbox, TextareaAutosize} from "@material-ui/core";
 import cn from "classnames/bind";
 
 import styles from "./index.scss";
@@ -8,9 +8,15 @@ import styles from "./index.scss";
 const cx = cn.bind(styles);
 
 const TextareaAutosizeWithErrorMessage = ({error, errorMessage, ...rest}) => {
+	let props = {...rest};
+	if (props.type && rest.value) {
+		if (!+rest.value) {
+			props = {...props, value: rest.value.slice(0, rest.value.length - 1)};
+		}
+	}
 	return (
 		<>
-			<TextareaAutosize {...rest} className={cx("input-text", {error})} />
+			<TextareaAutosize {...props} className={cx("input-text", {error})} />
 			{error && <span className={cx("text-error")}> {errorMessage} </span>}
 		</>
 	);

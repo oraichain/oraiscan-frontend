@@ -265,7 +265,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 							Memo <span className={cx("optional")}> (Optional) </span>{" "}
 						</div>
 						<TextArea name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
-					</Grid>
+					</Grid >
 					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
@@ -290,20 +290,23 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 						/>
 						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
 					</div> */}
-				</Grid>
-			)}
+				</Grid >
+			)
+			}
 			{isMulti && renderSelectMulti()}
-			{open ? (
-				<AddAddressDialog
-					onClose={handleClose}
-					open={open}
-					recipientAddress={getValues("recipientAddress")}
-					isEdit={existName ? true : false}
-					storageData={storageData}
-				/>
-			) : (
-				""
-			)}
-		</form>
+			{
+				open ? (
+					<AddAddressDialog
+						onClose={handleClose}
+						open={open}
+						recipientAddress={getValues("recipientAddress")}
+						isEdit={existName ? true : false}
+						storageData={storageData}
+					/>
+				) : (
+					""
+				)
+			}
+		</form >
 	);
 }
