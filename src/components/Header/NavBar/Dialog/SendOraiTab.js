@@ -142,7 +142,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 								{" "}
 								Memo <span className={cx("optional")}> (Optional) </span>{" "}
 							</div>
-							<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
+							<TextArea name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
 						</Grid>
 					</div>
 					{renderSwitchBtn()}
@@ -264,7 +264,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 							{" "}
 							Memo <span className={cx("optional")}> (Optional) </span>{" "}
 						</div>
-						<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
+						<TextArea name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
 					</Grid>
 					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>
