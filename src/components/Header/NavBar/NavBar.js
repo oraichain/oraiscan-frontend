@@ -421,7 +421,7 @@ const NavBar = ({toggleSearchArea}) => {
 				</div>
 			)}
 			<Container>
-				{isLargeScreen ? <NavBarDesktop initialNavLinks={navLinks} /> : <NavBarMobile toggleSearchArea={toggleSearchArea} initialNavLinks={navLinks} />}
+				{isLargeScreen ? <NavBarDesktop isDarkTheme={isDarkTheme} initialNavLinks={navLinks} /> : <NavBarMobile isDarkTheme={isDarkTheme} toggleSearchArea={toggleSearchArea} initialNavLinks={navLinks} />}
 			</Container>
 		</div>
 	);

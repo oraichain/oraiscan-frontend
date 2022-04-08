@@ -21,7 +21,7 @@ import OraiIcon from "src/icons/OraiIcon";
 
 const cx = cn.bind(styles);
 
-const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
+const NavBarMobile = ({toggleSearchArea, initialNavLinks, isDarkTheme}) => {
 	useEffect(() => {});
 	const {address} = useSelector(state => state.wallet);
 	const navbarCollapseRef = useRef(null);
@@ -103,12 +103,12 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks}) => {
 												return (
 													<div key={idx} className={cx("dropdown-item")}>
 														<div className={cx("item")}>
-															<div className={cx("title")}>{name ?? ""}</div>
+															<div className={cx("title")} style={{ color: isDarkTheme ? "" : "#181818"}} >{name ?? ""}</div>
 															{list && list.length > 0 && (
 																<ul>
 																	{list.map((el, index) => (
 																		<li key={index}>
-																			<a href={el.link} target={el.target ?? "_self"}>
+																			<a href={el.link} target={el.target ?? "_self"} style={{ color: isDarkTheme ? "" : "#181818", opacity: isDarkTheme ? 1 : "0.5"}}>
 																				{el.icon ?? ""}
 																				{el.title ?? ""}
 																			</a>
