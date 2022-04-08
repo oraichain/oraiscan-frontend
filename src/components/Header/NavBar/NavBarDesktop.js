@@ -14,7 +14,7 @@ import ModeSwitch from "src/components/common/ModeSwitch";
 import { BiChevronDown } from "react-icons/bi";
 const cx = cn.bind(styles);
 
-const NavBarDesktop = ({initialNavLinks , isDarkTheme}) => {
+const NavBarDesktop = ({ initialNavLinks, isDarkTheme }) => {
 	const navbarCollapseRef = useRef(null);
 	const navbarOverlayRef = useRef(null);
 
@@ -56,12 +56,12 @@ const NavBarDesktop = ({initialNavLinks , isDarkTheme}) => {
 											{item.children.map((child, index) => (
 												<div key={index} className={cx("menu-item")}>
 													<div className={cx("item")}>
-														<div className={cx("title")} style={{ color: isDarkTheme ? "" : "#181818"}}>{child.name ?? ""}</div>
+														<div className={cx("title")} style={{ color: isDarkTheme ? "" : "#181818" }}>{child.name ?? ""}</div>
 														{child.list && child.list.length > 0 && (
 															<ul>
 																{child.list.map((el, index) => (
 																	<li key={index}>
-																		<a href={el.link} target={el.target ?? "_self"} style={{ color: isDarkTheme ? "" : "#181818", opacity: isDarkTheme ? 1 : "0.5"}}>
+																		<a href={el.link} target={el.target ?? "_self"} style={{ color: isDarkTheme ? "" : "#181818", opacity: isDarkTheme ? 1 : "0.5" }}>
 																			{el.icon ?? ""}
 																			{el.title ?? ""}
 																		</a>

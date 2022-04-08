@@ -107,7 +107,7 @@ export const themes = {
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.LIGHT_GREY,
 					oraiDenomTextColor: colors.LINK_COLOR,
-					backGroundColorGray: colors.BLUE_WHALE,
+					backGroundColorGray: colors.PURPLE_1,
 					separateLine: colors.SEPARATE_LINE_DARK,
 					boxShadowColor: "none",
 					modal: {
