@@ -175,7 +175,7 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 		},
 		chart: {
 			type: "areaspline",
-			margin: [5, 15, 20, 15],
+			margin: [5, 25, 20, 35],
 			height: "230px",
 			width: null,
 			spacing: [20, 20, 20, 20],

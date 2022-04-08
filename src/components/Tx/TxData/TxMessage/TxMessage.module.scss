@@ -182,3 +182,26 @@
 	color: var(--common-textColor);
 	overflow: hidden;
 }
+
+.load-more {
+	display: flex;
+	justify-content: space-between;
+	padding-top: 10px;
+	&-result {
+		cursor: pointer;
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 2px 8px;
+		color: var(--common-buttonTextColor);
+		background: var(--common-buttonBackgroundColor);
+		border: 1px solid var(--common-activeTabColor);
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: normal;
+		font-size: 13px;
+	}
+}

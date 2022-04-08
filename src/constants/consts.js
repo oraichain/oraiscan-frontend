@@ -113,6 +113,7 @@ export default Object.freeze({
 		UPLOAD_IMAGES_VALIDATORS: '/validator/update-image',
 		GET_IMAGES_VALIDATORS: '/validator-detail',
 		IBC_RELAYERS: "/ibc/relayers",
+		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
