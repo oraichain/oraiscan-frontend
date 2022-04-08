@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
-import {Container} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { Container } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {initWallet} from "src/store/modules/wallet";
+import { initWallet } from "src/store/modules/wallet";
 import NavBarMobile from "./NavBarMobile";
 import styles from "./NavBar.module.scss";
 import consts from "src/constants/consts";
@@ -17,18 +17,18 @@ import TwitterIcon from "src/assets/community/TwitterIcon";
 import YoutubeIcon from "src/assets/community/YoutubeIcon";
 import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
-import {updateToken} from "src/firebase-cloud-message";
+import { updateToken } from "src/firebase-cloud-message";
 import NavBarDesktop from "./NavBarDesktop";
-import {ThemeSetup} from "src/helpers/helper";
+import { ThemeSetup } from "src/helpers/helper";
 
-import {FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle} from "react-icons/fa";
+import { FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle } from "react-icons/fa";
 
 const cx = cn.bind(styles);
 
 const initialNavLinks = [
 	{
 		title: "Learn",
-		link: "/",
+		// link: "/",
 		children: [
 			{
 				name: "AI LAYER 1",
@@ -97,7 +97,7 @@ const initialNavLinks = [
 	},
 	{
 		title: "Build",
-		link: "/",
+		// link: "/",
 		children: [
 			{
 				name: "VALIDATORS",
@@ -136,7 +136,7 @@ const initialNavLinks = [
 	},
 	{
 		title: "Earn",
-		link: "/",
+		// link: "/",
 		children: [
 			{
 				name: "STAKING TO EARN 29% APR",
@@ -175,7 +175,7 @@ const initialNavLinks = [
 	},
 	{
 		title: "Ecosystem",
-		link: "/",
+		// link: "/",
 		children: [
 			{
 				name: "AI ORACLES",
@@ -300,7 +300,7 @@ const initialNavLinks = [
 	},
 	{
 		title: "Explore",
-		link: "/",
+		// link: "/",
 		children: [
 			{
 				name: "BLOG",
@@ -344,7 +344,7 @@ const initialNavLinks = [
 			},
 		],
 	},
-	{title: "Connect Wallet", link: null, type: "wallet", children: []},
+	{ title: "Connect Wallet", link: null, type: "wallet", children: [] },
 ];
 
 function isSlowBlock(lastest, blocks) {
@@ -359,17 +359,17 @@ function isSlowBlock(lastest, blocks) {
 	}
 }
 
-const NavBar = ({toggleSearchArea}) => {
+const NavBar = ({ toggleSearchArea }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {isDarkTheme} = ThemeSetup();
+	const { isDarkTheme } = ThemeSetup();
 	const dispatch = useDispatch();
-	const {address} = useSelector(state => state.wallet);
+	const { address } = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const [isMaintaining, setIsMaintaining] = useState(false);
 
 	useEffect(() => {
-		const onMessage = function(e) {
+		const onMessage = function (e) {
 			const address = e?.data?.address;
 			if (address) {
 				initialNavLinks[initialNavLinks.length - 1] = {
@@ -377,7 +377,7 @@ const NavBar = ({toggleSearchArea}) => {
 					type: "wallet",
 				};
 				setNavLinks([...initialNavLinks]);
-				dispatch(initWallet({address, account: e.data.account}));
+				dispatch(initWallet({ address, account: e.data.account }));
 				updateToken(address);
 			}
 		};

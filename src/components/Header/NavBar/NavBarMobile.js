@@ -1,11 +1,11 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
-import {Container} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { Container } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import _ from "lodash";
 import cn from "classnames/bind";
@@ -51,7 +51,7 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks, isDarkTheme}) => {
 			</NavLink>
 			{!_.isNil(address) && (
 				<div className={cx("navbar-user")}>
-					<Wallet data={{init: false, title: address}} key={"wallet"} collapse={collapse} />
+					<Wallet data={{ init: false, title: address }} key={"wallet"} collapse={collapse} />
 				</div>
 			)}
 			<div className={cx("navbar-right")}>
@@ -79,7 +79,7 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks, isDarkTheme}) => {
 				)}
 				<ul className={cx("navbar-nav")}>
 					{initialNavLinks.map((item, index) => {
-						const {title, path, children, type} = item;
+						const { title, path, children, type } = item;
 						if (children) {
 							return (
 								<li className={cx("nav-item")} key={"nav-item" + index}>
@@ -99,7 +99,7 @@ const NavBarMobile = ({toggleSearchArea, initialNavLinks, isDarkTheme}) => {
 											<DownAngleIcon className={cx("dropdown-toggle-icon")} />
 										</span>
 										<div className={cx("dropdown-menu")}>
-											{children.map(({name, list}, idx) => {
+											{children.map(({ name, list }, idx) => {
 												return (
 													<div key={idx} className={cx("dropdown-item")}>
 														<div className={cx("item")}>
