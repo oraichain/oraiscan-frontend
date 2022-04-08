@@ -39,9 +39,6 @@ const RelayerAsset = ({relayerAssetDaily}) => {
 			text: "Resize the frame or click buttons to change appearance",
 		},
 		legend: {
-			align: "right",
-			verticalAlign: "middle",
-			layout: "vertical",
 			itemStyle: {
 				color: isDarkTheme ? "#F6F7FB" : "#181818",
 			},
