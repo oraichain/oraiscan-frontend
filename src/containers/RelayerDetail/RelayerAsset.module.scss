@@ -1,0 +1,11 @@
+.chart {
+	border-radius: 8px;
+	box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+	height: 100%;
+	background: var(--common-containerBackgroundColor);
+	@media (min-width: 1279px) {
+		padding-top: calc(130px / 2);
+	}
+}
+
+
