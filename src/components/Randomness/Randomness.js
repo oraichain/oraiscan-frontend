@@ -130,16 +130,16 @@ const Randomness = ({ }) => {
 
 	const handleGetRandomValue = async () => {
 		try {
-			const { tx_response, contract } = await getTxResponse(String(data?.currentFees), "0", "200000", userInput, address);
-			console.log("response: ", tx_response);
+			const { response, contract } = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
+			console.log("response: ", response);
 			// if the transaction passes => we collect the round that the user requests
-			if (tx_response && tx_response.code === 0) {
+			if (response.tx_response && response.tx_response.code === 0) {
 				// fixed position for collecting round from a transaction result
-				const round = tx_response.logs[0].events[1].attributes[3].value;
+				const round = response.tx_response.logs[0].events[1].attributes[3].value;
 				console.log("round: ", round);
 				setTxResponse({
 					contract: contract,
-					txHash: tx_response?.txhash,
+					txHash: response.tx_response?.txhash,
 				});
 				setShowModal(true);
 				setUserInput("");

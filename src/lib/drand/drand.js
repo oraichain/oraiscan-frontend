@@ -34,14 +34,27 @@ export const getHandleMessage = (contract, msg, sender, amount) => {
 	});
 };
 
-export const getTxResponse = async (amount, fees, gas, userInput = btoa(""), account) => {
+export const getTxResponse = async (amount, fees, gas, userInput = btoa("")) => {
 	// invoke handle message contract to update the randomness value. Min fees is 1orai
+	const input = Buffer.from(
+		JSON.stringify({
+			request_random: {
+				input: btoa(userInput),
+			},
+		})
+	);
 	console.log("network: ", network);
 
 	return new Promise(async (resolve, reject) => {
 		try {
-			const tx_response = await executeRandomness(account, userInput);
-			resolve({ tx_response, contract });
+			const { privateKey, chainCode, network } = await getChildKey();
+			const childKey = fromPrivateKey(Buffer.from(privateKey), Buffer.from(chainCode), network);
+
+			const sender = cosmos.getAddress(childKey);
+			const txBody = getHandleMessage(contract, input, sender, amount);
+
+			const response = await cosmos.submit(childKey, txBody, "BROADCAST_MODE_BLOCK", isNaN(fees) ? 0 : parseInt(fees), gas);
+			resolve({ response, contract });
 		} catch (error) {
 			reject(error);
 		}
