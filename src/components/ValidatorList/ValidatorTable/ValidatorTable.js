@@ -71,6 +71,7 @@ const toggleDirection = direction => {
 const ValidatorTable = memo(({ data = [] }) => {
 	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
+	const [canSort, setCanSort] = useState(false);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 
@@ -87,6 +88,8 @@ const ValidatorTable = memo(({ data = [] }) => {
 	};
 
 	const sortBy = field => {
+		// trigger can sort to true so the list can be sorted
+		if (!canSort) setCanSort(true);
 		if (field === sortField) {
 			setSortDirection(toggleDirection(sortDirection));
 		} else {
@@ -214,13 +217,16 @@ const ValidatorTable = memo(({ data = [] }) => {
 			return [];
 		}
 
-		return [...data].sort(function (a, b) {
-			if (a[sortField] === b[sortField]) {
-				return compareTwoValues(a[extraSortField], b[extraSortField], toggleDirection(sortDirection));
-			} else {
-				return compareTwoValues(a[sortField], b[sortField], sortDirection);
-			}
-		});
+		if (canSort) {
+			return [...data].sort(function (a, b) {
+				if (a[sortField] === b[sortField]) {
+					return compareTwoValues(a[extraSortField], b[extraSortField], toggleDirection(sortDirection));
+				} else {
+					return compareTwoValues(a[sortField], b[sortField], sortDirection);
+				}
+			});
+		}
+		return data;
 	};
 
 	const getDataRows = data => {
