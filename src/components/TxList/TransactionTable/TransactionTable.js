@@ -1,14 +1,14 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo } from "react";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import React, {memo, useMemo} from "react";
+import {useSelector} from "react-redux";
+import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, reduceStringAssets, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket } from "src/lib/scripts";
-import { formatOrai, formatFloat } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
+import {_, reduceString, processText, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket} from "src/lib/scripts";
+import {formatOrai, formatFloat} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
@@ -45,30 +45,39 @@ export const getHeaderRow = (royalty = false) => {
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	let headerCells = [txHashHeaderCell, typeHeaderCell, ibcAmountHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
+	let headerCells = [
+		txHashHeaderCell,
+		typeHeaderCell,
+		ibcAmountHeaderCell,
+		resultHeaderCell,
+		amountHeaderCell,
+		feeHeaderCell,
+		heightHeaderCell,
+		timeHeaderCell,
+	];
 	let headerCellStyles = [
-		{ width: "14%", minWidth: "140px" }, // TxHash
-		{ width: "18%", minWidth: "180px" }, // Type
-		{ width: "6%", minWidth: "100px" }, // IBC Amount
-		{ width: "10%", minWidth: "100px" }, // Result
-		{ width: "22%", minWidth: "220px" }, // Amount
-		{ width: "10%", minWidth: "140px" }, // Fee
-		{ width: "10%", minWidth: "100px" }, // Height
-		{ width: "10%", minWidth: "100px" }, // Time
+		{width: "14%", minWidth: "140px"}, // TxHash
+		{width: "18%", minWidth: "180px"}, // Type
+		{width: "6%", minWidth: "100px"}, // IBC Amount
+		{width: "10%", minWidth: "100px"}, // Result
+		{width: "22%", minWidth: "220px"}, // Amount
+		{width: "10%", minWidth: "140px"}, // Fee
+		{width: "10%", minWidth: "100px"}, // Height
+		{width: "10%", minWidth: "100px"}, // Time
 	];
 
 	if (royalty) {
 		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
 		headerCells.push(newRoyaltyHeaderCell);
 		headerCellStyles = [
-			{ width: "12%", minWidth: "120px" }, // TxHash
-			{ width: "18%", minWidth: "180px" }, // Type
-			{ width: "10%", minWidth: "100px" }, // Result
-			{ width: "16%", minWidth: "160px" }, // Royalty Amount
-			{ width: "10%", minWidth: "120px" }, // Fee
-			{ width: "10%", minWidth: "100px" }, // Height
-			{ width: "10%", minWidth: "100px" }, // Time
-			{ width: "10%", minWidth: "120px" }, // New Royalty
+			{width: "12%", minWidth: "120px"}, // TxHash
+			{width: "18%", minWidth: "180px"}, // Type
+			{width: "10%", minWidth: "100px"}, // Result
+			{width: "16%", minWidth: "160px"}, // Royalty Amount
+			{width: "10%", minWidth: "120px"}, // Fee
+			{width: "10%", minWidth: "100px"}, // Height
+			{width: "10%", minWidth: "100px"}, // Time
+			{width: "10%", minWidth: "120px"}, // New Royalty
 		];
 	}
 
@@ -144,7 +153,7 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 		}
 	}
 
-	const obj = { royalty: checkRoyaltyAmount, amount: royaltyAmount };
+	const obj = {royalty: checkRoyaltyAmount, amount: royaltyAmount};
 	return obj;
 };
 
@@ -171,7 +180,7 @@ export const getTokenId = (rawLog = "[]", result = "") => {
 	return tokenId;
 };
 
-const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) => {
+const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
@@ -245,9 +254,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				);
 			}
 			let ibcAmountDataCell = null;
-			if (
-				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
-			) {
+			if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
 				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
 				if (message?.packet?.data) {
 					const msgRec = JSON.parse(atob(message?.packet?.data));
@@ -257,14 +264,12 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 						<div className={cx("align-left")}>-</div>
 					) : (
 						<div className={cx("ibc-data-cell", "align-right")}>
-							<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
-							<div className={cx("ibc-denom")}>{"(" + port + '/' + channel + '/' + msgRec?.denom + ")"}</div>
-						</div >
+							<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
+							<div className={cx("ibc-denom")}>{"(" + port + "/" + channel + "/" + msgRec?.denom + ")"}</div>
+						</div>
 					);
 				}
-			} else if (
-				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")
-			) {
+			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
 				let rawLog, rawLogParse, rawLogDenomSplit;
 				if (item?.result === "Success") {
 					rawLog = JSON.parse(item?.raw_log);
@@ -272,18 +277,20 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 					rawLogDenomSplit = rawLogParse?.denom?.split("/");
 				}
 
-				ibcAmountDataCell = item?.result !== "Success" ? (
-					<div className={cx("align-right")}>-</div>
-				) : (
-					<div className={cx("ibc-data-cell", "align-right")}>
-						<div className={cx("ibc-value")}>{formatOrai(rawLogParse?.amount, 1000000, 1) + ' ' + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}</div>
-						<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
-					</div>
-				);
+				ibcAmountDataCell =
+					item?.result !== "Success" ? (
+						<div className={cx("align-right")}>-</div>
+					) : (
+						<div className={cx("ibc-data-cell", "align-right")}>
+							<div className={cx("ibc-value")}>
+								{formatOrai(rawLogParse?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}
+							</div>
+							<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
+						</div>
+					);
 			} else {
-				ibcAmountDataCell = <div className={cx("align-right")}>-</div>
+				ibcAmountDataCell = <div className={cx("align-right")}>-</div>;
 			}
-
 
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
@@ -304,9 +311,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				} else {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
-			} else if (
-				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
-			) {
+			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
 				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
 				if (message?.packet?.data) {
 					const data = JSON.parse(atob(message?.packet?.data));
@@ -314,9 +319,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 						transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 					}
 				}
-			} else if (
-				account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
-			) {
+			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
 				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
 				if (account === message.sender) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
@@ -338,7 +341,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
 				amountDataCell = (
-					<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+					<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 						{transferStatus && transferStatus}
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{objRoyaltyAmount.amount === "0" ? objRoyaltyAmount.amount : formatOrai(objRoyaltyAmount.amount)}</span>
@@ -347,8 +350,8 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 								{objRoyaltyAmount.amount === "0"
 									? " ($0)"
 									: status?.price
-										? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
-										: ""}
+									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
+									: ""}
 							</div>
 						</div>
 					</div>
@@ -356,7 +359,13 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 			} else {
 				let amount;
 				let denom;
-				if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
+					let rawLog = JSON.parse(item.raw_log)?.[0]?.events?.find(eve => eve.type === "transfer")?.attributes;
+					let indexAddress = rawLog.findIndex(att => att.value === account);
+					let split = processText(rawLog[indexAddress + 1]?.value);
+					amount = split[0]?.[0];
+					denom = split[0]?.[1];
+				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 					amount = item.amount[0].amount;
 					denom = item.amount[0].denom;
 				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
@@ -366,7 +375,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 
 				amountDataCell =
 					_.isNil(amount) || _.isNil(denom) ? (
-						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>0</span>
@@ -375,7 +384,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 							</div>
 						</div>
 					) : (
-						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
+						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>{formatOrai(amount)}</span>

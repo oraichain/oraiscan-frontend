@@ -35,20 +35,26 @@ function FindLeftScreenBoundry() {
 
 window.leftScreenBoundry = FindLeftScreenBoundry;
 
-function PopupCenter(url, title, w, h) {
-	const newWindow = window.open(
-		url,
-		title,
+function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
+	let newWindow;
+	let resizeWindow =
 		"resizable=1, scrollbars=1, fullscreen=0, height=" +
-			h +
-			", width=" +
-			w +
-			", screenX=" +
-			window.leftScreenBoundry +
-			" , left=" +
-			window.leftScreenBoundry +
-			", toolbar=0, menubar=0, status=1"
-	);
+		h +
+		", width=" +
+		w +
+		", screenX=" +
+		window.leftScreenBoundry +
+		" , left=" +
+		window.leftScreenBoundry +
+		", toolbar=0, menubar=0, status=1";
+	if (type === "transaction") {
+		newWindow = window.open(urlEvent, title, resizeWindow);
+		setTimeout(() => {
+			newWindow.postMessage(objEvent, "*");
+		}, 300);
+	} else {
+		newWindow = window.open(url, title, resizeWindow);
+	}
 	return newWindow;
 }
 
@@ -68,7 +74,6 @@ function openWindowV1(type, payload, account = "", self) {
 			apiUrl = "signin";
 			break;
 	}
-
 	return PopupCenter(
 		self.keystationUrl +
 			"/" +
@@ -85,7 +90,16 @@ function openWindowV1(type, payload, account = "", self) {
 			encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
-		"760"
+		"760",
+		type,
+		{
+			account: encodeURIComponent(account),
+			client: encodeURIComponent(self.client),
+			lcd: encodeURIComponent(self.lcd),
+			path: encodeURIComponent(self.path),
+			payload: encodeURIComponent(JSON.stringify(payload)),
+		},
+		self.keystationUrl + "/" + apiUrl
 	);
 }
 
@@ -110,6 +124,7 @@ function openWindowV2(type, payload, account = "", self) {
 	}
 
 	const network = isTestnet ? networks.TESTNET : networks.MAINNET;
+
 	return PopupCenter(
 		self.keystationUrl +
 			"/" +
@@ -123,7 +138,15 @@ function openWindowV2(type, payload, account = "", self) {
 			network,
 		"",
 		"470",
-		"760"
+		"760",
+		type,
+		{
+			lcd: self.lcd,
+			raw_message: JSON.stringify(payload),
+			signInFromScan: true,
+			network,
+		},
+		self.keystationUrl + "/" + apiUrl
 	);
 }
 

@@ -2,7 +2,7 @@ import _ from "lodash";
 import empty from "is-empty";
 import moment from "moment";
 
-export { _, empty };
+export {_, empty};
 
 //  remove t from bnb address
 export const refineAddress = address => (_.isString(address) ? (address.charAt(0) === "t" ? address.substr(1) : address) : "-");
@@ -16,16 +16,30 @@ export const reduceString = (str, from, end) => (str ? str.substring(0, from) + 
 
 export const reduceStringAssets = (str, from, end) => (str ? str.substring(0, from) + (str.length > from ? "..." + str.substring(str.length - end) : "") : "-");
 
-export const parseIbcMsgTransfer = (rawLog, type = 'send_packet', key = 'packet_data') => {
-	const arrayIbcDemonPacket = (rawLog && rawLog?.[0]?.events?.find(e => e.type === type))
-	const ibcDemonPackData = (arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key));
-	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : { denom: '' };
+export const parseIbcMsgTransfer = (rawLog, type = "send_packet", key = "packet_data") => {
+	const arrayIbcDemonPacket = rawLog && rawLog?.[0]?.events?.find(e => e.type === type);
+	const ibcDemonPackData = arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key);
+	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : {denom: ""};
 	return ibcDemonObj;
 };
 
-export const parseIbcMsgRecvPacket = (denom) => {
-	return denom?.slice(0, 1) === 'u' ? denom?.slice(1, denom?.length) : denom;
-}
+export const processText = inputText => {
+	var output = [];
+	var json = inputText.split(" ");
+	json.forEach(function(item) {
+		output.push(
+			item
+				.replace(/\'/g, "")
+				.split(/(\d+)/)
+				.filter(Boolean)
+		);
+	});
+	return output;
+};
+
+export const parseIbcMsgRecvPacket = denom => {
+	return denom?.slice(0, 1) === "u" ? denom?.slice(1, denom?.length) : denom;
+};
 
 export const stringNumCheck = input => !empty(input) && !isNaN(Number(input));
 
@@ -158,11 +172,11 @@ export const tryParseMessage = obj => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch { }
+				} catch {}
 			}
 		}
 		return obj;
 	} catch (e) {
-		return { data: obj };
+		return {data: obj};
 	}
 };
