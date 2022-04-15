@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React, { memo, useState, useEffect } from "react";
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import { useForm, FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -14,16 +14,16 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 
-import { myKeystation } from "src/lib/Keystation";
-import { InputNumberOrai } from "src/components/common/form-controls";
+import {myKeystation} from "src/lib/Keystation";
+import {InputNumberOrai} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function (amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -51,7 +51,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const { children, classes, onClose, ...other } = props;
+	const {children, classes, onClose, ...other} = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -84,9 +84,9 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName }) => {
+const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
-	const { address, account } = useSelector(state => state.wallet);
+	const {address, account} = useSelector(state => state.wallet);
 	const percents = [25, 50, 75, 100];
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -111,7 +111,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const { handleSubmit, setValue, errors, setError, clearErrors } = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
 		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
@@ -144,7 +144,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 		};
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
+		let popupTick = setInterval(function() {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -152,7 +152,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 	};
 
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
@@ -175,6 +175,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
 							Withdraw from {validatorName}
+							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
 							<div className={cx("space-between")}>
