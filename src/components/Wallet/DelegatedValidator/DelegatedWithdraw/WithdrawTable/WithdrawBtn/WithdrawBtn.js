@@ -13,14 +13,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
+import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-
+import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai} from "src/components/common/form-controls";
+import {InputNumberOrai , TextArea} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
-
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -86,8 +86,11 @@ const calculateAmount = (balance, percent) => {
 
 const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
+	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
+	const minFee = useSelector(state => state.blockchain.minFee);
 	const percents = [25, 50, 75, 100];
+	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
@@ -98,6 +101,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	};
 	const closeDialog = () => {
 		setOpen(false);
+		setGas(200000);
 	};
 
 	const validationSchemaForm = yup.object().shape({
@@ -117,7 +121,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
 		// 	return;
 		// }
-
+		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const payload = {
 			type: "/cosmos.staking.v1beta1.MsgUndelegate",
 			value: {
@@ -135,11 +139,11 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 					},
 				],
 				fee: {
-					amount: [0],
-					gas: 200000,
+					amount: [minGasFee],
+					gas,
 				},
 				signatures: null,
-				memo: "",
+				memo: (data && data.memo) || "",
 			},
 		};
 
@@ -165,6 +169,10 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 			window.removeEventListener("message", callBack);
 		};
 	}, [dispatch, closeDialog, history]);
+
+	const onChangeGas = value => {
+		setGas(value);
+	};
 
 	return (
 		<div className={cx("delegate")}>
@@ -198,6 +206,24 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 							</div>
 							<div className={cx("form-field")}>
 								<InputNumberOrai name='amount' required errorobj={errors} />
+							</div>
+							<Grid item xs={12} className={cx("form-input")}>
+								<div className={cx("label")}>
+									{" "}
+									Memo <span className={cx("optional")}> (Optional) </span>{" "}
+								</div>
+								<TextArea type='number' name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
+							</Grid>
+							<div>
+								<Fee className={"refactor-padding"} handleChooseFee={setFee} minFee={minFee} />
+							</div>
+							<div style={{marginTop: "15px"}}>
+								{" "}
+								Minimin Tx Fee:
+								<span className={cx("fee")}> {fee || 0} ORAI </span>
+							</div>
+							<div>
+								<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
 							</div>
 						</DialogContent>
 						<DialogActions>

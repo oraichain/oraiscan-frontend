@@ -1,38 +1,38 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, {useState, useEffect, useMemo, useRef} from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
-import _, { add, constant } from "lodash";
+import _, {add, constant} from "lodash";
 import BigNumber from "bignumber.js";
-import { Switch, Input, InputNumber } from "antd";
+import {Switch, Input, InputNumber} from "antd";
 import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
-import { EditOutlined } from "@material-ui/icons";
+import {EditOutlined} from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
 
 import consts from "src/constants/consts";
-import { reduceString } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import { InputNumberOrai, TextArea, InputTextWithIcon } from "src/components/common/form-controls";
-import { ReactComponent as ExchangeIcon } from "src/assets/icons/switch-blue.svg";
-import { Fee, Gas } from "src/components/common/Fee";
+import {reduceString} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
+import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
+import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
+import {Fee, Gas} from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
-import { useSelector } from "src/hooks";
+import {useSelector} from "src/hooks";
 
 const cx = cn.bind(styles);
-const { TextArea: TextAreaAnt } = Input;
+const {TextArea: TextAreaAnt} = Input;
 
-export default function FormDialog({ address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee }) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
-	const { errors, setValue, getValues, watch, register } = methods;
+	const {errors, setValue, getValues, watch, register} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
@@ -61,6 +61,8 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 
 	const switchMultiSend = checked => {
 		setIsMulti(checked);
+		setGas(200000);
+		handleChangeFee(0);
 		if (!checked) {
 			handleInputMulti(null);
 		}
@@ -127,7 +129,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 			return (
 				<>
 					<div className={cx("summary")}>
-						{listAddress.map(({ address, amount }, index) => {
+						{listAddress.map(({address, amount}, index) => {
 							return (
 								<div className={cx("row")}>
 									<span> {index + 1}. </span>
@@ -142,9 +144,20 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 								{" "}
 								Memo <span className={cx("optional")}> (Optional) </span>{" "}
 							</div>
-							<TextArea name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
-						</Grid >
-					</div >
+							<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
+						</Grid>
+						<div>
+							<Fee className={"refactor-padding"} handleChooseFee={handleChooseFee} minFee={minFee} />
+						</div>
+						<div>
+							{" "}
+							Minimin Tx Fee:
+							<span className={cx("fee")}> {fee || 0} ORAI </span>
+						</div>
+						<div>
+							<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
+						</div>
+					</div>
 					{renderSwitchBtn()}
 				</>
 			);
@@ -264,19 +277,19 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 							{" "}
 							Memo <span className={cx("optional")}> (Optional) </span>{" "}
 						</div>
-						<TextArea name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
+						<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
 					</Grid>
-					<Fee handleChooseFee={handleChooseFee} minFee={minFee} />
+					<Fee className={""} handleChooseFee={handleChooseFee} minFee={minFee} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
 							{/* <span className={cx("fee")}> {formatOrai(minFee?.estimate_fee * 1000000 || 0)} ORAI </span>{" "} */}
 							{/* <span>{status?.price ? "($" + (status?.price * Number(formatOrai(minFee?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span> */}
-							<span className={cx("fee")}> 0 ORAI </span> {/* <span>($ 0)</span> */}
+							<span className={cx("fee")}> {fee || 0} ORAI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
-					<Gas gas={gas} onChangeGas={onChangeGas} />
+					<Gas className={""} gas={gas} onChangeGas={onChangeGas} />
 					{/* <div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>
 						<InputNumber
@@ -290,23 +303,20 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 						/>
 						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
 					</div> */}
-				</Grid >
-			)
-			}
+				</Grid>
+			)}
 			{isMulti && renderSelectMulti()}
-			{
-				open ? (
-					<AddAddressDialog
-						onClose={handleClose}
-						open={open}
-						recipientAddress={getValues("recipientAddress")}
-						isEdit={existName ? true : false}
-						storageData={storageData}
-					/>
-				) : (
-					""
-				)
-			}
-		</form >
+			{open ? (
+				<AddAddressDialog
+					onClose={handleClose}
+					open={open}
+					recipientAddress={getValues("recipientAddress")}
+					isEdit={existName ? true : false}
+					storageData={storageData}
+				/>
+			) : (
+				""
+			)}
+		</form>
 	);
 }

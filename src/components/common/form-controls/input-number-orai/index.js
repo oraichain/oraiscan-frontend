@@ -41,7 +41,7 @@ function FormInput(props) {
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
 	const { getValues, setValue, register, watch } = useFormContext();
 	const previousValueRef = useRef("");
-	const { name, placeholder, label, errorobj } = props;
+	const { name = "sendAmount", placeholder, label, errorobj } = props;
 
 	let value = watch(name);
 
@@ -76,7 +76,7 @@ function FormInput(props) {
 				/>{" "}
 				<div className={cx("to-usdt")}>
 					{" "}
-					<ExchangeIcon /> {formatUSD(getValues("sendAmount")?.replace(/,/g, "") || "0", orai2usd)} USD{" "}
+					<ExchangeIcon /> {formatUSD(getValues(name)?.replace(/,/g, "") || "0", orai2usd)} USD{" "}
 				</div>
 			</div>
 			<div className={cx("required-label")}>{errorMessage}</div>

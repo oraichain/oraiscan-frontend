@@ -105,3 +105,30 @@
 	font-size: 12px;
 	line-height: 150%;
 }
+
+
+.form-input {
+	margin-bottom: 5px !important;
+	textarea {
+		border-color: var(--common-borderColor);
+		padding-left: 15px;
+		padding-top: 10px;
+		font-size: 15px;
+		&::-webkit-input-placeholder {
+			color: var(--common-placeholderTextColor);
+			font-size: 15px;
+		}
+		&::placeholder {
+			color: var(--common-placeholderTextColor);
+			font-family: "IBM Plex Sans";
+		}
+	}
+	.new-label {
+		color: var(--common-placeholderTextColor);
+		font-size: 13px;
+		.open-dialog {
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+	}
+}
