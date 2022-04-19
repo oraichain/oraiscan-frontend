@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useMemo, useRef} from "react";
+import React, {useState, useEffect } from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
-import _, {add, constant} from "lodash";
+import _ from "lodash";
 import BigNumber from "bignumber.js";
-import {Switch, Input, InputNumber} from "antd";
-import InputRange from "react-input-range";
+import {Input} from "antd";
+// import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
 import {EditOutlined} from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
@@ -25,7 +25,7 @@ import {useSelector} from "src/hooks";
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
@@ -54,17 +54,17 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			);
 	};
 
-	const priceInUSD = new BigNumber(amount)
-		.dividedBy(1000000)
-		.multipliedBy(status?.price || 0)
-		.toFormat(2);
+	// const priceInUSD = new BigNumber(amount)
+	// 	.dividedBy(1000000)
+	// 	.multipliedBy(status?.price || 0)
+	// 	.toFormat(2);
 
-	const switchMultiSend = checked => {
-		setIsMulti(checked);
-		if (!checked) {
-			handleInputMulti(null);
-		}
-	};
+	// const switchMultiSend = checked => {
+	// 	setIsMulti(checked);
+	// 	if (!checked) {
+	// 		handleInputMulti(null);
+	// 	}
+	// };
 
 	const handleSelectFile = lines => {
 		const result = [];
@@ -263,7 +263,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"airi"} name='sendAmount' errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
@@ -277,12 +277,12 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 							rows={4}
 						/>
 					</Grid>
-					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"airi"}/>
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"airi"} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
-							<span className={cx("fee")}> 0 AIRI </span> {/* <span>($ 0)</span> */}
+							<span className={cx("fee")}> {fee || 0} AIRI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
 					<Gas gas={gas} onChangeGas={onChangeGas} />

@@ -51,7 +51,7 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 		newWindow = window.open(urlEvent, title, resizeWindow);
 		setTimeout(() => {
 			newWindow.postMessage(objEvent, "*");
-		}, 300);
+		}, 500);
 	} else {
 		newWindow = window.open(url, title, resizeWindow);
 	}

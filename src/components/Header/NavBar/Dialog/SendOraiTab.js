@@ -25,7 +25,7 @@ import {useSelector} from "src/hooks";
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee}) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee }) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
@@ -36,7 +36,6 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
-
 	// let values = watch() || "";
 
 	useEffect(() => {
@@ -270,7 +269,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue}  typePrice={"orai"} name='sendAmount' errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>

@@ -18,9 +18,11 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai , TextArea} from "src/components/common/form-controls";
+import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./ClaimBaseRwBtn.scss";
+import config from "src/config";
 import {useHistory} from "react-router-dom";
+import {payloadTransaction} from "src/helpers/transaction";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -84,7 +86,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, validatorName, pubkey}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
@@ -95,6 +97,7 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
 	// const balance = new BigNumber("3817852419082");
+
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -114,37 +117,38 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
+	const {handleSubmit, setValue, errors, getValues, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
-		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-		// 	return;
-		// }
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-							amount: {
-								denom: "orai",
-								amount: new BigNumber(data.amount).multipliedBy(1000000).toString(),
-							},
-						},
-					},
-				],
-				fee: {
-					amount: [minGasFee],
-					gas,
-				},
-				signatures: null,
-				memo: (data && data.memo) || "",
+		const msg = JSON.stringify({
+			claim_reward: {
+				pubkey,
 			},
-		};
+		});
+		const payload = payloadTransaction(
+			"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+			[
+				{
+					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+					value: {
+						contract: config.PING_ADDR,
+						msg,
+						sender: address,
+						sent_funds: [
+							{
+								denom: "orai",
+								amount: data && data.amount ? data.amount : 0,
+							},
+						],
+					},
+				},
+			],
+			minGasFee,
+			gas,
+			(data && data.memo) || getValues("memo") || "",
+			{gasType: "auto"}
+		);
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
@@ -181,7 +185,7 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 				<FormProvider {...methods}>
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Claim from {validatorName}
+							Claim base from {validatorName}
 							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
@@ -211,7 +215,12 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 									{" "}
 									Memo <span className={cx("optional")}> (Optional) </span>{" "}
 								</div>
-								<TextArea type='number' name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
+								<TextArea
+									type='number'
+									name='memo'
+									placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
+									rows={4}
+								/>
 							</Grid>
 							<div>
 								<Fee className={"refactor-padding"} handleChooseFee={setFee} minFee={minFee} />
@@ -230,7 +239,7 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 								Cancel
 							</button>
 							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Claim
+								Claim Base
 							</button>
 						</DialogActions>
 					</form>
@@ -240,4 +249,4 @@ const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, vali
 	);
 });
 
-export default ClaimBaseRWBtn;
+export default ClaimRwAllBtn;

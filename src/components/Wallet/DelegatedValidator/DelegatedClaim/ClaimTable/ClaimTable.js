@@ -31,45 +31,45 @@ const BtnComponent = ({handleClick, buttonName}) => {
 
 const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 	const {address, account} = useSelector(state => state.wallet);
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
-	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
-		let msg = [];
-		data.forEach(element => {
-			let msgEle;
-			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
-				msgEle = {
-					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-					value: {
-						delegator_address: address,
-						validator_address: element.validator_address,
-					},
-				};
-			}
+	// const handleClickClaimAll = (validatorAddress, claimableRewards) => {
+	// 	let msg = [];
+	// 	data.forEach(element => {
+	// 		let msgEle;
+	// 		if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+	// 			msgEle = {
+	// 				type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+	// 				value: {
+	// 					delegator_address: address,
+	// 					validator_address: element.validator_address,
+	// 				},
+	// 			};
+	// 		}
 
-			msg.push(msgEle);
-		});
+	// 		msg.push(msgEle);
+	// 	});
 
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: msg,
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
+	// 	const payload = {
+	// 		type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+	// 		value: {
+	// 			msg: msg,
+	// 			fee: {
+	// 				amount: [0],
+	// 				gas: 2000000,
+	// 			},
+	// 			signatures: null,
+	// 			memo: "",
+	// 		},
+	// 	};
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
-	};
+	// 	const popup = myKeystation.openWindow("transaction", payload, account);
+	// 	let popupTick = setInterval(function() {
+	// 		if (popup.closed) {
+	// 			clearInterval(popupTick);
+	// 		}
+	// 	}, 500);
+	// };
 
 	const getHeaderRow = () => {
 		const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Validator</div>;
@@ -83,7 +83,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 				Claimable Rewards <span className={cx("total-item-value")}>({formatOrai(totalRewards)} ORAI)</span>
 			</div>
 		);
-		console.log({ totalRewards })
+		console.log({totalRewards});
 
 		const claimHeaderCell = (
 			<div className={cx("header-cell", "align-center")}>
@@ -94,11 +94,11 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 					</button>
 				</div> */}
 				<ClaimRwAllBtn
-				validatorAddress={data[0]?.validator_address}
-				withdrawable={totalRewards}
-				BtnComponent={({ handleClick }) => BtnComponent({handleClick, buttonName: "Claim All"})}
-				validatorName={data[0]?.validator}
-			/>
+					validatorAddress={data[0]?.validator_address}
+					withdrawable={totalRewards}
+					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Claim All"})}
+					validatorName={data[0]?.validator}
+				/>
 			</div>
 		);
 		const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
@@ -109,46 +109,46 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 		};
 	};
 
-	const handleClickClaim = (validatorAddress, claimableRewards) => {
-		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
-			return dispatch(
-				showAlert({
-					show: true,
-					message: "Claimable Rewards ORAI must greater than 0",
-					autoHideDuration: 1500,
-					type: "error",
-				})
-			);
-		}
+	// const handleClickClaim = (validatorAddress, claimableRewards) => {
+	// 	if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
+	// 		return dispatch(
+	// 			showAlert({
+	// 				show: true,
+	// 				message: "Claimable Rewards ORAI must greater than 0",
+	// 				autoHideDuration: 1500,
+	// 				type: "error",
+	// 			})
+	// 		);
+	// 	}
 
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
+	// 	const payload = {
+	// 		type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+	// 		value: {
+	// 			msg: [
+	// 				{
+	// 					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+	// 					value: {
+	// 						delegator_address: address,
+	// 						validator_address: validatorAddress,
+	// 					},
+	// 				},
+	// 			],
+	// 			fee: {
+	// 				amount: [0],
+	// 				gas: 2000000,
+	// 			},
+	// 			signatures: null,
+	// 			memo: "",
+	// 		},
+	// 	};
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
-	};
+	// 	const popup = myKeystation.openWindow("transaction", payload, account);
+	// 	let popupTick = setInterval(function() {
+	// 		if (popup.closed) {
+	// 			clearInterval(popupTick);
+	// 		}
+	// 	}, 500);
+	// };
 
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -189,7 +189,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 				<ClaimRwBtn
 					validatorAddress={item?.validator_address}
 					withdrawable={item.claimable_rewards}
-					BtnComponent={({ handleClick }) => BtnComponent({handleClick, buttonName: "Claim"})}
+					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Claim"})}
 					validatorName={item.validator}
 				/>
 			);
