@@ -1,0 +1,135 @@
+@import "src/styles/utils";
+
+.btn {
+	display: inline-block;
+	padding: 8px 16px;
+	border-radius: 6px;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	cursor: pointer;
+	user-select: none;
+}
+
+.btn-primary {
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	border: 1px solid var(--validators-deletegateButtonBorderColor);
+}
+
+.btn-outline-primary {
+	color: var(--validators-deletegateButtonTextColor);
+	background: var(--validators-deletegateButtonBackgroundColor);
+	border: 1px solid var(--validators-deletegateButtonBorderColor);
+
+	&:hover {
+		color: #ffffff;
+		background: #6657c0;
+		border-color: #6657c0;
+	}
+}
+
+.btn-outline-secondary {
+	padding: 8px 16px;
+	color: var(--common-textColor);
+	background: var(--common-modal-buttonCancelBackgroundColor);
+	border: 1px solid var(--common-borderColor);
+	cursor: pointer;
+
+	&:hover {
+		color: #ffffff;
+		background: #6c757d;
+		border-color: #6c757d;
+	}
+}
+
+.label {
+	color: var(--common-textColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 150%;
+}
+
+.text-field {
+	display: block;
+	width: 100%;
+	padding: 8px;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	color: var(--common-textColor);
+	border: 1px solid var(--common-borderColor);
+	box-sizing: border-box;
+	border-radius: 6px;
+	outline: none;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.space-between {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.m-2 {
+	margin: 8px;
+}
+
+.form-field {
+	position: relative;
+	padding-bottom: 32px;
+}
+
+.error-message {
+	position: absolute;
+	top: 46px;
+	left: 0;
+	color: #dc3545;
+}
+
+.note {
+	color: var(--common-linkColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 150%;
+}
+
+
+.form-input {
+	margin-bottom: 5px !important;
+	textarea {
+		border-color: var(--common-borderColor);
+		padding-left: 15px;
+		padding-top: 10px;
+		font-size: 15px;
+		&::-webkit-input-placeholder {
+			color: var(--common-placeholderTextColor);
+			font-size: 15px;
+		}
+		&::placeholder {
+			color: var(--common-placeholderTextColor);
+			font-family: "IBM Plex Sans";
+			font-size: 15px;
+		}
+	}
+	.new-label {
+		color: var(--common-placeholderTextColor);
+		font-size: 13px;
+		.open-dialog {
+			color: var(--common-linkColor);
+			cursor: pointer;
+		}
+	}
+}

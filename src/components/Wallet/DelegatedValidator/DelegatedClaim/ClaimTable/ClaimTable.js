@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
+import React, {memo, useMemo, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import classNames from "classnames/bind";
@@ -13,8 +13,21 @@ import {myKeystation} from "src/lib/Keystation";
 import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
+import ClaimRwBtn from "./ClaimRwBtn";
+import ClaimRwAllBtn from "./ClaimRwAllBtn";
 
 const cx = classNames.bind(styles);
+
+const BtnComponent = ({handleClick, buttonName}) => {
+	return (
+		<div className={cx("claim-data-cell", "align-center", "claim-btn")}>
+			<button className={cx("button")} onClick={handleClick}>
+				{buttonName}
+				<img alt='/' className={cx("button-icon")} src={giftIcon} />
+			</button>
+		</div>
+	);
+};
 
 const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 	const {address, account} = useSelector(state => state.wallet);
@@ -70,14 +83,22 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 				Claimable Rewards <span className={cx("total-item-value")}>({formatOrai(totalRewards)} ORAI)</span>
 			</div>
 		);
+		console.log({ totalRewards })
+
 		const claimHeaderCell = (
 			<div className={cx("header-cell", "align-center")}>
-				<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>
+				{/* <div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>
 					<button className={cx("button")}>
 						Claim All
 						<img alt='/' className={cx("button-icon")} src={giftIcon} />
 					</button>
-				</div>
+				</div> */}
+				<ClaimRwAllBtn
+				validatorAddress={data[0]?.validator_address}
+				withdrawable={totalRewards}
+				BtnComponent={({ handleClick }) => BtnComponent({handleClick, buttonName: "Claim All"})}
+				validatorName={data[0]?.validator}
+			/>
 			</div>
 		);
 		const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
@@ -165,14 +186,22 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 			);
 
 			const claimDataCell = (
-				<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
-					<button className={cx("button")}>
-						Claim
-						<img alt='/' className={cx("button-icon")} src={giftIcon} />
-					</button>
-				</div>
+				<ClaimRwBtn
+					validatorAddress={item?.validator_address}
+					withdrawable={item.claimable_rewards}
+					BtnComponent={({ handleClick }) => BtnComponent({handleClick, buttonName: "Claim"})}
+					validatorName={item.validator}
+				/>
 			);
 
+			// const claimDataCell = (
+			// 	<div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaim(item?.validator_address, item.claimable_rewards)}>
+			// 		<button className={cx("button")}>
+			// 			Claim
+			// 			<img alt='/' className={cx("button-icon")} src={giftIcon} />
+			// 		</button>
+			// 	</div>
+			// );
 			return [validatorDataCell, stakedDataCell, claimableRewardsDataCell, claimDataCell];
 		});
 	};
