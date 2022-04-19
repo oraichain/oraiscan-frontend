@@ -226,6 +226,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount }) => {
 					minFee={minFee}
 					handleChangeGas={setGas}
 					handleChangeFee={setFee}
+					fee={fee}
 				/>
 			);
 		}

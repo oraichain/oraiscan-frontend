@@ -19,7 +19,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai , TextArea} from "src/components/common/form-controls";
-import styles from "./WithdrawBtn.scss";
+import styles from "./ClaimBaseRwBtn.scss";
 import {useHistory} from "react-router-dom";
 const cx = cn.bind(styles);
 
@@ -84,7 +84,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimBaseRWBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
@@ -95,7 +95,6 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
 	// const balance = new BigNumber("3817852419082");
-
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -123,11 +122,11 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		// }
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgUndelegate",
+			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
 			value: {
 				msg: [
 					{
-						type: "/cosmos.staking.v1beta1.MsgUndelegate",
+						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
 						value: {
 							delegator_address: address,
 							validator_address: validatorAddress,
@@ -182,7 +181,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 				<FormProvider {...methods}>
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Withdraw from {validatorName}
+							Claim from {validatorName}
 							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
@@ -231,7 +230,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 								Cancel
 							</button>
 							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Withdraw
+								Claim
 							</button>
 						</DialogActions>
 					</form>
@@ -241,4 +240,4 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	);
 });
 
-export default WithdrawBtn;
+export default ClaimBaseRWBtn;

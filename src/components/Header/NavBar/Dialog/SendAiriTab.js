@@ -18,14 +18,14 @@ import {Fee, Gas} from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
-import "./SendOraiTab.css";
+import "./SendAiriTab.css";
 import styles from "./Dialog.scss";
 import {useSelector} from "src/hooks";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee}) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
@@ -61,8 +61,6 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	const switchMultiSend = checked => {
 		setIsMulti(checked);
-		setGas(200000);
-		handleChangeFee(0);
 		if (!checked) {
 			handleInputMulti(null);
 		}
@@ -144,19 +142,13 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								{" "}
 								Memo <span className={cx("optional")}> (Optional) </span>{" "}
 							</div>
-							<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
+							<TextArea
+								type='number'
+								name='memo'
+								placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
+								rows={4}
+							/>
 						</Grid>
-						<div>
-							<Fee className={"refactor-padding"} handleChooseFee={handleChooseFee} minFee={minFee} />
-						</div>
-						<div>
-							{" "}
-							Minimin Tx Fee:
-							<span className={cx("fee")}> {fee || 0} ORAI </span>
-						</div>
-						<div>
-							<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
-						</div>
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -211,9 +203,9 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	return (
 		<form className={cx("form-dialog")}>
-			<div className={cx("switch-multisend")}>
+			{/* <div className={cx("switch-multisend")}>
 				Multisend <Switch onChange={switchMultiSend} />
-			</div>
+			</div> */}
 			{!isMulti && (
 				<Grid container spacing={2} className={cx("transaction-content")}>
 					<div className={cx("row-balance")}>
@@ -224,7 +216,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						<div className={cx("right")}>
 							<div className={cx("title", "title-right")}> Balance </div>
 							<div className={cx("value")}>
-								{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
+								{formatOrai(amount || 0)} AIRI
+								{/* <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span> */}
 							</div>
 						</div>
 					</div>
@@ -277,32 +270,22 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 							{" "}
 							Memo <span className={cx("optional")}> (Optional) </span>{" "}
 						</div>
-						<TextArea type="number" name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
+						<TextArea
+							type='number'
+							name='memo'
+							placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
+							rows={4}
+						/>
 					</Grid>
-					<Fee className={""} handleChooseFee={handleChooseFee} minFee={minFee} />
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"airi"}/>
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
-							{/* <span className={cx("fee")}> {formatOrai(minFee?.estimate_fee * 1000000 || 0)} ORAI </span>{" "} */}
-							{/* <span>{status?.price ? "($" + (status?.price * Number(formatOrai(minFee?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span> */}
-							<span className={cx("fee")}> {fee || 0} ORAI </span> {/* <span>($ 0)</span> */}
+							<span className={cx("fee")}> 0 AIRI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
-					<Gas className={""} gas={gas} onChangeGas={onChangeGas} />
-					{/* <div className={cx("select-gas", "select-gas-custom")}>
-						<span className={cx("gas-span")}> Gas </span>
-						<InputNumber
-							value={gas}
-							className={cx("input-text")}
-							formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-							parser={value => value.replace(/\s?|(,*)/g, "")}
-							onChange={onChangeGas}
-							min={100000}
-							max={1000000}
-						/>
-						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
-					</div> */}
+					<Gas gas={gas} onChangeGas={onChangeGas} />
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}

@@ -1,19 +1,19 @@
 // @ts-nocheck
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useGet } from "restful-react";
+import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import queryString from "query-string";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
-import { formatInteger } from "src/helpers/helper";
-import { myKeystation } from "src/lib/Keystation";
+import {formatInteger} from "src/helpers/helper";
+import {myKeystation} from "src/lib/Keystation";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -27,7 +27,7 @@ import OracleRequestListView from "src/components/OracleRequests/OracleRequestLi
 import OracleRequestListViewSkeleton from "src/components/OracleRequests/OracleRequestListView/OracleRequestListViewSkeleton";
 import styles from "./OracleRequests.module.scss";
 import * as api from "src/lib/api";
-import { isNil } from "lodash";
+import {isNil} from "lodash";
 import config from "src/config";
 
 const cx = cn.bind(styles);
@@ -64,51 +64,55 @@ const OracleRequests = () => {
 		}
 	}, [pageId]);
 
-	const fetchData = async (checkOffset, pageId) => {
+	const fetchData = async (checkOffset, page) => {
 		let obj = {};
 		if (!checkOffset) {
 			let offsetObj = {
-				offset: pageId ? total - (pageId - 1) * consts.REQUEST.LIMIT : undefined
-			}
-			obj = keyword ? { request: { stage: +keyword } } : { get_requests: { order: 2, limit: consts.REQUEST.LIMIT, ...offsetObj } }
+				offset: page ? total - (page - 1) * consts.REQUEST.LIMIT + 1 : undefined,
+			};
+			obj = keyword ? {request: {stage: +keyword}} : {get_requests: {order: 2, limit: consts.REQUEST.LIMIT, ...offsetObj}};
 		} else {
-			obj = { get_requests: { order: 2, limit: consts.REQUEST.LIMIT } }
+			obj = {get_requests: {order: 2, limit: consts.REQUEST.LIMIT}};
 		}
-		const buff = Buffer.from(
-			JSON.stringify(obj)
-		);
-		let aiRequest = buff.toString('base64');
+		const buff = Buffer.from(JSON.stringify(obj));
+		let aiRequest = buff.toString("base64");
 		let listRequestData = await api.getListRequest(config.AIORACLE_CONTRACT_ADDR, aiRequest);
 		switch (checkOffset) {
 			case true:
 				fetchFirst(listRequestData);
 				break;
 			case false:
-				fetchSecond(listRequestData);
+				fetchSecond(listRequestData, page);
 				break;
 		}
-	}
+	};
 
-	const fetchFirst = async (listRequestAPI) => {
+	const fetchFirst = async listRequestAPI => {
 		let total = listRequestAPI?.data?.data?.[0]?.stage;
-		// console.log({ total });
-		// totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT)
-		setTotal(total)
-		setListRequest(listRequestAPI?.data?.data)
-	}
+		setTotal(total);
+		setListRequest(listRequestAPI?.data?.data);
+	};
 
-	const fetchSecond = async (listRequestAPI) => {
+	//case 1: search -> change page
+	//
+
+	const fetchSecond = async (listRequestAPI, page) => {
 		// if (keyword) {
-		// 	totalPagesRef.current = 1;
-		// } else {
-		// 	totalPagesRef.current = Math.ceil(total / consts.REQUEST.LIMIT);
-		// 	console.log({ totalPagesRef, total });
+		// 	setTotal(1);
+		// } else if (!keyword) {
+		// 	setTotal(listRequestAPI?.data?.data?.[0]?.stage);
 		// }
-		setListRequest(keyword ? [{
-			...listRequestAPI?.data?.data,
-			stage: +keyword
-		}] : listRequestAPI?.data?.data)
-	}
+		setListRequest(
+			keyword
+				? [
+						{
+							...listRequestAPI?.data?.data,
+							stage: +keyword,
+						},
+				  ]
+				: listRequestAPI?.data?.data
+		);
+	};
 
 	useEffect(() => {
 		debounce(fetchData(false), 300);
@@ -119,7 +123,7 @@ const OracleRequests = () => {
 		return function executedFunction() {
 			const context = this;
 			const args = arguments;
-			const later = function () {
+			const later = function() {
 				timeout = null;
 				if (!immediate) func.apply(context, args);
 			};
@@ -129,7 +133,6 @@ const OracleRequests = () => {
 			if (callNow) func.apply(context, args);
 		};
 	};
-
 
 	if (isLargeScreen) {
 		titleSection = (
@@ -160,7 +163,11 @@ const OracleRequests = () => {
 		);
 	}
 
-	paginationSection = total ? <Pagination pages={Math.ceil(total / consts.REQUEST.LIMIT)} page={pageId ? pageId : pageId + 1} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = total ? (
+		<Pagination pages={Math.ceil(total / consts.REQUEST.LIMIT)} page={pageId ? pageId : pageId + 1} onChange={(e, page) => onPageChange(page)} />
+	) : (
+		<></>
+	);
 
 	return (
 		<>

@@ -23,6 +23,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BigNumber from "bignumber.js";
+import ClaimBaseRwBtn from "./ClaimBaseRwBtn";
 
 const cx = cn.bind(styles);
 
@@ -31,6 +32,17 @@ const REWARD_POOL_STATUS = {
 	UNBONDING: "Unbonding",
 	UNBONDED: "Unbonded",
 }
+
+const BtnComponent = ({handleClick, buttonName}) => {
+	return (
+		<div className={cx("claim-data-cell", "align-center", "claim-btn")}>
+			<button className={cx("button")} onClick={handleClick}>
+				{buttonName}
+				{/* <img alt='/' className={cx("button-icon")} src={giftIcon} /> */}
+			</button>
+		</div>
+	);
+};
 
 const AiServiceFee = memo(({ address, pubkey }) => {
 	const { account } = useSelector(state => state.wallet);
@@ -342,17 +354,26 @@ const AiServiceFee = memo(({ address, pubkey }) => {
 			Update Fees
 		</button>;
 
-	const claimRewardElement =
-		<button
-			className={cx("button")}
-			onClick={() => {
-				if (process.env.REACT_APP_WALLET_VERSION == 2) {
-					console.log("Data: ", data);
-					claimBaseReward();
-				}
-			}}>
-			Claim Base Reward
-		</button>;
+	// const claimRewardElement =
+	// 	<button
+	// 		className={cx("button")}
+	// 		onClick={() => {
+	// 			if (process.env.REACT_APP_WALLET_VERSION == 2) {
+	// 				console.log("Data: ", data);
+	// 				claimBaseReward();
+	// 			}
+	// 		}}>
+	// 		Claim Base Reward
+	// 	</button>;
+
+	const claimRewardElement = (
+		<ClaimBaseRwBtn
+			// validatorAddress={item?.validator_address}
+			withdrawable={'1234'}
+			BtnComponent={({ handleClick }) => BtnComponent({handleClick, buttonName: "Claim Base Reward"})}
+			// validatorName={item.validator}
+		/>
+	);
 
 	return (
 		<FormProvider {...methods}>
