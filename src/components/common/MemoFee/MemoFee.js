@@ -8,12 +8,9 @@ import Grid from "@material-ui/core/Grid";
 const cx = cn.bind(styles);
 
 const MemoFee = memo(props => {
-	const {errors, minFee, setFee, gas, onChangeGas, fee , typePrice} = props;
+	const { minFee, setFee, gas, onChangeGas, fee , typePrice} = props;
 	return (
 		<>
-			<div className={cx("form-field")}>
-				<InputNumberOrai name='amount' required errorobj={errors} />
-			</div>
 			<Grid item xs={12} className={cx("form-input")}>
 				<div className={cx("label")}>
 					{" "}

@@ -22,7 +22,7 @@ import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
 import styles from "./RedelegateBtn.scss";
 import {useHistory} from "react-router-dom";
-
+import MemoFee from "src/components/common/MemoFee";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -227,24 +227,7 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 							<div style={{marginTop: "15px"}}>
 								<InputTextWithIcon name='desValidatorAddr' errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 							</div>
-							<Grid style={{marginTop: "15px"}} item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}>
-									{" "}
-									Memo <span className={cx("optional")}> (Optional) </span>{" "}
-								</div>
-								<TextArea type='number' name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
-							</Grid>
-							<div style={{marginTop: "15px"}}>
-								<Fee className={"refactor-padding"} handleChooseFee={setFee} minFee={minFee} />
-							</div>
-							<div>
-								{" "}
-								Minimin Tx Fee:
-								<span className={cx("fee")}> {fee || 0} ORAI </span>
-							</div>
-							<div style={{marginTop: "15px"}}>
-								<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
-							</div>{" "}
+							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

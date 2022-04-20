@@ -13,14 +13,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
-import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai , TextArea} from "src/components/common/form-controls";
+import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
+import {payloadTransaction} from "src/helpers/transaction";
+import MemoFee from "src/components/common/MemoFee";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -94,7 +94,6 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
-	// const balance = new BigNumber("3817852419082");
 
 	const openDialog = () => {
 		setOpen(true);
@@ -115,38 +114,24 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors} = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = data => {
-		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-		// 	return;
-		// }
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgUndelegate",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.staking.v1beta1.MsgUndelegate",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-							amount: {
-								denom: "orai",
-								amount: new BigNumber(data.amount).multipliedBy(1000000).toString(),
-							},
-						},
+		const msg = [
+			{
+				type: "/cosmos.staking.v1beta1.MsgUndelegate",
+				value: {
+					delegator_address: address,
+					validator_address: validatorAddress,
+					amount: {
+						denom: "orai",
+						amount: new BigNumber(data.amount).multipliedBy(1000000).toString() || "0",
 					},
-				],
-				fee: {
-					amount: [minGasFee],
-					gas,
 				},
-				signatures: null,
-				memo: (data && data.memo) || "",
 			},
-		};
-
+		];
+		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgUndelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
 			if (popup.closed) {
@@ -207,24 +192,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 							<div className={cx("form-field")}>
 								<InputNumberOrai name='amount' required errorobj={errors} />
 							</div>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}>
-									{" "}
-									Memo <span className={cx("optional")}> (Optional) </span>{" "}
-								</div>
-								<TextArea type='number' name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
-							</Grid>
-							<div>
-								<Fee className={"refactor-padding"} handleChooseFee={setFee} minFee={minFee} />
-							</div>
-							<div style={{marginTop: "15px"}}>
-								{" "}
-								Minimin Tx Fee:
-								<span className={cx("fee")}> {fee || 0} ORAI </span>
-							</div>
-							<div>
-								<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
-							</div>
+							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
