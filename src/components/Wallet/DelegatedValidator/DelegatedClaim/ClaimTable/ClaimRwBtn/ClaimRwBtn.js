@@ -18,9 +18,10 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai , TextArea} from "src/components/common/form-controls";
+import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
+import AmountFee from "src/components/common/MemoFee";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -95,7 +96,7 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
 	// const balance = new BigNumber("3817852419082");
-	console.log({ withdrawable, balance })
+	console.log({withdrawable, balance});
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -204,27 +205,7 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 									))}
 								</div>
 							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
-							<Grid item xs={12} className={cx("form-input")}>
-								<div className={cx("label")}>
-									{" "}
-									Memo <span className={cx("optional")}> (Optional) </span>{" "}
-								</div>
-								<TextArea type='number' name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
-							</Grid>
-							<div>
-								<Fee className={"refactor-padding"} handleChooseFee={setFee} minFee={minFee} />
-							</div>
-							<div style={{marginTop: "15px"}}>
-								{" "}
-								Minimin Tx Fee:
-								<span className={cx("fee")}> {fee || 0} ORAI </span>
-							</div>
-							<div>
-								<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
-							</div>
+							<AmountFee fee={fee} errors={errors} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

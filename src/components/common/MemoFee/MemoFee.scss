@@ -1,0 +1,38 @@
+.form-field {
+	position: relative;
+	padding-bottom: 32px;
+}
+
+.form-input {
+    textarea {
+		border-color: var(--common-borderColor);
+		padding-left: 15px;
+		padding-top: 10px;
+		font-size: 15px;
+		&::-webkit-input-placeholder {
+			color: var(--common-placeholderTextColor);
+			font-size: 15px;
+		}
+		&::placeholder {
+			color: var(--common-placeholderTextColor);
+			font-family: "IBM Plex Sans";
+			font-size: 15px;
+		}
+	}
+}
+
+
+.label {
+	color: var(--common-textColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 150%;
+	.optional {
+		color: var(--common-placeholderTextColor);
+	}
+	.fee {
+		font-weight: 400;
+	}
+}
