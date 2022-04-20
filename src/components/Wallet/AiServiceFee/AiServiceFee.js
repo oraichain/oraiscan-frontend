@@ -24,6 +24,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BigNumber from "bignumber.js";
 import ClaimBaseRwBtn from "./ClaimBaseRwBtn";
+import WithdrawRwBtn from "./WithdrawRwBtn";
 
 const cx = cn.bind(styles);
 
@@ -44,7 +45,7 @@ const BtnComponent = ({handleClick, buttonName}) => {
 	);
 };
 
-const AiServiceFee = memo(({address, pubkey}) => {
+const AiServiceFee = memo(({moniker, address, pubkey}) => {
 	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
@@ -67,7 +68,7 @@ const AiServiceFee = memo(({address, pubkey}) => {
 	const baseRewardQuery = btoa(JSON.stringify({get_state: {}}));
 
 	const path = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_SERVICE_FEES_ADDR}/smart/${serviceFeeQuery}`;
-	const {data} = useGet({
+	const {data } = useGet({
 		path: path,
 	});
 
@@ -108,44 +109,6 @@ const AiServiceFee = memo(({address, pubkey}) => {
 				autoHideDuration: 1500,
 			})
 		);
-	};
-
-	const unbond = () => {
-		const msg = JSON.stringify({
-			prepare_withdraw_pool: {
-				pubkey,
-			},
-		});
-
-		const payload = {
-			type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-			gasType: "auto",
-			value: {
-				msg: [
-					{
-						type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-						value: {
-							contract: config.AIORACLE_CONTRACT_ADDR,
-							msg,
-							sender: address,
-							sent_funds: null,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
 	};
 
 	const updateFees = address => {
@@ -289,25 +252,27 @@ const AiServiceFee = memo(({address, pubkey}) => {
 
 	const withdrawPoolButtonElement =
 		rewardStatus === REWARD_POOL_STATUS.BONDED ? (
-			<button
-				className={cx("button")}
-				onClick={() => {
-					if (process.env.REACT_APP_WALLET_VERSION == 2) {
-						unbond();
+			<WithdrawRwBtn
+				BtnComponent={({handleClick}) => {
+					if(process.env.REACT_APP_WALLET_VERSION == 2) {
+						return BtnComponent({handleClick, buttonName: "Unbond"})
 					}
-				}}>
-				Unbond
-			</button>
+					return;
+				}}
+				buttonName="Unbond"
+				validatorName={moniker}
+			/>
 		) : rewardStatus === REWARD_POOL_STATUS.UNBONDED ? (
-			<button
-				className={cx("button")}
-				onClick={() => {
-					if (process.env.REACT_APP_WALLET_VERSION == 2) {
-						unbond();
+			<WithdrawRwBtn
+				BtnComponent={({handleClick}) => {
+					if(process.env.REACT_APP_WALLET_VERSION == 2) {
+						return BtnComponent({handleClick, buttonName: "Withdraw"})
 					}
-				}}>
-				Withdraw
-			</button>
+					return;
+				}}
+				buttonName="Withdraw"
+				validatorName={moniker}
+			/>
 		) : null;
 
 	const UpdateFeesElement = (
@@ -315,7 +280,6 @@ const AiServiceFee = memo(({address, pubkey}) => {
 			className={cx("button")}
 			onClick={() => {
 				if (process.env.REACT_APP_WALLET_VERSION == 2) {
-					console.log("Data: ", data);
 					updateFees(address);
 				}
 			}}>
@@ -326,8 +290,13 @@ const AiServiceFee = memo(({address, pubkey}) => {
 	const claimRewardElement = (
 		<ClaimBaseRwBtn
 			withdrawable={baseRewardData?.data?.base_reward?.amount}
-			BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Claim Base Reward"})}
-			// validatorName={item.validator}
+			BtnComponent={({handleClick}) => {
+				if(process.env.REACT_APP_WALLET_VERSION == 2) {
+					return BtnComponent({handleClick, buttonName: "Claim Base Reward"})
+				}
+				return;
+			}}
+			validatorName={moniker}
 		/>
 	);
 

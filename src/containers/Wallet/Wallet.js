@@ -27,6 +27,7 @@ export default function (props) {
 	const { data } = useGet({
 		path: path,
 	});
+
 	const isBecomeValidator = !data ? false : data.operator_address ? true : false;
 
 	const { data: walletInfo } = useGet({
@@ -46,7 +47,7 @@ export default function (props) {
 			{/* {activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />} */}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail address={address} validatorAddress={data?.operator_address} />}
 			{activeTab === 4 && <Contact />}
-			{activeTab === 5 && <AiServiceFee address={address} pubkey={walletInfo?.account?.pub_key?.key} />}
+			{activeTab === 5 && <AiServiceFee moniker={data?.moniker} address={address} pubkey={walletInfo?.account?.pub_key?.key} />}
 		</Container>
 	);
 }
