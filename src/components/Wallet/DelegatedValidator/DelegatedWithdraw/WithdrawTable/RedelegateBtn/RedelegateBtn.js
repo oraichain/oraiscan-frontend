@@ -23,6 +23,8 @@ import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/commo
 import styles from "./RedelegateBtn.scss";
 import {useHistory} from "react-router-dom";
 import MemoFee from "src/components/common/MemoFee";
+import amountConsts from "src/constants/amount";
+
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -86,10 +88,12 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
+const { PERCENTS } = amountConsts;
+
 const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
-	const percents = [25, 50, 75, 100];
+	const percents = PERCENTS;
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const history = useHistory();
 	const [fee, setFee] = useState(0);
