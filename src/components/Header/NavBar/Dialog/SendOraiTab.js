@@ -21,18 +21,26 @@ import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
 import {useSelector} from "src/hooks";
-
+import MemoFee from "src/components/common/MemoFee";
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee }) {
+const calculateAmount = (balance, percent) => {
+	let result = balance.multipliedBy(percent).dividedBy(1000000).toFixed(6) + "";
+	result = result.split(".")[0];
+	result = new BigNumber(result).dividedBy(100).toString();
+	return result;
+};
+
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
+	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
-	const {errors, setValue, getValues, watch, register} = methods;
+	const {errors, setValue, getValues, watch, handleSubmit, clearErrors, register} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
@@ -41,17 +49,6 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
 	}, [inputAddress, storageData]);
-
-	const setAmountValue = rate => {
-		amount &&
-			setValue(
-				"sendAmount",
-				new BigNumber(amount)
-					.multipliedBy(rate)
-					.dividedBy(1000000)
-					.toFixed(6)
-			);
-	};
 
 	const priceInUSD = new BigNumber(amount)
 		.dividedBy(1000000)
@@ -138,24 +135,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</div>
 							);
 						})}
-						<Grid item xs={12} className={cx("form-input")}>
-							<div className={cx("label")}>
-								{" "}
-								Memo <span className={cx("optional")}> (Optional) </span>{" "}
-							</div>
-							<TextArea name='memo' placeholder='If you deposit ORAI to KuCoin, you must fill the Memo or your funds may be lost.' rows={4} />
-						</Grid>
-						<div>
-							<Fee className={"refactor-padding"} handleChooseFee={handleChooseFee} minFee={minFee} />
-						</div>
-						<div>
-							{" "}
-							Minimin Tx Fee:
-							<span className={cx("fee")}> {fee || 0} ORAI </span>
-						</div>
-						<div>
-							<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
-						</div>
+						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -254,7 +234,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								<button
 									type='button'
 									onClick={() => {
-										setAmountValue(0.5);
+										setValue("sendAmount", calculateAmount(new BigNumber(amount), 50));
+										clearErrors();
 									}}>
 									{" "}
 									1 / 2{" "}
@@ -262,33 +243,19 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								<button
 									type='button'
 									onClick={() => {
-										setAmountValue(1);
+										setValue("sendAmount", calculateAmount(new BigNumber(amount), 100));
+										clearErrors();
 									}}>
 									{" "}
 									Max{" "}
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue}  typePrice={"orai"} name='sendAmount' errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name='sendAmount' errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
-						<div className={cx("label")}>
-							{" "}
-							Memo <span className={cx("optional")}> (Optional) </span>{" "}
-						</div>
-						<TextArea type="number" name='memo' placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.' rows={4} />
+						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 					</Grid>
-					<Fee className={""} handleChooseFee={handleChooseFee} minFee={minFee} />
-					<Grid item xs={12} className={cx("form-input")}>
-						<div className={cx("label")}>
-							{" "}
-							Minimin Tx Fee:
-							{/* <span className={cx("fee")}> {formatOrai(minFee?.estimate_fee * 1000000 || 0)} ORAI </span>{" "} */}
-							{/* <span>{status?.price ? "($" + (status?.price * Number(formatOrai(minFee?.estimate_fee * 1000000))).toFixed(6) + ")" : ""}</span> */}
-							<span className={cx("fee")}> {fee || 0} ORAI </span> {/* <span>($ 0)</span> */}
-						</div>
-					</Grid>
-					<Gas className={""} gas={gas} onChangeGas={onChangeGas} />
 					{/* <div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>
 						<InputNumber
