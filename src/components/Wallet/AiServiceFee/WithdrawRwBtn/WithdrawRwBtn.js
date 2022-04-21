@@ -16,14 +16,11 @@ import BigNumber from "bignumber.js";
 import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "../ClaimBaseRwBtn/ClaimBaseRwBtn.scss";
 import config from "src/config";
 import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
-import {calculateAmount} from "src/helpers/calculateAmount";
 import MemoFee from "src/components/common/MemoFee";
 const cx = cn.bind(styles);
 
@@ -81,18 +78,14 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const WithdrawRwBtn = memo(({withdrawable = 0, BtnComponent, validatorName, pubkey, buttonName}) => {
+const WithdrawRwBtn = memo(({BtnComponent, validatorName, pubkey, buttonName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const percents = [25, 50, 75, 100];
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const balance = new BigNumber(withdrawable);
-	// const balance = new BigNumber("3817852419082");
-
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -101,23 +94,15 @@ const WithdrawRwBtn = memo(({withdrawable = 0, BtnComponent, validatorName, pubk
 		setGas(200000);
 	};
 
-	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
-	});
-
 	const methods = useForm({
-		resolver: yupResolver(validationSchemaForm),
+		resolver: undefined,
 	});
 	const {handleSubmit, setValue, errors, getValues, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const msg = JSON.stringify({
-			claim_reward: {
+			prepare_withdraw_pool: {
 				pubkey,
 			},
 		});
@@ -179,27 +164,6 @@ const WithdrawRwBtn = memo(({withdrawable = 0, BtnComponent, validatorName, pubk
 							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
 							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>

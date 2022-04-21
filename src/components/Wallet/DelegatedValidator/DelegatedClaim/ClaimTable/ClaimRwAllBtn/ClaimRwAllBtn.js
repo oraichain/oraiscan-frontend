@@ -82,7 +82,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const ClaimRwAllBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
@@ -105,19 +105,21 @@ const ClaimRwAllBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = data => {
-		const msg = [
-			{
-				type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-				value: {
-					delegator_address: address,
-					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: !_.isNil(calculateAmount(balance, 100)) ? "0" : calculateAmount(balance, 100),
+		let msg = [];
+		delegatedData.forEach(element => {
+			let msgEle;
+			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+				msgEle = {
+					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+					value: {
+						delegator_address: address,
+						validator_address: element.validator_address,
 					},
-				},
-			},
-		];
+				};
+			}
+
+			msg.push(msgEle);
+		});
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const payload = payloadTransaction(
 			"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",

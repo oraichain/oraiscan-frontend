@@ -10,7 +10,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import {myKeystation} from "src/lib/Keystation";
-import {showAlert} from "src/store/modules/global";
+
 import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import ClaimRwBtn from "./ClaimRwBtn";
@@ -87,16 +87,11 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 
 		const claimHeaderCell = (
 			<div className={cx("header-cell", "align-center")}>
-				{/* <div className={cx("claim-data-cell", "align-center", "claim-btn")} onClick={() => handleClickClaimAll()}>
-					<button className={cx("button")}>
-						Claim All
-						<img alt='/' className={cx("button-icon")} src={giftIcon} />
-					</button>
-				</div> */}
 				<ClaimRwAllBtn
+					delegatedData={data}
 					validatorAddress={data[0]?.validator_address}
 					withdrawable={totalRewards}
-					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Claim All"})}
+					BtnComponent={({handleClick}) => <BtnComponent handleClick={handleClick} buttonName={"Claim All"} />}
 					validatorName={data[0]?.validator}
 				/>
 			</div>

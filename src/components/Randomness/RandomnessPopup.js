@@ -86,12 +86,6 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 	const [gas, setGas] = useState(200000);
 	const percents = [25, 50, 75, 100];
 	const balance = new BigNumber(withdrawable);
-	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-	});
 
 	const methods = useForm({
 		resolver: undefined,
@@ -106,6 +100,7 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 				await eventHandleGetRamdomValue(response, contract);
 			}
 		} catch (error) {
+			setLoadingPopup(false);
 			console.log(error);
 		}
 	};
@@ -125,27 +120,6 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 							<p className={cx("note")}>new randomness</p>
 						</DialogTitle>
 						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
 							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>

@@ -13,16 +13,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
-import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Fee, Gas} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
+import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
 import MemoFee from "src/components/common/MemoFee";
-import { payloadTransaction } from "src/helpers/transaction";
+import {payloadTransaction} from "src/helpers/transaction";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -86,7 +84,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
@@ -95,8 +93,7 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
-	// const balance = new BigNumber("3817852419082");
-	console.log({withdrawable, balance});
+
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -108,12 +105,19 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 	const methods = useForm({
 		resolver: undefined,
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors , getValues} = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = data => {
-		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-		// 	return;
-		// }
+		if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
+			return dispatch(
+				showAlert({
+					show: true,
+					message: "Claimable Rewards ORAI must greater than 0",
+					autoHideDuration: 1500,
+					type: "error",
+				})
+			);
+		}
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const msg = [
 			{
