@@ -30,7 +30,11 @@ const PendingTx = ({setPending, pending}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
 	const [loading, setLoading] = useState(false);
-	const [data, setData] = useState();
+	const [data, setData] = useState({
+		result: {
+			txs: []
+		}
+	});
 	const txHash = params?.["tx"];
 	const path = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 
@@ -90,7 +94,7 @@ const PendingTx = ({setPending, pending}) => {
 	} else {
 		let hasPendingTransaction = false;
 		if (Array.isArray(data?.result?.txs)) {
-			for (let tx of data.result.txs) {
+			for (let tx of data?.result.txs) {
 				const decodedTx = decodeTx(tx);
 				console.log(decodedTx);
 

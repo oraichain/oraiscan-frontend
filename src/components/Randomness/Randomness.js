@@ -1,19 +1,19 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import {useState, useEffect, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 import PropTypes from "prop-types";
-import { isNil, reject } from "lodash";
+import {isNil, reject} from "lodash";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import { useGet } from "restful-react";
-import { getLatestRound, getRound, getTxResponse } from "src/lib/drand/drand";
+import {useGet} from "restful-react";
+import {getLatestRound, getRound, getTxResponse} from "src/lib/drand/drand";
 import SearchIcon from "src/icons/SearchIcon";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
@@ -22,14 +22,16 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import RandomnessView from "./RandomnessView";
 import NewRadomModalResult from "./NewRadomModalResult";
 import styles from "./Randomness.module.scss";
+import RandomnessPopup from "./RandomnessPopup";
+import LoadingOverlay from "../common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
-const Randomness = ({ }) => {
+const Randomness = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-	const { contract } = useParams();
+	const {contract} = useParams();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -39,10 +41,12 @@ const Randomness = ({ }) => {
 	const [txResponse, setTxResponse] = useState({});
 	const [showAdvance, setShowAdvance] = useState(false);
 	const [userInput, setUserInput] = useState("");
-
+	const [open, setOpen] = useState(false);
+	const [loadingPopup, setLoadingPopup] = useState(false);
 	const address = wallet?.address;
+	const minFee = useSelector(state => state.blockchain.minFee);
 
-	const { data: amountData, loading: amountLoading } = useGet({
+	const {data: amountData, loading: amountLoading} = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`,
 	});
 
@@ -129,35 +133,29 @@ const Randomness = ({ }) => {
 	};
 
 	const handleGetRandomValue = async () => {
-		try {
-			const { response, contract } = await getTxResponse(String(data?.currentFees), "0", "200000", userInput);
-			console.log("response: ", response);
-			// if the transaction passes => we collect the round that the user requests
-			if (response.tx_response && response.tx_response.code === 0) {
-				// fixed position for collecting round from a transaction result
-				const round = response.tx_response.logs[0].events[1].attributes[3].value;
-				console.log("round: ", round);
-				setTxResponse({
-					contract: contract,
-					txHash: response.tx_response?.txhash,
-				});
-				setShowModal(true);
-				setUserInput("");
-				let wantedRound = {};
-
-				do {
-					wantedRound = await handleGetRound(round);
-					console.log("wanted round: ", wantedRound);
-				} while (!wantedRound || !wantedRound.latest || !wantedRound.latest.combined_sig);
-
-				setShowModal(false);
-				setLoading(false);
-				setData(wantedRound);
-			}
-		} catch (error) {
-			console.log(error);
-		}
+		setOpen(!open);
 		setRequestRunning(false);
+	};
+
+	const eventHandleGetRamdomValue = async (response, contract) => {
+		const round = response.tx_response.logs[0].events[1].attributes[3].value;
+		console.log("round: ", round);
+		setTxResponse({
+			contract: contract,
+			txHash: response.tx_response?.txhash,
+		});
+		setShowModal(true);
+		setUserInput("");
+		let wantedRound = {};
+
+		do {
+			wantedRound = await handleGetRound(round);
+			console.log("wanted round: ", wantedRound);
+		} while (!wantedRound || !wantedRound.latest || !wantedRound.latest.combined_sig);
+
+		setShowModal(false);
+		setLoading(false);
+		setData(wantedRound);
 	};
 
 	const handleCloseModal = () => {
@@ -175,6 +173,10 @@ const Randomness = ({ }) => {
 	const handleGenerateNewRandom = () => {
 		setLoading(true);
 		handleGetRandomValue(false);
+	};
+
+	const closeDialog = () => {
+		setOpen(false);
 	};
 
 	let titleSection;
@@ -195,6 +197,7 @@ const Randomness = ({ }) => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("tx")}>
+				{loadingPopup ? <LoadingOverlay /> : <></>}
 				{!loading && !amountLoading ? (
 					<div className={cx("card")}>
 						<h2 className={cx("card-header")}>Randomness Information</h2>
@@ -241,7 +244,15 @@ const Randomness = ({ }) => {
 				) : (
 					<RandomnessSkeleton isLargeScreen={isLargeScreen} />
 				)}
-
+				<RandomnessPopup
+					open={open}
+					closeDialog={closeDialog}
+					minFee={minFee}
+					withdrawable={String(data?.currentFees)}
+					userInput={userInput}
+					eventHandleGetRamdomValue={eventHandleGetRamdomValue}
+					setLoadingPopup={setLoadingPopup}
+				/>
 				<NewRadomModalResult open={showModal} onClose={handleCloseModal} txResponse={txResponse} />
 			</Container>
 		</>

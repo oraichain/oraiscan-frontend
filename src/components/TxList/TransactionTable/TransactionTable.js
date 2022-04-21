@@ -359,15 +359,20 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			} else {
 				let amount;
 				let denom;
+
 				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
-					let rawLog = JSON.parse(item.raw_log)?.[0]?.events?.find(eve => eve.type === "transfer")?.attributes;
-					let indexAddress = rawLog.findIndex(att => att.value === account);
-					let split = processText(rawLog[indexAddress + 1]?.value);
-					amount = split[0]?.[0];
-					denom = split[0]?.[1];
-				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-					amount = item.amount[0].amount;
-					denom = item.amount[0].denom;
+					try {
+						let rawLog = JSON.parse(item.raw_log)?.[0]?.events?.find(eve => eve.type === "transfer")?.attributes;
+						let indexAddress = rawLog.findIndex(att => att.value === account);
+						let split = processText(rawLog?.[indexAddress + 1]?.value);
+						amount = split[0]?.[0];
+						denom = split[0]?.[1];
+					} catch (err) {
+						if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+							amount = item.amount[0].amount;
+							denom = item.amount[0].denom;
+						}
+					}
 				} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 					amount = item.amount[0].amount;
 					denom = item.amount[0].denom;

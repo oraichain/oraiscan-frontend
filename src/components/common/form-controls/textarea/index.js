@@ -11,7 +11,7 @@ const TextareaAutosizeWithErrorMessage = ({error, errorMessage, ...rest}) => {
 	let props = {...rest};
 	if (props.type && rest.value) {
 		if (!+rest.value) {
-			props = {...props, value: rest.value.slice(0, rest.value.length - 1)};
+			props = {...props, value: rest.value.replace(/[^0-9]/g , '')};
 		}
 	}
 	return (

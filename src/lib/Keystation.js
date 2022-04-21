@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable eqeqeq */
-import config, {isTestnet} from "src/config.js";
-import {networks} from "src/constants/networks";
+import config, { isTestnet } from "src/config.js";
+import { networks } from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
 function FindLeftScreenBoundry() {
@@ -49,9 +49,21 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 		", toolbar=0, menubar=0, status=1";
 	if (type === "transaction") {
 		newWindow = window.open(urlEvent, title, resizeWindow);
-		setTimeout(() => {
-			newWindow.postMessage(objEvent, "*");
-		}, 300);
+		const handler = e => {
+			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
+				return;
+			}
+			console.log({ e });
+			if (e.data.data === "ready") {
+				newWindow.postMessage(objEvent, "*");
+				window.removeEventListener("message", handler);
+			}
+		};
+		window.addEventListener("message", handler);
+
+		// setTimeout(() => {
+		// 	newWindow.postMessage(objEvent, "*");
+		// }, 500);
 	} else {
 		newWindow = window.open(url, title, resizeWindow);
 	}
@@ -76,18 +88,18 @@ function openWindowV1(type, payload, account = "", self) {
 	}
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?account=" +
-			encodeURIComponent(account) +
-			"&client=" +
-			encodeURIComponent(self.client) +
-			"&lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&path=" +
-			encodeURIComponent(self.path) +
-			"&payload=" +
-			encodeURIComponent(JSON.stringify(payload)),
+		"/" +
+		apiUrl +
+		"?account=" +
+		encodeURIComponent(account) +
+		"&client=" +
+		encodeURIComponent(self.client) +
+		"&lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&path=" +
+		encodeURIComponent(self.path) +
+		"&payload=" +
+		encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
 		"760",
@@ -127,15 +139,15 @@ function openWindowV2(type, payload, account = "", self) {
 
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&raw_message=" +
-			encodeURIComponent(JSON.stringify(payload)) +
-			"&signInFromScan=true" +
-			"&network=" +
-			network,
+		"/" +
+		apiUrl +
+		"?lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&raw_message=" +
+		encodeURIComponent(JSON.stringify(payload)) +
+		"&signInFromScan=true" +
+		"&network=" +
+		network,
 		"",
 		"470",
 		"760",
@@ -147,6 +159,7 @@ function openWindowV2(type, payload, account = "", self) {
 			network,
 		},
 		self.keystationUrl + "/" + apiUrl
+		// "http://localhost:8000" + "/" + apiUrl
 	);
 }
 
@@ -155,7 +168,7 @@ export default class Keystation {
 		if (!params) {
 			return;
 		}
-		const {client, lcd, path, keystationUrl} = params;
+		const { client, lcd, path, keystationUrl } = params;
 		this.client = client;
 		this.lcd = lcd;
 		this.path = path;
@@ -166,6 +179,11 @@ export default class Keystation {
 	openWindow(type, payload, account = "") {
 		const self = this;
 		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, account, self) : openWindowV1(type, payload, account, self);
+	}
+
+	postMessage(popup, data) {
+		popup.focus();
+		popup.postMessage(data, "*");
 	}
 }
 

@@ -13,11 +13,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
+import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
-import styles from "./WithdrawBtn.scss";
+import styles from "../ClaimBaseRwBtn/ClaimBaseRwBtn.scss";
+import config from "src/config";
 import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
@@ -77,24 +78,14 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
-
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const WithdrawRwBtn = memo(({BtnComponent, validatorName, pubkey, buttonName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(200000);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const percents = [25, 50, 75, 100];
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const balance = new BigNumber(withdrawable);
-
 	const openDialog = () => {
 		setOpen(true);
 	};
@@ -103,35 +94,37 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		setGas(200000);
 	};
 
-	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
-	});
-
 	const methods = useForm({
-		resolver: yupResolver(validationSchemaForm),
+		resolver: undefined,
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
+	const {handleSubmit, setValue, errors, getValues, setError, clearErrors} = methods;
 
 	const onSubmit = data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const msg = [
-			{
-				type: "/cosmos.staking.v1beta1.MsgUndelegate",
-				value: {
-					delegator_address: address,
-					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: new BigNumber(data.amount).multipliedBy(1000000).toString() || "0",
+		const msg = JSON.stringify({
+			prepare_withdraw_pool: {
+				pubkey,
+			},
+		});
+		const payload = payloadTransaction(
+			"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+			[
+				{
+					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+					value: {
+						contract: config.AIORACLE_CONTRACT_ADDR,
+						msg,
+						sender: address,
+						sent_funds: null,
 					},
 				},
-			},
-		];
-		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgUndelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
+			],
+			minGasFee,
+			gas,
+			(data && data.memo) || getValues("memo") || "",
+			{gasType: "auto"}
+		);
+
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
 			if (popup.closed) {
@@ -167,31 +160,10 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 				<FormProvider {...methods}>
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Withdraw from {validatorName}
+							{buttonName} from {validatorName}
 							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
 							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
@@ -199,7 +171,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 								Cancel
 							</button>
 							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Withdraw
+								{buttonName}
 							</button>
 						</DialogActions>
 					</form>
@@ -209,4 +181,4 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	);
 });
 
-export default WithdrawBtn;
+export default WithdrawRwBtn;
