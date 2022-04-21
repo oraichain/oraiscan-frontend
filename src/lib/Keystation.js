@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable eqeqeq */
-import config, {isTestnet} from "src/config.js";
-import {networks} from "src/constants/networks";
+import config, { isTestnet } from "src/config.js";
+import { networks } from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
 function FindLeftScreenBoundry() {
@@ -53,7 +53,7 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
 				return;
 			}
-			console.log({e});
+			console.log({ e });
 			if (e.data.data === "ready") {
 				newWindow.postMessage(objEvent, "*");
 				window.removeEventListener("message", handler);
@@ -88,18 +88,18 @@ function openWindowV1(type, payload, account = "", self) {
 	}
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?account=" +
-			encodeURIComponent(account) +
-			"&client=" +
-			encodeURIComponent(self.client) +
-			"&lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&path=" +
-			encodeURIComponent(self.path) +
-			"&payload=" +
-			encodeURIComponent(JSON.stringify(payload)),
+		"/" +
+		apiUrl +
+		"?account=" +
+		encodeURIComponent(account) +
+		"&client=" +
+		encodeURIComponent(self.client) +
+		"&lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&path=" +
+		encodeURIComponent(self.path) +
+		"&payload=" +
+		encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
 		"760",
@@ -139,15 +139,15 @@ function openWindowV2(type, payload, account = "", self) {
 
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&raw_message=" +
-			encodeURIComponent(JSON.stringify(payload)) +
-			"&signInFromScan=true" +
-			"&network=" +
-			network,
+		"/" +
+		apiUrl +
+		"?lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&raw_message=" +
+		encodeURIComponent(JSON.stringify(payload)) +
+		"&signInFromScan=true" +
+		"&network=" +
+		network,
 		"",
 		"470",
 		"760",
@@ -158,8 +158,8 @@ function openWindowV2(type, payload, account = "", self) {
 			signInFromScan: true,
 			network,
 		},
-		// self.keystationUrl + "/" + apiUrl
-		"http://localhost:8000" + "/" + apiUrl
+		self.keystationUrl + "/" + apiUrl
+		// "http://localhost:8000" + "/" + apiUrl
 	);
 }
 
@@ -168,7 +168,7 @@ export default class Keystation {
 		if (!params) {
 			return;
 		}
-		const {client, lcd, path, keystationUrl} = params;
+		const { client, lcd, path, keystationUrl } = params;
 		this.client = client;
 		this.lcd = lcd;
 		this.path = path;
