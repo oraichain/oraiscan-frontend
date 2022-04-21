@@ -100,7 +100,7 @@ const IbcAssets = props => {
 
 	if (!data || !list || (loading && showLoading)) {
 		filterSection = (
-			<div className={cx("filter-section")}>
+			<div className={cx("filter-section-assets")}>
 				<FilterSection assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
 				<div className={cx("filter-section-overlay")}></div>
 			</div>
@@ -108,7 +108,7 @@ const IbcAssets = props => {
 		tableSection = isLargeScreen ? <AssetsIbcTableSkeleton /> : <AssetsIbcCardListSkeleton />;
 	} else {
 		filterSection = (
-			<div className={cx("filter-section")}>
+			<div className={cx("filter-section-assets")}>
 				<FilterSection keyword={keyword} setKeyword={setKeyword} assetSearch={assetSearch} setAssetSearch={setAssetSearch} onChange={(e) => {
 					setKeyword(e.target.value);
 				}} />

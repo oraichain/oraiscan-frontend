@@ -13,11 +13,11 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./RandomnessPopup.scss";
 import MemoFee from "src/components/common/MemoFee";
+import {showAlert} from "src/store/modules/global";
 import {getTxResponse} from "src/lib/drand/drand";
+import { useDispatch } from "react-redux";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -74,18 +74,11 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
 
 const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, validatorName, withdrawable, userInput, setLoadingPopup,minFee = {estimate_fee: 0}}) => {
 	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
-	const percents = [25, 50, 75, 100];
-	const balance = new BigNumber(withdrawable);
+	const dispatch = useDispatch();
 
 	const methods = useForm({
 		resolver: undefined,
@@ -101,6 +94,13 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 			}
 		} catch (error) {
 			setLoadingPopup(false);
+			dispatch(
+				showAlert({
+					show: true,
+					message: error.message,
+					autoHideDuration: 3000,
+				})
+			);
 			console.log(error);
 		}
 	};

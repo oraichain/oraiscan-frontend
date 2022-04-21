@@ -49,9 +49,21 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 		", toolbar=0, menubar=0, status=1";
 	if (type === "transaction") {
 		newWindow = window.open(urlEvent, title, resizeWindow);
-		setTimeout(() => {
-			newWindow.postMessage(objEvent, "*");
-		}, 500);
+		const handler = e => {
+			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
+				return;
+			}
+			console.log({e});
+			if (e.data.data === "ready") {
+				newWindow.postMessage(objEvent, "*");
+				window.removeEventListener("message", handler);
+			}
+		};
+		window.addEventListener("message", handler);
+
+		// setTimeout(() => {
+		// 	newWindow.postMessage(objEvent, "*");
+		// }, 500);
 	} else {
 		newWindow = window.open(url, title, resizeWindow);
 	}
@@ -146,7 +158,8 @@ function openWindowV2(type, payload, account = "", self) {
 			signInFromScan: true,
 			network,
 		},
-		self.keystationUrl + "/" + apiUrl
+		// self.keystationUrl + "/" + apiUrl
+		"http://localhost:8000" + "/" + apiUrl
 	);
 }
 
@@ -166,6 +179,11 @@ export default class Keystation {
 	openWindow(type, payload, account = "") {
 		const self = this;
 		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, account, self) : openWindowV1(type, payload, account, self);
+	}
+
+	postMessage(popup, data) {
+		popup.focus();
+		popup.postMessage(data, "*");
 	}
 }
 

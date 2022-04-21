@@ -153,11 +153,10 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {customLogo: null};
-			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoURL = item.moniker_image ? item.moniker_image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item.validator || "";
-
 			const validatorDataCell = item?.validator ? (
-				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator}`}>
+				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
 					<div className={cx("validator")}>
 						{logoURL && <img alt='/' className={cx("validator-icon")} src={logoURL} />}
 						{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
