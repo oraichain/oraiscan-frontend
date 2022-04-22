@@ -278,7 +278,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 							rows={4}
 						/>
 					</Grid>
-					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"airi"} />
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"orai"} />
 					<Grid item xs={12} className={cx("form-input")}>
 						<div className={cx("label")}>
 							{" "}
