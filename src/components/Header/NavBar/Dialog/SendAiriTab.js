@@ -283,7 +283,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 						<div className={cx("label")}>
 							{" "}
 							Minimin Tx Fee:
-							<span className={cx("fee")}> {fee || 0} AIRI </span> {/* <span>($ 0)</span> */}
+							<span className={cx("fee")}> {fee || 0} ORAI </span> {/* <span>($ 0)</span> */}
 						</div>
 					</Grid>
 					<Gas gas={gas} onChangeGas={onChangeGas} />
