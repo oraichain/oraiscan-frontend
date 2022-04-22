@@ -24,7 +24,7 @@ import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import config from "src/config";
 import styles from "./Dialog.scss";
 import "./Dialog.css";
-import {payloadTransaction} from "src/helpers/transaction";
+import {payloadTransaction ,minusFees } from "src/helpers/transaction";
 
 const cx = cn.bind(styles);
 
@@ -113,6 +113,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 					};
 				});
 			} else {
+				let amount = minusFees(fee, data.sendAmount);
 				msg = [
 					{
 						type: "/cosmos.bank.v1beta1.MsgSend",
@@ -122,7 +123,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 							amount: [
 								{
 									denom: "orai",
-									amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+									amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 								},
 							],
 						},
@@ -159,17 +160,23 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 			});
 
 			const minGasFee = (fee * 1000000 + "").split(".")[0];
-			payload = payloadTransaction("/cosmwasm.wasm.v1beta1.MsgExecuteContract", [
-				{
-					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-					value: {
-						contract: config.PING_ADDR,
-						msg,
-						sender: address,
-						sent_funds: null,
+			payload = payloadTransaction(
+				"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+				[
+					{
+						type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+						value: {
+							contract: config.PING_ADDR,
+							msg,
+							sender: address,
+							sent_funds: null,
+						},
 					},
-				},
-			], minGasFee, gas, (data && data.memo) || getValues("memo") || "");
+				],
+				minGasFee,
+				gas,
+				(data && data.memo) || getValues("memo") || ""
+			);
 		}
 
 		const popup = myKeystation.openWindow("transaction", payload, account);

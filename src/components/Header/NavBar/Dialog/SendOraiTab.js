@@ -32,13 +32,13 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
+export default function FormDialog({address, amount, status, methods,fee, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
-	const [fee, setFee] = useState(0);
+	// const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
 	const {errors, setValue, getValues, watch, handleSubmit, clearErrors, register} = methods;
 	const inputAddress = watch("recipientAddress");
@@ -135,7 +135,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</div>
 							);
 						})}
-						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
+						<MemoFee fee={fee} minFee={minFee} setFee={handleChangeFee} onChangeGas={onChangeGas} gas={gas} checkFee={false}  />
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -186,6 +186,17 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 	const onChangeGas = value => {
 		handleChangeGas(value);
 		setGas(value);
+	};
+
+	const setAmountValue = rate => {
+		amount &&
+			setValue(
+				"sendAmount",
+				new BigNumber(amount)
+					.multipliedBy(rate)
+					.dividedBy(1000000)
+					.toFixed(6)
+			);
 	};
 
 	return (
@@ -251,10 +262,10 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name='sendAmount' errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name="sendAmount" errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
-						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
+						<MemoFee fee={fee} minFee={minFee} setFee={handleChangeFee} onChangeGas={onChangeGas} gas={gas} checkFee={true} amount={getValues("sendAmount")}/>
 					</Grid>
 					{/* <div className={cx("select-gas", "select-gas-custom")}>
 						<span className={cx("gas-span")}> Gas </span>

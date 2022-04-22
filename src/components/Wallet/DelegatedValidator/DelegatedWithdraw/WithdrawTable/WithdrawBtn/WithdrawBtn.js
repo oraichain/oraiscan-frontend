@@ -19,7 +19,7 @@ import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import {payloadTransaction ,minusFees } from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
 import amountConsts from "src/constants/amount";
 const cx = cn.bind(styles);
@@ -121,6 +121,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 
 	const onSubmit = data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
+		let amount = minusFees(fee, data.amount);
 		const msg = [
 			{
 				type: "/cosmos.staking.v1beta1.MsgUndelegate",
@@ -129,7 +130,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 					validator_address: validatorAddress,
 					amount: {
 						denom: "orai",
-						amount: new BigNumber(data.amount).multipliedBy(1000000).toString() || "0",
+						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() || "0",
 					},
 				},
 			},
@@ -195,7 +196,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 							<div className={cx("form-field")}>
 								<InputNumberOrai name='amount' required errorobj={errors} />
 							</div>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
+							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} checkFee={fee} warningText={"withdraw"} amount={getValues("amount")} />
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

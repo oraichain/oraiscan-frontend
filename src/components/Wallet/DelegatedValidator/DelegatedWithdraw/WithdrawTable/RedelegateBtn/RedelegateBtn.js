@@ -24,6 +24,7 @@ import styles from "./RedelegateBtn.scss";
 import {useHistory} from "react-router-dom";
 import MemoFee from "src/components/common/MemoFee";
 import amountConsts from "src/constants/amount";
+import {payloadTransaction ,minusFees } from "src/helpers/transaction";
 
 const cx = cn.bind(styles);
 
@@ -131,30 +132,22 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		// 	return;
 		// }
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-						value: {
-							validator_src_address: validatorAddress,
-							validator_dst_address: data.desValidatorAddr,
-							amount: {
-								denom: "orai",
-								amount: new BigNumber(data.amount).multipliedBy(1000000).toString(),
-							},
-						},
+		let amount = minusFees(fee, data.amount);
+		const msg = [
+			{
+				type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+				value: {
+					validator_src_address: validatorAddress,
+					validator_dst_address: data.desValidatorAddr,
+					amount: {
+						denom: "orai",
+						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 					},
-				],
-				fee: {
-					amount: [minGasFee],
-					gas,
 				},
-				signatures: null,
-				memo: (data && data.memo) || "",
 			},
-		};
+		];
+
+		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgBeginRedelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
@@ -231,7 +224,7 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 							<div style={{marginTop: "15px"}}>
 								<InputTextWithIcon name='desValidatorAddr' errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 							</div>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
+							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} checkFee={true} warningText={"dedelegate"} amount={getValues("amount")}/>
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
