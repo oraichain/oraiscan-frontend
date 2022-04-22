@@ -362,11 +362,9 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 
 				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
 					try {
-						let rawLog = JSON.parse(item.raw_log)?.[0]?.events?.find(eve => eve.type === "transfer")?.attributes;
-						let indexAddress = rawLog.findIndex(att => att.value === account);
-						let split = processText(rawLog?.[indexAddress + 1]?.value);
-						amount = split[0]?.[0];
-						denom = split[0]?.[1];
+						let outputs = item?.messages?.[0]?.outputs.find(e => e.address === account);
+						amount = (outputs ? outputs?.coins?.[0]?.amount : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.amount);
+						denom = outputs ? outputs?.coins?.[0]?.denom : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.denom || "ORAI";
 					} catch (err) {
 						if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 							amount = item.amount[0].amount;

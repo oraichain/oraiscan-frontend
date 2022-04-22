@@ -21,6 +21,7 @@ import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
+import amountConsts from "src/constants/amount";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -84,12 +85,14 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
+const { GAS_DEFAULT, PERCENTS } = amountConsts;
+
 const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
-	const [gas, setGas] = useState(200000);
+	const [gas, setGas] = useState(GAS_DEFAULT);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const percents = [25, 50, 75, 100];
+	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -100,7 +103,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	};
 	const closeDialog = () => {
 		setOpen(false);
-		setGas(200000);
+		setGas(GAS_DEFAULT);
 	};
 
 	const validationSchemaForm = yup.object().shape({

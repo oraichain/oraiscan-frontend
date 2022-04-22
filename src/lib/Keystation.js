@@ -53,7 +53,6 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
 				return;
 			}
-			console.log({ e });
 			if (e.data.data === "ready") {
 				newWindow.postMessage(objEvent, "*");
 				window.removeEventListener("message", handler);
