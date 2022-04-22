@@ -83,7 +83,6 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 				Claimable Rewards <span className={cx("total-item-value")}>({formatOrai(totalRewards)} ORAI)</span>
 			</div>
 		);
-		console.log({totalRewards});
 
 		const claimHeaderCell = (
 			<div className={cx("header-cell", "align-center")}>
@@ -153,7 +152,7 @@ const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {customLogo: null};
-			const logoURL = item.moniker_image ? item.moniker_image : logoItem.customLogo ? false : logoItem.logo;
+			const logoURL = item.moniker_image ? item.moniker_image : logoItem.logo ? logoItem.logo : false;
 			const logoName = item.validator || "";
 			const validatorDataCell = item?.validator ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>

@@ -33,6 +33,7 @@
 	align-items: flex-start;
 	user-select: none;
 	background: var(--common-backgroundColor);
+	border-radius: 10px;
 
 	@include media("<large") {
 		position: absolute;

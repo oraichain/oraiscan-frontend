@@ -19,6 +19,8 @@ import styles from "../ClaimRwBtn/ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
 import MemoFee from "src/components/common/MemoFee";
 import {payloadTransaction} from "src/helpers/transaction";
+import amountConsts from "src/constants/amount";
+
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -75,28 +77,24 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
+const { GAS_DEFAULT } = amountConsts;
 
 const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validatorName}) => {
 	const [open, setOpen] = useState(false);
-	const [gas, setGas] = useState(200000);
+	const [gas, setGas] = useState(GAS_DEFAULT);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const balance = new BigNumber(withdrawable);
+	// const balance = new BigNumber(withdrawable);
+
 	const openDialog = () => {
 		setOpen(true);
 	};
 	const closeDialog = () => {
 		setOpen(false);
-		setGas(200000);
+		setGas(GAS_DEFAULT);
 	};
 
 	const methods = useForm({

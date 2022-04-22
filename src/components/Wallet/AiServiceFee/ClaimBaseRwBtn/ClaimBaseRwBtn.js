@@ -21,6 +21,8 @@ import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
 import { calculateAmount } from "src/helpers/calculateAmount";
+import amountConsts from "src/constants/amount";
+
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -77,9 +79,11 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
+const { GAS_DEFAULT } = amountConsts;
+
 const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, validatorName, pubkey}) => {
 	const [open, setOpen] = useState(false);
-	const [gas, setGas] = useState(200000);
+	const [gas, setGas] = useState(GAS_DEFAULT);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
@@ -92,7 +96,7 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, validatorName, pubkey})
 	};
 	const closeDialog = () => {
 		setOpen(false);
-		setGas(200000);
+		setGas(GAS_DEFAULT);
 	};
 
 	const methods = useForm({
