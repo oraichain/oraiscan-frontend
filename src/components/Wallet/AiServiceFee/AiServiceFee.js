@@ -299,6 +299,7 @@ const AiServiceFee = memo(({ moniker, address, pubkey }) => {
 				return;
 			}}
 			validatorName={moniker}
+			pubkey={pubkey}
 		/>
 	);
 
