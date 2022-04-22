@@ -1,34 +1,36 @@
 // @ts-nocheck
-import React, {useState, useEffect, memo} from "react";
+import React, { useState, useEffect, memo } from "react";
 // import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {useForm, FormProvider} from "react-hook-form";
-import {useHistory} from "react-router-dom";
+import { useForm, FormProvider } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _ from "lodash";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {showAlert} from "src/store/modules/global";
-import {myKeystation} from "src/lib/Keystation";
+import { showAlert } from "src/store/modules/global";
+import { myKeystation } from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
 import SendTrasactionTab from "./SendTrasactionTab";
-import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import config from "src/config";
 import styles from "./Dialog.scss";
 import "./Dialog.css";
-import {payloadTransaction} from "src/helpers/transaction";
+import { payloadTransaction } from "src/helpers/transaction";
+import consts from "src/constants/consts";
+import { useGet } from "restful-react";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "test-name",
 		exclusive: false,
@@ -57,7 +59,7 @@ const TABS = [
 	},
 ];
 
-const FormDialog = memo(({show, handleClose, address, account, amount, amountAiri}) => {
+const FormDialog = memo(({ show, handleClose, address, account, amount, amountAiri }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
@@ -89,7 +91,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const {handleSubmit, errors, register, setValue, getValues, setError, watch, trigger} = methods;
+	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
 
 	const onSubmit = data => {
 		let payload;
@@ -144,17 +146,12 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 					})
 				);
 			}
-		} else {
+		} else if (activeTabId === 3) {
 			let msg = [];
 			msg = JSON.stringify({
 				transfer: {
-					recipient: address,
-					amount: [
-						{
-							denom: "airi",
-							amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
-						},
-					],
+					recipient: data.recipientAddress,
+					amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 				},
 			});
 
@@ -163,7 +160,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 				{
 					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
 					value: {
-						contract: config.PING_ADDR,
+						contract: config.AIRI_ADDR,
 						msg,
 						sender: address,
 						sent_funds: null,
@@ -173,7 +170,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 		}
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -181,7 +178,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return handleClose();
 			}
@@ -275,10 +272,10 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 				</DialogTitle>
 				<DialogContent>
 					<div className={cx("tab-wrapper")}>
-						{TABS.map(({id, name}, index) => {
+						{TABS.map(({ id, name }, index) => {
 							return (
 								<button
-									className={cx({selected: id === activeTabId})}
+									className={cx({ selected: id === activeTabId })}
 									onClick={() => {
 										setFee(0);
 										setGas(200000);
