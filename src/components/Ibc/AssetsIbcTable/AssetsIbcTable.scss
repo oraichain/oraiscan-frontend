@@ -78,3 +78,15 @@
 .channel {
 	color: #89909b;
 }
+
+.logo-custom {
+	border-radius: 50%;
+	border: 1px solid var(--validators-logo-border);
+	padding: 5px;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.5;
+}

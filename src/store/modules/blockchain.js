@@ -6,8 +6,9 @@ import {_, compareProperty} from "src/lib/scripts";
 import {multiply} from "src/lib/Big";
 import txTypes from "src/constants/txTypes";
 
-const [GET_BASIC_DATA, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE] = [
+const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE] = [
 	"GET_BASIC_DATA",
+	"GET_BASIC_DATA_AIRI",
 	"GET_STATUS",
 	"GET_ASSETS",
 	"GET_FEES",
@@ -18,6 +19,7 @@ const [GET_BASIC_DATA, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FAS
 
 export const getCyptoAcceleratedNode = createAction(GET_FASTEST_NODE, () => api.getFastestNode(consts.API_BINANCE_ACCELERATED));
 export const getCryptoBasicData = createAction(GET_BASIC_DATA, (id, currency, cancelToken) => api.getBasicData(id, currency, cancelToken));
+export const getCryptoBasicDataAiri = createAction(GET_BASIC_DATA_AIRI, (id, currency, cancelToken) => api.getBasicData(id, currency, cancelToken));
 export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getStatus(cancelToken));
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
@@ -27,6 +29,16 @@ export const getMinFee = createAction(GET_MIN_FEE, cancelToken => api.getMinFee(
 const initState = {
 	status: {
 		id: consts.COIN_ID,
+		currency: "",
+		price: null,
+		market_cap: null,
+		vol_24h: null,
+		change_24h: null,
+		last_updated_at: null,
+		blockTime: null,
+	},
+	statusAiri: {
+		id: consts.AIRI_ID,
 		currency: "",
 		price: null,
 		market_cap: null,

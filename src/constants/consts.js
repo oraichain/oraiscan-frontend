@@ -18,6 +18,7 @@ export default Object.freeze({
 		PRICE: (ids, currency) => `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${currency}`,
 	},
 	COIN_ID: "oraichain-token",
+	AIRI_ID: "airight",
 	DENOM: "orai",
 	TABLE: {
 		PAGE_SIZE: 20,

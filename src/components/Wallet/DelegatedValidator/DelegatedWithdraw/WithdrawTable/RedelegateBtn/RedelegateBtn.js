@@ -1,10 +1,11 @@
 // @ts-nocheck
-import React, { memo, useState, useEffect } from "react";
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import { useForm, FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
+import Grid from "@material-ui/core/Grid";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
@@ -14,17 +15,19 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import consts from "src/constants/consts";
-
-import { myKeystation } from "src/lib/Keystation";
-import { InputNumberOrai, InputTextWithIcon } from "src/components/common/form-controls";
+import {Gas, Fee} from "src/components/common/Fee";
+import {myKeystation} from "src/lib/Keystation";
+import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
 import styles from "./RedelegateBtn.scss";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import MemoFee from "src/components/common/MemoFee";
+import amountConsts from "src/constants/amount";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function (amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -52,7 +55,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const { children, classes, onClose, ...other } = props;
+	const {children, classes, onClose, ...other} = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -85,12 +88,17 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName }) => {
+const { PERCENTS } = amountConsts;
+
+const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
-	const { address, account } = useSelector(state => state.wallet);
-	const percents = [25, 50, 75, 100];
+	const {address, account} = useSelector(state => state.wallet);
+	const percents = PERCENTS;
+	const minFee = useSelector(state => state.blockchain.minFee);
 	const history = useHistory();
+	const [fee, setFee] = useState(0);
 	const dispatch = useDispatch();
+	const [gas, setGas] = useState(500000);
 	const balance = new BigNumber(withdrawable);
 	// const balance = new BigNumber("3817852419082");
 
@@ -106,20 +114,23 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 			.string()
 			.required("Send Amount Field is Required")
 			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		desValidatorAddr: yup.string().required("Desitnation Validator Operator Address Field is Required").notOneOf([validatorAddress]),
+		desValidatorAddr: yup
+			.string()
+			.required("Desitnation Validator Operator Address Field is Required")
+			.notOneOf([validatorAddress]),
 		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
+	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = data => {
 		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
 		// 	return;
 		// }
-
+		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const payload = {
 			type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
 			value: {
@@ -137,16 +148,16 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 					},
 				],
 				fee: {
-					amount: [0],
-					gas: 500000,
+					amount: [minGasFee],
+					gas,
 				},
 				signatures: null,
-				memo: "",
+				memo: (data && data.memo) || "",
 			},
 		};
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
+		let popupTick = setInterval(function() {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -165,8 +176,12 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 		}
 	};
 
+	const onChangeGas = value => {
+		setGas(value);
+	};
+
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
@@ -212,12 +227,11 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 							<div className={cx("form-field")}>
 								<InputNumberOrai name='amount' required errorobj={errors} />
 							</div>
-							<label className={cx("label")}>
-								Destination Validator Operator Address
-							</label>
-							<div style={{ marginTop: '15px' }}>
+							<label className={cx("label")}>Destination Validator Operator Address</label>
+							<div style={{marginTop: "15px"}}>
 								<InputTextWithIcon name='desValidatorAddr' errorobj={errors} onClickEndAdornment={handleClickEndAdornment} />
 							</div>
+							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable eqeqeq */
-import config, {isTestnet} from "src/config.js";
-import {networks} from "src/constants/networks";
+import config, { isTestnet } from "src/config.js";
+import { networks } from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
 function FindLeftScreenBoundry() {
@@ -35,20 +35,37 @@ function FindLeftScreenBoundry() {
 
 window.leftScreenBoundry = FindLeftScreenBoundry;
 
-function PopupCenter(url, title, w, h) {
-	const newWindow = window.open(
-		url,
-		title,
+function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
+	let newWindow;
+	let resizeWindow =
 		"resizable=1, scrollbars=1, fullscreen=0, height=" +
-			h +
-			", width=" +
-			w +
-			", screenX=" +
-			window.leftScreenBoundry +
-			" , left=" +
-			window.leftScreenBoundry +
-			", toolbar=0, menubar=0, status=1"
-	);
+		h +
+		", width=" +
+		w +
+		", screenX=" +
+		window.leftScreenBoundry +
+		" , left=" +
+		window.leftScreenBoundry +
+		", toolbar=0, menubar=0, status=1";
+	if (type === "transaction") {
+		newWindow = window.open(urlEvent, title, resizeWindow);
+		const handler = e => {
+			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
+				return;
+			}
+			if (e.data.data === "ready") {
+				newWindow.postMessage(objEvent, "*");
+				window.removeEventListener("message", handler);
+			}
+		};
+		window.addEventListener("message", handler);
+
+		// setTimeout(() => {
+		// 	newWindow.postMessage(objEvent, "*");
+		// }, 500);
+	} else {
+		newWindow = window.open(url, title, resizeWindow);
+	}
 	return newWindow;
 }
 
@@ -68,24 +85,32 @@ function openWindowV1(type, payload, account = "", self) {
 			apiUrl = "signin";
 			break;
 	}
-
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?account=" +
-			encodeURIComponent(account) +
-			"&client=" +
-			encodeURIComponent(self.client) +
-			"&lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&path=" +
-			encodeURIComponent(self.path) +
-			"&payload=" +
-			encodeURIComponent(JSON.stringify(payload)),
+		"/" +
+		apiUrl +
+		"?account=" +
+		encodeURIComponent(account) +
+		"&client=" +
+		encodeURIComponent(self.client) +
+		"&lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&path=" +
+		encodeURIComponent(self.path) +
+		"&payload=" +
+		encodeURIComponent(JSON.stringify(payload)),
 		"",
 		"470",
-		"760"
+		"760",
+		type,
+		{
+			account: encodeURIComponent(account),
+			client: encodeURIComponent(self.client),
+			lcd: encodeURIComponent(self.lcd),
+			path: encodeURIComponent(self.path),
+			payload: encodeURIComponent(JSON.stringify(payload)),
+		},
+		self.keystationUrl + "/" + apiUrl
 	);
 }
 
@@ -110,20 +135,30 @@ function openWindowV2(type, payload, account = "", self) {
 	}
 
 	const network = isTestnet ? networks.TESTNET : networks.MAINNET;
+
 	return PopupCenter(
 		self.keystationUrl +
-			"/" +
-			apiUrl +
-			"?lcd=" +
-			encodeURIComponent(self.lcd) +
-			"&raw_message=" +
-			encodeURIComponent(JSON.stringify(payload)) +
-			"&signInFromScan=true" +
-			"&network=" +
-			network,
+		"/" +
+		apiUrl +
+		"?lcd=" +
+		encodeURIComponent(self.lcd) +
+		"&raw_message=" +
+		encodeURIComponent(JSON.stringify(payload)) +
+		"&signInFromScan=true" +
+		"&network=" +
+		network,
 		"",
 		"470",
-		"760"
+		"760",
+		type,
+		{
+			lcd: self.lcd,
+			raw_message: JSON.stringify(payload),
+			signInFromScan: true,
+			network,
+		},
+		self.keystationUrl + "/" + apiUrl
+		// "http://localhost:8000" + "/" + apiUrl
 	);
 }
 
@@ -132,7 +167,7 @@ export default class Keystation {
 		if (!params) {
 			return;
 		}
-		const {client, lcd, path, keystationUrl} = params;
+		const { client, lcd, path, keystationUrl } = params;
 		this.client = client;
 		this.lcd = lcd;
 		this.path = path;
@@ -143,6 +178,11 @@ export default class Keystation {
 	openWindow(type, payload, account = "") {
 		const self = this;
 		return process.env.REACT_APP_WALLET_VERSION == 2 ? openWindowV2(type, payload, account, self) : openWindowV1(type, payload, account, self);
+	}
+
+	postMessage(popup, data) {
+		popup.focus();
+		popup.postMessage(data, "*");
 	}
 }
 

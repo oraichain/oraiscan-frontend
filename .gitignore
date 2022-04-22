@@ -36,3 +36,4 @@ functions/package.json
 src/firebase.js
 hosting*
 .devcontainer
+.scannerwork

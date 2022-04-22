@@ -30,6 +30,12 @@
 			color: var(--common-textColor);
 			display: flex;
 			align-items: center;
+			@media (max-width: 500px) {
+				font-size: 14px;
+			}
+			@media (max-width: 450px) {
+				font-size: 12px;
+			}
 		}
 
 		.address {

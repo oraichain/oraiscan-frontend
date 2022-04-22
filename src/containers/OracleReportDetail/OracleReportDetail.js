@@ -16,13 +16,10 @@ import StatusBox from "src/components/common/StatusBox";
 import {ReactComponent as InformationIcon} from "src/assets/icons/information.svg";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
-import ClockIcon from "src/icons/ClockIcon";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import DataSourceResults from "src/components/OracleReportDetail/DataSourceResults";
 import TestCaseResults from "src/components/OracleReportDetail/TestCaseResults";
 import styles from "./OracleReportDetail.scss";
-import {formatOrai} from "src/helpers/helper";
 
 const cx = cn.bind(styles);
 

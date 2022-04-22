@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useMemo, useRef} from "react";
+import React, {useState, useEffect } from "react";
 import * as yup from "yup";
 import cn from "classnames/bind";
-import _, {add, constant} from "lodash";
+import _ from "lodash";
 import BigNumber from "bignumber.js";
-import {Switch, Input, InputNumber} from "antd";
-import InputRange from "react-input-range";
+import {Input} from "antd";
+// import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
 import {EditOutlined} from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
@@ -18,51 +18,53 @@ import {Fee, Gas} from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
-import "./SendOraiTab.css";
+import "./SendAiriTab.css";
 import styles from "./Dialog.scss";
 import {useSelector} from "src/hooks";
-import MemoFee from "src/components/common/MemoFee";
+
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000).toFixed(6) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
-
-export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
+export default function FormDialog({address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee}) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
-	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
-	const {errors, setValue, getValues, watch, handleSubmit, clearErrors, register} = methods;
+	const {errors, setValue, getValues, watch, register} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
+
 	// let values = watch() || "";
 
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
 	}, [inputAddress, storageData]);
 
-	const priceInUSD = new BigNumber(amount)
-		.dividedBy(1000000)
-		.multipliedBy(status?.price || 0)
-		.toFormat(2);
-
-	const switchMultiSend = checked => {
-		setIsMulti(checked);
-		setGas(200000);
-		handleChangeFee(0);
-		if (!checked) {
-			handleInputMulti(null);
-		}
+	const setAmountValue = rate => {
+		amount &&
+			setValue(
+				"sendAmount",
+				new BigNumber(amount)
+					.multipliedBy(rate)
+					.dividedBy(1000000)
+					.toFixed(6)
+			);
 	};
+
+	// const priceInUSD = new BigNumber(amount)
+	// 	.dividedBy(1000000)
+	// 	.multipliedBy(status?.price || 0)
+	// 	.toFormat(2);
+
+	// const switchMultiSend = checked => {
+	// 	setIsMulti(checked);
+	// 	if (!checked) {
+	// 		handleInputMulti(null);
+	// 	}
+	// };
 
 	const handleSelectFile = lines => {
 		const result = [];
@@ -135,7 +137,18 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								</div>
 							);
 						})}
-						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
+						<Grid item xs={12} className={cx("form-input")}>
+							<div className={cx("label")}>
+								{" "}
+								Memo <span className={cx("optional")}> (Optional) </span>{" "}
+							</div>
+							<TextArea
+								type='number'
+								name='memo'
+								placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
+								rows={4}
+							/>
+						</Grid>
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -190,9 +203,9 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 
 	return (
 		<form className={cx("form-dialog")}>
-			<div className={cx("switch-multisend")}>
+			{/* <div className={cx("switch-multisend")}>
 				Multisend <Switch onChange={switchMultiSend} />
-			</div>
+			</div> */}
 			{!isMulti && (
 				<Grid container spacing={2} className={cx("transaction-content")}>
 					<div className={cx("row-balance")}>
@@ -203,7 +216,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 						<div className={cx("right")}>
 							<div className={cx("title", "title-right")}> Balance </div>
 							<div className={cx("value")}>
-								{formatOrai(amount || 0)} ORAI <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span>
+								{formatOrai(amount || 0)} AIRI
+								{/* <span>{status?.price ? "($" + priceInUSD + ")" : ""}</span> */}
 							</div>
 						</div>
 					</div>
@@ -234,8 +248,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								<button
 									type='button'
 									onClick={() => {
-										setValue("sendAmount", calculateAmount(new BigNumber(amount), 50));
-										clearErrors();
+										setAmountValue(0.5);
 									}}>
 									{" "}
 									1 / 2{" "}
@@ -243,32 +256,36 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								<button
 									type='button'
 									onClick={() => {
-										setValue("sendAmount", calculateAmount(new BigNumber(amount), 100));
-										clearErrors();
+										setAmountValue(1);
 									}}>
 									{" "}
 									Max{" "}
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name='sendAmount' errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"airi"} name='sendAmount' errorobj={errors} />
 					</Grid>
 					<Grid item xs={12} className={cx("form-input")}>
-						<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
-					</Grid>
-					{/* <div className={cx("select-gas", "select-gas-custom")}>
-						<span className={cx("gas-span")}> Gas </span>
-						<InputNumber
-							value={gas}
-							className={cx("input-text")}
-							formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-							parser={value => value.replace(/\s?|(,*)/g, "")}
-							onChange={onChangeGas}
-							min={100000}
-							max={1000000}
+						<div className={cx("label")}>
+							{" "}
+							Memo <span className={cx("optional")}> (Optional) </span>{" "}
+						</div>
+						<TextArea
+							type='number'
+							name='memo'
+							placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
+							rows={4}
 						/>
-						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
-					</div> */}
+					</Grid>
+					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"airi"} />
+					<Grid item xs={12} className={cx("form-input")}>
+						<div className={cx("label")}>
+							{" "}
+							Minimin Tx Fee:
+							<span className={cx("fee")}> {fee || 0} AIRI </span> {/* <span>($ 0)</span> */}
+						</div>
+					</Grid>
+					<Gas gas={gas} onChangeGas={onChangeGas} />
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}

@@ -14,14 +14,13 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
-import styles from "./WithdrawBtn.scss";
+import styles from "../ClaimRwBtn/ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
+import {payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
+
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -78,25 +77,17 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
+const { GAS_DEFAULT } = amountConsts;
 
-const { GAS_DEFAULT, PERCENTS } = amountConsts;
-
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const balance = new BigNumber(withdrawable);
+	// const balance = new BigNumber(withdrawable);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -106,35 +97,35 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		setGas(GAS_DEFAULT);
 	};
 
-	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
-	});
-
 	const methods = useForm({
-		resolver: yupResolver(validationSchemaForm),
+		resolver: undefined,
 	});
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = data => {
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const msg = [
-			{
-				type: "/cosmos.staking.v1beta1.MsgUndelegate",
-				value: {
-					delegator_address: address,
-					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: new BigNumber(data.amount).multipliedBy(1000000).toString() || "0",
+		let msg = [];
+		delegatedData.forEach(element => {
+			let msgEle;
+			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+				msgEle = {
+					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+					value: {
+						delegator_address: address,
+						validator_address: element.validator_address,
 					},
-				},
-			},
-		];
-		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgUndelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
+				};
+			}
+
+			msg.push(msgEle);
+		});
+		const minGasFee = (fee * 1000000 + "").split(".")[0];
+		const payload = payloadTransaction(
+			"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+			msg,
+			minGasFee,
+			gas,
+			(data && data.memo) || getValues("memo") || ""
+		);
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
 			if (popup.closed) {
@@ -165,36 +156,14 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
-
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
 				<FormProvider {...methods}>
 					<form>
 						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Withdraw from {validatorName}
+							Claim all from {validatorName}
 							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 						</DialogTitle>
 						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
 							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
 						</DialogContent>
 						<DialogActions>
@@ -202,7 +171,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 								Cancel
 							</button>
 							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Withdraw
+								Claim All
 							</button>
 						</DialogActions>
 					</form>
@@ -212,4 +181,4 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	);
 });
 
-export default WithdrawBtn;
+export default ClaimRwAllBtn;
