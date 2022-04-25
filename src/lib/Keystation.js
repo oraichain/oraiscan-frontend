@@ -50,7 +50,7 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 	if (type === "transaction") {
 		newWindow = window.open(urlEvent, title, resizeWindow);
 		const handler = e => {
-			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io") {
+			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io" && e.origin !== "http://localhost:3001") {
 				return;
 			}
 			if (e.data.data === "ready") {

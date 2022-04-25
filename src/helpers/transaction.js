@@ -1,3 +1,5 @@
+import { parseTxFee } from "./helper";
+
 export const payloadTransaction = (type, msg, minGasFee, gas, memo, props) => {
 	return {
 		type,
@@ -5,7 +7,7 @@ export const payloadTransaction = (type, msg, minGasFee, gas, memo, props) => {
 		value: {
 			msg,
 			fee: {
-				amount: [minGasFee],
+				amount: [parseTxFee(minGasFee)],
 				gas,
 			},
 			signatures: null,

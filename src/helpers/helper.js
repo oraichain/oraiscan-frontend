@@ -9,6 +9,7 @@ import message from "src/lib/proto";
 import { useSelector } from "react-redux";
 import { themeIds } from "src/constants/themes";
 import { reduceString } from "src/lib/scripts";
+import consts from "src/constants/consts";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -219,3 +220,7 @@ export const ThemeSetup = () => {
 		isDarkTheme: isDarkTheme,
 	};
 };
+
+export const parseTxFee = (amount) => {
+	return { denom: consts.DENOM, amount };
+}

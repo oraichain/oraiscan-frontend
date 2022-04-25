@@ -291,7 +291,6 @@ const AiServiceFee = memo(({ moniker, address, pubkey }) => {
 
 	const claimRewardElement = (
 		<ClaimBaseRwBtn
-			withdrawable={baseRewardData?.data?.base_reward?.amount}
 			BtnComponent={({ handleClick }) => {
 				if (process.env.REACT_APP_WALLET_VERSION == 2) {
 					return BtnComponent({ handleClick, buttonName: "Claim Base Reward" })
