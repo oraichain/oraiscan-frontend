@@ -87,7 +87,7 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 	const onSubmit = async data => {
 		try {
 			closeDialog();
-			const {response, contract} = await getTxResponse(new BigNumber(data.amount).multipliedBy(1000000).toString() || "0", fee, gas, userInput, setLoadingPopup);
+			const {response, contract} = await getTxResponse(new BigNumber(withdrawable).multipliedBy(1000000).toString() || "0", fee, gas, userInput, setLoadingPopup);
 			if (response.tx_response && response.tx_response.code === 0) {
 				setLoadingPopup(false);
 				await eventHandleGetRamdomValue(response, contract);

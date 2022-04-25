@@ -2,15 +2,7 @@
 import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
 import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
@@ -19,10 +11,10 @@ import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
-import MemoFee from "src/components/common/MemoFee";
+import {payloadTransaction ,minusFees } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
+import {calculateAmount} from "src/helpers/calculateAmount";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -38,53 +30,6 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 		},
 	});
 });
-
-const dialogStyles = theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2),
-	},
-	closeButton: {
-		position: "absolute",
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500],
-	},
-});
-
-const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant='h5'>{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label='close' className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	);
-});
-
-const DialogContent = withStyles(theme => ({
-	root: {
-		padding: theme.spacing(2),
-	},
-}))(MuiDialogContent);
-
-const DialogActions = withStyles(theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(1),
-	},
-}))(MuiDialogActions);
-
-const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
-	result = result.split(".")[0];
-	result = new BigNumber(result).dividedBy(100).toString();
-	return result;
-};
 
 const {GAS_DEFAULT, PERCENTS} = amountConsts;
 
@@ -122,6 +67,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 
 	const onSubmit = data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
+		let amount = minusFees(fee, data.amount);
 		const msg = [
 			{
 				type: "/cosmos.staking.v1beta1.MsgUndelegate",
@@ -130,7 +76,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 					validator_address: validatorAddress,
 					amount: {
 						denom: "orai",
-						amount: new BigNumber(data.amount - fee).multipliedBy(1000000).toString() || "0",
+						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() || "0",
 					},
 				},
 			},

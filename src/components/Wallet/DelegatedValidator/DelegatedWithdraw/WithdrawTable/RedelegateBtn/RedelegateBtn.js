@@ -2,29 +2,20 @@
 import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
 import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
-import Dialog from "@material-ui/core/Dialog";
-import Grid from "@material-ui/core/Grid";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import consts from "src/constants/consts";
-import {Gas, Fee} from "src/components/common/Fee";
 import {myKeystation} from "src/lib/Keystation";
 import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
 import styles from "./RedelegateBtn.scss";
 import {useHistory} from "react-router-dom";
-import MemoFee from "src/components/common/MemoFee";
 import amountConsts from "src/constants/amount";
-import DialogForm from "src/components/DialogForm";
+import {payloadTransaction ,minusFees } from "src/helpers/transaction";
+import DialogForm from "src/components/DialogForm"
+
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -40,46 +31,6 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 		},
 	});
 });
-
-const dialogStyles = theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2),
-	},
-	closeButton: {
-		position: "absolute",
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500],
-	},
-});
-
-const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant='h5'>{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label='close' className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	);
-});
-
-const DialogContent = withStyles(theme => ({
-	root: {
-		padding: theme.spacing(2),
-	},
-}))(MuiDialogContent);
-
-const DialogActions = withStyles(theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(1),
-	},
-}))(MuiDialogActions);
 
 const calculateAmount = (balance, percent) => {
 	let result = balance.multipliedBy(percent).dividedBy(1000000) + "";
@@ -131,30 +82,22 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		// 	return;
 		// }
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-						value: {
-							validator_src_address: validatorAddress,
-							validator_dst_address: data.desValidatorAddr,
-							amount: {
-								denom: "orai",
-								amount: new BigNumber(data.amount).multipliedBy(1000000).toString(),
-							},
-						},
+		let amount = minusFees(fee, data.amount);
+		const msg = [
+			{
+				type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+				value: {
+					validator_src_address: validatorAddress,
+					validator_dst_address: data.desValidatorAddr,
+					amount: {
+						denom: "orai",
+						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
 					},
-				],
-				fee: {
-					amount: [minGasFee],
-					gas,
 				},
-				signatures: null,
-				memo: (data && data.memo) || "",
 			},
-		};
+		];
+
+		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgBeginRedelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
