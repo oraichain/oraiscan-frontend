@@ -160,28 +160,21 @@ const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
-
-			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
-				<FormProvider {...methods}>
-					<form>
-						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Claim base from {validatorName}
-							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
-						</DialogTitle>
-						<DialogContent dividers>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
-						</DialogContent>
-						<DialogActions>
-							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
-								Cancel
-							</button>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Claim Base Reward
-							</button>
-						</DialogActions>
-					</form>
-				</FormProvider>
-			</Dialog>
+			<DialogForm
+				closeDialog={closeDialog}
+				open={open}
+				methods={methods}
+				validatorName={validatorName}
+				fee={fee}
+				minFee={minFee}
+				setFee={setFee}
+				onChangeGas={onChangeGas}
+				gas={gas}
+				handleClick={handleSubmit(onSubmit)}
+				warning={true}
+				buttonName={"Claim base"}
+				buttonSubmit={"Claim Base Reward"}
+			/>
 		</div>
 	);
 });
