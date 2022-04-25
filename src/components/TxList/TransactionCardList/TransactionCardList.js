@@ -220,14 +220,14 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 								</tr>
 
 
-								<tr>
+								{/* <tr>
 									<td>
 										<div className={cx("item-title")}>IBC Amount</div>
 									</td>
 									<td>
 										{ibcAmountDataCell}
 									</td>
-								</tr>
+								</tr> */}
 
 								<tr>
 									<td>

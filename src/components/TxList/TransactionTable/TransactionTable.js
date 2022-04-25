@@ -39,7 +39,7 @@ const handleRoyaltyPercentage = royalty => {
 export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
-	const ibcAmountHeaderCell = <div className={cx("header-cell", "align-center")}>IBC Amount </div>;
+	// const ibcAmountHeaderCell = <div className={cx("header-cell", "align-center")}>IBC Amount </div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
 	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
@@ -48,7 +48,7 @@ export const getHeaderRow = (royalty = false) => {
 	let headerCells = [
 		txHashHeaderCell,
 		typeHeaderCell,
-		ibcAmountHeaderCell,
+		// ibcAmountHeaderCell,
 		resultHeaderCell,
 		amountHeaderCell,
 		feeHeaderCell,
@@ -58,7 +58,7 @@ export const getHeaderRow = (royalty = false) => {
 	let headerCellStyles = [
 		{width: "14%", minWidth: "140px"}, // TxHash
 		{width: "18%", minWidth: "180px"}, // Type
-		{width: "6%", minWidth: "100px"}, // IBC Amount
+		// {width: "6%", minWidth: "100px"}, // IBC Amount
 		{width: "10%", minWidth: "100px"}, // Result
 		{width: "22%", minWidth: "220px"}, // Amount
 		{width: "10%", minWidth: "140px"}, // Fee
@@ -253,44 +253,44 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				);
 			}
-			let ibcAmountDataCell = null;
-			if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
-				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
-				if (message?.packet?.data) {
-					const msgRec = JSON.parse(atob(message?.packet?.data));
-					const port = message?.packet?.destination_port;
-					const channel = message?.packet?.destination_channel;
-					ibcAmountDataCell = _.isNil(message?.packet) ? (
-						<div className={cx("align-left")}>-</div>
-					) : (
-						<div className={cx("ibc-data-cell", "align-right")}>
-							<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
-							<div className={cx("ibc-denom")}>{"(" + port + "/" + channel + "/" + msgRec?.denom + ")"}</div>
-						</div>
-					);
-				}
-			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
-				let rawLog, rawLogParse, rawLogDenomSplit;
-				if (item?.result === "Success") {
-					rawLog = JSON.parse(item?.raw_log);
-					rawLogParse = rawLog && parseIbcMsgTransfer(rawLog);
-					rawLogDenomSplit = rawLogParse?.denom?.split("/");
-				}
+			// let ibcAmountDataCell = null;
+			// if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
+			// 	let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
+			// 	if (message?.packet?.data) {
+			// 		const msgRec = JSON.parse(atob(message?.packet?.data));
+			// 		const port = message?.packet?.destination_port;
+			// 		const channel = message?.packet?.destination_channel;
+			// 		ibcAmountDataCell = _.isNil(message?.packet) ? (
+			// 			<div className={cx("align-left")}>-</div>
+			// 		) : (
+			// 			<div className={cx("ibc-data-cell", "align-right")}>
+			// 				<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
+			// 				<div className={cx("ibc-denom")}>{"(" + port + "/" + channel + "/" + msgRec?.denom + ")"}</div>
+			// 			</div>
+			// 		);
+			// 	}
+			// } else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
+			// 	let rawLog, rawLogParse, rawLogDenomSplit;
+			// 	if (item?.result === "Success") {
+			// 		rawLog = JSON.parse(item?.raw_log);
+			// 		rawLogParse = rawLog && parseIbcMsgTransfer(rawLog);
+			// 		rawLogDenomSplit = rawLogParse?.denom?.split("/");
+			// 	}
 
-				ibcAmountDataCell =
-					item?.result !== "Success" ? (
-						<div className={cx("align-right")}>-</div>
-					) : (
-						<div className={cx("ibc-data-cell", "align-right")}>
-							<div className={cx("ibc-value")}>
-								{formatOrai(rawLogParse?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}
-							</div>
-							<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
-						</div>
-					);
-			} else {
-				ibcAmountDataCell = <div className={cx("align-right")}>-</div>;
-			}
+			// 	ibcAmountDataCell =
+			// 		item?.result !== "Success" ? (
+			// 			<div className={cx("align-right")}>-</div>
+			// 		) : (
+			// 			<div className={cx("ibc-data-cell", "align-right")}>
+			// 				<div className={cx("ibc-value")}>
+			// 					{formatOrai(rawLogParse?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}
+			// 				</div>
+			// 				<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
+			// 			</div>
+			// 		);
+			// } else {
+			// 	ibcAmountDataCell = <div className={cx("align-right")}>-</div>;
+			// }
 
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
@@ -391,7 +391,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 							{transferStatus && transferStatus}
 							<div className={cx("amount")}>
 								<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-								<span className={cx("amount-denom")}>{denom}</span>
+								<span className={cx("amount-denom")}>{denom.toLowerCase() === consts.DENOM ? denom : consts.MORE}</span>
 								<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
 							</div>
 						</div>
@@ -435,10 +435,10 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			const newRoyaltyDataCell = <div className={cx("time-data-cell", "align-right")}>{getNewRoyalty(account, item?.raw_log, item?.result)}</div>;
 
 			if (royalty) {
-				return [txHashDataCell, typeDataCell, ibcAmountDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
+				return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell, newRoyaltyDataCell];
 			}
 
-			return [txHashDataCell, typeDataCell, ibcAmountDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
+			return [txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell];
 		});
 	};
 

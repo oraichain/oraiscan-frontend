@@ -30,11 +30,11 @@ const TransactionTableSkeleton = memo(({ rows = 5 }) => {
 			);
 
 
-			const ibcDataCell = (
-				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton />
-				</div>
-			);
+			// const ibcDataCell = (
+			// 	<div className={cx("skeleton-data-cell", "align-left")}>
+			// 		<Skeleton />
+			// 	</div>
+			// );
 
 			const amountDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
@@ -58,7 +58,7 @@ const TransactionTableSkeleton = memo(({ rows = 5 }) => {
 					<Skeleton />
 				</div>
 			);
-			dataRows.push([txHashDataCell, typeDataCell, ibcDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
+			dataRows.push([txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
 		}
 		return dataRows;
 	};

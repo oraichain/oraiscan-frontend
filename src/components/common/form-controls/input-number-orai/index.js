@@ -43,7 +43,7 @@ function FormInput(props) {
 	// const previousValueRef = useRef("");
 	const { name = "sendAmount", placeholder, errorobj , typePrice} = props;
 
-	// let value = watch(name);
+	let value = watch(name);
 
 	let isError = false;
 	let errorMessage = "";
@@ -61,7 +61,7 @@ function FormInput(props) {
 					name={name}
 					defaultValue={""}
 					placeholder={placeholder}
-					// value={value}
+					value={value}
 					onChange={e => {
 						let amount = e.currentTarget.value.replace(/,/g, "");
 						amount = commafy(amount);
@@ -85,3 +85,4 @@ function FormInput(props) {
 }
 
 export default FormInput;
+

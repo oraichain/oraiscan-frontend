@@ -3,12 +3,13 @@ import cn from "classnames/bind";
 import {Fee, Gas} from "src/components/common/Fee";
 // @ts-ignore
 import styles from "./MemoFee.scss";
+import _ from "lodash";
 import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import Grid from "@material-ui/core/Grid";
 const cx = cn.bind(styles);
 
 const MemoFee = memo(props => {
-	const { minFee, setFee, gas, onChangeGas, fee , typePrice} = props;
+	const {minFee, setFee, gas, onChangeGas, fee, typePrice, checkFee, amount , warningText = "received"} = props;
 	return (
 		<>
 			<Grid item xs={12} className={cx("form-input")}>
@@ -29,8 +30,13 @@ const MemoFee = memo(props => {
 			<div style={{marginTop: "15px"}}>
 				{" "}
 				Minimin Tx Fee:
-				<span className={cx("fee")}> {fee || 0} {typePrice ? typePrice : "ORAI"} </span>
+				<span className={cx("fee")}>
+					{" "}
+					{fee || 0} {typePrice ? typePrice : "ORAI"}{" "}
+				</span>
 			</div>
+			{checkFee && amount && fee ? <div className={cx("amount-fee")}>The amount {warningText} when there is a fee: {amount - fee}</div> : <></>}
+			{checkFee === false && fee ? <div className={cx("amount-fee")}>Transactions may fail when using fees</div> : <></>}
 			<div>
 				<Gas className={"refactor-padding"} gas={gas} onChangeGas={onChangeGas} />
 			</div>
