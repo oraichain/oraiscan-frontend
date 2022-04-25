@@ -30,14 +30,14 @@ const TransactionCardListSkeleton = memo(({ rows = 10 }) => {
 							</td>
 						</tr>
 
-						<tr>
+						{/* <tr>
 							<td>
 								<div className={cx("item-title")}>IBC Amount</div>
 							</td>
 							<td>
 								<Skeleton />
 							</td>
-						</tr>
+						</tr> */}
 
 						<tr>
 							<td>

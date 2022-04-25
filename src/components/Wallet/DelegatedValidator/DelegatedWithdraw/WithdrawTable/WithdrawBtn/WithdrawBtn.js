@@ -22,6 +22,7 @@ import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
 import amountConsts from "src/constants/amount";
+import DialogForm from "src/components/DialogForm";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function(amount) {
@@ -85,7 +86,7 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-const { GAS_DEFAULT, PERCENTS } = amountConsts;
+const {GAS_DEFAULT, PERCENTS} = amountConsts;
 
 const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
@@ -129,7 +130,7 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 					validator_address: validatorAddress,
 					amount: {
 						denom: "orai",
-						amount: new BigNumber(data.amount).multipliedBy(1000000).toString() || "0",
+						amount: new BigNumber(data.amount - fee).multipliedBy(1000000).toString() || "0",
 					},
 				},
 			},
@@ -165,49 +166,41 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
-
-			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
-				<FormProvider {...methods}>
-					<form>
-						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Withdraw from {validatorName}
-							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
-						</DialogTitle>
-						<DialogContent dividers>
-							<div className={cx("space-between")}>
-								<label htmlFor='amount' className={cx("label")}>
-									Amount (ORAI)
-								</label>
-								<div className={cx("percent-buttons")}>
-									{percents.map(value => (
-										<button
-											type='button'
-											className={cx("btn", "btn-outline-primary", "m-2")}
-											onClick={() => {
-												setValue("amount", calculateAmount(balance, value));
-												clearErrors();
-											}}>
-											{value + "%"}
-										</button>
-									))}
-								</div>
-							</div>
-							<div className={cx("form-field")}>
-								<InputNumberOrai name='amount' required errorobj={errors} />
-							</div>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
-						</DialogContent>
-						<DialogActions>
-							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
-								Cancel
+			<DialogForm
+				closeDialog={closeDialog}
+				open={open}
+				methods={methods}
+				validatorName={validatorName}
+				fee={fee}
+				minFee={minFee}
+				setFee={setFee}
+				onChangeGas={onChangeGas}
+				gas={gas}
+				handleClick={handleSubmit(onSubmit)}
+				warning={true}
+				buttonName={"Withdraw"}>
+				<div className={cx("space-between")}>
+					<label htmlFor='amount' className={cx("label")}>
+						Amount (ORAI)
+					</label>
+					<div className={cx("percent-buttons")}>
+						{percents.map(value => (
+							<button
+								type='button'
+								className={cx("btn", "btn-outline-primary", "m-2")}
+								onClick={() => {
+									setValue("amount", calculateAmount(balance, value));
+									clearErrors();
+								}}>
+								{value + "%"}
 							</button>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Withdraw
-							</button>
-						</DialogActions>
-					</form>
-				</FormProvider>
-			</Dialog>
+						))}
+					</div>
+				</div>
+				<div className={cx("form-field")}>
+					<InputNumberOrai name='amount' required errorobj={errors} />
+				</div>
+			</DialogForm>
 		</div>
 	);
 });

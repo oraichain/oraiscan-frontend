@@ -1,16 +1,8 @@
 // @ts-nocheck
 import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
+import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
@@ -19,9 +11,9 @@ import styles from "./ClaimBaseRwBtn.scss";
 import config from "src/config";
 import {useHistory} from "react-router-dom";
 import {payloadTransaction} from "src/helpers/transaction";
-import MemoFee from "src/components/common/MemoFee";
-import { calculateAmount } from "src/helpers/calculateAmount";
+import {calculateAmount} from "src/helpers/calculateAmount";
 import amountConsts from "src/constants/amount";
+import DialogForm from "src/components/DialogForm";
 
 const cx = cn.bind(styles);
 
@@ -39,47 +31,7 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const dialogStyles = theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(2),
-	},
-	closeButton: {
-		position: "absolute",
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500],
-	},
-});
-
-const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant='h5'>{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label='close' className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	);
-});
-
-const DialogContent = withStyles(theme => ({
-	root: {
-		padding: theme.spacing(2),
-	},
-}))(MuiDialogContent);
-
-const DialogActions = withStyles(theme => ({
-	root: {
-		margin: 0,
-		padding: theme.spacing(1),
-	},
-}))(MuiDialogActions);
-
-const { GAS_DEFAULT } = amountConsts;
+const {GAS_DEFAULT} = amountConsts;
 
 const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, validatorName, pubkey}) => {
 	const [open, setOpen] = useState(false);
@@ -165,28 +117,21 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, validatorName, pubkey})
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
-
-			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
-				<FormProvider {...methods}>
-					<form>
-						<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-							Claim base from {validatorName}
-							<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
-						</DialogTitle>
-						<DialogContent dividers>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
-						</DialogContent>
-						<DialogActions>
-							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
-								Cancel
-							</button>
-							<button type='submit' className={cx("btn", "btn-primary", "m-2")} onClick={handleSubmit(onSubmit)}>
-								Claim Base Reward
-							</button>
-						</DialogActions>
-					</form>
-				</FormProvider>
-			</Dialog>
+			<DialogForm
+				closeDialog={closeDialog}
+				open={open}
+				methods={methods}
+				validatorName={validatorName}
+				fee={fee}
+				minFee={minFee}
+				setFee={setFee}
+				onChangeGas={onChangeGas}
+				gas={gas}
+				handleClick={handleSubmit(onSubmit)}
+				warning={true}
+				buttonName={"Claim base"}
+				buttonSubmit={"Claim Base Reward"}
+			/>
 		</div>
 	);
 });
