@@ -23,7 +23,7 @@ import MemoFee from "src/components/common/MemoFee";
 import { calculateAmount } from "src/helpers/calculateAmount";
 import amountConsts from "src/constants/amount";
 import consts from "src/constants/consts";
-
+import DialogForm from "src/components/DialogForm";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
