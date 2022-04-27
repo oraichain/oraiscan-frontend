@@ -317,7 +317,7 @@ const TxMessage = ({key, msg, data}) => {
 				<InfoRow label={label}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
-						<span className={cx("amount-denom")}>{denom_name ?? (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
+						<span className={cx("amount-denom")}>{denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
 						{finalDenom === consts.DENOM && (
 							<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
 						)}
