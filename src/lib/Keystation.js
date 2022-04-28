@@ -1,6 +1,7 @@
 // @ts-nocheck
 /* eslint-disable eqeqeq */
 import config, { isTestnet } from "src/config.js";
+import consts from "src/constants/consts";
 import { networks } from "src/constants/networks";
 
 // Find Left Boundry of the Screen/Monitor
@@ -50,9 +51,7 @@ function PopupCenter(url, title, w, h, type, objEvent, urlEvent) {
 	if (type === "transaction") {
 		newWindow = window.open(urlEvent, title, resizeWindow);
 		const handler = e => {
-			if (e.origin !== "https://testnet-wallet.web.app" && e.origin !== "https://api.wallet.orai.io" && e.origin !== "http://localhost:3001") {
-				return;
-			}
+			if (!consts.VALID_ORIGINS.includes(e.origin)) return;
 			if (e.data.data === "ready") {
 				newWindow.postMessage(objEvent, "*");
 				window.removeEventListener("message", handler);
