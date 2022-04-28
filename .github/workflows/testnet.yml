@@ -49,7 +49,7 @@ jobs:
         run: yarn install
       - name: COPY ENV
         run: cp .env.test.example .env
-      - name: Build Production
+      - name: Build Testnet
         env:
           CI: false
         run: yarn build:prod
@@ -58,3 +58,10 @@ jobs:
       - name: Uninstall Yarn
         if: always()
         run: npm uninstall -g yarn
+      - name: Send discord message
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          username: "GitBot"
+          message: "Deployed to testnet."
