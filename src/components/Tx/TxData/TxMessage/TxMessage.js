@@ -18,7 +18,6 @@ import copy from "copy-to-clipboard";
 import Interweave from "interweave";
 import consts from "src/constants/consts";
 import txTypes from "src/constants/txTypes";
-import getTxType from "src/constants/getTxType";
 import getTxTypeIcon from "src/constants/getTxTypeIcon";
 import {reduceStringAssets} from "src/lib/scripts";
 import {themeIds} from "src/constants/themes";
@@ -27,7 +26,7 @@ import {formatOrai, formatFloat, extractValueAndUnit} from "src/helpers/helper";
 import {showAlert} from "src/store/modules/global";
 import {loadMore, loadAll} from "src/store/modules/txs";
 import {divide} from "src/lib/Big";
-import {_, tryParseMessage, setAgoTime, getTotalTime} from "src/lib/scripts";
+import {_, tryParseMessage} from "src/lib/scripts";
 import Address from "src/components/common/Address";
 import LinkRow from "src/components/common/LinkRow";
 import InfoRow from "src/components/common/InfoRow/InfoRow";
@@ -231,6 +230,12 @@ const TxMessage = ({key, msg, data}) => {
 			</InfoRow>
 		);
 
+		const getInfoRowThreeDots = (label, value) => (
+			<InfoRow label={label}>
+				<span className={cx("text-three-dots")}>{_.isNil(value) ? "-" : value}</span>
+			</InfoRow>
+		);
+
 		const getInfoRowSummary = (label, value) => (
 			<InfoRow label={label}>
 				<span className={cx("text")}>{_.isNil(value) ? "-" : reduceStringAssets(value, 80, 10)}</span>
@@ -284,6 +289,7 @@ const TxMessage = ({key, msg, data}) => {
 		};
 
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
+			console.log({ inputObject })
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return null;
 				// (
@@ -775,7 +781,7 @@ const TxMessage = ({key, msg, data}) => {
 		return (
 			<>
 			<div className={cx("card-header")}>
-			{/* {toolTippedImg} */}
+			{toolTippedImg}
 			<span className={cx("title")}>{getTxTypeNew(type, data?.result, value)}</span>
 		</div>
 			<div className={cx("card-body")}>
@@ -1298,6 +1304,31 @@ const TxMessage = ({key, msg, data}) => {
 						{getInfoRow("Proof Number", value?.proof_height?.revision_number)}
 						{getInfoRow("Proof Height", value?.proof_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", new Date(value?.packet?.timeout_timestamp / Math.pow(10, 9)).toTimeString())}
+					</>
+				)}
+				{type === txTypes.COSMOS_SDK.MSG_TIMEOUT && (
+					<>
+						{console.log({ value })}
+						{getAddressRow("Signer", value?.signer)}
+						{getInfoRow("Sequence", value?.packet?.sequence)}
+						{getInfoRow("Next Sequence Recv", value?.next_sequence_recv)}
+						{getInfoRow("Destination Channel", value?.packet?.destination_channel)}
+						{getInfoRow("Destination Port", value?.packet?.destination_port)}
+						{getInfoRow("Source Channel", value?.packet?.source_channel)}
+						{getInfoRow("Source Port", value?.packet?.source_port)}
+						{getInfoRow("Height", value?.proof_height?.revision_height)}
+						{getInfoRow("Timeout Timestamp", new Date(value?.packet?.timeout_timestamp / Math.pow(10, 9)).toTimeString())}
+						{getInfoRowThreeDots("Unreceived", value?.proof_unreceived)}
+						<InfoRow label='Message'>
+							<ReactJson
+								style={{backgroundColor: "transparent"}}
+								name={false}
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+								displayObjectSize={false}
+								displayDataTypes={false}
+								src={JSON.parse(atob(value?.packet?.data))}
+							/>
+						</InfoRow>
 					</>
 				)}
 			</div>
