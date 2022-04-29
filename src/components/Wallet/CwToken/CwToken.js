@@ -19,7 +19,7 @@ import CwCardSkeleton from "./CwCard/CwCardSkeleton";
 const cx = classNames.bind(styles);
 const data = [
 	{
-		tx_hash: "C142623DAFF934C8E57921CA729E1D728224D735647C9177A08581696F0258B6",
+		tx_hash: "EFDA958CC02021CF5F5A0B6E145BC157D4C0C5877D70F5C71B39DF0279451302",
 		age: "2022-04-27T08:05:14Z",
 		from: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
 		to: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",

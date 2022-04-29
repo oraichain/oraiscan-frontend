@@ -60,7 +60,7 @@ const CwTable = memo(({data = []}) => {
 		};
 
 		return data.map(item => {
-			const txHashDataCell = reduceStringAdress(item?.tx_hash);
+			const txHashDataCell = reduceStringAdress(item?.tx_hash, `${consts.PATH.TXLIST}/${item.tx_hash}`);
 
 			const timeDataCell = _.isNil(item?.age) ? (
 				<div className={cx("align-right")}>-</div>
@@ -68,11 +68,11 @@ const CwTable = memo(({data = []}) => {
 				<div className={cx("time-data-cell", "align-left")}>{setAgoTime(item.age)}</div>
 			);
 
-			const fromDataCell = reduceStringAdress(item?.from);
+			const fromDataCell = reduceStringAdress(item?.from, `${consts.PATH.ACCOUNT}/${item?.from}`);
 
 			const statusDataCell = checkStatus(item?.status);
 
-			const toDataCell = reduceStringAdress(item?.to);
+			const toDataCell = reduceStringAdress(item?.to, `${consts.PATH.ACCOUNT}/${item?.to}`);
 
 			const amountDataCell = _.isNil(item?.amount) ? (
 				<div className={cx("align-right")}>-</div>
