@@ -49,7 +49,7 @@ const TestCaseTable = memo(({ data = [] }) => {
 					{logoURL && <img src={logoURL} height={32} width={32} alt='/' className={cx("logo")} />}
 					{!logoURL && <div className={cx("logo-custom")}> {item.denom.substring(0, 3).toUpperCase()} </div>}
 					<div className={cx("name-data")}>
-						<div className={cx("name-data-cell", "align-left","symbol")}>{item?.symbol}</div>
+						<div className={cx("name-data-cell", "align-left","symbol")}>{item?.symbol || 'UNKNOWN'}</div>
 						<div className={cx("name-data-cell", "align-left","channel")}>{item?.channelId}</div>
 					</div>
 				</div>
