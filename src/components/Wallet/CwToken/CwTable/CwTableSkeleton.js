@@ -3,10 +3,10 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
-import styles from "./TransactionTable.scss";
+import {getHeaderRow} from "./CwTable";
+import styles from "./CwTable.scss";
 
-const TransactionTableSkeleton = memo(({rows = 10}) => {
+const CwTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
 	const getDataRows = rows => {
 		let dataRows = [];
@@ -17,50 +17,49 @@ const TransactionTableSkeleton = memo(({rows = 10}) => {
 				</div>
 			);
 
-			const typeDataCell = (
+			const ageDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const resultDataCell = (
+			const fromDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const amountDataCell = (
+			const statusDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
 
-			const feeDataCell = (
+			const toDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
 
-			const heightDataCell = (
+			const valueDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
-			const timeDataCell = (
+			const tokenDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
-			dataRows.push([txHashDataCell, typeDataCell, resultDataCell, amountDataCell, feeDataCell, heightDataCell, timeDataCell]);
+			dataRows.push([txHashDataCell, ageDataCell, fromDataCell, statusDataCell, toDataCell, valueDataCell, tokenDataCell]);
 		}
 		return dataRows;
 	};
 
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(rows), [rows]);
-	console.log({ dataRows, headerRow })
 
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default TransactionTableSkeleton;
+export default CwTableSkeleton;

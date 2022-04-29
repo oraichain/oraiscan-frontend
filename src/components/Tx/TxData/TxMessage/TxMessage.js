@@ -34,35 +34,24 @@ import InfoRow from "src/components/common/InfoRow/InfoRow";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TxMessage.module.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
-import {TurnedIn} from "@material-ui/icons";
 
 const cx = cn.bind(styles);
 
-const getTxTypeNew = (type, rawLog = "[]", result = "") => {
+const getTxTypeNew = (type, result = "", value) => {
 	const typeArr = type.split(".");
 	let typeMsg = typeArr[typeArr.length - 1];
 	if (typeMsg === "MsgExecuteContract" && result === "Success") {
-		let rawLogArr = JSON.parse(rawLog);
-		for (let event of rawLogArr[0].events) {
-			if (event["type"] === "wasm") {
-				for (let att of event["attributes"]) {
-					if (att["key"] === "action") {
-						let attValue = att["value"]
-							.split("_")
-							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-							.join("");
-						typeMsg += "/" + attValue;
-
-						break;
-					}
-				}
-
-				break;
+		if(value?.msg) {
+			for(let val in value?.msg) {
+				let attValue = val
+				.split("_")
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+				.join("");
+				typeMsg += "/" + attValue;
 			}
 		}
 	}
-
-	return typeMsg;
+	return typeMsg
 };
 
 const tryParseMessageBinary = data => {
@@ -104,6 +93,22 @@ const TxMessage = ({key, msg, data}) => {
 			loadStoreCode();
 		}
 	}, [type, msg.source]);
+
+	const toolTippedImg = useMemo(() => {
+		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
+		return (
+			<Tooltip
+				placement='right-start'
+				TransitionComponent={Fade}
+				TransitionProps={{timeout: 300}}
+				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
+				disableTouchListener
+				disableFocusListener>
+				<img className={cx("icon")} src={getTxTypeIcon(type)} alt='' />
+			</Tooltip>
+		);
+	}, [type, fees]);
+
 
 	const messageDetails = useMemo(() => {
 		const getMultiSendHeaderRow = () => {
@@ -768,6 +773,11 @@ const TxMessage = ({key, msg, data}) => {
 		};
 
 		return (
+			<>
+			<div className={cx("card-header")}>
+			{/* {toolTippedImg} */}
+			<span className={cx("title")}>{getTxTypeNew(type, data?.result, value)}</span>
+		</div>
 			<div className={cx("card-body")}>
 				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
 					<>
@@ -1291,31 +1301,13 @@ const TxMessage = ({key, msg, data}) => {
 					</>
 				)}
 			</div>
+			</>
 		);
 	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue]);
 
-	const toolTippedImg = useMemo(() => {
-		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
-		return (
-			<Tooltip
-				placement='right-start'
-				TransitionComponent={Fade}
-				TransitionProps={{timeout: 300}}
-				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
-				disableTouchListener
-				disableFocusListener>
-				<img className={cx("icon")} src={getTxTypeIcon(type)} alt='' />
-			</Tooltip>
-		);
-	}, [type, fees]);
-
 	return (
 		<div className={cx("card")}>
-			<div className={cx("card-header")}>
-				{toolTippedImg}
-				<span className={cx("title")}>{getTxTypeNew(type, data?.raw_log, data?.result)}</span>
-			</div>
-			<div className={cx("card-body")}>{messageDetails}</div>
+			<div>{messageDetails}</div>
 		</div>
 	);
 };
