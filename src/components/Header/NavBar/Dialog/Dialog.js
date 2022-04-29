@@ -26,7 +26,7 @@ import styles from "./Dialog.scss";
 import "./Dialog.css";
 import consts from "src/constants/consts";
 import { useGet } from "restful-react";
-import {payloadTransaction ,minusFees } from "src/helpers/transaction";
+import { payloadTransaction, minusFees } from "src/helpers/transaction";
 
 const cx = cn.bind(styles);
 
@@ -163,7 +163,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					{
 						type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
 						value: {
-							contract: config.PING_ADDR,
+							contract: config.AIRI_ADDR,
 							msg,
 							sender: address,
 							sent_funds: null,
