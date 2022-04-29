@@ -51,7 +51,7 @@ export default function () {
 	useEffect(() => {
 		if (!address) return;
 		setPath(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`);
-		setPathAiri(`${config.LCD_API}${consts.LCD_API.WASM}/${config.AIRI_ADDRESS}/smart/${buffBalance}`);
+		setPathAiri(`${config.LCD_API}${consts.LCD_API.WASM}/${config.AIRI_ADDR}/smart/${buffBalance}`);
 	}, [address]);
 
 	const handleRefeshAccount = () => {
