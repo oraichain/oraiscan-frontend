@@ -17,6 +17,7 @@ import Contact from "src/components/Wallet/Contact";
 import YourDelelgator from "src/components/Wallet/YourDelegator";
 import styles from "./Wallet.scss";
 import AiServiceFee from "src/components/Wallet/AiServiceFee";
+import CwToken from "src/components/Wallet/CwToken";
 
 const cx = cn.bind(styles);
 
@@ -43,6 +44,7 @@ export default function (props) {
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} />
 			{activeTab === 0 && <Transaction account={address} />}
 			{activeTab === 1 && <Transaction account={address} royalty={true} />}
+			{/* {activeTab === 6 && <CwToken address={address} />} */}
 			{activeTab === 2 && <DelegatedValidator address={address} />}
 			{/* {activeTab === 3 && !isBecomeValidator && <Register account={account} address={address} />} */}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail address={address} validatorAddress={data?.operator_address} />}

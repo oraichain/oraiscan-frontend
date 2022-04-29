@@ -53,7 +53,7 @@ const Relayers = () => {
 			const backgroundStatus = atLeastOpenStatus ? "rgba(55,204,110,.1)" : "rgba(255,39,69,.1)";
 			return (
 				<List.Item key={item.id}>
-					<List.Item.Meta avatar={<Avatar size='large' src={item?.images?.large} />} title={item.name} description={item?.denom} />
+					<List.Item.Meta avatar={<Avatar size='large' src={item?.images?.large} />} title={item.name || "UNKNOWN"} description={item?.denom ||"unknown"} />
 					<div className={cx("extra-list")}>
 						<div className={cx("extra-list-tag")} style={{background: backgroundStatus, color: colorStatus}}>
 							<span className={cx("dot")} style={{background: colorStatus}} />
