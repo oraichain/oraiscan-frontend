@@ -18,8 +18,22 @@ import editIcon from "src/assets/icons/edit.svg";
 import {_,  reduceStringAssets } from "src/lib/scripts";
 // import roleIcon from "src/assets/wallet/role.svg";
 import copyIcon from "src/assets/common/copy_ic.svg";
+import {payloadTransaction} from "src/helpers/transaction";
+import WithdrawBtn from "./WithdrawBtn";
+import arrowIcon from "src/assets/wallet/arrow_down.svg";
 
 const cx = cn.bind(styles);
+
+const BtnComponent = ({ handleClick, buttonName }) => {
+	return (
+		<div className={cx("withdraw-data-cell", "align-center")}>
+			<button className={cx("button")} onClick={handleClick}>
+				{buttonName}
+				<img alt='/' className={cx("button-icon")} src={arrowIcon} />
+			</button>
+		</div>
+	);
+};
 
 const YourValidatorCard = memo(({validatorAddress}) => {
 	const {account} = useSelector(state => state.wallet);
@@ -42,35 +56,6 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 				autoHideDuration: 1500,
 			})
 		);
-	};
-
-	const withdraw = validatorAddress => {
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-						value: {
-							validator_address: validatorAddress,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
 	};
 
 	const validatorNameElement = data ? (
@@ -238,15 +223,7 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 	);
 
 	const withdrawElement = data ? (
-		<button
-			className={cx("button")}
-			onClick={() => {
-				if (process.env.REACT_APP_WALLET_VERSION == 2) {
-					withdraw(data?.validator_address);
-				}
-			}}>
-			Withdraw
-		</button>
+		<WithdrawBtn validatorAddress={data?.validator_address} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })} validatorName={data.validator_name} />
 	) : (
 		<Skeleton variant='text' width={96} height={36} className={cx("skeleton")} />
 	);
