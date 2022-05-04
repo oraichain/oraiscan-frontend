@@ -148,28 +148,40 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 				);
 			}
 		} else if (activeTabId === 3) {
-			let msg = [];
-			msg = JSON.stringify({
-				transfer: {
-					recipient: data.recipientAddress,
-					amount: new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+
+			let executeMsg = {
+				type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+				value: {
+					contract: config.AIRI_ADDR,
+					msg: {},
+					sender: address,
+					sent_funds: null,
 				},
-			});
+			}
+
+			const parseTransferAiri = (address, amount) => {
+				return JSON.stringify({ transfer: { recipient: address, amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() } })
+			}
+
+			let msgs = [];
+			if (multiSendData) {
+				msgs = multiSendData.map(v => {
+					return {
+						...executeMsg,
+						value: {
+							...executeMsg.value, msg: parseTransferAiri(v.address, v.amount)
+						}
+					}
+				});
+			} else {
+				executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
+				msgs = [executeMsg];
+			}
 
 			const minGasFee = (fee * 1000000 + "").split(".")[0];
 			payload = payloadTransaction(
-				"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-				[
-					{
-						type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-						value: {
-							contract: config.AIRI_ADDR,
-							msg,
-							sender: address,
-							sent_funds: null,
-						},
-					},
-				],
+				executeMsg.type,
+				msgs,
 				minGasFee,
 				gas,
 				(data && data.memo) || getValues("memo") || ""
