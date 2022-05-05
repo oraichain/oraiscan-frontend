@@ -22,9 +22,9 @@ export default function ({ activeTab, setActiveTab, isBecomeValidator }) {
 				<TransactionsIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Royalty Transactions</div>
 			</div>
-			<div className={cx("tab", activeTab === 6 ? "active" : "")} onClick={() => setActiveTab(6)}>
+			{/* <div className={cx("tab", activeTab === 6 ? "active" : "")} onClick={() => setActiveTab(6)}>
 				<div className={cx("tab-text")}>CW-20 Token Txns</div>
-			</div>
+			</div> */}
 			{isBecomeValidator && (
 				<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
 					<ValidatorsIcon className={cx("tab-icon")} />

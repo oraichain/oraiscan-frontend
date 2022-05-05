@@ -328,7 +328,7 @@ const TxMessage = ({key, msg, data}) => {
 				<InfoRow label={label}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatedAmount + " "}</span>
-						<span className={cx("amount-denom")}>{denom_name ?? (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
+						<span className={cx("amount-denom")}>{denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
 						{finalDenom === consts.DENOM && (
 							<span className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(calculatedValue * status.price, 4) + ")" : ""}</span>
 						)}
@@ -725,7 +725,7 @@ const TxMessage = ({key, msg, data}) => {
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0"}</span>
-							<span className={cx("amount-denom")}>{item?.demom || denomSplit?.[0]}</span>
+							<span className={cx("amount-denom")}>{item?.demom_name || item?.demom || denomSplit?.[0]}</span>
 							<span className={cx("amount-usd")}>
 								{/* {!item?.amount ? " ($0)" : status?.price ? " ($" + formatFloat(item?.amount * status.price, 4) + ")" : ""} */}
 								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
