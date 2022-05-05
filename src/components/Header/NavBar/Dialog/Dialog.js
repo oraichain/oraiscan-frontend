@@ -165,18 +165,12 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 
 			let msgs = [];
 			if (multiSendData) {
-				msgs = multiSendData.map(v => {
-					return {
-						...executeMsg,
-						value: {
-							...executeMsg.value, msg: parseTransferAiri(v.address, v.amount)
-						}
-					}
-				});
+				let transferInfos = multiSendData.map(v => ({ recipient: v.address, amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString() }))
+				executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } })
 			} else {
 				executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
-				msgs = [executeMsg];
 			}
+			msgs = [executeMsg];
 
 			const minGasFee = (fee * 1000000 + "").split(".")[0];
 			payload = payloadTransaction(
