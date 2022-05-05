@@ -9,7 +9,7 @@ const CwCardSkeleton = memo(({rows = 10}) => {
 	let CwCardSkeletonItems = [];
 	for (let i = 1; i <= rows; i++) {
 		CwCardSkeletonItems.push(
-			<div className={cx("cw-card-item")} key={"cw-card-item-" + i}>
+			<div className={cx("cwToken-card-list-item")} key={"cwToken-card-list-item-" + i}>
 				<table>
 					<tbody>
 						<tr>
@@ -67,7 +67,7 @@ const CwCardSkeleton = memo(({rows = 10}) => {
 		);
 	}
 
-	return <div className='cw-card'>{CwCardSkeletonItems}</div>;
+	return <div className='cwToken-card-list'>{CwCardSkeletonItems}</div>;
 });
 
 export default CwCardSkeleton;
