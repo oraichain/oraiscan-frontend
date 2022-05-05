@@ -20,6 +20,8 @@ export default Object.freeze({
 	COIN_ID: "oraichain-token",
 	AIRI_ID: "airight",
 	DENOM: "orai",
+	GRAVITY: "gravity",
+	ORAIB: "oraib",
 	MORE: "more",
 	TABLE: {
 		PAGE_SIZE: 20,

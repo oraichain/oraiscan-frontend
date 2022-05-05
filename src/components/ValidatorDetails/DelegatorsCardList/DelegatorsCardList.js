@@ -39,7 +39,7 @@ const DelegatorsCardList = memo(({data = []}) => {
 										<div className={cx("amount-data-cell")}>
 											<div className={cx("amount")}>
 												<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
-												<span className={cx("amount-denom")}>{item.denom}</span>
+												<span className={cx("amount-denom")}>{reduceString(item.denom)}</span>
 											</div>
 										</div>
 									)}
