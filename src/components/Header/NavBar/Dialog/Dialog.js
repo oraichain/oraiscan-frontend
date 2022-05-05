@@ -64,7 +64,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
 	const [inputAmountValue, setInputAmountValue] = useState("");
-	const [gas, setGas] = useState(200000);
+	const [gas, setGas] = useState(2000000000);
 	const [fee, setFee] = useState(0);
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -133,7 +133,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 				];
 			}
 			let type = msg.length > 1 ? "/cosmos.bank.v1beta1.MsgMultiSend" : "/cosmos.bank.v1beta1.MsgSend";
-			payload = payloadTransaction(type, msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
+			payload = payloadTransaction(type, msg, minGasFee, 2000000000, (data && data.memo) || getValues("memo") || ""); // TODO: temp hardcode gas
 		} else if (activeTabId === 2) {
 			try {
 				payload = JSON.parse(data.freeMessage);
@@ -183,7 +183,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 				executeMsg.type,
 				msgs,
 				minGasFee,
-				gas,
+				2000000000, // TODO: temp hardcode gas
 				(data && data.memo) || getValues("memo") || ""
 			);
 		}
