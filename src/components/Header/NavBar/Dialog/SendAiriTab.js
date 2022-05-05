@@ -3,7 +3,7 @@ import * as yup from "yup";
 import cn from "classnames/bind";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
-import { Input } from "antd";
+import { Input, Switch } from "antd";
 // import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
 import { EditOutlined } from "@material-ui/icons";
@@ -60,12 +60,12 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 	// 	.multipliedBy(status?.price || 0)
 	// 	.toFormat(2);
 
-	// const switchMultiSend = checked => {
-	// 	setIsMulti(checked);
-	// 	if (!checked) {
-	// 		handleInputMulti(null);
-	// 	}
-	// };
+	const switchMultiSend = checked => {
+		setIsMulti(checked);
+		if (!checked) {
+			handleInputMulti(null);
+		}
+	};
 
 	const handleSelectFile = lines => {
 		const result = [];
@@ -133,7 +133,7 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 								<div className={cx("row")}>
 									<span> {index + 1}. </span>
 									<span> {address} - </span>
-									<span> {amount} (ORAI) </span>
+									<span> {amount} (AIRI) </span>
 									{amount?.split(".")?.[1]?.length > 6 && <div className={cx("amount-error-message")}>Number digits after dot must be smaller than 6</div>}
 								</div>
 							);
@@ -204,9 +204,9 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 
 	return (
 		<form className={cx("form-dialog")}>
-			{/* <div className={cx("switch-multisend")}>
+			<div className={cx("switch-multisend")}>
 				Multisend <Switch onChange={switchMultiSend} />
-			</div> */}
+			</div>
 			{!isMulti && (
 				<Grid container spacing={2} className={cx("transaction-content")}>
 					<div className={cx("row-balance")}>

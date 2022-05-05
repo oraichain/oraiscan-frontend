@@ -20,6 +20,8 @@ export default Object.freeze({
 	COIN_ID: "oraichain-token",
 	AIRI_ID: "airight",
 	DENOM: "orai",
+	GRAVITY: "gravity",
+	ORAIB: "oraib",
 	MORE: "more",
 	TABLE: {
 		PAGE_SIZE: 20,
@@ -207,4 +209,6 @@ export default Object.freeze({
 		DELAY: 100,
 	},
 	ROYALTY_DECIMAL_POINT_PERCENT: 10000000,
+
+	VALID_ORIGINS: ["https://testnet-wallet.web.app", "https://api.wallet.orai.io", "http://localhost:3001", "https://prerelease.wallet.orai.io"]
 });

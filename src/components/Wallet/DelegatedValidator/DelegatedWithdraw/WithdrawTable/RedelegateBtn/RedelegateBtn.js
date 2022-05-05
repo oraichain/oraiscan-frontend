@@ -1,24 +1,24 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
-import {useHistory} from "react-router-dom";
-import {payloadTransaction, minusFees} from "src/helpers/transaction";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { myKeystation } from "src/lib/Keystation";
+import { InputNumberOrai, InputTextWithIcon, TextArea } from "src/components/common/form-controls";
+import { useHistory } from "react-router-dom";
+import { payloadTransaction, minusFees } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
-import {calculateAmount} from "src/helpers/calculateAmount";
+import { calculateAmount } from "src/helpers/calculateAmount";
 import styles from "./RedelegateBtn.scss";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -32,12 +32,12 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT, PERCENTS} = amountConsts;
+const { GAS_DEFAULT, PERCENTS } = amountConsts;
 
-const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
@@ -64,7 +64,7 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
+	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
 
 	const onSubmit = data => {
 		console.log({ data })
@@ -85,7 +85,7 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		];
 		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgBeginRedelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
 		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
+		let popupTick = setInterval(function () {
 			if (popup.closed) {
 				clearInterval(popupTick);
 			}
@@ -93,7 +93,7 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
@@ -139,29 +139,29 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
 				buttonName={"Redelegate"}>
-					<div className={cx("label")}>Address Recipient</div>
-					<InputTextWithIcon name='recipientAddress' errorobj={errors}/>
-					<div className={cx("space-between")}>
-						<label htmlFor='amount' className={cx("label")}>
-							Amount (ORAI)
-						</label>
-						<div className={cx("percent-buttons")}>
-							{percents.map(value => (
-								<button
-									type='button'
-									className={cx("btn", "btn-outline-primary", "m-2")}
-									onClick={() => {
-										setValue("amount", calculateAmount(balance, value));
-										clearErrors();
-									}}>
-									{value + "%"}
-								</button>
-							))}
-						</div>
+				<div className={cx("label")}>Destination Validator Operator Address</div>
+				<InputTextWithIcon name='recipientAddress' errorobj={errors} />
+				<div className={cx("space-between")}>
+					<label htmlFor='amount' className={cx("label")}>
+						Amount (ORAI)
+					</label>
+					<div className={cx("percent-buttons")}>
+						{percents.map(value => (
+							<button
+								type='button'
+								className={cx("btn", "btn-outline-primary", "m-2")}
+								onClick={() => {
+									setValue("amount", calculateAmount(balance, value));
+									clearErrors();
+								}}>
+								{value + "%"}
+							</button>
+						))}
 					</div>
-					<div className={cx("form-field")}>
-						<InputNumberOrai name='amount' required errorobj={errors} />
-					</div>
+				</div>
+				<div className={cx("form-field")}>
+					<InputNumberOrai name='amount' required errorobj={errors} />
+				</div>
 			</DialogForm>
 		</div>
 	);
