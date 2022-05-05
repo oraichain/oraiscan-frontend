@@ -127,6 +127,20 @@
 	line-height: 150%;
 }
 
+.text-three-dots {
+	color: var(--common-textColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	display: inline-block;
+	width: 260px;
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
 .html {
 	color: var(--common-textColor);
 }

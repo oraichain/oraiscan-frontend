@@ -30,7 +30,8 @@ export default Object.freeze({
 		MSG_CONNECTION_OPEN_ACK: "/ibc.core.connection.v1.MsgConnectionOpenAck",
 		MSG_CHANNEL_OPEN_INIT: "/ibc.core.channel.v1.MsgChannelOpenInit",
 		MSG_CHANNEL_OPEN_ACK: "/ibc.core.channel.v1.MsgChannelOpenAck",
-		MSG_CHANNEL_ACKNOWLEDGEMENT: "/ibc.core.channel.v1.MsgAcknowledgement"
+		MSG_CHANNEL_ACKNOWLEDGEMENT: "/ibc.core.channel.v1.MsgAcknowledgement",
+		MSG_TIMEOUT: "/ibc.core.channel.v1.MsgTimeout"
 	},
 
 	//  DEX
