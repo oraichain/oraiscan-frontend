@@ -39,7 +39,7 @@ export const getHeaderRow = () => {
 export const checkStatus = (status, address, receiverAddress) => {
 	if (status === 0) {
 		if (receiverAddress === address) {
-			return <div className={cx("transfer-status", "transfer-status-in")}>In</div>;
+			return <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 		}
 		return <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 	}

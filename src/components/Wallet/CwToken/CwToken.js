@@ -3,7 +3,6 @@ import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import CwTable from "./CwTable";
