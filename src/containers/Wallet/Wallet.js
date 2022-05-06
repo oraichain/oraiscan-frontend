@@ -41,7 +41,12 @@ export default function (props) {
 				<PageTitle title={"Orai Wallet"} />
 			</TitleWrapper>
 			<StatusBar />
-			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} />
+			<Tabs
+				activeTab={activeTab}
+				setActiveTab={setActiveTab}
+				isBecomeValidator={isBecomeValidator}
+				address={address}
+			/>
 			{activeTab === 0 && <Transaction account={address} />}
 			{activeTab === 1 && <Transaction account={address} royalty={true} />}
 			{activeTab === 6 && <CwToken address={address} />}
