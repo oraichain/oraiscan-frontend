@@ -39,21 +39,24 @@ export const getHeaderRow = () => {
 export const checkStatus = (status, address, receiverAddress) => {
 	if (status === 0) {
 		if (receiverAddress === address) {
-			return <div className={cx("transfer-status", "transfer-status-in")}>In</div>;
+			return <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 		}
 		return <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 	}
 };
-
 
 const reduceStringAdress = (value, toHref = "", isStyle) => {
 	const result = _.isNil(value) ? (
 		<div className={cx("align-left")}>-</div>
 	) : (
 		<NavLink className={cx("sm-contract-data-cell")} to={toHref}>
-			{isStyle === 1 ?
-			<div className={cx("align-right")}>{reduceString(value, 6, 6)}</div> :
-			reduceString(value, 6, 6)}
+			{isStyle === 1 ? (
+				<div className={cx("align-right")}>{reduceString(value, 6, 6).toUpperCase()}</div>
+			) : isStyle === 2 ? (
+				<div className={cx("align-right")}>{reduceString(value, 8, 0).toUpperCase()}</div>
+			) : (
+				reduceString(value, 6, 6).toUpperCase()
+			)}
 		</NavLink>
 	);
 	return result;
@@ -88,7 +91,7 @@ const CwTable = memo(({data = [], address}) => {
 				</div>
 			);
 
-			const tokenDataCell = reduceStringAdress(item?.name, `${consts.PATH.SMART_CONTRACT}/${item?.contract_address}`, 1);
+			const tokenDataCell = reduceStringAdress(item?.name, `${consts.PATH.SMART_CONTRACT}/${item?.contract_address}`, 2);
 
 			return [txHashDataCell, timeDataCell, fromDataCell, statusDataCell, toDataCell, amountDataCell, tokenDataCell];
 		});

@@ -23,7 +23,7 @@ const CwCard = memo(({data = [], address}) => {
 					{value ? (
 						<div className={cx("address-data-cell")}>
 							<NavLink className={cx("address")} to={toHref}>
-								{reduceString(value, 6, 6)}
+								{reduceString(value, 6, 6).toUpperCase()}
 							</NavLink>
 						</div>
 					) : (
@@ -67,7 +67,7 @@ const CwCard = memo(({data = [], address}) => {
 										<div className={cx("item-title")}>Token</div>
 										{item?.name ? (
 											<NavLink className={cx("item-link")} to={`${consts.PATH.SMART_CONTRACT}/${item?.contract_address}`}>
-												{reduceString(item?.name, 6, 6)}
+												{reduceString(item?.name, 8, 0).toUpperCase()}
 											</NavLink>
 										) : (
 											<span className={cx("item-link")}>-</span>
