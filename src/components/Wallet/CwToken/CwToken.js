@@ -1,99 +1,84 @@
-import React, {memo, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import TransactionTable from "src/components/TxList/TransactionTable";
-import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
-// import TransactionCardList from "src/components/TxList/TransactionCardList";
-import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import CwTable from "./CwTable";
-// import CwTableSkeleton from "./CwSkeleton/CwTableSkeleton";
-import styles from "./CwToken.scss";
 import CwTableSkeleton from "./CwTable/CwTableSkeleton";
 import CwCardSkeleton from "./CwCard/CwCardSkeleton";
+import {getListCwToken, getListOWContract} from "src/lib/api";
+import CwCard from "./CwCard";
+import styles from "./CwToken.scss";
 
 const cx = classNames.bind(styles);
-const data = [
-	{
-		tx_hash: "C142623DAFF934C8E57921CA729E1D728224D735647C9177A08581696F0258B6",
-		age: "2022-04-27T08:05:14Z",
-		from: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		to: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		status: true,
-		amount: "200",
-		token: "Orai",
-	},
-	{
-		tx_hash: "C142623DAFF934C8E57921CA729E1D728224D735647C9177A08581696F0258B6",
-		age: "2022-04-27T08:05:14Z",
-		from: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		to: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		status: false,
-		amount: "299",
-		token: "Mina",
-	},
-	{
-		tx_hash: "C142623DAFF934C8E57921CA729E1D728224D735647C9177A08581696F0258B6",
-		age: "2022-04-27T08:05:14Z",
-		from: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		to: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		status: true,
-		amount: "289",
-		token: "ETH",
-	},
-	{
-		tx_hash: "C142623DAFF934C8E57921CA729E1D728224D735647C9177A08581696F0258B6",
-		age: "2022-04-27T08:05:14Z",
-		from: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		to: "orai18hr8jggl3xnrutfujy2jwpeu0l76azprlvgrwt",
-		status: false,
-		amount: "123",
-		token: "Bitcoin",
-	},
-];
 
-// const data = ""
-
-const CwToken = memo(({account = "", royalty = false, minHeight = 222}) => {
+const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const [dataCw, setDataCw] = useState({
+		data: [],
+		page: {
+			limit: 10,
+			page_id: 1,
+		},
+	});
+	const {data, page} = dataCw;
+	const [path, setPath] = useState(() => {
+		if(!isOw20) {
+			return getListCwToken(address, page);
+		}
+		return getListOWContract(address, page);
+	});
 
-	// let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
-	// if (royalty) {
-	// 	basePath = `${consts.API.TXS_ROYALTY}/${account}?limit=${consts.REQUEST.LIMIT}`;
-	// }
+	const {data: dataRes} = useGet({
+		path,
+	});
 
-	// const [path, setPath] = useState(`${basePath}&page_id=1`);
-	// const {data} = useGet({
-	// 	path: path,
-	// });
+	useEffect(() => {
+		if (dataRes) {
+			setDataCw({
+				...dataCw,
+				data: dataRes?.data,
+				page: {
+					...dataCw.page,
+					...dataRes?.page,
+				},
+			});
+		}
+	}, [dataRes]);
 
-	if (!data || typeof data === "string") {
+	const totalPages = page?.total_page ?? 0;
+	const currentPage = page?.page_id ?? 1;
+
+	const onPageChange = (newPage) => {
+		const pageObj = {
+			...page,
+			page_id: newPage,
+		};
+		if(!isOw20) {
+			return setPath(getListCwToken(address, pageObj));
+		}
+		return setPath(getListOWContract(address, pageObj));
+	};
+
+	const tableSekeleton = () => {
 		return isLargeScreen ? <CwTableSkeleton /> : <CwCardSkeleton />;
-	}
-
-	// const totalPages = data?.page?.total_page ?? 0;
-	// const currentPage = data?.page?.page_id ?? 1;
-
-	// const onPageChange = page => {
-	// 	setPath(`${basePath}&page_id=${page}`);
-	// };
+	};
 
 	return (
 		<div className={cx("cw20")}>
-			{Array.isArray(data) && data.length > 0 ? (
+			{!dataRes ? (
+				tableSekeleton()
+			) :
+			Array.isArray(data) && data.length > 0 ? (
 				<>
-					{isLargeScreen ? (
-						<CwTable data={data} account={account}/>
-					) : (
-						// <TransactionCardList data={data} account={account} royalty={royalty} />
-						<CwTable data={data} account={account}/>
-					)}
-					{/* {totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />} */}
+					{isLargeScreen ?
+					<CwTable data={data} account={account} address={address} /> :
+					<CwCard data={data} account={account} address={address} />}
+					{totalPages > 0 &&
+					<Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)}/>}
 				</>
 			) : (
 				<NoResult />

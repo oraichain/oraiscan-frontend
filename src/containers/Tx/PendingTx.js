@@ -96,7 +96,6 @@ const PendingTx = ({setPending, pending}) => {
 		if (Array.isArray(data?.result?.txs)) {
 			for (let tx of data?.result.txs) {
 				const decodedTx = decodeTx(tx);
-				console.log(decodedTx);
 
 				if (txHash === decodedTx.hash) {
 					hasPendingTransaction = true;

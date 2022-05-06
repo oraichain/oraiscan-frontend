@@ -286,6 +286,7 @@ const TxMessage = ({ key, msg, data }) => {
 		};
 
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
+			console.log({ inputObject })
 			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 				return null;
 				// (

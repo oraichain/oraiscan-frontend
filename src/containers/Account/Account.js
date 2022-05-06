@@ -33,6 +33,7 @@ import MobileSkeleton from "../RequestReportDetail/RequestContainer/MobileSkelet
 import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableSkeleton";
 import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
+import CwToken from "src/components/Wallet/CwToken";
 
 const Account = props => {
 	const dispatch = useDispatch();
@@ -195,6 +196,7 @@ const Account = props => {
 
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
+
 	return (
 		<Container fixed className={cx("account")}>
 			{titleSection}
@@ -223,9 +225,10 @@ const Account = props => {
 				</Grid>
 				<Grid item xs={12}>
 					<div className={cx("transaction-card")}>
-						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={account}/>
 						{activeTab === 0 && <TransactionCard account={account} />}
 						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
+						{activeTab === 2 && <CwToken address={account} />}
 					</div>
 				</Grid>
 			</Grid>
