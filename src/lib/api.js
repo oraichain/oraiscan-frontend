@@ -81,7 +81,11 @@ export const getListTxs = cancelToken => {
 };
 
 export const getListCwToken = (address, page) => {
-	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page.limit}&page_id=${page.page_id}`
+	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`
+}
+
+export const getListOWContract = (address, page) => {
+	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}${consts.API.OW20_CONTRACT}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`
 }
 
 //  original api using coingecko

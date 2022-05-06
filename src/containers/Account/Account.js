@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { useGet } from "restful-react";
+import React, {useEffect, useRef} from "react";
+import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import copy from "copy-to-clipboard";
 import * as bech32 from "bech32-buffer";
-import { useTheme } from "@material-ui/core/styles";
-import { showAlert } from "src/store/modules/global";
+import {useTheme} from "@material-ui/core/styles";
+import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -31,7 +31,7 @@ import Pagination from "src/components/common/Pagination";
 import AssetSearch from "src/components/Account/AssetSearch";
 import MobileSkeleton from "../RequestReportDetail/RequestContainer/MobileSkeleton";
 import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableSkeleton";
-import { priceBalance } from "src/constants/priceBalance";
+import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
 
@@ -51,13 +51,13 @@ const Account = props => {
 	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}`;
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const totalPagesRef = useRef(null);
-	const { data: coinsData, loading: coinsLoading, error: coinsError } = useGet({
+	const {data: coinsData, loading: coinsLoading, error: coinsError} = useGet({
 		path: coinsPath,
 	});
-	const { data: balanceData, loading: balanceLoading, error: balanceError } = useGet({
+	const {data: balanceData, loading: balanceLoading, error: balanceError} = useGet({
 		path: balancePath,
 	});
-	const { data: nameTagData, loading: nameTagLoading, error: nameTagError } = useGet({
+	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
 		path: nameTagPath,
 	});
 
@@ -95,7 +95,7 @@ const Account = props => {
 			title: "Address",
 			icon: copyIcon,
 			value: account,
-			onClick: function () {
+			onClick: function() {
 				handleCopy(this.value);
 			},
 		},
@@ -108,7 +108,7 @@ const Account = props => {
 		title: "Operator address",
 		icon: copyIcon,
 		value: operatorAddress,
-		onClick: function () {
+		onClick: function() {
 			handleCopy(this.value);
 		},
 	});
@@ -196,6 +196,7 @@ const Account = props => {
 
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
+
 	return (
 		<Container fixed className={cx("account")}>
 			{titleSection}
@@ -224,7 +225,7 @@ const Account = props => {
 				</Grid>
 				<Grid item xs={12}>
 					<div className={cx("transaction-card")}>
-						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={account}/>
 						{activeTab === 0 && <TransactionCard account={account} />}
 						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
 						{activeTab === 2 && <CwToken address={account} />}

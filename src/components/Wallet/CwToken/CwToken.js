@@ -8,13 +8,13 @@ import NoResult from "src/components/common/NoResult";
 import CwTable from "./CwTable";
 import CwTableSkeleton from "./CwTable/CwTableSkeleton";
 import CwCardSkeleton from "./CwCard/CwCardSkeleton";
-import {getListCwToken} from "src/lib/api";
+import {getListCwToken, getListOWContract} from "src/lib/api";
 import CwCard from "./CwCard";
 import styles from "./CwToken.scss";
 
 const cx = classNames.bind(styles);
 
-const CwToken = memo(({account = "", address = ""}) => {
+const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [dataCw, setDataCw] = useState({
@@ -26,7 +26,10 @@ const CwToken = memo(({account = "", address = ""}) => {
 	});
 	const {data, page} = dataCw;
 	const [path, setPath] = useState(() => {
-		return getListCwToken(address, page);
+		if(!isOw20) {
+			return getListCwToken(address, page);
+		}
+		return getListOWContract(address, page);
 	});
 
 	const {data: dataRes} = useGet({
@@ -54,7 +57,10 @@ const CwToken = memo(({account = "", address = ""}) => {
 			...page,
 			page_id: newPage,
 		};
-		setPath(getListCwToken(address, pageObj));
+		if(!isOw20) {
+			return setPath(getListCwToken(address, pageObj));
+		}
+		return setPath(getListOWContract(address, pageObj));
 	};
 
 	const tableSekeleton = () => {
@@ -65,10 +71,14 @@ const CwToken = memo(({account = "", address = ""}) => {
 		<div className={cx("cw20")}>
 			{!dataRes ? (
 				tableSekeleton()
-			) : Array.isArray(data) && data.length > 0 ? (
+			) :
+			Array.isArray(data) && data.length > 0 ? (
 				<>
-					{isLargeScreen ? <CwTable data={data} account={account} address={address} /> : <CwCard data={data} account={account} address={address} />}
-					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
+					{isLargeScreen ?
+					<CwTable data={data} account={account} address={address} /> :
+					<CwCard data={data} account={account} address={address} />}
+					{totalPages > 0 &&
+					<Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)}/>}
 				</>
 			) : (
 				<NoResult />
