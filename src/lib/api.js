@@ -77,9 +77,12 @@ export const getValidatorAnalytics = async cancelToken => {
 };
 
 export const getListTxs = cancelToken => {
-	console.log("URL!!!", `${consts.API_BASE}${consts.API.TXS_LIST}`);
 	return axios.get(`${consts.API_BASE}${consts.API.TXS_LIST}`, cancelToken);
 };
+
+export const getListCwToken = (address, page) => {
+	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page.limit}&page_id=${page.page_id}`
+}
 
 //  original api using coingecko
 // export const getGeckoMarketChartRange = (id = "binancecoin", currency = "USD", from, to, cancelToken) => {
