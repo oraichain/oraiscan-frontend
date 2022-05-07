@@ -118,6 +118,8 @@ export default Object.freeze({
 		GET_IMAGES_VALIDATORS: '/validator-detail',
 		IBC_RELAYERS: "/ibc/relayers",
 		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
+		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
+		OW20_CONTRACT: "/ow20_contract"
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",

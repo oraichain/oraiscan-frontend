@@ -13,7 +13,6 @@ const TxData = ({ data }) => {
 			<div className={cx("card-header")}>Msgs</div>
 			<div className={cx("card-body")}>
 				{_.map(data.messages, (v, i) => {
-					console.log("data value: ", v);
 					return (
 						<TxMessage key={i} msg={v} data={data} />
 					)

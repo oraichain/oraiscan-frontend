@@ -11,6 +11,8 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.scss";
+import CwToken from "src/components/Wallet/CwToken";
+import Tabs from "src/components/TxList/Tabs";
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +20,7 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
+	const [activeTab, setActiveTab] = useState(0);
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
@@ -59,10 +62,13 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 
 	return (
 		<div className={cx("transaction-card")}>
-			<div className={cx("transaction-card-header")}>Transactions</div>
+			<div className={cx("transaction-card-header")}>
+				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} isTab/>
+			</div>
 			<div className={cx("transaction-card-body")}>
-				{tableSection}
-				{paginationSection}
+				{activeTab === 0 && tableSection}
+				{activeTab === 2 && <CwToken address={address} isOw20 />}
+				{activeTab !== 2 && paginationSection}
 			</div>
 		</div>
 	);
