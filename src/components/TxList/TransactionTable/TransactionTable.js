@@ -365,6 +365,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						let outputs = item?.messages?.[0]?.outputs.find(e => e.address === account);
 						amount = outputs ? outputs?.coins?.[0]?.amount : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.amount;
 						denom = outputs ? outputs?.coins?.[0]?.denom : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.denom || consts.DENOM;
+						console.log({ denom })
 					} catch (err) {
 						if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 							amount = item.amount[0].amount;
@@ -376,8 +377,10 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						amount = 0;
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
+						let newDenom = item.messages[0]?.sent_funds[0]?.denom_name;
+						let noDenomName = item.messages[0]?.sent_funds[0]?.denom;
 						amount = item.amount[0].amount;
-						denom = item.amount[0].denom;
+						denom = newDenom ? newDenom.replace("GRAVITY", "ORAIB") : noDenomName;
 					}
 				}
 
