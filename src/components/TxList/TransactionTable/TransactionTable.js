@@ -365,7 +365,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						let outputs = item?.messages?.[0]?.outputs.find(e => e.address === account);
 						amount = outputs ? outputs?.coins?.[0]?.amount : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.amount;
 						denom = outputs ? outputs?.coins?.[0]?.denom : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.denom || consts.DENOM;
-						console.log({ denom })
 					} catch (err) {
 						if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 							amount = item.amount[0].amount;
@@ -395,11 +394,16 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					);
 				} else {
 					denomMore = (
-						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-							<span className={cx("amount-denom")}>{denom}</span>
-							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-						</div>
+						<>
+								{
+									denom?.toUpperCase() === "ORAI" ?
+										<div className={cx("amount")}>
+											<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+											<span className={cx("amount-denom")}>{denom}</span>
+											<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+										</div> : <></>
+							}
+						</>
 					);
 				}
 
