@@ -1306,7 +1306,6 @@ const TxMessage = ({ key, msg, data }) => {
 					)}
 					{type === txTypes.COSMOS_SDK.MSG_TIMEOUT && (
 						<>
-							{console.log({ value })}
 							{getAddressRow("Signer", value?.signer)}
 							{getInfoRow("Sequence", value?.packet?.sequence)}
 							{getInfoRow("Next Sequence Recv", value?.next_sequence_recv)}
@@ -1325,6 +1324,23 @@ const TxMessage = ({ key, msg, data }) => {
 									displayObjectSize={false}
 									displayDataTypes={false}
 									src={JSON.parse(atob(value?.packet?.data))}
+								/>
+							</InfoRow>
+						</>
+					)}
+					{type === txTypes.COSMOS_SDK.MSG_MIGRATE_CONTRACT && (
+						<>
+							{getInfoRow("Code ID", value?.code_id)}
+							{getAddressRow("Contract", value?.contract)}
+							{getAddressRow("Sender", value?.sender)}
+							<InfoRow label='Migrate Msg'>
+								<ReactJson
+									style={{ backgroundColor: "transparent" }}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									src={value?.migrate_msg}
 								/>
 							</InfoRow>
 						</>

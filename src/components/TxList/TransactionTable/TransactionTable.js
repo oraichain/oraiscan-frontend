@@ -367,8 +367,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						denom = outputs ? outputs?.coins?.[0]?.denom : item?.messages?.[0]?.inputs?.[0]?.coins?.[0]?.denom || consts.DENOM;
 					} catch (err) {
 						if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-							amount = item.amount[0].amount;
-							denom = item.amount[0].denom;
+							amount = item?.amount?.[0]?.amount;
+							denom = item?.amount?.[0]?.denom;
 						}
 					}
 				} else {
@@ -376,8 +376,10 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						amount = 0;
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-						amount = item.amount[0].amount;
-						denom = item.amount[0].denom;
+						let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
+						let noDenomName = item?.messages?.[0]?.sent_funds?.[0]?.denom;
+						amount = item?.amount?.[0]?.amount;
+						denom = newDenom ? newDenom.replace("GRAVITY", "ORAIB") : noDenomName;
 					}
 				}
 
@@ -392,11 +394,16 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					);
 				} else {
 					denomMore = (
-						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-							<span className={cx("amount-denom")}>{denom}</span>
-							<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-						</div>
+						<>
+								{
+									denom?.toUpperCase() === "ORAI" ?
+										<div className={cx("amount")}>
+											<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+											<span className={cx("amount-denom")}>{denom}</span>
+											<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+										</div> : <></>
+							}
+						</>
 					);
 				}
 
