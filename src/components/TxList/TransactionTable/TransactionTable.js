@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, processText, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket} from "src/lib/scripts";
+import {_, reduceString, processText, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket, reduceStringAssets} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -207,12 +207,38 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 		return typeMsg;
 	};
 
+	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
+		if(denom?.toLowerCase()?.includes(consts.GRAVITY)) {
+				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+				return (
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<div className={cx("amount-usd")}>
+							{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
+						</div>
+					</div>
+				)
+		}
+		return denom?.toLowerCase()  === consts.DENOM_ORAI ?
+			<div className={cx("amount")}>
+				<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+				<span className={cx("amount-denom")}>{denom}</span>
+				<div className={cx("amount-usd")}>
+					{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
+				</div>
+			</div> : <></>
+	}
+
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
+			let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
+			let noDenomName = item?.messages?.[0]?.sent_funds?.[0]?.denom;
+
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -376,10 +402,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						amount = 0;
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-						let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
-						let noDenomName = item?.messages?.[0]?.sent_funds?.[0]?.denom;
 						amount = item?.amount?.[0]?.amount;
-						denom = newDenom ? newDenom.replace("GRAVITY", "ORAIB") : noDenomName;
+						denom = newDenom ? reduceStringAssets(newDenom) : noDenomName;
 					}
 				}
 
@@ -393,18 +417,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						</div>
 					);
 				} else {
-					denomMore = (
-						<>
-								{
-									denom?.toUpperCase() === "ORAI" ?
-										<div className={cx("amount")}>
-											<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-											<span className={cx("amount-denom")}>{denom}</span>
-											<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-										</div> : <></>
-							}
-						</>
-					);
+					denomMore = checkAmountOrai(denom, amount, newDenom, noDenomName);
 				}
 
 				amountDataCell =
