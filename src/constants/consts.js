@@ -22,6 +22,7 @@ export default Object.freeze({
 	DENOM: "orai",
 	GRAVITY: "gravity",
 	ORAIB: "oraib",
+	DENOM_ORAI: "orai",
 	MORE: "more",
 	TABLE: {
 		PAGE_SIZE: 20,
