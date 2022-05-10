@@ -220,14 +220,17 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				)
 		}
-		return denom?.toLowerCase()  === consts.DENOM_ORAI ?
+		return (
 			<div className={cx("amount")}>
 				<span className={cx("amount-value")}>{formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denom}</span>
-				<div className={cx("amount-usd")}>
+				{
+					denom?.toLowerCase()  === consts.DENOM_ORAI ? <div className={cx("amount-usd")}>
 					{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
-				</div>
-			</div> : <></>
+				</div> : <></>
+				}
+			</div>
+		)
 	}
 
 	const getDataRows = data => {
