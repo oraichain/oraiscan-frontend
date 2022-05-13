@@ -57,7 +57,9 @@ const WasmCodeTable = memo(({data = []}) => {
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("txhash-data-cell", "align-left")}>{item?.tx_hash}</div>
+				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+					{item?.tx_hash}
+				</NavLink>
 			);
 
 			const createdAtDataCell = _.isNil(item?.created_at) ? (

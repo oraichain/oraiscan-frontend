@@ -22,7 +22,6 @@
 }
 
 .creator-data-cell,
-.txhash-data-cell,
 .time-data-cell {
 	color: var(--common-textColor);
 	font-family: 'IBM Plex Sans';
@@ -32,9 +31,8 @@
 	line-height: 150%;
 }
 
-.code-id-data-cell,
-.address-data-cell,
-.source-data-cell {
+.txhash-data-cell,
+.code-id-data-cell {
 	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';
 	font-style: normal;
