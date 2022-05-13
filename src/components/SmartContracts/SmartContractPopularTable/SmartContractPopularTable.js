@@ -33,7 +33,7 @@ const SmartContractPopularTable = memo(({data = []}) => {
 	return (
 		<Grid container spacing={2}>
 			{data.map((item, index) => (
-				<Grid item spacing={3} xs={12} md={6} lg={3} key={index}>
+				<Grid container={false} item xs={12} md={6} lg={3} key={index}>
 					{itemPopular(item)}
 				</Grid>
 			))}

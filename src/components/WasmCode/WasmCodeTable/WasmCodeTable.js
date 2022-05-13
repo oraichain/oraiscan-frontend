@@ -8,6 +8,8 @@ import {tableThemes} from "src/constants/tableThemes";
 import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./WasmCodeTable.module.scss";
+import {storeWasmCode} from "src/store/modules/wasmcode";
+import {useDispatch} from "react-redux";
 import {formatDateTime} from "src/helpers/helper";
 const cx = classNames.bind(styles);
 
@@ -32,6 +34,11 @@ export const getHeaderRow = () => {
 };
 
 const WasmCodeTable = memo(({data = []}) => {
+	const dispatch = useDispatch();
+	// const handleWasmCodeToStorage = item => {
+	// 	dispatch(storeWasmCode(item));
+	// };
+
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];

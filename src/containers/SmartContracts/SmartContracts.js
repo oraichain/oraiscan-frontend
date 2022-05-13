@@ -20,6 +20,8 @@ import styles from "./SmartContracts.module.scss";
 import WasmCodeTable from "src/components/WasmCode/WasmCodeTable";
 import WasmCodeCardList from "src/components/WasmCode/WasmCodeCardList/WasmCodeCardList";
 import SmartContractPopularTable from "src/components/SmartContracts/SmartContractPopularTable";
+import {useDispatch} from "react-redux";
+import {storeWasmCode, storePageCode} from "src/store/modules/wasmcode";
 
 const cx = cn.bind(styles);
 
@@ -31,6 +33,7 @@ const SmartContracts = () => {
 	const smartContractTotalPagesRef = useRef(null);
 	const [wasmCodePageId, setWasmCodePageId] = useState(1);
 	const wasmCodeTotalPagesRef = useRef(null);
+	const dispatch = useDispatch();
 
 	const onSmartContractPageChange = page => {
 		setSmartContractPageId(page);
@@ -38,6 +41,12 @@ const SmartContracts = () => {
 
 	const onWasmCodePageChange = page => {
 		setWasmCodePageId(page);
+		dispatch(
+			storePageCode({
+				page: page,
+				limit: consts.REQUEST.LIMIT,
+			})
+		);
 	};
 
 	const basePath = `${consts.API.SMART_CONTRACTS}?limit=${consts.REQUEST.LIMIT}`;
@@ -113,18 +122,22 @@ const SmartContracts = () => {
 	if (popularSmartContractLoading) {
 		tablePopularSmartContract = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
 	} else {
-		if (Array.isArray(popularSmartContractsData) && popularSmartContractsData.length > 0) {
-			tablePopularSmartContract = isLargeScreen ? (
-				<SmartContractPopularTable data={popularSmartContractsData} />
-			) : (
-				<SmartContractPopularTable data={popularSmartContractsData} />
-			);
-		} else {
+		if (popularSmartContractError) {
 			tablePopularSmartContract = <NoResult />;
+		} else {
+			if (Array.isArray(popularSmartContractsData) && popularSmartContractsData.length > 0) {
+				tablePopularSmartContract = isLargeScreen ? (
+					<SmartContractPopularTable data={popularSmartContractsData} />
+				) : (
+					<SmartContractPopularTable data={popularSmartContractsData} />
+				);
+			} else {
+				tablePopularSmartContract = <NoResult />;
+			}
 		}
 	}
 
-	if (wasmCodeError) {
+	if (wasmCodeLoading) {
 		tableWasmcode = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
 	} else {
 		if (wasmCodeError) {

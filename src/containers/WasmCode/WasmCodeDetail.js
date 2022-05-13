@@ -16,6 +16,7 @@ import SmartContractTable from "src/components/SmartContracts/SmartContractTable
 import SmartContractTableSkeleton from "src/components/SmartContracts/SmartContractTable/SmartContractTableSkeleton";
 import SmartContractCardList from "src/components/SmartContracts/SmartContractCardList";
 import SmartContractCardListSkeleton from "src/components/SmartContracts/SmartContractCardList/SmartContractCardListSkeleton";
+import WasmCodeInfo from "src/components/WasmCode/WasmCodeInfo";
 import styles from "./WasmCodeDetail.module.scss";
 
 const cx = cn.bind(styles);
@@ -82,6 +83,10 @@ const WasmCodeDetail = () => {
 
 	return (
 		<>
+			<Container fixed className={cx("smart-contracts")}>
+				<WasmCodeInfo />
+			</Container>
+
 			<Container fixed className={cx("smart-contracts")}>
 				{titleSection}
 				{tableSection}
