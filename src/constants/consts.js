@@ -122,6 +122,7 @@ export default Object.freeze({
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
 		OW20_CONTRACT: "/ow20_contract",
 		WASM_CODE: "/wasm_code",
+		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -199,7 +200,7 @@ export default Object.freeze({
 		REQUESTS_REPORTS: "/requests_reports",
 		SMART_CONTRACT: "/smart-contract",
 		SMART_CONTRACTS: "/smart-contracts",
-		WASM_CODE: "/smart-contracts_by_code_id",
+		WASM_CODE: "/wasm-code",
 		ORACLE_REQUEST: "/ai-request",
 		EXPORT_DATA: "/export-data",
 	},

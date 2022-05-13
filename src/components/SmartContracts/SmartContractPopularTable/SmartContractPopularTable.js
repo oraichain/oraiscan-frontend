@@ -1,12 +1,10 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, {memo} from "react";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import styles from "./SmartContractPopularTable.module.scss";
-import {Box, Grid, Card, Typography, CardContent, CardHeader} from "@material-ui/core";
+import {Grid, Card, Typography, CardContent} from "@material-ui/core";
 import {addressDisplay} from "src/helpers/helper";
 
 const SmartContractPopularTable = memo(({data = []}) => {
@@ -35,7 +33,7 @@ const SmartContractPopularTable = memo(({data = []}) => {
 	return (
 		<Grid container spacing={2}>
 			{data.map((item, index) => (
-				<Grid item spacing={3} md={3} key={index}>
+				<Grid item spacing={3} xs={12} md={6} lg={3} key={index}>
 					{itemPopular(item)}
 				</Grid>
 			))}

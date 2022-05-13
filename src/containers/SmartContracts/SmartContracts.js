@@ -75,8 +75,17 @@ const SmartContracts = () => {
 	let popularTitleSection = (
 		<Container fixed>
 			<TitleWrapper>
-				<PageTitle title='Popular contracts' />
-				<StatusBox />
+				{isLargeScreen ? (
+					<>
+						<PageTitle title='Popular contracts' />
+						<StatusBox />
+					</>
+				) : (
+					<>
+						<StatusBox />
+						<PageTitle title='Popular contracts' />
+					</>
+				)}
 			</TitleWrapper>
 		</Container>
 	);
@@ -101,10 +110,43 @@ const SmartContracts = () => {
 		smartContractTitleSection = <TogglePageBar type='smart-contracts' />;
 	}
 
+	if (popularSmartContractLoading) {
+		tablePopularSmartContract = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+	} else {
+		if (Array.isArray(popularSmartContractsData) && popularSmartContractsData.length > 0) {
+			tablePopularSmartContract = isLargeScreen ? (
+				<SmartContractPopularTable data={popularSmartContractsData} />
+			) : (
+				<SmartContractPopularTable data={popularSmartContractsData} />
+			);
+		} else {
+			tablePopularSmartContract = <NoResult />;
+		}
+	}
+
+	if (wasmCodeError) {
+		tableWasmcode = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+	} else {
+		if (wasmCodeError) {
+			wasmCodeTotalPagesRef.current = null;
+			tableWasmcode = <NoResult />;
+		} else {
+			if (!isNaN(wasmCodeData?.page?.total_page)) {
+				wasmCodeTotalPagesRef.current = wasmCodeData.page.total_page;
+			} else {
+				wasmCodeTotalPagesRef.current = null;
+			}
+
+			if (Array.isArray(wasmCodeData?.data) && wasmCodeData.data.length > 0) {
+				tableWasmcode = isLargeScreen ? <WasmCodeTable data={wasmCodeData?.data} /> : <WasmCodeCardList data={wasmCodeData?.data} />;
+			} else {
+				tableWasmcode = <NoResult />;
+			}
+		}
+	}
+
 	if (loading) {
 		tableSmartContractSection = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
-		tablePopularSmartContract = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
-		tableWasmcode = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
 	} else {
 		if (error) {
 			smartContractTotalPagesRef.current = null;
@@ -115,34 +157,12 @@ const SmartContracts = () => {
 			} else {
 				smartContractTotalPagesRef.current = null;
 			}
+		}
 
-			if (!isNaN(wasmCodeData?.page?.total_page)) {
-				wasmCodeTotalPagesRef.current = wasmCodeData.page.total_page;
-			} else {
-				wasmCodeTotalPagesRef.current = null;
-			}
-
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSmartContractSection = isLargeScreen ? <SmartContractTable data={data?.data} /> : <SmartContractCardList data={data?.data} />;
-			} else {
-				tableSmartContractSection = <NoResult />;
-			}
-
-			if (Array.isArray(popularSmartContractsData) && popularSmartContractsData.length > 0) {
-				tablePopularSmartContract = isLargeScreen ? (
-					<SmartContractPopularTable data={popularSmartContractsData} />
-				) : (
-					<SmartContractCardList data={popularSmartContractsData} />
-				);
-			} else {
-				tablePopularSmartContract = <NoResult />;
-			}
-
-			if (Array.isArray(wasmCodeData?.data) && wasmCodeData.data.length > 0) {
-				tableWasmcode = isLargeScreen ? <WasmCodeTable data={wasmCodeData?.data} /> : <WasmCodeCardList data={wasmCodeData?.data} />;
-			} else {
-				tableWasmcode = <NoResult />;
-			}
+		if (Array.isArray(data?.data) && data.data.length > 0) {
+			tableSmartContractSection = isLargeScreen ? <SmartContractTable data={data?.data} /> : <SmartContractCardList data={data?.data} />;
+		} else {
+			tableSmartContractSection = <NoResult />;
 		}
 	}
 

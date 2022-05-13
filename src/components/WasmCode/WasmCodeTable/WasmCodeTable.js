@@ -49,8 +49,9 @@ const WasmCodeTable = memo(({data = []}) => {
 			const codeIdDataCell = _.isNil(item?.id) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				//to={`${consts.PATH.WASM_CODE}/${item.id}`}>
-				<div className={cx("code-id-data-cell", "align-center")}>{item.id}</div>
+				<NavLink className={cx("code-id-data-cell", "align-center")} to={`${consts.PATH.WASM_CODE}/${item.id}`}>
+					{item.id}
+				</NavLink>
 			);
 
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
