@@ -1,0 +1,62 @@
+@import "src/styles/utils";
+
+.header-cell {
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+	color: var(--common-headerTextColor);
+}
+
+.smart-contract-popular-card-list {
+    
+	&-item {
+		padding: 15px;
+		margin-bottom: 15px;
+		background-color: var(--common-containerBackgroundColor);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
+
+        &-row {
+            display: flex;
+            justify-content: space-between;
+            border: 1px;
+            border-color: gray;
+            font-size: 12px;
+        }
+
+		.item-title {
+			color: var(--common-textColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+			white-space: nowrap;
+		}
+
+		.item-text {
+			color: var(--common-textColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
+		}
+
+		.item-link {
+			color: var(--common-linkColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+			word-break: break-all;
+		}
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

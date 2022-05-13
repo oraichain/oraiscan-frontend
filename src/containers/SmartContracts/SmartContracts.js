@@ -17,6 +17,9 @@ import SmartContractTableSkeleton from "src/components/SmartContracts/SmartContr
 import SmartContractCardList from "src/components/SmartContracts/SmartContractCardList";
 import SmartContractCardListSkeleton from "src/components/SmartContracts/SmartContractCardList/SmartContractCardListSkeleton";
 import styles from "./SmartContracts.module.scss";
+import WasmCodeTable from "src/components/WasmCode/WasmCodeTable";
+import WasmCodeCardList from "src/components/WasmCode/WasmCodeCardList/WasmCodeCardList";
+import SmartContractPopularTable from "src/components/SmartContracts/SmartContractPopularTable";
 
 const cx = cn.bind(styles);
 
@@ -24,60 +27,121 @@ const SmartContracts = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	// const [keyword, setKeyword] = useState(null);
-	const [pageId, setPageId] = useState(1);
-	const totalPagesRef = useRef(null);
+	const [smartContractPageId, setSmartContractPageId] = useState(1);
+	const smartContractTotalPagesRef = useRef(null);
+	const [wasmCodePageId, setWasmCodePageId] = useState(1);
+	const wasmCodeTotalPagesRef = useRef(null);
 
-	const onPageChange = page => {
-		setPageId(page);
+	const onSmartContractPageChange = page => {
+		setSmartContractPageId(page);
+	};
+
+	const onWasmCodePageChange = page => {
+		setWasmCodePageId(page);
 	};
 
 	const basePath = `${consts.API.SMART_CONTRACTS}?limit=${consts.REQUEST.LIMIT}`;
-	let path = `${basePath}&page_id=${pageId}`;
+	let path = `${basePath}&page_id=${smartContractPageId}`;
+
+	const wasmCodePath = `${consts.API.WASM_CODE}?limit=${consts.REQUEST.LIMIT}&page_id=${wasmCodePageId}`;
+	const popularSmartContract = `${consts.API.SMART_CONTRACTS}/popular`;
+
 	// if (keyword) {
-	// 	path = `${basePath}&page_id=${pageId}&tc_name=${keyword}`;
+	// 	path = `${basePath}&page_id=${smartContractPageId}&tc_name=${keyword}`;
 	// } else {
-	// 	path = `${basePath}&page_id=${pageId}`;
+	// 	path = `${basePath}&page_id=${smartContractPageId}`;
 	// }
 
 	const {data, loading, error} = useGet({
 		path: path,
 	});
 
-	let titleSection;
+	const {data: wasmCodeData, error: wasmCodeError, loading: wasmCodeLoading} = useGet({
+		path: wasmCodePath,
+	});
+
+	const {data: popularSmartContractsData, error: popularSmartContractError, loading: popularSmartContractLoading} = useGet({
+		path: popularSmartContract,
+	});
+
+	let smartContractTitleSection;
 	let filterSection;
-	let tableSection;
-	let paginationSection;
+	let tableSmartContractSection;
+	let paginationSmartContractSection;
+	let paginationWasmcodeSection;
+	let tablePopularSmartContract;
+	let tableWasmcode;
+
+	let popularTitleSection = (
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title='Popular contracts' />
+				<StatusBox />
+			</TitleWrapper>
+		</Container>
+	);
+
+	let wasmcodeTitleSection = (
+		<Container fixed>
+			<TitleWrapper>
+				<PageTitle title='Wasm Code' />
+			</TitleWrapper>
+		</Container>
+	);
 
 	if (isLargeScreen) {
-		titleSection = (
+		smartContractTitleSection = (
 			<Container fixed>
 				<TitleWrapper>
 					<PageTitle title='Smart contracts' />
-					<StatusBox />
 				</TitleWrapper>
 			</Container>
 		);
 	} else {
-		titleSection = <TogglePageBar type='smart-contracts' />;
+		smartContractTitleSection = <TogglePageBar type='smart-contracts' />;
 	}
 
 	if (loading) {
-		tableSection = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+		tableSmartContractSection = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+		tablePopularSmartContract = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+		tableWasmcode = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
 	} else {
 		if (error) {
-			totalPagesRef.current = null;
-			tableSection = <NoResult />;
+			smartContractTotalPagesRef.current = null;
+			tableSmartContractSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
+				smartContractTotalPagesRef.current = data.page.total_page;
 			} else {
-				totalPagesRef.current = null;
+				smartContractTotalPagesRef.current = null;
+			}
+
+			if (!isNaN(wasmCodeData?.page?.total_page)) {
+				wasmCodeTotalPagesRef.current = wasmCodeData.page.total_page;
+			} else {
+				wasmCodeTotalPagesRef.current = null;
 			}
 
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <SmartContractTable data={data?.data} /> : <SmartContractCardList data={data?.data} />;
+				tableSmartContractSection = isLargeScreen ? <SmartContractTable data={data?.data} /> : <SmartContractCardList data={data?.data} />;
 			} else {
-				tableSection = <NoResult />;
+				tableSmartContractSection = <NoResult />;
+			}
+
+			if (Array.isArray(popularSmartContractsData) && popularSmartContractsData.length > 0) {
+				tablePopularSmartContract = isLargeScreen ? (
+					<SmartContractPopularTable data={popularSmartContractsData} />
+				) : (
+					<SmartContractCardList data={popularSmartContractsData} />
+				);
+			} else {
+				tablePopularSmartContract = <NoResult />;
+			}
+
+			if (Array.isArray(wasmCodeData?.data) && wasmCodeData.data.length > 0) {
+				tableWasmcode = isLargeScreen ? <WasmCodeTable data={wasmCodeData?.data} /> : <WasmCodeCardList data={wasmCodeData?.data} />;
+			} else {
+				tableWasmcode = <NoResult />;
 			}
 		}
 	}
@@ -95,15 +159,36 @@ const SmartContracts = () => {
 	// 	</div>
 	// );
 
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSmartContractSection = smartContractTotalPagesRef.current ? (
+		<Pagination pages={smartContractTotalPagesRef.current} page={smartContractPageId} onChange={(e, page) => onSmartContractPageChange(page)} />
+	) : (
+		<></>
+	);
+
+	paginationWasmcodeSection = wasmCodeTotalPagesRef.current ? (
+		<Pagination pages={wasmCodeTotalPagesRef.current} page={wasmCodePageId} onChange={(e, page) => onWasmCodePageChange(page)} />
+	) : (
+		<></>
+	);
 
 	return (
 		<>
-			{titleSection}
 			<Container fixed className={cx("smart-contracts")}>
+				{popularTitleSection}
+				{tablePopularSmartContract}
+			</Container>
+
+			<Container fixed className={cx("smart-contracts")}>
+				{smartContractTitleSection}
 				{filterSection}
-				{tableSection}
-				{paginationSection}
+				{tableSmartContractSection}
+				{paginationSmartContractSection}
+			</Container>
+
+			<Container fixed className={cx("smart-contracts")}>
+				{wasmcodeTitleSection}
+				{tableWasmcode}
+				{paginationWasmcodeSection}
 			</Container>
 		</>
 	);
