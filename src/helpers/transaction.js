@@ -16,6 +16,20 @@ export const payloadTransaction = (type, msg, minGasFee, gas, memo, props) => {
 	};
 };
 
+export const args = ({ type, totalAmount, fromAddress, toAddress, msg }) => {
+	return {
+		type,
+		totalAmount,
+		fromAddress,
+		toAddress,
+		msg,
+		arr_send: msg.map(ms => ({
+			coins: ms.value.amount,
+			address: ms.value.to_address,
+		})),
+	};
+};
+
 export const minusFees = (fee = 0, amount = 0) => {
 	return String(+amount - fee);
 };

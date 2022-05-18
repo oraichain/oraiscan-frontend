@@ -17,17 +17,17 @@ import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { showAlert } from "src/store/modules/global";
 import { myKeystation } from "src/lib/Keystation";
+import { keplrStation } from "src/lib/Keplrstation";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
-import SendTrasactionTab from "./SendTrasactionTab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import config from "src/config";
 import styles from "./Dialog.scss";
 import "./Dialog.css";
 import consts from "src/constants/consts";
-import { useGet } from "restful-react";
-import { payloadTransaction, minusFees } from "src/helpers/transaction";
-
+import { args } from "src/helpers/transaction";
+import typeUrl from "src/constants/typeurl";
+import typeSend from "src/constants/typeSend";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -53,10 +53,6 @@ const TABS = [
 		name: "Send AIRI",
 		id: 3,
 	},
-	{
-		name: "Send transaction",
-		id: 2,
-	},
 ];
 
 const FormDialog = memo(({ show, handleClose, address, account, amount, amountAiri }) => {
@@ -64,22 +60,11 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
 	const [inputAmountValue, setInputAmountValue] = useState("");
-	const [gas, setGas] = useState(2000000000);
-	const [fee, setFee] = useState(0);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
-	const minFee = useSelector(state => state.blockchain.minFee);
-	// const path = `${consts.API.MIN_GAS}`;
-	// const {data: minFee, loading, error} = useGet({
-	// 	path: path,
-	// });
 	const validationSchemaForm1 = yup.object().shape({
 		recipientAddress: yup.string().required("Recipient Address Field is Required"),
-		// sendAmount: yup
-		// 	.string()
-		// 	.required("Send Amount Field is Required")
-		// 	.lessThanNumber(amount / 1000000, "lessThanNumber"),
 		freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
@@ -92,102 +77,80 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 	});
 
 	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
-
+	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(1000000).toString();
 	const onSubmit = data => {
 		let payload;
+		let typeSendSubmit = typeSend.SEND;
+		let total_amount = 0;
 		if (activeTabId === 1) {
 			let msg = [];
-			const minGasFee = (fee * 1000000 + "").split(".")[0];
 			if (multiSendData) {
+				typeSendSubmit = typeSend.MULTISEND;
 				msg = multiSendData.map(v => {
+					total_amount = +v.amount + total_amount;
 					return {
-						type: "/cosmos.bank.v1beta1.MsgSend",
+						type: typeUrl.MSG_SEND,
 						value: {
 							from_address: address,
 							to_address: v.address,
 							amount: [
 								{
-									denom: "orai",
-									amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+									denom: consts.DENOM,
+									amount: handleBigNumber(v.amount),
 								},
 							],
 						},
 					};
 				});
 			} else {
-				let amount = minusFees(fee, data.sendAmount);
+				total_amount = +data.sendAmount + total_amount;
 				msg = [
 					{
-						type: "/cosmos.bank.v1beta1.MsgSend",
+						type: typeUrl.MSG_SEND,
 						value: {
 							from_address: address,
 							to_address: data.recipientAddress,
 							amount: [
 								{
-									denom: "orai",
-									amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+									denom: consts.DENOM,
+									amount: handleBigNumber(data.sendAmount),
 								},
 							],
 						},
 					},
 				];
 			}
-			let type = msg.length > 1 ? "/cosmos.bank.v1beta1.MsgMultiSend" : "/cosmos.bank.v1beta1.MsgSend";
-			payload = payloadTransaction(type, msg, minGasFee, 2000000000, (data && data.memo) || getValues("memo") || ""); // TODO: temp hardcode gas
-		} else if (activeTabId === 2) {
-			try {
-				payload = JSON.parse(data.freeMessage);
-			} catch (e) {
-				return dispatch(
-					showAlert({
-						show: true,
-						message: "Cannot parse transaction. Please check again!",
-						autoHideDuration: 1500,
-						type: "error",
-					})
-				);
-			}
+			payload = args({ msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: handleBigNumber(total_amount) }); // TODO: temp hardcode gas
 		} else if (activeTabId === 3) {
-
 			let executeMsg = {
-				type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
+				type: typeUrl.MSG_EXECUTE_CONTRACT,
 				value: {
 					contract: config.AIRI_ADDR,
 					msg: {},
 					sender: address,
 					sent_funds: null,
 				},
-			}
-
+			};
 			const parseTransferAiri = (address, amount) => {
-				return JSON.stringify({ transfer: { recipient: address, amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() } })
-			}
-
+				return JSON.stringify({ transfer: { recipient: address, amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() } });
+			};
 			let msgs = [];
 			if (multiSendData) {
-				let transferInfos = multiSendData.map(v => ({ recipient: v.address, amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString() }))
-				executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } })
+				let transferInfos = multiSendData.map(v => {
+					return { recipient: v.address, amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString() };
+				});
+				executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } });
 			} else {
+				total_amount = +data.sendAmount + total_amount;
 				executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
 			}
 			msgs = [executeMsg];
-
-			const minGasFee = (fee * 1000000 + "").split(".")[0];
-			payload = payloadTransaction(
-				executeMsg.type,
-				msgs,
-				minGasFee,
-				2000000000, // TODO: temp hardcode gas
-				(data && data.memo) || getValues("memo") || ""
-			);
+			payload = args({ msg: msgs, type: typeSend.CW20 });
 		}
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		keplrStation.send(payload);
+		setTimeout(() => {
+			handleClose();
+		}, 600);
 	};
 
 	useEffect(() => {
@@ -196,29 +159,6 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 				return handleClose();
 			}
 			if (e?.data?.res?.txhash) {
-				// dispatch(
-				// 	showAlert({
-				// 		show: true,
-				// 		message: "Transaction Successful!",
-				// 		autoHideDuration: 3000,
-				// 	})
-				// );
-
-				// history.push({
-				// 	pathname: `/txs/${e.data.txhash}`,
-				// 	state: {payload},
-				// });
-				// setIsLoading(true);
-				// const checkTimeout = async () => {
-				// 	const result = await axios.get(`${consts.API_BASE}${consts.API.TX}/${e.data.txhash}`);
-				// 	if (!result || !result.data || !result.data.result) {
-				// 		setTimeout(checkTimeout, 2000);
-				// 	} else {
-				// 		history.push(`/txs/${e.data.txhash}`);
-				// 		setIsLoading(false);
-				// 	}
-				// };
-				// setTimeout(checkTimeout, 2000);
 				handleClose();
 			}
 		};
@@ -238,15 +178,8 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					status={status}
 					methods={methods}
 					handleInputMulti={handleInputMulti}
-					minFee={minFee}
-					handleChangeGas={setGas}
-					fee={fee}
-					handleChangeFee={setFee}
 				/>
 			);
-		}
-		if (id === 2) {
-			return <SendTrasactionTab address={address} amount={amount} methods={methods} />;
 		}
 		if (id === 3) {
 			return (
@@ -255,12 +188,8 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					amount={amountAiri}
 					inputAmountValue={inputAmountValue}
 					status={status}
-					fee={fee}
 					methods={methods}
 					handleInputMulti={handleInputMulti}
-					minFee={minFee}
-					handleChangeGas={setGas}
-					handleChangeFee={setFee}
 				/>
 			);
 		}
@@ -290,8 +219,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 								<button
 									className={cx({ selected: id === activeTabId })}
 									onClick={() => {
-										setFee(0);
-										setGas(200000);
+										setValue("sendAmount", 0);
 										setActiveTabId(id);
 									}}
 									key={"tab-" + index}>

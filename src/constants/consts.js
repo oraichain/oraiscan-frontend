@@ -159,6 +159,12 @@ export default Object.freeze({
 		BINANCEDEX: "https://www.binance.org/",
 		COINGECKO_ORAI: "https://www.coingecko.com/en/coins/oraichain-token",
 	},
+	HD_PATH:  {
+		DEFAULT: "m/44'/118'/0'/0/0",
+		EXAMPLE: "44/118/0/0/0",
+		PRODUCTION: "",
+		STAGING: ""
+	},
 	MENU: [
 		{
 			display: "DASHBOARD",

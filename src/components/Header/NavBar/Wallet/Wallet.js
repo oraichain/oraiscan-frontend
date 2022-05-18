@@ -26,21 +26,34 @@ import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
 import { updateToken } from "src/firebase-cloud-message";
 import config from "src/config";
+import { network } from 'src/lib/config/networks';
 
 const cx = cn.bind(styles);
 
-const connectWallet = () => {
-	const prefix = "orai";
-	const popup = myKeystation.openWindow("signin", prefix);
-	let popupTick = setInterval(function () {
-		if (popup.closed) {
-			clearInterval(popupTick);
-		}
-	}, 500);
-};
-
 const Wallet = props => {
 	const { path, title, handleClick, init } = props.data;
+	const dispatch = useDispatch();
+	const { account } = useSelector(state => state.wallet);
+	const connectWallet = async () => {
+		try {
+			const keplr = await window.Keplr.getKeplr();
+			if (!keplr) throw 'You must install Keplr to continue';
+			if (keplr) {
+				await window.Keplr.suggestChain(network.chainId);
+				await window.Keplr.suggestChain('columbus-5');
+				const newAddress = await window.Keplr.getKeplrAddr();
+				if (newAddress) {
+					if (newAddress === account) {
+						dispatch(initWallet({}));
+					}
+					dispatch(initWallet({ address: newAddress }));
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	if (init || !title) {
 		return (
 			<a href={path} key={title} target='_blank' onClick={handleClick || connectWallet} className={cx("nav-link")}>
@@ -49,16 +62,14 @@ const Wallet = props => {
 		);
 	}
 
-	return <WalletWithAdress {...props} />;
+	return <WalletWithAdress {...props} dispatch={dispatch} />;
 };
 
-const WalletWithAdress = ({ data: props, collapse }) => {
+const WalletWithAdress = ({ data: props, collapse, dispatch, account }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const { path, title } = props;
-	const { account } = useSelector(state => state.wallet);
 	const price = useSelector(state => state?.blockchain?.status?.price);
-	const dispatch = useDispatch();
 	const history = useHistory();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -149,7 +160,7 @@ const WalletWithAdress = ({ data: props, collapse }) => {
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-			{!_.isNil(account) && !_.isNil(amount) && (
+			{!_.isNil("orai") && !_.isNil(amount) && (
 				<Dialog
 					show={isTransactionModalVisible}
 					handleClose={hideTransactionModal}
