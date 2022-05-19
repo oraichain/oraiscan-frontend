@@ -48,7 +48,7 @@ export default function({activeTab, setActiveTab, isBecomeValidator, address}) {
 			</div>
 			<div className={cx("tab", activeTab === 5 ? "active" : "")} onClick={() => setActiveTab(5)}>
 				<DelegatedIcon className={cx("tab-icon")} />
-				<div className={cx("tab-text")}>AI Request Fees</div>
+				<div className={cx("tab-text")}>AI Executor</div>
 			</div>
 		</div>
 	);

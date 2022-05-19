@@ -724,7 +724,7 @@ const TxMessage = ({ key, msg, data }) => {
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0"}</span>
-							<span className={cx("amount-denom")}>{item?.denom_name || item?.demom || denomSplit?.[0]}</span>
+							<span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || reduceStringAssets(item?.demom) || reduceStringAssets(denomSplit?.[0])}</span>
 							{/* <span className={cx("amount-usd")}>
 								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
 							</span> */}
