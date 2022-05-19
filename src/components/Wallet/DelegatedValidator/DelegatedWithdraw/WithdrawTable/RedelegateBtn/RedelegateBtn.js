@@ -15,6 +15,7 @@ import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
 import { calculateAmount } from "src/helpers/calculateAmount";
 import styles from "./RedelegateBtn.scss";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -66,30 +67,35 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 	});
 	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
 
-	const onSubmit = data => {
+	const onSubmit = async data => {
 		console.log({ data })
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		let amount = minusFees(fee, data.amount);
-		const msg = [
-			{
-				type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-				value: {
-					validator_src_address: validatorAddress,
-					validator_dst_address: data.recipientAddress,
-					amount: {
-						denom: "orai",
-						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
-					},
-				},
-			},
-		];
-		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgBeginRedelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		// const minGasFee = (fee * 1000000 + "").split(".")[0];
+		// let amount = minusFees(fee, data.amount);
+
+		const response = await walletStation.redelegate(validatorAddress, data.recipientAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
+
+		console.log("response redelegate: ", response);
+
+		// const msg = [
+		// 	{
+		// 		type: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+		// 		value: {
+		// 			validator_src_address: validatorAddress,
+		// 			validator_dst_address: data.recipientAddress,
+		// 			amount: {
+		// 				denom: "orai",
+		// 				amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+		// 			},
+		// 		},
+		// 	},
+		// ];
+		// const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgBeginRedelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
+		// const popup = myKeystation.openWindow("transaction", payload, account);
+		// let popupTick = setInterval(function () {
+		// 	if (popup.closed) {
+		// 		clearInterval(popupTick);
+		// 	}
+		// }, 500);
 	};
 
 	useEffect(() => {

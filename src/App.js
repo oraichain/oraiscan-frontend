@@ -31,9 +31,10 @@ import { ChainStore } from 'src/lib/chain';
 import { embedChainInfos } from 'src/lib/config/chainInfos';
 import Keplr from 'src/lib/keplr';
 import { initWallet } from "src/store/modules/wallet";
+import WalletStation from "./lib/walletStation";
 window.chainStore = new ChainStore(embedChainInfos)
 
-window.Keplr = new Keplr();
+window.OWallet = new Keplr();
 
 const cx = classNames.bind(styles);
 
@@ -103,16 +104,16 @@ export default function () {
 
 	const updateAddress = async () => {
 		// automatically update. If user is also using Oraichain wallet => dont update
-		const keplr = await window.Keplr.getKeplr();
+		const keplr = await window.OWallet.getKeplr();
 		if (!keplr) throw 'You must install Keplr to continue';
-		const newAddress = await window.Keplr.getKeplrAddr();
+		const newAddress = await window.OWallet.getKeplrAddr();
 		if (newAddress) {
 			if (newAddress === address) {
 				dispatch(initWallet({}));
 			}
 			dispatch(initWallet({ address: newAddress }));
 		}
-	  };
+	};
 
 	const toastifyMsg = payload => {
 		return (
