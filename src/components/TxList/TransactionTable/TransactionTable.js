@@ -208,30 +208,28 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 	};
 
 	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
-		if(denom?.toLowerCase()?.includes(consts.GRAVITY)) {
-				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
-				return (
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-						<span className={cx("amount-denom")}>{denom}</span>
-						<div className={cx("amount-usd")}>
-							{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
-						</div>
-					</div>
-				)
+		if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
+			denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+			return (
+				<div className={cx("amount")}>
+					<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+					<span className={cx("amount-denom")}>{denom}</span>
+					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+				</div>
+			);
 		}
 		return (
 			<div className={cx("amount")}>
 				<span className={cx("amount-value")}>{formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denom}</span>
-				{
-					denom?.toLowerCase()  === consts.DENOM_ORAI ? <div className={cx("amount-usd")}>
-					{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
-				</div> : <></>
-				}
+				{denom?.toLowerCase() === consts.DENOM_ORAI ? (
+					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+				) : (
+					<></>
+				)}
 			</div>
-		)
-	}
+		);
+	};
 
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -367,6 +365,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			// );
 
 			let amountDataCell;
+			let amount;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
 				amountDataCell = (
@@ -386,7 +385,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				);
 			} else {
-				let amount;
 				let denom;
 
 				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
@@ -427,11 +425,15 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					_.isNil(amount) || _.isNil(denom) ? (
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
-							<div className={cx("amount")}>
-								<span className={cx("amount-value")}>0</span>
-								<span className={cx("amount-denom")}>ORAI</span>
-								<div className={cx("amount-usd")}>($0)</div>
-							</div>
+							{amount ? (
+								<>{checkAmountOrai(item?.amount?.[0]?.denom, amount)}</>
+							) : (
+								<div className={cx("amount")}>
+									<span className={cx("amount-value")}>0</span>
+									<span className={cx("amount-denom")}>ORAI</span>
+									<div className={cx("amount-usd")}>($0)</div>
+								</div>
+							)}
 						</div>
 					) : (
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
