@@ -12,7 +12,7 @@ export const omitProperty = (arr, valueArray) => _.map(arr, v => _.omit(v, value
 export const nilCheck = arr => !_.every(arr, el => !_.isNil(el));
 
 const gravityCheck = (str = "-") => {
-	return (str && str.substring(0, 7) === consts.GRAVITY) ? consts.ORAIB + str.substring(7, str.length) : str;
+	return str && str.substring(0, 7).toLowerCase() === consts.GRAVITY ? consts.ORAIB + str.substring(7, str.length) : str;
 };
 //  planning on recreating this with css and components in the future(already mostly done)
 export const reduceString = (str, from, end) => {
@@ -23,7 +23,7 @@ export const reduceString = (str, from, end) => {
 
 export const reduceStringAssets = (str, from, end) => {
 	let strCustom = gravityCheck(str);
-	if (!from) return strCustom;
+	if (!from) return strCustom && strCustom.length > 15 ? strCustom.substring(0, 8) + "..." + strCustom.substring(strCustom.length - 8) : strCustom;
 	return strCustom ? strCustom.substring(0, from) + (strCustom.length > from ? "..." + strCustom.substring(strCustom.length - end) : "") : "-";
 };
 
