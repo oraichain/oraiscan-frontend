@@ -1,8 +1,8 @@
 // @ts-nocheck
-import React, {memo, useState} from "react";
+import React, { memo, useState } from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
+import { useForm, FormProvider } from "react-hook-form";
+import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -11,16 +11,15 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
-import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import styles from "./RandomnessPopup.scss";
-import MemoFee from "src/components/common/MemoFee";
-import {showAlert} from "src/store/modules/global";
-import {getTxResponse} from "src/lib/drand/drand";
+import config from "src/config.js";
+import { showAlert } from "src/store/modules/global";
 import { useDispatch } from "react-redux";
+import { walletStation, broadcastModeObj } from "src/lib/walletStation";
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -48,7 +47,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
+	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -75,9 +74,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 
-const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, validatorName, withdrawable, userInput, setLoadingPopup,minFee = {estimate_fee: 0}}) => {
-	const [fee, setFee] = useState(0);
-	const [gas, setGas] = useState(200000);
+const RandomnessPopup = memo(({ open, closeDialog, eventHandleGetRamdomValue, validatorName, userInput, setLoadingPopup, address }) => {
 	const dispatch = useDispatch();
 
 	const methods = useForm({
@@ -87,11 +84,19 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 	const onSubmit = async data => {
 		try {
 			closeDialog();
-			const {response, contract} = await getTxResponse(new BigNumber(withdrawable).multipliedBy(1000000).toString() || "0", fee, gas, userInput, setLoadingPopup);
+			const contract = config.randomnessContractAddress;
+			const msg = Buffer.from(
+				JSON.stringify({
+					request_random: {
+						input: btoa(userInput),
+					},
+				})
+			);
+			const response = await walletStation.randomnessContract(contract, msg, address, broadcastModeObj.BROADCAST_MODE_BLOCK)
 			if (response.tx_response && response.tx_response.code === 0) {
-				setLoadingPopup(false);
 				await eventHandleGetRamdomValue(response, contract);
 			}
+
 		} catch (error) {
 			setLoadingPopup(false);
 			dispatch(
@@ -105,10 +110,7 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 		}
 	};
 
-	const onChangeGas = value => {
-		setGas(value);
-	};
-	const {handleSubmit, setValue, errors, clearErrors, getValues} = methods;
+	const { handleSubmit, setValue, errors, clearErrors, getValues } = methods;
 
 	return (
 		<div className={cx("delegate")}>
@@ -119,9 +121,6 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 							Randomness from {validatorName}
 							<p className={cx("note")}>new randomness</p>
 						</DialogTitle>
-						<DialogContent dividers>
-							<MemoFee fee={fee} minFee={minFee} setFee={setFee} onChangeGas={onChangeGas} gas={gas} />
-						</DialogContent>
 						<DialogActions>
 							<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>
 								Cancel

@@ -45,7 +45,6 @@ const Randomness = ({}) => {
 	const [loadingPopup, setLoadingPopup] = useState(false);
 	const address = wallet?.address;
 	const minFee = useSelector(state => state.blockchain.minFee);
-
 	const {data: amountData, loading: amountLoading} = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`,
 	});
@@ -139,7 +138,6 @@ const Randomness = ({}) => {
 
 	const eventHandleGetRamdomValue = async (response, contract) => {
 		const round = response.tx_response.logs[0].events[1].attributes[3].value;
-		console.log("round: ", round);
 		setTxResponse({
 			contract: contract,
 			txHash: response.tx_response?.txhash,
@@ -246,6 +244,7 @@ const Randomness = ({}) => {
 				)}
 				<RandomnessPopup
 					open={open}
+					address={address}
 					closeDialog={closeDialog}
 					minFee={minFee}
 					withdrawable={String(data?.currentFees)}

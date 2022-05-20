@@ -32,8 +32,8 @@ import { embedChainInfos } from 'src/lib/config/chainInfos';
 import Keplr from 'src/lib/keplr';
 import { initWallet } from "src/store/modules/wallet";
 import WalletStation from "./lib/walletStation";
-window.chainStore = new ChainStore(embedChainInfos)
 
+window.chainStore = new ChainStore(embedChainInfos)
 window.OWallet = new Keplr();
 
 const cx = classNames.bind(styles);

@@ -147,10 +147,14 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 			msgs = [executeMsg];
 			payload = args({ msg: msgs, type: typeSend.CW20 });
 		}
-		await walletStation.sendCoin(payload);
 		setTimeout(() => {
 			handleClose();
 		}, 600);
+		const response = await walletStation.sendCoin(payload);
+		if (response.tx_response && response.tx_response.code === 0) {
+			history.push(`/txs/${response.tx_response.txhash}`);
+		}
+
 	};
 
 	useEffect(() => {

@@ -9,8 +9,11 @@ import typeSend from "src/constants/typeSend";
 import consts from "src/constants/consts";
 import messagesErrors from 'src/constants/messages';
 
-const broadcastModeObj = {
+export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
+    BROADCAST_MODE_ASYNC: "BROADCAST_MODE_ASYNC",
+    BROADCAST_MODE_SYNC: "BROADCAST_MODE_SYNC",
+    BROADCAST_MODE_UNSPECIFIED: "BROADCAST_MODE_UNSPECIFIED",
 };
 
 export default class WalletStation {
@@ -40,7 +43,7 @@ export default class WalletStation {
     sendCoin = async (args, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
         const { type = typeSend.SEND, totalAmount, fromAddress, toAddress, arr_send, msg } = args;
         const wallet = await this.collectWallet();
-        const amount = [{ denom: this.cosmos.bech32MainPrefix, amount: totalAmount.toString() }];
+        const amount = [{ denom: this.cosmos.bech32MainPrefix, amount: totalAmount?.toString() }];
         let message = "";
         switch (type) {
             case typeSend.SEND:
@@ -95,6 +98,13 @@ export default class WalletStation {
     executeContract = async (contract, msg, sender, sentFunds, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
         const wallet = await this.collectWallet();
         const message = CosmosMessages.getMsgExecuteContract(contract, msg, sender, sentFunds);
+        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
+    }
+
+
+    randomnessContract = async (contract, msg, sender, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const message = CosmosMessages.getMsgExecuteContract(contract, msg, sender);
         return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
     }
 }
