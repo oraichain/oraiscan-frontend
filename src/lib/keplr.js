@@ -102,7 +102,7 @@ export default class Keplr {
   async getMobileKeplr() {
     if (!this.walletConnector) {
       this.walletConnector = new WalletConnect({
-        bridge: 'https://bridge.walletconnect.org', 
+        bridge: 'https://bridge.walletconnect.org',
         storageId: 'keplr',
         signingMethods: [],
         qrcodeModal: new KeplrQRCodeModalV1()

@@ -2900,13 +2900,17 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-0.18.2.tgz#a0f15d2ef752567713c1f59f69c6742edb03030c"
   integrity sha512-+0P+PrP9qSFVaayNdek4P1OAGE+PEl2SsufuHDRmUpOY25Wzjo7Atyar56Trjc32jkNy4lID6ZFT6BahsR9P9A==
 
-"@oraichain/cosmosjs-monorepo@file:../cosmosjs-monorepo/packages/cosmosjs-messages":
+"@oraichain/cosmos-messages@^0.0.1":
   version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmos-messages/-/cosmos-messages-0.0.1.tgz#bffdf345b74d2ce04ffa4fbee1c5b8c9bf0ccade"
+  integrity sha512-CRya+hOrJSiRfmVu3EdMRxj+N3yvotyUTq5WxweyhbhchnjADP+mNoSwehitL8/qVoeP4BwmiLYvz71Z+hr2QA==
   dependencies:
     "@oraichain/cosmosjs" "0.0.94"
 
-"@oraichain/cosmosjs@0.0.94", "@oraichain/cosmosjs@file:../cosmosjs":
+"@oraichain/cosmosjs@0.0.94", "@oraichain/cosmosjs@^0.0.94":
   version "0.0.94"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.0.94.tgz#35f1a045737b86015f728aa22b1a974058eb4104"
+  integrity sha512-EvsxRQqh8NzyH3DNj4iEC9r1UaRReZxDRasdN1Xj8SdJHCkPxqc4cdEwt3AsFYrJPdEZDdEyFYArUXdTjVncyg==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^2.0.5"

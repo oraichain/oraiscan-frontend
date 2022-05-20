@@ -17,7 +17,6 @@ import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { showAlert } from "src/store/modules/global";
 import { myKeystation } from "src/lib/Keystation";
-import { keplrStation } from "src/lib/Keplrstation";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
@@ -28,6 +27,7 @@ import consts from "src/constants/consts";
 import { args } from "src/helpers/transaction";
 import typeUrl from "src/constants/typeurl";
 import typeSend from "src/constants/typeSend";
+import { walletStation } from "src/lib/walletStation";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -78,7 +78,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 
 	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
 	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(1000000).toString();
-	const onSubmit = data => {
+	const onSubmit = async (data) => {
 		let payload;
 		let typeSendSubmit = typeSend.SEND;
 		let total_amount = 0;
@@ -147,7 +147,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 			msgs = [executeMsg];
 			payload = args({ msg: msgs, type: typeSend.CW20 });
 		}
-		keplrStation.send(payload);
+		await walletStation.sendCoin(payload);
 		setTimeout(() => {
 			handleClose();
 		}, 600);

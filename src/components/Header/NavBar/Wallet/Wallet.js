@@ -36,12 +36,11 @@ const Wallet = props => {
 	const { account } = useSelector(state => state.wallet);
 	const connectWallet = async () => {
 		try {
-			const keplr = await window.Keplr.getKeplr();
+			const keplr = await window.OWallet.getKeplr();
 			if (!keplr) throw 'You must install Keplr to continue';
 			if (keplr) {
-				await window.Keplr.suggestChain(network.chainId);
-				await window.Keplr.suggestChain('columbus-5');
-				const newAddress = await window.Keplr.getKeplrAddr();
+				await window.OWallet.suggestChain(network.chainId);
+				const newAddress = await window.OWallet.getKeplrAddr();
 				if (newAddress) {
 					if (newAddress === account) {
 						dispatch(initWallet({}));
