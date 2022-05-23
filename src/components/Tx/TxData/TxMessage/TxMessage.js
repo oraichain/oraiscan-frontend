@@ -288,18 +288,18 @@ const TxMessage = ({ key, msg, data }) => {
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
 			// if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
 			// 	return null;
-				// (
+			// (
 
-				// <InfoRow label={label}>
-				// 	<span>-</span>
-				// </InfoRow>
-				// );
+			// <InfoRow label={label}>
+			// 	<span>-</span>
+			// </InfoRow>
+			// );
 			// }
-			if(inputObject.length <= 0) {
+			if (inputObject.length <= 0) {
 				return null;
 			}
 
-			const { amount, denom, denom_name } = inputObject[0];
+			const { amount, denom, denom_name } = inputObject[0] ? inputObject[0] : inputObject;
 			let finalDenom = denom;
 			if (denom !== consts.DENOM) {
 				const logs = JSON.parse(data.raw_log);
