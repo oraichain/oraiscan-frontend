@@ -15,7 +15,6 @@ const cx = cn.bind(styles);
 
 const Address = memo(({address, showCopyIcon = true, size = "lg", name = null, isSmartContract = false}) => {
 	const dispatch = useDispatch();
-
 	const checkPrefix = address => {
 		let prefixs = [];
 		for (let prop in consts.ADDRESS_PREFIX) {
