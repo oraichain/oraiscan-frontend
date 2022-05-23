@@ -286,18 +286,20 @@ const TxMessage = ({ key, msg, data }) => {
 		};
 
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
-			console.log({ inputObject })
-			if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
-				return null;
-				// (
+			// if (_.isNil(inputObject?.amount) || _.isNil(inputObject?.denom)) {
+			// 	return null;
+			// (
 
-				// <InfoRow label={label}>
-				// 	<span>-</span>
-				// </InfoRow>
-				// );
+			// <InfoRow label={label}>
+			// 	<span>-</span>
+			// </InfoRow>
+			// );
+			// }
+			if (inputObject.length <= 0) {
+				return null;
 			}
 
-			const { amount, denom, denom_name } = inputObject;
+			const { amount, denom, denom_name } = inputObject[0] ? inputObject[0] : inputObject;
 			let finalDenom = denom;
 			if (denom !== consts.DENOM) {
 				const logs = JSON.parse(data.raw_log);
@@ -1099,7 +1101,7 @@ const TxMessage = ({ key, msg, data }) => {
 							{getInfoRow("Source Port", value?.source_port)}
 							{getInfoRow("Source Channel", value?.source_channel)}
 							{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-							{getCurrencyRowFromObject("Token", value?.token)}
+							{getCurrencyRowFromObject("Token", value?.amount)}
 							{getAddressRow("Sender", value?.sender)}
 							{getAddressRow("Receiver", value?.receiver)}
 							{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}

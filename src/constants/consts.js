@@ -203,7 +203,7 @@ export default Object.freeze({
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
-		ACCOUNT: "orai1",
+		ACCOUNT: "orai",
 		OSMOS_ACCOUNT: "osmo",
 		COSMOS_ACCOUNT: "cosmos",
 		TERRA_ACCOUNT: "terra",
