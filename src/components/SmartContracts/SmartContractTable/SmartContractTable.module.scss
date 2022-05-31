@@ -22,7 +22,6 @@
 }
 
 .code-id-data-cell,
-.admin-data-cell,
 .label-data-cell {
 	color: var(--common-textColor);
 	font-family: 'IBM Plex Sans';
@@ -34,6 +33,7 @@
 
 .address-data-cell,
 .creator-data-cell,
+.admin-data-cell,
 .source-data-cell {
 	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';

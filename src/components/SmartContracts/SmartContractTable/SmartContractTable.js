@@ -66,7 +66,9 @@ const SmartContractTable = memo(({data = []}) => {
 			const adminDataCell = _.isNil(item?.admin) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("admin-data-cell", "align-left")}>{item?.admin}</div>
+				<NavLink className={cx("admin-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.admin}`}>
+				{item?.admin}
+			</NavLink>
 			);
 
 			const labelDataCell = _.isNil(item?.label) ? (

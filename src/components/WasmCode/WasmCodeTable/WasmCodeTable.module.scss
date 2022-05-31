@@ -21,7 +21,6 @@
 	color: var(--common-headerTextColor);
 }
 
-.creator-data-cell,
 .time-data-cell {
 	color: var(--common-textColor);
 	font-family: 'IBM Plex Sans';
@@ -32,6 +31,7 @@
 }
 
 .txhash-data-cell,
+.creator-data-cell,
 .code-id-data-cell {
 	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';

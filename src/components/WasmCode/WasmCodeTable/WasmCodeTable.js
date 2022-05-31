@@ -48,9 +48,9 @@ const WasmCodeTable = memo(({data = []}) => {
 			const creatorDataCell = _.isNil(item?.creator) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.creator}`}>
+				<NavLink className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.creator}`}>
 					{item.creator}
-				</div>
+				</NavLink>
 			);
 
 			const codeIdDataCell = _.isNil(item?.id) ? (

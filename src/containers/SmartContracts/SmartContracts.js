@@ -22,6 +22,7 @@ import WasmCodeCardList from "src/components/WasmCode/WasmCodeCardList/WasmCodeC
 import SmartContractPopularTable from "src/components/SmartContracts/SmartContractPopularTable";
 import {useDispatch} from "react-redux";
 import {storeWasmCode, storePageCode} from "src/store/modules/wasmcode";
+import SmartContractPopularTableSkeleton from "src/components/SmartContracts/SmartContractPopularTable/SmartContractPopularTableSkeleton";
 
 const cx = cn.bind(styles);
 
@@ -120,7 +121,7 @@ const SmartContracts = () => {
 	}
 
 	if (popularSmartContractLoading) {
-		tablePopularSmartContract = isLargeScreen ? <SmartContractTableSkeleton /> : <SmartContractCardListSkeleton />;
+		tablePopularSmartContract = isLargeScreen ? <SmartContractPopularTableSkeleton /> : <SmartContractPopularTableSkeleton />;
 	} else {
 		if (popularSmartContractError) {
 			tablePopularSmartContract = <NoResult />;
