@@ -723,8 +723,9 @@ const TxMessage = ({ key, msg, data }) => {
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
+							{console.log({ item, denomSplit })}
 							<span className={cx("amount-value")}>{item?.amount ? item?.amount / Math.pow(10, 6) : "0"}</span>
-							<span className={cx("amount-denom")}>{item?.denom_name || item?.demom || denomSplit?.[0]}</span>
+							<span className={cx("amount-denom")}>{item?.denom_name || item?.denom || denomSplit?.[0]}</span>
 							{/* <span className={cx("amount-usd")}>
 								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
 							</span> */}
@@ -1075,6 +1076,7 @@ const TxMessage = ({ key, msg, data }) => {
 					)}
 					{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
 						<>
+							{console.log({ value })}
 							{getAddressRow("Contract", value?.contract, "", true)}
 							{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 							{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}

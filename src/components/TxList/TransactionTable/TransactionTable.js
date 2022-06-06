@@ -130,8 +130,8 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 
 	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyaltyAmount = false;
-	for (let index = rawLogArr[0].events.length - 1; index > -1; index--) {
-		const event = rawLogArr[0].events[index];
+	for (let index = rawLogArr[0]?.events?.length - 1; index > -1; index--) {
+		const event = rawLogArr[0]?.events[index];
 		if (event["type"] === "wasm") {
 			for (let att of event["attributes"]) {
 				if (att["key"] === "action" && att["value"] === "pay_royalty") {

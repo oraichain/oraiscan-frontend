@@ -40,6 +40,7 @@ const WasmCodeDetail = () => {
 	});
 
 	let titleSection;
+	let statusSection;
 	let paginationSection;
 	let tableSection;
 
@@ -48,10 +49,17 @@ const WasmCodeDetail = () => {
 			<Container fixed>
 				<TitleWrapper>
 					<PageTitle title='Smart contracts' />
-					<StatusBox />
 				</TitleWrapper>
 			</Container>
 		);
+		statusSection = (
+			<Container fixed className={cx("status")}>
+				<TitleWrapper>
+					<PageTitle title='' />
+					<StatusBox />
+				</TitleWrapper>
+			</Container>
+		)
 	} else {
 		titleSection = <TogglePageBar type='smart-contracts' />;
 	}
@@ -84,6 +92,7 @@ const WasmCodeDetail = () => {
 	return (
 		<>
 			<Container fixed className={cx("smart-contracts")}>
+				{statusSection}
 				<WasmCodeInfo />
 			</Container>
 

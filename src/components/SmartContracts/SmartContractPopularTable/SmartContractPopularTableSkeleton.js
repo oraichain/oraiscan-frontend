@@ -1,10 +1,8 @@
-import React, {memo} from "react";
+import React, {} from "react";
 import classNames from "classnames/bind";
-import {_, reduceString} from "src/lib/scripts";
+import {_} from "src/lib/scripts";
 import styles from "./SmartContractPopularTable.module.scss";
-import {Grid, Card, Typography, CardContent} from "@material-ui/core";
-import consts from "src/constants/consts";
-import {NavLink} from "react-router-dom";
+import {Grid, Card, CardContent} from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const SmartContractPopularTableSkeleton = () => {
@@ -14,9 +12,15 @@ const SmartContractPopularTableSkeleton = () => {
 		return (
 			<Card sx={{minWidth: 275}} variant='outlined' className={cx("popuplar-card-root")}>
 				<CardContent>
-          <Skeleton variant='text' className={cx("skeleton")} width={320} height={21} />
-          <Skeleton variant='text' className={cx("skeleton")} width={320} height={21} />
-          <Skeleton variant='text' className={cx("skeleton")} width={320} height={21} />
+          <Skeleton variant='text' className={cx("skeleton")} width="100%" height={21} />
+					<div className={cx("skeleton-root")}>
+						<Skeleton variant='text' className={cx("skeleton")} width="40%" height={21} />
+						<Skeleton variant='text' className={cx("skeleton")} width="40%" height={21} />
+					</div>
+					<div className={cx("skeleton-root")}>
+						<Skeleton variant='text' className={cx("skeleton")} width="30%" height={21} />
+						<Skeleton variant='text' className={cx("skeleton")} width="30%" height={21} />
+					</div>
 				</CardContent>
 			</Card>
 		);

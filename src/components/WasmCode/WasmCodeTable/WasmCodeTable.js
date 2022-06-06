@@ -34,11 +34,6 @@ export const getHeaderRow = () => {
 };
 
 const WasmCodeTable = memo(({data = []}) => {
-	const dispatch = useDispatch();
-	// const handleWasmCodeToStorage = item => {
-	// 	dispatch(storeWasmCode(item));
-	// };
-
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -53,18 +48,18 @@ const WasmCodeTable = memo(({data = []}) => {
 				</NavLink>
 			);
 
-			const codeIdDataCell = _.isNil(item?.id) ? (
+			const codeIdDataCell = _.isNil(item?.code_id) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("code-id-data-cell", "align-center")} to={`${consts.PATH.WASM_CODE}/${item.id}`}>
-					{item.id}
+				<NavLink className={cx("code-id-data-cell", "align-center")} to={`${consts.PATH.WASM_CODE}/${item?.code_id}`}>
+					{item?.code_id}
 				</NavLink>
 			);
 
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item?.tx_hash}`}>
 					{item?.tx_hash}
 				</NavLink>
 			);

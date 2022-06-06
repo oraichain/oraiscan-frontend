@@ -3,7 +3,7 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
+import {reduceString, _} from "src/lib/scripts";
 import SourceViewer from "src/components/common/SourceViewer";
 import styles from "./WasmCodeCardList.module.scss";
 import {formatDateTime} from "src/helpers/helper";
@@ -22,7 +22,15 @@ const WasmCodeCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>Creator</div>
 									</td>
-									<td>{_.isNil(item?.creator) ? <div className={cx("item-title")}>-</div> : <div className={cx("item-title")}>{item.creator}</div>}</td>
+									<td>
+										{_.isNil(item?.creator) ? (
+											<div className={cx("item-title")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.ACCOUNT}/${item?.creator}`}>
+												{item?.creator}
+											</NavLink>
+										)}
+									</td>
 								</tr>
 
 								<tr>
@@ -30,11 +38,12 @@ const WasmCodeCardList = memo(({data = []}) => {
 										<div className={cx("item-title")}>Code id</div>
 									</td>
 									<td>
-										{_.isNil(item?.id) ? (
+										{_.isNil(item?.code_id) ? (
 											<div className={cx("item-title")}>-</div>
 										) : (
-											// to={`${consts.PATH.WASM_CODE}/${item.id}`}>
-											<div className={cx("item-link")}>{item.id}</div>
+											<NavLink className={cx("item-link")} to={`${consts.PATH.WASM_CODE}/${item?.code_id}`}>
+												{item?.code_id}
+											</NavLink>
 										)}
 									</td>
 								</tr>
@@ -43,7 +52,15 @@ const WasmCodeCardList = memo(({data = []}) => {
 									<td>
 										<div className={cx("item-title")}>TxHash</div>
 									</td>
-									<td>{_.isNil(item?.tx_hash) ? <div className={cx("item-text")}>-</div> : <div className={cx("item-text")}>{item.tx_hash}</div>}</td>
+									<td>
+										{_.isNil(item?.tx_hash) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item?.tx_hash}`}>
+												{reduceString(item?.tx_hash, 6, 6)}
+											</NavLink>
+										)}
+									</td>
 								</tr>
 
 								<tr>

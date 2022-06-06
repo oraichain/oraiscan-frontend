@@ -16,6 +16,9 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	@include media("<=large") {
+		font-size: 16px;
+	}
 }
 
 .smart-contract-popular-card-list {
@@ -31,6 +34,10 @@
 			border: 1px;
 			border-color: gray;
 			font-size: 12px;
+
+			@include media("<=large") {
+				font-size: 16px;
+			}
 		}
 	}
 }
@@ -62,6 +69,11 @@
 	font-size: 14px;
 	line-height: 150%;
 	word-break: break-all;
+}
+
+.skeleton-root {
+	display: flex;
+	justify-content: space-between;
 }
 
 .skeleton {
