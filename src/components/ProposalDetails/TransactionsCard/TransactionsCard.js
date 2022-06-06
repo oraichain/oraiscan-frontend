@@ -51,7 +51,6 @@ const TransactionsCard = memo(({proposalId}) => {
 	};
 
 	const getFilterData = (voteTypes, totalTxs) => {
-		console.log(totalTxs);
 		const filterData = [];
 		for (let key in voteTypes) {
 			// const label = `${sentenceCase(key)}(${!isNaN(totalTxs?.[key]) ? formatInteger(totalTxs[key]) : "-"})`;

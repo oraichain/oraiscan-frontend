@@ -7,19 +7,18 @@ import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
 import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
-import SourceViewer from "src/components/common/SourceViewer";
-import styles from "./SmartContractTable.module.scss";
-
+import styles from "./WasmCodeTable.module.scss";
+import {storeWasmCode} from "src/store/modules/wasmcode";
+import {useDispatch} from "react-redux";
+import {formatDateTime} from "src/helpers/helper";
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const addressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const codeIdHeaderCell = <div className={cx("header-cell", "align-center")}>Code id</div>;
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
-	const adminHeaderCell = <div className={cx("header-cell", "align-left")}>Admin</div>;
-	const labelHeaderCell = <div className={cx("header-cell", "align-left")}>Label</div>;
-	const sourceHeaderCell = <div className={cx("header-cell", "align-left")}>Source</div>;
-	const headerCells = [addressHeaderCell, codeIdHeaderCell, creatorHeaderCell, adminHeaderCell, labelHeaderCell, sourceHeaderCell];
+	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
+	const createdAtHeaderCell = <div className={cx("header-cell", "align-left")}>Created At</div>;
+	const headerCells = [creatorHeaderCell, codeIdHeaderCell, txHashHeaderCell, createdAtHeaderCell];
 	const headerCellStyles = [
 		{minWidth: "320px"}, // Address
 		{minWidth: "80px"}, // Code id
@@ -34,27 +33,13 @@ export const getHeaderRow = () => {
 	};
 };
 
-const SmartContractTable = memo(({data = []}) => {
+const WasmCodeTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map((item, index) => {
-			const addressDataCell = _.isNil(item?.address) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${item.address}`}>
-					{item.address}
-				</NavLink>
-			);
-
-			const codeIdDataCell = _.isNil(item?.code_id) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<div className={cx("code-id-data-cell", "align-center")}>{item?.code_id}</div>
-			);
-
 			const creatorDataCell = _.isNil(item?.creator) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -63,29 +48,29 @@ const SmartContractTable = memo(({data = []}) => {
 				</NavLink>
 			);
 
-			const adminDataCell = _.isNil(item?.admin) ? (
+			const codeIdDataCell = _.isNil(item?.code_id) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("admin-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.admin}`}>
-				{item?.admin}
-			</NavLink>
+				<NavLink className={cx("code-id-data-cell", "align-center")} to={`${consts.PATH.WASM_CODE}/${item?.code_id}`}>
+					{item?.code_id}
+				</NavLink>
 			);
 
-			const labelDataCell = _.isNil(item?.label) ? (
+			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("label-data-cell", "align-left")}>{item?.label}</div>
+				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item?.tx_hash}`}>
+					{item?.tx_hash}
+				</NavLink>
 			);
 
-			const sourceDataCell = _.isNil(item?.source) ? (
+			const createdAtDataCell = _.isNil(item?.created_at) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("source-data-cell", "align-left")}>
-					<SourceViewer title='View' data={item} key={`source-viewer-` + index} />
-				</div>
+				<div className={cx("time-data-cell", "align-left")}>{formatDateTime(item?.created_at)}</div>
 			);
 
-			return [addressDataCell, codeIdDataCell, creatorDataCell, adminDataCell, labelDataCell, sourceDataCell];
+			return [creatorDataCell, codeIdDataCell, txHashDataCell, createdAtDataCell];
 		});
 	};
 
@@ -95,4 +80,4 @@ const SmartContractTable = memo(({data = []}) => {
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
-export default SmartContractTable;
+export default WasmCodeTable;
