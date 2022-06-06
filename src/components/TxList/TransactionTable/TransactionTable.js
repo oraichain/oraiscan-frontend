@@ -208,30 +208,28 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 	};
 
 	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
-		if(denom?.toLowerCase()?.includes(consts.GRAVITY)) {
-				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
-				return (
-					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-						<span className={cx("amount-denom")}>{denom}</span>
-						<div className={cx("amount-usd")}>
-							{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
-						</div>
-					</div>
-				)
+		if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
+			denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+			return (
+				<div className={cx("amount")}>
+					<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+					<span className={cx("amount-denom")}>{denom}</span>
+					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+				</div>
+			);
 		}
 		return (
 			<div className={cx("amount")}>
 				<span className={cx("amount-value")}>{formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denom}</span>
-				{
-					denom?.toLowerCase()  === consts.DENOM_ORAI ? <div className={cx("amount-usd")}>
-					{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}
-				</div> : <></>
-				}
+				{denom?.toLowerCase() === consts.DENOM_ORAI ? (
+					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+				) : (
+					<></>
+				)}
 			</div>
-		)
-	}
+		);
+	};
 
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -240,7 +238,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 
 		return data.map(item => {
 			let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
-			let noDenomName = item?.messages?.[0]?.sent_funds?.[0]?.denom;
+			let noDenomName = item?.amount?.[0]?.sent_funds?.[0]?.denom;
+			let amountDenomName = item?.amount?.[0]?.amount?.denom;
 
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
@@ -367,6 +366,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			// );
 
 			let amountDataCell;
+			let amount;
+			let denom;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
 				amountDataCell = (
@@ -386,9 +387,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				);
 			} else {
-				let amount;
-				let denom;
-
 				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
 					try {
 						let outputs = item?.messages?.[0]?.outputs.find(e => e.address === account);
@@ -406,7 +404,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 						amount = item?.amount?.[0]?.amount;
-						denom = newDenom ? reduceStringAssets(newDenom) : noDenomName;
+						denom = newDenom ? reduceStringAssets(newDenom) : amountDenomName;
 					}
 				}
 
@@ -427,11 +425,15 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					_.isNil(amount) || _.isNil(denom) ? (
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
-							<div className={cx("amount")}>
-								<span className={cx("amount-value")}>0</span>
-								<span className={cx("amount-denom")}>ORAI</span>
-								<div className={cx("amount-usd")}>($0)</div>
-							</div>
+							{amount ? (
+								<>{checkAmountOrai(item?.amount?.[0]?.denom, amount)}</>
+							) : (
+								<div className={cx("amount")}>
+									<span className={cx("amount-value")}>0</span>
+									<span className={cx("amount-denom")}>ORAI</span>
+									<div className={cx("amount-usd")}>($0)</div>
+								</div>
+							)}
 						</div>
 					) : (
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>

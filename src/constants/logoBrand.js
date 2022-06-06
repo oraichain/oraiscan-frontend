@@ -1,5 +1,6 @@
 import aiIcon from "src/assets/common/ai_ic.svg";
 import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
+import citadel from 'src/assets/validators/citadel.png';
 
 export const logoBrand = [
 	{
@@ -146,5 +147,10 @@ export const logoBrand = [
 		name: "PanteraStaking-Dime",
 		operatorAddress: "oraivaloper1h9gg3xavqdau6uy3r36vn4juvzsg0lqvszgtvc",
 		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645502659/dime.jpg',
+	},
+	{
+		name: "Citadel",
+		operatorAddress: "oraivaloper1w96q7rrd6edc3fpmw6zayzdf5ajzucrnw3pt3s",
+		logo: citadel,
 	}
 ];
