@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 const FilterSection = memo(({className, data, value, onChange}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-
 	return (
 		<div className={cx("filter-section", className)}>
 			{isLargeScreen ? (

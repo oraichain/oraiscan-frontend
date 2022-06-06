@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, {lazy, Suspense} from "react";
+import {Route, Switch} from "react-router-dom";
 import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
-import { usePreload } from "src/hooks";
+import {usePreload} from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
 import styles from "./Router.scss";
 import config from "src/config.js";
@@ -46,8 +46,9 @@ const ExportData = lazy(() => import(`src/containers/ExportData`));
 const Relayers = lazy(() => import(`src/containers/Relayers`));
 const RelayerDetail = lazy(() => import(`src/containers/RelayerDetail`));
 const OracleAI = lazy(() => import(`src/containers/OracleAI`));
+const WasmCodeDetail = lazy(() => import(`src/containers/WasmCode`));
 
-export default function (props) {
+export default function(props) {
 	//  preload stuff that needs preloading
 	usePreload();
 	return (
@@ -89,6 +90,7 @@ export default function (props) {
 					<Route path='/export-data/:account' component={ExportData} />
 					<Route path='/ibc/relayers/:channelId' component={RelayerDetail} />
 					<Route path='/ibc/relayers' component={Relayers} />
+					<Route path='/wasm-code/:codeId' component={WasmCodeDetail} />
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>

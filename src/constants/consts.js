@@ -115,12 +115,14 @@ export default Object.freeze({
 		ORACLE_REPORT: "/oracle_report",
 		EXPORT_DATA: "/account/txs_csv",
 		IBC_TOKENS: "/ibc/tokens",
-		UPLOAD_IMAGES_VALIDATORS: '/validator/update-image',
-		GET_IMAGES_VALIDATORS: '/validator-detail',
+		UPLOAD_IMAGES_VALIDATORS: "/validator/update-image",
+		GET_IMAGES_VALIDATORS: "/validator-detail",
 		IBC_RELAYERS: "/ibc/relayers",
 		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
-		OW20_CONTRACT: "/ow20_contract"
+		OW20_CONTRACT: "/ow20_contract",
+		WASM_CODE: "/wasm_code",
+		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -135,7 +137,7 @@ export default Object.freeze({
 		AI_REQUEST_DATA: "/cosmos/tx/v1beta1/txs",
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/wasm/v1beta1/contract",
-		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces"
+		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
@@ -198,6 +200,7 @@ export default Object.freeze({
 		REQUESTS_REPORTS: "/requests_reports",
 		SMART_CONTRACT: "/smart-contract",
 		SMART_CONTRACTS: "/smart-contracts",
+		WASM_CODE: "/wasm-code",
 		ORACLE_REQUEST: "/ai-request",
 		EXPORT_DATA: "/export-data",
 	},
@@ -213,5 +216,5 @@ export default Object.freeze({
 	},
 	ROYALTY_DECIMAL_POINT_PERCENT: 10000000,
 
-	VALID_ORIGINS: ["https://testnet-wallet.web.app", "https://api.wallet.orai.io", "http://localhost:3001", "https://prerelease.wallet.orai.io"]
+	VALID_ORIGINS: ["https://testnet-wallet.web.app", "https://api.wallet.orai.io", "http://localhost:3001", "https://prerelease.wallet.orai.io"],
 });
