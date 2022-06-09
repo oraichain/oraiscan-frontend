@@ -130,8 +130,8 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 
 	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyaltyAmount = false;
-	for (let index = rawLogArr[0].events.length - 1; index > -1; index--) {
-		const event = rawLogArr[0].events[index];
+	for (let index = rawLogArr[0]?.events?.length - 1; index > -1; index--) {
+		const event = rawLogArr[0]?.events[index];
 		if (event["type"] === "wasm") {
 			for (let att of event["attributes"]) {
 				if (att["key"] === "action" && att["value"] === "pay_royalty") {
@@ -238,7 +238,8 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 
 		return data.map(item => {
 			let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
-			let noDenomName = item?.messages?.[0]?.sent_funds?.[0]?.denom;
+			let noDenomName = item?.amount?.[0]?.sent_funds?.[0]?.denom;
+			let amountDenomName = item?.amount?.[0]?.amount?.denom;
 
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
@@ -366,6 +367,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 
 			let amountDataCell;
 			let amount;
+			let denom;
 			const objRoyaltyAmount = getRoyaltyAmount(account, item?.raw_log, item?.result);
 			if (royalty && objRoyaltyAmount.royalty) {
 				amountDataCell = (
@@ -385,8 +387,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				);
 			} else {
-				let denom;
-
 				if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgMultiSend")) {
 					try {
 						let outputs = item?.messages?.[0]?.outputs.find(e => e.address === account);
@@ -404,7 +404,7 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 						amount = item?.amount?.[0]?.amount;
-						denom = newDenom ? reduceStringAssets(newDenom) : noDenomName;
+						denom = newDenom ? reduceStringAssets(newDenom) : amountDenomName;
 					}
 				}
 
