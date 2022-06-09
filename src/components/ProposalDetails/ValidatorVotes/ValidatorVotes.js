@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
-import { constantCase } from "change-case";
+import {constantCase} from "change-case";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
@@ -40,12 +40,6 @@ const ValidatorVotes = memo(({proposalId}) => {
 	const cleanUpTransaction = () => {
 		if (transactionTimerId) {
 			clearTimeout(transactionTimerId.current);
-		}
-	};
-
-	const cleanUpTotalTxs = () => {
-		if (totalTxsTimerId) {
-			clearTimeout(totalTxsTimerId.current);
 		}
 	};
 
@@ -131,16 +125,16 @@ const ValidatorVotes = memo(({proposalId}) => {
 				ABSTAIN: [],
 				NO_WITH_VETO: [],
 				DID_NOT_VOTE: [],
-				ALL: validatorVoteData?.length || 0
+				ALL: validatorVoteData?.length || 0,
 			};
 
 			validatorVoteData.map(val => {
 				switch (val?.option) {
 					case "VOTE_OPTION_YES":
-						return totalVotes = {
+						return (totalVotes = {
 							...totalVotes,
 							YES: [...totalVotes.YES, val.option],
-						}
+						});
 					case "VOTE_OPTION_NO":
 						return (totalVotes = {
 							...totalVotes,
@@ -162,32 +156,43 @@ const ValidatorVotes = memo(({proposalId}) => {
 							DID_NOT_VOTE: [...totalVotes["DID_NOT_VOTE"], val.option],
 						});
 					default:
-						return totalVotes = {
+						return (totalVotes = {
 							...totalVotes,
 							ALL: validatorVoteData?.length,
-						};
+						});
 				}
 			});
-			const { YES, NO, ABSTAIN, NO_WITH_VETO, DID_NOT_VOTE, ALL } = totalVotes;
+			const {YES, NO, ABSTAIN, NO_WITH_VETO, DID_NOT_VOTE, ALL} = totalVotes;
 			const numberVotes = {
 				YES: YES.length,
 				NO: NO.length,
 				ABSTAIN: ABSTAIN.length,
 				"NO WITH VETO": NO_WITH_VETO.length,
 				"DID NOT VOTE": DID_NOT_VOTE.length,
-				ALL
-			}
+				ALL,
+			};
 			totalTxsRef.current = numberVotes;
 		}
 	}, [validatorVoteData]);
 
+	const onConvertRank = data => {
+		if (data.length > 0) {
+			return data.map((val, index) => ({
+				...val,
+				rankCustom: index + 1,
+			}));
+		}
+		return data;
+	};
+
 	useEffect(() => {
 		if (validatorVoteData) {
+			const newValVoteList = onConvertRank(validatorVoteData)
 			if (voteType == 0) {
-				setValidatorVotes(validatorVoteData);
+				setValidatorVotes(newValVoteList);
 			} else {
 				setPageId(1);
-				const validatorVoteList = validatorVoteData.filter(val => {
+				const validatorVoteList = newValVoteList.filter(val => {
 					return val?.option === voteType;
 				});
 				setValidatorVotes(validatorVoteList);
@@ -231,7 +236,11 @@ const ValidatorVotes = memo(({proposalId}) => {
 	if (!validatorVoteLoading) {
 		if (currentTableData.length > 0) {
 			totalPagesRef.current = Math.ceil(validatorVotes?.length / 10);
-			tableSection = isLargeScreen? <ValidatorVotesTable data={currentTableData} converVoteTypes={converVoteTypes} /> : <ValidatorVotesCard data={currentTableData} converVoteTypes={converVoteTypes}/>;
+			tableSection = isLargeScreen ? (
+				<ValidatorVotesTable data={currentTableData} converVoteTypes={converVoteTypes} />
+			) : (
+				<ValidatorVotesCard data={currentTableData} converVoteTypes={converVoteTypes} />
+			);
 		} else {
 			totalPagesRef.current = null;
 			tableSection = <NoResult />;
@@ -239,7 +248,6 @@ const ValidatorVotes = memo(({proposalId}) => {
 	} else {
 		tableSection = <ValidatorVotesSkeleton />;
 	}
-
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	headerSection = <div className={cx("transactions-card-header")}>{filterSection}</div>;
