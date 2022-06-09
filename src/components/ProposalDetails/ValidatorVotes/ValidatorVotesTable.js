@@ -5,7 +5,9 @@ import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./ValidatorVotes.scss";
 import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
-import { reduceString, setAgoTime } from "src/lib/scripts";
+import {reduceString, setAgoTime} from "src/lib/scripts";
+import {logoBrand} from "src/constants/logoBrand";
+import aiIcon from "src/assets/common/ai_ic.svg";
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +31,19 @@ export const getHeaderRow = () => {
 	};
 };
 
-const ValidatorVotesTable = memo(({ data = [], converVoteTypes }) => {
+export const LogoValidatorCustom = ({ item }) => {
+	const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || {customLogo: ""};
+	const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
+
+	return (
+		<span className={cx("validator")}>
+			<img src={logoURL ? logoURL : item?.image ? item?.image : aiIcon} alt={item?.moniker} className={cx("validator-img")} />
+			<span>{item?.moniker}</span>
+		</span>
+	);
+};
+
+const ValidatorVotesTable = memo(({data = [], converVoteTypes}) => {
 	const convertOptionType = type => {
 		const labelArr = converVoteTypes(type);
 		const text = labelArr[labelArr.length - 1];
@@ -41,13 +55,15 @@ const ValidatorVotesTable = memo(({ data = [], converVoteTypes }) => {
 			return [];
 		}
 		return data.map((item, index) => {
-			const rankDataCell = <div className={cx("rank")}>
-				<span className={cx("rank-content")}>{item?.rank || "-"}</span>
-			</div>
+			const rankDataCell = (
+				<div className={cx("rank")}>
+					<span className={cx("rank-content")}>{item?.rank || "-"}</span>
+				</div>
+			);
 			const validatorDataCell = (
 				<div className={cx("align-left")}>
 					<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item?.operator_address}`}>
-						{item?.moniker}
+						<LogoValidatorCustom item={item} />
 					</NavLink>
 				</div>
 			);
@@ -78,7 +94,6 @@ const ValidatorVotesTable = memo(({ data = [], converVoteTypes }) => {
 			headerCellStyles={headerRow.headerCellStyles}
 			headerCells={headerRow.headerCells}
 			dataRows={dataRows}
-		// rowMotions={rowMotions}
 		/>
 	);
 });

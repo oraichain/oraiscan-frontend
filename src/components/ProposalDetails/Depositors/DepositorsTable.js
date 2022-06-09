@@ -40,7 +40,7 @@ const DepositorsTable = memo(({data = []}) => {
 			}
 			const depositorDataCell = (
 				<div className={cx("align-left")}>
-					<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item?.account_address}`}>
+					<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.account_address}`}>
 						{item?.account_address}
 					</NavLink>
 				</div>

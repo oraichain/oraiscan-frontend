@@ -19,10 +19,11 @@ import TransactionCardListSkeleton from "src/components/ProposalDetails/Transact
 import styles from "./Depositors.scss";
 import DepositorsTable from "./DepositorsTable";
 import DepositorsSkeleton from "./DepositorsSkeleton";
+import DepositorsCard from "./DepositorsCard";
 
 const cx = classNames.bind(styles);
 
-const Depositors = memo(({ proposalId }) => {
+const Depositors = memo(({proposalId}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -37,34 +38,30 @@ const Depositors = memo(({ proposalId }) => {
 		path: despositorPath,
 	});
 
-	let titleSection;
 	let headerSection;
 	let tableSection;
 	let paginationSection;
 	let bodySection;
 
-	if (isLargeScreen) {
-		titleSection = <div className={cx("title")}>Depositors</div>;
-	} else {
-		titleSection = <></>;
-	}
-
-	if(!despositorLoading) {
-		if(despositorData?.depositors) {
-			totalPagesRef.current = despositorData?.page?.total_page
-			tableSection = <DepositorsTable data={despositorData?.depositors} />
-		}
-		else {
+	if (!despositorLoading) {
+		if (despositorData?.depositors) {
+			totalPagesRef.current = despositorData?.page?.total_page;
+			tableSection = isLargeScreen ? <DepositorsTable data={despositorData?.depositors} /> : <DepositorsCard data={despositorData?.depositors} />;
+		} else {
 			totalPagesRef.current = null;
-			tableSection = <NoResult />
+			tableSection = <NoResult />;
 		}
 	} else {
-		tableSection =  <TransactionTableSkeleton />
+		tableSection = <TransactionTableSkeleton />;
 	}
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
-	headerSection = <div className={cx("transactions-card-header")}>{titleSection}</div>;
+	headerSection = (
+		<div className={cx("transactions-card-header")}>
+			<div className={cx("title")}>Depositors</div>;
+		</div>
+	);
 	bodySection = (
 		<div className={cx("transactions-card-body")}>
 			{tableSection}

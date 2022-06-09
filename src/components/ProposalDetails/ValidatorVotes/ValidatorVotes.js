@@ -1,23 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
-import {sentenceCase, constantCase} from "change-case";
+import { constantCase } from "change-case";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, mergeArrays} from "src/helpers/helper";
-import {formatInteger} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import TransactionTable from "src/components/ProposalDetails/TransactionTable";
-import TransactionTableSkeleton from "src/components/ProposalDetails/TransactionTable/TransactionTableSkeleton";
-import TransactionCardList from "src/components/ProposalDetails/TransactionCardList";
-import TransactionCardListSkeleton from "src/components/ProposalDetails/TransactionCardList/TransactionCardListSkeleton";
-import styles from "./ValidatorVotes.scss";
 import ValidatorVotesTable from "./ValidatorVotesTable";
+import styles from "./ValidatorVotes.scss";
+import ValidatorVotesCard from "./ValidatorVotesCard";
+import ValidatorVotesSkeleton from "./ValidatorVotesSkeleton";
 
 const cx = classNames.bind(styles);
 const pageSize = 10;
@@ -123,33 +119,9 @@ const ValidatorVotes = memo(({proposalId}) => {
 	// if (!_.isNil(voteType) && voteType !== voteTypesRef.current["ALL"]) {
 	// 	validatorVotesPath = `${validatorVotesPath}&vote=${voteType}`;
 	// }
-	const {data: validatorVoteData, loading: validatorVoteLoading, error: validatorVoteError, refetch: refetchTransaction} = useGet({
+	const {data: validatorVoteData, loading: validatorVoteLoading, error: validatorVoteError} = useGet({
 		path,
 	});
-
-	useEffect(() => {
-		if (loadTotalTxsCompleted) {
-			totalTxsTimerId.current = setTimeout(() => {
-				// refetchTotalTxs();
-				setLoadTotalTxsCompleted(false);
-			}, consts.REQUEST.TIMEOUT);
-			return () => {
-				cleanUpTotalTxs();
-			};
-		}
-	}, [loadTotalTxsCompleted]);
-
-	useEffect(() => {
-		if (loadTransactionCompleted) {
-			transactionTimerId.current = setTimeout(() => {
-				refetchTransaction();
-				setLoadTransactionCompleted(false);
-			}, consts.REQUEST.TIMEOUT);
-			return () => {
-				cleanUpTransaction();
-			};
-		}
-	}, [loadTransactionCompleted]);
 
 	useEffect(() => {
 		if (validatorVoteData) {
@@ -211,7 +183,7 @@ const ValidatorVotes = memo(({proposalId}) => {
 
 	useEffect(() => {
 		if (validatorVoteData) {
-			if (voteType === 0) {
+			if (voteType == 0) {
 				setValidatorVotes(validatorVoteData);
 			} else {
 				setPageId(1);
@@ -257,62 +229,16 @@ const ValidatorVotes = memo(({proposalId}) => {
 	}, [pageId, validatorVotes]);
 
 	if (!validatorVoteLoading) {
-		if (validatorVotes.length > 0) {
+		if (currentTableData.length > 0) {
 			totalPagesRef.current = Math.ceil(validatorVotes?.length / 10);
-			tableSection = <ValidatorVotesTable data={currentTableData} converVoteTypes={converVoteTypes} />;
+			tableSection = isLargeScreen? <ValidatorVotesTable data={currentTableData} converVoteTypes={converVoteTypes} /> : <ValidatorVotesCard data={currentTableData} converVoteTypes={converVoteTypes}/>;
 		} else {
 			totalPagesRef.current = null;
 			tableSection = <NoResult />;
 		}
+	} else {
+		tableSection = <ValidatorVotesSkeleton />;
 	}
-	// if (validatorVotes) {
-	// 	if (firstLoadTransactionCompleted) {
-	// 		console.log('test')
-	// 		tableSection = isLargeScreen ? <ValidatorVotesTable data={validatorVotes} /> : <TransactionCardList data={transactionData.txs} />;
-	// 	} else {
-	// 		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
-	// 	}
-	// } else {
-	// 	if (transactionError) {
-	// 		totalPagesRef.current = null;
-	// 		tableSection = <NoResult />;
-	// 	} else {
-	// 		console.log('test')
-	// 		if (!isNaN(transactionData?.page?.total_page)) {
-	// 			totalPagesRef.current = transactionData.page.total_page;
-	// 		} else {
-	// 			totalPagesRef.current = null;
-	// 		}
-
-	// 		if (Array.isArray(transactionData?.txs) && transactionData.txs.length > 0) {
-	// 			if (firstLoadTransactionCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, transactionData.txs)) {
-	// 				const key = "height";
-	// 				const mergedData = mergeArrays(transactionData.txs, prevDataRef.current, key);
-	// 				const rowMotions = mergedData.map((mergedItem, index) => {
-	// 					if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !transactionData.txs.find(item => mergedItem[key] == item[key])) {
-	// 						return -1;
-	// 					}
-
-	// 					if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && transactionData.txs.find(item => mergedItem[key] == item[key])) {
-	// 						return 1;
-	// 					}
-
-	// 					return 0;
-	// 				});
-	// 				tableSection = isLargeScreen ? (
-	// 					<ValidatorVotesTable data={validatorVotes} rowMotions={rowMotions} />
-	// 				) : (
-	// 					<TransactionCardList data={transactionData?.txs} />
-	// 				);
-	// 			} else {
-	// 				tableSection = isLargeScreen ? <ValidatorVotesTable data={validatorVotes} /> : <TransactionCardList data={transactionData?.txs} />;
-	// 			}
-	// 			prevDataRef.current = [...transactionData.txs];
-	// 		} else {
-	// 			tableSection = <NoResult />;
-	// 		}
-	// 	}
-	// }
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
