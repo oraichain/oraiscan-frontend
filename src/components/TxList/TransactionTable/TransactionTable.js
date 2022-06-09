@@ -208,15 +208,28 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 	};
 
 	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
-		if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
-			denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
-			return (
-				<div className={cx("amount")}>
-					<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-					<span className={cx("amount-denom")}>{denom}</span>
-					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-				</div>
-			);
+		if (denom?.toLowerCase()?.includes("ibc")) {
+			if (newDenom?.toLowerCase()?.includes(consts.GRAVITY)) {
+				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+				return (
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+					</div>
+				);
+			}
+		} else {
+			if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
+				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+				return (
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+					</div>
+				);
+			}
 		}
 		return (
 			<div className={cx("amount")}>
@@ -240,7 +253,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
 			let noDenomName = item?.amount?.[0]?.sent_funds?.[0]?.denom;
 			let amountDenomName = item?.amount?.[0]?.amount?.denom;
-
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -426,7 +438,9 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
 							{amount ? (
-								<>{checkAmountOrai(item?.amount?.[0]?.denom, amount)}</>
+								<>
+									{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}
+								</>
 							) : (
 								<div className={cx("amount")}>
 									<span className={cx("amount-value")}>0</span>
