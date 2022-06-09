@@ -65,7 +65,7 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
 	const percents = [25, 50, 75, 100];
-	const [percent, setPercent] = useState(25);
+	const [percent, setPercent] = useState(0);
 	const [amount, setAmount] = useState(0);
 
 	// this one is used to fetch balance info
@@ -85,7 +85,10 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	}, []);
 
 	const getAmount = balanceInfo => {
-		if (balanceInfo?.data) return new BigNumber(balanceInfo?.data?.balances?.[0]?.amount);
+		if (balanceInfo?.data) {
+			const balance = balanceInfo?.data?.balances?.find(balance => balance.denom === "orai");
+			return new BigNumber(balance?.amount);
+		}
 		return new BigNumber(0);
 	};
 
@@ -107,7 +110,6 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 		const balance = getAmount(balanceInfo);
 		setValue("sendAmount", parseAmount(balance, percent));
 		return;
-		setValue("sendAmount", 0);
 	}, [balanceInfo, percent]);
 
 	const formatUSD = useMemo(() => {
