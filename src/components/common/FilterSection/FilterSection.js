@@ -13,7 +13,7 @@ const FilterSection = memo(({className, data, value, onChange}) => {
 	return (
 		<div className={cx("filter-section", className)}>
 			{isLargeScreen ? (
-				<ButtonGroup data={data} value={value} onChange={onChange} />
+				<ButtonGroup data={data} value={value} onChange={onChange}/>
 			) : (
 				<form>
 					<select

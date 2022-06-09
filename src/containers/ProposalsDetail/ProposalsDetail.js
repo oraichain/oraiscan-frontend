@@ -18,10 +18,12 @@ import DetailsCardSkeleton from "src/components/ProposalDetails/DetailsCard/Deta
 import ChartCard from "src/components/ProposalDetails/ChartCard";
 import ChartCardSkeleton from "src/components/ProposalDetails/ChartCard/ChartCardSkeleton";
 import TransactionsCard from "src/components/ProposalDetails/TransactionsCard";
-import styles from "./ProposalsDetail.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import ProposalVoteModal from "./ProposalVoteModal";
 import ProposalDepositModal from "./ProposalDepositModal";
+import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
+import Depositors from "src/components/ProposalDetails/Depositors";
+import styles from "./ProposalsDetail.scss";
 
 const cx = cn.bind(styles);
 
@@ -62,6 +64,8 @@ export default function(props) {
 	let detailsCard;
 	let chartCard;
 	let transactionsCard;
+	let depositorsTable;
+	let validatorVotesTable;
 	let finalButton;
 
 	let voteButton = (
@@ -106,15 +110,12 @@ export default function(props) {
 		// handle button state
 		switch (data?.status) {
 			case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
-				console.log("deposit period");
 				finalButton = depositButton;
 				break;
 			case "PROPOSAL_STATUS_VOTING_PERIOD":
-				console.log("voting period");
 				finalButton = voteButton;
 				break;
 			default:
-				console.log("Finished");
 				finalButton = <div></div>;
 				break;
 		}
@@ -135,6 +136,8 @@ export default function(props) {
 	);
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;
+	depositorsTable = <Depositors proposalId={proposalId}/>;
+	validatorVotesTable = <ValidatorVotes  proposalId={proposalId} />;
 	return (
 		<>
 			{titleSection}
@@ -149,6 +152,12 @@ export default function(props) {
 					</Grid>
 					<Grid item xs={12}>
 						{transactionsCard}
+					</Grid>
+					<Grid item xs={12}>
+						{validatorVotesTable}
+					</Grid>
+					<Grid item xs={12}>
+						{depositorsTable}
 					</Grid>
 				</Grid>
 			</Container>
