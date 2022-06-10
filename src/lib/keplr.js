@@ -2,9 +2,9 @@ import { isAndroid, isMobile } from '@walletconnect/browser-utils';
 import { mobileBlacklistNetworks, network } from 'src/lib/config/networks';
 import { embedChainInfos } from 'src/lib/config/chainInfos';
 import WalletConnect from '@walletconnect/client';
-import { KeplrWalletConnectV1 as OWalletWalletConnectV1 } from '@keplr-wallet/wc-client';
+import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import Axios from 'axios';
-import { KeplrQRCodeModalV1 as OWalletQRCodeModalV1 } from '@keplr-wallet/wc-qrcode-modal';
+import { KeplrQRCodeModalV1 } from '@keplr-wallet/wc-qrcode-modal';
 import { filteredTokens } from 'src/lib/config/bridgeTokens';
 import createHash from 'create-hash';
 import { Bech32Address } from '@keplr-wallet/cosmos';
@@ -65,17 +65,17 @@ export default class Keplr {
   }
 
   suggestChain = async (chainId) => {
-    if (!window.owallet) return;
+    if (!window.keplr) return;
     const chainInfo = embedChainInfos.find(
       (chainInfo) => chainInfo.chainId === chainId
     );
     if (!isMobile()) {
       if (chainInfo) {
-        await window.owallet.experimentalSuggestChain(chainInfo);
+        await window.keplr.experimentalSuggestChain(chainInfo);
       }
-      await window.owallet.enable(chainId);
+      await window.keplr.enable(chainId);
     } else if (!mobileBlacklistNetworks.includes(chainId)) {
-      await window.owallet.enable(chainId);
+      await window.keplr.enable(chainId);
     }
   };
 
@@ -103,9 +103,9 @@ export default class Keplr {
     if (!this.walletConnector) {
       this.walletConnector = new WalletConnect({
         bridge: 'https://bridge.walletconnect.org',
-        storageId: 'owallet',
+        storageId: 'keplr',
         signingMethods: [],
-        qrcodeModal: new OWalletQRCodeModalV1()
+        qrcodeModal: new KeplrQRCodeModalV1()
       });
       // this.walletConnector._clientMeta = {
       //   name: 'Oraichain',
@@ -127,7 +127,7 @@ export default class Keplr {
     }
 
     // @ts-ignore
-    return new OWalletWalletConnectV1(this.walletConnector, {
+    return new KeplrWalletConnectV1(this.walletConnector, {
       sendTx,
       onBeforeSendRequest: this.cnBeforeSendRequest   //onBeforeSendRequest
     });
@@ -162,20 +162,9 @@ export default class Keplr {
   };
 
   async getKeplr() {
-    if (isMobile()) {
-      // @ts-ignore
-      if (!window.owallet) {
-        const owallet = await this.getMobileKeplr();
-        // @ts-ignore
-        if (owallet) window.owallet = owallet;
-      }
-      // @ts-ignore
-      return window.owallet;
-    }
-
     if (document.readyState === 'complete') {
       // @ts-ignore
-      return window.owallet;
+      return window.keplr;
     }
 
     return new Promise((resolve) => {
@@ -186,7 +175,7 @@ export default class Keplr {
           (event.target).readyState === 'complete'
         ) {
           // @ts-ignore
-          resolve(window.owallet);
+          resolve(window.keplr);
           document.removeEventListener('readystatechange', documentStateChange);
         }
       };
@@ -200,9 +189,9 @@ export default class Keplr {
     chainId = chainId ?? network.chainId;
     // chainId = "Oraichain"
     if (!chainId) return undefined;
-    const owallet = await this.getKeplr();
-    if (owallet) {
-      return owallet.getKey(chainId);
+    const keplr = await this.getKeplr();
+    if (keplr) {
+      return keplr.getKey(chainId);
     }
     return undefined;
   }

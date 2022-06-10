@@ -34,7 +34,7 @@ import { initWallet } from "src/store/modules/wallet";
 import WalletStation from "./lib/walletStation";
 
 window.chainStore = new ChainStore(embedChainInfos)
-window.OWallet = new Keplr();
+window.Keplr = new Keplr();
 
 const cx = classNames.bind(styles);
 
@@ -87,6 +87,9 @@ export default function () {
 	}, []);
 
 	useEffect(() => {
+		if (!address) {
+			keplrHandler();
+		}
 		window.addEventListener('keplr_keystorechange', keplrHandler);
 	}, []);
 
@@ -95,6 +98,7 @@ export default function () {
 			console.log(
 				'Key store in Keplr is changed. You may need to refetch the account info.'
 			);
+			await window.Keplr.suggestChain("Oraichain")
 			await updateAddress();
 			// window.location.reload();
 		} catch (error) {
@@ -104,9 +108,9 @@ export default function () {
 
 	const updateAddress = async () => {
 		// automatically update. If user is also using Oraichain wallet => dont update
-		const keplr = await window.OWallet.getKeplr();
+		const keplr = await window.Keplr.getKeplr();
 		if (!keplr) throw 'You must install Keplr to continue';
-		const newAddress = await window.OWallet.getKeplrAddr();
+		const newAddress = await window.Keplr.getKeplrAddr();
 		if (newAddress) {
 			if (newAddress === address) {
 				dispatch(initWallet({}));

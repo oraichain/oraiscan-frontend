@@ -33,7 +33,7 @@ export default class WalletStation {
     }
 
     collectWallet = async () => {
-        const keplr = await window.OWallet.getKeplr();
+        const keplr = await window.Keplr.getKeplr();
         if (!keplr) {
             throw messagesErrors.INSTALL_KEPLR_FIRST;
         }
