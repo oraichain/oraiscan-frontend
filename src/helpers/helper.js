@@ -5,6 +5,7 @@ import _ from "lodash";
 import BigNumber from "bignumber.js";
 import moment from "moment";
 import sha256 from "js-sha256";
+import message from "src/lib/proto";
 import { useSelector } from "react-redux";
 import { themeIds } from "src/constants/themes";
 import { reduceString } from "src/lib/scripts";
@@ -221,6 +222,11 @@ export const ThemeSetup = () => {
 	};
 };
 
-export const parseTxFee = (amount) => {
+export const parseTxFee = amount => {
 	return { denom: consts.DENOM, amount };
-}
+};
+
+export const addressDisplay = str => {
+	if (!str) return "";
+	return str.substring(0, 9) + "..." + str.substring(str.length - 9);
+};

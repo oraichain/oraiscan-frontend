@@ -5,6 +5,7 @@ export {default as global} from "./global";
 export {default as contact} from "./contact";
 export {default as activeThemeId} from "./activeThemeId";
 export {default as txs} from "./txs";
+export {default as wasmCode} from "./wasmcode";
 
 // 각 api 요청들의 상태가 어떤지 관리해주는 reducer
 /* {

@@ -76,7 +76,6 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 				const result = await axios["get"](`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`, {
 					cancelToken: source.token,
 				});
-				console.log("result: ", result);
 				setBalanceInfo(result);
 			} catch (error) {
 				console.log("error: ", error);
@@ -106,15 +105,12 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	// this one is used to set value for the deposit amount (<= 100% percent)
 	useEffect(() => {
 		const balance = getAmount(balanceInfo);
-		console.log("balance: ", balance);
-		console.log("percent: ", percent);
 		setValue("sendAmount", parseAmount(balance, percent));
 		return;
 		setValue("sendAmount", 0);
 	}, [balanceInfo, percent]);
 
 	const formatUSD = useMemo(() => {
-		console.log("in format usd");
 		const balance = getAmount(balanceInfo);
 		return new BigNumber(balance)
 			.dividedBy(1000000)
@@ -144,10 +140,8 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 
 	// TODO: DEPOSIT & VOTING
 	const onDeposit = input => {
-		console.log("input: ", input);
 		// truncate all figures after 6 decimal
 		const amount = parseFloat(input.sendAmount).toPrecision(6);
-		console.log("data: ", data);
 		const minFee = (fee * 1000000 + "").split(".")[0];
 		const payload = {
 			type: "/cosmos.gov.v1beta1.MsgDeposit",
@@ -168,7 +162,6 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 				memo: data.memo || "",
 			},
 		};
-		console.log("payload: ", payload);
 
 		const popup = myKeystation.openWindow("transaction", payload, account);
 		let popupTick = setInterval(function() {
