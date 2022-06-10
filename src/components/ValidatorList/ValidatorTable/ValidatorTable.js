@@ -244,7 +244,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 			const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
 
-			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rank ?? "-"}</div>;
+			const rankDataCell = <div className={cx("rank-data-cell", "align-center")}>{item?.rankCustom ?? "-"}</div>;
 			const validatorDataCell = item?.moniker ? (
 				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.operator_address}`}>
 					<div className={cx("logo-brand")}>
