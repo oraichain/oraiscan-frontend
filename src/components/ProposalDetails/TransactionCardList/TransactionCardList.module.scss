@@ -65,6 +65,14 @@
 			line-height: 150%;
 		}
 
+		.item-rank {
+			text-align: center;
+			border-radius: 50%;
+			width: 26px;
+			background: var(--common-activeTabColor);
+			color: var(--common-activeTabTextColor);
+		}
+
 		.type-data-cell {
 			display: flex;
 			flex-direction: row;
