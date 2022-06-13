@@ -59,7 +59,7 @@ const Depositors = memo(({proposalId}) => {
 
 	headerSection = (
 		<div className={cx("transactions-card-header")}>
-			<div className={cx("title")}>Depositors</div>;
+			<div className={cx("title")}>Depositors</div>
 		</div>
 	);
 	bodySection = (

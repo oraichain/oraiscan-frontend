@@ -54,7 +54,7 @@ const ValidatorVotesTable = memo(({data = [], converVoteTypes}) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
-		console.log({ data  })
+
 		return data.map((item, index) => {
 			const rankDataCell = (
 				<div className={cx("rank")}>
