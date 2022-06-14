@@ -96,27 +96,31 @@ export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
 	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyalty = false;
 	let checkAccount = false;
-	for (let event of rawLogArr[0].events) {
-		if (event["type"] === "wasm") {
-			for (let att of event["attributes"]) {
-				if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
-					checkRoyalty = true;
-					continue;
+
+	if(rawLogArr && rawLogArr.length > 0) {
+		for (let event of rawLogArr[0]?.events) {
+			if (event["type"] === "wasm") {
+				for (let att of event["attributes"]) {
+					if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
+						checkRoyalty = true;
+						continue;
+					}
+
+					if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
+						checkAccount = true;
+						continue;
+					}
+
+					if (checkAccount && att["key"] === "new_royalty") {
+						newRoyalty = att["value"];
+						break;
+					}
 				}
 
-				if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
-					checkAccount = true;
-					continue;
-				}
-
-				if (checkAccount && att["key"] === "new_royalty") {
-					newRoyalty = att["value"];
-					break;
-				}
+				break;
 			}
-
-			break;
 		}
+
 	}
 
 	return handleRoyaltyPercentage(newRoyalty);
