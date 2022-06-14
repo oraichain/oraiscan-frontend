@@ -51,7 +51,6 @@ export default function ({ assetSearch, setAssetSearch }) {
 		};
 	}, []);
 
-
 	return (
 		<div className={cx("assets__search")}>
 			<div className={cx("assets__title")}>

@@ -39,7 +39,7 @@ const Account = props => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const cx = cn.bind(styles);
-	const arrayAssetSearch = ["", "", "ibc", "native"];
+	const arrayAssetSearch = ["", "", "cw20", "native"];
 	const [activeTab, setActiveTab] = React.useState(0);
 	const [assetSearch, setAssetSearch] = React.useState(0);
 	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
@@ -61,16 +61,33 @@ const Account = props => {
 		path: nameTagPath,
 	});
 
+	const pathCw20 = `${consts.API.ACCOUNT_BALANCE}/${account}/smart-contract`;
+
+	const {data: dataCw20} = useGet({
+		path: pathCw20,
+	});
+
 	useEffect(() => {
 		fetchData();
-	}, [balanceData]);
+	}, [balanceData, dataCw20]);
 
 	const fetchData = async () => {
-		const arrayCoin = balanceData?.balances?.reduce((acc, cur) => {
-			const denom = cur?.denom?.split("/");
-			let coin = denom?.[0]?.slice(0, 1) === "u" ? priceBalance[denom?.[0]?.slice(1, denom?.[0]?.length)] : priceBalance[denom?.[0]];
-			return acc === "" ? coin : acc + "," + coin;
-		}, "");
+		let arrayCoin = [];
+		if (arrayAssetSearch[assetSearch] === "cw20") {
+			if (dataCw20.length > 0) {
+				arrayCoin = dataCw20.reduce((acc, cur) => {
+					const denomName = cur?.base_denom?.toLowerCase();
+					const token = priceBalance[denomName];
+					return acc === "" ? token : acc + "," + token;
+				}, "");
+			}
+		} else {
+			arrayCoin = balanceData?.balances?.reduce((acc, cur) => {
+				const denom = cur?.denom?.split("/");
+				let coin = denom?.[0]?.slice(0, 1) === "u" ? priceBalance[denom?.[0]?.slice(1, denom?.[0]?.length)] : priceBalance[denom?.[0]];
+				return acc === "" ? coin : acc + "," + coin;
+			}, "");
+		}
 		let price = await api.getGeckoMarketBalance(arrayCoin);
 		setArrayPriceBalance(price?.data);
 	};
@@ -167,21 +184,36 @@ const Account = props => {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) {
-				let totalList = arrayAssetSearch[assetSearch] === "ibc" ? balanceData?.balances : balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
-				let data = totalList?.map((e, i) => {
-					const denom = e?.denom?.split("/");
-					const ids = denom?.[0];
-					let coin = ids?.slice(0, 1) === "u" ? ids?.slice(1, ids?.length) : ids;
-					let reward = arrayPriceBalance?.[priceBalance[coin]]?.["usd"] * e?.amount;
-					return {
-						...e,
-						validator_address: e?.denom,
-						denom: coin,
-						reward,
-						denom_reward: "usd",
-					};
-				});
+			if ((Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) || dataCw20.length > 0) {
+				let totalList = balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
+				let data = [];
+				if (arrayAssetSearch[assetSearch] === "cw20") {
+					data = dataCw20.map(val => {
+						const denomName = val?.base_denom?.toLowerCase()
+						const reward = arrayPriceBalance?.[priceBalance[denomName]]?.["usd"] * val?.amount;
+						return {
+							validator_address: val?.base_denom,
+							amount: val.amount,
+							denom: val?.base_denom,
+							reward,
+							denom_reward: "usd",
+						};
+					});
+				} else {
+					data = totalList?.map((e, i) => {
+						const denom = e?.denom?.split("/");
+						const ids = denom?.[0];
+						let coin = ids?.slice(0, 1) === "u" ? ids?.slice(1, ids?.length) : ids;
+						let reward = arrayPriceBalance?.[priceBalance[coin]]?.["usd"] * e?.amount;
+						return {
+							...e,
+							validator_address: e?.denom,
+							denom: coin,
+							reward,
+							denom_reward: "usd",
+						};
+					});
+				}
 				tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
 			} else {
 				tableSection = <NoResult />;
@@ -225,7 +257,7 @@ const Account = props => {
 				</Grid>
 				<Grid item xs={12}>
 					<div className={cx("transaction-card")}>
-						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={account}/>
+						<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={account} />
 						{activeTab === 0 && <TransactionCard account={account} />}
 						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
 						{activeTab === 2 && <CwToken address={account} />}
