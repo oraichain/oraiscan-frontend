@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "./JoinLeaveExecutorBtn.scss";
 import config from "src/config";
 import { useHistory } from "react-router-dom";
@@ -120,32 +119,6 @@ const JoinLeaveExecutorBtn = memo(({ BtnComponent, validatorName, pubkey, type }
 
 		const response = await walletStation.executeContract(config.AIORACLE_CONTRACT_ADDR, type === "join" ? msgExecutorJoin : msgExecutorLeave, address, null);
 		console.log("response after join / leave ai executor: ", response);
-
-		// const payload = payloadTransaction(
-		// 	"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-		// 	[
-		// 		{
-		// 			type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-		// 			value: {
-		// 				contract: config.AIORACLE_CONTRACT_ADDR,
-		// 				msg: type === "join" ? msgExecutorJoin : msgExecutorLeave,
-		// 				sender: address,
-		// 				sent_funds: null,
-		// 			},
-		// 		},
-		// 	],
-		// 	minGasFee,
-		// 	gas,
-		// 	(data && data.memo) || getValues("memo") || "",
-		// 	{gasType: "auto"}
-		// );
-
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function() {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {

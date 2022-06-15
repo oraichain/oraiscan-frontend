@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import * as yup from "yup";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "../ClaimRwBtn/ClaimRwBtn.scss";
 import { useHistory } from "react-router-dom";
 import { payloadTransaction } from "src/helpers/transaction";
@@ -54,20 +53,6 @@ const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validat
 
 		const response = await walletStation.withdrawDelegatorReward(msg);
 		console.log("response claim rewards: ", response);
-
-		// const payload = payloadTransaction(
-		// 	"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-		// 	msg,
-		// 	minGasFee,
-		// 	gas,
-		// 	(data && data.memo) || getValues("memo") || ""
-		// );
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function () {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {

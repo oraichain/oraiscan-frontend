@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "./ClaimBaseRwBtn.scss";
 import config from "src/config";
 import { useHistory } from "react-router-dom";
@@ -116,32 +115,6 @@ const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
 		const response = await walletStation.executeContract(config.PING_ADDR, msg, address, null);
 
 		console.log("response after claim reward aioracle: ", response);
-
-		// const payload = payloadTransaction(
-		// 	"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-		// 	[
-		// 		{
-		// 			type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-		// 			value: {
-		// 				contract: config.PING_ADDR,
-		// 				msg,
-		// 				sender: address,
-		// 				sent_funds: null,
-		// 			},
-		// 		},
-		// 	],
-		// 	minGasFee,
-		// 	gas,
-		// 	(data && data.memo) || getValues("memo") || "",
-		// 	{ gasType: "auto" }
-		// );
-
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function () {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {

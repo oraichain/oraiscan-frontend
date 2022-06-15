@@ -4,7 +4,6 @@ import cn from "classnames/bind";
 import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "./WithdrawBtn.scss";
 import { useHistory } from "react-router-dom";
 import { payloadTransaction } from "src/helpers/transaction";
@@ -41,28 +40,6 @@ const WithdrawBtn = memo(({ validatorAddress, BtnComponent, validatorName }) => 
 
 		const response = await walletStation.withdrawCommission(validatorAddress);
 		console.log("response withdraw commission reward: ", response);
-
-		// const msg = [
-		// 	{
-		// 		type: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-		// 		value: {
-		// 			validator_address: validatorAddress,
-		// 		},
-		// 	},
-		// ];
-		// const payload = payloadTransaction(
-		// 	"/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-		// 	msg,
-		// 	minGasFee,
-		// 	gas,
-		// 	(data && data.memo) || getValues("memo") || ""
-		// );
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function() {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {

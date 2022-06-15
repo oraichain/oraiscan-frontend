@@ -10,6 +10,7 @@ import styles from "./ClaimCardList.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import {showAlert} from "src/store/modules/global";
 import {myKeystation} from "src/lib/Keystation";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +21,7 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 		return <></>;
 	}
 
-	const handleClickClaim = (validatorAddress, claimableRewards) => {
+	const handleClickClaim = async (validatorAddress, claimableRewards) => {
 		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
 			return dispatch(
 				showAlert({
@@ -31,72 +32,27 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 				})
 			);
 		}
+		
+		const response = await walletStation.withdrawDelegatorReward([{
+			delegator_address: address, validator_address: validatorAddress
+		}]);
+		console.log("response claim rewards: ", response);
+	}
 
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
-	};
-
-	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
+	const handleClickClaimAll = async (validatorAddress, claimableRewards) => {
 		let msg = [];
 		data.forEach(element => {
-			let msgEle;
 			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
-				msgEle = {
-					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-					value: {
-						delegator_address: address,
-						validator_address: element.validator_address,
-					},
-				};
-			}
-
-			msg.push(msgEle);
+				msg.push({
+					delegator_address: address,
+					validator_address: element.validator_address,
+				});
+			}			
 		});
 
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: msg,
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
+		const response = await walletStation.withdrawDelegatorReward(msg);
+		console.log("result withdraw delegator reward: ", response);
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
 	};
 
 	return (

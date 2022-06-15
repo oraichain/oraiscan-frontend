@@ -11,7 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { showAlert } from "src/store/modules/global";
 import consts from "src/constants/consts";
-import { myKeystation } from "src/lib/Keystation";
 import { formatInteger, formatOrai, formatFloat } from "src/helpers/helper";
 import styles from "./YourValidatorCard.scss";
 import editIcon from "src/assets/icons/edit.svg";

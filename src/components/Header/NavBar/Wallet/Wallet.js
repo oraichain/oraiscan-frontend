@@ -14,7 +14,6 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { showAlert } from "src/store/modules/global";
 import { formatOrai } from "src/helpers/helper";
 import { _ } from "src/lib/scripts";
-import { myKeystation } from "src/lib/Keystation";
 import { initWallet } from "src/store/modules/wallet";
 import consts from "src/constants/consts";
 import BigNumber from "bignumber.js";

@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { showAlert } from "src/store/modules/global";
-import { myKeystation } from "src/lib/Keystation";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { myKeystation } from "src/lib/Keystation";
 import { showAlert } from "src/store/modules/global";
 import styles from "./ClaimRwBtn.scss";
 import { useHistory } from "react-router-dom";
@@ -75,34 +74,6 @@ const ClaimRwBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validat
 		}])
 
 		console.log("response claim delegator reward single: ", response);
-
-		// const msg = [
-		// 	{
-		// 		type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-		// 		value: {
-		// 			delegator_address: address,
-		// 			validator_address: validatorAddress,
-		// 			amount: {
-		// 				denom: "orai",
-		// 				amount: balance.multipliedBy(1000000).toString() || "0",
-		// 			},
-		// 		},
-		// 	},
-		// ];
-		// const payload = payloadTransaction(
-		// 	"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-		// 	msg,
-		// 	minGasFee,
-		// 	gas,
-		// 	(data && data.memo) || getValues("memo") || ""
-		// );
-
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function () {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {

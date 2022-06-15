@@ -21,7 +21,6 @@ import { Fee, Gas } from "src/components/common/Fee";
 import { ReactComponent as ExchangeIconGrey } from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import { useFetch } from "src/hooks";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "./Delegate.scss";
 import "./Delegate.css";
 import { formatOrai, formatPercentage } from "src/helpers/helper";

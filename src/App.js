@@ -31,8 +31,9 @@ import { embedChainInfos } from 'src/lib/config/chainInfos';
 import Keplr from 'src/lib/keplr';
 import { initWallet } from "src/store/modules/wallet";
 import WalletStation from "./lib/walletStation";
+import { network } from "./lib/config/networks";
 
-window.chainStore = new ChainStore(embedChainInfos)
+// window.chainStore = new ChainStore(embedChainInfos)
 window.Keplr = new Keplr();
 
 const cx = classNames.bind(styles);
@@ -97,7 +98,7 @@ export default function () {
 			console.log(
 				'Key store in Keplr is changed. You may need to refetch the account info.'
 			);
-			await window.Keplr.suggestChain("Oraichain")
+			await window.Keplr.suggestChain(network.chainId)
 			await updateAddress();
 			// window.location.reload();
 		} catch (error) {

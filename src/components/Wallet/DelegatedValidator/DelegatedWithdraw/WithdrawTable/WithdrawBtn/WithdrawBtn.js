@@ -7,7 +7,6 @@ import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { myKeystation } from "src/lib/Keystation";
 import { InputNumberOrai, TextArea } from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import { useHistory } from "react-router-dom";
@@ -73,27 +72,6 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 		const response = await walletStation.undelegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000))
 
 		console.log("response undelegate: ", response);
-
-		// const msg = [
-		// 	{
-		// 		type: "/cosmos.staking.v1beta1.MsgUndelegate",
-		// 		value: {
-		// 			delegator_address: address,
-		// 			validator_address: validatorAddress,
-		// 			amount: {
-		// 				denom: "orai",
-		// 				amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() || "0",
-		// 			},
-		// 		},
-		// 	},
-		// ];
-		// const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgUndelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
-		// const popup = myKeystation.openWindow("transaction", payload, account);
-		// let popupTick = setInterval(function() {
-		// 	if (popup.closed) {
-		// 		clearInterval(popupTick);
-		// 	}
-		// }, 500);
 	};
 
 	useEffect(() => {
