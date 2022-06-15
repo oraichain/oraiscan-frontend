@@ -2900,8 +2900,10 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-0.18.2.tgz#a0f15d2ef752567713c1f59f69c6742edb03030c"
   integrity sha512-+0P+PrP9qSFVaayNdek4P1OAGE+PEl2SsufuHDRmUpOY25Wzjo7Atyar56Trjc32jkNy4lID6ZFT6BahsR9P9A==
 
-"@oraichain/cosmos-messages@../cosmosjs-monorepo/packages/cosmosjs-messages":
-  version "0.0.1"
+"@oraichain/cosmos-messages@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmos-messages/-/cosmos-messages-0.0.2.tgz#df1efc9d5c623bcac0bcbfc7eac82c73c94b38da"
+  integrity sha512-1K49RAGh8wRnLg6Nxx13yfITe1AfStS8mgKS9ckzay8cNxRi1cwjNrufmr/ICxdONEQFPHNO+Pt8Mo4/+pLnDQ==
   dependencies:
     "@oraichain/cosmosjs" "0.0.94"
 
