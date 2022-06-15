@@ -18,7 +18,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import {isNil} from "lodash-es";
-import {myKeystation} from "src/lib/Keystation";
 import {formatFloat} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {logoBrand} from "src/constants/logoBrand";
@@ -41,6 +40,7 @@ import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
 import styles from "./Proposals.scss";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {walletStation} from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -168,46 +168,20 @@ export default function(props) {
 		</div>
 	);
 
-	const onSubmit = data => {
-		const msg = [
-			{
-				type: "/cosmos.params.v1beta1.ParameterChangeProposal",
-				value: {
-					title: data.title,
-					description: draftToHtml(data.description),
-					changes: [
-						{
-							subspace: "staking",
-							key: "UnbondingTime",
-							value: JSON.stringify(data.unbondingTime),
-						},
-					],
-					amount: data.amount,
+	const onSubmit = async data => {
+		const response = await walletStation.parameterChangeProposal(address, data.amount, {
+			title: data.title,
+			description: draftToHtml(data.description),
+			changes: [
+				{
+					subspace: "staking",
+					key: "UnbondingTime",
+					value: JSON.stringify(data.unbondingTime),
 				},
-			},
-		];
-
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-
-		const payload = {
-			type: "/cosmos.params.v1beta1.ParameterChangeProposal",
-			value: {
-				msg,
-				fee: {
-					amount: [minGasFee],
-					gas,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+			],
+			amount: data.amount,
+		});
+		console.log("Result parameter change proposal: ", response);
 	};
 
 	if (isLargeScreen) {

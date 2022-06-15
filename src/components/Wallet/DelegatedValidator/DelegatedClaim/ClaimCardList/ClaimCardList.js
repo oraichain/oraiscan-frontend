@@ -9,7 +9,6 @@ import {formatOrai} from "src/helpers/helper";
 import styles from "./ClaimCardList.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import {showAlert} from "src/store/modules/global";
-import {myKeystation} from "src/lib/Keystation";
 import { walletStation } from "src/lib/walletStation";
 
 const cx = classNames.bind(styles);

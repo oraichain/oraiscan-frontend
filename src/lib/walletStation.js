@@ -86,6 +86,24 @@ export default class WalletStation {
         return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
     }
 
+    createValidator = async (msg, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const message = CosmosMessages.getMsgCreateValidator(msg.description, msg.commission, msg.delegator_address, msg.min_self_delegation, msg.pubkey, msg.validator_address, msg.value);
+        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
+    }
+
+    deposit = async (proposalId, depositor, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const message = CosmosMessages.getMsgDepositProposal(proposalId, depositor, amount);
+        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
+    }
+
+    vote = async (proposalId, voter, option, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const message = CosmosMessages.getMsgVoteProposal(proposalId, voter, option);
+        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
+    }
+
     withdrawDelegatorReward = async (msgs, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
         const wallet = await this.collectWallet();
         let messages = [];
@@ -101,6 +119,12 @@ export default class WalletStation {
         return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
     }
 
+    parameterChangeProposal = async (proposer, amount, change_info, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount }]
+        const message = CosmosMessages.getMsgParameterChangeProposal(proposer, initial_deposit, change_info);
+        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
+    }
 
     randomnessContract = async (contract, msg, sender, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
         const wallet = await this.collectWallet();

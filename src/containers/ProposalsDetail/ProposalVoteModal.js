@@ -19,11 +19,11 @@ import {Fee, Gas} from "src/components/common/Fee";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "./ProposalModal.module.scss";
 import Long from "long";
 import axios from "axios";
 import DownAngleIcon from "src/icons/DownAngleIcon";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -117,38 +117,12 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 	}, []);
 
 	// TODO: DEPOSIT & VOTING
-	const onVote = () => {
+	const onVote = async () => {
 		// can only vote if use has logged in
 		if (address) {
 			console.log("vote option: ", voteField);
-			const minFee = (fee * 1000000 + "").split(".")[0];
-			const payload = {
-				type: "/cosmos.gov.v1beta1.MsgVote",
-				value: {
-					msg: {
-						type: "/cosmos.gov.v1beta1.MsgVote",
-						value: {
-							proposal_id: new Long(data.proposal_id),
-							voter: address,
-							option: voteField,
-						},
-					},
-					fee: {
-						amount: [minFee],
-						gas,
-					},
-					signatures: null,
-					memo: data.memo || "",
-				},
-			};
-			console.log("payload: ", payload);
-
-			const popup = myKeystation.openWindow("transaction", payload, account);
-			let popupTick = setInterval(function() {
-				if (popup.closed) {
-					clearInterval(popupTick);
-				}
-			}, 500);
+			const response = await walletStation.vote(new Long(data.proposal_id), address, voteField);
+			console.log("Result vote: ", response);
 		} else {
 			// TODO: show error here
 			setErrorMessage("You must log in first to vote for the proposal");

@@ -16,7 +16,7 @@ import styles from "./Claim.scss";
 import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import {myKeystation} from "src/lib/Keystation";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -87,7 +87,7 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 	const methods = useForm();
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
-	const onSubmit = data => {
+	const onSubmit = async data => {
 		if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
 			setError("amount", {
 				type: "too_many_digit",
@@ -96,38 +96,9 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 			return;
 		}
 
-		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgDelegate",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.staking.v1beta1.MsgDelegate",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-							amount: {
-								denom: "orai",
-								amount: new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000).toString(),
-							},
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: data.memo || "",
-			},
-		};
+		const response = await walletStation.delegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
+		console.log("Result delegate: ", response);
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				closeDialog();
-				clearInterval(popupTick);
-			}
-		}, 500);
 	};
 
 	useEffect(() => {

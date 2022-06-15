@@ -9,8 +9,8 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DelegatedTable.scss";
-import {myKeystation} from "src/lib/Keystation";
 import GiftIcon from "./Gift";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = classNames.bind(styles);
 
@@ -36,34 +36,11 @@ export const getHeaderRow = () => {
 const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 	const {address, account} = useSelector(state => state.wallet);
 
-	const handleClickClaim = validatorAddress => {
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 200000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+	const handleClickClaim = async validatorAddress => {
+		const response = await walletStation.withdrawDelegatorReward([{
+			delegator_address: address, validator_address: validatorAddress
+		}]);
+		console.log("response claim rewards: ", response);
 	};
 
 	const getDataRows = rewards => {
