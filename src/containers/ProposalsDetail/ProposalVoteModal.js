@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input, Spin} from "antd";
+import {Divider, Input, notification, Spin} from "antd";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
@@ -23,7 +23,9 @@ import styles from "./ProposalModal.module.scss";
 import Long from "long";
 import axios from "axios";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import { walletStation } from "src/lib/walletStation";
+import {walletStation} from "src/lib/walletStation";
+import {useHistory} from "react-router-dom";
+import {handleTransactionResponse} from "src/helpers/transaction";
 
 const cx = cn.bind(styles);
 
@@ -44,10 +46,12 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const ProposalVoteModal = memo(({open, onClose, data}) => {
+	const history = useHistory();
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const dropDownRef = useRef(null);
 	const [voteField, setVoteOption] = useState("Yes");
 	const selectedItemRef = useRef(null);
@@ -119,13 +123,21 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 	// TODO: DEPOSIT & VOTING
 	const onVote = async () => {
 		// can only vote if use has logged in
-		if (address) {
-			console.log("vote option: ", voteField);
-			const response = await walletStation.vote(new Long(data.proposal_id), address, voteField);
-			console.log("Result vote: ", response);
-		} else {
-			// TODO: show error here
-			setErrorMessage("You must log in first to vote for the proposal");
+		try {
+			if (address) {
+				setLoadingTransaction(true);
+				console.log("vote option: ", voteField);
+				const response = await walletStation.vote(new Long(data.proposal_id), address, voteField);
+				console.log("Result vote: ", response);
+				handleTransactionResponse(response, notification, history, setLoadingTransaction);
+			} else {
+				// TODO: show error here
+				setErrorMessage("You must log in first to vote for the proposal");
+			}
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
 		}
 	};
 
@@ -186,6 +198,7 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 					<FormProvider>{render()}</FormProvider>
 				</div>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });

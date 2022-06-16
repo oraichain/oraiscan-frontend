@@ -12,6 +12,10 @@ import BigNumber from "bignumber.js";
 import {InputNumberFormat, TextArea, InputTextWithIcon, InputText} from "src/components/common/form-controls";
 import styles from "./Register.scss";
 import { walletStation } from "src/lib/walletStation";
+import { notification } from "antd";
+import { useHistory } from "react-router-dom";
+import { handleTransactionResponse } from "src/helpers/transaction";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
@@ -27,41 +31,52 @@ const validationSchemaForm = yup.object().shape({
 
 export default function({address, account}) {
 	const {data} = bech32.decode(address);
+	const history = useHistory();
 	const validatorAddress = bech32.encode("oraivaloper", data);
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
+	const [loadingTransaction, setLoadingTransaction] = React.useState(false);
 
 	const {handleSubmit, errors, register, setValue, getValues} = methods;
 
 	const onSubmit = async data => {
-		const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount, pubkey} = data;
-
-		let msg = {
-			commission: {
-				max_change_rate: maxChangeRate / 100 + "",
-				max_rate: maxRate / 100 + "",
-				rate: commissionRate / 100 + "",
-			},
-			delegator_address: address,
-			description: {
-				details,
-				identity,
-				moniker: name,
-				security_contact: securityContact,
-				website,
-			},
-			min_self_delegation: minSelfDelegation + "",
-			pubkey,
-			validator_address: validatorAddress,
-			value: {
-				denom: "orai",
-				amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
-			},
-		};
-
-		const response = await walletStation.createValidator(msg);
-		console.log("Result create validator: ", response);
+		try {
+			
+			setLoadingTransaction(true);
+			const {maxChangeRate, maxRate, commissionRate, name, details, identity, securityContact, website, minSelfDelegation, delegationAmount, pubkey} = data;
+	
+			let msg = {
+				commission: {
+					max_change_rate: maxChangeRate / 100 + "",
+					max_rate: maxRate / 100 + "",
+					rate: commissionRate / 100 + "",
+				},
+				delegator_address: address,
+				description: {
+					details,
+					identity,
+					moniker: name,
+					security_contact: securityContact,
+					website,
+				},
+				min_self_delegation: minSelfDelegation + "",
+				pubkey,
+				validator_address: validatorAddress,
+				value: {
+					denom: "orai",
+					amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+				},
+			};
+	
+			const response = await walletStation.createValidator(msg);
+			console.log("Result create validator: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	return (
@@ -138,6 +153,7 @@ export default function({address, account}) {
 			<Button className={cx("MuiButton-root")} onClick={handleSubmit(onSubmit)}>
 				Next
 			</Button>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 }

@@ -41,6 +41,9 @@ import AddIcon from "src/icons/AddIcon";
 import styles from "./Proposals.scss";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
@@ -51,6 +54,7 @@ export default function(props) {
 	const [topPageId, setTopPageId] = useState(1);
 	const totalTopPagesRef = useRef(null);
 	const [pageId, setPageId] = useState(1);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const totalPagesRef = useRef(null);
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
@@ -169,19 +173,27 @@ export default function(props) {
 	);
 
 	const onSubmit = async data => {
-		const response = await walletStation.parameterChangeProposal(address, data.amount, {
-			title: data.title,
-			description: draftToHtml(data.description),
-			changes: [
-				{
-					subspace: "staking",
-					key: "UnbondingTime",
-					value: JSON.stringify(data.unbondingTime),
-				},
-			],
-			amount: data.amount,
-		});
-		console.log("Result parameter change proposal: ", response);
+		try {
+			setLoadingTransaction(true);
+			const response = await walletStation.parameterChangeProposal(address, data.amount, {
+				title: data.title,
+				description: draftToHtml(data.description),
+				changes: [
+					{
+						subspace: "staking",
+						key: "UnbondingTime",
+						value: JSON.stringify(data.unbondingTime),
+					},
+				],
+				amount: data.amount,
+			});
+			console.log("Result parameter change proposal: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	if (isLargeScreen) {
@@ -368,6 +380,7 @@ export default function(props) {
 					</div>
 				</form>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</>
 	);
 }

@@ -15,8 +15,11 @@ import BigNumber from "bignumber.js";
 import styles from "./Claim.scss";
 import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
-import { walletStation } from "src/lib/walletStation";
+import {useFetch, useHistory} from "src/hooks";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
@@ -66,7 +69,9 @@ const calculateAmount = (balance, percent) => {
 
 const Claim = memo(({validatorAddress, BtnComponent}) => {
 	const [open, setOpen] = useState(false);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
+	const history = useHistory();
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const percents = [25, 50, 75, 100];
 
@@ -88,17 +93,24 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = async data => {
-		if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
-			setError("amount", {
-				type: "too_many_digit",
-				message: "Maximum 6 digits after decimal",
-			});
-			return;
+		try {
+			setLoadingTransaction(true);
+			if (data.amount * 1000000 - Math.floor(data.amount * 1000000) !== 0) {
+				setError("amount", {
+					type: "too_many_digit",
+					message: "Maximum 6 digits after decimal",
+				});
+				return;
+			}
+
+			const response = await walletStation.delegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
+			console.log("Result delegate: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
 		}
-
-		const response = await walletStation.delegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
-		console.log("Result delegate: ", response);
-
 	};
 
 	useEffect(() => {
@@ -181,6 +193,7 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 					</DialogActions>
 				</form>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });
