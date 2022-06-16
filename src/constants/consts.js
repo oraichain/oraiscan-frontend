@@ -217,4 +217,12 @@ export default Object.freeze({
 	ROYALTY_DECIMAL_POINT_PERCENT: 10000000,
 
 	VALID_ORIGINS: ["https://testnet-wallet.web.app", "https://api.wallet.orai.io", "http://localhost:3001", "https://prerelease.wallet.orai.io"],
+
+	PROPOSALS_OPTIONS: {
+		UNBONDING_TIME: "UnbondingTime",
+		VOTING_PERIOD: "votingparams",
+		COMMUNITY_TAX: "communitytax",
+		INFLATION_MIN: "InflationMin",
+		INFLATION_MAX: "InflationMax"
+	}
 });

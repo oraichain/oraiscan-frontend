@@ -125,6 +125,43 @@
 	}
 }
 
+.text-field-date-root {
+	display: block;
+	width: 50%;
+	padding: 13px 15px;
+	color: var(--common-textColor);
+	border: 1px solid #405d78;
+	box-sizing: border-box;
+	border-radius: 6px;
+	background: var(--common-blockItemBackgroundColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+
+	:global(.MuiInputBase-root) {
+		width: 100%;
+	};
+
+	:global(.MuiInput-underline::after) {
+		content: none;
+	};
+
+	:global(.MuiInput-underline::before) {
+		content: none;
+	};
+
+	&:focus-visible {
+		outline: none;
+	}
+}
+
+.text-field-date {
+	width: 100%;
+	color: var(--common-textColor);
+}
+
 .editor-wrapper {
 	border: 1px solid #405d78;
 	border-radius: 6px;
