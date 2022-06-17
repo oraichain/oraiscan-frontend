@@ -55,6 +55,7 @@
 		width: calc(100vw - 2 * 15px);
 		padding-left: 16px;
 		padding-right: 16px;
+		padding-bottom: 24px;
 		background-color: var(--common-containerBackgroundColor);
 		box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 		z-index: 1;
@@ -204,7 +205,7 @@
 	}
 
 	&-outline {
-		margin-bottom: 20px;
+		margin-bottom: 0px;
 		color: var(--common-modal-modalCommonTextColor);
 		background: var(--common-modal-buttonCancelBackgroundColor);
 		border: 1px solid var(--common-modal-modalCommonBorderColor);
