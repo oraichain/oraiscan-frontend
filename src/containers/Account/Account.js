@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useMemo, useRef} from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -34,6 +34,7 @@ import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
 import styles from "./Account.scss";
+import { formatOrai } from "src/helpers/helper";
 
 const Account = props => {
 	const dispatch = useDispatch();
@@ -60,6 +61,11 @@ const Account = props => {
 	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
 		path: nameTagPath,
 	});
+	const totalValPath = `${consts.API.ACCOUNT_BALANCE}/${account}/total-value`;
+	const {data: totalValData} = useGet({
+		path: totalValPath,
+	});
+
 	let data = [];
 
 	useEffect(() => {
@@ -180,17 +186,19 @@ const Account = props => {
 			}
 			if (arrayAssetSearch[assetSearch] === "cw20") {
 				if (Array.isArray(balanceData) && balanceData?.length > 0) {
-					data = balanceData?.filter(val => val.amount > 1)?.map(val => {
-						const denomName = val?.base_denom?.toLowerCase();
-						const reward = arrayPriceBalance?.[priceBalance[denomName]]?.["usd"] * val?.amount;
-						return {
-							validator_address: val?.base_denom,
-							amount: val?.amount,
-							denom: val?.base_denom,
-							reward: reward ? reward : 0,
-							denom_reward: "usd",
-						};
-					});
+					data = balanceData
+						?.filter(val => val.amount > 1)
+						?.map(val => {
+							const denomName = val?.base_denom?.toLowerCase();
+							const reward = arrayPriceBalance?.[priceBalance[denomName]]?.["usd"] * val?.amount;
+							return {
+								validator_address: val?.base_denom,
+								amount: val?.amount,
+								denom: val?.base_denom,
+								reward: reward ? reward : 0,
+								denom_reward: "usd",
+							};
+						});
 				} else {
 					tableSection = <NoResult />;
 				}
@@ -227,6 +235,19 @@ const Account = props => {
 	delegationCard = <DelegationCard account={account} />;
 	unbondingCard = <UnbondingCard account={account} />;
 
+	const totalValueToken = useMemo(() => {
+		let totalValue = 0;
+		if (arrayAssetSearch[assetSearch] === "cw20") {
+			if (data && data.length > 0) {
+				totalValue =  data.reduce((acc, cur) => {
+					return acc + cur?.reward;
+				}, 0);
+				return formatOrai(totalValue)
+			}
+		}
+		return totalValData?.totalBalances;
+	}, [arrayAssetSearch[assetSearch], totalValData, data]);
+
 	return (
 		<Container fixed className={cx("account")}>
 			{titleSection}
@@ -237,7 +258,7 @@ const Account = props => {
 
 				<Grid item lg={7} xs={12}>
 					<div className={cx("assets-card")}>
-						<AssetSearch data={data} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
+						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
 						{assetSearch === 1 && coinsCard}
 						{assetSearch === 0 && tableSection}
 						{assetSearch === 2 && tableSection}

@@ -9,7 +9,7 @@ import {useMemo} from "react";
 import {formatOrai} from "src/helpers/helper";
 const cx = cn.bind(styles);
 
-export default function({assetSearch, setAssetSearch, data}) {
+export default function({assetSearch, setAssetSearch, totalValue}) {
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
 	const showList = () => {
@@ -52,14 +52,6 @@ export default function({assetSearch, setAssetSearch, data}) {
 			document.removeEventListener("click", clickListener);
 		};
 	}, []);
-	const totalAmount = useMemo(() => {
-		if (data && data.length > 0) {
-			return data.reduce((acc, cur) => {
-				return acc + cur?.reward;
-			}, 0);
-		}
-		return 0;
-	}, [data]);
 
 	return (
 		<>
@@ -84,7 +76,7 @@ export default function({assetSearch, setAssetSearch, data}) {
 					</div>
 				</div>
 			</div>
-			{assetSearch !== 1 && <div className={cx("assets_total_value")}>Total Value: ${formatOrai(totalAmount)}</div>}
+			{assetSearch !== 1 && <div className={cx("assets_total_value")}>Total Value: ${totalValue}</div>}
 		</>
 	);
 }
