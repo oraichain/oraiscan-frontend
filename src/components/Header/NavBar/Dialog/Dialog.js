@@ -150,10 +150,8 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 				msgs = [executeMsg];
 				payload = args({msg: msgs, type: typeSend.CW20});
 			}
-			setTimeout(() => {
-				handleClose();
-			}, 600);
 			const response = await walletStation.sendCoin(payload);
+			handleClose();
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
