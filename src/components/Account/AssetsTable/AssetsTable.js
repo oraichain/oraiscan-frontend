@@ -11,7 +11,7 @@ import styles from "./AssetsTable.scss";
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Name</div>;
+	const validatorHeaderCell = <div className={cx("header-cell", "align-left")}>Denom</div>;
 	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];

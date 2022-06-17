@@ -10,7 +10,6 @@ import {ErrorMessage} from "@hookform/error-message";
 import {Editor} from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
-import * as bech32 from "bech32-buffer";
 import * as yup from "yup";
 import _ from "lodash";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -21,7 +20,6 @@ import {isNil} from "lodash-es";
 import {myKeystation} from "src/lib/Keystation";
 import {formatFloat} from "src/helpers/helper";
 import consts from "src/constants/consts";
-import {logoBrand} from "src/constants/logoBrand";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -39,10 +37,40 @@ import ProposalCardList from "src/components/Proposals/ProposalCardList/Proposal
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
 import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
-import styles from "./Proposals.scss";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {TextField} from "@material-ui/core";
+import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
+
+const schema = yup.object().shape({
+	title: yup.string().required("The Title is required"),
+	description: yup.mixed().required("The Description is required"),
+	amount: yup.string().required("The Amount is required"),
+	// .isNumeric("The Amount must be a number"),
+	voting_preiod: yup.string(),
+	// .required("The Amount is required")
+	unbondingTime: yup.string(),
+	// .required("The Unbonding time is required.")
+	communitytax: yup
+		.number()
+		.transform(value => (isNaN(value) ? -1 : value))
+		// .required("The Community Tax is required")
+		.max(100, "Max value is 100%")
+		.min(0, "Min value is 0%"),
+	InflationMin: yup
+		.number()
+		.transform(value => (isNaN(value) ? -1 : value))
+		// .required("The Community Tax is required")
+		.max(100, "Max value is 100%")
+		.min(0, "Min value is 0%"),
+	InflationMax: yup
+		.number()
+		.transform(value => (isNaN(value) ? -1 : value))
+		// .required("The Community Tax is required")
+		.max(100, "Max value is 100%")
+		.min(0, "Min value is 0%"),
+});
 
 export default function(props) {
 	const theme = useTheme();
@@ -55,42 +83,71 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const type = queryStringParse?.type ?? null;
+	const {
+		PROPOSALS_OPTIONS: {UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX},
+	} = consts;
 	const fields = [
 		{
 			label: "Unbonding time",
-			value: "UNBONDING_TIME",
+			value: UNBONDING_TIME,
+		},
+		{
+			label: "Voting Period",
+			value: VOTING_PERIOD,
+		},
+		{
+			label: "Community Tax",
+			value: COMMUNITY_TAX,
+		},
+		{
+			label: "Minimum Inflation",
+			value: INFLATION_MIN,
+		},
+		{
+			label: "Maximum Inflation",
+			value: INFLATION_MAX,
 		},
 	];
-	const [fieldValue, setFieldValue] = useState("UNBONDING_TIME");
+	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
 
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const {address, account} = useSelector(state => state.wallet);
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
 
+	const dateTimeVoting = () => {
+		const dateVoting = new Date().toISOString().split("T")[0];
+		const timeVoting = new Date()
+			.toTimeString()
+			.split(" ")[0]
+			.slice(0, -3);
+		return `${dateVoting}T${timeVoting}`;
+	};
+
+	useEffect(() => {
+		if(fieldValue) {
+			clearErrors()
+		}
+	}, [fieldValue])
+
 	const defaultValues = {
 		title: "",
 		description: "",
 		amount: 10,
 		unbondingTime: 3600,
+		voting_preiod: dateTimeVoting(),
+		communitytax: 0,
+		InflationMin: 0,
+		InflationMax: 0,
 	};
-	const schema = yup.object().shape({
-		title: yup.string().required("The Title is required"),
-		description: yup.mixed().required("The Description is required"),
-		amount: yup
-			.string()
-			.required("The Amount is required.")
-			.isNumeric("The Unbonding time must be a number."),
-		unbondingTime: yup
-			.string()
-			.required("The Unbonding time is required.")
-			.isNumeric("The Unbonding time must be a number."),
-	});
+
 	const {
 		handleSubmit,
 		register,
+		unregister,
 		control,
 		formState: {errors},
+		clearErrors,
 	} = useForm({defaultValues, resolver: yupResolver(schema)});
 
 	const [open, setOpen] = useState(false);
@@ -168,21 +225,65 @@ export default function(props) {
 		</div>
 	);
 
+	const handleOptionData = data => {
+		switch (fieldValue) {
+			case VOTING_PERIOD:
+				return {
+					...data,
+					subspace: "gov",
+					key: VOTING_PERIOD,
+					value: JSON.stringify({
+						voting_period: JSON.stringify(new Date(data?.voting_preiod).getTime()),
+					}),
+				};
+			case COMMUNITY_TAX:
+				return {
+					...data,
+					subspace: "distribution",
+					key: COMMUNITY_TAX,
+					value: JSON.stringify(JSON.stringify(data?.communitytax / 100)),
+				};
+			case INFLATION_MIN:
+				return {
+					...data,
+					subspace: "mint",
+					key: INFLATION_MIN,
+					value: JSON.stringify(JSON.stringify(data?.InflationMin / 100)),
+				};
+			case INFLATION_MAX:
+				return {
+					...data,
+					subspace: "mint",
+					key: INFLATION_MAX,
+					value: JSON.stringify(JSON.stringify(data?.InflationMax / 100)),
+				};
+			default:
+				return {
+					...data,
+					subspace: "staking",
+					key: UNBONDING_TIME,
+					value: JSON.stringify(data?.unbondingTime),
+				};
+		}
+	};
+
 	const onSubmit = data => {
+		const newData = handleOptionData(data);
+		const {title, description, subspace, key, value, amount} = newData;
 		const msg = [
 			{
 				type: "/cosmos.params.v1beta1.ParameterChangeProposal",
 				value: {
-					title: data.title,
-					description: draftToHtml(data.description),
+					title,
+					description: draftToHtml(description),
 					changes: [
 						{
-							subspace: "staking",
-							key: "UnbondingTime",
-							value: JSON.stringify(data.unbondingTime),
+							subspace,
+							key,
+							value,
 						},
 					],
-					amount: data.amount,
+					amount,
 				},
 			},
 		];
@@ -331,40 +432,47 @@ export default function(props) {
 						<div className={cx("field")}>
 							<SelectBox value={fieldValue} data={fields} onChange={setFieldValue} />
 						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Title
+							</label>
+							<input type='text' className={cx("text-field")} name='title' ref={register} />
+							<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
 
-						{fieldValue === "UNBONDING_TIME" && (
-							<>
-								<div className={cx("field")}>
-									<label className={cx("label")} htmlFor='title'>
-										Title
-									</label>
-									<input type='text' className={cx("text-field")} name='title' ref={register} />
-									<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
-								</div>
-
-								<div className={cx("field")}>
-									<label className={cx("label")} htmlFor='description'>
-										Description
-									</label>
-									<div className={cx("editor-wrapper")}>
-										<Controller
-											name='description'
-											control={control}
-											render={props => (
-												<Editor
-													{...props}
-													onEditorStateChange={editorState => {
-														if (editorState.blocks) {
-															props.onChange(editorState.blocks[0]);
-														}
-													}}
-												/>
-											)}
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='description'>
+								Description
+							</label>
+							<div className={cx("editor-wrapper")}>
+								<Controller
+									name='description'
+									control={control}
+									render={props => (
+										<Editor
+											{...props}
+											onEditorStateChange={editorState => {
+												if (editorState.blocks) {
+													props.onChange(editorState.blocks[0]);
+												}
+											}}
 										/>
-									</div>
-									<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
-								</div>
+									)}
+								/>
+							</div>
+							<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
 
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='amount'>
+								Amount (ORAI)
+							</label>
+							<input type='number' className={cx("text-field")} name='amount' ref={register} />
+							<ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+
+						{fieldValue === UNBONDING_TIME && (
+							<>
 								<div className={cx("field")}>
 									<label className={cx("label")} htmlFor='unbondingTime'>
 										Unbonding time
@@ -372,15 +480,65 @@ export default function(props) {
 									<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
 									<ErrorMessage errors={errors} name='unbondingTime' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 								</div>
-
-								<div className={cx("field")}>
-									<label className={cx("label")} htmlFor='amount'>
-										Amount
-									</label>
-									<input type='number' className={cx("text-field")} name='amount' ref={register} />
-									<ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
-								</div>
 							</>
+						)}
+
+						{fieldValue === VOTING_PERIOD && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='voting_preiod'>
+									Voting Preiod
+								</label>
+								<Controller
+									name='voting_preiod'
+									control={control}
+									ref={register}
+									render={props => {
+										return (
+											<TextField
+												{...props}
+												id='voting_preiod'
+												type='datetime-local'
+												className={cx("text-field-date-root")}
+												inputProps={{
+													className: cx("text-field-date"),
+													color: "white",
+												}}
+											/>
+										);
+									}}
+								/>
+								<ErrorMessage errors={errors} name='voting_preiod' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
+						{fieldValue === COMMUNITY_TAX && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='communitytax'>
+									Community Tax (%)
+								</label>
+								<input type='number' step='any' className={cx("text-field")} name='communitytax' ref={register} />
+								<ErrorMessage errors={errors} name='communitytax' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
+						{fieldValue === INFLATION_MIN && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='InflationMin'>
+									Minimum Inflation (%)
+								</label>
+								<input type='number' step='any' className={cx("text-field")} name='InflationMin' ref={register} />
+								<ErrorMessage errors={errors} name='InflationMin' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
+						{fieldValue === INFLATION_MAX && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='InflationMax'>
+									Maximum Inflation (%)
+								</label>
+								<input type='number' step='any' className={cx("text-field")} name='InflationMax' ref={register} />
+								<ErrorMessage errors={errors} name='InflationMax' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
 						)}
 
 						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
