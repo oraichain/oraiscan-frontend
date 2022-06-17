@@ -22,7 +22,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import UnbondingCard from "src/components/Account/UnbondingCard";
 import Tabs from "src/components/TxList/Tabs";
 import TransactionCard from "src/components/Account/TransactionCard";
-import styles from "./Account.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import NoResult from "src/components/common/NoResult";
 import AssetsTable from "src/components/Account/AssetsTable";
@@ -34,12 +33,13 @@ import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableS
 import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
+import styles from "./Account.scss";
 
 const Account = props => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 	const cx = cn.bind(styles);
-	const arrayAssetSearch = ["", "", "cw20", "native"];
+	const arrayAssetSearch = ["", "orai", "cw20", "native"];
 	const [activeTab, setActiveTab] = React.useState(0);
 	const [assetSearch, setAssetSearch] = React.useState(0);
 	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
@@ -60,22 +60,17 @@ const Account = props => {
 	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
 		path: nameTagPath,
 	});
-
-	const pathCw20 = `${consts.API.ACCOUNT_BALANCE}/${account}/smart-contract`;
-
-	const {data: dataCw20} = useGet({
-		path: pathCw20,
-	});
+	let data = [];
 
 	useEffect(() => {
 		fetchData();
-	}, [balanceData, dataCw20]);
+	}, [balanceData]);
 
 	const fetchData = async () => {
 		let arrayCoin = [];
 		if (arrayAssetSearch[assetSearch] === "cw20") {
-			if (dataCw20.length > 0) {
-				arrayCoin = dataCw20.reduce((acc, cur) => {
+			if (balanceData.length > 0) {
+				arrayCoin = balanceData.reduce((acc, cur) => {
 					const denomName = cur?.base_denom?.toLowerCase();
 					const token = priceBalance[denomName];
 					return acc === "" ? token : acc + "," + token;
@@ -183,23 +178,26 @@ const Account = props => {
 			} else {
 				totalPagesRef.current = null;
 			}
-
-			if ((Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) || dataCw20.length > 0) {
-				let totalList = balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
-				let data = [];
-				if (arrayAssetSearch[assetSearch] === "cw20") {
-					data = dataCw20.map(val => {
-						const denomName = val?.base_denom?.toLowerCase()
+			if (arrayAssetSearch[assetSearch] === "cw20") {
+				if (Array.isArray(balanceData) && balanceData?.length > 0) {
+					data = balanceData?.filter(val => val.amount > 1)?.map(val => {
+						const denomName = val?.base_denom?.toLowerCase();
 						const reward = arrayPriceBalance?.[priceBalance[denomName]]?.["usd"] * val?.amount;
 						return {
 							validator_address: val?.base_denom,
-							amount: val.amount,
+							amount: val?.amount,
 							denom: val?.base_denom,
-							reward,
+							reward: reward ? reward : 0,
 							denom_reward: "usd",
 						};
 					});
 				} else {
+					tableSection = <NoResult />;
+				}
+				tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
+			} else {
+				if (Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) {
+					let totalList = balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
 					data = totalList?.map((e, i) => {
 						const denom = e?.denom?.split("/");
 						const ids = denom?.[0];
@@ -209,14 +207,14 @@ const Account = props => {
 							...e,
 							validator_address: e?.denom,
 							denom: coin,
-							reward,
+							reward: reward ? reward : 0,
 							denom_reward: "usd",
 						};
 					});
+					tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
+				} else {
+					tableSection = <NoResult />;
 				}
-				tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
-			} else {
-				tableSection = <NoResult />;
 			}
 		}
 	}
@@ -239,7 +237,7 @@ const Account = props => {
 
 				<Grid item lg={7} xs={12}>
 					<div className={cx("assets-card")}>
-						<AssetSearch assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
+						<AssetSearch data={data} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
 						{assetSearch === 1 && coinsCard}
 						{assetSearch === 0 && tableSection}
 						{assetSearch === 2 && tableSection}

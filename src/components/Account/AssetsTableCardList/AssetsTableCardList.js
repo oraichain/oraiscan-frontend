@@ -19,7 +19,7 @@ const AssetsTableCardList = memo(({ data = [] }) => {
 							<tbody>
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Name</div>
+										<div className={cx("item-title")}>Denom</div>
 									</td>
 									<td>
 										{_.isNil(item?.validator_address) ? (
@@ -29,7 +29,7 @@ const AssetsTableCardList = memo(({ data = [] }) => {
 											// 	{reduceStringAssets(item.validator_address, 6, 6)}
 											// </NavLink>
 											<div className={cx("align-left")}>
-												{reduceStringAssets(item.validator_address, 30, 0)}
+												{reduceStringAssets(item.validator_address, 6, 6)}
 											</div>
 										)}
 									</td>
