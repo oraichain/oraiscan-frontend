@@ -43,12 +43,31 @@ import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
 
+const dateTimeVoting = (time) => {
+	const dateVoting = new Date().toISOString().split("T")[0];
+	const newDate = new Date()
+	const timeOption = time ? new Date(newDate.getTime() + time) : newDate
+	const timeVoting = timeOption
+		.toTimeString()
+		.split(" ")[0]
+		.slice(0, -3);
+	return `${dateVoting}T${timeVoting}`;
+};
+
 const schema = yup.object().shape({
 	title: yup.string().required("The Title is required"),
 	description: yup.mixed().required("The Description is required"),
 	amount: yup.string().required("The Amount is required"),
 	// .isNumeric("The Amount must be a number"),
-	voting_preiod: yup.string(),
+	voting_period_from: yup.date().min(dateTimeVoting(), "Please choose future date"),
+	voting_period_to: yup.date().when("voting_period_from", (startDate, schema) => {
+		if (startDate) {
+			const dayAfter = new Date(startDate.getTime() + 60000);
+			return schema.min(dayAfter, "End date has to be after than start date");
+		}
+
+		return schema;
+	}),
 	// .required("The Amount is required")
 	unbondingTime: yup.string(),
 	// .required("The Unbonding time is required.")
@@ -115,27 +134,20 @@ export default function(props) {
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
 
-	const dateTimeVoting = () => {
-		const dateVoting = new Date().toISOString().split("T")[0];
-		const timeVoting = new Date()
-			.toTimeString()
-			.split(" ")[0]
-			.slice(0, -3);
-		return `${dateVoting}T${timeVoting}`;
-	};
-
 	useEffect(() => {
-		if(fieldValue) {
-			clearErrors()
+		if (fieldValue) {
+			clearErrors();
 		}
-	}, [fieldValue])
+	}, [fieldValue]);
 
 	const defaultValues = {
 		title: "",
 		description: "",
 		amount: 10,
 		unbondingTime: 3600,
-		voting_preiod: dateTimeVoting(),
+		voting_period: dateTimeVoting(),
+		voting_period_from: dateTimeVoting(),
+		voting_period_to: dateTimeVoting(60000),
 		communitytax: 0,
 		InflationMin: 0,
 		InflationMax: 0,
@@ -225,15 +237,23 @@ export default function(props) {
 		</div>
 	);
 
+	const handleTimePeriod = (fromDate, toDate) => {
+		const from = new Date(fromDate).getTime();
+		const to = new Date(toDate).getTime();
+		const time = to - from;
+		return time;
+	};
+
 	const handleOptionData = data => {
 		switch (fieldValue) {
 			case VOTING_PERIOD:
+				const {voting_period_from: fromDate, voting_period_to: toDate} = data;
 				return {
 					...data,
 					subspace: "gov",
 					key: VOTING_PERIOD,
 					value: JSON.stringify({
-						voting_period: JSON.stringify(new Date(data?.voting_preiod).getTime()),
+						voting_period: JSON.stringify(handleTimePeriod(fromDate, toDate)),
 					}),
 				};
 			case COMMUNITY_TAX:
@@ -485,29 +505,55 @@ export default function(props) {
 
 						{fieldValue === VOTING_PERIOD && (
 							<div className={cx("field")}>
-								<label className={cx("label")} htmlFor='voting_preiod'>
-									Voting Preiod
+								<label className={cx("label")} htmlFor='voting_period'>
+									Voting Period
 								</label>
-								<Controller
-									name='voting_preiod'
-									control={control}
-									ref={register}
-									render={props => {
-										return (
-											<TextField
-												{...props}
-												id='voting_preiod'
-												type='datetime-local'
-												className={cx("text-field-date-root")}
-												inputProps={{
-													className: cx("text-field-date"),
-													color: "white",
-												}}
-											/>
-										);
-									}}
-								/>
-								<ErrorMessage errors={errors} name='voting_preiod' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								<div className={cx("field-voting")}>
+									<div className={cx("field-voting-from")}>
+										<span>Start</span>
+										<Controller
+											name='voting_period_from'
+											control={control}
+											ref={register}
+											render={props => {
+												return (
+													<TextField
+														{...props}
+														id='voting_period_from'
+														type='datetime-local'
+														className={cx("text-field-date-root")}
+														inputProps={{
+															className: cx("text-field-date"),
+														}}
+													/>
+												);
+											}}
+										/>
+										<ErrorMessage errors={errors} name='voting_period_from' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+									</div>
+									<div className={cx("field-voting-to")}>
+										<span>End</span>
+										<Controller
+											name='voting_period_to'
+											control={control}
+											ref={register}
+											render={props => {
+												return (
+													<TextField
+														{...props}
+														id='voting_period_to'
+														type='datetime-local'
+														className={cx("text-field-date-root")}
+														inputProps={{
+															className: cx("text-field-date"),
+														}}
+													/>
+												);
+											}}
+										/>
+										<ErrorMessage errors={errors} name='voting_period_to' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+									</div>
+								</div>
 							</div>
 						)}
 

@@ -33,8 +33,8 @@ import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableS
 import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
-import styles from "./Account.scss";
 import { formatOrai } from "src/helpers/helper";
+import styles from "./Account.scss";
 
 const Account = props => {
 	const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const Account = props => {
 	const {data: balanceData, loading: balanceLoading, error: balanceError} = useGet({
 		path: balancePath,
 	});
-	const {data: nameTagData, loading: nameTagLoading, error: nameTagError} = useGet({
+	const {data: nameTagData} = useGet({
 		path: nameTagPath,
 	});
 	const totalValPath = `${consts.API.ACCOUNT_BALANCE}/${account}/total-value`;

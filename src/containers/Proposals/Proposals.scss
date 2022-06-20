@@ -69,6 +69,18 @@
 .field {
 	position: relative;
 	margin-bottom: 40px;
+
+	&-voting {
+		display: flex;
+
+		&-from {
+			margin-right: 8px;
+		}
+
+		&-to {
+			margin-left: 8px;
+		}
+	}
 }
 
 .label {
@@ -127,7 +139,7 @@
 
 .text-field-date-root {
 	display: block;
-	width: 50%;
+	width: 100%;
 	padding: 13px 15px;
 	color: var(--common-textColor);
 	border: 1px solid #405d78;
