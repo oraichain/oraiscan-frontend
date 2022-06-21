@@ -224,5 +224,10 @@ export default Object.freeze({
 		COMMUNITY_TAX: "communitytax",
 		INFLATION_MIN: "InflationMin",
 		INFLATION_MAX: "InflationMax"
+	},
+
+	VOTING_PERIOD_OPTIONS: {
+		VOTING_DAY: "voting_period_day",
+		VOTING_TIME: "voting_period_time",
 	}
 });

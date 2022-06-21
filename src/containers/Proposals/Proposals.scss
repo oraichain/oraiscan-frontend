@@ -29,7 +29,7 @@
 	&-text {
 		display: inline-block;
 		color: var(--common-buttonTextColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 500;
 		font-size: 16px;
@@ -69,13 +69,23 @@
 .field {
 	position: relative;
 	margin-bottom: 40px;
+
+	&-voting {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&-input {
+			width: 62% !important;
+		}
+	}
 }
 
 .label {
 	display: block;
 	margin-bottom: 10px;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
@@ -86,7 +96,7 @@
 	display: block;
 	margin-bottom: 16px;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
@@ -98,11 +108,25 @@
 	bottom: -32px;
 	display: block;
 	color: #f44336;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 150%;
+}
+
+.vme {
+	display: flex;
+	align-items: center;
+
+	&-hidden {
+		width: 200px;
+		margin-right: 16px;
+	}
+
+	&-text {
+		position: initial;
+	}
 }
 
 .text-field {
@@ -114,7 +138,7 @@
 	box-sizing: border-box;
 	border-radius: 6px;
 	background: var(--common-blockItemBackgroundColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -127,14 +151,14 @@
 
 .text-field-date-root {
 	display: block;
-	width: 50%;
+	width: 100%;
 	padding: 13px 15px;
 	color: var(--common-textColor);
 	border: 1px solid #405d78;
 	box-sizing: border-box;
 	border-radius: 6px;
 	background: var(--common-blockItemBackgroundColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -142,15 +166,15 @@
 
 	:global(.MuiInputBase-root) {
 		width: 100%;
-	};
+	}
 
 	:global(.MuiInput-underline::after) {
 		content: none;
-	};
+	}
 
 	:global(.MuiInput-underline::before) {
 		content: none;
-	};
+	}
 
 	&:focus-visible {
 		outline: none;

@@ -38,18 +38,40 @@ import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/
 import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
-import {TextField} from "@material-ui/core";
+import moment from "moment";
 import styles from "./Proposals.scss";
 
 const cx = cn.bind(styles);
+
+const dateTimeVoting = time => {
+	const dateVoting = new Date().toISOString().split("T")[0];
+	const newDate = new Date();
+	const timeOption = time ? new Date(newDate.getTime() + time) : newDate;
+	const timeVoting = timeOption
+		.toTimeString()
+		.split(" ")[0]
+		.slice(0, -3);
+	return `${dateVoting}T${timeVoting}`;
+};
 
 const schema = yup.object().shape({
 	title: yup.string().required("The Title is required"),
 	description: yup.mixed().required("The Description is required"),
 	amount: yup.string().required("The Amount is required"),
-	// .isNumeric("The Amount must be a number"),
-	voting_preiod: yup.string(),
-	// .required("The Amount is required")
+	voting_period_day: yup
+		.number()
+		.transform(value => (isNaN(value) ? -1 : value))
+		.min(1, "Min value is 1 day"),
+	voting_period_time: yup
+	.string()
+	.when("voting_period_day", {
+		is: (val) => val === undefined,
+		then: yup.string().test("is-greater", "Min value is 1 hour", function(value) {
+			const defaultTime = "01:00:00";
+			return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"))
+		}),
+		otherwise: yup.string().notRequired()
+	}),
 	unbondingTime: yup.string(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
@@ -72,6 +94,56 @@ const schema = yup.object().shape({
 		.min(0, "Min value is 0%"),
 });
 
+const defaultValues = {
+	title: "",
+	description: "",
+	amount: 10,
+	unbondingTime: 3600,
+	voting_period_day: 1,
+	voting_period_time: "01:00:00",
+	communitytax: 0,
+	InflationMin: 0,
+	InflationMax: 0,
+};
+const {
+	PROPOSALS_OPTIONS: {UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX},
+	VOTING_PERIOD_OPTIONS: {VOTING_DAY, VOTING_TIME},
+} = consts;
+
+const fields = [
+	{
+		label: "Unbonding time",
+		value: UNBONDING_TIME,
+	},
+	{
+		label: "Voting Period",
+		value: VOTING_PERIOD,
+	},
+	{
+		label: "Community Tax",
+		value: COMMUNITY_TAX,
+	},
+	{
+		label: "Minimum Inflation",
+		value: INFLATION_MIN,
+	},
+	{
+		label: "Maximum Inflation",
+		value: INFLATION_MAX,
+	},
+];
+
+const votingFields = [
+	{
+		label: "Day",
+		value: VOTING_DAY,
+	},
+	{
+		label: "Time",
+		value: VOTING_TIME,
+	},
+];
+
 export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -83,63 +155,13 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const type = queryStringParse?.type ?? null;
-	const {
-		PROPOSALS_OPTIONS: {UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX},
-	} = consts;
-	const fields = [
-		{
-			label: "Unbonding time",
-			value: UNBONDING_TIME,
-		},
-		{
-			label: "Voting Period",
-			value: VOTING_PERIOD,
-		},
-		{
-			label: "Community Tax",
-			value: COMMUNITY_TAX,
-		},
-		{
-			label: "Minimum Inflation",
-			value: INFLATION_MIN,
-		},
-		{
-			label: "Maximum Inflation",
-			value: INFLATION_MAX,
-		},
-	];
 	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
-
+	const [votingValue, setVotingValue] = useState(VOTING_DAY);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const {address, account} = useSelector(state => state.wallet);
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
-
-	const dateTimeVoting = () => {
-		const dateVoting = new Date().toISOString().split("T")[0];
-		const timeVoting = new Date()
-			.toTimeString()
-			.split(" ")[0]
-			.slice(0, -3);
-		return `${dateVoting}T${timeVoting}`;
-	};
-
-	useEffect(() => {
-		if(fieldValue) {
-			clearErrors()
-		}
-	}, [fieldValue])
-
-	const defaultValues = {
-		title: "",
-		description: "",
-		amount: 10,
-		unbondingTime: 3600,
-		voting_preiod: dateTimeVoting(),
-		communitytax: 0,
-		InflationMin: 0,
-		InflationMax: 0,
-	};
+	const [open, setOpen] = useState(false);
 
 	const {
 		handleSubmit,
@@ -150,7 +172,11 @@ export default function(props) {
 		clearErrors,
 	} = useForm({defaultValues, resolver: yupResolver(schema)});
 
-	const [open, setOpen] = useState(false);
+	useEffect(() => {
+		if (fieldValue) {
+			clearErrors();
+		}
+	}, [fieldValue]);
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -196,27 +222,6 @@ export default function(props) {
 	let tableSection;
 	let paginationTopSection;
 	let paginationSection;
-	let isValidator = false;
-
-	// if (!_.isNil(address) && address?.trim()?.length === 43) {
-	// 	const decodedObj = bech32.decode(address);
-	// 	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
-
-	// 	if (logoBrand.find(item => item.operatorAddress === operatorAddress)) {
-	// 		isValidator = true;
-	// 	}
-	// }
-
-	// if (isValidator && type === "ParameterChangeProposal") {
-	// 	createButton = (
-	// 		<div className={cx("create-button")} onClick={handleOpen}>
-	// 			<span className={cx("create-button-text")}>Create Proposal</span>
-	// 			<AddIcon className={cx("create-button-icon")} />
-	// 		</div>
-	// 	);
-	// } else {
-	// 	createButton = <></>;
-	// }
 
 	createButton = (
 		<div className={cx("create-button")} onClick={handleOpen}>
@@ -225,15 +230,29 @@ export default function(props) {
 		</div>
 	);
 
+	const hmsToMiliSeconds = times => {
+		const hmsArr = times.split(":");
+		const seconds = +hmsArr[0] * 60 * 60 + +hmsArr[1] * 60 + +hmsArr[2];
+		return seconds * 1000;
+	};
+
+	const handleDayTimePeriod = (days, times) => {
+		if (days) {
+			return Math.round(days * 24 * 60 * 60 * 1000);
+		}
+		return hmsToMiliSeconds(times);
+	};
+
 	const handleOptionData = data => {
 		switch (fieldValue) {
 			case VOTING_PERIOD:
+				const {voting_period_day: days, voting_period_time: times} = data;
 				return {
 					...data,
 					subspace: "gov",
 					key: VOTING_PERIOD,
 					value: JSON.stringify({
-						voting_period: JSON.stringify(new Date(data?.voting_preiod).getTime()),
+						voting_period: JSON.stringify(handleDayTimePeriod(days, times)),
 					}),
 				};
 			case COMMUNITY_TAX:
@@ -410,6 +429,21 @@ export default function(props) {
 	);
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
+	const handleVotingPeriod = value => {
+		if (value === VOTING_DAY) {
+			return (
+				<>
+					<Controller as={<input type='number' step='any' className={cx("text-field", "field-voting-input")} />} name={VOTING_DAY} control={control} ref={register} />
+				</>
+			);
+		}
+		return (
+			<>
+				<Controller as={<input type='time' step='1' className={cx("text-field", "field-voting-input")} />} name={VOTING_TIME} control={control} />
+			</>
+		);
+	};
+
 	return (
 		<>
 			{titleSection}
@@ -485,29 +519,17 @@ export default function(props) {
 
 						{fieldValue === VOTING_PERIOD && (
 							<div className={cx("field")}>
-								<label className={cx("label")} htmlFor='voting_preiod'>
-									Voting Preiod
+								<label className={cx("label")} htmlFor='voting_period'>
+									Voting Period
 								</label>
-								<Controller
-									name='voting_preiod'
-									control={control}
-									ref={register}
-									render={props => {
-										return (
-											<TextField
-												{...props}
-												id='voting_preiod'
-												type='datetime-local'
-												className={cx("text-field-date-root")}
-												inputProps={{
-													className: cx("text-field-date"),
-													color: "white",
-												}}
-											/>
-										);
-									}}
-								/>
-								<ErrorMessage errors={errors} name='voting_preiod' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
+								<div className={cx("field-voting")}>
+									<SelectBox value={votingValue} data={votingFields} onChange={setVotingValue} />
+									{handleVotingPeriod(votingValue)}
+								</div>
+								<div className={cx("vme")}>
+									<div className={cx("vme-hidden")}></div>
+									<ErrorMessage errors={errors} name={votingValue} render={({message}) => <p className={cx("error-message", "vme-text")}>{message}</p>} />
+								</div>
 							</div>
 						)}
 
