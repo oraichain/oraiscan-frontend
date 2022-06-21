@@ -53,14 +53,6 @@ export default function({assetSearch, setAssetSearch, totalValue}) {
 		};
 	}, []);
 
-	const handleTotalValue = () => {
-		const dollarUSLocale = Intl.NumberFormat('en-US');
-		if(assetsNetworks[assetSearch] === "CW20") {
-			return totalValue
-		}
-		return dollarUSLocale.format(totalValue)
-	}
-
 	return (
 		<>
 			<div className={cx("assets__search")}>
@@ -84,7 +76,7 @@ export default function({assetSearch, setAssetSearch, totalValue}) {
 					</div>
 				</div>
 			</div>
-			{assetSearch !== 1 && <div className={cx("assets_total_value")}>Total Value: {totalValue ? `${handleTotalValue(95000)}` : "-"}</div>}
+			{assetSearch !== 1 && <div className={cx("assets_total_value")}>Total Value: {totalValue ? `$${totalValue}` : "-"}</div>}
 		</>
 	);
 }

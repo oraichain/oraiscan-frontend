@@ -245,7 +245,8 @@ const Account = props => {
 				return formatOrai(totalValue)
 			}
 		}
-		return totalValData?.totalBalances;
+		totalValue = totalValData?.totalBalances * 1000000
+		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 
 	return (
