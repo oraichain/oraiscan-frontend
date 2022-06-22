@@ -33,11 +33,17 @@ const DepositorsTable = memo(({data = []}) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
-		let itemAmount;
+		let itemAmount = {}
 		return data.map((item, index) => {
 			if (item?.amount) {
-				itemAmount = JSON.parse(item?.amount);
+				const denom = item?.amount.slice(-4)
+				const amount = item?.amount.slice(0, -4)
+				itemAmount = {
+					amount,
+					denom
+				}
 			}
+
 			const depositorDataCell = (
 				<div className={cx("align-left")}>
 					<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.account_address}`}>
@@ -58,7 +64,7 @@ const DepositorsTable = memo(({data = []}) => {
 			);
 			const answerDataCell = (
 				<div className={cx("align-left")}>
-					{formatOrai(itemAmount[0]?.amount)} {itemAmount[0]?.denom.toUpperCase()}
+					{formatOrai(itemAmount?.amount)} {itemAmount?.denom.toUpperCase()}
 				</div>
 			);
 			const timeDataCell = <div className={cx("align-right")}>{setAgoTime(item?.time_deposit)}</div>;

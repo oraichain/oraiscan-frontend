@@ -126,16 +126,20 @@ const TxMessage = ({key, msg, data}) => {
 		const getAmountValidatorCommission = () => {
 			let value = "";
 			if (data) {
-				const newData = JSON.parse(data?.raw_log)[1];
-				const item = newData?.events.find(val => val.type === "withdraw_commission");
-				if (item) {
-					const amountString = item?.attributes[0]?.value;
-					const amount = amountString.slice(0, -4);
-					const denom = amountString.slice(-4);
-					value = {
-						amount,
-						denom,
-					};
+				try {
+					const newData = JSON.parse(data?.raw_log)[1];
+					const item = newData?.events.find(val => val.type === "withdraw_commission");
+					if (item) {
+						const amountString = item?.attributes[0]?.value;
+						const amount = amountString.slice(0, -4);
+						const denom = amountString.slice(-4);
+						value = {
+							amount,
+							denom,
+						};
+					}
+				} catch (e) {
+					return value
 				}
 			}
 			return value;
