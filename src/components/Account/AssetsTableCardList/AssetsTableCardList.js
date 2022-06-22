@@ -43,7 +43,7 @@ const AssetsTableCardList = memo(({ data = [] }) => {
 										) : (
 											<div className={cx("amount")}>
 												<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
-												<span className={cx("amount-denom")}>{reduceStringAssets(item.denom,7,3)}</span>
+												<span className={cx("amount-denom")}>{reduceStringAssets(item.denom, 7, 3)}</span>
 											</div>
 										)}
 									</td>
