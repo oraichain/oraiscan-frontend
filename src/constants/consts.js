@@ -229,5 +229,11 @@ export default Object.freeze({
 	VOTING_PERIOD_OPTIONS: {
 		VOTING_DAY: "voting_period_day",
 		VOTING_TIME: "voting_period_time",
+	},
+
+	RESULT_STATUS: {
+		SUCCESS: "success",
+		FAILURE: "failure",
+		PENDING: "pending"
 	}
 });
