@@ -4,12 +4,15 @@ export const initWallet = createAction("INIT_WALLET");
 
 const initState = {
 	address: "",
+	name: "",
+	pubKey: Buffer.from("").toString("base64"),
 };
 
 const handlers = {
 	INIT_WALLET: (state, action) => {
 		state.address = action.payload.address || "";
-		state.account = action.payload.account || "";
+		state.name = action.payload.name || "";
+		state.pubKey = action.payload.pubKey || Buffer.from("").toString("base64");
 		return {...state};
 	},
 };
