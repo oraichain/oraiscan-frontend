@@ -1,31 +1,31 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect, useMemo, useCallback, useReducer, useRef} from "react";
+import React, { memo, useState, useEffect, useMemo, useCallback, useReducer, useRef } from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
-import {useSelector} from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import { withStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input, notification, Spin} from "antd";
+import { Divider, Input, notification, Spin } from "antd";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
-import {InputNumberOrai} from "src/components/common/form-controls";
+import { InputNumberOrai } from "src/components/common/form-controls";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {Fee, Gas} from "src/components/common/Fee";
-import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
+import { Fee, Gas } from "src/components/common/Fee";
+import { ReactComponent as ExchangeIconGrey } from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
+import { useFetch } from "src/hooks";
 import styles from "./ProposalModal.module.scss";
 import Long from "long";
 import axios from "axios";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import {walletStation} from "src/lib/walletStation";
-import {useHistory} from "react-router-dom";
-import {handleTransactionResponse} from "src/helpers/transaction";
+import { walletStation } from "src/lib/walletStation";
+import { useHistory } from "react-router-dom";
+import { handleTransactionResponse } from "src/helpers/transaction";
 
 const cx = cn.bind(styles);
 
@@ -45,9 +45,9 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const ProposalVoteModal = memo(({open, onClose, data}) => {
+const ProposalVoteModal = memo(({ open, onClose, data }) => {
 	const history = useHistory();
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const [gas, setGas] = useState(200000);
@@ -136,13 +136,13 @@ const ProposalVoteModal = memo(({open, onClose, data}) => {
 			}
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
 			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return onClose();
 			}

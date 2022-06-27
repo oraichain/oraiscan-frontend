@@ -77,7 +77,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${error?.toString()}` });
+			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
 			console.log(error);
 		}
 	};
