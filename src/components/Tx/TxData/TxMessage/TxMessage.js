@@ -325,14 +325,19 @@ const TxMessage = ({ key, msg, data }) => {
 			const { amount, denom, denom_name } = inputObject[0] ? inputObject[0] : inputObject;
 			let finalDenom = denom;
 			if (denom !== consts.DENOM) {
-				const logs = JSON.parse(data.raw_log);
-				const ibcTransferEvent = parseRawEvents(logs[0].events, "send_packet");
-				// process denom for msg transfer case
-				if (ibcTransferEvent) {
-					const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === "packet_data").value).denom;
-					finalDenom = packetData.split("/")[2]; // syntax: transfer/channel-15/uatom. trim the first character and upper everything
-					if (finalDenom.charAt(0) === "u") finalDenom = finalDenom.substring(1).toUpperCase();
-					else finalDenom = finalDenom.toUpperCase();
+				var logs;
+				try {
+					const logs = JSON.parse(data.raw_log);
+					const ibcTransferEvent = parseRawEvents(logs[0].events, "send_packet");
+					// process denom for msg transfer case
+					if (ibcTransferEvent) {
+						const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === "packet_data").value).denom;
+						finalDenom = packetData.split("/")[2]; // syntax: transfer/channel-15/uatom. trim the first character and upper everything
+						if (finalDenom.charAt(0) === "u") finalDenom = finalDenom.substring(1).toUpperCase();
+						else finalDenom = finalDenom.toUpperCase();
+					}
+				} catch (error) {
+					console.log("get currency row from object error: ", error);
 				}
 			}
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
