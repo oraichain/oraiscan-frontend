@@ -28,3 +28,7 @@
 	top: 0;
 	width: 100%;
 }
+
+:global(.ant-notification) {
+	z-index: 9999;
+}

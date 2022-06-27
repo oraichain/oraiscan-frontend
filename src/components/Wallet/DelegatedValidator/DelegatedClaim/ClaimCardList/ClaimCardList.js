@@ -26,25 +26,31 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 	}
 
 	const handleClickClaim = async (validatorAddress, claimableRewards) => {
-		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
-			return dispatch(
-				showAlert({
-					show: true,
-					message: "Claimable Rewards ORAI must greater than 0",
-					autoHideDuration: 1500,
-					type: "error",
-				})
-			);
-		}
+		try {
+			if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
+				return dispatch(
+					showAlert({
+						show: true,
+						message: "Claimable Rewards ORAI must greater than 0",
+						autoHideDuration: 1500,
+						type: "error",
+					})
+				);
+			}
 
-		const response = await walletStation.withdrawDelegatorReward([
-			{
-				delegator_address: address,
-				validator_address: validatorAddress,
-			},
-		]);
-		console.log("response claim rewards: ", response);
-		handleTransactionResponse(response, notification, history);
+			const response = await walletStation.withdrawDelegatorReward([
+				{
+					delegator_address: address,
+					validator_address: validatorAddress,
+				},
+			]);
+			console.log("response claim rewards: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	const handleClickClaimAll = async (validatorAddress, claimableRewards) => {
