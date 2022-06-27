@@ -27,6 +27,15 @@ import {showAlert} from "src/store/modules/global";
 import {isMobile} from "react-device-detect";
 import styles from "./App.scss";
 import {ThemeSetup} from "./helpers/helper";
+import {embedChainInfos} from "src/lib/config/chainInfos";
+import Keplr from "src/lib/keplr";
+import {initWallet} from "src/store/modules/wallet";
+import WalletStation from "./lib/walletStation";
+import {network} from "./lib/config/networks";
+import { notification } from "antd";
+
+// window.chainStore = new ChainStore(embedChainInfos)
+window.Keplr = new Keplr();
 
 const cx = classNames.bind(styles);
 
@@ -59,7 +68,6 @@ export default function() {
 	const {address} = useSelector(state => state.wallet);
 	const [isSearchAreaVisible, setIsSearchAreaVisible] = useState(false);
 	const m = useGlobalApp();
-
 	const classes = useStyles();
 
 	const toggleSearchArea = () => {
@@ -78,6 +86,43 @@ export default function() {
 			updateToken(address);
 		}
 	}, []);
+
+	useEffect(() => {
+		keplrHandler();
+		window.addEventListener("keplr_keystorechange", keplrHandler);
+		return () => {
+			window.removeEventListener("keplr_keystorechange", keplrHandler);
+		};
+	}, []);
+
+	const keplrHandler = async () => {
+		try {
+			console.log("Key store in Keplr is changed. You may need to refetch the account info.");
+			await window.Keplr.suggestChain(network.chainId);
+			await updateAddress();
+			// window.location.reload();
+		} catch (error) {
+			console.log("Error: ", error);
+		}
+	};
+
+	const updateAddress = async () => {
+		// automatically update. If user is also using Oraichain wallet => dont update
+		try {
+			const keplr = await window.Keplr.getKeplr();
+			if (!keplr) throw "You must install Keplr to continue";
+			const key = await window.Keplr.getKeplrKey();
+
+			if (key?.bech32Address) {
+				// if (newAddress === address) {
+				// 	dispatch(initWallet({}));
+				// }
+				dispatch(initWallet({address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64")}));
+			}
+		} catch (error) {
+			notification.error({message: error});
+		}
+	};
 
 	const toastifyMsg = payload => {
 		return (

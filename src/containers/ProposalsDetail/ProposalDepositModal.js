@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input, Spin} from "antd";
+import {Divider, Input, notification, Spin} from "antd";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import _ from "lodash";
@@ -19,10 +19,12 @@ import {Fee, Gas} from "src/components/common/Fee";
 import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "./ProposalModal.module.scss";
 import Long from "long";
 import axios from "axios";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {useHistory} from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -57,6 +59,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 const ProposalDepositModal = memo(({open, onClose, data}) => {
+	const history = useHistory();
 	const {address, account} = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status.price);
 	const minFee = useSelector(state => state.blockchain.minFee);
@@ -67,6 +70,7 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	const percents = [25, 50, 75, 100];
 	const [percent, setPercent] = useState(0);
 	const [amount, setAmount] = useState(0);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 
 	// this one is used to fetch balance info
 	useEffect(() => {
@@ -141,36 +145,21 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 	};
 
 	// TODO: DEPOSIT & VOTING
-	const onDeposit = input => {
-		// truncate all figures after 6 decimal
-		const amount = parseFloat(input.sendAmount).toPrecision(6);
-		const minFee = (fee * 1000000 + "").split(".")[0];
-		const payload = {
-			type: "/cosmos.gov.v1beta1.MsgDeposit",
-			value: {
-				msg: {
-					type: "/cosmos.gov.v1beta1.MsgDeposit",
-					value: {
-						proposal_id: new Long(data.proposal_id),
-						depositor: address,
-						amount: [{denom: "orai", amount: new BigNumber(amount).multipliedBy(1000000).toString()}],
-					},
-				},
-				fee: {
-					amount: [minFee],
-					gas,
-				},
-				signatures: null,
-				memo: data.memo || "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+	const onDeposit = async input => {
+		try {
+			// truncate all figures after 6 decimal
+			setLoadingTransaction(true);
+			const amount = parseFloat(input.sendAmount).toPrecision(6);
+			const response = await walletStation.deposit(new Long(data.proposal_id), address, [
+				{denom: "orai", amount: new BigNumber(amount).multipliedBy(1000000).toString()},
+			]);
+			console.log("Result deposit", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -251,6 +240,7 @@ const ProposalDepositModal = memo(({open, onClose, data}) => {
 					<FormProvider {...methods}>{render()}</FormProvider>
 				</div>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });

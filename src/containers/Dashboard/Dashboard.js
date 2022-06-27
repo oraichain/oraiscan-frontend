@@ -15,6 +15,7 @@ import InfoCard from "src/components/Dashboard/InfoCard";
 import BlocksCard from "src/components/Dashboard/BlocksCard";
 import TransactionsCard from "src/components/Dashboard/TransactionsCard";
 import styles from "./Dashboard.scss";
+import PopupDashboard from "src/components/Dashboard/PopupDashboard";
 
 const cx = cn.bind(styles);
 
@@ -27,6 +28,7 @@ export default function (props) {
 	let infoCard;
 	let blocksCard;
 	let transactionCard;
+	let popupDashboard;
 
 	titleSection = isLargeScreen ? (
 		<Container fixed>
@@ -44,11 +46,13 @@ export default function (props) {
 	infoCard = <InfoCard />;
 	blocksCard = <BlocksCard />;
 	transactionCard = <TransactionsCard />;
+	popupDashboard = <PopupDashboard />;
 
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("dashboard")}>
+				{popupDashboard}
 				<Grid container spacing={4}>
 					<Grid item lg={12} xs={12}>
 						{infoCard}

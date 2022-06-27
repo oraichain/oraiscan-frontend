@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const OraiIcon = ({className}) => {
+const OraiIcon = ({ className }) => {
 	return (
 		<svg className={className} width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-			<g clip-path='url(#clip0_5130_13757)'>
+			<g clipPath='url(#clip0_5130_13757)'>
 				<path
 					d='M8.28292 8.5409L8.91667 10.4127H7.48705L8.15765 8.5409H8.28292ZM11.7022 11.4149H10.6558V11.7833H13.235V11.4149H12.2033V8.46721H13.235V8.09875H10.6558V8.46721H11.7022V11.4149ZM6.99331 11.7833L7.34703 10.7959H9.04932L9.38093 11.7833H9.92625L8.5998 8.09875H7.84814L6.49958 11.7833H6.99331ZM15.291 15.2911H4.70886V4.70892H15.291V15.2911Z'
 					fill='currentColor'

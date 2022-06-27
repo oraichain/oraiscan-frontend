@@ -6,14 +6,16 @@ import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {myKeystation} from "src/lib/Keystation";
 import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import {calculateAmount} from "src/helpers/calculateAmount";
 import DialogForm from "src/components/DialogForm";
+import {walletStation} from "src/lib/walletStation";
+import { notification } from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
@@ -36,6 +38,7 @@ const {GAS_DEFAULT} = amountConsts;
 const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
@@ -55,46 +58,35 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 		resolver: undefined,
 	});
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
-	console.log({ withdrawable , balance });
-	const onSubmit = data => {
-		if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
-			return dispatch(
-				showAlert({
-					show: true,
-					message: "Claimable Rewards ORAI must greater than 0",
-					autoHideDuration: 1500,
-					type: "error",
-				})
-			);
-		}
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const msg = [
-			{
-				type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-				value: {
+	console.log({withdrawable, balance});
+	const onSubmit = async data => {
+		try {
+			setLoadingTransaction(true);
+			if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
+				return dispatch(
+					showAlert({
+						show: true,
+						message: "Claimable Rewards ORAI must greater than 0",
+						autoHideDuration: 1500,
+						type: "error",
+					})
+				);
+			}
+			// const minGasFee = (fee * 1000000 + "").split(".")[0];
+
+			const response = await walletStation.withdrawDelegatorReward([
+				{
 					delegator_address: address,
 					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: balance.multipliedBy(1000000).toString() || "0",
-					},
 				},
-			},
-		];
-		const payload = payloadTransaction(
-			"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			msg,
-			minGasFee,
-			gas,
-			(data && data.memo) || getValues("memo") || ""
-		);
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+			]);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+			console.log("response claim delegator reward single: ", response);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -133,6 +125,7 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 				warning={true}
 				buttonName={"Claim"}
 			/>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });

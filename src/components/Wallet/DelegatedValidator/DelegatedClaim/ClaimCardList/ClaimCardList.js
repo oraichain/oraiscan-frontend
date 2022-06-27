@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, {memo, useState} from "react";
+import {NavLink, useHistory} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString} from "src/lib/scripts";
@@ -9,94 +9,71 @@ import {formatOrai} from "src/helpers/helper";
 import styles from "./ClaimCardList.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import {showAlert} from "src/store/modules/global";
-import {myKeystation} from "src/lib/Keystation";
+import {walletStation} from "src/lib/walletStation";
+import {notification} from "antd";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = classNames.bind(styles);
 
 const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 	const {address, account} = useSelector(state => state.wallet);
+	const history = useHistory();
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const dispatch = useDispatch();
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
 
-	const handleClickClaim = (validatorAddress, claimableRewards) => {
-		if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
-			return dispatch(
-				showAlert({
-					show: true,
-					message: "Claimable Rewards ORAI must greater than 0",
-					autoHideDuration: 1500,
-					type: "error",
-				})
-			);
-		}
-
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-						value: {
-							delegator_address: address,
-							validator_address: validatorAddress,
-						},
-					},
-				],
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
+	const handleClickClaim = async (validatorAddress, claimableRewards) => {
+		try {
+			if (parseFloat(claimableRewards) <= 0 || !parseFloat(claimableRewards)) {
+				return dispatch(
+					showAlert({
+						show: true,
+						message: "Claimable Rewards ORAI must greater than 0",
+						autoHideDuration: 1500,
+						type: "error",
+					})
+				);
 			}
-		}, 500);
+
+			const response = await walletStation.withdrawDelegatorReward([
+				{
+					delegator_address: address,
+					validator_address: validatorAddress,
+				},
+			]);
+			console.log("response claim rewards: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
-	const handleClickClaimAll = (validatorAddress, claimableRewards) => {
-		let msg = [];
-		data.forEach(element => {
-			let msgEle;
-			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
-				msgEle = {
-					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-					value: {
+	const handleClickClaimAll = async (validatorAddress, claimableRewards) => {
+		try {
+			setLoadingTransaction(true);
+			let msg = [];
+			data.forEach(element => {
+				if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+					msg.push({
 						delegator_address: address,
 						validator_address: element.validator_address,
-					},
-				};
-			}
+					});
+				}
+			});
 
-			msg.push(msgEle);
-		});
-
-		const payload = {
-			type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			value: {
-				msg: msg,
-				fee: {
-					amount: [0],
-					gas: 2000000,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+			const response = await walletStation.withdrawDelegatorReward(msg);
+			console.log("result withdraw delegator reward: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	return (
@@ -177,6 +154,7 @@ const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
 					</div>
 				);
 			})}
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });

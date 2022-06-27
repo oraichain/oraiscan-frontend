@@ -25,7 +25,7 @@
 .top-section {
 	position: relative;
 	padding: 40px 0;
-	z-index: 99;
+	z-index: 1;
 
 	.intro {
 		@include media("<=428px") {

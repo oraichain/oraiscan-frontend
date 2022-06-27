@@ -5,12 +5,14 @@ import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import * as yup from "yup";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "../ClaimRwBtn/ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
+import {walletStation} from "src/lib/walletStation";
+import { notification } from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 const {GAS_DEFAULT} = amountConsts;
@@ -21,6 +23,7 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, delegatedData, validato
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	// const balance = new BigNumber(withdrawable);
@@ -38,36 +41,28 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, delegatedData, validato
 	});
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
-	const onSubmit = data => {
-		let msg = [];
-		delegatedData.forEach(element => {
-			let msgEle;
-			if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
-				msgEle = {
-					type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-					value: {
+	const onSubmit = async data => {
+		try {
+			setLoadingTransaction(true);
+			let msg = [];
+			delegatedData.forEach(element => {
+				if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+					msg.push({
 						delegator_address: address,
 						validator_address: element.validator_address,
-					},
-				};
-			}
+					});
+				}
+			});
+			// const minGasFee = (fee * 1000000 + "").split(".")[0];
 
-			msg.push(msgEle);
-		});
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const payload = payloadTransaction(
-			"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			msg,
-			minGasFee,
-			gas,
-			(data && data.memo) || getValues("memo") || ""
-		);
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+			const response = await walletStation.withdrawDelegatorReward(msg);
+			console.log("response claim rewards: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -107,6 +102,7 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, delegatedData, validato
 				buttonName={"Claim all"}
 				buttonName={"Claim All"}
 			/>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });

@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import { myKeystation } from "src/lib/Keystation";
 import styles from "./ClaimBaseRwBtn.scss";
 import config from "src/config";
 import { useHistory } from "react-router-dom";
@@ -24,6 +23,7 @@ import { calculateAmount } from "src/helpers/calculateAmount";
 import amountConsts from "src/constants/amount";
 import consts from "src/constants/consts";
 import DialogForm from "src/components/DialogForm";
+import { walletStation } from "src/lib/walletStation";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -104,38 +104,17 @@ const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
 	});
 	const { handleSubmit, errors, getValues, setError, clearErrors } = methods;
 
-	const onSubmit = data => {
+	const onSubmit = async data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const msg = JSON.stringify({
 			claim_reward: {
 				pubkey,
 			},
 		});
-		const payload = payloadTransaction(
-			"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-			[
-				{
-					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-					value: {
-						contract: config.PING_ADDR,
-						msg,
-						sender: address,
-						sent_funds: null,
-					},
-				},
-			],
-			minGasFee,
-			gas,
-			(data && data.memo) || getValues("memo") || "",
-			{ gasType: "auto" }
-		);
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		const response = await walletStation.executeContract(config.PING_ADDR, msg, address, null);
+
+		console.log("response after claim reward aioracle: ", response);
 	};
 
 	useEffect(() => {

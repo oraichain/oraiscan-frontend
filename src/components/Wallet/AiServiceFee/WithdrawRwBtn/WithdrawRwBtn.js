@@ -1,21 +1,21 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import * as yup from "yup";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "../ClaimBaseRwBtn/ClaimBaseRwBtn.scss";
 import config from "src/config";
-import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import { useHistory } from "react-router-dom";
+import { payloadTransaction } from "src/helpers/transaction";
 import DialogForm from "src/components/DialogForm"
 import amountConsts from "src/constants/amount";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -29,12 +29,12 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT} = amountConsts;
+const { GAS_DEFAULT } = amountConsts;
 
-const WithdrawRwBtn = memo(({BtnComponent, validatorName, pubkey, buttonName}) => {
+const WithdrawRwBtn = memo(({ BtnComponent, validatorName, pubkey, buttonName }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
@@ -52,44 +52,23 @@ const WithdrawRwBtn = memo(({BtnComponent, validatorName, pubkey, buttonName}) =
 	const methods = useForm({
 		resolver: undefined,
 	});
-	const {handleSubmit, setValue, errors, getValues, setError, clearErrors} = methods;
+	const { handleSubmit, setValue, errors, getValues, setError, clearErrors } = methods;
 
-	const onSubmit = data => {
+	const onSubmit = async data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
 		const msg = JSON.stringify({
 			prepare_withdraw_pool: {
 				pubkey,
 			},
 		});
-		const payload = payloadTransaction(
-			"/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-			[
-				{
-					type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-					value: {
-						contract: config.AIORACLE_CONTRACT_ADDR,
-						msg,
-						sender: address,
-						sent_funds: null,
-					},
-				},
-			],
-			minGasFee,
-			gas,
-			(data && data.memo) || getValues("memo") || "",
-			{gasType: "auto"}
-		);
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		const response = await walletStation.executeContract(config.AIORACLE_CONTRACT_ADDR, msg, address, null);
+
+		console.log("response prepare withdraw pool: ", response);
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}

@@ -369,19 +369,19 @@ const NavBar = ({ toggleSearchArea }) => {
 	const [isMaintaining, setIsMaintaining] = useState(false);
 
 	useEffect(() => {
-		const onMessage = function (e) {
-			const address = e?.data?.address;
-			if (address) {
-				initialNavLinks[initialNavLinks.length - 1] = {
-					title: address,
-					type: "wallet",
-				};
-				setNavLinks([...initialNavLinks]);
-				dispatch(initWallet({ address, account: e.data.account }));
-				updateToken(address);
-			}
-		};
-		window.addEventListener("message", onMessage, false);
+		// const onMessage = function (e) {
+		// 	const address = e?.data?.address;
+		// 	if (address) {
+		// 		initialNavLinks[initialNavLinks.length - 1] = {
+		// 			title: address,
+		// 			type: "wallet",
+		// 		};
+		// 		setNavLinks([...initialNavLinks]);
+		// 		dispatch(initWallet({ address, account: e.data.account }));
+		// 		updateToken(address);
+		// 	}
+		// };
+		// window.addEventListener("message", onMessage, false);
 
 		const checkLatestBlock = async () => {
 			// check block to display maintaince or not
@@ -394,9 +394,9 @@ const NavBar = ({ toggleSearchArea }) => {
 		};
 		checkLatestBlock();
 		// if (parseInt(result.block.header.height) - consts.MIN_MAINTAINANCE > )
-		return () => {
-			window.removeEventListener("message", onMessage);
-		};
+		// return () => {
+		// 	window.removeEventListener("message", onMessage);
+		// };
 	}, []);
 
 	useEffect(() => {

@@ -17,7 +17,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import { isNil } from "lodash-es";
-import { myKeystation } from "src/lib/Keystation";
 import { formatFloat } from "src/helpers/helper";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -40,6 +39,10 @@ import AddIcon from "src/icons/AddIcon";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import moment from "moment";
 import styles from "./Proposals.scss";
+import { walletStation } from "src/lib/walletStation";
+import { handleTransactionResponse } from "src/helpers/transaction";
+import { notification } from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 import Big from "big.js";
 
 const cx = cn.bind(styles);
@@ -152,6 +155,7 @@ export default function (props) {
 	const [topPageId, setTopPageId] = useState(1);
 	const totalTopPagesRef = useRef(null);
 	const [pageId, setPageId] = useState(1);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const totalPagesRef = useRef(null);
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
@@ -287,48 +291,30 @@ export default function (props) {
 		}
 	};
 
-	const onSubmit = data => {
-		const newData = handleOptionData(data);
-		const { title, description, subspace, key, value, amount } = newData;
-		const msg = [
-			{
-				type: "/cosmos.params.v1beta1.ParameterChangeProposal",
-				value: {
-					title,
-					description: draftToHtml(description),
-					changes: [
-						{
-							subspace,
-							key,
-							value,
-						},
-					],
-					amount,
-				},
-			},
-		];
-
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-
-		const payload = {
-			type: "/cosmos.params.v1beta1.ParameterChangeProposal",
-			value: {
-				msg,
-				fee: {
-					amount: [minGasFee],
-					gas,
-				},
-				signatures: null,
-				memo: "",
-			},
-		};
-
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function () {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+	const onSubmit = async data => {
+		try {
+			setLoadingTransaction(true);
+			const newData = handleOptionData(data);
+			const { title, description, subspace, key, value, amount } = newData;
+			const response = await walletStation.parameterChangeProposal(address, data.amount, {
+				title: data.title,
+				description: draftToHtml(data.description),
+				changes: [
+					{
+						subspace,
+						key,
+						value,
+					},
+				],
+				amount,
+			});
+			console.log("Result parameter change proposal: ", response);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({ message: `Transaction failed with message: ${error?.toString()}` });
+			console.log(error);
+		}
 	};
 
 	if (isLargeScreen) {
@@ -575,6 +561,7 @@ export default function (props) {
 					</div>
 				</form>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</>
 	);
 }

@@ -1,0 +1,31 @@
+.popup-dashboard {
+	.text {
+		padding: 24px;
+		color: var(--common-textColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 150%;
+		text-align: center;
+
+		@media screen and (max-width: 428px) {
+			font-weight: 400;
+			font-size: 18px;
+		}
+	}
+
+	.close-button {
+		position: absolute;
+		top: 8px;
+		right: 16px;
+		cursor: pointer;
+		display: inline-block;
+
+		svg {
+			path {
+				fill: var(--common-textColor);
+			}
+		}
+	}
+}

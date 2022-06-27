@@ -9,7 +9,6 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
-import {myKeystation} from "src/lib/Keystation";
 
 import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";

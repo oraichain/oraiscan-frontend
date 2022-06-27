@@ -11,7 +11,6 @@ import Upload from 'rc-upload';
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import keccak256 from 'keccak256';
 import secp256k1 from 'secp256k1';
-import { getAddressValidator } from "src/lib/drand/drand";
 import * as api from "src/lib/api";
 import { notification } from 'antd';
 const cx = classNames.bind(styles);
@@ -60,7 +59,8 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 			if (restrict?.[0] !== "image" || restrict?.[1] === "svg+xml") {
 				return restrictFile();
 			}
-			const sender = await getAddressValidator();
+			// TODO: change to encode decode bech32
+			const sender = '';
 			const formData = new FormData();
 			const buff = Buffer.from(
 				JSON.stringify({
