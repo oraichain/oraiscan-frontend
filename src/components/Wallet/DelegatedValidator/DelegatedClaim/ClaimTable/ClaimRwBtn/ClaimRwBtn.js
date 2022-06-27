@@ -9,7 +9,7 @@ import * as yup from "yup";
 import {showAlert} from "src/store/modules/global";
 import styles from "./ClaimRwBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import {calculateAmount} from "src/helpers/calculateAmount";
 import DialogForm from "src/components/DialogForm";

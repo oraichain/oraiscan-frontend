@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import styles from "./WithdrawBtn.scss";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
 import {walletStation} from "src/lib/walletStation";
