@@ -10,11 +10,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { InputNumberOrai, TextArea } from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
 import { useHistory } from "react-router-dom";
-import { payloadTransaction, minusFees } from "src/helpers/transaction";
+import { payloadTransaction, minusFees, handleTransactionResponse } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
 import { calculateAmount } from "src/helpers/calculateAmount";
 import { walletStation } from "src/lib/walletStation";
+import { notification } from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -43,6 +45,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -68,10 +71,15 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 	const onSubmit = async (data) => {
 		// const minGasFee = (fee * 1000000 + "").split(".")[0];
 		// let amount = minusFees(fee, data.amount);
-
-		const response = await walletStation.undelegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000))
-
-		console.log("response undelegate: ", response);
+		try {
+			setLoadingTransaction(true);
+			const response = await walletStation.undelegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000))
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({ message: `Transaction failed with message: ${error?.toString()}` });
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -131,6 +139,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 					<InputNumberOrai name='amount' required errorobj={errors} />
 				</div>
 			</DialogForm>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });
