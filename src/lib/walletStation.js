@@ -25,7 +25,7 @@ export default class WalletStation {
 
     broadcastMsg = async (wallet, txBody, broadcastMode, fees) => {
         try {
-            return this.cosmos.submit(wallet, txBody, broadcastMode, fees);
+            return this.cosmos.submit(wallet, txBody, broadcastMode, fees, 10000000);
         } catch (ex) {
             console.log(ex);
             throw ex;
