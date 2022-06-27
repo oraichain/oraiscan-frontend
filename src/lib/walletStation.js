@@ -74,9 +74,10 @@ export default class WalletStation {
         return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
     }
 
-    redelegate = async (validator_src_address, validator_dst_address, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+    redelegate = async (delegator_address, validator_src_address, validator_dst_address, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        console.log("validator src & des: ", validator_src_address, validator_dst_address)
         const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgReDelegate(validator_src_address, validator_dst_address, { denom: this.cosmos.bech32MainPrefix, amount: amount.toString() });
+        const message = CosmosMessages.getMsgReDelegate(delegator_address, validator_src_address, validator_dst_address, { denom: this.cosmos.bech32MainPrefix, amount: amount.toString() });
         return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages: [message] }), broadcastMode);
     }
 

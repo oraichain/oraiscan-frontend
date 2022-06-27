@@ -77,6 +77,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 			// let amount = minusFees(fee, data.amount);
 
 			const response = await walletStation.redelegate(
+				address,
 				validatorAddress,
 				data.recipientAddress,
 				new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
