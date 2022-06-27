@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useMemo, useState} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -39,6 +39,7 @@ export const getHeaderRow = () => {
 const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 	const {address, account} = useSelector(state => state.wallet);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
+	const history = useHistory();
 
 	const handleClickClaim = async validatorAddress => {
 		try {
@@ -50,7 +51,7 @@ const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 				},
 			]);
 			console.log("response claim rewards: ", response);
-			handleTransactionResponse(response, notification, history);
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
 			notification.error({message: `Transaction failed with message: ${error?.toString()}`});

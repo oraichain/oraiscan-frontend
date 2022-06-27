@@ -43,6 +43,7 @@ const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, delegatedData, validato
 
 	const onSubmit = async data => {
 		try {
+			setLoadingTransaction(true);
 			let msg = [];
 			delegatedData.forEach(element => {
 				if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
