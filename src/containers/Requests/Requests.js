@@ -1,19 +1,18 @@
 // @ts-nocheck
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import cn from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import Skeleton from "@material-ui/lab/Skeleton";
 import consts from "src/constants/consts";
-import {formatInteger} from "src/helpers/helper";
-import {myKeystation} from "src/lib/Keystation";
+import { formatInteger } from "src/helpers/helper";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -26,7 +25,7 @@ import RequestGridViewSkeleton from "src/components/Requests/RequestGridView/Req
 import RequestListView from "src/components/Requests/RequestListView";
 import RequestListViewSkeleton from "src/components/Requests/RequestListView/RequestListViewSkeleton";
 import styles from "./Requests.module.scss";
-import {isNil} from "lodash";
+import { isNil } from "lodash";
 
 const cx = cn.bind(styles);
 
@@ -47,9 +46,8 @@ const Requests = () => {
 	};
 
 	const basePath = `${process.env.REACT_APP_LCD_API ||
-		"https://lcd.orai.io"}/cosmos/tx/v1beta1/txs?events=message.action%3D%27set_ai_request%27&order_by=2&pagination.limit=${
-		consts.REQUEST.LIMIT
-	}&pagination.offset=${(pageId - 1) * consts.REQUEST.LIMIT}`;
+		"https://lcd.orai.io"}/cosmos/tx/v1beta1/txs?events=message.action%3D%27set_ai_request%27&order_by=2&pagination.limit=${consts.REQUEST.LIMIT
+		}&pagination.offset=${(pageId - 1) * consts.REQUEST.LIMIT}`;
 	let path;
 	if (keyword) {
 		path = `${basePath}&page=${pageId}&request_id=${keyword}`;
@@ -57,7 +55,7 @@ const Requests = () => {
 		path = `${basePath}&page=${pageId}`;
 	}
 
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
@@ -87,10 +85,6 @@ const Requests = () => {
 	let filterSection;
 	let requestCard;
 	let paginationSection;
-
-	const createAIRequest = () => {
-		myKeystation.openWindow("ai-request", "");
-	};
 
 	if (isLargeScreen) {
 		titleSection = (
