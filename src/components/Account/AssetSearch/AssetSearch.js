@@ -4,10 +4,13 @@ import cn from "classnames/bind";
 import styles from "./AssetSearch.scss";
 import _ from "lodash";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import {assetsNetworks} from "src/constants/ibc";
+import { assetsNetworks } from "src/constants/ibc";
+import { useMemo } from "react";
+import { formatOrai } from "src/helpers/helper";
+import { parseNumberToCurrency } from "src/lib/scripts";
 const cx = cn.bind(styles);
 
-export default function ({ assetSearch, setAssetSearch }) {
+export default function ({ assetSearch, setAssetSearch, totalValue }) {
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
 	const showList = () => {
@@ -51,31 +54,34 @@ export default function ({ assetSearch, setAssetSearch }) {
 		};
 	}, []);
 
+	useEffect(() => {
+		console.log("total value: ", totalValue)
+	}, [totalValue])
 
 	return (
-		<div className={cx("assets__search")}>
-			<div className={cx("assets__title")}>
-				Assets
-			</div>
-			<div className={cx("assets__form")}>
-				<div className={cx("network-switcher")}>
-					{/* <div className={cx("selected-item")}>
+		<>
+			<div className={cx("assets__search")}>
+				<div className={cx("assets__title")}>Assets</div>
+				<div className={cx("assets__form")}>
+					<div className={cx("network-switcher")}>
+						{/* <div className={cx("selected-item")}>
 						<input type='text' className={cx("text-field")} readOnly />
 					</div> */}
-					<div className={cx("selected-item")} ref={selectedItemRef}>
-						<input type='text' className={cx("text-field")} value={assetsNetworks[assetSearch]} readOnly />
-						<DownAngleIcon className={cx("arrow")} />
-					</div>
-					<div className={cx("list")} ref={listRef}>
-						{assetsNetworks.map((item, index) => (
-							<div key={"list-item-" + index} className={cx("list-item")} data-assets={item}>
-								{item}
-							</div>
-						))}
+						<div className={cx("selected-item")} ref={selectedItemRef}>
+							<input type='text' className={cx("text-field")} value={assetsNetworks[assetSearch]} readOnly />
+							<DownAngleIcon className={cx("arrow")} />
+						</div>
+						<div className={cx("list")} ref={listRef}>
+							{assetsNetworks.map((item, index) => (
+								<div key={"list-item-" + index} className={cx("list-item")} data-assets={item}>
+									{item}
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
-
-		</div>
+			{assetSearch !== 1 && <div className={cx("assets_total_value")}>Total Value: {totalValue ? `${parseNumberToCurrency(totalValue)}` : "-"}</div>}
+		</>
 	);
 }

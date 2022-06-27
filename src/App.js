@@ -91,6 +91,9 @@ export default function () {
 			keplrHandler();
 		}
 		window.addEventListener('keplr_keystorechange', keplrHandler);
+		return () => {
+			window.removeEventListener('keplr_keystorechange', keplrHandler);
+		};
 	}, []);
 
 	const keplrHandler = async () => {

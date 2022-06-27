@@ -96,27 +96,31 @@ export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
 	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyalty = false;
 	let checkAccount = false;
-	for (let event of rawLogArr[0].events) {
-		if (event["type"] === "wasm") {
-			for (let att of event["attributes"]) {
-				if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
-					checkRoyalty = true;
-					continue;
+
+	if(rawLogArr && rawLogArr.length > 0) {
+		for (let event of rawLogArr[0]?.events) {
+			if (event["type"] === "wasm") {
+				for (let att of event["attributes"]) {
+					if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
+						checkRoyalty = true;
+						continue;
+					}
+
+					if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
+						checkAccount = true;
+						continue;
+					}
+
+					if (checkAccount && att["key"] === "new_royalty") {
+						newRoyalty = att["value"];
+						break;
+					}
 				}
 
-				if (checkRoyalty && att["key"] === "creator" && att["value"] === account) {
-					checkAccount = true;
-					continue;
-				}
-
-				if (checkAccount && att["key"] === "new_royalty") {
-					newRoyalty = att["value"];
-					break;
-				}
+				break;
 			}
-
-			break;
 		}
+
 	}
 
 	return handleRoyaltyPercentage(newRoyalty);
@@ -208,15 +212,28 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 	};
 
 	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
-		if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
-			denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
-			return (
-				<div className={cx("amount")}>
-					<span className={cx("amount-value")}>{formatOrai(amount)}</span>
-					<span className={cx("amount-denom")}>{denom}</span>
-					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-				</div>
-			);
+		if (denom?.toLowerCase()?.includes("ibc")) {
+			if (newDenom?.toLowerCase()?.includes(consts.GRAVITY)) {
+				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+				return (
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+					</div>
+				);
+			}
+		} else {
+			if (denom?.toLowerCase()?.includes(consts.GRAVITY)) {
+				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
+				return (
+					<div className={cx("amount")}>
+						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-denom")}>{denom}</span>
+						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+					</div>
+				);
+			}
 		}
 		return (
 			<div className={cx("amount")}>
@@ -259,21 +276,21 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 			);
 
 			let resultDataCellContent;
-			if (item?.result?.toLowerCase?.() === "success") {
+			if (item?.result?.toLowerCase?.() === consts.RESULT_STATUS.SUCCESS) {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<CheckIcon className={cx("result-icon", "result-icon-success")} />
 						<span className={cx("result-text")}>Success</span>
 					</div>
 				);
-			} else if (item?.result?.toLowerCase?.() === "failure") {
+			} else if (item?.result?.toLowerCase?.() === consts.RESULT_STATUS.FAILURE) {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<TimesIcon className={cx("result-icon", "result-icon-failed")} />
 						<span className={cx("result-text")}>Failure</span>
 					</div>
 				);
-			} else if (item?.result?.toLowerCase?.() === "pending") {
+			} else if (item?.result?.toLowerCase?.() === consts.RESULT_STATUS.PENDING) {
 				resultDataCellContent = (
 					<div className={cx("result")}>
 						<RedoIcon className={cx("result-icon", "result-icon-pending")} />
@@ -281,44 +298,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					</div>
 				);
 			}
-			// let ibcAmountDataCell = null;
-			// if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
-			// 	let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
-			// 	if (message?.packet?.data) {
-			// 		const msgRec = JSON.parse(atob(message?.packet?.data));
-			// 		const port = message?.packet?.destination_port;
-			// 		const channel = message?.packet?.destination_channel;
-			// 		ibcAmountDataCell = _.isNil(message?.packet) ? (
-			// 			<div className={cx("align-left")}>-</div>
-			// 		) : (
-			// 			<div className={cx("ibc-data-cell", "align-right")}>
-			// 				<div className={cx("ibc-value")}>{formatOrai(msgRec?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(msgRec?.denom)}</div>
-			// 				<div className={cx("ibc-denom")}>{"(" + port + "/" + channel + "/" + msgRec?.denom + ")"}</div>
-			// 			</div>
-			// 		);
-			// 	}
-			// } else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
-			// 	let rawLog, rawLogParse, rawLogDenomSplit;
-			// 	if (item?.result === "Success") {
-			// 		rawLog = JSON.parse(item?.raw_log);
-			// 		rawLogParse = rawLog && parseIbcMsgTransfer(rawLog);
-			// 		rawLogDenomSplit = rawLogParse?.denom?.split("/");
-			// 	}
-
-			// 	ibcAmountDataCell =
-			// 		item?.result !== "Success" ? (
-			// 			<div className={cx("align-right")}>-</div>
-			// 		) : (
-			// 			<div className={cx("ibc-data-cell", "align-right")}>
-			// 				<div className={cx("ibc-value")}>
-			// 					{formatOrai(rawLogParse?.amount, 1000000, 1) + " " + parseIbcMsgRecvPacket(rawLogDenomSplit?.[rawLogDenomSplit.length - 1])}
-			// 				</div>
-			// 				<div className={cx("ibc-denom")}>{"(" + parseIbcMsgTransfer(rawLog)?.denom + ")"}</div>
-			// 			</div>
-			// 		);
-			// } else {
-			// 	ibcAmountDataCell = <div className={cx("align-right")}>-</div>;
-			// }
 
 			const resultDataCell = _.isNil(item?.result) ? (
 				<div className={cx("align-left")}>-</div>
@@ -353,17 +332,6 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
 				}
 			}
-
-			// let ibcAmountDataCell = _.isNil(item?.messages) ? (
-			// 	<div className={cx("align-left")}>-</div>
-			// ) : (
-			// 	<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
-			// 		<div className={cx("amount")}>
-			// 			<span className={cx("amount-value")}>{formatOrai(item?.messages?.[0]?.token?.amount)}</span>
-			// 		</div>
-			// 		<div className={cx("result-data-cell")}>{reduceStringAssets(item?.messages?.[0]?.token?.denom, 8, 3)}</div>
-			// 	</div>
-			// );
 
 			let amountDataCell;
 			let amount;
@@ -405,6 +373,9 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 						amount = item?.amount?.[0]?.amount;
 						denom = newDenom ? reduceStringAssets(newDenom) : amountDenomName;
+					} else if(item?.messages[0]?.amount && item?.messages[0]?.amount?.length > 0) {
+						amount = item?.messages[0]?.amount[0]?.amount;
+						denom = item?.messages[0]?.amount[0]?.denom_name;
 					}
 				}
 
@@ -426,7 +397,9 @@ const TransactionTable = memo(({data, rowMotions, account, royalty = false}) => 
 						<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus}, "align-right")}>
 							{transferStatus && transferStatus}
 							{amount ? (
-								<>{checkAmountOrai(item?.amount?.[0]?.denom, amount)}</>
+								<>
+									{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}
+								</>
 							) : (
 								<div className={cx("amount")}>
 									<span className={cx("amount-value")}>0</span>

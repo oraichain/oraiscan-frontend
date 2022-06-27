@@ -31,14 +31,14 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 	const availablePercent = available.dividedBy(total).multipliedBy(100);
 
 	const calculateTotalPrice = (total, price) => {
-		return parseFloat(total) * parseFloat(price);
+		return total * price
 	};
-
 	const totalPrice = useMemo(() => calculateTotalPrice(total / 1000000, price), [total, price]);
+
 	return (
 		<div className={cx("coins-card")}>
-			<Grid container spacing={2}>
-				<Grid container item md={5} sm={12}>
+			<Grid container spacing={2} className={cx("coins-card-container")}>
+				<Grid container item md={4} sm={12}>
 					<Grid item md={12} sm={6} xs={6}>
 						<div className={cx("total-orai-title")}>
 							Total <span className={cx("denom")}>{denom}</span>
@@ -49,10 +49,10 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 						<div className={cx("unit-price")}>
 							${formatFloat(price, 2)} /<span className={cx("denom")}>{denom}</span>
 						</div>
-						<div className={cx("total-price")}>${formatFloat(totalPrice, 2)}</div>
+						<div className={cx("total-price")}>${formatFloat(totalPrice, 6)}</div>
 					</Grid>
 				</Grid>
-				<Grid container item md={7} sm={12}>
+				<Grid container item md={8} sm={12}>
 					<Grid item className={cx("donut-chart")} md={5} xs={12}>
 						<DonutChart
 							startAngle={-90}

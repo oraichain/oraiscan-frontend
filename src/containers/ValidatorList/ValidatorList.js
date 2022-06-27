@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useMemo} from "react";
 import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
@@ -45,9 +45,7 @@ const ValidatorList = props => {
 	};
 
 	let path = `${basePath}?page_id=1`;
-	if (status) {
-		path += `&status=` + status;
-	}
+	let pathInActive = `${path}&status=inactive`;
 	if (keyword !== "") {
 		path += `&moniker=${keyword}`;
 	}
@@ -62,6 +60,40 @@ const ValidatorList = props => {
 			return data;
 		},
 	});
+
+	const {data: dataInActive, loading: loadingInActive, error: errorInactive, refetch: refetchInActive} = useGet({
+		path: pathInActive,
+	});
+
+	const validators = useMemo(() => {
+		if (data && data?.data?.length > 0 && dataInActive && dataInActive?.data.length > 0) {
+			const newData = data?.data.concat(dataInActive?.data);
+			const validatorList = newData
+				.sort((val1, val2) => val2.self_bonded - val1.self_bonded)
+				.map((val, index) => ({
+					...val,
+					rankCustom: index + 1,
+				}));
+			const result = validatorList.map(dt => {
+				const inActiveItem = dataInActive?.data?.find(val => val?.rank === dt?.rank);
+				if (inActiveItem) {
+					return {
+						...dt,
+						statusType: "inactive",
+					};
+				}
+				return dt;
+			});
+			return result;
+		}
+		return;
+	}, [data?.data?.length, dataInActive?.data?.length]);
+
+	const onValidators = status => {
+		if (validators && validators.length > 0) {
+			return !status ? validators.filter(val => !val?.statusType) : validators.filter(val => val?.statusType);
+		}
+	};
 
 	// useEffect(() => {
 	// 	if (loadCompleted) {
@@ -141,7 +173,8 @@ const ValidatorList = props => {
 		if (error) {
 			tableSection = <NoResult />;
 		} else {
-			tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
+			const data = isActiveValidator ? onValidators("") : onValidators("inactive")
+			tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data?.data} />;
 		}
 	}
 

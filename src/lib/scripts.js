@@ -2,7 +2,7 @@ import _ from "lodash";
 import empty from "is-empty";
 import moment from "moment";
 import consts from "src/constants/consts";
-export {_, empty};
+export { _, empty };
 
 //  remove t from bnb address
 export const refineAddress = address => (_.isString(address) ? (address.charAt(0) === "t" ? address.substr(1) : address) : "-");
@@ -30,14 +30,14 @@ export const reduceStringAssets = (str, from, end) => {
 export const parseIbcMsgTransfer = (rawLog, type = "send_packet", key = "packet_data") => {
 	const arrayIbcDemonPacket = rawLog && rawLog?.[0]?.events?.find(e => e.type === type);
 	const ibcDemonPackData = arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key);
-	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : {denom: ""};
+	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : { denom: "" };
 	return ibcDemonObj;
 };
 
 export const processText = inputText => {
 	var output = [];
 	var json = inputText.split(" ");
-	json.forEach(function(item) {
+	json.forEach(function (item) {
 		output.push(
 			item
 				.replace(/\'/g, "")
@@ -183,11 +183,24 @@ export const tryParseMessage = obj => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch {}
+				} catch { }
 			}
 		}
 		return obj;
 	} catch (e) {
-		return {data: obj};
+		return { data: obj };
 	}
 };
+
+export const parseNumberToCurrency = (number) => {
+	const currencyData = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+
+		// These options are needed to round to whole numbers if that's what you want.
+		//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+		//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+	}).format(number);
+	if (isNaN(+currencyData)) return `$${number}`; // fallback case. If number is already in currency or other form string => get raw number
+	return currencyData;
+}

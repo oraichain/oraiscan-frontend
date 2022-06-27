@@ -1,8 +1,8 @@
 
-export const assetsNetworks = ['All Assets', 'Native', 'IBC Coins'];
+export const assetsNetworks = ['Native Assets', 'ORAI', 'CW20'];
 
 export const assetsDropDown = {
-	ALL_ASSETS: "All Assets",
-	NATIVE: "Native",
-	IBC_COINS: "IBC Coins",
+	ALL_ASSETS: "Native Assets",
+	NATIVE: "ORAI",
+	CW20: 'CW20',
 };

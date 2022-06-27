@@ -7147,6 +7147,7 @@ export const priceBalance = {
 	oracula: "oracula",
 	orgn: "oragonx",
 	orai: "oraichain-token",
+	oraix: "oraix",
 	orkl: "orakler",
 	ork: "orkan",
 	orao: "orao-network",
