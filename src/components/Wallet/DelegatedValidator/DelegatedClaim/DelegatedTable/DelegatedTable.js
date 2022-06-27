@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
+import React, {memo, useMemo, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
@@ -10,7 +10,10 @@ import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DelegatedTable.scss";
 import GiftIcon from "./Gift";
-import { walletStation } from "src/lib/walletStation";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = classNames.bind(styles);
 
@@ -35,12 +38,24 @@ export const getHeaderRow = () => {
 
 const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 	const {address, account} = useSelector(state => state.wallet);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 
 	const handleClickClaim = async validatorAddress => {
-		const response = await walletStation.withdrawDelegatorReward([{
-			delegator_address: address, validator_address: validatorAddress
-		}]);
-		console.log("response claim rewards: ", response);
+		try {
+			setLoadingTransaction(true);
+			const response = await walletStation.withdrawDelegatorReward([
+				{
+					delegator_address: address,
+					validator_address: validatorAddress,
+				},
+			]);
+			console.log("response claim rewards: ", response);
+			handleTransactionResponse(response, notification, history);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({message: `Transaction failed with message: ${error?.toString()}`});
+			console.log(error);
+		}
 	};
 
 	const getDataRows = rewards => {
@@ -83,7 +98,12 @@ const DelegatedTable = memo(({rewards = [], delegations = []}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(rewards), [rewards, getDataRows]);
 
-	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+	return (
+		<>
+			{loadingTransaction && <LoadingOverlay />}
+			<ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
+		</>
+	);
 });
 
 export default DelegatedTable;
