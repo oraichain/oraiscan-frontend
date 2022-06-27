@@ -20,11 +20,13 @@ import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { Fee, Gas } from "src/components/common/Fee";
 import { ReactComponent as ExchangeIconGrey } from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
-import { useFetch } from "src/hooks";
+import { useFetch, useHistory } from "src/hooks";
 import styles from "./Delegate.scss";
 import "./Delegate.css";
 import { formatOrai, formatPercentage } from "src/helpers/helper";
 import { walletStation } from "src/lib/walletStation";
+import { handleTransactionResponse } from "src/helpers/transaction";
+import { notification } from "antd";
 
 const cx = cn.bind(styles);
 
@@ -97,6 +99,8 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 		yearlyORAI: 0,
 	});
 	const percents = [25, 50, 75, 100];
+	const history = useHistory();
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 
 	const denom = consts.DENOM;
 	const balance = new BigNumber(balanceInfo?.data?.balances.find(balance => balance.denom === denom)?.amount ?? 0);
@@ -150,8 +154,15 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 		// }
 
 		// const minFee = (fee * 1000000 + "").split(".")[0];
-
-		const response = await walletStation.delegate(address, operatorAddress, new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000))
+		try {
+			setLoadingTransaction(true);
+			const response = await walletStation.delegate(address, operatorAddress, new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000))
+			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+		} catch (error) {
+			setLoadingTransaction(false);
+			notification.error({ message: `Transaction failed with message: ${error?.toString()}` });
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -345,6 +356,7 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 					<FormProvider {...methods}>{renderTab(activeTabId)}</FormProvider>
 				</div>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });
