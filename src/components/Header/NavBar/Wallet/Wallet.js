@@ -26,6 +26,7 @@ import styles from "./Wallet.module.scss";
 import {updateToken} from "src/firebase-cloud-message";
 import config from "src/config";
 import {network} from "src/lib/config/networks";
+import { notification } from "antd";
 
 const cx = cn.bind(styles);
 
@@ -47,6 +48,7 @@ const Wallet = props => {
 				}
 			}
 		} catch (error) {
+			notification.error({message: error});
 			console.log(error);
 		}
 	};

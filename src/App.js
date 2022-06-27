@@ -32,6 +32,7 @@ import Keplr from "src/lib/keplr";
 import {initWallet} from "src/store/modules/wallet";
 import WalletStation from "./lib/walletStation";
 import {network} from "./lib/config/networks";
+import { notification } from "antd";
 
 // window.chainStore = new ChainStore(embedChainInfos)
 window.Keplr = new Keplr();
@@ -107,15 +108,19 @@ export default function() {
 
 	const updateAddress = async () => {
 		// automatically update. If user is also using Oraichain wallet => dont update
-		const keplr = await window.Keplr.getKeplr();
-		if (!keplr) throw "You must install Keplr to continue";
-		const key = await window.Keplr.getKeplrKey();
+		try {
+			const keplr = await window.Keplr.getKeplr();
+			if (!keplr) throw "You must install Keplr to continue";
+			const key = await window.Keplr.getKeplrKey();
 
-		if (key?.bech32Address) {
-			// if (newAddress === address) {
-			// 	dispatch(initWallet({}));
-			// }
-			dispatch(initWallet({address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64")}));
+			if (key?.bech32Address) {
+				// if (newAddress === address) {
+				// 	dispatch(initWallet({}));
+				// }
+				dispatch(initWallet({address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64")}));
+			}
+		} catch (error) {
+			notification.error({message: error});
 		}
 	};
 
