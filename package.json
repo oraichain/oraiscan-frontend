@@ -13,7 +13,7 @@
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"start": "REACT_APP_BUILD_ENV=dev NODE_ENV=production node scripts/start.js",
 		"dev": "NODE_ENV=development node scripts/start.js",
-		"build:dev": "REACT_APP_BUILD_ENV=dev NODE_ENV=development node scripts/build.js && yarn run delete-maps",
+		"build:dev": "REACT_APP_BUILD_ENV=dev NODE_ENV=development node scripts/build.js --max_old_space_size=8192 && yarn run delete-maps",
 		"build:prod": "GENERATE_SOURCEMAP=false REACT_APP_BUILD_ENV=prod NODE_ENV=production node scripts/build.js",
 		"delete-maps": "yarn run delete-references-to-map-files && yarn run delete-map-files",
 		"delete-map-files": "find ./build -name '*.map' -delete",
