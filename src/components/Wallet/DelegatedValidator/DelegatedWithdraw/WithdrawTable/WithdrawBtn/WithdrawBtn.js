@@ -1,23 +1,23 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {myKeystation} from "src/lib/Keystation";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { InputNumberOrai, TextArea } from "src/components/common/form-controls";
 import styles from "./WithdrawBtn.scss";
-import {useHistory} from "react-router-dom";
-import {payloadTransaction ,minusFees } from "src/helpers/transaction";
+import { useHistory } from "react-router-dom";
+import { payloadTransaction, minusFees } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
-import {calculateAmount} from "src/helpers/calculateAmount";
+import { calculateAmount } from "src/helpers/calculateAmount";
+import { walletStation } from "src/lib/walletStation";
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -31,12 +31,12 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT, PERCENTS} = amountConsts;
+const { GAS_DEFAULT, PERCENTS } = amountConsts;
 
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
@@ -63,35 +63,19 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
+	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
 
-	const onSubmit = data => {
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		let amount = minusFees(fee, data.amount);
-		const msg = [
-			{
-				type: "/cosmos.staking.v1beta1.MsgUndelegate",
-				value: {
-					delegator_address: address,
-					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() || "0",
-					},
-				},
-			},
-		];
-		const payload = payloadTransaction("/cosmos.staking.v1beta1.MsgUndelegate", msg, minGasFee, gas, (data && data.memo) || getValues("memo") || "");
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+	const onSubmit = async (data) => {
+		// const minGasFee = (fee * 1000000 + "").split(".")[0];
+		// let amount = minusFees(fee, data.amount);
+
+		const response = await walletStation.undelegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000))
+
+		console.log("response undelegate: ", response);
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}

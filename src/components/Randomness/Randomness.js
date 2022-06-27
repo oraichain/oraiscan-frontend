@@ -1,19 +1,19 @@
 import * as React from "react";
-import {useState, useEffect, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import PropTypes from "prop-types";
-import {isNil, reject} from "lodash";
+import { isNil, reject } from "lodash";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import {useGet} from "restful-react";
-import {getLatestRound, getRound, getTxResponse} from "src/lib/drand/drand";
+import { useGet } from "restful-react";
+import { getLatestRound, getRound } from "src/lib/drand/drand";
 import SearchIcon from "src/icons/SearchIcon";
 import RandomnessSkeleton from "./RandomnessSkeleton";
 import consts from "src/constants/consts";
@@ -27,11 +27,11 @@ import LoadingOverlay from "../common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 
-const Randomness = ({}) => {
+const Randomness = ({ }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-	const {contract} = useParams();
+	const { contract } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -45,8 +45,7 @@ const Randomness = ({}) => {
 	const [loadingPopup, setLoadingPopup] = useState(false);
 	const address = wallet?.address;
 	const minFee = useSelector(state => state.blockchain.minFee);
-
-	const {data: amountData, loading: amountLoading} = useGet({
+	const { data: amountData, loading: amountLoading } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`,
 	});
 
@@ -96,12 +95,13 @@ const Randomness = ({}) => {
 	}, []);
 
 	const random = () => {
-		if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
-			setErrorMessage(true);
-		} else {
-			setRequestRunning(true);
-			handleGetRandomValue();
-		}
+		// if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
+		// 	setErrorMessage(true);
+		// } else {
+		// 	setRequestRunning(true);
+		// 	handleGetRandomValue();
+		// }
+		alert("This feature is currently under maintanance. It will be back shortly. Thank you for your patience!");
 	};
 
 	const handleSearch = async () => {
@@ -139,7 +139,6 @@ const Randomness = ({}) => {
 
 	const eventHandleGetRamdomValue = async (response, contract) => {
 		const round = response.tx_response.logs[0].events[1].attributes[3].value;
-		console.log("round: ", round);
 		setTxResponse({
 			contract: contract,
 			txHash: response.tx_response?.txhash,
@@ -224,9 +223,9 @@ const Randomness = ({}) => {
 							) : (
 								<>
 									<div className={cx("random")}>
-										<div className={cx("button-random")} onClick={random}>
+										{/* <div className={cx("button-random")} onClick={random}>
 											New Random
-										</div>
+										</div> */}
 										<div className={cx("button-more")} onClick={showInputAdvance}>
 											Advanced
 											{showAdvance ? <ExpandLessIcon /> : <ExpandMoreIcon />}{" "}
@@ -246,6 +245,7 @@ const Randomness = ({}) => {
 				)}
 				<RandomnessPopup
 					open={open}
+					address={address}
 					closeDialog={closeDialog}
 					minFee={minFee}
 					withdrawable={String(data?.currentFees)}

@@ -11,7 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
-import {myKeystation} from "src/lib/Keystation";
 import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import styles from "./AiServiceFee.scss";
 import editIcon from "src/assets/icons/edit.svg";
@@ -28,6 +27,7 @@ import WithdrawRwBtn from "./WithdrawRwBtn";
 import JoinLeaveExecutorBtn from "./JoinLeaveExecutorBtn";
 import {isNil} from "lodash";
 import AiServiceFeeSkeleton from "./AiServiceFeeSkeleton";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -127,7 +127,7 @@ const AiServiceFee = memo(({moniker, address, pubkey}) => {
 		);
 	};
 
-	const updateFees = address => {
+	const updateFees = async (address) => {
 		const values = getValues();
 		if (values.updateFeeAmount) {
 			const msg = JSON.stringify({
@@ -141,36 +141,12 @@ const AiServiceFee = memo(({moniker, address, pubkey}) => {
 					},
 				},
 			});
-			const payload = {
-				type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-				gasType: "auto",
-				value: {
-					msg: [
-						{
-							type: "/cosmwasm.wasm.v1beta1.MsgExecuteContract",
-							value: {
-								contract: config.AIORACLE_SERVICE_FEES_ADDR,
-								msg,
-								sender: address,
-								sent_funds: null,
-							},
-						},
-					],
-					fee: {
-						amount: [0],
-						gas: 200000,
-					},
-					signatures: null,
-					memo: "",
-				},
-			};
 
-			const popup = myKeystation.openWindow("transaction", payload, account);
-			let popupTick = setInterval(function() {
-				if (popup.closed) {
-					clearInterval(popupTick);
-				}
-			}, 500);
+			const response = await walletStation.executeContract(config.AIORACLE_SERVICE_FEES_ADDR, msg, address, null);
+
+			console.log("response after update fees: ", response);
+
+
 		} else {
 			setError("updateFeeAmount", {
 				type: "Invalid amount",

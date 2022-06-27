@@ -3,8 +3,7 @@ import * as yup from "yup";
 import cn from "classnames/bind";
 import _, {add, constant} from "lodash";
 import BigNumber from "bignumber.js";
-import {Switch, Input, InputNumber} from "antd";
-import InputRange from "react-input-range";
+import {Switch, Input} from "antd";
 import Grid from "@material-ui/core/Grid";
 import {EditOutlined} from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
@@ -14,14 +13,13 @@ import {reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {InputNumberOrai, TextArea, InputTextWithIcon} from "src/components/common/form-controls";
 import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
-import {Fee, Gas} from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
 import styles from "./Dialog.scss";
 import {useSelector} from "src/hooks";
-import MemoFee from "src/components/common/MemoFee";
+
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
@@ -32,19 +30,15 @@ const calculateAmount = (balance, percent) => {
 	return result;
 };
 
-export default function FormDialog({address, amount, status, methods,fee, handleInputMulti, minFee, handleChangeGas, handleChangeFee}) {
-	const [inputAmountValue, setInputAmountValue] = useState("");
+export default function FormDialog({address, amount, status, methods, inputAmountValue, handleInputMulti}) {
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
-	// const [fee, setFee] = useState(0);
-	const [gas, setGas] = useState(200000);
 	const {errors, setValue, getValues, watch, handleSubmit, clearErrors, register} = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
-	// let values = watch() || "";
 
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
@@ -57,8 +51,6 @@ export default function FormDialog({address, amount, status, methods,fee, handle
 
 	const switchMultiSend = checked => {
 		setIsMulti(checked);
-		setGas(200000);
-		handleChangeFee(0);
 		if (!checked) {
 			handleInputMulti(null);
 		}
@@ -135,7 +127,6 @@ export default function FormDialog({address, amount, status, methods,fee, handle
 								</div>
 							);
 						})}
-						<MemoFee fee={fee} minFee={minFee} setFee={handleChangeFee} onChangeGas={onChangeGas} gas={gas} checkFee={false}  />
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -175,28 +166,8 @@ export default function FormDialog({address, amount, status, methods,fee, handle
 		setOpen(true);
 	};
 
-	const handleClose = value => {
+	const handleClose = () => {
 		setOpen(false);
-	};
-
-	const handleChooseFee = fee => {
-		handleChangeFee(fee);
-	};
-
-	const onChangeGas = value => {
-		handleChangeGas(value);
-		setGas(value);
-	};
-
-	const setAmountValue = rate => {
-		amount &&
-			setValue(
-				"sendAmount",
-				new BigNumber(amount)
-					.multipliedBy(rate)
-					.dividedBy(1000000)
-					.toFixed(6)
-			);
 	};
 
 	return (
@@ -264,22 +235,6 @@ export default function FormDialog({address, amount, status, methods,fee, handle
 						</div>
 						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name="sendAmount" errorobj={errors} />
 					</Grid>
-					<Grid item xs={12} className={cx("form-input")}>
-						<MemoFee fee={fee} minFee={minFee} setFee={handleChangeFee} onChangeGas={onChangeGas} gas={gas} checkFee={true} amount={getValues("sendAmount")}/>
-					</Grid>
-					{/* <div className={cx("select-gas", "select-gas-custom")}>
-						<span className={cx("gas-span")}> Gas </span>
-						<InputNumber
-							value={gas}
-							className={cx("input-text")}
-							formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-							parser={value => value.replace(/\s?|(,*)/g, "")}
-							onChange={onChangeGas}
-							min={100000}
-							max={1000000}
-						/>
-						<InputRange maxValue={1000000} minValue={100000} value={gas} onChange={onChangeGas} />
-					</div> */}
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}

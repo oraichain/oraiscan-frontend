@@ -4,16 +4,12 @@ import {NavLink} from "react-router-dom";
 import cn from "classnames/bind";
 import Grid from "@material-ui/core/Grid";
 import consts from "src/constants/consts";
-import {myKeystation} from "src/lib/Keystation";
 import styles from "./OracleRequestsCard.module.scss";
 import AddIcon from "src/icons/AddIcon";
 
 const cx = cn.bind(styles);
 
 const OracleRequestsCard = ({totalItems, children}) => {
-	// const createAIRequest = () => {
-	// 	myKeystation.openWindow("ai-request", "");
-	// };
 
 	return (
 		<div className={cx("requests-card")}>

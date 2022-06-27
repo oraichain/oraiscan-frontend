@@ -6,8 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import BigNumber from "bignumber.js";
 
-import {myKeystation} from "src/lib/Keystation";
 import styles from "./Register.scss";
+import {walletStation} from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
@@ -87,46 +87,33 @@ export default class Register extends React.Component {
 
 		const {account, address} = this.props;
 
-		const payload = {
-			type: "/cosmos.staking.v1beta1.MsgCreateValidator",
-			value: {
-				msg: [
-					{
-						type: "/cosmos.staking.v1beta1.MsgCreateValidator",
-						value: {
-							commission: {
-								max_change_rate: maxChangeRate,
-								max_rate: maxRate,
-								rate: commissionRate,
-							},
-							delegator_address: address,
-							description: {
-								details: "helloworld",
-								identity: "node",
-								moniker: name,
-								security_contact: "efg",
-								website: "xyx.com",
-							},
-							min_self_delegation: 100,
-							pubkey: "oraivalconspub1addwnpepqw8jxdggysfhj42eh6vy3z28x2c9y4nwfnz7x9vnszwdtyjwkn5jc7ev2m0",
-							validator_address: "oraivaloper1fl58xqkpn24v2jecpcdg2w29fndsulmne4vy5g",
-							value: {
-								denom: "orai",
-								amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
-							},
-						},
-					},
-				],
-				signatures: null,
+		let msg = [
+			{
+				commission: {
+					max_change_rate: maxChangeRate,
+					max_rate: maxRate,
+					rate: commissionRate,
+				},
+				delegator_address: address,
+				description: {
+					details: "helloworld",
+					identity: "node",
+					moniker: name,
+					security_contact: "efg",
+					website: "xyx.com",
+				},
+				min_self_delegation: 100,
+				pubkey: "oraivalconspub1addwnpepqw8jxdggysfhj42eh6vy3z28x2c9y4nwfnz7x9vnszwdtyjwkn5jc7ev2m0",
+				validator_address: "oraivaloper1fl58xqkpn24v2jecpcdg2w29fndsulmne4vy5g",
+				value: {
+					denom: "orai",
+					amount: new BigNumber(delegationAmount.replaceAll(",", "")).multipliedBy(1000000).toString(),
+				},
 			},
-		};
+		];
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		const response = await walletStation.createValidator(msg);
+		console.log("Result create validator: ", response);
 	};
 
 	onChange = e => {

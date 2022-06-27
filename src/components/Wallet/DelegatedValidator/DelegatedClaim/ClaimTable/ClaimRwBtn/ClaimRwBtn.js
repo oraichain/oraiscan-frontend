@@ -1,23 +1,23 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {myKeystation} from "src/lib/Keystation";
-import {showAlert} from "src/store/modules/global";
+import { showAlert } from "src/store/modules/global";
 import styles from "./ClaimRwBtn.scss";
-import {useHistory} from "react-router-dom";
-import {payloadTransaction} from "src/helpers/transaction";
+import { useHistory } from "react-router-dom";
+import { payloadTransaction } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
-import {calculateAmount} from "src/helpers/calculateAmount";
+import { calculateAmount } from "src/helpers/calculateAmount";
 import DialogForm from "src/components/DialogForm";
+import { walletStation } from "src/lib/walletStation";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -31,12 +31,12 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT} = amountConsts;
+const { GAS_DEFAULT } = amountConsts;
 
-const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim}) => {
+const ClaimRwBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
@@ -54,9 +54,9 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 	const methods = useForm({
 		resolver: undefined,
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
-	console.log({ withdrawable , balance });
-	const onSubmit = data => {
+	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
+	console.log({ withdrawable, balance });
+	const onSubmit = async data => {
 		if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
 			return dispatch(
 				showAlert({
@@ -67,38 +67,17 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 				})
 			);
 		}
-		const minGasFee = (fee * 1000000 + "").split(".")[0];
-		const msg = [
-			{
-				type: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-				value: {
-					delegator_address: address,
-					validator_address: validatorAddress,
-					amount: {
-						denom: "orai",
-						amount: balance.multipliedBy(1000000).toString() || "0",
-					},
-				},
-			},
-		];
-		const payload = payloadTransaction(
-			"/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-			msg,
-			minGasFee,
-			gas,
-			(data && data.memo) || getValues("memo") || ""
-		);
+		// const minGasFee = (fee * 1000000 + "").split(".")[0];
 
-		const popup = myKeystation.openWindow("transaction", payload, account);
-		let popupTick = setInterval(function() {
-			if (popup.closed) {
-				clearInterval(popupTick);
-			}
-		}, 500);
+		const response = await walletStation.withdrawDelegatorReward([{
+			delegator_address: address, validator_address: validatorAddress
+		}])
+
+		console.log("response claim delegator reward single: ", response);
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}

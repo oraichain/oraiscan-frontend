@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import * as yup from "yup";
 import cn from "classnames/bind";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import { Input, Switch } from "antd";
-// import InputRange from "react-input-range";
 import Grid from "@material-ui/core/Grid";
 import { EditOutlined } from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
@@ -12,33 +10,28 @@ import "react-input-range/lib/css/index.css";
 import consts from "src/constants/consts";
 import { reduceString } from "src/lib/scripts";
 import { formatOrai } from "src/helpers/helper";
-import { InputNumberOrai, TextArea, InputTextWithIcon } from "src/components/common/form-controls";
+import { InputNumberOrai, InputTextWithIcon } from "src/components/common/form-controls";
 import { ReactComponent as ExchangeIcon } from "src/assets/icons/switch-blue.svg";
-import { Fee, Gas } from "src/components/common/Fee";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendAiriTab.css";
 import styles from "./Dialog.scss";
 import { useSelector } from "src/hooks";
-import { useGet } from "restful-react";
 
 const cx = cn.bind(styles);
 const { TextArea: TextAreaAnt } = Input;
 
-export default function FormDialog({ address, amount, status, methods, handleInputMulti, minFee, handleChangeGas, handleChangeFee, fee }) {
+export default function FormDialog({ address, amount, status, methods, handleInputMulti }) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
-	const [gas, setGas] = useState(200000);
 	const { errors, setValue, getValues, watch, register } = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
-
-	// let values = watch() || "";
 
 	useEffect(() => {
 		setExistName(storageData?.[inputAddress] ? storageData?.[inputAddress]?.name : null);
@@ -138,18 +131,6 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 								</div>
 							);
 						})}
-						<Grid item xs={12} className={cx("form-input")}>
-							<div className={cx("label")}>
-								{" "}
-								Memo <span className={cx("optional")}> (Optional) </span>{" "}
-							</div>
-							<TextArea
-								type='number'
-								name='memo'
-								placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
-								rows={4}
-							/>
-						</Grid>
 					</div>
 					{renderSwitchBtn()}
 				</>
@@ -191,15 +172,6 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 
 	const handleClose = value => {
 		setOpen(false);
-	};
-
-	const handleChooseFee = fee => {
-		handleChangeFee(fee);
-	};
-
-	const onChangeGas = value => {
-		handleChangeGas(value);
-		setGas(value);
 	};
 
 	return (
@@ -266,27 +238,6 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 						</div>
 						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"airi"} name='sendAmount' errorobj={errors} />
 					</Grid>
-					<Grid item xs={12} className={cx("form-input")}>
-						<div className={cx("label")}>
-							{" "}
-							Memo <span className={cx("optional")}> (Optional) </span>{" "}
-						</div>
-						<TextArea
-							type='number'
-							name='memo'
-							placeholder='Fill in the Memo which is associated with your Kucoin wallet when depositing to Kucoin. DO NOT FILL the MNEMONIC KEY of your Oraichain wallet.'
-							rows={4}
-						/>
-					</Grid>
-					<Fee handleChooseFee={handleChooseFee} minFee={minFee} typePrice={"orai"} />
-					<Grid item xs={12} className={cx("form-input")}>
-						<div className={cx("label")}>
-							{" "}
-							Minimin Tx Fee:
-							<span className={cx("fee")}> {fee || 0} ORAI </span> {/* <span>($ 0)</span> */}
-						</div>
-					</Grid>
-					<Gas gas={gas} onChangeGas={onChangeGas} />
 				</Grid>
 			)}
 			{isMulti && renderSelectMulti()}
