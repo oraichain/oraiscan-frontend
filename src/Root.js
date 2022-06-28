@@ -12,6 +12,9 @@ import App from "./App";
 // import "./firebase";
 //  redux
 import store, { persistor } from "./store/configure";
+import Keplr from "./lib/keplr";
+import { network } from "./lib/config/networks";
+import { render } from "react-dom";
 
 const theme = createMuiTheme({
 	palette: {
@@ -38,6 +41,9 @@ const theme = createMuiTheme({
 	// lg, large: 1280px or larger
 	// xl, extra-large: 1920px or larger
 });
+
+window.Keplr = new Keplr();
+
 
 export default function (props) {
 	return (
