@@ -28,6 +28,7 @@ import typeUrl from "src/constants/typeurl";
 import typeSend from "src/constants/typeSend";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
+import { handleErrorMessage } from "../../../../lib/scripts";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -49,13 +50,9 @@ const TABS = [
 		name: "Send ORAI",
 		id: 1,
 	},
-	{
-		name: "Send AIRI",
-		id: 3,
-	},
 ];
 
-const FormDialog = memo(({ show, handleClose, address, account, amount, amountAiri }) => {
+const FormDialog = memo(({ show, handleClose, address, account, amount }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
@@ -124,38 +121,13 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					];
 				}
 				payload = args({ msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: handleBigNumber(total_amount) }); // TODO: temp hardcode gas
-			} else if (activeTabId === 3) {
-				let executeMsg = {
-					type: typeUrl.MSG_EXECUTE_CONTRACT,
-					value: {
-						contract: config.AIRI_ADDR,
-						msg: {},
-						sender: address,
-						sent_funds: null,
-					},
-				};
-				const parseTransferAiri = (address, amount) => {
-					return JSON.stringify({ transfer: { recipient: address, amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() } });
-				};
-				let msgs = [];
-				if (multiSendData) {
-					let transferInfos = multiSendData.map(v => {
-						return { recipient: v.address, amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString() };
-					});
-					executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } });
-				} else {
-					total_amount = +data.sendAmount + total_amount;
-					executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
-				}
-				msgs = [executeMsg];
-				payload = args({ msg: msgs, type: typeSend.CW20 });
 			}
 			const response = await walletStation.sendCoin(payload);
 			handleClose();
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
@@ -182,18 +154,6 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					address={address}
 					inputAmountValue={inputAmountValue}
 					amount={amount}
-					status={status}
-					methods={methods}
-					handleInputMulti={handleInputMulti}
-				/>
-			);
-		}
-		if (id === 3) {
-			return (
-				<SendAiriTab
-					address={address}
-					amount={amountAiri}
-					inputAmountValue={inputAmountValue}
 					status={status}
 					methods={methods}
 					handleInputMulti={handleInputMulti}

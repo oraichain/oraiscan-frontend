@@ -16,6 +16,7 @@ import { notification } from "antd";
 import { useHistory } from "react-router-dom";
 import { handleTransactionResponse } from "src/helpers/transaction";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -74,7 +75,7 @@ export default function ({ address, account }) {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

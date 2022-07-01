@@ -25,7 +25,7 @@ export default class WalletStation {
 
     broadcastMsg = async (wallet, txBody, broadcastMode, fees) => {
         try {
-            return this.cosmos.submit(wallet, txBody, broadcastMode, fees, 10000000);
+            return this.cosmos.submit(wallet, txBody, broadcastMode, fees, 10000000, undefined);
         } catch (ex) {
             console.log(ex);
             throw ex;
@@ -37,7 +37,7 @@ export default class WalletStation {
         if (!keplr) {
             throw messagesErrors.INSTALL_KEPLR_FIRST;
         }
-        return keplr.getOfflineSigner(this.cosmos.chainId);
+        return await keplr.getOfflineSignerAuto(this.cosmos.chainId);
     };
 
     sendCoin = async (args, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import React, {memo} from "react";
+import React, { memo } from "react";
 import cn from "classnames/bind";
-import {FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
+import { FormProvider } from "react-hook-form";
+import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -30,7 +30,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const {children, classes, onClose, ...other} = props;
+	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -79,7 +79,7 @@ const DialogForm = memo(props => {
 			<FormProvider {...methods}>
 				<form>
 					<DialogTitle id='delegate-dialog' onClose={closeDialog}>
-						{buttonName} from {validatorName}
+						{buttonName} {validatorName ? `from ${validatorName}` : ""}
 						{warning && <p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>}
 					</DialogTitle>
 					<DialogContent dividers>

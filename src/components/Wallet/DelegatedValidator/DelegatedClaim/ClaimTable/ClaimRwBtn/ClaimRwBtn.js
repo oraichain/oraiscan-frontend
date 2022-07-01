@@ -16,6 +16,7 @@ import DialogForm from "src/components/DialogForm";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../../../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -84,7 +85,7 @@ const ClaimRwBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validat
 			console.log("response claim delegator reward single: ", response);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

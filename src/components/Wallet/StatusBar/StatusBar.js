@@ -27,15 +27,10 @@ export default function () {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 	const buff = Buffer.from(JSON.stringify({ balance: { address } }));
 	const buffBalance = buff.toString("base64");
-	const [pathAiri, setPathAiri] = useState(`${config.LCD_API}${consts.LCD_API.WASM}/${config.AIRI_ADDR}/smart/${buffBalance}`);
 	const [loadingComplete, setLoadingComplete] = useState(false);
 
 	const { data, loading, refetch } = useGet({
 		path: path,
-	});
-
-	const { data: balanceAiri, loading: loadingAiri } = useGet({
-		path: pathAiri,
 	});
 
 	useEffect(() => {
@@ -51,7 +46,6 @@ export default function () {
 	useEffect(() => {
 		if (!address) return;
 		setPath(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`);
-		setPathAiri(`${config.LCD_API}${consts.LCD_API.WASM}/${config.AIRI_ADDR}/smart/${buffBalance}`);
 	}, [address]);
 
 	const handleRefeshAccount = () => {
@@ -78,7 +72,6 @@ export default function () {
 	console.log();
 
 	let balanceElement;
-	let balanceAiriElement;
 	if (!data) {
 		balanceElement = (
 			<div>
@@ -109,39 +102,9 @@ export default function () {
 		);
 	}
 
-	if (!balanceAiri) {
-		balanceAiriElement = (
-			<div>
-				<div className={cx("balance")}>
-					<Skeleton className={cx("skeleton-inline")} variant='text' width={121} height={27} />
-				</div>
-				<div className={cx("orai2usd")}>
-					<Skeleton className={cx("skeleton-inline")} variant='text' width={67} height={24} />
-				</div>
-			</div>
-		);
-		if (loadingAiri)
-			balanceAiriElement = (
-				<div>
-					<div className={cx("balance")}>-</div>
-					<div className={cx("orai2usd")}>-</div>
-				</div>
-			);
-	} else {
-		balanceAiriElement = (
-			<div>
-				<span className={cx("amount")}>{formatOrai(balanceAiri?.data?.balance || 0) + "  "}</span>
-				<span className={cx("symbol")}>AIRI</span>
-				{/* <div className={cx("orai2usd")}>
-					<ExchangeIcon /> {formatUSD(balanceAiri?.data?.balance,airi2usd)} USD
-				</div> */}
-			</div>
-		);
-	}
-
 	return (
 		<Grid container spacing={2} className={cx("StatusBar")}>
-			<Grid item md={3} sm={12} xs={12}>
+			<Grid item md={4} sm={12} xs={12}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>Account Details</div>
 					<div className={cx("address-title")}>
@@ -172,7 +135,7 @@ export default function () {
 					</a>
 				</div>
 			</Grid>
-			<Grid item md={3} sm={12} xs={12}>
+			<Grid item md={4} sm={12} xs={12}>
 				<div className={cx("card")}>
 					<div className={cx("title")}>ORAI Balance</div>
 					<div className={cx("balance")}>{balanceElement}</div>
@@ -181,16 +144,7 @@ export default function () {
 					</div>
 				</div>
 			</Grid>
-			<Grid item md={3} sm={12} xs={12}>
-				<div className={cx("card")}>
-					<div className={cx("title")}>AIRI Balance</div>
-					<div className={cx("balance")}>{balanceAiriElement}</div>
-					<div className={cx("footer")} onClick={handleRefeshAccount}>
-						<img alt='/' src={require("../../../assets/wallet/refresh.svg")} style={{ marginRight: 5 }} /> Refresh
-					</div>
-				</div>
-			</Grid>
-			<Grid item md={3} sm={12} xs={12}>
+			<Grid item md={4} sm={12} xs={12}>
 				<div
 					className={cx("card")}
 					style={{

@@ -1,20 +1,20 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import copy from "copy-to-clipboard";
 import Skeleton from "@material-ui/lab/Skeleton";
-import {showAlert} from "src/store/modules/global";
-import {formatOrai} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
-import {initWallet} from "src/store/modules/wallet";
+import { showAlert } from "src/store/modules/global";
+import { formatOrai } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
+import { initWallet } from "src/store/modules/wallet";
 import consts from "src/constants/consts";
 import BigNumber from "bignumber.js";
 import Dialog from "../Dialog";
@@ -23,17 +23,17 @@ import AccountIcon from "src/icons/AccountIcon";
 import WalletIcon from "src/icons/WalletIcon";
 import CopyIcon from "src/icons/CopyIcon";
 import styles from "./Wallet.module.scss";
-import {updateToken} from "src/firebase-cloud-message";
+import { updateToken } from "src/firebase-cloud-message";
 import config from "src/config";
-import {network} from "src/lib/config/networks";
+import { network } from "src/lib/config/networks";
 import { notification } from "antd";
 
 const cx = cn.bind(styles);
 
 const Wallet = props => {
-	const {path, title, handleClick, init} = props.data;
+	const { path, title, handleClick, init } = props.data;
 	const dispatch = useDispatch();
-	const {account} = useSelector(state => state.wallet);
+	const { account } = useSelector(state => state.wallet);
 	const connectWallet = async () => {
 		try {
 			const keplr = await window.Keplr.getKeplr();
@@ -44,11 +44,11 @@ const Wallet = props => {
 					// if (newAddress === account) {
 					// 	dispatch(initWallet({}));
 					// }
-					dispatch(initWallet({address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64")}));
+					dispatch(initWallet({ address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64") }));
 				}
 			}
 		} catch (error) {
-			notification.error({message: error});
+			notification.error({ message: error });
 			console.log(error);
 		}
 	};
@@ -64,20 +64,17 @@ const Wallet = props => {
 	return <WalletWithAdress {...props} dispatch={dispatch} />;
 };
 
-const WalletWithAdress = ({data: props, collapse, dispatch, account}) => {
+const WalletWithAdress = ({ data: props, collapse, dispatch, account }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {path, title} = props;
+	const { path, title } = props;
 	const price = useSelector(state => state?.blockchain?.status?.price);
 	const history = useHistory();
 	const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 	const [mobileOpenWallet, setMobileOpenWallet] = useState(false);
-	const {data, loading, error, refetch} = useGet({
+	const { data, loading, error, refetch } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${title}`,
-	});
-	const {data: balanceAiri, loading: loadingAiri} = useGet({
-		path: `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIRI_ADDR}/smart/${btoa(JSON.stringify({balance: {address: title}}))}`,
 	});
 
 	const balance = data?.balances?.find(balance => balance.denom === "orai");
@@ -147,9 +144,9 @@ const WalletWithAdress = ({data: props, collapse, dispatch, account}) => {
 					{isNaN(price) || isNaN(amount)
 						? `($-)`
 						: `($${new BigNumber(amount)
-								.dividedBy(1000000)
-								.multipliedBy(price)
-								.toFormat(2)})`}
+							.dividedBy(1000000)
+							.multipliedBy(price)
+							.toFormat(2)})`}
 				</span>
 			);
 		}
@@ -159,14 +156,13 @@ const WalletWithAdress = ({data: props, collapse, dispatch, account}) => {
 
 	return (
 		<div className={cx("dropdown")} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-			{!_.isNil("orai") && !_.isNil(amount) && (
+			{!_.isNil("orai") && (
 				<Dialog
 					show={isTransactionModalVisible}
 					handleClose={hideTransactionModal}
 					address={title}
 					account={account}
 					amount={amount}
-					amountAiri={balanceAiri?.data?.balance}
 				/>
 			)}
 			<a
