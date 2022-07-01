@@ -41,6 +41,7 @@ export const embedChainInfos = [
         get feeCurrencies() {
             return [this.stakeCurrency];
         },
+        walletUrlForStaking: "https://scan.orai.io/validators",
         gasPriceStep: {
             low: 0,
             average: 0.000025,
@@ -81,6 +82,7 @@ export const embedChainInfos = [
         get feeCurrencies() {
             return [this.stakeCurrency];
         },
+        walletUrlForStaking: "https://testnet.scan.orai.io/validators",
         gasPriceStep: {
             low: 0,
             average: 0.000025,
