@@ -1,8 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import './polyfill';
+import ReactDOM from "react-dom/client";
+import "./polyfill";
 import Root from "./Root";
-//  base styles
+// //  base styles
 import "./styles/base.scss";
 
-ReactDOM.render(<Root />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(<Root />);

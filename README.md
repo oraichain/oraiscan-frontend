@@ -1,65 +1,70 @@
-<h2 align="center">
-  Oraiscan Explorer's Frontend
-</h2>
+# Getting Started with Create React App
 
-_:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Overview
+## Available Scripts
 
-This repository provides frontend code for Oraiscan Block Explorer for Oraichain.
+In the project directory, you can run:
 
-## Prerequisite
+### `npm start`
 
-- A working backend described [here](https://github.com/oraichain/oraiscan-backend)
-- NodeJS 10+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Install
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-1. Git clone this repo to desired directory
+### `npm test`
 
-```shell
-git clone https://github.com/oraichain/oraiscan-frontend.git
-```
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-2. Install required packages
+### `npm run build`
 
-```shell
-yarn install
-```
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-3. Create a `firebase.js` in `src/` with your firebase settings, or comment out the following line in `src/Root.js`
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```js
-import "./firebase";
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-4. Specify URL of your backend
+### `npm run eject`
 
-```shell
-export REACT_APP_API_PROD=http://localhost:5000/v1
-```
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-5. Specify version of orai wallet in .env file
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```shell
-REACT_APP_WALLET_VERSION=2
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-6. Dev it or build it
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-```shell
-yarn dev
-yarn build:dev
-```
+## Learn More
 
-## Deploy with Firebase
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```bash
-firebase use oraichain-mainnet
-firebase target:apply hosting oraiscan oraiscan
-firebase deploy --only hosting:oraiscan
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-## License
+### Code Splitting
 
-Released under the [Apache 2.0 License](https://github.com/oraichain/oraiscan-frontend/LICENSE).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

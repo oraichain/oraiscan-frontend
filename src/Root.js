@@ -1,9 +1,9 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import { RestfulProvider } from "restful-react"; //  Thank you Tejas - I'm not gonna lie, swr looks more juicy these days
-import { PersistGate } from "redux-persist/integration/react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import {Provider} from "react-redux";
+import {BrowserRouter} from "react-router-dom";
+import {RestfulProvider} from "restful-react"; //  Thank you Tejas - I'm not gonna lie, swr looks more juicy these days
+import {PersistGate} from "redux-persist/integration/react";
+import {createTheme, MuiThemeProvider} from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import App from "./App";
@@ -11,12 +11,12 @@ import App from "./App";
 //  comment this out if you do not plan on using firebase
 // import "./firebase";
 //  redux
-import store, { persistor } from "./store/configure";
+import store, {persistor} from "./store/configure";
 import Keplr from "./lib/keplr";
-import { network } from "./lib/config/networks";
-import { render } from "react-dom";
+import {network} from "./lib/config/networks";
+import {render} from "react-dom";
 
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
 		primary: {
 			main: "#f0b90b",
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
 		},
 	},
 	typography: {
-		useNextVariants: true,
+		// useNextVariants: true,
 	},
 	overrides: {
 		MuiTooltip: {
@@ -44,8 +44,7 @@ const theme = createMuiTheme({
 
 window.Keplr = new Keplr();
 
-
-export default function (props) {
+export default function(props) {
 	return (
 		<MuiThemeProvider theme={theme}>
 			<RestfulProvider base={consts.API_BASE}>

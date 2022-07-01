@@ -1,12 +1,4 @@
-@font-face {
-	font-family: "Kiona";
-	src: url("/fonts/Kiona-Regular.ttf");
-}
-@font-face {
-	font-family: "Kiona";
-	src: url("/fonts/Kiona-Bold.ttf");
-	font-weight: bold;
-}
+
 
 .app {
 	min-height: calc(100vh - var(--heightFooter));

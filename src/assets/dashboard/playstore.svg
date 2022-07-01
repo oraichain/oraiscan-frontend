@@ -29,19 +29,19 @@
     <path id="패스_30" data-name="패스 30" d="M218.347,403.519a2.353,2.353,0,0,0-.544,1.651v25.984a2.353,2.353,0,0,0,.544,1.651l.088.083,14.554-14.554v-.345l-14.554-14.554-.088.083" transform="translate(0 0.473)" fill="#00c6ff"/>
     <g id="그룹_9" data-name="그룹 9" transform="translate(232.989 413.613)">
       <path id="패스_31" data-name="패스 31" d="M229.212,417.675l-4.85-4.853v-.345l4.853-4.85,5.858,3.327c1.642.933,1.642,2.459,0,3.392l-5.749,3.267-.111.063" transform="translate(-224.362 -407.627)" fill="#ffd300"/>
-      <g id="그룹_8" data-name="그룹 8" clip-path="url(#clip-path)">
+      <g id="그룹_8" data-name="그룹 8" clipPath="url(#clip-path)">
         <rect id="사각형_15" data-name="사각형 15" width="12.351" height="10.05" transform="translate(0.001 -0.001)" fill="#ffd300"/>
       </g>
     </g>
     <g id="그룹_11" data-name="그룹 11" transform="translate(218.347 418.637)">
       <path id="패스_33" data-name="패스 33" d="M237.641,414.759,232.68,409.8l-14.642,14.642a1.914,1.914,0,0,0,2.443.072l17.161-9.752" transform="translate(-218.038 -409.797)" fill="#fd3845"/>
-      <g id="그룹_10" data-name="그룹 10" clip-path="url(#clip-path-2)">
+      <g id="그룹_10" data-name="그룹 10" clipPath="url(#clip-path-2)">
         <rect id="사각형_16" data-name="사각형 16" width="24.67" height="24.67" transform="translate(-7.642 7.642) rotate(-45)" fill="#fd3845"/>
       </g>
     </g>
     <g id="그룹_13" data-name="그룹 13" transform="translate(218.347 403.527)">
       <path id="패스_35" data-name="패스 35" d="M237.641,413.419l-17.161-9.754a1.917,1.917,0,0,0-2.443.072L232.68,418.38l4.962-4.962" transform="translate(-218.038 -403.271)" fill="#00f076"/>
-      <g id="그룹_12" data-name="그룹 12" clip-path="url(#clip-path-3)">
+      <g id="그룹_12" data-name="그룹 12" clipPath="url(#clip-path-3)">
         <rect id="사각형_17" data-name="사각형 17" width="24.67" height="24.67" transform="translate(-7.642 7.466) rotate(-45)" fill="#00f076"/>
       </g>
     </g>

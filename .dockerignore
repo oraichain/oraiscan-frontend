@@ -1,6 +1,0 @@
-.dockerignore
-Dockerfile
-Dockerfile.dev
-.git
-# Create node_modules inside image instead
-node_modules
