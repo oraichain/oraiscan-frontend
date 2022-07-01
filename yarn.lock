@@ -2907,10 +2907,24 @@
   dependencies:
     "@oraichain/cosmosjs" "0.0.94"
 
-"@oraichain/cosmosjs@0.0.94", "@oraichain/cosmosjs@^0.0.94":
+"@oraichain/cosmosjs@0.0.94":
   version "0.0.94"
   resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.0.94.tgz#35f1a045737b86015f728aa22b1a974058eb4104"
   integrity sha512-EvsxRQqh8NzyH3DNj4iEC9r1UaRReZxDRasdN1Xj8SdJHCkPxqc4cdEwt3AsFYrJPdEZDdEyFYArUXdTjVncyg==
+  dependencies:
+    bech32 "^1.1.3"
+    bip32 "^2.0.5"
+    bip39 "^3.0.3"
+    dotenv "^8.2.0"
+    google-protobuf "^3.14.0"
+    isomorphic-fetch "^3.0.0"
+    protobufjs "^6.10.2"
+    secp256k1 "^4.0.2"
+
+"@oraichain/cosmosjs@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.1.0.tgz#39edd5927037b57f26f29a556d65e0806e1823c9"
+  integrity sha512-seRx9yiFfTUuR8XN1vS9HWAahZz17/CK3iUc8lkXJImlEHFcbxgfWYXVSbTVpfYz+NU649XaR3oMglnRbPAxYQ==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^2.0.5"

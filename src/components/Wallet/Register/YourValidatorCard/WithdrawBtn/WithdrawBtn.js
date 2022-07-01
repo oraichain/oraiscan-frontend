@@ -12,6 +12,7 @@ import DialogForm from "src/components/DialogForm";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../../../lib/scripts";
 const cx = cn.bind(styles);
 
 const { GAS_DEFAULT } = amountConsts;
@@ -48,7 +49,7 @@ const WithdrawBtn = memo(({ validatorAddress, BtnComponent, validatorName }) => 
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

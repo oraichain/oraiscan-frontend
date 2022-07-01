@@ -1,8 +1,10 @@
 .form-dialog {
 	width: 530px;
+
 	@media screen and (max-width: 650px) {
 		width: auto;
 	}
+
 	* {
 		font-family: 'IBM Plex Sans';
 	}
@@ -10,19 +12,23 @@
 
 .form-input {
 	margin-bottom: 5px !important;
+
 	textarea {
 		border-color: var(--common-borderColor);
 		padding-left: 15px;
 		padding-top: 10px;
 		font-size: 15px;
+
 		&::-webkit-input-placeholder {
 			color: var(--common-placeholderTextColor);
 			font-size: 15px;
 		}
 	}
+
 	.new-label {
 		color: var(--common-placeholderTextColor);
 		font-size: 13px;
+
 		.open-dialog {
 			color: var(--common-linkColor);
 			cursor: pointer;
@@ -42,16 +48,20 @@
 	margin-bottom: 10px;
 	padding-left: 8px;
 	padding-right: 8px;
+
 	.title {
 		font-weight: 500;
 		font-size: 17px;
 	}
+
 	.value {
 		font-weight: normal;
 		font-size: 15px;
 	}
+
 	.title-right {
 		text-align: left;
+
 		@media screen and (max-width: 650px) {
 			flex-direction: column;
 		}
@@ -74,6 +84,7 @@
 	font-size: 17px;
 	padding: 8px;
 	padding-left: 0;
+
 	button {
 		margin-left: 5px;
 	}
@@ -88,12 +99,14 @@
 	:nth-child(1) {
 		border-bottom-left-radius: 5px;
 		border-top-left-radius: 5px;
+		display: flex;
+		align-self: center;
 	}
 
-	:nth-child(3) {
-		border-bottom-right-radius: 5px;
-		border-top-right-radius: 5px;
-	}
+	// :nth-child(3) {
+	// 	border-bottom-right-radius: 5px;
+	// 	border-top-right-radius: 5px;
+	// }
 
 	button {
 		width: 50%;
@@ -121,6 +134,7 @@
 
 		&.selected {
 			background: var(--common-activeTabColor);
+			width: 100%;
 
 			p {
 				color: var(--common-activeTabTextColor);
@@ -131,6 +145,7 @@
 
 .form-dialog-title {
 	text-align: right;
+
 	svg {
 		cursor: pointer;
 	}
@@ -141,9 +156,11 @@
 	font-size: 17px;
 	margin-bottom: 5px;
 	padding-left: 2px;
+
 	.optional {
 		color: var(--common-placeholderTextColor);
 	}
+
 	.fee {
 		font-weight: 400;
 	}
@@ -152,6 +169,7 @@
 .label-right {
 	display: flex;
 	justify-content: space-between;
+
 	.right {
 		button {
 			cursor: pointer;
@@ -160,6 +178,7 @@
 			padding: 8px 15px;
 			border: 1px solid var(--common-modal-modalCommonBorderColor);
 			border-radius: 5px;
+
 			&:first-child {
 				margin-right: 10px;
 			}
@@ -174,6 +193,7 @@
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+
 	button {
 		width: 50%;
 	}
@@ -196,6 +216,7 @@
 	border-radius: 8px !important;
 	text-transform: none !important;
 	font-size: 17px !important;
+
 	span:first-child {
 		color: #ffffff !important;
 	}
@@ -203,11 +224,13 @@
 
 .switch-control {
 	margin-top: 5px;
+
 	.switch-blue {
 		font-family: 'IBM Plex Sans';
 		font-size: 15px;
 		color: var(--common-linkColor);
 		cursor: pointer;
+
 		svg {
 			margin-left: 5px;
 		}
@@ -218,8 +241,10 @@
 	border: 1px dashed var(--common-borderColor);
 	border-radius: 4px;
 	padding: 10px;
+
 	.row {
 		padding: 2px;
+
 		.amount-error-message {
 			font-size: 11px;
 			color: var(--common-resultIconFailureColor);
@@ -231,6 +256,7 @@
 	height: 400px;
 	border: 1px dashed var(--common-borderColor);
 	border-radius: 4px;
+
 	.textarea {
 		height: 400px !important;
 	}
@@ -262,20 +288,25 @@
 	font-style: normal;
 	line-height: 150%;
 	color: var(--common-textColor);
+
 	.address-dialog-header {
 		margin-bottom: 15px;
+
 		.title {
 			height: 36px;
 			font-size: 23px;
 		}
 	}
+
 	.address-dialog-label {
 		margin-bottom: 20px;
+
 		.label {
 			font-size: 17px;
 			margin-bottom: 5px;
 			height: 27px;
 		}
+
 		.input {
 			width: 420px;
 			height: 50px;
@@ -286,9 +317,11 @@
 			border-radius: 6px;
 			padding-left: 15px;
 			font-size: 15px;
+
 			&::placeholder {
 				color: var(--common-placeholderTextColor);
-				opacity: 1; /* Firefox */
+				opacity: 1;
+				/* Firefox */
 			}
 
 			:-ms-input-placeholder {
@@ -300,18 +333,22 @@
 				/* Microsoft Edge */
 				color: var(--common-placeholderTextColor);
 			}
+
 			&:focus {
 				outline: none;
 			}
 		}
 	}
+
 	.address-dialog-value {
 		margin-bottom: 25px;
+
 		.address-label {
 			font-size: 17px;
 			margin-bottom: 5px;
 			height: 27px;
 		}
+
 		.address-value {
 			color: var(--common-textColor);
 			font-size: 15px;
@@ -319,6 +356,7 @@
 			height: 24px;
 		}
 	}
+
 	.address-dialog-footer {
 		.button-cancel {
 			cursor: pointer;
@@ -331,6 +369,7 @@
 			margin-right: 20px;
 			color: var(--common-modal-modalCommonTextColor);
 		}
+
 		.button-add {
 			cursor: pointer;
 			width: 200px;
@@ -350,10 +389,12 @@
 	font-weight: 500;
 	font-size: 17px;
 	padding-left: 2px;
+
 	&-name {
 		display: inline-block;
 		margin-right: 8px;
 	}
+
 	&-icon {
 		color: var(--common-modal-modalCommonTextColor);
 		display: inline-flex;

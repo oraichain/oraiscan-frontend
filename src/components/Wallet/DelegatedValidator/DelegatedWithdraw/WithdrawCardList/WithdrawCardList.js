@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _, reduceString } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 import styles from "./WithdrawCardList.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 import WithdrawBtn from "../WithdrawTable/WithdrawBtn";
 import RedelegateBtn from "../WithdrawTable/RedelegateBtn";
 const cx = classNames.bind(styles);
 
-const WithdrawCardList = memo(({data = []}) => {
+const WithdrawCardList = memo(({ data = [] }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
 
-	const BtnComponent = ({handleClick, buttonName}) => {
+	const BtnComponent = ({ handleClick, buttonName }) => {
 		return (
 			<div className={cx("withdraw-data-cell", "align-center")}>
 				<button className={cx("button")} onClick={handleClick}>
@@ -91,7 +91,7 @@ const WithdrawCardList = memo(({data = []}) => {
 										<WithdrawBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw"})}
+											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })}
 											validatorName={item.validator}
 										/>
 									</td>
@@ -99,7 +99,7 @@ const WithdrawCardList = memo(({data = []}) => {
 										<RedelegateBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Redelegate"})}
+											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate" })}
 											validatorName={item.validator}
 										/>
 									</td>

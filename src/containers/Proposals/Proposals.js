@@ -44,6 +44,7 @@ import { handleTransactionResponse } from "src/helpers/transaction";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import Big from "big.js";
+import { handleErrorMessage } from "../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -312,7 +313,7 @@ export default function (props) {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

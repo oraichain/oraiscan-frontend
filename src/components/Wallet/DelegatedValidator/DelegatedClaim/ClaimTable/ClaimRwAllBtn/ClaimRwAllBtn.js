@@ -13,11 +13,12 @@ import DialogForm from "src/components/DialogForm";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../../../../lib/scripts";
 
 const cx = cn.bind(styles);
 const { GAS_DEFAULT } = amountConsts;
 
-const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validatorName }) => {
+const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
 	const { address, account } = useSelector(state => state.wallet);
@@ -60,7 +61,7 @@ const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validat
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
@@ -91,7 +92,7 @@ const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData, validat
 				closeDialog={closeDialog}
 				open={open}
 				methods={methods}
-				validatorName={validatorName}
+				// validatorName={validatorName}
 				fee={fee}
 				minFee={minFee}
 				setFee={setFee}
