@@ -95,13 +95,12 @@ const Randomness = ({ }) => {
 	}, []);
 
 	const random = () => {
-		// if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
-		// 	setErrorMessage(true);
-		// } else {
-		// 	setRequestRunning(true);
-		// 	handleGetRandomValue();
-		// }
-		alert("This feature is currently under maintanance. It will be back shortly. Thank you for your patience!");
+		if (parseFloat(data?.currentFees) / 10 ** 6 > parseFloat(balance)) {
+			setErrorMessage(true);
+		} else {
+			setRequestRunning(true);
+			handleGetRandomValue();
+		}
 	};
 
 	const handleSearch = async () => {
@@ -223,9 +222,9 @@ const Randomness = ({ }) => {
 							) : (
 								<>
 									<div className={cx("random")}>
-										{/* <div className={cx("button-random")} onClick={random}>
+										<div className={cx("button-random")} onClick={random}>
 											New Random
-										</div> */}
+										</div>
 										<div className={cx("button-more")} onClick={showInputAdvance}>
 											Advanced
 											{showAdvance ? <ExpandLessIcon /> : <ExpandMoreIcon />}{" "}
