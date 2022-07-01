@@ -204,3 +204,11 @@ export const parseNumberToCurrency = (number) => {
 	if (isNaN(+currencyData)) return `$${number}`; // fallback case. If number is already in currency or other form string => get raw number
 	return currencyData;
 }
+
+export const handleErrorMessage = (error) => {
+	const messageError = "Transaction failed with message:";
+	if (_.isEmpty(JSON.parse(JSON.stringify(error)))) return `${messageError} ${error}`;
+	// handle special message
+	if (error.message && error.message.includes('rpc error: code = NotFound desc')) return `Account does not exist on chain. Send some tokens there before trying to query sequence.`
+	return `${messageError} ${JSON.stringify(error)}`;
+}

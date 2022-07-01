@@ -4,7 +4,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString } from "src/lib/scripts";
+import { _, reduceString, handleErrorMessage } from "src/lib/scripts";
 import { formatOrai } from "src/helpers/helper";
 import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -54,7 +54,7 @@ const DelegatedTable = memo(({ rewards = [], delegations = [] }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

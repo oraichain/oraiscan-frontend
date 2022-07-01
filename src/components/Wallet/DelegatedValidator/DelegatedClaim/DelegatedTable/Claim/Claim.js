@@ -20,6 +20,7 @@ import { walletStation } from "src/lib/walletStation";
 import { handleTransactionResponse } from "src/helpers/transaction";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "src/lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -108,7 +109,7 @@ const Claim = memo(({ validatorAddress, BtnComponent }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

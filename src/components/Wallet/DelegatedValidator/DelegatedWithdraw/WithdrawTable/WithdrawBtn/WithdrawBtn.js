@@ -17,6 +17,7 @@ import { calculateAmount } from "src/helpers/calculateAmount";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../../../../lib/scripts";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -77,7 +78,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};

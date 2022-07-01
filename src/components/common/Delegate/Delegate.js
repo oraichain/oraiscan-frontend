@@ -27,6 +27,7 @@ import { formatOrai, formatPercentage } from "src/helpers/helper";
 import { walletStation } from "src/lib/walletStation";
 import { handleTransactionResponse } from "src/helpers/transaction";
 import { notification } from "antd";
+import { handleErrorMessage } from "../../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -160,7 +161,7 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
@@ -276,9 +277,9 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 						<div className={cx("form-field")}>
 							<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
 						</div>
-						<div className={cx("balance-title")}> Fee </div>
-						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
-						<Gas gas={gas} onChangeGas={setGas} />
+						{/* <div className={cx("balance-title")}> Fee </div> */}
+						{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
+						<Gas gas={gas} onChangeGas={setGas} /> */}
 					</DialogContent>
 					<DialogActions>
 						<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

@@ -17,6 +17,7 @@ import styles from "./RedelegateBtn.scss";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { handleErrorMessage } from "../../../../../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -87,7 +88,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: `Transaction failed with message: ${JSON.stringify(error)}` });
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
