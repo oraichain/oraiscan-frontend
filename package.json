@@ -112,7 +112,7 @@
 		"redux-pender": "^2.0.12",
 		"redux-persist": "^6.0.0",
 		"restful-react": "^15.6.0",
-		"node-sass": "^7.0.1",
+		"sass": "^1.53.0",
 		"secp256k1": "^4.0.3",
 		"semver": "6.3.0",
 		"source-map-explorer": "^2.2.2",
