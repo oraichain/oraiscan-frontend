@@ -24,8 +24,10 @@ const getClientEnvironment = require("./env");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
-
+const CopyPlugin = require("copy-webpack-plugin");
 const postcssNormalize = require("postcss-normalize");
+const {execSync} = require("child_process");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const appPackageJson = require(paths.appPackageJson);
 
@@ -152,8 +154,19 @@ module.exports = function(webpackEnv) {
 		[require.resolve("@babel/plugin-proposal-throw-expressions")],
 		[require.resolve("@babel/plugin-proposal-optional-chaining")],
 	];
+	if (isEnvDevelopment) babelPlugins.push([require.resolve("react-refresh/babel")]);
 	if (isEnvProduction) babelPlugins.push([require.resolve("babel-plugin-transform-remove-console")]);
-	//
+
+	// add dll
+	const vendorManifest = path.join(__dirname, "..", "vendor", "manifest.json");
+	if (!fs.existsSync(vendorManifest)) {
+		execSync("yarn vendor", {
+			stdio: "inherit",
+			env: process.env,
+			cwd: process.cwd(),
+		});
+	}
+
 	return {
 		mode: isEnvProduction ? "production" : isEnvDevelopment && "development",
 		// Stop compilation early in production
@@ -496,10 +509,16 @@ module.exports = function(webpackEnv) {
 			],
 		},
 		plugins: [
+			isEnvDevelopment && new ReactRefreshWebpackPlugin(),
+			new CopyPlugin([{from: path.resolve(paths.appVendor, "vendor.bundle.js"), to: paths.appBuild}]),
+			new webpack.DllReferencePlugin({
+				context: path.join(__dirname, ".."),
+				manifest: vendorManifest,
+			}),
 			// Generates an `index.html` file with the <script> injected.
 			new HtmlWebpackPlugin(
 				Object.assign(
-					{},
+					{vendor: "/vendor.bundle.js"},
 					{
 						inject: true,
 						template: paths.appHtml,

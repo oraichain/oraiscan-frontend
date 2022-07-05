@@ -2,6 +2,7 @@
 .vscode/
 node_modules/
 build
+vendor
 .npm/
 template/src/__tests__/__snapshots__/
 

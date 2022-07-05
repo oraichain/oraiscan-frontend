@@ -19,6 +19,7 @@ const config = Object.freeze({
 	AIORACLE_CONTRACT_ADDR: isTestnet ? process.env.REACT_APP_AIORACLE_TESTNET_CONTRACT_ADDR : process.env.REACT_APP_AIORACLE_CONTRACT_ADDR,
 	AIORACLE_SERVICE_FEES_ADDR: isTestnet ? process.env.REACT_APP_AIORACLE_TESTNET_SERVICE_FEES_ADDR : process.env.REACT_APP_AIORACLE_SERVICE_FEES_ADDR,
 	PING_ADDR: isTestnet ? process.env.REACT_APP_TESTNET_PING_ADDR : process.env.REACT_APP_PING_ADDR,
+	AIRI_ADDR: isTestnet ? process.env.REACT_APP_AIRI_TESTNET : process.env.REACT_APP_AIRI_MAINNET,
 });
 
 export default config;

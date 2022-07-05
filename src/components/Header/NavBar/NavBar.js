@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { Container } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
+import {Container} from "@material-ui/core";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import { initWallet } from "src/store/modules/wallet";
+import {initWallet} from "src/store/modules/wallet";
 import NavBarMobile from "./NavBarMobile";
 import styles from "./NavBar.module.scss";
 import consts from "src/constants/consts";
@@ -17,11 +17,11 @@ import TwitterIcon from "src/assets/community/TwitterIcon";
 import YoutubeIcon from "src/assets/community/YoutubeIcon";
 import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
-import { updateToken } from "src/firebase-cloud-message";
+import {updateToken} from "src/firebase-cloud-message";
 import NavBarDesktop from "./NavBarDesktop";
-import { ThemeSetup } from "src/helpers/helper";
+import {ThemeSetup} from "src/helpers/helper";
 
-import { FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle } from "react-icons/fa";
+import {FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle} from "react-icons/fa";
 
 const cx = cn.bind(styles);
 
@@ -344,7 +344,7 @@ const initialNavLinks = [
 			},
 		],
 	},
-	{ title: "Connect Wallet", link: null, type: "wallet", children: [] },
+	{title: "Connect Wallet", link: null, type: "wallet", children: []},
 ];
 
 function isSlowBlock(lastest, blocks) {
@@ -359,12 +359,12 @@ function isSlowBlock(lastest, blocks) {
 	}
 }
 
-const NavBar = ({ toggleSearchArea }) => {
+const NavBar = ({toggleSearchArea}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const { isDarkTheme } = ThemeSetup();
+	const {isDarkTheme} = ThemeSetup();
 	const dispatch = useDispatch();
-	const { address } = useSelector(state => state.wallet);
+	const {address} = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const [isMaintaining, setIsMaintaining] = useState(false);
 
@@ -385,12 +385,17 @@ const NavBar = ({ toggleSearchArea }) => {
 
 		const checkLatestBlock = async () => {
 			// check block to display maintaince or not
-			const lastest = await fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json());
-			const currentBlocks = await fetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`).then(res => res.json());
-			if (isSlowBlock(lastest, currentBlocks)) {
-				setIsMaintaining(true);
+			try {
+				const [lastest, currentBlocks] = await Promise.all([
+					fetch(`${consts.LCD_API_BASE}/blocks/latest`).then(res => res.json()),
+					fetch(`${consts.API_BASE}${consts.API.BLOCKLIST}?limit=10`).then(res => res.json()),
+				]);
+				if (isSlowBlock(lastest, currentBlocks)) {
+					setIsMaintaining(true);
+				}
+			} catch (ex) {
+				console.log(ex);
 			}
-			// console.log("result blocks: ", result);
 		};
 		checkLatestBlock();
 		// if (parseInt(result.block.header.height) - consts.MIN_MAINTAINANCE > )
@@ -421,7 +426,11 @@ const NavBar = ({ toggleSearchArea }) => {
 				</div>
 			)}
 			<Container>
-				{isLargeScreen ? <NavBarDesktop isDarkTheme={isDarkTheme} initialNavLinks={navLinks} /> : <NavBarMobile isDarkTheme={isDarkTheme} toggleSearchArea={toggleSearchArea} initialNavLinks={navLinks} />}
+				{isLargeScreen ? (
+					<NavBarDesktop isDarkTheme={isDarkTheme} initialNavLinks={navLinks} />
+				) : (
+					<NavBarMobile isDarkTheme={isDarkTheme} toggleSearchArea={toggleSearchArea} initialNavLinks={navLinks} />
+				)}
 			</Container>
 		</div>
 	);
