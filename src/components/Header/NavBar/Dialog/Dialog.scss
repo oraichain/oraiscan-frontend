@@ -103,10 +103,10 @@
 		align-self: center;
 	}
 
-	// :nth-child(3) {
-	// 	border-bottom-right-radius: 5px;
-	// 	border-top-right-radius: 5px;
-	// }
+	:nth-child(3) {
+		border-bottom-right-radius: 5px;
+		border-top-right-radius: 5px;
+	}
 
 	button {
 		width: 50%;
@@ -134,7 +134,7 @@
 
 		&.selected {
 			background: var(--common-activeTabColor);
-			width: 100%;
+			width: 50%;
 
 			p {
 				color: var(--common-activeTabTextColor);
