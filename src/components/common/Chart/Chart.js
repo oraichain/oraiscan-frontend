@@ -300,5 +300,5 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 		};
 	}, [options, data, displayMax, showAxis, activeThemeId]);
 	// return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
-	return <HighchartsReact containerProps={{class: "highchart"}} highcharts={highcharts} options={graphOptions} />;
+	return <HighchartsReact containerProps={{className: "highchart"}} highcharts={highcharts} options={graphOptions} />;
 }
