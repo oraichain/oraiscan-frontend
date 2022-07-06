@@ -79,7 +79,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 	});
 
 	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
-	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(1000000).toString();
+	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(consts.NUM.COSMOS_DECIMAL).toFixed(0);
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
@@ -107,7 +107,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 						};
 					});
 				} else {
-					total_amount = +data.sendAmount + total_amount;
+					total_amount = new BigNumber(data.sendAmount.toString().replaceAll(",", "")).plus(new BigNumber(total_amount)).multipliedBy(consts.NUM.COSMOS_DECIMAL);
 					msg = [
 						{
 							type: typeUrl.MSG_SEND,
@@ -124,7 +124,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 						},
 					];
 				}
-				payload = args({ msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: handleBigNumber(total_amount) }); // TODO: temp hardcode gas
+				payload = args({ msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: total_amount.toFixed(0) });
 			} else if (activeTabId === 3) {
 				let executeMsg = {
 					type: typeUrl.MSG_EXECUTE_CONTRACT,
@@ -136,12 +136,12 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					},
 				};
 				const parseTransferAiri = (address, amount) => {
-					return JSON.stringify({ transfer: { recipient: address, amount: new BigNumber(amount.replaceAll(",", "")).multipliedBy(1000000).toString() } });
+					return JSON.stringify({ transfer: { recipient: address, amount: handleBigNumber(amount) } });
 				};
 				let msgs = [];
 				if (multiSendData) {
 					let transferInfos = multiSendData.map(v => {
-						return { recipient: v.address, amount: new BigNumber(v.amount.replaceAll(",", "")).multipliedBy(1000000).toString() };
+						return { recipient: v.address, amount: handleBigNumber(v.amount) };
 					});
 					executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } });
 				} else {

@@ -31,6 +31,7 @@ export default Object.freeze({
 	NUM: {
 		BASE_MULT: 100000000,
 		DEFAULT_DECIMALS: 8,
+		COSMOS_DECIMAL: 1000000,
 		PAGE_SIZE: 20,
 		SPARE_PAGE_CNT: 2, //  amount of pages to preload in pagination
 		BINACE_API_ROWS_LIMIT: 1000, //  max rows binance api allows
@@ -42,6 +43,7 @@ export default Object.freeze({
 		ASSET_REFETCH_INTERVAL_MS: 80000,
 		ASSET_REFETCH_PRICE_INTERVAL_MS: 80000,
 		BASIC_DATA_FETCH_INTERVAL_MS: 30000,
+		TX_TIMEOUT_HEIGHT: 200,
 	},
 	ASSET: {
 		NAME_SEARCH_PROPERTY: ["asset", "mappedAsset", "name"],
@@ -161,7 +163,7 @@ export default Object.freeze({
 		BINANCEDEX: "https://www.binance.org/",
 		COINGECKO_ORAI: "https://www.coingecko.com/en/coins/oraichain-token",
 	},
-	HD_PATH:  {
+	HD_PATH: {
 		DEFAULT: "m/44'/118'/0'/0/0",
 		EXAMPLE: "44/118/0/0/0",
 		PRODUCTION: "",
