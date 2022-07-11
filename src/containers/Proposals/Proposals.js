@@ -43,8 +43,8 @@ import { walletStation } from "src/lib/walletStation";
 import { handleTransactionResponse } from "src/helpers/transaction";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import Big from "big.js";
 import { handleErrorMessage } from "../../lib/scripts";
+import BigNumber from "bignumber.js";
 
 const cx = cn.bind(styles);
 
@@ -239,12 +239,12 @@ export default function (props) {
 	const hmsToMiliSeconds = times => {
 		const hmsArr = times.split(":");
 		const seconds = +hmsArr[0] * 60 * 60 + +hmsArr[1] * 60 + +hmsArr[2];
-		return new Big(seconds).mul(new Big(Math.pow(10, 9))).toFixed(0);
+		return new BigNumber(seconds).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
 	};
 
 	const handleDayTimePeriod = (days, times) => {
 		if (days) {
-			return new Big(Math.round(days * 24 * 60 * 60)).mul(new Big(Math.pow(10, 9))).toFixed(0);
+			return new BigNumber(Math.round(days * 24 * 60 * 60)).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
 		}
 		return hmsToMiliSeconds(times);
 	};

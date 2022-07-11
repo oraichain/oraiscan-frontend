@@ -1,14 +1,12 @@
-import { floor } from "lodash";
+import {floor} from "lodash";
 import numeral from "numeral";
-import bigInt from "big-integer";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import moment from "moment";
 import sha256 from "js-sha256";
-import message from "src/lib/proto";
-import { useSelector } from "react-redux";
-import { themeIds } from "src/constants/themes";
-import { reduceString } from "src/lib/scripts";
+import {useSelector} from "react-redux";
+import {themeIds} from "src/constants/themes";
+import {reduceString} from "src/lib/scripts";
 import consts from "src/constants/consts";
 import Cosmos from "@oraichain/cosmosjs";
 
@@ -123,7 +121,7 @@ export const formatNumber = value => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
-	return value.toString().replace(/^[+-]?\d+/, function (int) {
+	return value.toString().replace(/^[+-]?\d+/, function(int) {
 		return int.replace(/(\d)(?=(\d{3})+$)/g, "$1,");
 	});
 };
@@ -223,7 +221,7 @@ export const ThemeSetup = () => {
 };
 
 export const parseTxFee = amount => {
-	return { denom: consts.DENOM, amount };
+	return {denom: consts.DENOM, amount};
 };
 
 export const addressDisplay = str => {
