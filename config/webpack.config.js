@@ -1,5 +1,5 @@
 "use strict";
-
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -510,6 +510,7 @@ module.exports = function(webpackEnv) {
 			],
 		},
 		plugins: [
+			new HardSourceWebpackPlugin(),
 			isEnvDevelopment && new ReactRefreshWebpackPlugin(),
 			new webpack.DllReferencePlugin({
 				context: path.join(__dirname, ".."),
