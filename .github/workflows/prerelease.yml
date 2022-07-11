@@ -41,7 +41,7 @@ jobs:
           path: |
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
             ./node_modules/
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: 5a9ac989-e5fb-40ab-96c5-4c591c7bf456
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install Dependencies
