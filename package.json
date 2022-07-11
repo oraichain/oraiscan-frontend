@@ -42,6 +42,7 @@
 		"antd": "^4.9.4",
 		"axios": "0.21.1",
 		"bech32-buffer": "^0.1.2",
+		"big.js": "^6.2.1",
 		"bignumber.js": "^9.0.1",
 		"classnames": "^2.2.6",
 		"constant-case": "^3.0.4",
