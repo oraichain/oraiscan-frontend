@@ -30,7 +30,7 @@ if (process.env.NODE_PATH) {
 	console.log();
 }
 
-console.log("Creating an optimized production build...");
+console.log("Creating an optimized production build for node_modules...");
 
 const compiler = webpack(config);
 
@@ -53,7 +53,7 @@ compiler.run((err, stats) => {
 			warnings: [],
 		});
 	} else {
-		messages = formatWebpackMessages(stats.toJson({all: false, warnings: true, errors: true}));
+		messages = formatWebpackMessages(stats.toJson({ all: false, warnings: true, errors: true }));
 	}
 	if (messages.errors.length) {
 		// Only keep the first error. Others are often indicative

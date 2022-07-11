@@ -158,12 +158,7 @@ module.exports = function (webpackEnv) {
 	if (isEnvProduction) babelPlugins.push([require.resolve("babel-plugin-transform-remove-console")]);
 
 	// add dll
-	const vendorManifest = path.resolve(
-		isEnvDevelopment ? '' : paths.appPublic,
-		'vendor',
-		'manifest.json'
-	);
-
+	const vendorManifest = path.join(__dirname, "..", "vendor", "manifest.json");
 	if (!fs.existsSync(vendorManifest)) {
 		execSync("yarn vendor", {
 			stdio: "inherit",
@@ -515,13 +510,7 @@ module.exports = function (webpackEnv) {
 		},
 		plugins: [
 			isEnvDevelopment && new ReactRefreshWebpackPlugin(),
-			new CopyPlugin([{
-				from: path.resolve(
-					isEnvDevelopment ? '' : paths.appPublic,
-					'vendor',
-					'vendor.bundle.js'
-				), to: paths.appBuild
-			}]),
+			new CopyPlugin([{ from: path.resolve(paths.appVendor, "vendor.bundle.js"), to: paths.appBuild }]),
 			new webpack.DllReferencePlugin({
 				context: path.join(__dirname, ".."),
 				manifest: vendorManifest,
@@ -529,7 +518,7 @@ module.exports = function (webpackEnv) {
 			// Generates an `index.html` file with the <script> injected.
 			new HtmlWebpackPlugin(
 				Object.assign(
-					{ vendor: "/vendor/vendor.bundle.js" },
+					{ vendor: "/vendor.bundle.js" },
 					{
 						inject: true,
 						template: paths.appHtml,
