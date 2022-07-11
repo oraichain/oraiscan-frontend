@@ -7,7 +7,7 @@ require("./env");
 const ignores = [];
 const isDevelopment = process.env.NODE_ENV === "development";
 console.log("is development: ", isDevelopment);
-const vendorPath = path.resolve(isDevelopment ? "" : paths.appPublic, "vendor");
+const vendorPath = path.resolve(isDevelopment ? "vendor" : paths.appPublic, "vendor");
 
 console.log("vendor path: ", vendorPath);
 

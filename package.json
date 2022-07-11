@@ -11,7 +11,7 @@
 	],
 	"scripts": {
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
-		"vendor": "cross-env REACT_APP_BUILD_ENV=dev NODE_ENV=production GENERATE_SOURCEMAP=false node --max_old_space_size=8192 scripts/vendor.js",
+		"vendor": "cross-env REACT_APP_BUILD_ENV=dev GENERATE_SOURCEMAP=false node --max_old_space_size=8192 scripts/vendor.js",
 		"start": "cross-env REACT_APP_BUILD_ENV=dev NODE_ENV=production node scripts/start.js",
 		"dev": "cross-env NODE_ENV=development node scripts/start.js",
 		"build:dev": "cross-env REACT_APP_BUILD_ENV=dev NODE_ENV=development node scripts/build.js --max_old_space_size=8192 && yarn run delete-maps",
