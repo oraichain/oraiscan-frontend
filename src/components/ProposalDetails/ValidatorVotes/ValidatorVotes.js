@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
-import {constantCase} from "change-case";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useMemo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
+import { constantCase } from "constant-case";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
+import { _ } from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
@@ -18,7 +18,7 @@ import ValidatorVotesSkeleton from "./ValidatorVotesSkeleton";
 const cx = classNames.bind(styles);
 const pageSize = 10;
 
-const ValidatorVotes = memo(({proposalId}) => {
+const ValidatorVotes = memo(({ proposalId }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [firstLoadTransactionCompleted, setFirstLoadTransactionCompleted] = useState(false);
@@ -92,7 +92,7 @@ const ValidatorVotes = memo(({proposalId}) => {
 	}
 
 	const votePath = `${consts.API.PROPOSAL_VOTES}`;
-	const {data: voteData} = useGet({
+	const { data: voteData } = useGet({
 		path: votePath,
 	});
 	if (voteData) {
@@ -113,7 +113,7 @@ const ValidatorVotes = memo(({proposalId}) => {
 	// if (!_.isNil(voteType) && voteType !== voteTypesRef.current["ALL"]) {
 	// 	validatorVotesPath = `${validatorVotesPath}&vote=${voteType}`;
 	// }
-	const {data: validatorVoteData, loading: validatorVoteLoading, error: validatorVoteError} = useGet({
+	const { data: validatorVoteData, loading: validatorVoteLoading, error: validatorVoteError } = useGet({
 		path,
 	});
 
@@ -162,7 +162,7 @@ const ValidatorVotes = memo(({proposalId}) => {
 						});
 				}
 			});
-			const {YES, NO, ABSTAIN, NO_WITH_VETO, DID_NOT_VOTE, ALL} = totalVotes;
+			const { YES, NO, ABSTAIN, NO_WITH_VETO, DID_NOT_VOTE, ALL } = totalVotes;
 			const numberVotes = {
 				YES: YES.length,
 				NO: NO.length,

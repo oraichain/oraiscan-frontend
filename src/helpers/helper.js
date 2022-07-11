@@ -1,6 +1,5 @@
 import { floor } from "lodash";
 import numeral from "numeral";
-import bigInt from "big-integer";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import moment from "moment";
