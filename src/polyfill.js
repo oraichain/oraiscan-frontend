@@ -1,5 +1,4 @@
 //@ts-nocheck
-import {isMobile} from "@walletconnect/browser-utils";
 import _BigInt from "big-integer";
 import {ORAI} from "./lib/config/constants";
 
