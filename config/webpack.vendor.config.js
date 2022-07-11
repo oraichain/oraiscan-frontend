@@ -1,18 +1,15 @@
 const webpack = require("webpack");
 const path = require("path");
-const paths = require('./paths');
+const paths = require("./paths");
 const package = require("../package.json");
 require("./env");
 
-const ignores = ["@babel/helper-plugin-test-runner", "firebase"];
-const isDevelopment = process.env.NODE_ENV === 'development';
-console.log("is development: ", isDevelopment)
-const vendorPath = path.resolve(
-	isDevelopment ? '' : paths.appPublic,
-	'vendor'
-);
+const ignores = [];
+const isDevelopment = process.env.NODE_ENV === "development";
+console.log("is development: ", isDevelopment);
+const vendorPath = path.resolve(isDevelopment ? "" : paths.appPublic, "vendor");
 
-console.log("vendor path: ", vendorPath)
+console.log("vendor path: ", vendorPath);
 
 module.exports = {
 	mode: process.env.NODE_ENV,
@@ -21,7 +18,7 @@ module.exports = {
 		vendor: Object.keys(package.dependencies).filter(dep => !ignores.includes(dep)),
 	},
 	node: {
-		fs: 'empty'
+		fs: "empty",
 	},
 	resolve: {
 		extensions: [".tsx", ".ts", ".js", ".jsx"],
@@ -35,7 +32,7 @@ module.exports = {
 		new webpack.ProgressPlugin(),
 		new webpack.DllPlugin({
 			name: "vendor_lib",
-			path: path.join(vendorPath, 'manifest.json'),
+			path: path.join(vendorPath, "manifest.json"),
 		}),
 	],
 };
