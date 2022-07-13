@@ -1,6 +1,6 @@
 import aiIcon from "src/assets/common/ai_ic.svg";
-import SamoraiDLogo from "src/assets/validators/SUPRme_node.png";
 import citadel from 'src/assets/validators/citadel.png';
+import StanIsLaw from 'src/assets/validators/Stanislaw_Trust_orai.jpg';
 
 export const logoBrand = [
 	{
@@ -57,11 +57,6 @@ export const logoBrand = [
 		name: "StakeWithOraiKing",
 		operatorAddress: "oraivaloper1h89umsrsstyeuet8kllwvf2tp630n77aymck78",
 		logo: 'https://res.cloudinary.com/oraichain/image/upload/v1645501963/stakeWithOraiKingLogo.jpg',
-	},
-	{
-		name: "The_firm_samorai_D",
-		operatorAddress: "oraivaloper1qdcln9krzqwywxru8jx6yq2qs9cjqcvvhyjyet",
-		logo: SamoraiDLogo,
 	},
 	{
 		name: "rikkei_moniker",
@@ -152,5 +147,10 @@ export const logoBrand = [
 		name: "Citadel",
 		operatorAddress: "oraivaloper1w96q7rrd6edc3fpmw6zayzdf5ajzucrnw3pt3s",
 		logo: citadel,
+	},
+	{
+		name: "StanIsLaw",
+		operatorAddress: "oraivaloper1fgl27l8atpuy9jafqwweevle79v8pzkjrt37re",
+		logo: StanIsLaw,
 	}
 ];
