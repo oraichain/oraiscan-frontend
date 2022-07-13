@@ -243,5 +243,6 @@ export default Object.freeze({
 		SUCCESS: "success",
 		FAILURE: "failure",
 		PENDING: "pending"
-	}
+	},
+	INSTALL_KEPLR_FIRST: "You have to install Keplr first to continue",
 });

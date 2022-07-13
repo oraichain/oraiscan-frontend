@@ -33,6 +33,7 @@ import { initWallet } from "src/store/modules/wallet";
 import WalletStation from "./lib/walletStation";
 import { network } from "./lib/config/networks";
 import { notification } from "antd";
+import consts from 'src/constants/consts';
 
 const cx = classNames.bind(styles);
 
@@ -108,7 +109,7 @@ export default function () {
 		// automatically update. If user is also using Oraichain wallet => dont update
 		try {
 			const keplr = await window.Keplr.getKeplr();
-			if (!keplr) throw "You must install Keplr to continue";
+			if (!keplr) throw consts.INSTALL_KEPLR_FIRST;
 			const key = await window.Keplr.getKeplrKey();
 
 			if (key?.bech32Address) {
