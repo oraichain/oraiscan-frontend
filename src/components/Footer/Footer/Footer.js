@@ -5,7 +5,7 @@ import Container from "@material-ui/core/Container";
 import classNames from "classnames/bind";
 import styles from "./Footer.scss";
 import TwitterIcon from "src/icons/TwitterIcon";
-import FooterBackground from "src/assets/footer/footer_background.png";
+import FooterBackground from "src/assets/footer/footer_background.jpg";
 import DecorIconDark from "src/assets/footer/decor-icon-dark.png";
 import DecorIconLight from "src/assets/footer/decor-icon-light.png";
 import TelegramIcon from "src/icons/TelegramIcon";

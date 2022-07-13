@@ -37,7 +37,7 @@ const Wallet = props => {
 	const connectWallet = async () => {
 		try {
 			const keplr = await window.Keplr.getKeplr();
-			if (!keplr) throw "You must install Keplr to continue";
+			if (!keplr) throw consts.INSTALL_KEPLR_FIRST;
 			if (keplr) {
 				const key = await window.Keplr.getKeplrKey();
 				if (key?.bech32Address) {

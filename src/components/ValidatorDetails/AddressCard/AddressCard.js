@@ -13,6 +13,8 @@ import keccak256 from 'keccak256';
 import secp256k1 from 'secp256k1';
 import * as api from "src/lib/api";
 import { notification } from 'antd';
+import consts from 'src/constants/consts';
+import { network } from "src/lib/config/networks";
 const cx = classNames.bind(styles);
 
 const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => {
@@ -53,26 +55,92 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 		}, 5000);
 	}
 
+	const getFixedAminoSignDoc = (chainId) => {
+		return {
+			account_number: "0",
+			chain_id: chainId,
+			fee: { amount: [{ amount: 0, denom: "orai" }], gas: "200000" },
+			memo: "submit",
+			msgs: [{
+				type: "cosmos-sdk/MsgSend", value: {
+					amount: [{ amount: "0", denom: "foobar" }],
+					from_address: "foobar",
+					to_address: "foobar"
+				}
+			}],
+			sequence: "0"
+		};
+	}
+
+	const getFixedSignDoc = (chainId) => {
+		return {
+			bodyBytes: Uint8Array.from([
+				10, 61, 10, 28, 47, 99, 111, 115, 109, 111, 115, 46,
+				98, 97, 110, 107, 46, 118, 49, 98, 101, 116, 97, 49,
+				46, 77, 115, 103, 83, 101, 110, 100, 18, 29, 10, 6,
+				102, 111, 111, 98, 97, 114, 18, 6, 102, 111, 111, 98,
+				97, 114, 26, 11, 10, 6, 102, 111, 111, 98, 97, 114,
+				18, 1, 48, 18, 6, 115, 117, 98, 109, 105, 116
+			]),
+			authInfoBytes: Uint8Array.from([
+				10, 78, 10, 70, 10, 31, 47, 99, 111, 115, 109, 111,
+				115, 46, 99, 114, 121, 112, 116, 111, 46, 115, 101, 99,
+				112, 50, 53, 54, 107, 49, 46, 80, 117, 98, 75, 101,
+				121, 18, 35, 10, 33, 2, 92, 51, 66, 167, 70, 56,
+				216, 64, 133, 48, 180, 69, 85, 89, 166, 158, 108, 171,
+				124, 137, 250, 106, 100, 171, 219, 241, 112, 201, 253, 156,
+				117, 58, 18, 4, 10, 2, 8, 1, 18, 15, 10, 9,
+				10, 4, 111, 114, 97, 105, 18, 1, 48, 16, 192, 154,
+				12
+			]),
+			chainId,
+			accountNumber: 0,
+		};
+	}
+
 	const props = {
 		action: async (file) => {
 			const restrict = file?.type?.split('/');
 			if (restrict?.[0] !== "image" || restrict?.[1] === "svg+xml") {
 				return restrictFile();
 			}
-			// TODO: change to encode decode bech32
-			const sender = '';
+			const keplr = await window.Keplr.getKeplr();
+			if (!keplr) throw consts.INSTALL_KEPLR_FIRST;
+			const key = await keplr.getKey(network.chainId);
+			const sender = key?.bech32Address;
+			const isLedger = key?.isNanoLedger;
 			const formData = new FormData();
 			const buff = Buffer.from(
 				JSON.stringify({
 					nonce: dataDetails?.nonce,
-					address: sender?.sender,
+					address: sender,
 				})
 			);
-			const mess = keccak256(buff);
-			const sigObj = secp256k1.ecdsaSign(mess, sender?.privateKey);
-			const signature_hash = Buffer.from(sigObj?.signature).toString("base64")
+
+			const utcTimestamp = new Date().getTime();
+			const signedNonce = utcTimestamp.toString().concat(dataDetails?.nonce);
+
+			var response = {};
+			var signDoc = {};
+
+			if (isLedger) {
+				signDoc = getFixedAminoSignDoc(network.chainId);
+				response = await keplr.signAmino(network.chainId, sender, {
+					...signDoc,
+					account_number: signedNonce
+				})
+			} else {
+				signDoc = getFixedSignDoc(network.chainId);
+				response = await keplr.signDirect(network.chainId, sender, {
+					...signDoc,
+					accountNumber: signedNonce
+				})
+			}
+			const signature_hash = response?.signature?.signature;
+
 			formData.append('image', file);
-			formData.append('address', sender?.sender);
+			formData.append('address', sender);
+			formData.append('timestamp', utcTimestamp)
 			formData.append('signature_hash', signature_hash);
 			try {
 				const uploadImages = await api.uploadImagesValidator({

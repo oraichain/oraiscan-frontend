@@ -7,7 +7,6 @@ import { stringToPath } from "@cosmjs/crypto";
 import CosmosMessages from "@oraichain/cosmos-messages";
 import typeSend from "src/constants/typeSend";
 import consts from "src/constants/consts";
-import messagesErrors from 'src/constants/messages';
 
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -41,7 +40,7 @@ export default class WalletStation {
     collectWallet = async () => {
         const keplr = await window.Keplr.getKeplr();
         if (!keplr) {
-            throw messagesErrors.INSTALL_KEPLR_FIRST;
+            throw consts.INSTALL_KEPLR_FIRST;
         }
         return await keplr.getOfflineSignerAuto(this.cosmos.chainId);
     };
