@@ -18,11 +18,11 @@ jobs:
     runs-on: [orai-self-hosted] #[orai-self-hosted, ubuntu-20.04]
     strategy:
       matrix:
-        node-version: [16.15.1]
+        node-version: [16.14.0]
 
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
+        uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
       - uses: actions/checkout@v3
@@ -33,13 +33,11 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
-        id: yarn-cache
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            ./node_modules/
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install Dependencies
@@ -59,4 +57,4 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           username: "GitBot"
-          message: "Deployed to testnet."
+          message: "[oraiscan-frontend] Deployed to testnet"
