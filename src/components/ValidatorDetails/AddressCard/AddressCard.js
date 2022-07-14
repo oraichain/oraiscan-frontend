@@ -118,7 +118,7 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 			var signDoc = {};
 			var postData = {};
 
-			if (!isLedger) {
+			if (isLedger) {
 				signDoc = getFixedAminoSignDoc(network.chainId);
 				response = await keplr.signAmino(network.chainId, sender, {
 					...signDoc,
