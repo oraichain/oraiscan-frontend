@@ -59,7 +59,7 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 		return {
 			account_number: "0",
 			chain_id: chainId,
-			fee: { amount: [{ amount: 0, denom: "orai" }], gas: "200000" },
+			fee: { amount: [{ amount: "0", denom: "orai" }], gas: "200000" },
 			memo: "submit",
 			msgs: [{
 				type: "cosmos-sdk/MsgSend", value: {
@@ -110,38 +110,42 @@ const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => 
 			const sender = key?.bech32Address;
 			const isLedger = key?.isNanoLedger;
 			const formData = new FormData();
-			const buff = Buffer.from(
-				JSON.stringify({
-					nonce: dataDetails?.nonce,
-					address: sender,
-				})
-			);
 
 			const utcTimestamp = new Date().getTime();
-			const signedNonce = utcTimestamp.toString().concat(dataDetails?.nonce);
+			const timestamp = utcTimestamp.toString();
 
 			var response = {};
 			var signDoc = {};
+			var postData = {};
 
 			if (isLedger) {
 				signDoc = getFixedAminoSignDoc(network.chainId);
 				response = await keplr.signAmino(network.chainId, sender, {
 					...signDoc,
-					account_number: signedNonce
+					account_number: timestamp
 				})
+				postData = {
+					isAmino: true,
+					data: response?.signed,
+				}
 			} else {
 				signDoc = getFixedSignDoc(network.chainId);
 				response = await keplr.signDirect(network.chainId, sender, {
 					...signDoc,
-					accountNumber: signedNonce
+					accountNumber: timestamp
 				})
+				postData = {
+					isAmino: false,
+					data: { ...response?.signed, bodyBytes: Buffer.from(response?.signed.bodyBytes).toString('base64'), authInfoBytes: Buffer.from(response?.signed.authInfoBytes).toString('base64') },
+				}
 			}
 			const signature_hash = response?.signature?.signature;
 
 			formData.append('image', file);
 			formData.append('address', sender);
-			formData.append('timestamp', utcTimestamp)
 			formData.append('signature_hash', signature_hash);
+			formData.append('post_data', JSON.stringify(postData));
+			formData.append('account_number', timestamp);
 			try {
 				const uploadImages = await api.uploadImagesValidator({
 					method: "post",
