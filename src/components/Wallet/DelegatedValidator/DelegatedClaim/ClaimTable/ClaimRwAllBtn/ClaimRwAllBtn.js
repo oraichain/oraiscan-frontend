@@ -100,8 +100,7 @@ const ClaimRwAllBtn = memo(({ withdrawable, BtnComponent, delegatedData }) => {
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Claim all"}
-				buttonName={"Claim All"}
+				buttonName={"Claim all token rewards"}
 			/>
 			{loadingTransaction && <LoadingOverlay />}
 		</div>

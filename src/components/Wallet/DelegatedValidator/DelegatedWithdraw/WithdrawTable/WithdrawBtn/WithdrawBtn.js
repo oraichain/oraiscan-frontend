@@ -117,7 +117,7 @@ const WithdrawBtn = memo(({ validatorAddress, withdrawable, BtnComponent, valida
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Withdraw"}>
+				buttonName={"Withdraw tokens"}>
 				<div className={cx("space-between")}>
 					<label htmlFor='amount' className={cx("label")}>
 						Amount (ORAI)

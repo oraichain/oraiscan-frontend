@@ -52,7 +52,7 @@ export default function (props) {
 		<>
 			{titleSection}
 			<Container fixed className={cx("dashboard")}>
-				{popupDashboard}
+				{/* {popupDashboard} */}
 				<Grid container spacing={4}>
 					<Grid item lg={12} xs={12}>
 						{infoCard}
