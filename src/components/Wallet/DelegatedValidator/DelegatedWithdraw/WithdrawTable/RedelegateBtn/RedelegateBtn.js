@@ -139,7 +139,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Redelegate"}>
+				buttonName={"Redelegate tokens"}>
 				<div className={cx("label")}>Destination Validator Operator Address</div>
 				<InputTextWithIcon name='recipientAddress' errorobj={errors} />
 				<div className={cx("space-between")}>

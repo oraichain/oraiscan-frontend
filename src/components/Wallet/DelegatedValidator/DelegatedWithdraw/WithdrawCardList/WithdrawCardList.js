@@ -91,7 +91,7 @@ const WithdrawCardList = memo(({ data = [] }) => {
 										<WithdrawBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })}
+											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw tokens" })}
 											validatorName={item.validator}
 										/>
 									</td>
@@ -99,7 +99,7 @@ const WithdrawCardList = memo(({ data = [] }) => {
 										<RedelegateBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate" })}
+											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate tokens" })}
 											validatorName={item.validator}
 										/>
 									</td>

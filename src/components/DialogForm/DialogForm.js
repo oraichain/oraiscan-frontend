@@ -80,7 +80,6 @@ const DialogForm = memo(props => {
 				<form>
 					<DialogTitle id='delegate-dialog' onClose={closeDialog}>
 						{buttonName} {validatorName ? `from ${validatorName}` : ""}
-						{warning && <p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>}
 					</DialogTitle>
 					<DialogContent dividers>
 						{children}

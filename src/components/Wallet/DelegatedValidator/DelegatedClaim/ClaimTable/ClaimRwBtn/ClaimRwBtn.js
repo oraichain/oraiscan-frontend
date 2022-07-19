@@ -124,7 +124,7 @@ const ClaimRwBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validat
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Claim"}
+				buttonName={"Claim token reward"}
 			/>
 			{loadingTransaction && <LoadingOverlay />}
 		</div>

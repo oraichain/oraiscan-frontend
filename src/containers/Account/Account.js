@@ -33,7 +33,7 @@ import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableS
 import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
-import { formatOrai } from "src/helpers/helper";
+import {formatOrai} from "src/helpers/helper";
 import styles from "./Account.scss";
 
 const Account = props => {
@@ -119,8 +119,14 @@ const Account = props => {
 		},
 	];
 
-	const decodedObj = bech32.decode(account);
-	const operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+	let decodedObj;
+	let operatorAddress;
+	try {
+		decodedObj = bech32?.decode(account);
+		operatorAddress = bech32.encode("oraivaloper", decodedObj.data);
+	} catch (err) {
+		console.log(err);
+	}
 
 	addresses.push({
 		title: "Operator address",
@@ -239,13 +245,13 @@ const Account = props => {
 		let totalValue = 0;
 		if (arrayAssetSearch[assetSearch] === "cw20") {
 			if (data && data.length > 0) {
-				totalValue =  data.reduce((acc, cur) => {
+				totalValue = data.reduce((acc, cur) => {
 					return acc + cur?.reward;
 				}, 0);
-				return formatOrai(totalValue)
+				return formatOrai(totalValue);
 			}
 		}
-		totalValue = totalValData?.totalBalances * 1000000
+		totalValue = totalValData?.totalBalances * 1000000;
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 

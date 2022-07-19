@@ -15,10 +15,11 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    runs-on: orai-swarm
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16]
+
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -41,16 +42,16 @@ jobs:
         run: yarn
       - name: COPY ENV
         run: cp .env.test.example .env
-      - name: Build Testnet
+      - name: Build
+        run: yarn build:prod
         env:
           CI: false
-        run: yarn build:prod
       - name: Deploy to firebase
-        run: yarn firebase deploy --only hosting:testnet -m "${{ github.event.head_commit.message }}" --token ${{ secrets.FIREBASE_TOKEN }}
+        run: yarn firebase deploy --only hosting:testnet -m '${{ github.event.head_commit.message }}' --token ${{ secrets.FIREBASE_TOKEN }}
       - name: Send discord message
         uses: appleboy/discord-action@master
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-          username: "GitBot"
-          message: "[oraiscan-frontend] Deployed to testnet"
+          username: "GitBot [oraiscan-frontend]"
+          message: "Deployed to testnet. ${{ github.event.head_commit.author.name }}: ${{ github.event.head_commit.message }}"

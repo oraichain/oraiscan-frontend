@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from "react";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
 import NoResult from "src/components/common/NoResult";
@@ -15,11 +15,11 @@ import arrowIcon from "src/assets/wallet/arrow.svg";
 
 const cx = cn.bind(styles);
 
-export default function({setActiveTab, address}) {
+export default function ({ setActiveTab, address }) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const path = consts.API.WALLET.WITHDRAW + "/" + address;
-	const {data} = useGet({
+	const { data } = useGet({
 		path: path,
 	});
 
@@ -43,7 +43,7 @@ export default function({setActiveTab, address}) {
 		<div className={cx("delegated-withdraw")}>
 			<div className={cx("delegated-withdraw-header")}>
 				<div className={cx("label")}>
-					<div className={cx("title")}>Withdraw</div>
+					<div className={cx("title")}>Withdraw tokens</div>
 					<p className={cx("note")}>Please be aware that you have to wait 14 days to complete unbonding your funds from validators.</p>
 				</div>
 				<button className={cx("button")} onClick={() => setActiveTab(0)}>
