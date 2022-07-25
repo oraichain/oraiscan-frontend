@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React, {memo, useState} from "react";
+import {NavLink, useHistory} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString } from "src/lib/scripts";
-import { useSelector, useDispatch } from "react-redux";
-import { formatOrai } from "src/helpers/helper";
+import {_, reduceString} from "src/lib/scripts";
+import {useSelector, useDispatch} from "react-redux";
+import {formatOrai} from "src/helpers/helper";
 import styles from "./ClaimCardList.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
-import { showAlert } from "src/store/modules/global";
-import { walletStation } from "src/lib/walletStation";
-import { notification } from "antd";
-import { handleTransactionResponse } from "src/helpers/transaction";
+import {showAlert} from "src/store/modules/global";
+import {walletStation} from "src/lib/walletStation";
+import {notification} from "antd";
+import {handleTransactionResponse} from "src/helpers/transaction";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import { handleErrorMessage } from "../../../../../lib/scripts";
+import {handleErrorMessage} from "../../../../../lib/scripts";
 
 const cx = classNames.bind(styles);
 
-const ClaimCardList = memo(({ data = [], totalStaked, totalRewards }) => {
-	const { address, account } = useSelector(state => state.wallet);
+const ClaimCardList = memo(({data = [], totalStaked, totalRewards}) => {
+	const {address, account} = useSelector(state => state.wallet);
 	const history = useHistory();
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const ClaimCardList = memo(({ data = [], totalStaked, totalRewards }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: handleErrorMessage(error) });
+			notification.error({message: handleErrorMessage(error)});
 			console.log(error);
 		}
 	};
@@ -72,7 +72,7 @@ const ClaimCardList = memo(({ data = [], totalStaked, totalRewards }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: handleErrorMessage(error) });
+			notification.error({message: handleErrorMessage(error)});
 			console.log(error);
 		}
 	};
@@ -120,10 +120,10 @@ const ClaimCardList = memo(({ data = [], totalStaked, totalRewards }) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Staked ({totalStaked} ORAI)</div>
+										<div className={cx("item-title")}>Staked ({formatOrai(totalStaked)} ORAI)</div>
 									</td>
 									<td>
-										<div className={cx("item-title")}>Claimable Reward ({totalRewards} ORAI)</div>
+										<div className={cx("item-title")}>Claimable Reward ({formatOrai(totalRewards)} ORAI)</div>
 									</td>
 								</tr>
 
