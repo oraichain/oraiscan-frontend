@@ -31,7 +31,7 @@ export const checkTokenCW20 = (value) => {
 			'oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F',
 			'oraib0x55d398326f99059fF775485246999027B3197955',
 			'oraib0x257a8d1E03D17B8535a182301f15290F11674b53']
-	return amountDecimal18.find(amo => amo.toUpperCase() == value.toUpperCase())
+	return amountDecimal18.find(amo => amo.toUpperCase() == (value && value.toUpperCase()) || '')
 }
 
 /* Add commas after every 3 digits in large numbers */
