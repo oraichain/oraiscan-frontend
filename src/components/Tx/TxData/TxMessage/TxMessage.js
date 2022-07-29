@@ -791,11 +791,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 						{item?.denom}
 					</NavLink>
 				);
+				const denomCheck = checkTokenCW20(item?.denom_name);
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{item?.amount ? (checkTokenCW20(item?.denom_name) ? item?.amount / Math.pow(10, 18) : item?.amount / Math.pow(10, 6)) : "0"}</span>
-							<span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
+							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, 18) : item?.amount / Math.pow(10, 6)) : "0"}</span>
+							<span className={cx("amount-denom")}>{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
 							{/* <span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || reduceStringAssets(item?.demom) || reduceStringAssets(denomSplit?.[0])}</span> */}
 							{/* <span className={cx("amount-usd")}>
 								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
