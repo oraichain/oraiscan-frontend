@@ -14,7 +14,7 @@ const TxData = ({ data }) => {
 			<div className={cx("card-body")}>
 				{_.map(data.messages, (v, i) => {
 					return (
-						<TxMessage key={i} msg={v} data={data} />
+						<TxMessage key={i}  ind={i} msg={v} data={data} />
 					)
 				})}
 			</div>

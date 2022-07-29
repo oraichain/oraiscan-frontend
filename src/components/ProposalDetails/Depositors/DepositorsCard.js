@@ -1,21 +1,26 @@
 // @ts-nocheck
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 import styles from "../TransactionCardList/TransactionCardList.module.scss";
 
 let itemAmount;
-const DepositorsCard = memo(({data = []}) => {
+const DepositorsCard = memo(({ data = [] }) => {
 	const cx = classNames.bind(styles);
 
 	return (
 		<div className='transaction-card-list'>
 			{data.map((item, index) => {
 				if (item?.amount) {
-					itemAmount = JSON.parse(item?.amount);
+					const denom = item?.amount.slice(-4)
+					const amount = item?.amount.slice(0, -4)
+					itemAmount = {
+						amount,
+						denom
+					}
 				}
 
 				return (
