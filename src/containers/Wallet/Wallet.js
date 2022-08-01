@@ -10,20 +10,19 @@ import PageTitle from "src/components/common/PageTitle";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import StatusBar from "src/components/Wallet/StatusBar";
 import Tabs from "src/components/Wallet/Tabs";
-import Register, { RegisterDetail } from "src/components/Wallet/Register";
+import { RegisterDetail } from "src/components/Wallet/Register";
 import DelegatedValidator from "src/components/Wallet/DelegatedValidator";
 import Transaction from "src/components/Wallet/Transaction";
 import Contact from "src/components/Wallet/Contact";
-import YourDelelgator from "src/components/Wallet/YourDelegator";
 import styles from "./Wallet.scss";
 import AiServiceFee from "src/components/Wallet/AiServiceFee";
 import CwToken from "src/components/Wallet/CwToken";
 
 const cx = cn.bind(styles);
 
-export default function (props) {
+export default function(props) {
 	const [activeTab, setActiveTab] = React.useState(0);
-	const { address, account } = useSelector(state => state.wallet);
+	const { address } = useSelector(state => state.wallet);
 	const path = consts.API.VALIDATOR + "/" + address;
 	const { data } = useGet({
 		path: path,
