@@ -235,10 +235,11 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 				);
 			}
 		}
+		const denomCheck = checkTokenCW20(denom);
 		return (
 			<div className={cx("amount")}>
-				<span className={cx("amount-value")}>{checkTokenCW20(denom) ? amount / Math.pow(10, 18) : formatOrai(amount)}</span>
-				<span className={cx("amount-denom")}>{reduceStringAssets(denom)}</span>
+				<span className={cx("amount-value")}>{denomCheck.status ? amount / Math.pow(10, 18) : formatOrai(amount)}</span>
+				<span className={cx("amount-denom")}>{denomCheck.status ? reduceStringAssets(denomCheck.denom) : reduceStringAssets(denom)}</span>
 				{denom?.toLowerCase() === consts.DENOM_ORAI ? (
 					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
 				) : (
