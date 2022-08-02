@@ -21,7 +21,7 @@ import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import RequestContainer from "./RequestContainer";
 import TestCaseCard from "./TestCaseCard";
-import styles from "./RequestReportDetail.scss";
+import styles from "./RequestReportDetail.module.scss";
 
 const cx = cn.bind(styles);
 

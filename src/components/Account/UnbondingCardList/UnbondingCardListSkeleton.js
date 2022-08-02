@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./UnbondingCardList.scss";
+import styles from "./UnbondingCardList.module.scss";
 
 const UnbondingCardListSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

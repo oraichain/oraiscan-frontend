@@ -5,10 +5,11 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {formatOrai, parseIbc, fromNowMoment} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
-import styles from "./DelegationCardList.scss";
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
+import styles from "./DelegationCardList.module.scss";
+
 const cx = classNames.bind(styles);
 
 const DelegationCardList = memo(({data = []}) => {

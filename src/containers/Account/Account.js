@@ -34,7 +34,7 @@ import {priceBalance} from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./Account.scss";
+import styles from "./Account.module.scss";
 
 const Account = props => {
 	const dispatch = useDispatch();

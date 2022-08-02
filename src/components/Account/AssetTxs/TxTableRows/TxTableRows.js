@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./TxTableRows.scss";
 import cn from "classnames/bind";
 import {NavLink} from "react-router-dom";
 import {reduceString, setAgoTime} from "src/lib/scripts";
 //  components
 import {TableCell, TableRow} from "@material-ui/core";
-import Skeleton from "react-skeleton-loader"; 
+import Skeleton from "react-skeleton-loader";
 
 import pickData from "./pickData";
+import styles from "./TxTableRows.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -61,7 +61,7 @@ export const ThinTableRow = ({data, account = ""}) => {
 		),
 		[data, account]
 	);
-}; 
+};
 
 export default function({data, account = ""}) {
 	return React.useMemo(

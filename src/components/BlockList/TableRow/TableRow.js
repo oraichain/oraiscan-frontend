@@ -1,5 +1,4 @@
 import React from "react";
-import customStyle from "./TableRow.scss";
 import classNames from "classnames/bind";
 import {NavLink} from "react-router-dom";
 import {reduceString, setAgoTime} from "src/lib/scripts";
@@ -8,6 +7,7 @@ import {useSelector} from "react-redux";
 //  components
 import {TableCell, TableRow} from "@material-ui/core";
 import Skeleton from "react-skeleton-loader";
+import customStyle from "./TableRow.module.scss";
 
 const cx = classNames.bind(customStyle);
 

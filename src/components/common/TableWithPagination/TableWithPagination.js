@@ -12,7 +12,7 @@ import SearchIcon from "src/assets/common/search-icon.svg";
 import DataSourceTableMobile from "./DataSourceTableMobile";
 import Pagination from "../Pagination";
 import ThemedTable from "../ThemedTable";
-import styleTableWithPagination from "./TableWithPagination.scss";
+import styleTableWithPagination from "./TableWithPagination.module.scss";
 
 const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 

@@ -10,7 +10,7 @@ import {useFetch, useTimer} from "src/hooks";
 import ErrorPage from "src/components/common/ErrorPage";
 import TableWrapper from "src/components/Dashboard/TableWrapper";
 import TxDisplayTableRow, {TableRowMobile} from "./TableRow";
-import styles from "./TxDisplay.scss";
+import styles from "./TxDisplay.module.scss";
 
 const cx = cn.bind(styles);
 

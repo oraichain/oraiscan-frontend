@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import cn from "classnames/bind";
-import styles from "./SearchInput.scss";
 import SearchIcon from "src/icons/SearchIcon";
+import styles from "./SearchInput.module.scss";
 
 const cx = cn.bind(styles);
 

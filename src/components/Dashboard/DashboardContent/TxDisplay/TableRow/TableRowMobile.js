@@ -9,8 +9,8 @@ import {useHistory} from "react-router-dom";
 import {setAgoTime} from "src/lib/scripts";
 import pickData, {cellTypes} from "src/components/TxList/TableRow/pickData";
 
-import styles from "./TableRowMobile.scss";
-import stylesDesktop from "./TableRow.scss";
+import styles from "./TableRowMobile.module.scss";
+import stylesDesktop from "./TableRow.module.scss";
 
 const cx = cn.bind(styles);
 const cxDesktop = cn.bind(stylesDesktop);

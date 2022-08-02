@@ -3,7 +3,7 @@ import cn from "classnames/bind";
 import {Grid} from "@material-ui/core";
 import SmartSearchBox from "src/components/common/SmartSearchBox";
 import NetworkSwitcher from "src/components/common/NetworkSwitcher";
-import styles from "./SearchArea.scss";
+import styles from "./SearchArea.module.scss";
 
 const cx = cn.bind(styles);
 const hasTestnetAPI = !!process.env.REACT_APP_API_TESTNET;

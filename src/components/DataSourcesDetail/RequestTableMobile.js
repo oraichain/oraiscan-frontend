@@ -8,7 +8,7 @@ import {useHistory} from "react-router-dom";
 
 import {ReactComponent as CheckIcon} from "src/assets/icons/check.svg";
 import {setAgoTime} from "src/lib/scripts";
-import styles from "./RequestTableMobile.scss";
+import styles from "./RequestTableMobile.module.scss";
 
 const cx = cn.bind(styles);
 

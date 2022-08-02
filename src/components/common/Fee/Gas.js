@@ -4,7 +4,7 @@ import InputRange from "react-input-range";
 import cn from "classnames/bind";
 
 import "./Gas.css";
-import styles from "./Gas.scss";
+import styles from "./Gas.module.scss";
 
 const cx = cn.bind(styles);
 

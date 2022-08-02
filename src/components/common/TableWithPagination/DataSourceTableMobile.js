@@ -10,7 +10,7 @@ import _ from "lodash";
 import {setAgoTime} from "src/lib/scripts";
 import pickData, {cellTypes} from "src/components/TxList/TableRow/pickData";
 
-import styles from "./DataSourceTableMobile.scss";
+import styles from "./DataSourceTableMobile.module.scss";
 
 const cx = cn.bind(styles);
 

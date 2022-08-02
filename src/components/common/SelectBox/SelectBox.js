@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import OutsideClickHandler from "react-outside-click-handler";
 import classNames from "classnames/bind";
-import styles from "./SelectBox.scss";
 import DownAngleIcon from "src/icons/DownAngleIcon";
+import styles from "./SelectBox.module.scss";
 
 const cx = classNames.bind(styles);
 

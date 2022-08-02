@@ -4,8 +4,8 @@ import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
 import {usePreload} from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
-import styles from "./Router.scss";
 import config from "src/config.js";
+import styles from "./Router.module.scss";
 
 const cx = cn.bind(styles);
 const contract = config.randomnessContractAddress;

@@ -1,8 +1,8 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./ErrorPage.scss";
 
 import errorSVG from "src/assets/misc/error_ic.svg";
+import styles from "./ErrorPage.module.scss";
 
 const cx = cn.bind(styles);
 

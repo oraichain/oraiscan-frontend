@@ -15,7 +15,7 @@ import {_, empty, formatNumber} from "src/lib/scripts";
 import tooltips from "src/constants/tooltips";
 import {footerRender} from "src/components/common/IndexedPagination/IndexedPagination";
 import BlockListTableRow, {TableRowThin} from "../TableRow";
-import styles from "./Table.scss";
+import styles from "./Table.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -4,7 +4,7 @@ import cn from "classnames/bind";
 import {useGet} from "restful-react";
 import TransactionsIcon from "src/icons/Tabs/TransactionsTabIcon";
 import {getListCwToken, getListOWContract} from "src/lib/api";
-import styles from "./Tabs.scss";
+import styles from "./Tabs.module.scss";
 
 const cx = cn.bind(styles);
 

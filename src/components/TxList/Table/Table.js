@@ -14,7 +14,7 @@ import {usePrevious} from "src/hooks";
 import {_, empty, formatNumber} from "src/lib/scripts";
 import {footerRender} from "src/components/common/IndexedPagination/IndexedPagination";
 import TxListTableRow, {TableRowThin} from "../TableRow";
-import styles from "./Table.scss";
+import styles from "./Table.module.scss";
 
 const cx = classNames.bind(styles);
 

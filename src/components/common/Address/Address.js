@@ -6,9 +6,9 @@ import copy from "copy-to-clipboard";
 import consts from "src/constants/consts";
 import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
-import styles from "./Address.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import {Tooltip} from "@material-ui/core";
+import styles from "./Address.module.scss";
 import "./Address.css";
 
 const cx = cn.bind(styles);

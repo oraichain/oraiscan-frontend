@@ -16,7 +16,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import styles from "./AccountList.scss";
+import styles from "./AccountList.module.scss";
 
 const cx = classNames.bind(styles);
 

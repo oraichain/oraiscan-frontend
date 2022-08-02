@@ -13,7 +13,7 @@ import TransactionTable from "src/components/Dashboard/TransactionTable";
 import TransactionTableSkeleton from "src/components/Dashboard/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/Dashboard/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/Dashboard/TransactionCardList/TransactionCardListSkeleton";
-import styles from "./TransactionsCard.scss";
+import styles from "./TransactionsCard.module.scss";
 
 const cx = cn.bind(styles);
 

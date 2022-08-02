@@ -1,28 +1,28 @@
 // @ts-nocheck
-import React, { memo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo} from "react";
+import {NavLink} from "react-router-dom";
 import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
-import { useGet } from "restful-react";
-import { useSelector, useDispatch } from "react-redux";
-import { useTheme } from "@material-ui/core/styles";
+import {useGet} from "restful-react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { showAlert } from "src/store/modules/global";
+import {showAlert} from "src/store/modules/global";
 import consts from "src/constants/consts";
-import { formatInteger, formatOrai, formatFloat } from "src/helpers/helper";
-import styles from "./YourValidatorCard.scss";
+import {formatInteger, formatOrai, formatFloat} from "src/helpers/helper";
 import editIcon from "src/assets/icons/edit.svg";
-import { _, reduceStringAssets } from "src/lib/scripts";
+import {_, reduceStringAssets} from "src/lib/scripts";
 // import roleIcon from "src/assets/wallet/role.svg";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import WithdrawBtn from "./WithdrawBtn";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
+import styles from "./YourValidatorCard.module.scss";
 
 const cx = cn.bind(styles);
 
-const BtnComponent = ({ handleClick, buttonName }) => {
+const BtnComponent = ({handleClick, buttonName}) => {
 	return (
 		<div className={cx("withdraw-data-cell", "align-center")}>
 			<button className={cx("button")} onClick={handleClick}>
@@ -33,15 +33,15 @@ const BtnComponent = ({ handleClick, buttonName }) => {
 	);
 };
 
-const YourValidatorCard = memo(({ validatorAddress }) => {
-	const { account } = useSelector(state => state.wallet);
+const YourValidatorCard = memo(({validatorAddress}) => {
+	const {account} = useSelector(state => state.wallet);
 	const dispatch = useDispatch();
 
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const isLargeScreenMd = useMediaQuery(theme.breakpoints.up("md"));
 	const path = consts.API.VALIDATOR + "/" + validatorAddress;
-	const { data } = useGet({
+	const {data} = useGet({
 		path: path,
 	});
 
@@ -161,7 +161,7 @@ const YourValidatorCard = memo(({ validatorAddress }) => {
 	const commissionRateElement = data ? (
 		<>
 			<div className={cx("validator-title")}>Commission Rate</div>
-			<div className={cx("validator-text", { "validator-text-blue": !isLargeScreen })}>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
 				{data?.commission_rate ? formatFloat(data.commission_rate) + "%" : "-"}
 			</div>
 		</>
@@ -191,7 +191,7 @@ const YourValidatorCard = memo(({ validatorAddress }) => {
 	const maxCommissionRateElement = data ? (
 		<>
 			<div className={cx("validator-title")}>Max Commission Rate</div>
-			<div className={cx("validator-text", { "validator-text-blue": !isLargeScreen })}>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
 				{data?.max_commission_rate ? formatFloat(data.max_commission_rate) + "%" : "-"}
 			</div>
 		</>
@@ -207,7 +207,7 @@ const YourValidatorCard = memo(({ validatorAddress }) => {
 	const maxChangeCommissionRateElement = data ? (
 		<>
 			<div className={cx("validator-title")}>Max Change Commission Rate</div>
-			<div className={cx("validator-text", { "validator-text-blue": !isLargeScreen })}>
+			<div className={cx("validator-text", {"validator-text-blue": !isLargeScreen})}>
 				{data?.max_change_commission_rate ? formatFloat(data.max_change_commission_rate) + "%" : "-"}
 			</div>
 		</>
@@ -221,7 +221,11 @@ const YourValidatorCard = memo(({ validatorAddress }) => {
 	);
 
 	const withdrawElement = data ? (
-		<WithdrawBtn validatorAddress={data?.validator_address} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })} validatorName={data.validator_name} />
+		<WithdrawBtn
+			validatorAddress={data?.validator_address}
+			BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw"})}
+			validatorName={data.validator_name}
+		/>
 	) : (
 		<Skeleton variant='text' width={96} height={36} className={cx("skeleton")} />
 	);

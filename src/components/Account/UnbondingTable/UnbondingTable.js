@@ -7,7 +7,7 @@ import {calRemainingTime, formatDateTime, formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./UnbondingTable.scss";
+import styles from "./UnbondingTable.module.scss";
 
 const cx = classNames.bind(styles);
 

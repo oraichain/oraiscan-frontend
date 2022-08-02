@@ -10,7 +10,7 @@ import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./Transaction.scss";
+import styles from "./Transaction.module.scss";
 
 const cx = classNames.bind(styles);
 

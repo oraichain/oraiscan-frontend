@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./TxTableRows.scss";
 import cn from "classnames/bind";
 import {NavLink} from "react-router-dom";
 
@@ -12,6 +11,7 @@ import Skeleton from "react-skeleton-loader";
 import SvgDisplay from "src/components/common/SvgDisplay";
 //  assets
 import greenArrowSVG from "src/assets/common/transferarrow_gr.svg";
+import styles from "./TxTableRows.module.scss";
 
 const cx = cn.bind(styles);
 

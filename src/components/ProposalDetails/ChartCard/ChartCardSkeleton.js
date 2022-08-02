@@ -3,9 +3,9 @@ import classNames from "classnames/bind";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {colors} from "./ChartCard";
-import styles from "./ChartCard.scss";
 import {themeIds} from "src/constants/themes";
 import {useSelector} from "react-redux";
+import styles from "./ChartCard.module.scss";
 
 const cx = classNames.bind(styles);
 

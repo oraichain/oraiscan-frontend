@@ -1,9 +1,9 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./TxHolders.scss";
 //  components
 import HoldersTable from "./HoldersTable";
 import TxTable from "./TxTable";
+import styles from "./TxHolders.module.scss";
 
 const cx = cn.bind(styles);
 

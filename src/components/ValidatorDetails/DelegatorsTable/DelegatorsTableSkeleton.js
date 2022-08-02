@@ -4,7 +4,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/ValidatorDetails/DelegatorsTable/DelegatorsTable";
-import styles from "./DelegatorsTable.scss";
+import styles from "./DelegatorsTable.module.scss";
 
 const DelegatorsTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

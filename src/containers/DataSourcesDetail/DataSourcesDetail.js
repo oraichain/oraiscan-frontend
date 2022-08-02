@@ -15,8 +15,8 @@ import {Information, DataSourceDetailListTable, RequestTableMobile} from "src/co
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
-import styles from "./DataSourcesDetail.scss";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
+import styles from "./DataSourcesDetail.module.scss";
 
 const cx = cn.bind(styles);
 

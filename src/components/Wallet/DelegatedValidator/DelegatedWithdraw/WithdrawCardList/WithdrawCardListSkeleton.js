@@ -1,11 +1,11 @@
-import React, { memo } from "react";
+import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./WithdrawCardList.scss";
+import styles from "./WithdrawCardList.module.scss";
 
 const cx = classNames.bind(styles);
 
-const WithdrawCardListSkeleton = memo(({ rows = 5 }) => {
+const WithdrawCardListSkeleton = memo(({rows = 5}) => {
 	let withdrawCardListItems = [];
 	for (let i = 1; i <= rows; i++) {
 		withdrawCardListItems.push(

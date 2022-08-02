@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
-import styles from "./ThemedTable.scss";
+import styles from "./ThemedTable.module.scss";
 
 const cx = classNames.bind(styles);
 const effect = {

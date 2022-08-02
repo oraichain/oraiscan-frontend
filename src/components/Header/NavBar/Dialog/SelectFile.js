@@ -1,11 +1,11 @@
 // @ts-nocheck
-import React, { useState } from "react";
-import { useDropzone } from "react-dropzone";
+import React, {useState} from "react";
+import {useDropzone} from "react-dropzone";
 import cn from "classnames/bind";
-import { useDispatch } from "react-redux";
-import { showAlert } from "src/store/modules/global";
+import {useDispatch} from "react-redux";
+import {showAlert} from "src/store/modules/global";
 
-import styles from "./SelectFile.scss";
+import styles from "./SelectFile.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -28,7 +28,7 @@ const validateLines = data => {
 	};
 };
 
-export default function Basic({ handleSelectFile }) {
+export default function Basic({handleSelectFile}) {
 	const dispatch = useDispatch();
 	const [invalidRows, setInvalidRows] = useState([]);
 
@@ -38,9 +38,9 @@ export default function Basic({ handleSelectFile }) {
 			const myFile = files[0];
 			const reader = new FileReader();
 
-			reader.addEventListener("load", function (e) {
+			reader.addEventListener("load", function(e) {
 				const lines = e.target.result.split("\n");
-				const { validRows, invalidRows } = validateLines(lines);
+				const {validRows, invalidRows} = validateLines(lines);
 				console.log({
 					validRows,
 					invalidRows,
@@ -68,11 +68,11 @@ export default function Basic({ handleSelectFile }) {
 		maxSize: 2000000,
 		accept: "text/plain",
 	});
-	const { getRootProps, getInputProps } = hooks;
+	const {getRootProps, getInputProps} = hooks;
 
 	return (
 		<section className={cx("container")}>
-			<div {...getRootProps({ className: cx("dropzone") })}>
+			<div {...getRootProps({className: cx("dropzone")})}>
 				<input {...getInputProps()} />
 				<div className={cx("drag")}>
 					Drag file here or <span className={cx("browse")}> Browse </span>

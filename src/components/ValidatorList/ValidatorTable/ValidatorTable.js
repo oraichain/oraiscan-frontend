@@ -1,26 +1,26 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
-import { Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import React, {useState, memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
+import {Tooltip} from "antd";
+import {QuestionCircleOutlined} from "@ant-design/icons";
 import classNames from "classnames/bind";
-import { _ } from "src/lib/scripts";
-import { tableThemes } from "src/constants/tableThemes";
-import { sortDirections } from "src/constants/sortDirections";
+import {_} from "src/lib/scripts";
+import {tableThemes} from "src/constants/tableThemes";
+import {sortDirections} from "src/constants/sortDirections";
 import consts from "src/constants/consts";
-import { formatPercentage, formatInteger, formatOrai } from "src/helpers/helper";
-import { compareTwoValues } from "src/helpers/compare";
+import {formatPercentage, formatInteger, formatOrai} from "src/helpers/helper";
+import {compareTwoValues} from "src/helpers/compare";
 import Delegate from "src/components/common/Delegate";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./ValidatorTable.scss";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
 import aiIcon from "src/assets/common/ai_ic.svg";
-import { css } from "highcharts";
-import { logoBrand } from "src/constants/logoBrand";
-import { Progress } from "antd";
+import {css} from "highcharts";
+import {logoBrand} from "src/constants/logoBrand";
+import {Progress} from "antd";
+import styles from "./ValidatorTable.module.scss";
 import "./style.css";
 
 const cx = classNames.bind(styles);
@@ -53,8 +53,8 @@ const getCumulativeShareCell = (previousValue, currentValue, totalValue) => {
 
 	return (
 		<>
-			<div className={cx("previous-graph")} style={{ width: previousPercent + "%" }}></div>
-			<div className={cx("current-graph")} style={{ left: previousPercent + "%", width: currentPercent + "%" }}></div>
+			<div className={cx("previous-graph")} style={{width: previousPercent + "%"}}></div>
+			<div className={cx("current-graph")} style={{left: previousPercent + "%", width: currentPercent + "%"}}></div>
 			<div className={cx("total-value")}>{totalPercent} %</div>
 		</>
 	);
@@ -68,7 +68,7 @@ const toggleDirection = direction => {
 	}
 };
 
-const ValidatorTable = memo(({ data = [] }) => {
+const ValidatorTable = memo(({data = []}) => {
 	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 	const [canSort, setCanSort] = useState(false);
@@ -130,7 +130,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 			<div className={cx("header-cell", "align-right")}>
 				Self Bonded
 				<Tooltip
-					style={{ paddingLeft: "10px" }}
+					style={{paddingLeft: "10px"}}
 					title='The self bonded value is the number of tokens this validator self-delegates. A trustworthy validator will have a high self-bonded value'
 					className={cx("tooltip-header-cell")}>
 					<QuestionCircleOutlined />
@@ -196,15 +196,15 @@ const ValidatorTable = memo(({ data = [] }) => {
 			delegateHeaderCell,
 		];
 		const headerCellStyles = [
-			{ width: "30px" }, // Rank
-			{ minWidth: "180px" }, // Validator
-			{ width: "150px" }, // Voting Power
-			{ width: "160px" }, // Self Bonded
-			{ width: "160px" }, // Cumulative Share
-			{ width: "110px" }, // Uptime
-			{ width: "140px" }, // Commission
-			{ width: "110px" }, // EstAPRCell
-			{ width: "60px" }, // Delegate
+			{width: "30px"}, // Rank
+			{minWidth: "180px"}, // Validator
+			{width: "150px"}, // Voting Power
+			{width: "160px"}, // Self Bonded
+			{width: "160px"}, // Cumulative Share
+			{width: "110px"}, // Uptime
+			{width: "140px"}, // Commission
+			{width: "110px"}, // EstAPRCell
+			{width: "60px"}, // Delegate
 		];
 		return {
 			headerCells,
@@ -218,7 +218,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 		}
 
 		if (canSort) {
-			return [...data].sort(function (a, b) {
+			return [...data].sort(function(a, b) {
 				if (a[sortField] === b[sortField]) {
 					return compareTwoValues(a[extraSortField], b[extraSortField], toggleDirection(sortDirection));
 				} else {
@@ -239,7 +239,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 		return data.map(item => {
 			// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
 			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || { customLogo: "" };
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || {customLogo: ""};
 			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";

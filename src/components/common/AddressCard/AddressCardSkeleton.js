@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./AddressCard.scss";
+import styles from "./AddressCard.module.scss";
 
 const cx = classNames.bind(styles);
 

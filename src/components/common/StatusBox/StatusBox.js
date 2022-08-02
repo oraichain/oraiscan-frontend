@@ -8,7 +8,7 @@ import consts from "src/constants/consts";
 import {formatInteger, formatFloat, formatOrai} from "src/helpers/helper";
 import {setStatusBox} from "src/store/modules/blockchain";
 
-import styles from "./StatusBox.scss";
+import styles from "./StatusBox.module.scss";
 
 const StatusBox = memo(() => {
 	const cx = classNames.bind(styles);

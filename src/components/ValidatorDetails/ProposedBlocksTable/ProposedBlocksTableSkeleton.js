@@ -4,7 +4,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/ValidatorDetails/ProposedBlocksTable/ProposedBlocksTable";
-import styles from "./ProposedBlocksTable.scss";
+import styles from "./ProposedBlocksTable.module.scss";
 
 const ProposedBlocksTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

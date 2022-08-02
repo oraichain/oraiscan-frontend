@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import cn from "classnames/bind";
 
-import styles from "./ButtonGroup.scss";
+import styles from "./ButtonGroup.module.scss";
 
 const cx = cn.bind(styles);
 

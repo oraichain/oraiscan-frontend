@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Wallet/Register/DelegatorCard/DelegatorTable/DelegatorTable";
-import styles from "./DelegatorTable.scss";
+import styles from "./DelegatorTable.module.scss";
 
 const DelegatorTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

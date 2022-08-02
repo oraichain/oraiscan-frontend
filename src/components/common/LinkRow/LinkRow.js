@@ -5,9 +5,9 @@ import cn from "classnames/bind";
 import copy from "copy-to-clipboard";
 import {showAlert} from "src/store/modules/global";
 import {_} from "src/lib/scripts";
-import styles from "./LinkRow.scss";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import {Tooltip} from "@material-ui/core";
+import styles from "./LinkRow.module.scss";
 import "./LinkRow.css";
 
 const cx = cn.bind(styles);
