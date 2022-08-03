@@ -1,23 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useGet } from "restful-react";
-import { useSelector } from "react-redux";
+import React, {useState, useRef, useEffect} from "react";
+import {useGet} from "restful-react";
+import {useSelector} from "react-redux";
 import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
+import {useHistory} from "react-router-dom";
 import queryString from "query-string";
-import { useForm, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { Editor } from "react-draft-wysiwyg";
+import {useForm, Controller} from "react-hook-form";
+import {ErrorMessage} from "@hookform/error-message";
+import {Editor} from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import * as yup from "yup";
 import _ from "lodash";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
-import { isNil } from "lodash-es";
-import { formatFloat } from "src/helpers/helper";
+import {isNil} from "lodash-es";
+import {formatFloat} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -27,7 +27,7 @@ import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
 import NoResult from "src/components/common/NoResult";
 import Pagination from "src/components/common/Pagination";
-import { Fee, Gas } from "src/components/common/Fee";
+import {Fee, Gas} from "src/components/common/Fee";
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
 import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTable";
@@ -36,15 +36,15 @@ import ProposalCardList from "src/components/Proposals/ProposalCardList/Proposal
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
 import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
-import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import moment from "moment";
-import styles from "./Proposals.scss";
-import { walletStation } from "src/lib/walletStation";
-import { handleTransactionResponse } from "src/helpers/transaction";
-import { notification } from "antd";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import { handleErrorMessage } from "../../lib/scripts";
+import {handleErrorMessage} from "../../lib/scripts";
 import BigNumber from "bignumber.js";
+import styles from "./Proposals.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -67,16 +67,14 @@ const schema = yup.object().shape({
 		.number()
 		.transform(value => (isNaN(value) ? -1 : value))
 		.min(1, "Min value is 1 day"),
-	voting_period_time: yup
-		.string()
-		.when("voting_period_day", {
-			is: (val) => val === undefined,
-			then: yup.string().test("is-greater", "Min value is 1 hour", function (value) {
-				const defaultTime = "01:00:00";
-				return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"))
-			}),
-			otherwise: yup.string().notRequired()
+	voting_period_time: yup.string().when("voting_period_day", {
+		is: val => val === undefined,
+		then: yup.string().test("is-greater", "Min value is 1 hour", function(value) {
+			const defaultTime = "01:00:00";
+			return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
 		}),
+		otherwise: yup.string().notRequired(),
+	}),
 	unbondingTime: yup.string(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
@@ -111,8 +109,8 @@ const defaultValues = {
 	InflationMax: 0,
 };
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX },
-	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
+	PROPOSALS_OPTIONS: {UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX},
+	VOTING_PERIOD_OPTIONS: {VOTING_DAY, VOTING_TIME},
 } = consts;
 
 const fields = [
@@ -149,7 +147,7 @@ const votingFields = [
 	},
 ];
 
-export default function (props) {
+export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
@@ -164,7 +162,7 @@ export default function (props) {
 	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
 	const [votingValue, setVotingValue] = useState(VOTING_DAY);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const { address, account } = useSelector(state => state.wallet);
+	const {address, account} = useSelector(state => state.wallet);
 	const [gas, setGas] = useState(200000);
 	const [fee, setFee] = useState(0);
 	const [open, setOpen] = useState(false);
@@ -174,9 +172,9 @@ export default function (props) {
 		register,
 		unregister,
 		control,
-		formState: { errors },
+		formState: {errors},
 		clearErrors,
-	} = useForm({ defaultValues, resolver: yupResolver(schema) });
+	} = useForm({defaultValues, resolver: yupResolver(schema)});
 
 	useEffect(() => {
 		if (fieldValue) {
@@ -201,12 +199,12 @@ export default function (props) {
 	};
 
 	const topPath = `${consts.API.PROPOSALS}?status${!isNil(type) ? "&type=" + type : ""}&limit=3&page_id=${topPageId}`;
-	const { data: topData, loading: topLoading, error: topError } = useGet({
+	const {data: topData, loading: topLoading, error: topError} = useGet({
 		path: topPath,
 	});
 
 	const statusPath = consts.API.PROPOSAL_STATUS;
-	const { data: statusData, loading: statusLoading, error: statusError } = useGet({
+	const {data: statusData, loading: statusLoading, error: statusError} = useGet({
 		path: statusPath,
 	});
 
@@ -217,7 +215,7 @@ export default function (props) {
 	} else {
 		path = `${basePath}&status=${status}&page_id=${pageId}`;
 	}
-	const { data, loading, error } = useGet({
+	const {data, loading, error} = useGet({
 		path: path,
 	});
 
@@ -252,7 +250,7 @@ export default function (props) {
 	const handleOptionData = data => {
 		switch (fieldValue) {
 			case VOTING_PERIOD:
-				const { voting_period_day: days, voting_period_time: times } = data;
+				const {voting_period_day: days, voting_period_time: times} = data;
 				return {
 					...data,
 					subspace: "gov",
@@ -296,7 +294,7 @@ export default function (props) {
 		try {
 			setLoadingTransaction(true);
 			const newData = handleOptionData(data);
-			const { title, description, subspace, key, value, amount } = newData;
+			const {title, description, subspace, key, value, amount} = newData;
 			const response = await walletStation.parameterChangeProposal(address, data.amount, {
 				title: data.title,
 				description: draftToHtml(data.description),
@@ -313,7 +311,7 @@ export default function (props) {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: handleErrorMessage(error) });
+			notification.error({message: handleErrorMessage(error)});
 			console.log(error);
 		}
 	};
@@ -421,13 +419,22 @@ export default function (props) {
 		if (value === VOTING_DAY) {
 			return (
 				<>
-					<Controller as={<input type='number' step='any' className={cx("text-field", "field-voting-input")} />} name={VOTING_DAY} control={control} ref={register} />
+					<Controller
+						as={<input type='number' step='any' className={cx("text-field", "field-voting-input")} />}
+						name={VOTING_DAY}
+						control={control}
+						ref={register}
+					/>
 				</>
 			);
 		}
 		return (
 			<>
-				<Controller as={<input type='time' step='1' className={cx("text-field", "field-voting-input", "without_ampm")} />} name={VOTING_TIME} control={control} />
+				<Controller
+					as={<input type='time' step='1' className={cx("text-field", "field-voting-input", "without_ampm")} />}
+					name={VOTING_TIME}
+					control={control}
+				/>
 			</>
 		);
 	};
@@ -459,7 +466,7 @@ export default function (props) {
 								Title
 							</label>
 							<input type='text' className={cx("text-field")} name='title' ref={register} />
-							<ErrorMessage errors={errors} name='title' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							<ErrorMessage errors={errors} name='title' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 
 						<div className={cx("field")}>
@@ -482,7 +489,7 @@ export default function (props) {
 									)}
 								/>
 							</div>
-							<ErrorMessage errors={errors} name='description' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							<ErrorMessage errors={errors} name='description' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 
 						<div className={cx("field")}>
@@ -490,7 +497,7 @@ export default function (props) {
 								Amount (ORAI)
 							</label>
 							<input type='number' className={cx("text-field")} name='amount' ref={register} />
-							<ErrorMessage errors={errors} name='amount' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							<ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 
 						{fieldValue === UNBONDING_TIME && (
@@ -500,7 +507,7 @@ export default function (props) {
 										Unbonding time
 									</label>
 									<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
-									<ErrorMessage errors={errors} name='unbondingTime' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+									<ErrorMessage errors={errors} name='unbondingTime' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 								</div>
 							</>
 						)}
@@ -516,7 +523,7 @@ export default function (props) {
 								</div>
 								<div className={cx("vme")}>
 									<div className={cx("vme-hidden")}></div>
-									<ErrorMessage errors={errors} name={votingValue} render={({ message }) => <p className={cx("error-message", "vme-text")}>{message}</p>} />
+									<ErrorMessage errors={errors} name={votingValue} render={({message}) => <p className={cx("error-message", "vme-text")}>{message}</p>} />
 								</div>
 							</div>
 						)}
@@ -527,7 +534,7 @@ export default function (props) {
 									Community Tax (%)
 								</label>
 								<input type='number' step='any' className={cx("text-field")} name='communitytax' ref={register} />
-								<ErrorMessage errors={errors} name='communitytax' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								<ErrorMessage errors={errors} name='communitytax' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
 						)}
 
@@ -537,7 +544,7 @@ export default function (props) {
 									Minimum Inflation (%)
 								</label>
 								<input type='number' step='any' className={cx("text-field")} name='InflationMin' ref={register} />
-								<ErrorMessage errors={errors} name='InflationMin' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								<ErrorMessage errors={errors} name='InflationMin' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
 						)}
 
@@ -547,7 +554,7 @@ export default function (props) {
 									Maximum Inflation (%)
 								</label>
 								<input type='number' step='any' className={cx("text-field")} name='InflationMax' ref={register} />
-								<ErrorMessage errors={errors} name='InflationMax' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								<ErrorMessage errors={errors} name='InflationMax' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
 						)}
 

@@ -6,7 +6,7 @@ import {Divider} from "antd";
 import QRCode from "qrcode.react";
 
 import listNone from "src/assets/misc/noitem_ic.svg";
-import styles from "./QRCode.scss";
+import styles from "./QRCode.module.scss";
 
 const cx = cn.bind(styles);
 

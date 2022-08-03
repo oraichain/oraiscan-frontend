@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Ibc/RelayersAssetTable/RelayersAssetTable";
-import styles from "./RelayersAssetTable.scss";
+import styles from "./RelayersAssetTable.module.scss";
 
 const RelayersAssetsTableSkeleton = memo(({rows = 4}) => {
 	const cx = classNames.bind(styles);

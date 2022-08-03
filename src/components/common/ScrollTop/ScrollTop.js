@@ -1,10 +1,10 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./ScrollTop.scss";
 //  hooks
 import {useScroll} from "src/hooks";
 //  assets
 import scrollTopSVG from "src/assets/common/scroll_top.svg";
+import styles from "./ScrollTop.module.scss";
 
 const cx = cn.bind(styles);
 

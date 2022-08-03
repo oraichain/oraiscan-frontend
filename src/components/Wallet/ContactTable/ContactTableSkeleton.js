@@ -6,7 +6,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Wallet/ContactTable/ContactTable";
-import styles from "./ContactTable.scss";
+import styles from "./ContactTable.module.scss";
 
 const ContactTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

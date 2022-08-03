@@ -1,22 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import styles from "./WithdrawCardList.scss";
+import {_, reduceString} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 import WithdrawBtn from "../WithdrawTable/WithdrawBtn";
 import RedelegateBtn from "../WithdrawTable/RedelegateBtn";
+import styles from "./WithdrawCardList.module.scss";
+
 const cx = classNames.bind(styles);
 
-const WithdrawCardList = memo(({ data = [] }) => {
+const WithdrawCardList = memo(({data = []}) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
 
-	const BtnComponent = ({ handleClick, buttonName }) => {
+	const BtnComponent = ({handleClick, buttonName}) => {
 		return (
 			<div className={cx("withdraw-data-cell", "align-center")}>
 				<button className={cx("button")} onClick={handleClick}>
@@ -91,15 +92,15 @@ const WithdrawCardList = memo(({ data = [] }) => {
 										<WithdrawBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw tokens" })}
+											BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw tokens"})}
 											validatorName={item.validator}
 										/>
 									</td>
-									<td >
+									<td>
 										<RedelegateBtn
 											validatorAddress={item?.validator_address}
 											withdrawable={item?.withdrawable}
-											BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate tokens" })}
+											BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Redelegate tokens"})}
 											validatorName={item.validator}
 										/>
 									</td>

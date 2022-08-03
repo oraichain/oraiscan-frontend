@@ -2,9 +2,9 @@ import React, {memo} from "react";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./CoinsCard.scss";
 import {themeIds} from "src/constants/themes";
 import {useSelector} from "react-redux";
+import styles from "./CoinsCard.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Proposals/ProposalsTable/ProposalsTable";
-import styles from "./ProposalsTable.scss";
+import styles from "./ProposalsTable.module.scss";
 
 const ProposalsTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

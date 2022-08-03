@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/TxList/TransactionTable/TransactionTable";
-import styles from "./TransactionTable.scss";
+import styles from "./TransactionTable.module.scss";
 
 const TransactionTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
@@ -58,7 +58,7 @@ const TransactionTableSkeleton = memo(({rows = 10}) => {
 
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(rows), [rows]);
-	console.log({ dataRows, headerRow })
+	console.log({dataRows, headerRow});
 
 	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });

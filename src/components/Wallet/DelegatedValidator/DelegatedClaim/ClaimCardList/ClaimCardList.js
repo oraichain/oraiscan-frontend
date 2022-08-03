@@ -6,7 +6,6 @@ import consts from "src/constants/consts";
 import {_, reduceString} from "src/lib/scripts";
 import {useSelector, useDispatch} from "react-redux";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./ClaimCardList.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import {showAlert} from "src/store/modules/global";
 import {walletStation} from "src/lib/walletStation";
@@ -14,6 +13,7 @@ import {notification} from "antd";
 import {handleTransactionResponse} from "src/helpers/transaction";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import {handleErrorMessage} from "../../../../../lib/scripts";
+import styles from "./ClaimCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

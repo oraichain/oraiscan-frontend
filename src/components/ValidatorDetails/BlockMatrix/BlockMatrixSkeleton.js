@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./BlockMatrix.scss";
+import styles from "./BlockMatrix.module.scss";
 
 const cx = classNames.bind(styles);
 

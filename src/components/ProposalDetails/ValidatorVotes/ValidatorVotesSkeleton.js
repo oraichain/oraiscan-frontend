@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/ProposalDetails/ValidatorVotes/ValidatorVotesTable";
-import styles from "./ValidatorVotes.scss";
+import styles from "./ValidatorVotes.module.scss";
 
 const ValidaVotesSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {useDispatch} from "react-redux";
 
 import {openPageBar} from "src/store/modules/global";
-import styles from "./TogglePageBar.scss";
+import styles from "./TogglePageBar.module.scss";
 
 import {ReactComponent as TogglePageIcon} from "src/assets/icons/toggle-page.svg";
 import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";

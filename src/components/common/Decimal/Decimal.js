@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./Decimal.scss";
 import {formatNumber} from "src/lib/scripts";
+import styles from "./Decimal.module.scss";
 
 const cx = cn.bind(styles);
 

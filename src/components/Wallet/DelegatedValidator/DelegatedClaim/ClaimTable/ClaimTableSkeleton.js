@@ -3,7 +3,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./ClaimTable.scss";
+import styles from "./ClaimTable.module.scss";
 
 const cx = classNames.bind(styles);
 

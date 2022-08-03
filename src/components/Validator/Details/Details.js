@@ -1,6 +1,5 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import style from "./Details.scss";
 
 import {useHistory} from "src/hooks";
 //  utils
@@ -12,6 +11,7 @@ import Skeleton from "react-skeleton-loader";
 import DisplayIcon from "src/components/common/DisplayIcon";
 
 import symbolNoneSVG from "src/assets/transactions/symbol_none.svg";
+import style from "./Details.module.scss";
 
 const cx = cn.bind(style);
 

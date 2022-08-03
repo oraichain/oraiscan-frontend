@@ -7,7 +7,7 @@ import {logoBrand} from "src/constants/logoBrand";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import {Tooltip} from "@material-ui/core";
-import styles from "./TestCaseCardList.scss";
+import styles from "./TestCaseCardList.module.scss";
 
 const TestCaseCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);

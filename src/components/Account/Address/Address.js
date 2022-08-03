@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./Address.scss";
 import {_, empty, formatNumber} from "src/lib/scripts";
 import copy from "copy-to-clipboard";
 //  components
@@ -11,6 +10,7 @@ import Decimal from "src/components/common/Decimal";
 import qrSVG from "src/assets/account/qr_code.svg";
 import QrModal from "../QrModal";
 import ShortenedString from "src/components/common/ShortenedString";
+import styles from "./Address.module.scss";
 
 const cx = cn.bind(styles);
 export default function Address({account = {}, prices = []}) {

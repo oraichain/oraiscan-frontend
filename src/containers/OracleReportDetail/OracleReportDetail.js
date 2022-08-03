@@ -19,7 +19,7 @@ import TimesIcon from "src/icons/TimesIcon";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TestCaseResults from "src/components/OracleReportDetail/TestCaseResults";
-import styles from "./OracleReportDetail.scss";
+import styles from "./OracleReportDetail.module.scss";
 
 const cx = cn.bind(styles);
 

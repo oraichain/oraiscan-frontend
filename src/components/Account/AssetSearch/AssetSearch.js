@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useState, useEffect, useRef } from "react";
+import React, {memo, useState, useEffect, useRef} from "react";
 import cn from "classnames/bind";
-import styles from "./AssetSearch.scss";
 import _ from "lodash";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import { assetsNetworks } from "src/constants/ibc";
-import { useMemo } from "react";
-import { formatOrai } from "src/helpers/helper";
-import { parseNumberToCurrency } from "src/lib/scripts";
+import {assetsNetworks} from "src/constants/ibc";
+import {useMemo} from "react";
+import {formatOrai} from "src/helpers/helper";
+import {parseNumberToCurrency} from "src/lib/scripts";
+import styles from "./AssetSearch.module.scss";
+
 const cx = cn.bind(styles);
 
-export default function ({ assetSearch, setAssetSearch, totalValue }) {
+export default function({assetSearch, setAssetSearch, totalValue}) {
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
 	const showList = () => {
@@ -55,8 +56,8 @@ export default function ({ assetSearch, setAssetSearch, totalValue }) {
 	}, []);
 
 	useEffect(() => {
-		console.log("total value: ", totalValue)
-	}, [totalValue])
+		console.log("total value: ", totalValue);
+	}, [totalValue]);
 
 	return (
 		<>

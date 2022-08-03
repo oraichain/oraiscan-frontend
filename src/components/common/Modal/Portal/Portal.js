@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import cn from "classnames/bind";
-import styles from "./Portal.scss";
+import styles from "./Portal.module.scss";
 
 const cx = cn.bind(styles);
 

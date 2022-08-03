@@ -5,8 +5,8 @@ import {QuestionCircleOutlined} from "@ant-design/icons";
 import {_} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./ValidatorTable.scss";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
+import styles from "./ValidatorTable.module.scss";
 
 const cx = classNames.bind(styles);
 

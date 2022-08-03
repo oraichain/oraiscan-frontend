@@ -1,14 +1,14 @@
-import React, { memo, useMemo } from "react";
+import React, {memo, useMemo} from "react";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
-import { formatOrai, formatFloat } from "src/helpers/helper";
+import {formatOrai, formatFloat} from "src/helpers/helper";
 import DonutChart from "react-donut-chart";
 import BigNumber from "bignumber.js";
-import styles from "./CoinsCard.scss";
-import { themeIds } from "src/constants/themes";
-import { useSelector } from "react-redux";
+import {themeIds} from "src/constants/themes";
+import {useSelector} from "react-redux";
+import styles from "./CoinsCard.module.scss";
 
-const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom }) => {
+const CoinsCard = memo(({price, available, delegated, unbonding, reward, denom}) => {
 	const cx = classNames.bind(styles);
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const colors = {
@@ -31,7 +31,7 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 	const availablePercent = available.dividedBy(total).multipliedBy(100);
 
 	const calculateTotalPrice = (total, price) => {
-		return total * price
+		return total * price;
 	};
 	const totalPrice = useMemo(() => calculateTotalPrice(total / 1000000, price), [total, price]);
 
@@ -62,10 +62,10 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 							innerRadius={0.5}
 							legend={false}
 							data={[
-								{ value: parseFloat(availablePercent), label: "" },
-								{ value: parseFloat(delegatedPercent), label: "" },
-								{ value: parseFloat(unbondingPercent), label: "" },
-								{ value: parseFloat(rewardPercent), label: "" },
+								{value: parseFloat(availablePercent), label: ""},
+								{value: parseFloat(delegatedPercent), label: ""},
+								{value: parseFloat(unbondingPercent), label: ""},
+								{value: parseFloat(rewardPercent), label: ""},
 							]}
 							colors={[colors.AVAILABLE, colors.DELEGATED, colors.UNBONDING, colors.REWARD]}
 							strokeColor={false}
@@ -75,7 +75,7 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 						<div className={cx("chart-comments")}>
 							<div className={cx("chart-comment-group")}>
 								<div className={cx("chart-comment")}>
-									<div className={cx("chart-comment-icon")} style={{ backgroundColor: colors.AVAILABLE }}></div>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.AVAILABLE}}></div>
 									<div className={cx("chart-comment-info")}>
 										<div className={cx("chart-comment-label")}>Available</div>
 										<div className={cx("chart-comment-value")}>{formatFloat(availablePercent)}%</div>
@@ -83,7 +83,7 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 								</div>
 
 								<div className={cx("chart-comment")}>
-									<div className={cx("chart-comment-icon")} style={{ backgroundColor: colors.DELEGATED }}></div>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.DELEGATED}}></div>
 									<div className={cx("chart-comment-info")}>
 										<div className={cx("chart-comment-label")}>Delegated</div>
 										<div className={cx("chart-comment-value")}>{formatFloat(delegatedPercent)}%</div>
@@ -93,14 +93,14 @@ const CoinsCard = memo(({ price, available, delegated, unbonding, reward, denom 
 
 							<div className={cx("chart-comment-group")}>
 								<div className={cx("chart-comment")}>
-									<div className={cx("chart-comment-icon")} style={{ backgroundColor: colors.UNBONDING }}></div>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.UNBONDING}}></div>
 									<div className={cx("chart-comment-info")}>
 										<div className={cx("chart-comment-label")}>Unbonding</div>
 										<div className={cx("chart-comment-value")}>{formatFloat(unbondingPercent)}%</div>
 									</div>
 								</div>
 								<div className={cx("chart-comment")}>
-									<div className={cx("chart-comment-icon")} style={{ backgroundColor: colors.REWARD }}></div>
+									<div className={cx("chart-comment-icon")} style={{backgroundColor: colors.REWARD}}></div>
 									<div className={cx("chart-comment-info")}>
 										<div className={cx("chart-comment-label")}>Reward</div>
 										<div className={cx("chart-comment-value")}>{formatFloat(rewardPercent)}%</div>

@@ -3,13 +3,13 @@ import React, {memo} from "react";
 import copy from "copy-to-clipboard";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
-import styles from "./RequestCardList.scss";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
+import styles from "./RequestCardList.module.scss";
 
 const RequestCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);

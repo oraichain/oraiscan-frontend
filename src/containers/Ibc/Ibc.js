@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import { useTheme } from "@material-ui/core/styles";
+import React, {useState, useRef, useEffect, useCallback} from "react";
+import {useHistory} from "react-router-dom";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import { useGet } from "restful-react";
+import {useGet} from "restful-react";
 import consts from "src/constants/consts";
-import { replaceQueryString } from "src/helpers/helper";
-import { _ } from "src/lib/scripts";
+import {replaceQueryString} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
-import ChainBox from 'src/components/common/ChainBox';
+import ChainBox from "src/components/common/ChainBox";
 import Pagination from "src/components/common/Pagination";
 import SearchBox from "src/components/common/SearchBox";
 import AssetsIbcTable from "src/components/Ibc/AssetsIbcTable/AssetsIbcTable";
@@ -21,7 +21,7 @@ import AssetsIbcCardList from "src/components/Ibc/AssetsIbcCardList/AssetsIbcCar
 import AssetsIbcCardListSkeleton from "src/components/Ibc/AssetsIbcCardList/AssetsIbcCardListSkeleton";
 import ComingSoon from "src/components/common/ComingSoon";
 import FilterSection from "src/components/Ibc/FilterSection";
-import styles from "./Ibc.scss";
+import styles from "./Ibc.module.scss";
 const cx = cn.bind(styles);
 
 const IbcAssets = props => {
@@ -53,7 +53,7 @@ const IbcAssets = props => {
 	let timerID = useRef(null);
 
 	const basePath = `${consts.API_BASE}${consts.API.IBC_TOKENS}`;
-	const { data, loading, error } = useGet({
+	const {data, loading, error} = useGet({
 		path: basePath,
 	});
 
@@ -63,8 +63,7 @@ const IbcAssets = props => {
 			setChainValue(sumChainValue);
 			setList(data);
 		}
-	}, [data])
-
+	}, [data]);
 
 	useEffect(() => {
 		let listFilter = [];
@@ -74,13 +73,13 @@ const IbcAssets = props => {
 			if (keyword && !assetSearch) {
 				listFilter = data && data.filter(ele => ele.symbol.indexOf(keyword) !== -1);
 			} else if (!keyword && assetSearch) {
-				assetSearch === 0 ? listFilter = data : listFilter = data && data.filter(ele => assetSearch === 1 ? !ele.channelId : ele.channelId);
+				assetSearch === 0 ? (listFilter = data) : (listFilter = data && data.filter(ele => (assetSearch === 1 ? !ele.channelId : ele.channelId)));
 			} else {
-				listFilter = data && data.filter(ele => assetSearch === 1 ? !ele.channelId : ele.channelId && ele.symbol.indexOf(keyword) !== -1);
+				listFilter = data && data.filter(ele => (assetSearch === 1 ? !ele.channelId : ele.channelId && ele.symbol.indexOf(keyword) !== -1));
 			}
 		}
 		setList(listFilter);
-	}, [keyword, assetSearch])
+	}, [keyword, assetSearch]);
 
 	let titleSection;
 	let filterSection;
@@ -109,16 +108,18 @@ const IbcAssets = props => {
 	} else {
 		filterSection = (
 			<div className={cx("filter-section-assets")}>
-				<FilterSection keyword={keyword} setKeyword={setKeyword} assetSearch={assetSearch} setAssetSearch={setAssetSearch} onChange={(e) => {
-					setKeyword(e.target.value);
-				}} />
+				<FilterSection
+					keyword={keyword}
+					setKeyword={setKeyword}
+					assetSearch={assetSearch}
+					setAssetSearch={setAssetSearch}
+					onChange={e => {
+						setKeyword(e.target.value);
+					}}
+				/>
 			</div>
 		);
-		tableSection = isLargeScreen ? (
-			<AssetsIbcTable data={list != null ? list : []} />
-		) : (
-			<AssetsIbcCardList data={list != null ? list : []} />
-		);
+		tableSection = isLargeScreen ? <AssetsIbcTable data={list != null ? list : []} /> : <AssetsIbcCardList data={list != null ? list : []} />;
 	}
 
 	const onPageChange = page => {

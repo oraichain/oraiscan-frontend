@@ -2,8 +2,8 @@ import React, {memo, useState, useEffect, useRef} from "react";
 import {networks} from "src/constants/networks";
 import _ from "lodash";
 import classNames from "classnames/bind";
-import styles from "./NetworkSwitcher.scss";
 import DownAngleIcon from "src/icons/DownAngleIcon";
+import styles from "./NetworkSwitcher.module.scss";
 
 const cx = classNames.bind(styles);
 

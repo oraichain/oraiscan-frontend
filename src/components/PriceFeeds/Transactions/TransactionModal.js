@@ -1,20 +1,20 @@
 // @ts-nocheck
-import React, { memo, useState, useEffect } from "react";
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import { useForm, FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
 import consts from "src/constants/consts";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import TransactionTable from "./TransactionTable";
-import styles from "./TransactionModal.scss";
-import { element } from "prop-types";
+import {element} from "prop-types";
+import styles from "./TransactionModal.module.scss";
 
 const cx = cn.bind(styles);
 
-const TransactionModal = ({ open, closeDialog, requestData }) => {
+const TransactionModal = ({open, closeDialog, requestData}) => {
 	const [txTableData, setTxTableData] = useState([]);
 	const [loading, setLoading] = useState(false);
 

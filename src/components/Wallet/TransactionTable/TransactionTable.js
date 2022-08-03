@@ -5,7 +5,7 @@ import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./TransactionTable.scss";
+import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 

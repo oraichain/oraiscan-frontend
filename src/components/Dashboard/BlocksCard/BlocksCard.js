@@ -13,7 +13,7 @@ import BlockTable from "src/components/Dashboard/BlockTable";
 import BlockTableSkeleton from "src/components/Dashboard/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/Dashboard/BlockCardList";
 import BlockCardListSkeleton from "src/components/Dashboard/BlockCardList/BlockCardListSkeleton";
-import styles from "./BlocksCard.scss";
+import styles from "./BlocksCard.module.scss";
 
 const cx = cn.bind(styles);
 

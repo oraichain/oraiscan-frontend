@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames/bind";
 import QrCode from "qrcode.react";
-import styles from "./QrModal.scss";
+import styles from "./QrModal.module.scss";
 
 const cx = cn.bind(styles);
 export default function QrModal({address, show}) {

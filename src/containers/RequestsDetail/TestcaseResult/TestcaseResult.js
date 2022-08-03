@@ -9,9 +9,9 @@ import DelegationCardList from "src/components/Account/DelegationCardList/Delega
 import DelegationCardListSkeleton from "src/components/Account/DelegationCardList/DelegationCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./TestCaseCard.scss";
 import Skeleton from "./Skeleton";
 import MobileSkeleton from "./MobileSkeleton";
+import styles from "./TestCaseCard.module.scss";
 
 const cx = classNames.bind(styles);
 

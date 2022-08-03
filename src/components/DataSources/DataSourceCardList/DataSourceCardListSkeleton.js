@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./DataSourceCardList.scss";
+import styles from "./DataSourceCardList.module.scss";
 
 const TestCaseCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

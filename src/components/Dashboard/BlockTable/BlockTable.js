@@ -1,15 +1,15 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, setAgoTime } from "src/lib/scripts";
-import { tableThemes } from "src/constants/tableThemes";
+import {_, setAgoTime} from "src/lib/scripts";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./BlockTable.scss";
-import { logoBrand } from "src/constants/logoBrand";
+import styles from "./BlockTable.module.scss";
+import {logoBrand} from "src/constants/logoBrand";
 
 const cx = classNames.bind(styles);
 
@@ -20,10 +20,10 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [heightHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{ width: "auto" }, // Height
-		{ width: "auto" }, // Proposer
-		{ width: "auto" }, // Txs
-		{ width: "auto" }, // Time
+		{width: "auto"}, // Height
+		{width: "auto"}, // Proposer
+		{width: "auto"}, // Txs
+		{width: "auto"}, // Time
 	];
 	return {
 		headerCells,
@@ -31,7 +31,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const BlockTable = memo(({ data = [], rowMotions = [] }) => {
+const BlockTable = memo(({data = [], rowMotions = []}) => {
 	const validators = useSelector(state => state.blockchain.validators);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -39,7 +39,7 @@ const BlockTable = memo(({ data = [], rowMotions = [] }) => {
 		}
 
 		return data.map(item => {
-			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || { customLogo: "" };
+			const logoItem = logoBrand.find(it => it.operatorAddress === validators[item?.moniker]?.operatorAddr) || {customLogo: ""};
 			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
 			const logoURL = item?.moniker_image ? item.moniker_image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";

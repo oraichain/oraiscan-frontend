@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo, useState, useRef, useEffect } from "react";
-import { useGet } from "restful-react";
-import { useTheme } from "@material-ui/core/styles";
+import React, {memo, useMemo, useState, useRef, useEffect} from "react";
+import {useGet} from "restful-react";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { arraysEqual, mergeArrays } from "src/helpers/helper";
-import { formatInteger } from "src/helpers/helper";
-import { _ } from "src/lib/scripts";
+import {arraysEqual, mergeArrays} from "src/helpers/helper";
+import {formatInteger} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
@@ -15,14 +15,14 @@ import TransactionTable from "src/components/ProposalDetails/TransactionTable";
 import TransactionTableSkeleton from "src/components/ProposalDetails/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/ProposalDetails/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/ProposalDetails/TransactionCardList/TransactionCardListSkeleton";
-import styles from "./Depositors.scss";
 import DepositorsTable from "./DepositorsTable";
 import DepositorsSkeleton from "./DepositorsSkeleton";
 import DepositorsCard from "./DepositorsCard";
+import styles from "./Depositors.module.scss";
 
 const cx = classNames.bind(styles);
 
-const Depositors = memo(({ proposalId }) => {
+const Depositors = memo(({proposalId}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -33,7 +33,7 @@ const Depositors = memo(({ proposalId }) => {
 	};
 
 	const despositorPath = `${consts.API.PROPOSALS}/${proposalId}/depositors?page_id=${pageId}`;
-	const { data: despositorData, loading: despositorLoading } = useGet({
+	const {data: despositorData, loading: despositorLoading} = useGet({
 		path: despositorPath,
 	});
 

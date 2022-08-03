@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./Dropdown.scss";
 
 import {useHistory} from "src/hooks";
 import {_, empty, stringNumCheck} from "src/lib/scripts";
@@ -8,6 +7,7 @@ import DisplayIcon from "src/components/common/DisplayIcon";
 
 import symbolNoneSVG from "src/assets/transactions/symbol_none.svg";
 import failSVG from "src/assets/transactions/fail_ic.svg";
+import styles from "./Dropdown.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -35,7 +35,6 @@ export default function({
 			if (
 				_.includes(history.location.pathname, "/txs/") ||
 				_.includes(history.location.pathname, "/blocks/") ||
-				
 				_.includes(history.location.pathname, "/account/")
 			)
 				history.push("/assets/" + v.asset);

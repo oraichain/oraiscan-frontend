@@ -20,7 +20,7 @@ import TransactionTable from "src/components/TxList/TransactionTable";
 import TransactionTableSkeleton from "src/components/TxList/TransactionTable/TransactionTableSkeleton";
 import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
-import styles from "./TxList.scss";
+import styles from "./TxList.module.scss";
 
 const cx = cn.bind(styles);
 

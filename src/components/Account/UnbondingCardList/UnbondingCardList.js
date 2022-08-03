@@ -3,8 +3,8 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import {calRemainingTime, formatDateTime, formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
-import styles from "./UnbondingCardList.scss";
 import consts from "src/constants/consts";
+import styles from "./UnbondingCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

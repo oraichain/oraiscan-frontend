@@ -6,8 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 import BigNumber from "bignumber.js";
 
-import styles from "./Register.scss";
 import {walletStation} from "src/lib/walletStation";
+import styles from "./Register.module.scss";
 
 const cx = cn.bind(styles);
 

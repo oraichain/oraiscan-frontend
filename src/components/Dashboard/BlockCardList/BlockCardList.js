@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import styles from "./BlockCardList.scss";
+import styles from "./BlockCardList.module.scss";
 
 const BlockCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);

@@ -8,7 +8,7 @@ import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./DelegatorTable.scss";
+import styles from "./DelegatorTable.module.scss";
 
 const cx = classNames.bind(styles);
 

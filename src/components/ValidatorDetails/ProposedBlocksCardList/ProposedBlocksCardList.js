@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import styles from "./ProposedBlocksCardList.scss";
+import styles from "./ProposedBlocksCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

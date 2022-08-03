@@ -10,7 +10,7 @@ import DelegatorCardList from "src/components/Wallet/Register/DelegatorCard/Dele
 import DelegatorCardListSkeleton from "src/components/Wallet/Register/DelegatorCard/DelegatorCardList/DelegatorCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./DelegatorCard.scss";
+import styles from "./DelegatorCard.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +18,7 @@ const DelegatorCard = memo(({address = ""}) => {
 	const limit = consts.REQUEST.LIMIT;
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = consts.API.WALLET.DELEGATOR + "/" + address + "?limit=" + limit;
+	const basePath = consts.API.DELEGATOR + "/" + address + "?limit=" + limit;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
 		path: path,

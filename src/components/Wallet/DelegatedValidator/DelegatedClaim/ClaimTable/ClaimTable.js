@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, {memo, useMemo, useState} from "react";
+import {NavLink} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _ } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
-import { logoBrand } from "src/constants/logoBrand";
+import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
+import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 
-import styles from "./ClaimTable.scss";
 import giftIcon from "src/assets/wallet/gift.svg";
 import ClaimRwBtn from "./ClaimRwBtn";
 import ClaimRwAllBtn from "./ClaimRwAllBtn";
+import styles from "./ClaimTable.module.scss";
 
 const cx = classNames.bind(styles);
 
-const BtnComponent = ({ handleClick, buttonName }) => {
+const BtnComponent = ({handleClick, buttonName}) => {
 	return (
 		<div className={cx("claim-data-cell", "align-center", "claim-btn")}>
 			<button className={cx("button")} onClick={handleClick}>
@@ -28,8 +28,8 @@ const BtnComponent = ({ handleClick, buttonName }) => {
 	);
 };
 
-const ClaimTable = memo(({ data, totalStaked, totalRewards }) => {
-	const { address, account } = useSelector(state => state.wallet);
+const ClaimTable = memo(({data, totalStaked, totalRewards}) => {
+	const {address, account} = useSelector(state => state.wallet);
 	// const dispatch = useDispatch();
 
 	// const handleClickClaimAll = (validatorAddress, claimableRewards) => {
@@ -89,12 +89,12 @@ const ClaimTable = memo(({ data, totalStaked, totalRewards }) => {
 					delegatedData={data}
 					validatorAddress={data[0]?.validator_address}
 					withdrawable={totalRewards}
-					BtnComponent={({ handleClick }) => <BtnComponent handleClick={handleClick} buttonName={"Claim All"} />}
+					BtnComponent={({handleClick}) => <BtnComponent handleClick={handleClick} buttonName={"Claim All"} />}
 				/>
 			</div>
 		);
 		const headerCells = [validatorHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell, claimHeaderCell];
-		const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }];
+		const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}];
 		return {
 			headerCells,
 			headerCellStyles,
@@ -149,7 +149,7 @@ const ClaimTable = memo(({ data, totalStaked, totalRewards }) => {
 
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || { customLogo: null };
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {customLogo: null};
 			const logoURL = item.moniker_image ? item.moniker_image : logoItem.logo ? logoItem.logo : false;
 			const logoName = item.validator || "";
 			const validatorDataCell = item?.validator ? (
@@ -180,7 +180,7 @@ const ClaimTable = memo(({ data, totalStaked, totalRewards }) => {
 				<ClaimRwBtn
 					validatorAddress={item?.validator_address}
 					withdrawable={item.claimable_rewards}
-					BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Claim" })}
+					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Claim"})}
 					validatorName={item.validator}
 				/>
 			);
