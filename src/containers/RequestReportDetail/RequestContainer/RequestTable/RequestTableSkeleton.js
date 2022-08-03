@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Account/DelegationTable/DelegationTable";
-import styles from "./RequestTable.scss";
+import styles from "./RequestTable.module.scss";
 
 const RequestTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import PriceDisplay from "../DashboardContent/PriceDisplay";
 import GraphDisplay from "../DashboardContent/GraphDisplay";
 import DetailDisplay from "../DashboardContent/DetailDisplay";
-import styles from "./InfoCard.scss";
+import styles from "./InfoCard.module.scss";
 
 const cx = classNames.bind(styles);
 

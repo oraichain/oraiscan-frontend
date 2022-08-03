@@ -2,7 +2,7 @@ import React, {memo} from "react";
 import classNames from "classnames/bind";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
-import styles from "./TopProposalCardList.scss";
+import styles from "./TopProposalCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

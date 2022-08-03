@@ -11,8 +11,8 @@ import {_, reduceString, setAgoTime, parseIbcMsgTransfer, parseIbcMsgRecvPacket}
 import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
-import styles from "./TransactionCardList.scss";
 import {Tooltip} from "@material-ui/core";
+import styles from "./TransactionCardList.module.scss";
 
 const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");

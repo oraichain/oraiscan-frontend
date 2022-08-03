@@ -10,8 +10,8 @@ import ClaimTableSkeleton from "src/components/Wallet/DelegatedValidator/Delegat
 import ClaimCardList from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";
 import ClaimCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardListSkeleton";
 import NoResult from "src/components/common/NoResult";
-import styles from "./DelegatedClaim.scss";
 import arrowIcon from "src/assets/wallet/arrow.svg";
+import styles from "./DelegatedClaim.module.scss";
 
 const cx = cn.bind(styles);
 

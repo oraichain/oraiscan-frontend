@@ -9,8 +9,8 @@ import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./AccountTable.scss";
 import {useSelector} from "react-redux";
+import styles from "./AccountTable.module.scss";
 import "./AccountTable.css";
 
 const cx = classNames.bind(styles);

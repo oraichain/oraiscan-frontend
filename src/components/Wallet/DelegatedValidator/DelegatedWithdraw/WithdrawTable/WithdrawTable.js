@@ -1,19 +1,19 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { useSelector, useDispatch } from "react-redux";
-import { _ } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
-import { logoBrand } from "src/constants/logoBrand";
+import {useSelector, useDispatch} from "react-redux";
+import {_} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
+import {logoBrand} from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import WithdrawBtn from "./WithdrawBtn";
-import styles from "./WithdrawTable.scss";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
 import RedelegateBtn from "./RedelegateBtn";
+import styles from "./WithdrawTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -25,15 +25,23 @@ export const getHeaderRow = () => {
 	const withdrawableHeaderCell = <div className={cx("header-cell", "align-left")}>Withdrawable (ORAI)</div>;
 	const withdrawHeaderCell = <div className={cx("header-cell", "align-center")}>Withdraw</div>;
 	const redelegateHeaderCell = <div className={cx("header-cell", "align-center")}>Redelegate</div>;
-	const headerCells = [validatorHeaderCell, stakedHeaderCell, rewardsHeaderCell, unbondingHeaderCell, withdrawableHeaderCell, withdrawHeaderCell, redelegateHeaderCell];
-	const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "auto" }, { width: "140px" }, { width: "150px" }];
+	const headerCells = [
+		validatorHeaderCell,
+		stakedHeaderCell,
+		rewardsHeaderCell,
+		unbondingHeaderCell,
+		withdrawableHeaderCell,
+		withdrawHeaderCell,
+		redelegateHeaderCell,
+	];
+	const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}, {width: "150px"}];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const BtnComponent = ({ handleClick, buttonName }) => {
+const BtnComponent = ({handleClick, buttonName}) => {
 	return (
 		<div className={cx("withdraw-data-cell", "align-center")}>
 			<button className={cx("button")} onClick={handleClick}>
@@ -44,7 +52,7 @@ const BtnComponent = ({ handleClick, buttonName }) => {
 	);
 };
 
-const WithdrawTable = memo(({ data }) => {
+const WithdrawTable = memo(({data}) => {
 	// const {address, account} = useSelector(state => state.wallet);
 	// const dispatch = useDispatch();
 
@@ -96,11 +104,21 @@ const WithdrawTable = memo(({ data }) => {
 			);
 
 			const withdrawDataCell = (
-				<WithdrawBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })} validatorName={item.validator} />
+				<WithdrawBtn
+					validatorAddress={item?.validator_address}
+					withdrawable={item?.withdrawable}
+					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw"})}
+					validatorName={item.validator}
+				/>
 			);
 
 			const redelegateDataCell = (
-				<RedelegateBtn validatorAddress={item?.validator_address} withdrawable={item?.withdrawable} BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate" })} validatorName={item.validator} />
+				<RedelegateBtn
+					validatorAddress={item?.validator_address}
+					withdrawable={item?.withdrawable}
+					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Redelegate"})}
+					validatorName={item.validator}
+				/>
 			);
 
 			// const withdrawDataCell = (

@@ -1,16 +1,16 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { logoBrand } from "src/constants/logoBrand";
-import { tableThemes } from "src/constants/tableThemes";
-import { formatOrai, formatNumber } from "src/helpers/helper";
-import { _ } from "src/lib/scripts";
+import {logoBrand} from "src/constants/logoBrand";
+import {tableThemes} from "src/constants/tableThemes";
+import {formatOrai, formatNumber} from "src/helpers/helper";
+import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
-import { Tooltip } from "@material-ui/core";
-import styles from "./AssetsIbcTable.scss";
+import {Tooltip} from "@material-ui/core";
+import styles from "./AssetsIbcTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -21,10 +21,10 @@ export const getHeaderRow = () => {
 	const totalValueHeaderCell = <div className={cx("header-cell", "align-left")}>Total Value</div>;
 	const headerCells = [nameHeaderCell, priceHeaderCell, supplyHeaderCell, totalValueHeaderCell];
 	const headerCellStyles = [
-		{ minWidth: "250px" }, // Name
-		{ minWidth: "100px" }, // Price
-		{ minWidth: "100px" }, // Supply
-		{ minWidth: "100px" }, // Total Value
+		{minWidth: "250px"}, // Name
+		{minWidth: "100px"}, // Price
+		{minWidth: "100px"}, // Supply
+		{minWidth: "100px"}, // Total Value
 	];
 	return {
 		headerCells,
@@ -32,25 +32,23 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TestCaseTable = memo(({ data = [] }) => {
+const TestCaseTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
-			const logoURL = item?.images?.thumb ?  item?.images?.thumb  : false
+			const logoURL = item?.images?.thumb ? item?.images?.thumb : false;
 			const nameDataCell = _.isNil(item?.channelId) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div
-					className={cx("data-cell", "color-blue", "align-left", "logo-brand-custom")}
-				>
+				<div className={cx("data-cell", "color-blue", "align-left", "logo-brand-custom")}>
 					{logoURL && <img src={logoURL} height={32} width={32} alt='/' className={cx("logo")} />}
 					{!logoURL && <div className={cx("logo-custom")}> {item.denom.substring(0, 3).toUpperCase()} </div>}
 					<div className={cx("name-data")}>
-						<div className={cx("name-data-cell", "align-left","symbol")}>{item?.symbol || 'UNKNOWN'}</div>
-						<div className={cx("name-data-cell", "align-left","channel")}>{item?.channelId}</div>
+						<div className={cx("name-data-cell", "align-left", "symbol")}>{item?.symbol || "UNKNOWN"}</div>
+						<div className={cx("name-data-cell", "align-left", "channel")}>{item?.channelId}</div>
 					</div>
 				</div>
 			);

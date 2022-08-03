@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./CwCard.scss";
+import styles from "./CwCard.module.scss";
 
 const CwCardSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);
@@ -49,7 +49,6 @@ const CwCardSkeleton = memo(({rows = 10}) => {
 								<Skeleton />
 							</td>
 						</tr>
-
 
 						<tr>
 							<td>

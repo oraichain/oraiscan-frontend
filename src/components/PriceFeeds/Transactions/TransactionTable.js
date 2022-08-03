@@ -9,7 +9,7 @@ import {tableThemes} from "src/constants/tableThemes";
 import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./TransactionTable.scss";
+import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 

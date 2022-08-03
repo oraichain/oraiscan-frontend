@@ -3,9 +3,9 @@ import classNames from "classnames/bind";
 import {checkStatus} from "../CwTable/CwTable";
 import {NavLink} from "react-router-dom";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import styles from "./CwCard.scss";
 import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
+import styles from "./CwCard.module.scss";
 
 const cx = classNames.bind(styles);
 

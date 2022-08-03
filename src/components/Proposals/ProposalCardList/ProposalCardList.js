@@ -4,7 +4,6 @@ import {isNil} from "lodash";
 import classNames from "classnames/bind";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./ProposalCardList.scss";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
@@ -14,6 +13,7 @@ import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 import {NavLink} from "react-router-dom";
 import consts from "src/constants/consts";
+import styles from "./ProposalCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

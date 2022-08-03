@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React from "react";
 import classNames from "classnames/bind";
-import styles from "./NavigateBackBar.scss";
 
 import LeftArrowIcon from "src/icons/LeftArrowIcon";
 import {NavLink} from "react-router-dom";
+import styles from "./NavigateBackBar.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -9,7 +9,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./AiServiceFee.scss";
+import styles from "./AiServiceFee.module.scss";
 import {isNil} from "lodash";
 
 const cx = cn.bind(styles);

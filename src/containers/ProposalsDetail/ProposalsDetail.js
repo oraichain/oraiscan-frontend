@@ -23,7 +23,7 @@ import ProposalVoteModal from "./ProposalVoteModal";
 import ProposalDepositModal from "./ProposalDepositModal";
 import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
 import Depositors from "src/components/ProposalDetails/Depositors";
-import styles from "./ProposalsDetail.scss";
+import styles from "./ProposalsDetail.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -136,8 +136,8 @@ export default function(props) {
 	);
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;
-	depositorsTable = <Depositors proposalId={proposalId}/>;
-	validatorVotesTable = <ValidatorVotes  proposalId={proposalId} />;
+	depositorsTable = <Depositors proposalId={proposalId} />;
+	validatorVotesTable = <ValidatorVotes proposalId={proposalId} />;
 	return (
 		<>
 			{titleSection}

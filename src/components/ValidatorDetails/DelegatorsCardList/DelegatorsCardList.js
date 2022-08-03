@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_, reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./DelegatorsCardList.scss";
+import styles from "./DelegatorsCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

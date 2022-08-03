@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./ExecutorsTableCardList.scss";
+import styles from "./ExecutorsTableCardList.module.scss";
 
 const ExecutorsTableCardListCardListSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

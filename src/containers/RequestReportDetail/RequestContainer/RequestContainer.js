@@ -12,7 +12,7 @@ import RequestCardListSkeleton from "./RequestCardList/RequestCardListSkeleton";
 
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./RequestContainer.scss";
+import styles from "./RequestContainer.module.scss";
 
 const cx = classNames.bind(styles);
 

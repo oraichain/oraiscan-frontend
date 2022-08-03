@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, {memo} from "react";
 import classNames from "classnames/bind";
-import styles from "./ContactCardList.scss";
+import styles from "./ContactCardList.module.scss";
 
 const TransactionCardList = memo(({data = []}) => {
 	const cx = classNames.bind(styles);

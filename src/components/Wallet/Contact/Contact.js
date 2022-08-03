@@ -9,7 +9,7 @@ import ContactCardListSkeleton from "src/components/Wallet/ContactCardList/Conta
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import {useSelector} from "src/hooks";
-import styles from "./Contact.scss";
+import styles from "./Contact.module.scss";
 
 const cx = classNames.bind(styles);
 

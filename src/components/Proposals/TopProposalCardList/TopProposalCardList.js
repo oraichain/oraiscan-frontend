@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import {isNil} from "lodash";
 import Tooltip from "@material-ui/core/Tooltip";
 import {_} from "src/lib/scripts";
-import styles from "./TopProposalCardList.scss";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
@@ -14,6 +13,7 @@ import MostVotedIcon from "src/icons/Proposals/MostVotedIcon";
 
 import consts from "src/constants/consts";
 import {formatDateTime} from "src/helpers/helper";
+import styles from "./TopProposalCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

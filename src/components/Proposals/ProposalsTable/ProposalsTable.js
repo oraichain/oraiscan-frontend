@@ -9,7 +9,6 @@ import {formatDateTime, formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {setAgoTime} from "src/lib/scripts";
-import styles from "./ProposalsTable.scss";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
@@ -17,6 +16,7 @@ import FailedIcon from "src/icons/Proposals/FailedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
+import styles from "./ProposalsTable.module.scss";
 
 const cx = classNames.bind(styles);
 

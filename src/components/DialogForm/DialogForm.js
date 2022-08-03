@@ -1,8 +1,8 @@
 // @ts-nocheck
-import React, { memo } from "react";
+import React, {memo} from "react";
 import cn from "classnames/bind";
-import { FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
+import {FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -11,8 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
-import styles from "./DialogForm.scss";
 import MemoFee from "src/components/common/MemoFee";
+import styles from "./DialogForm.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -30,7 +30,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const { children, classes, onClose, ...other } = props;
+	const {children, classes, onClose, ...other} = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>

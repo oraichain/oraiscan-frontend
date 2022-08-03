@@ -10,7 +10,7 @@ import {formatOrai} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
 import {Tooltip} from "@material-ui/core";
-import styles from "./DataSourceTable.scss";
+import styles from "./DataSourceTable.module.scss";
 
 const cx = classNames.bind(styles);
 

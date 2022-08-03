@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./AssetTxs.scss";
 import {_, empty} from "src/lib/scripts";
 //  reduxy
 import {useSelector} from "react-redux";
@@ -9,6 +8,7 @@ import {usePrevious} from "src/hooks";
 //  components
 import TxTable from "./TxTable";
 import AssetsTable from "src/components/Account/AssetTxs/AssetsTable";
+import styles from "./AssetTxs.module.scss";
 // import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);

@@ -5,8 +5,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Skeleton from "react-skeleton-loader";
 import {setAgoTime} from "src/lib/scripts";
 import {useTheme} from "@material-ui/core/styles";
-
-import styles from "./BlocksDisplay.scss";
 //  utils
 import {useFetch, useTimer} from "src/hooks";
 import consts from "src/constants/consts";
@@ -15,6 +13,7 @@ import {_} from "src/lib/scripts";
 import ErrorPage from "src/components/common/ErrorPage";
 import TableWrapper from "src/components/Dashboard/TableWrapper";
 import BlockDisplayTableRow, {TableRowMobile} from "./TableRow";
+import styles from "./BlocksDisplay.module.scss";
 
 const cx = cn.bind(styles);
 

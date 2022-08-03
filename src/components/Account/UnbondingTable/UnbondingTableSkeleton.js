@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/Account/UnbondingTable/UnbondingTable";
-import styles from "./UnbondingTable.scss";
+import styles from "./UnbondingTable.module.scss";
 
 const UnbondingTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

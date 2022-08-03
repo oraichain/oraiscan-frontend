@@ -16,7 +16,7 @@ import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
 import {themeIds} from "src/constants/themes";
-import styles from "./DetailsCard.scss";
+import styles from "./DetailsCard.module.scss";
 
 const cx = classNames.bind(styles);
 

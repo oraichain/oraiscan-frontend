@@ -5,7 +5,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "./AssetsIbcSkeletonTable";
-import styles from "./AssetsIbcTable.scss";
+import styles from "./AssetsIbcTable.module.scss";
 
 const AssetsIbcTableSkeleton = memo(({rows}) => {
 	const cx = classNames.bind(styles);

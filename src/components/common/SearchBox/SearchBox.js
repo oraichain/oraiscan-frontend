@@ -8,7 +8,7 @@ import useWindowSize from "src/hooks/useWindowSize";
 import {_, compareProperty, empty, searchProperties, stringNumCheck} from "src/lib/scripts";
 import SearchIcon from "src/icons/SearchIcon";
 import Dropdown from "./Dropdown";
-import styles from "./SearchBox.scss";
+import styles from "./SearchBox.module.scss";
 
 const cx = cn.bind(styles);
 

@@ -11,7 +11,7 @@ import UnbondingCardList from "src/components/Account/UnbondingCardList";
 import UnbondingCardListSkeleton from "src/components/Account/UnbondingCardList/UnbondingCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./UnbondingCard.scss";
+import styles from "./UnbondingCard.module.scss";
 
 const cx = classNames.bind(styles);
 

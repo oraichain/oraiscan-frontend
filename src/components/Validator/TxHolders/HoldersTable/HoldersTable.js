@@ -1,12 +1,12 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./HoldersTable.scss";
 import consts from "src/constants/consts";
 import {useFetch} from "src/hooks";
 //  components
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 import {_, empty} from "src/lib/scripts";
 import HoldersTableRows, {ThinTableRows} from "../HoldersTableRows";
+import styles from "./HoldersTable.module.scss";
 
 const cx = cn.bind(styles);
 

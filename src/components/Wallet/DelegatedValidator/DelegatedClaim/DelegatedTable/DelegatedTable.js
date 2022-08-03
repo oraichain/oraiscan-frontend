@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, {memo, useMemo, useState} from "react";
+import {NavLink, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, handleErrorMessage } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
+import {_, reduceString, handleErrorMessage} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./DelegatedTable.scss";
 import GiftIcon from "./Gift";
-import { walletStation } from "src/lib/walletStation";
-import { handleTransactionResponse } from "src/helpers/transaction";
-import { notification } from "antd";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import styles from "./DelegatedTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -29,15 +29,15 @@ export const getHeaderRow = () => {
 	const claimHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
 	const claimBtnHeaderCell = <div className={cx("header-cell", "align-left")}> </div>;
 	const headerCells = [addressHeaderCell, stakeHeaderCell, claimHeaderCell, claimBtnHeaderCell];
-	const headerCellStyles = [{ width: "30.33%" }, { width: "28.33%" }, { width: "28.33%" }];
+	const headerCellStyles = [{width: "30.33%"}, {width: "28.33%"}, {width: "28.33%"}];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const DelegatedTable = memo(({ rewards = [], delegations = [] }) => {
-	const { address, account } = useSelector(state => state.wallet);
+const DelegatedTable = memo(({rewards = [], delegations = []}) => {
+	const {address, account} = useSelector(state => state.wallet);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const history = useHistory();
 
@@ -54,7 +54,7 @@ const DelegatedTable = memo(({ rewards = [], delegations = [] }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: handleErrorMessage(error) });
+			notification.error({message: handleErrorMessage(error)});
 			console.log(error);
 		}
 	};

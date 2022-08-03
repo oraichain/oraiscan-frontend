@@ -1,15 +1,15 @@
 // @ts-nocheck
-import React, { memo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { formatOrai } from "src/helpers/helper";
-import { _, reduceString, reduceStringAssets } from "src/lib/scripts";
-import styles from "./ExecutorsTableCardList.scss";
+import {formatOrai} from "src/helpers/helper";
+import {_, reduceString, reduceStringAssets} from "src/lib/scripts";
+import styles from "./ExecutorsTableCardList.module.scss";
 
 const cx = classNames.bind(styles);
 
-const ExecutorsTableCardList = memo(({ data = [] }) => {
+const ExecutorsTableCardList = memo(({data = []}) => {
 	return (
 		<div className='executors-card-list'>
 			{data.map((item, index) => {
@@ -25,9 +25,7 @@ const ExecutorsTableCardList = memo(({ data = [] }) => {
 										{_.isNil(item?.pubkey) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<div className={cx("align-left")}>
-												{reduceStringAssets(item.pubkey, 10, 5)}
-											</div>
+											<div className={cx("align-left")}>{reduceStringAssets(item.pubkey, 10, 5)}</div>
 										)}
 									</td>
 								</tr>
@@ -36,15 +34,7 @@ const ExecutorsTableCardList = memo(({ data = [] }) => {
 									<td>
 										<div className={cx("item-title")}>Index</div>
 									</td>
-									<td>
-										{_.isNil(item?.index) ? (
-											<div className={cx("item-link")}>-</div>
-										) : (
-											<div className={cx("align-left")}>
-												{item.index}
-											</div>
-										)}
-									</td>
+									<td>{_.isNil(item?.index) ? <div className={cx("item-link")}>-</div> : <div className={cx("align-left")}>{item.index}</div>}</td>
 								</tr>
 								<tr>
 									<td>
@@ -54,13 +44,10 @@ const ExecutorsTableCardList = memo(({ data = [] }) => {
 										{_.isNil(item?.is_active) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<div className={cx("align-left")}>
-												{item?.is_active ? 'true' : 'false'}
-											</div>
+											<div className={cx("align-left")}>{item?.is_active ? "true" : "false"}</div>
 										)}
 									</td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>

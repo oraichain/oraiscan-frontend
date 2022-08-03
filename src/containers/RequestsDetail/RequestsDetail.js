@@ -15,7 +15,7 @@ import {ReactComponent as SuccessIcon} from "src/assets/icons/success.svg";
 
 import RequestTable from "./RequestTable";
 import TestCaseCard from "./TestCaseCard";
-import styles from "./RequestsDetail.scss";
+import styles from "./RequestsDetail.module.scss";
 
 const cx = cn.bind(styles);
 

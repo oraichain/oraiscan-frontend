@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from "react";
-import { useGet } from "restful-react";
+import {useGet} from "restful-react";
 import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
 import NoResult from "src/components/common/NoResult";
@@ -10,16 +10,16 @@ import WithdrawTable from "src/components/Wallet/DelegatedValidator/DelegatedWit
 import WithdrawTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawTable/WithdrawTableSkeleton";
 import WithdrawCardList from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawCardList/WithdrawCardList";
 import WithdrawCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw/WithdrawCardList/WithdrawCardListSkeleton";
-import styles from "./DelegatedWithdraw.scss";
 import arrowIcon from "src/assets/wallet/arrow.svg";
+import styles from "./DelegatedWithdraw.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function ({ setActiveTab, address }) {
+export default function({setActiveTab, address}) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const path = consts.API.WALLET.WITHDRAW + "/" + address;
-	const { data } = useGet({
+	const {data} = useGet({
 		path: path,
 	});
 

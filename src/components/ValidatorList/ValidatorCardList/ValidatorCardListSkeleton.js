@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./ValidatorCardList.scss";
+import styles from "./ValidatorCardList.module.scss";
 
 const ValidatorCardListSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

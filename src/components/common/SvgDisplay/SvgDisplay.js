@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./SvgDisplay.scss";
 import cn from "classnames/bind";
 //  assets
 import defaultSVG from "src/assets/common/arrow_ic.svg";
+import styles from "./SvgDisplay.module.scss";
 
 const cx = cn.bind(styles);
 export default function SvgDisplay({svgSrc = defaultSVG, customClass}) {

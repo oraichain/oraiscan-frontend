@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import {makeStyles} from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import styles from "./LoadingOverlay.scss";
+import styles from "./LoadingOverlay.module.scss";
 
 const useStyles = makeStyles(theme => ({
 	root: {

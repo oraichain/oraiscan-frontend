@@ -1,9 +1,9 @@
-import React, { isValidElement, memo, useState, useEffect } from "react";
+import React, {isValidElement, memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import {useForm} from "react-hook-form";
+import {ErrorMessage} from "@hookform/error-message";
+import {withStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -12,15 +12,15 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import BigNumber from "bignumber.js";
-import styles from "./Claim.scss";
-import { formatOrai } from "src/helpers/helper";
+import {formatOrai} from "src/helpers/helper";
 import consts from "src/constants/consts";
-import { useFetch, useHistory } from "src/hooks";
-import { walletStation } from "src/lib/walletStation";
-import { handleTransactionResponse } from "src/helpers/transaction";
-import { notification } from "antd";
+import {useFetch, useHistory} from "src/hooks";
+import {walletStation} from "src/lib/walletStation";
+import {handleTransactionResponse} from "src/helpers/transaction";
+import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import { handleErrorMessage } from "src/lib/scripts";
+import {handleErrorMessage} from "src/lib/scripts";
+import styles from "./Claim.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -38,7 +38,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const { children, classes, onClose, ...other } = props;
+	const {children, classes, onClose, ...other} = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -68,10 +68,10 @@ const calculateAmount = (balance, percent) => {
 	return (percent * balance) / 100;
 };
 
-const Claim = memo(({ validatorAddress, BtnComponent }) => {
+const Claim = memo(({validatorAddress, BtnComponent}) => {
 	const [open, setOpen] = useState(false);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
-	const { address, account } = useSelector(state => state.wallet);
+	const {address, account} = useSelector(state => state.wallet);
 	const history = useHistory();
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const percents = [25, 50, 75, 100];
@@ -91,7 +91,7 @@ const Claim = memo(({ validatorAddress, BtnComponent }) => {
 	};
 
 	const methods = useForm();
-	const { handleSubmit, register, setValue, errors, setError, clearErrors } = methods;
+	const {handleSubmit, register, setValue, errors, setError, clearErrors} = methods;
 
 	const onSubmit = async data => {
 		try {
@@ -109,13 +109,13 @@ const Claim = memo(({ validatorAddress, BtnComponent }) => {
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({ message: handleErrorMessage(error) });
+			notification.error({message: handleErrorMessage(error)});
 			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}
@@ -181,7 +181,7 @@ const Claim = memo(({ validatorAddress, BtnComponent }) => {
 								id='amount'
 								defaultValue={0}
 							/>
-							<ErrorMessage errors={errors} name='amount' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							<ErrorMessage errors={errors} name='amount' render={({message}) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 					</DialogContent>
 					<DialogActions>

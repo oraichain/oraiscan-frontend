@@ -6,9 +6,9 @@ import {themeIds} from "src/constants/themes";
 import {setActiveThemeId} from "src/store/modules/activeThemeId.js";
 import SunIcon from "src/icons/SunIcon";
 import MoonIcon from "src/icons/MoonIcon";
-import styles from "./ModeSwitch.scss";
 import {Switch} from "antd";
 import {ThemeSetup} from "src/helpers/helper";
+import styles from "./ModeSwitch.module.scss";
 
 const cx = classNames.bind(styles);
 

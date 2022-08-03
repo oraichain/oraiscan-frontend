@@ -5,7 +5,7 @@ import {Button} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
 
-import styles from "./YourDelegator.scss";
+import styles from "./YourDelegator.module.scss";
 
 const cx = cn.bind(styles);
 

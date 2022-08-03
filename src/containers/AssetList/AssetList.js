@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./AssetList.scss";
 import {_, empty} from "src/lib/scripts";
 //  redux
 import {useDispatch, useSelector} from "react-redux";
@@ -12,6 +11,7 @@ import StatusCard from "src/components/AssetList/StatusCard/StatusCard";
 import Table from "src/components/AssetList/Table";
 import ScrollTop from "src/components/common/ScrollTop";
 import consts from "src/constants/consts";
+import styles from "./AssetList.module.scss";
 
 const cx = cn.bind(styles);
 

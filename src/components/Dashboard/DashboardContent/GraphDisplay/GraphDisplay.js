@@ -10,7 +10,7 @@ import {getMarketChartRange} from "src/lib/api";
 
 import ErrorPage from "src/components/common/ErrorPage";
 import Chart from "src/components/common/Chart";
-import styles from "./GraphDisplay.scss";
+import styles from "./GraphDisplay.module.scss";
 
 const cx = cn.bind(styles);
 

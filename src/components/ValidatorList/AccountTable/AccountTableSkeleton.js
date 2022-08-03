@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "src/components/ValidatorList/AccountTable/AccountTable.js";
-import styles from "./AccountTable.scss";
+import styles from "./AccountTable.module.scss";
 
 const AccountTableSkeleton = memo(({rows = 5}) => {
 	const cx = classNames.bind(styles);

@@ -17,7 +17,7 @@ import BlockTable from "src/components/BlockList/BlockTable";
 import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/BlockList/BlockCardList";
 import BlockCardListSkeleton from "src/components/BlockList/BlockCardList/BlockCardListSkeleton";
-import styles from "./BlockList.scss";
+import styles from "./BlockList.module.scss";
 
 const cx = cn.bind(styles);
 

@@ -1,15 +1,16 @@
-import React, { memo } from "react";
+import React, {memo} from "react";
 import cn from "classnames/bind";
-import { Fee, Gas } from "src/components/common/Fee";
+import {Fee, Gas} from "src/components/common/Fee";
 // @ts-ignore
-import styles from "./MemoFee.scss";
 import _ from "lodash";
-import { InputNumberOrai, TextArea } from "src/components/common/form-controls";
+import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import Grid from "@material-ui/core/Grid";
+import styles from "./MemoFee.module.scss";
+
 const cx = cn.bind(styles);
 
 const MemoFee = memo(props => {
-	const { minFee, setFee, gas, onChangeGas, fee, typePrice, checkFee, amount, warningText = "received" } = props;
+	const {minFee, setFee, gas, onChangeGas, fee, typePrice, checkFee, amount, warningText = "received"} = props;
 	return (
 		<div></div>
 		// <>

@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {formatInteger, formatSeconds, formatFloat} from "src/helpers/helper";
 import StatusCard from "src/components/common/StatusCard";
-import styles from "./StatusCardList.scss";
+import styles from "./StatusCardList.module.scss";
 
 import ValidatorsIcon from "src/icons/Validators/ValidatorsIcon";
 import HeightIcon from "src/icons/Validators/HeightIcon";

@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./HoldersTableRows.scss";
 
 import {_, formatNumber, reduceString, refineAddress} from "src/lib/scripts";
 //  components
@@ -8,6 +7,7 @@ import {TableCell, TableRow} from "@material-ui/core";
 import Skeleton from "react-skeleton-loader";
 import {NavLink} from "react-router-dom";
 import {fixed, multiply} from "src/lib/Big";
+import styles from "./HoldersTableRows.module.scss";
 
 const cx = cn.bind(styles);
 

@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./NoTx.scss";
 import cn from "classnames/bind";
+import styles from "./NoTx.module.scss";
 
 import listNone from "src/assets/misc/noitem_ic.svg";
 

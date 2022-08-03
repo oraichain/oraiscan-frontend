@@ -1,12 +1,12 @@
-import React, { memo, useMemo } from "react";
+import React, {memo, useMemo} from "react";
 import classNames from "classnames/bind";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import consts from "src/constants/consts";
-import { _, reduceString, setAgoTime } from "src/lib/scripts";
-import { formatOrai } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
+import {_, reduceString, setAgoTime} from "src/lib/scripts";
+import {formatOrai} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./CwTable.scss";
+import styles from "./CwTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -21,13 +21,13 @@ export const getHeaderRow = () => {
 
 	let headerCells = [txHashHeaderCell, ageHeaderCell, fromHeaderCell, statusHeaderCell, toHeaderCell, valueHeaderCell, tokenHeaderCell];
 	let headerCellStyles = [
-		{ width: "14%", minWidth: "180px" }, // TxHash
-		{ width: "12%", minWidth: "120px" }, // Age
-		{ width: "14%", minWidth: "180px" }, // From
-		{ width: "5%", minWidth: "80px" }, // Status
-		{ width: "14%", minWidth: "180px" }, // To
-		{ width: "14%", minWidth: "180px" }, // Value
-		{ width: "14%", minWidth: "180px" }, // Token
+		{width: "14%", minWidth: "180px"}, // TxHash
+		{width: "12%", minWidth: "120px"}, // Age
+		{width: "14%", minWidth: "180px"}, // From
+		{width: "5%", minWidth: "80px"}, // Status
+		{width: "14%", minWidth: "180px"}, // To
+		{width: "14%", minWidth: "180px"}, // Value
+		{width: "14%", minWidth: "180px"}, // Token
 	];
 
 	return {
@@ -45,21 +45,18 @@ export const checkStatus = (status, address, receiverAddress) => {
 	}
 };
 
-
 const reduceStringAdress = (value, toHref = "", isStyle, rawString = false) => {
 	const result = _.isNil(value) ? (
 		<div className={cx("align-left")}>-</div>
 	) : (
 		<NavLink className={cx("sm-contract-data-cell")} to={toHref}>
-			{isStyle === 1 ?
-				<div className={cx("align-right")}>{rawString ? value : reduceString(value, 6, 6)}</div> :
-				rawString ? value : reduceString(value, 6, 6)}
+			{isStyle === 1 ? <div className={cx("align-right")}>{rawString ? value : reduceString(value, 6, 6)}</div> : rawString ? value : reduceString(value, 6, 6)}
 		</NavLink>
 	);
 	return result;
 };
 
-const CwTable = memo(({ data = [], address }) => {
+const CwTable = memo(({data = [], address}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];

@@ -3,10 +3,10 @@ import React, {useState, useMemo} from "react";
 import Dialog from "@material-ui/core/Dialog";
 import cn from "classnames/bind";
 import CloseSVG from "src/assets/icons/close.svg";
-import styles from "./Dialog.scss";
 import {useDispatch} from "react-redux";
 import {showAlert} from "src/store/modules/global";
 import {addContact} from "src/store/modules/contact";
+import styles from "./Dialog.module.scss";
 
 const cx = cn.bind(styles);
 

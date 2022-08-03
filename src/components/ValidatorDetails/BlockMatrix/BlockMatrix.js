@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React, {memo} from "react";
 import classNames from "classnames/bind";
-import styles from "./BlockMatrix.scss";
 
 import SuccessBlockIcon from "src/icons/Validators/SuccessBlockIcon";
 import FailedBlockIcon from "src/icons/Validators/FailedBlockIcon";
+import styles from "./BlockMatrix.module.scss";
 
 const cx = classNames.bind(styles);
 

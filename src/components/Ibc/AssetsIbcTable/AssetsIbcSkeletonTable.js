@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import classNames from "classnames/bind";
-import styles from "./AssetsIbcSkeletonTable.scss";
+import styles from "./AssetsIbcSkeletonTable.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -3,7 +3,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import ButtonGroup from "src/components/common/ButtonGroup";
-import styles from "./FilterSection.scss";
+import styles from "./FilterSection.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +13,7 @@ const FilterSection = memo(({className, data, value, onChange}) => {
 	return (
 		<div className={cx("filter-section", className)}>
 			{isLargeScreen ? (
-				<ButtonGroup data={data} value={value} onChange={onChange}/>
+				<ButtonGroup data={data} value={value} onChange={onChange} />
 			) : (
 				<form>
 					<select

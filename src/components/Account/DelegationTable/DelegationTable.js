@@ -6,7 +6,7 @@ import {formatOrai} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./DelegationTable.scss";
+import styles from "./DelegationTable.module.scss";
 
 const cx = classNames.bind(styles);
 

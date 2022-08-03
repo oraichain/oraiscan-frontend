@@ -3,7 +3,7 @@ import * as React from "react";
 import cn from "classnames/bind";
 import DelegatedClaim from "src/components/Wallet/DelegatedValidator/DelegatedClaim";
 import DelegatedWithdraw from "src/components/Wallet/DelegatedValidator/DelegatedWithdraw";
-import styles from "./DelegatedValidator.scss";
+import styles from "./DelegatedValidator.module.scss";
 
 const cx = cn.bind(styles);
 

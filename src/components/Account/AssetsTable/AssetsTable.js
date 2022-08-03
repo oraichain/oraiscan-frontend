@@ -1,12 +1,12 @@
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { formatOrai } from "src/helpers/helper";
-import { _, reduceString, reduceStringAssets } from "src/lib/scripts";
-import { tableThemes } from "src/constants/tableThemes";
+import {formatOrai} from "src/helpers/helper";
+import {_, reduceString, reduceStringAssets} from "src/lib/scripts";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./AssetsTable.scss";
+import styles from "./AssetsTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -16,9 +16,9 @@ export const getHeaderRow = () => {
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
 	const headerCellStyles = [
-		{ minWidth: "140px" }, // Name
-		{ minWidth: "80px" }, // Amount
-		{ minWidth: "80px" }, // Total Value
+		{minWidth: "140px"}, // Name
+		{minWidth: "80px"}, // Amount
+		{minWidth: "80px"}, // Total Value
 	];
 
 	return {
@@ -27,19 +27,16 @@ export const getHeaderRow = () => {
 	};
 };
 
-const AssetsTable = memo(({ data = [] }) => {
+const AssetsTable = memo(({data = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 		return data.map(item => {
-
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("align-left")}>
-					{reduceStringAssets(item.validator_address, 30, 0)}
-				</div>
+				<div className={cx("align-left")}>{reduceStringAssets(item.validator_address, 30, 0)}</div>
 				// <NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
 				// 	{reduceString(item.validator_address, 15, 0)}
 				// 	{item.validator_address}

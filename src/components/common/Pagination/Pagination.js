@@ -2,11 +2,11 @@ import React, {memo} from "react";
 import {usePagination} from "@material-ui/lab/Pagination";
 import classNames from "classnames/bind";
 import {noop} from "lodash";
-import styles from "./Pagination.scss";
 import {ReactComponent as FirstButtonIcon} from "src/assets/pagination/first_button_ic.svg";
 import {ReactComponent as LastButtonIcon} from "src/assets/pagination/last_button_ic.svg";
 import {ReactComponent as PrevButtonIcon} from "src/assets/pagination/prev_button_ic.svg";
 import {ReactComponent as NextButtonIcon} from "src/assets/pagination/next_button_ic.svg";
+import styles from "./Pagination.module.scss";
 
 const cx = classNames.bind(styles);
 

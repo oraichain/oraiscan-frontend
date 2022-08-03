@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React, { memo, useState, useEffect } from "react";
+import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import { useForm, FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -14,19 +14,19 @@ import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import styles from "./ClaimBaseRwBtn.scss";
 import config from "src/config";
-import { useHistory } from "react-router-dom";
-import { payloadTransaction } from "src/helpers/transaction";
+import {useHistory} from "react-router-dom";
+import {payloadTransaction} from "src/helpers/transaction";
 import MemoFee from "src/components/common/MemoFee";
-import { calculateAmount } from "src/helpers/calculateAmount";
+import {calculateAmount} from "src/helpers/calculateAmount";
 import amountConsts from "src/constants/amount";
 import consts from "src/constants/consts";
 import DialogForm from "src/components/DialogForm";
-import { walletStation } from "src/lib/walletStation";
+import {walletStation} from "src/lib/walletStation";
+import styles from "./ClaimBaseRwBtn.module.scss";
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function (amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "validate-withdraw",
 		exclusive: false,
@@ -54,7 +54,7 @@ const dialogStyles = theme => ({
 });
 
 const DialogTitle = withStyles(dialogStyles)(props => {
-	const { children, classes, onClose, ...other } = props;
+	const {children, classes, onClose, ...other} = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant='h5'>{children}</Typography>
@@ -80,12 +80,12 @@ const DialogActions = withStyles(theme => ({
 	},
 }))(MuiDialogActions);
 
-const { GAS_DEFAULT } = amountConsts;
+const {GAS_DEFAULT} = amountConsts;
 
-const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
+const ClaimBaseRwBtn = memo(({BtnComponent, validatorName, pubkey}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const { address, account } = useSelector(state => state.wallet);
+	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
@@ -102,7 +102,7 @@ const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
 	const methods = useForm({
 		resolver: undefined,
 	});
-	const { handleSubmit, errors, getValues, setError, clearErrors } = methods;
+	const {handleSubmit, errors, getValues, setError, clearErrors} = methods;
 
 	const onSubmit = async data => {
 		const minGasFee = (fee * 1000000 + "").split(".")[0];
@@ -118,7 +118,7 @@ const ClaimBaseRwBtn = memo(({ BtnComponent, validatorName, pubkey }) => {
 	};
 
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return closeDialog();
 			}

@@ -4,9 +4,9 @@ import classNames from "classnames/bind";
 import DonutChart from "react-donut-chart";
 import Grid from "@material-ui/core/Grid";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./ChartCard.scss";
 import {themeIds} from "src/constants/themes";
 import {useSelector} from "react-redux";
+import styles from "./ChartCard.module.scss";
 
 const cx = classNames.bind(styles);
 
