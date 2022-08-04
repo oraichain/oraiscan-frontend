@@ -18,7 +18,7 @@ const DelegatorCard = memo(({address = ""}) => {
 	const limit = consts.REQUEST.LIMIT;
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = consts.API.DELEGATOR + "/" + address + "?limit=" + limit;
+	const basePath = consts.API.WALLET.DELEGATOR + "/" + address + "?limit=" + limit;
 	const [path, setPath] = useState(`${basePath}&page_id=1`);
 	const {data} = useGet({
 		path: path,
