@@ -40,7 +40,7 @@ const YourValidatorCard = memo(({validatorAddress}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const isLargeScreenMd = useMediaQuery(theme.breakpoints.up("md"));
-	const path = consts.API.VALIDATOR + "/" + validatorAddress;
+	const path = consts.API.WALLET.VALIDATOR + "/" + validatorAddress;
 	const {data} = useGet({
 		path: path,
 	});
