@@ -136,7 +136,7 @@ const TxMessageContent = ({
 				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_VALIDATOR_COMMISSION && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
-						{getCurrencyRowFromObject("Amount", getAmountValidatorCommission())}
+						{getCurrencyRowFromObject("Amount", data?.amount)}
 					</>
 				)}
 				{type === txTypes.PROVIDER.CREATE_AI_DATA_SOURCE && (
