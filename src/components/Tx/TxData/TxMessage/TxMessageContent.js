@@ -1,8 +1,8 @@
 import React from "react";
 import ReactJson from "react-json-view";
 import InfoRow from "src/components/common/InfoRow";
-import {formatFloat} from "src/helpers/helper";
-import {tryParseMessage} from "src/lib/scripts";
+import { formatFloat } from "src/helpers/helper";
+import { tryParseMessage } from "src/lib/scripts";
 import BigNumber from "bignumber.js";
 import cn from "classnames/bind";
 import styles from "./TxMessage.module.scss";
@@ -225,7 +225,7 @@ const TxMessageContent = ({
 									))
 								) : (
 									<ReactJson
-										style={{backgroundColor: "transparent"}}
+										style={{ backgroundColor: "transparent" }}
 										name={false}
 										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 										displayObjectSize={false}
@@ -246,7 +246,7 @@ const TxMessageContent = ({
 												{getInfoRow("Data Source", item?.name)}
 												<InfoRow label='Result'>
 													<ReactJson
-														style={{backgroundColor: "transparent"}}
+														style={{ backgroundColor: "transparent" }}
 														name={false}
 														theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 														displayObjectSize={false}
@@ -277,7 +277,7 @@ const TxMessageContent = ({
 																{getInfoRow("Data Source", item?.name)}
 																<InfoRow label='Result'>
 																	<ReactJson
-																		style={{backgroundColor: "transparent"}}
+																		style={{ backgroundColor: "transparent" }}
 																		name={false}
 																		theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 																		displayObjectSize={false}
@@ -331,7 +331,7 @@ const TxMessageContent = ({
 						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -351,7 +351,7 @@ const TxMessageContent = ({
 						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -559,7 +559,7 @@ const TxMessageContent = ({
 						{getInfoRow("Desination Channel", value?.packet?.destination_channel)}
 						<InfoRow label='Data'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -588,7 +588,7 @@ const TxMessageContent = ({
 						{getInfoRowThreeDots("Unreceived", value?.proof_unreceived)}
 						<InfoRow label='Message'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
@@ -605,7 +605,7 @@ const TxMessageContent = ({
 						{getAddressRow("Sender", value?.sender)}
 						<InfoRow label='Migrate Msg'>
 							<ReactJson
-								style={{backgroundColor: "transparent"}}
+								style={{ backgroundColor: "transparent" }}
 								name={false}
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
