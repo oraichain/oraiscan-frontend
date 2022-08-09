@@ -1,20 +1,20 @@
-import React, {memo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
-import {useHistory} from "react-router-dom";
-import {useMediaQuery} from "@material-ui/core";
+import React, { memo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
+import { useMediaQuery } from "@material-ui/core";
 import SearchIcon from "src/icons/SearchIcon";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import axios from "axios";
-import {_, stringNumCheck} from "src/lib/scripts";
+import { _, stringNumCheck } from "src/lib/scripts";
 import failIcon from "src/assets/transactions/fail_ic.svg";
 import consts from "src/constants/consts";
-import {useTheme} from "@material-ui/styles";
+import { useTheme } from "@material-ui/styles";
 import styles from "./SmartSearchBox.module.scss";
 
 const cx = classNames.bind(styles);
 
-const SmartSearchBox = memo(({closeMobileNavigateBar = () => {}}) => {
+const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const history = useHistory();
@@ -73,7 +73,7 @@ const SmartSearchBox = memo(({closeMobileNavigateBar = () => {}}) => {
 				.then(types => {
 					setSearchTypes(types);
 				})
-				.catch(error => {});
+				.catch(error => { });
 		} else {
 			setSearchTypes(null);
 		}
@@ -157,13 +157,13 @@ const SmartSearchBox = memo(({closeMobileNavigateBar = () => {}}) => {
 				onClick={() => {
 					dropdownRef.current.style.display = "block";
 				}}
-				// onBlur={e => {
-				// 	// setTimeout(function() {
-				// 	// 	if (!_.isNil(dropdownRef?.current?.style?.display)) {
-				// 	// 		dropdownRef.current.style.display = "none";
-				// 	// 	}
-				// 	// }, 0);
-				// }}
+			// onBlur={e => {
+			// 	// setTimeout(function() {
+			// 	// 	if (!_.isNil(dropdownRef?.current?.style?.display)) {
+			// 	// 		dropdownRef.current.style.display = "none";
+			// 	// 	}
+			// 	// }, 0);
+			// }}
 			/>
 			<div className={cx("dropdown")} ref={dropdownRef}>
 				{!!searchValue && dropdownItems}
