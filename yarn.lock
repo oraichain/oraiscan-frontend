@@ -2827,31 +2827,17 @@
   resolved "https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-0.18.2.tgz"
   integrity sha512-+0P+PrP9qSFVaayNdek4P1OAGE+PEl2SsufuHDRmUpOY25Wzjo7Atyar56Trjc32jkNy4lID6ZFT6BahsR9P9A==
 
-"@oraichain/cosmos-messages@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/@oraichain/cosmos-messages/-/cosmos-messages-0.0.2.tgz"
-  integrity sha512-1K49RAGh8wRnLg6Nxx13yfITe1AfStS8mgKS9ckzay8cNxRi1cwjNrufmr/ICxdONEQFPHNO+Pt8Mo4/+pLnDQ==
+"@oraichain/cosmos-messages@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmos-messages/-/cosmos-messages-0.0.3.tgz#941af963c2f36ec3499dd588ef15838391482038"
+  integrity sha512-rhC+34aVFmE9n8h5+1eLddHQ/W9ad7ObfHjzs4CKaqTm5NdY522OHvKLe3SLWOgMDkh/cKWg9VlYzWulprov6Q==
   dependencies:
-    "@oraichain/cosmosjs" "0.0.94"
+    "@oraichain/cosmosjs" "0.1.7"
 
-"@oraichain/cosmosjs@0.0.94":
-  version "0.0.94"
-  resolved "https://registry.npmjs.org/@oraichain/cosmosjs/-/cosmosjs-0.0.94.tgz"
-  integrity sha512-EvsxRQqh8NzyH3DNj4iEC9r1UaRReZxDRasdN1Xj8SdJHCkPxqc4cdEwt3AsFYrJPdEZDdEyFYArUXdTjVncyg==
-  dependencies:
-    bech32 "^1.1.3"
-    bip32 "^2.0.5"
-    bip39 "^3.0.3"
-    dotenv "^8.2.0"
-    google-protobuf "^3.14.0"
-    isomorphic-fetch "^3.0.0"
-    protobufjs "^6.10.2"
-    secp256k1 "^4.0.2"
-
-"@oraichain/cosmosjs@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.1.6.tgz#cde9118a3a81e08eacd7b00cfaaa11ea11333f53"
-  integrity sha512-HzEk4tqqz6X3xAI7g3S0MFpNFGaVdZ4Fa61Vu6rkUsErsVo5jf0xOslR3DLzGo0VcTQVZh6CIZaA7W6M5O1Olw==
+"@oraichain/cosmosjs@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.1.7.tgz#568cdb417eacce78a1a390414e9ec4286f7f31ee"
+  integrity sha512-PEpczOx2gNUob/XNRqJsikA7E3t+ySlZPzw7QguzAxUhfEDe1Ofe/t24+xIA6Jxpc2nb3uy7PHUfyuKlEhYieA==
   dependencies:
     axios "^0.27.2"
     bech32 "^1.1.3"
@@ -7236,11 +7222,6 @@ dotenv@^6.1.0:
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-6.2.0.tgz"
   integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
 
-dotenv@^8.2.0:
-  version "8.6.0"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.6.0.tgz"
-  integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
-
 draft-js@^0.11.7:
   version "0.11.7"
   resolved "https://registry.npmjs.org/draft-js/-/draft-js-0.11.7.tgz"
@@ -10593,14 +10574,6 @@ isomorphic-fetch@^2.1.1:
   dependencies:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
-
-isomorphic-fetch@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz"
-  integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
-  dependencies:
-    node-fetch "^2.6.1"
-    whatwg-fetch "^3.4.1"
 
 isomorphic-ws@^4.0.1:
   version "4.0.1"
@@ -19305,7 +19278,7 @@ whatwg-fetch@2.0.4:
   resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz"
   integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0, whatwg-fetch@^3.4.1:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.6.2"
   resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz"
   integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==

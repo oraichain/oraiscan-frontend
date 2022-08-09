@@ -231,7 +231,8 @@ export default Object.freeze({
 		VOTING_PERIOD: "votingparams",
 		COMMUNITY_TAX: "communitytax",
 		INFLATION_MIN: "InflationMin",
-		INFLATION_MAX: "InflationMax"
+		INFLATION_MAX: "InflationMax",
+		TEXT_PROPOSAL: 'TextProposal'
 	},
 
 	VOTING_PERIOD_OPTIONS: {
