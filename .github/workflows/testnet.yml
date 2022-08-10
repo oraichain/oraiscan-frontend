@@ -47,7 +47,7 @@ jobs:
         env:
           CI: false
       - name: Deploy to firebase
-        run: yarn firebase deploy --only hosting:testnet -m '${{ github.event.head_commit.message }}' --token ${{ secrets.FIREBASE_TOKEN }}
+        run: yarn firebase deploy --only hosting:testnet --token ${{ secrets.FIREBASE_TOKEN }}
       - name: Send discord message
         uses: appleboy/discord-action@master
         with:
