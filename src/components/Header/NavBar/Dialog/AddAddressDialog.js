@@ -43,7 +43,7 @@ export default function AddAddressDialog(props) {
 					<input
 						className={cx("input")}
 						type='text'
-						placeholder='03332...'
+						placeholder='orai1....'
 						value={name}
 						onChange={e => {
 							setName(e.target.value);
