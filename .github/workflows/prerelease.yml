@@ -43,7 +43,7 @@ jobs:
       - name: COPY prod ENV
         run: cp .env.example .env
       - name: Build
-        run: yarn build:prod
+        run: yarn build
         env:
           CI: false
       - name: Deploy to firebase
