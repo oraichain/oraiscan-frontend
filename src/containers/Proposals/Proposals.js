@@ -45,6 +45,7 @@ import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { handleErrorMessage } from "../../lib/scripts";
 import BigNumber from "bignumber.js";
 import styles from "./Proposals.module.scss";
+import { ORAI } from "src/lib/config/constants";
 
 const cx = cn.bind(styles);
 
@@ -76,6 +77,7 @@ const schema = yup.object().shape({
 	// 	otherwise: yup.string().notRequired(),
 	// }),
 	unbondingTime: yup.string(),
+	min_deposit: yup.number().notRequired(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
 		.number()
@@ -104,12 +106,13 @@ const defaultValues = {
 	unbondingTime: 3600,
 	voting_period_day: 1,
 	voting_period_time: "01:00:00",
+	min_deposit: 10,
 	communitytax: 0,
 	InflationMin: 0,
 	InflationMax: 0,
 };
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -133,6 +136,10 @@ const fields = [
 	{
 		label: "Maximum Inflation",
 		value: INFLATION_MAX,
+	},
+	{
+		label: "Minimum Deposit Amount",
+		value: DEPOSIT_PARAMS,
 	},
 	{
 		label: "Text Proposal",
@@ -252,6 +259,7 @@ export default function (props) {
 	};
 
 	const handleOptionData = data => {
+		data.amount *= 10 ** 6;
 		switch (fieldValue) {
 			case VOTING_PERIOD:
 				const { voting_period_day: days, voting_period_time: times } = data;
@@ -261,6 +269,15 @@ export default function (props) {
 					key: VOTING_PERIOD,
 					value: JSON.stringify({
 						voting_period: JSON.stringify(handleDayTimePeriod(days, times)),
+					}),
+				};
+			case DEPOSIT_PARAMS:
+				return {
+					...data,
+					subspace: "gov",
+					key: DEPOSIT_PARAMS,
+					value: JSON.stringify({
+						min_deposit: [{ denom: ORAI, amount: (data.min_deposit * 10 ** 6).toString() }],
 					}),
 				};
 			case COMMUNITY_TAX:
@@ -302,7 +319,6 @@ export default function (props) {
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			data.amount *= 10 ** 6;
 			const newData = handleOptionData(data);
 			const { title, description, subspace, key, value, amount } = newData;
 			var response;
@@ -527,6 +543,18 @@ export default function (props) {
 									</label>
 									<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
 									<ErrorMessage errors={errors} name='unbondingTime' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+							</>
+						)}
+
+						{fieldValue === DEPOSIT_PARAMS && (
+							<>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='min_deposit'>
+										Minimum Deposit Amount {`(${ORAI.toUpperCase()}`}
+									</label>
+									<input type='number' className={cx("text-field")} name='min_deposit' ref={register} />
+									<ErrorMessage errors={errors} name='min_deposit' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 								</div>
 							</>
 						)}
