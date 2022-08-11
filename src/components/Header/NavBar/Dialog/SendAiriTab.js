@@ -1,34 +1,34 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames/bind";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
-import {Input, Switch} from "antd";
+import { Input, Switch } from "antd";
 import Grid from "@material-ui/core/Grid";
-import {EditOutlined} from "@material-ui/icons";
+import { EditOutlined } from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
 
 import consts from "src/constants/consts";
-import {reduceString} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {InputNumberOrai, InputTextWithIcon} from "src/components/common/form-controls";
-import {ReactComponent as ExchangeIcon} from "src/assets/icons/switch-blue.svg";
+import { reduceString } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { InputNumberOrai, InputTextWithIcon } from "src/components/common/form-controls";
+import { ReactComponent as ExchangeIcon } from "src/assets/icons/switch-blue.svg";
 import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendAiriTab.css";
 import styles from "./Dialog.module.scss";
-import {useSelector} from "src/hooks";
+import { useSelector } from "src/hooks";
 
 const cx = cn.bind(styles);
-const {TextArea: TextAreaAnt} = Input;
+const { TextArea: TextAreaAnt } = Input;
 
-export default function FormDialog({address, amount, status, methods, handleInputMulti}) {
+export default function FormDialog({ address, amount, status, methods, handleInputMulti }) {
 	const [inputAmountValue, setInputAmountValue] = useState("");
 	const [isMulti, setIsMulti] = useState(false);
 	const [isChooseFile, setIsChooseFile] = useState(true);
 	const [listAddress, setListAddress] = useState(null);
 	const [open, setOpen] = useState(false);
-	const {errors, setValue, getValues, watch, register} = methods;
+	const { errors, setValue, getValues, watch, register } = methods;
 	const inputAddress = watch("recipientAddress");
 	const [existName, setExistName] = useState(null);
 	const storageData = useSelector(state => state.contact);
@@ -121,7 +121,7 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 			return (
 				<>
 					<div className={cx("summary")}>
-						{listAddress.map(({address, amount}, index) => {
+						{listAddress.map(({ address, amount }, index) => {
 							return (
 								<div className={cx("row")}>
 									<span> {index + 1}. </span>
@@ -211,6 +211,8 @@ export default function FormDialog({address, amount, status, methods, handleInpu
 								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
 									Add them to your address book
 								</a>
+								<br />
+								If you are depositing to Kucoin, please enter the required memo (NOT secret mnemonic) on Keplr
 							</div>
 						)}
 					</Grid>
