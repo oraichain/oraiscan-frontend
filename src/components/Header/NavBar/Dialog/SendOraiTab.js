@@ -210,6 +210,8 @@ export default function FormDialog({address, amount, status, methods, inputAmoun
 								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
 									Add them to your address book
 								</a>
+								<br />
+								If you are depositing to Kucoin, please enter the required memo (NOT secret mnemonic) on Keplr
 							</div>
 						)}
 					</Grid>
