@@ -16,7 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
-import { isNil } from "lodash-es";
+import { isNil, isNaN } from "lodash-es";
 import { formatFloat } from "src/helpers/helper";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -49,33 +49,26 @@ import { ORAI } from "src/lib/config/constants";
 
 const cx = cn.bind(styles);
 
-const dateTimeVoting = time => {
-	const dateVoting = new Date().toISOString().split("T")[0];
-	const newDate = new Date();
-	const timeOption = time ? new Date(newDate.getTime() + time) : newDate;
-	const timeVoting = timeOption
-		.toTimeString()
-		.split(" ")[0]
-		.slice(0, -3);
-	return `${dateVoting}T${timeVoting}`;
-};
-
 const schema = yup.object().shape({
 	title: yup.string().required("The Title is required"),
 	description: yup.mixed().required("The Description is required"),
 	amount: yup.number().required("The Amount is required"),
-	// voting_period_day: yup
-	// 	.number()
-	// 	.transform(value => (isNaN(value) ? -1 : value))
-	// 	.min(1, "Min value is 1 day").notRequired(),
-	// voting_period_time: yup.string().when("voting_period_day", {
-	// 	is: val => val === undefined,
-	// 	then: yup.string().test("is-greater", "Min value is 1 hour", function (value) {
-	// 		const defaultTime = "01:00:00";
-	// 		return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
-	// 	}).notRequired(),
-	// 	otherwise: yup.string().notRequired(),
-	// }),
+	voting_period_day: yup
+		.number()
+		.transform(value => (isNaN(value) ? -1 : value))
+		.min(1, "Min value is 1 day")
+		.notRequired(),
+	voting_period_time: yup.string().when("voting_period_day", {
+		is: val => val === undefined,
+		then: yup
+			.string()
+			.test("is-greater", "Min value is 1 hour", function(value) {
+				const defaultTime = "01:00:00";
+				return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
+			})
+			.notRequired(),
+		otherwise: yup.string().notRequired(),
+	}),
 	unbondingTime: yup.string(),
 	min_deposit: yup.number().notRequired(),
 	// .required("The Unbonding time is required.")
@@ -248,12 +241,12 @@ export default function(props) {
 	const hmsToMiliSeconds = times => {
 		const hmsArr = times.split(":");
 		const seconds = +hmsArr[0] * 60 * 60 + +hmsArr[1] * 60 + +hmsArr[2];
-		return new BigNumber(seconds).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
+		return new BigNumber(seconds).multipliedBy(new BigNumber(Math.pow(10, 9))).toFixed(0);
 	};
 
 	const handleDayTimePeriod = (days, times) => {
 		if (days) {
-			return new BigNumber(Math.round(days * 24 * 60 * 60)).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
+			return new BigNumber(Math.round(days * 24 * 60 * 60)).multipliedBy(new BigNumber(Math.pow(10, 9))).toFixed(0);
 		}
 		return hmsToMiliSeconds(times);
 	};
