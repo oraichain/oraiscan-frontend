@@ -144,7 +144,7 @@ const fields = [
 	{
 		label: "Text Proposal",
 		value: TEXT_PROPOSAL,
-	}
+	},
 ];
 
 const votingFields = [
@@ -158,7 +158,7 @@ const votingFields = [
 	},
 ];
 
-export default function (props) {
+export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
@@ -305,7 +305,7 @@ export default function (props) {
 				return {
 					...data,
 					key: TEXT_PROPOSAL,
-				}
+				};
 			default:
 				return {
 					...data,
@@ -344,7 +344,7 @@ export default function (props) {
 			}
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
-			console.log("error: ", error)
+			console.log("error: ", error);
 			setLoadingTransaction(false);
 			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
@@ -608,7 +608,13 @@ export default function (props) {
 						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
 						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
 						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} />
+
+						<div className={cx("field")}>
+							<label className={cx("label")}>Notes </label>
+							If the proposal cannot pass the deposit period, then all the deposited tokens will be burned. So please create & choose the proposals wisely!
+						</div>
 					</div>
+
 					<div className={cx("dialog-footer")}>
 						<button type='submit' className={cx("submit-button")}>
 							<span className={cx("submit-button-text")}>Create</span>
