@@ -30,9 +30,19 @@ export const reduceStringAssets = (str, from, end) => {
 export const parseIbcMsgTransfer = (rawLog, type = "send_packet", key = "packet_data") => {
 	const arrayIbcDemonPacket = rawLog && rawLog?.[0]?.events?.find(e => e.type === type);
 	const ibcDemonPackData = arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key);
-	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : { denom: "" };
+	const ibcDemonObj = ibcDemonPackData?.value && _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData?.value) : { denom: "" };
 	return ibcDemonObj;
 };
+
+
+export const isJsonString = str => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
 
 export const processText = inputText => {
 	var output = [];
