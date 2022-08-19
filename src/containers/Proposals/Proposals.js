@@ -261,7 +261,7 @@ export default function(props) {
 					subspace: "gov",
 					key: VOTING_PERIOD,
 					value: JSON.stringify({
-						voting_period: JSON.stringify(handleDayTimePeriod(days, times)),
+						voting_period: handleDayTimePeriod(days, times),
 					}),
 				};
 			case DEPOSIT_PARAMS:
