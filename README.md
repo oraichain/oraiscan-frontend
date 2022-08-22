@@ -2,7 +2,7 @@
   Oraiscan Explorer's Frontend
 </h2>
 
-_:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_and Oraichain .
+_:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_and Oraichain ..
 
 ## Overview
 
