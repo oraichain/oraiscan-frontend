@@ -14,6 +14,7 @@ import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionTable.module.scss";
+import BigNumber from "bignumber.js";
 
 const cx = classNames.bind(styles);
 
@@ -238,7 +239,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 		const denomCheck = checkTokenCW20(denom);
 		return (
 			<div className={cx("amount")}>
-				<span className={cx("amount-value")}>{denomCheck.status ? amount / Math.pow(10, 18) : formatOrai(amount)}</span>
+				<span className={cx("amount-value")}>{denomCheck.status ? new BigNumber(amount / Math.pow(10, 18)).dividedBy(1000000).toFormat(2) : formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denomCheck.status ? reduceStringAssets(denomCheck.denom) : reduceStringAssets(denom)}</span>
 				{denom?.toLowerCase() === consts.DENOM_ORAI ? (
 					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
