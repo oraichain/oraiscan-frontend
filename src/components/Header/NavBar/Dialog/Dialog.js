@@ -1,37 +1,37 @@
 // @ts-nocheck
-import React, {useState, useEffect, memo} from "react";
+import React, { useState, useEffect, memo } from "react";
 // import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {useForm, FormProvider} from "react-hook-form";
-import {useHistory} from "react-router-dom";
+import { useForm, FormProvider } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames/bind";
 import _ from "lodash";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {showAlert} from "src/store/modules/global";
+import { showAlert } from "src/store/modules/global";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
-import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import config from "src/config";
 import "./Dialog.css";
 import consts from "src/constants/consts";
-import {args, handleTransactionResponse} from "src/helpers/transaction";
+import { args, handleTransactionResponse } from "src/helpers/transaction";
 import typeUrl from "src/constants/typeurl";
 import typeSend from "src/constants/typeSend";
-import {walletStation} from "src/lib/walletStation";
-import {notification} from "antd";
-import {handleErrorMessage} from "../../../../lib/scripts";
+import { walletStation } from "src/lib/walletStation";
+import { notification } from "antd";
+import { handleErrorMessage } from "../../../../lib/scripts";
 import styles from "./Dialog.module.scss";
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
+yup.addMethod(yup.string, "lessThanNumber", function (amount) {
 	return this.test({
 		name: "test-name",
 		exclusive: false,
@@ -56,7 +56,7 @@ const TABS = [
 	},
 ];
 
-const FormDialog = memo(({show, handleClose, address, account, amount, amountAiri}) => {
+const FormDialog = memo(({ show, handleClose, address, account, amount, amountAiri }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
@@ -78,7 +78,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const {handleSubmit, errors, register, setValue, getValues, setError, watch, trigger} = methods;
+	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
 	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(consts.NUM.COSMOS_DECIMAL).toFixed(0);
 	const onSubmit = async data => {
 		try {
@@ -91,7 +91,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 				if (multiSendData) {
 					typeSendSubmit = typeSend.MULTISEND;
 					msg = multiSendData.map(v => {
-						total_amount = +v.amount + total_amount;
+						total_amount = +v.amount * Math.pow(10,6) + total_amount;
 						return {
 							type: typeUrl.MSG_SEND,
 							value: {
@@ -106,6 +106,8 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 							},
 						};
 					});
+					console.log({ total: msg, total_amount });
+
 				} else {
 					total_amount = new BigNumber(data.sendAmount.toString().replaceAll(",", ""))
 						.plus(new BigNumber(total_amount))
@@ -126,7 +128,7 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 						},
 					];
 				}
-				payload = args({msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: total_amount.toFixed(0)});
+				payload = args({ msg, type: typeSendSubmit, fromAddress: address, toAddress: data?.recipientAddress, totalAmount: total_amount.toFixed(0) });
 			} else if (activeTabId === 3) {
 				let executeMsg = {
 					type: typeUrl.MSG_EXECUTE_CONTRACT,
@@ -138,33 +140,33 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 					},
 				};
 				const parseTransferAiri = (address, amount) => {
-					return JSON.stringify({transfer: {recipient: address, amount: handleBigNumber(amount)}});
+					return JSON.stringify({ transfer: { recipient: address, amount: handleBigNumber(amount) } });
 				};
 				let msgs = [];
 				if (multiSendData) {
 					let transferInfos = multiSendData.map(v => {
-						return {recipient: v.address, amount: handleBigNumber(v.amount)};
+						return { recipient: v.address, amount: handleBigNumber(v.amount) };
 					});
-					executeMsg.value.msg = JSON.stringify({multi_transfer: {transfer_infos: transferInfos}});
+					executeMsg.value.msg = JSON.stringify({ multi_transfer: { transfer_infos: transferInfos } });
 				} else {
 					total_amount = +data.sendAmount + total_amount;
 					executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
 				}
 				msgs = [executeMsg];
-				payload = args({msg: msgs, type: typeSend.CW20});
+				payload = args({ msg: msgs, type: typeSend.CW20 });
 			}
 			const response = await walletStation.sendCoin(payload);
 			handleClose();
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({message: handleErrorMessage(error)});
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		const callBack = function(e) {
+		const callBack = function (e) {
 			if (e && e.data === "deny") {
 				return handleClose();
 			}
@@ -223,10 +225,10 @@ const FormDialog = memo(({show, handleClose, address, account, amount, amountAir
 				</DialogTitle>
 				<DialogContent>
 					<div className={cx("tab-wrapper")}>
-						{TABS.map(({id, name}, index) => {
+						{TABS.map(({ id, name }, index) => {
 							return (
 								<button
-									className={cx({selected: id === activeTabId})}
+									className={cx({ selected: id === activeTabId })}
 									onClick={() => {
 										setValue("sendAmount", 0);
 										setActiveTabId(id);

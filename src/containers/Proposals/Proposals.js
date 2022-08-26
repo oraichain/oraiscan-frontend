@@ -304,7 +304,7 @@ export default function (props) {
 					...data,
 					subspace: "staking",
 					key: UNBONDING_TIME,
-					value: JSON.stringify(data?.unbondingTime),
+					value: JSON.stringify(new BigNumber(+data?.unbondingTime * Math.pow(10, 9)).toFixed(0))
 				};
 		}
 	};
