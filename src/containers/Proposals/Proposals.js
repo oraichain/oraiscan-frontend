@@ -62,9 +62,9 @@ const schema = yup.object().shape({
 		is: val => val === undefined,
 		then: yup
 			.string()
-			.test("is-greater", "Min value is 1 hour", function(value) {
+			.test("is-greater", "Min value is 1 hour", function (value) {
 				const defaultTime = "01:00:00";
-				return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
+				return moment(value || defaultTime, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
 			})
 			.notRequired(),
 		otherwise: yup.string().notRequired(),
@@ -151,7 +151,7 @@ const votingFields = [
 	},
 ];
 
-export default function(props) {
+export default function (props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
