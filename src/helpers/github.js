@@ -35,5 +35,5 @@ export const extractSource = source => {
 };
 
 export const getAuthorization = () => {
-	return "Bearer " + (process.env.REACT_APP_GITHUB_ACCESS_TOKEN || "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");
+	return "Bearer " + (process.env.REACT_APP_GITHUB_ACCESS_TOKEN);
 };
