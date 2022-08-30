@@ -40,7 +40,7 @@ const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	return typeMsg;
 };
 
-const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
+const TransactionCardList = memo(({ data = [], account, royalty = false, txHashClick = false }) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
 
@@ -196,9 +196,12 @@ const TransactionCardList = memo(({ data = [], account, royalty = false }) => {
 										{_.isNil(item?.tx_hash) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
-											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-												{reduceString(item.tx_hash, 6, 6)}
-											</NavLink>
+											!txHashClick ?
+												<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+													{reduceString(item.tx_hash, 6, 6)}
+												</NavLink> : <div className={cx("item-link")}>
+													{reduceString(item.tx_hash, 6, 6)}
+												</div>
 										)}
 									</td>
 								</tr>
