@@ -75,6 +75,11 @@
 		line-height: 150%;
 		cursor: pointer;
 
+		&:hover {
+			background-color: var(--common-activeTabColor);
+			color: var(--common-activeTabTextColor) !important;
+			border-color: var(--common-activeTabColor);
+		}
 		&-icon {
 			position: relative;
 			top: 2px;
