@@ -3,6 +3,9 @@
 </h2>
 
 _:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_
+# Oraichain
+
+![Banner!](https://cdn.discordapp.com/attachments/1014117272132010017/1014117366407381073/Full_Logo_Horizontal_BG-white.png)
 
 ## Overview
 
@@ -59,6 +62,9 @@ firebase use oraichain-mainnet
 firebase target:apply hosting oraiscan oraiscan
 firebase deploy --only hosting:oraiscan
 ```
+
+## Contributing
+Please read [CONTRIBUTING.md](https://github.com/oraichain/oraiscan-frontend/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
