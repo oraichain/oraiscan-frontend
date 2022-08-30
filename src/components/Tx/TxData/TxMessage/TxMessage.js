@@ -709,18 +709,20 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			);
 		};
 
-		const getFundsRow = (label, key = 0, rawLog = [], result = "") => {
-			console.log({ key, result, rawLog });
+		const getFundsRow = (label, key = 0, rawLog = [], result = "", amount) => {
 			return (
-				<InfoRow isTransfer={true} label={label}>
-					{Array.isArray(rawLog) && rawLog.length !== 0 && (
-						<ThemedTable
-							headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
-							headerCells={getFundsHeaderRow()?.headerCells}
-							dataRows={getFundsDataRows(rawLog)}
-						/>
+				<>
+					{Array.isArray(rawLog) && rawLog.length !== 0 && (amount.length < 2) && (
+						<InfoRow isTransfer={true} label={label}>
+							<ThemedTable
+								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
+								headerCells={getFundsHeaderRow()?.headerCells}
+								dataRows={getFundsDataRows(rawLog)}
+							/>
+						</InfoRow>
 					)}
-				</InfoRow>
+				</>
+
 			);
 		};
 
