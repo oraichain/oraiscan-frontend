@@ -348,7 +348,7 @@ const TxMessageContent = ({
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{/* {getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])} */}
-						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result)}
+						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result, data.amount)}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
