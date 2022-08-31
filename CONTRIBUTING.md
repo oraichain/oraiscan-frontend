@@ -4,7 +4,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
-## Proposing changes
+## Preparing PR changes
 
 1. [Fork the repository](https://github.com/oraichain/oraiscan-frontend).
 2. [Add an upstream](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) so that you can update your fork.
