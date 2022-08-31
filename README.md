@@ -64,8 +64,8 @@ firebase deploy --only hosting:oraiscan
 ```
 
 ## Contributing
-Please read [CONTRIBUTING.md](https://github.com/oraichain/oraiscan-frontend/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
-Released under the [Apache 2.0 License](https://github.com/oraichain/oraiscan-frontend/LICENSE).
+Released under the [Apache 2.0 License](LICENSE).

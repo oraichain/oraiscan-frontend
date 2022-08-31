@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {calRemainingTime, formatDateTime, formatOrai} from "src/helpers/helper";
-import {_, reduceString} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { calRemainingTime, formatDateTime, formatOrai } from "src/helpers/helper";
+import { _, reduceString } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./UnbondingTable.module.scss";
 
@@ -18,10 +18,10 @@ export const getHeaderRow = () => {
 	const completionTimeHeaderCell = <div className={cx("completion-time-header-cell", "align-right")}>Completion Time</div>;
 	const headerCells = [validatorHeaderCell, heightHeaderCell, amountHeaderCell, completionTimeHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // Validator
-		{width: "auto"}, // Height
-		{width: "auto"}, // Amount
-		{width: "auto"}, // Completion Time
+		{ width: "auto" }, // Validator
+		{ width: "auto" }, // Height
+		{ width: "auto" }, // Amount
+		{ width: "auto" }, // Completion Time
 	];
 	return {
 		headerCells,
@@ -29,13 +29,19 @@ export const getHeaderRow = () => {
 	};
 };
 
-const UnbondingTable = memo(({data}) => {
+const UnbondingTable = memo(({ data }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
+			let balance = 0;
+			if (item?.entries) {
+				for (const iterator of item?.entries) {
+					balance += +iterator.balance
+				}
+			}
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -50,12 +56,12 @@ const UnbondingTable = memo(({data}) => {
 				<div className={cx("height-data-cell", "align-right")}>{item.entries[0].creation_height}</div>
 			);
 
-			const amountDataCell = _.isNil(item?.entries?.[0]?.balance) ? (
+			const amountDataCell = _.isNil(balance) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("amount-data-cell", "align-right")}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(item.entries[0].balance)}</span>
+						<span className={cx("amount-value")}>{formatOrai(balance)}</span>
 						<span className={cx("amount-denom")}>ORAI</span>
 					</div>
 				</div>
