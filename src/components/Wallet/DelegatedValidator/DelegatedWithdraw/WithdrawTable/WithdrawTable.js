@@ -97,16 +97,16 @@ const WithdrawTable = memo(({data}) => {
 				<div className={cx("unbonded-data-cell", "align-left")}>{formatOrai(item.unbonded)}</div>
 			);
 
-			const withdrawableDataCell = _.isNil(item?.withdrawable) ? (
+			const withdrawableDataCell = _.isNil(item?.staked) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("withdrawable-data-cell", "align-left")}>{formatOrai(item.withdrawable)}</div>
+				<div className={cx("withdrawable-data-cell", "align-left")}>{formatOrai(item.staked)}</div>
 			);
 
 			const withdrawDataCell = (
 				<WithdrawBtn
 					validatorAddress={item?.validator_address}
-					withdrawable={item?.withdrawable}
+					withdrawable={item?.staked}
 					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw"})}
 					validatorName={item.validator}
 				/>
@@ -115,7 +115,7 @@ const WithdrawTable = memo(({data}) => {
 			const redelegateDataCell = (
 				<RedelegateBtn
 					validatorAddress={item?.validator_address}
-					withdrawable={item?.withdrawable}
+					withdrawable={item?.staked}
 					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Redelegate"})}
 					validatorName={item.validator}
 				/>
