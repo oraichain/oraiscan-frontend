@@ -185,7 +185,7 @@ export const getTokenId = (rawLog = "[]", result = "") => {
 	return tokenId;
 };
 
-const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) => {
+const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txHashClick = false }) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
@@ -250,7 +250,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 		);
 	};
 
-	const getDataRows = data => {
+	const getDataRows = (data, txHashStatus) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
@@ -259,13 +259,16 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 			let newDenom = item?.messages?.[0]?.sent_funds?.[0]?.denom_name;
 			let noDenomName = item?.amount?.[0]?.sent_funds?.[0]?.denom;
 			let amountDenomName = item?.amount?.[0]?.amount?.denom;
-
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-					{reduceString(item.tx_hash, 6, 6)}
-				</NavLink>
+				txHashStatus ?
+					<div className={cx("tx-hash-data-cell", "align-left")}>
+						{reduceString(item.tx_hash, 6, 6)}
+					</div>
+					: <NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+						{reduceString(item.tx_hash, 6, 6)}
+					</NavLink>
 			);
 
 			const typeDataCell = _.isNil(item?.messages?.[item?.messages?.length - 1]?.["@type"]) ? (
@@ -466,7 +469,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false }) =
 	};
 
 	const headerRow = useMemo(() => getHeaderRow(royalty), []);
-	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
+	const dataRows = useMemo(() => getDataRows(data, txHashClick), [data, getDataRows]);
 
 	return (
 		<ThemedTable
