@@ -158,7 +158,7 @@ const TxList = () => {
 
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList data={tableData} />;
+			tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
 		} else {
 			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 		}
@@ -196,9 +196,9 @@ const TxList = () => {
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList data={tableData} />;
+					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
 				} else {
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList data={tableData} />;
+					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
 				}
 				prevDataRef.current = [...tableData];
 			} else {
