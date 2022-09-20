@@ -3,7 +3,8 @@ import * as React from "react";
 import { useState, useEffect, useRef} from "react";
 import { useParams } from "react-router";
 // import {ReCaptcha} from "react-recaptcha-google";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
+import PropTypes from "prop-types";
 import axios from "axios";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
@@ -19,7 +20,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "src/assets/account/CalendarIcon";
 import moment from "moment";
-import PropTypes from "prop-types";
 
 const cx = cn.bind(styles);
 
@@ -34,7 +34,7 @@ const ExportData = ({}) => {
 	const [endDate, setEndDate] = useState(currentDateUTC);
 	const params = useParams();
 	const account = params?.["account"];
-	const [disabledSubmit, setDisabledSubmit] = useState(true);
+	const [disabledSubmit, setDisabledSubmit] = useState(false);
 
 	// useEffect(() => {
 	// 	loadReCaptcha();
@@ -118,15 +118,15 @@ const ExportData = ({}) => {
 						</div>
 						<div className={cx("captcha-wrapper")}>
 							
-							<ReCAPTCHA
-								sitekey="6LfbMxMiAAAAAC9cZ14qd7TNCVdglqOi3bgUiBdk"
+							{/* <ReCAPTCHA
+								sitekey="6LdnYZ8dAAAAAJfN7IqLGcmtzAc2iFrnxznJb8Zu"
 								onChange={() => {
 									setDisabledSubmit(false)
 								}}
 								size='normal'
 								render='explicit'
 								data-theme='dark'
-							/>,
+							/> */}
 						</div>
 						<>
 							<div className={cx("random")}>
