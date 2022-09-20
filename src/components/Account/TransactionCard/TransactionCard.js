@@ -24,7 +24,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
-		setPageId(page); 
+		setPageId(page);
 	};
 
 	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
