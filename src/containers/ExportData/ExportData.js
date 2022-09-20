@@ -33,7 +33,7 @@ const ExportData = ({}) => {
 	const [startDate, setStartDate] = useState(currentDateUTC);
 	const [endDate, setEndDate] = useState(currentDateUTC);
 	const params = useParams();
-	const account = params?.["account"];
+	console.log({ params });
 	const [disabledSubmit, setDisabledSubmit] = useState(false);
 
 	// useEffect(() => {
@@ -41,6 +41,7 @@ const ExportData = ({}) => {
 	// }, []);
 
 	const download = async () => {
+		const account = params?.["account"];
 		axios({
 			method: "get",
 			url: `${consts.API_BASE}${consts.API.EXPORT_DATA}/${account}?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
