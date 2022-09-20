@@ -32,10 +32,6 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	// 	loadReCaptcha();    
 	// });
 
-	useEffect(() => {
-		loadReCaptcha();    
-	});
-
 	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
 	if (royalty) {
 		basePath = `${consts.API.TXS_ROYALTY}/${account}?limit=${consts.REQUEST.LIMIT}`;

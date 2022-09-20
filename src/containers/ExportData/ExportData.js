@@ -19,6 +19,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "src/assets/account/CalendarIcon";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 const cx = cn.bind(styles);
 
