@@ -119,7 +119,7 @@ const ExportData = ({}) => {
 						<div className={cx("captcha-wrapper")}>
 							
 							<ReCAPTCHA
-								sitekey="6LdnYZ8dAAAAAJfN7IqLGcmtzAc2iFrnxznJb8Zu"
+								sitekey="6LfbMxMiAAAAAC9cZ14qd7TNCVdglqOi3bgUiBdk"
 								onChange={() => {
 									setDisabledSubmit(false)
 								}}
