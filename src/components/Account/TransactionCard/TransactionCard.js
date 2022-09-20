@@ -29,7 +29,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	};
 
 	useEffect(() => {
-		loadReCaptcha();
+		loadReCaptcha();    
 	});
 
 	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
