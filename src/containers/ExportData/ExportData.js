@@ -1,9 +1,9 @@
 // @ts-nocheck
 import * as React from "react";
 import { useState, useEffect, useRef} from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 // import {ReCaptcha} from "react-recaptcha-google";
-// import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import PropTypes from "prop-types";
 import axios from "axios";
 import cn from "classnames/bind";
@@ -34,7 +34,7 @@ const ExportData = ({}) => {
 	const [endDate, setEndDate] = useState(currentDateUTC);
 	const params = useParams();
 	console.log({ params });
-	const [disabledSubmit, setDisabledSubmit] = useState(false);
+	const [disabledSubmit, setDisabledSubmit] = useState(true);
 
 	// useEffect(() => {
 	// 	loadReCaptcha();
@@ -119,7 +119,7 @@ const ExportData = ({}) => {
 						</div>
 						<div className={cx("captcha-wrapper")}>
 							
-							{/* <ReCAPTCHA
+							<ReCAPTCHA
 								sitekey="6LdnYZ8dAAAAAJfN7IqLGcmtzAc2iFrnxznJb8Zu"
 								onChange={() => {
 									setDisabledSubmit(false)
@@ -127,7 +127,7 @@ const ExportData = ({}) => {
 								size='normal'
 								render='explicit'
 								data-theme='dark'
-							/> */}
+							/>
 						</div>
 						<>
 							<div className={cx("random")}>
