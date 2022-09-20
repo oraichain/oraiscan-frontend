@@ -4,7 +4,6 @@ import { useState, useEffect, useRef} from "react";
 import { useParams } from "react-router";
 // import {ReCaptcha} from "react-recaptcha-google";
 import ReCAPTCHA from "react-google-recaptcha";
-import PropTypes from "prop-types";
 import axios from "axios";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
