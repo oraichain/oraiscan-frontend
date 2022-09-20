@@ -1,9 +1,9 @@
 // @ts-nocheck
 import * as React from "react";
-import {useState, useEffect, useRef} from "react";
-import {useParams} from "react-router";
-import { ReCaptcha} from "react-recaptcha-google";
-import PropTypes from "prop-types";
+import { useState, useEffect, useRef} from "react";
+import { useParams } from "react-router";
+// import {ReCaptcha} from "react-recaptcha-google";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import cn from "classnames/bind";
 import Container from "@material-ui/core/Container";
@@ -116,16 +116,16 @@ const ExportData = ({}) => {
 							</div>
 						</div>
 						<div className={cx("captcha-wrapper")}>
-							<ReCaptcha
-								size='normal'
-								data-theme='dark'
-								render='explicit'
-								sitekey='6LdnYZ8dAAAAAJfN7IqLGcmtzAc2iFrnxznJb8Zu'
-								onloadCallback={() => {}}
-								verifyCallback={() => {
-									setDisabledSubmit(false);
+							
+							<ReCAPTCHA
+								sitekey="6LdnYZ8dAAAAAJfN7IqLGcmtzAc2iFrnxznJb8Zu"
+								onChange={() => {
+									setDisabledSubmit(false)
 								}}
-							/>
+								size='normal'
+								render='explicit'
+								data-theme='dark'
+							/>,
 						</div>
 						<>
 							<div className={cx("random")}>

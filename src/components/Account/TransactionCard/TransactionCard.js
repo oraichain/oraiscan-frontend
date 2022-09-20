@@ -13,7 +13,7 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.module.scss";
-import {loadReCaptcha} from "react-recaptcha-google";
+// import {loadReCaptcha} from "react-recaptcha-google";
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +26,11 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 
 	const onPageChange = page => {
 		setPageId(page);
-	};
+	};   
+
+	// useEffect(() => {
+	// 	loadReCaptcha();    
+	// });
 
 	useEffect(() => {
 		loadReCaptcha();    
