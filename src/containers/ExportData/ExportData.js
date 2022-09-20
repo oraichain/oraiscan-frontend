@@ -2,7 +2,7 @@
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useParams} from "react-router";
-import {loadReCaptcha, ReCaptcha} from "react-recaptcha-google";
+import { ReCaptcha} from "react-recaptcha-google";
 import PropTypes from "prop-types";
 import axios from "axios";
 import cn from "classnames/bind";
@@ -25,8 +25,8 @@ const cx = cn.bind(styles);
 const ExportData = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const [showModal, setShowModal] = useState(false);
-	const [txResponse, setTxResponse] = useState({});
+	// const [showModal, setShowModal] = useState(false);
+	// const [txResponse, setTxResponse] = useState({});
 	const currentDateUTC = moment().toDate();
 	currentDateUTC.setHours(0, 0, 0, 0);
 	const [startDate, setStartDate] = useState(currentDateUTC);
@@ -34,10 +34,6 @@ const ExportData = ({}) => {
 	const params = useParams();
 	const account = params?.["account"];
 	const [disabledSubmit, setDisabledSubmit] = useState(true);
-
-	useEffect(() => {
-		loadReCaptcha();
-	}, []);
 
 	const download = async () => {
 		axios({

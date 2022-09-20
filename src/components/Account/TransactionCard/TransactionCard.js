@@ -1,4 +1,4 @@
-import React, {memo, useState, useRef} from "react";
+import React, {memo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -13,7 +13,7 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.module.scss";
-
+import {loadReCaptcha} from "react-recaptcha-google";
 const cx = classNames.bind(styles);
 
 const TransactionCard = memo(({account = "", royalty = false}) => {
@@ -65,6 +65,9 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 		}
 	}
 
+	useEffect(() => {
+		loadReCaptcha();
+	});
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
