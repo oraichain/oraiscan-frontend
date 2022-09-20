@@ -26,7 +26,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 
 	const onPageChange = page => {
 		setPageId(page);
-	};
+	};   
 
 	useEffect(() => {
 		loadReCaptcha();    
