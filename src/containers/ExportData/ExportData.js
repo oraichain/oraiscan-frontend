@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
-import {useParams} from "react-router";
-import {loadReCaptcha, ReCaptcha} from "react-recaptcha-google";
+import {useParams} from "react-router-dom";
+import { ReCaptcha} from "react-recaptcha-google";
 import PropTypes from "prop-types";
 import axios from "axios";
 import cn from "classnames/bind";
@@ -35,9 +35,9 @@ const ExportData = ({}) => {
 	const account = params?.["account"];
 	const [disabledSubmit, setDisabledSubmit] = useState(true);
 
-	useEffect(() => {
-		loadReCaptcha();
-	}, []);
+	// useEffect(() => {
+	// 	loadReCaptcha();
+	// }, []);
 
 	const download = async () => {
 		axios({

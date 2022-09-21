@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+  import React, { memo, useState } from "react";
 import classNames from "classnames/bind";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,8 +7,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import consts from "src/constants/consts";
-import {tableThemes} from "src/constants/tableThemes";
+import { tableThemes } from "src/constants/tableThemes";
 import styles from "./ThemedTable.module.scss";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const cx = classNames.bind(styles);
 const effect = {
@@ -18,75 +20,80 @@ const effect = {
 };
 
 const ThemedTable = memo(
-	({customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [], rowMotions = [], dataCellStyles = ""}) => {
+	({ customClassNames, theme = tableThemes.LIGHT, headerCells, dataRows, headerCellStyles = [], rowMotions = [], dataCellStyles = "" }) => {
+		const themeBreakPoints = useTheme();
+		const isLargeScreen = useMediaQuery(themeBreakPoints.breakpoints.up("lg"));
 		return (
-			<TableContainer className={cx("table-container", customClassNames)}>
-				<Table className={cx("table", "table-theme")}>
-					<TableHead>
-						<TableRow className={cx("header-row")}>
-							{Array.isArray(headerCells) && (
-								<>
-									{headerCells.map((headerCell, cellIndex) => (
-										<TableCell
-											key={"header-cell-" + cellIndex}
-											className={cx("header-cell")}
-											children={headerCell}
-											style={headerCellStyles?.[cellIndex] ?? {}}
-										/>
-									))}
-								</>
-							)}
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{Array.isArray(dataRows) &&
-							dataRows.map((dataRow, rowIndex) => {
-								const tableCells = dataRow.map((dataCell, cellIndex) => (
-									<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} />
-								));
+			<div>
+				<TableContainer className={isLargeScreen ? cx("table-container", customClassNames) : {}}>
+					<Table className={isLargeScreen ? cx("table", "table-theme") : {}}>
+						{
+							isLargeScreen && <TableHead>
+								<TableRow className={cx("header-row")}>
+									{Array.isArray(headerCells) && (
+										<>
+											{headerCells.map((headerCell, cellIndex) => (
+												<TableCell
+													key={"header-cell-" + cellIndex}
+													className={cx("header-cell")}
+													children={headerCell}
+													style={headerCellStyles?.[cellIndex] ?? {}}
+												/>
+											))}
+										</>
+									)}
+								</TableRow>
+							</TableHead>
+						}
+						<TableBody>
+							{Array.isArray(dataRows) &&
+								dataRows.map((dataRow, rowIndex) => {
+									const tableCells = dataRow.map((dataCell, cellIndex) => (
+										isLargeScreen ? <TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} /> :
+											<div key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} />
+									));
+									let effectIn;
+									switch (rowMotions?.[rowIndex]) {
+										case effect.IN:
+											effectIn = true;
+											break;
+										case effect.OUT:
+											effectIn = false;
+											break;
+										default:
+											effectIn = null;
+											break;
+									}
+									if (typeof effectIn === "boolean") {
+										const effectClassName = effectIn ? "effect-in" : "effect-out";
+										const animationDelay = effectIn ? "500ms" : "0ms";
+										return (
+											<TableRow
+												className={cx("data-row", effectClassName)}
+												key={"table-row-" + rowIndex}
+												style={{
+													animationDelay: animationDelay,
+												}}
+												onAnimationEnd={e => {
+													if (!effectIn) {
+														e.target.style.display = "none";
+													}
+												}}>
+												{tableCells}
+											</TableRow>
+										);
+									}
 
-								let effectIn;
-								switch (rowMotions?.[rowIndex]) {
-									case effect.IN:
-										effectIn = true;
-										break;
-									case effect.OUT:
-										effectIn = false;
-										break;
-									default:
-										effectIn = null;
-										break;
-								}
-
-								if (typeof effectIn === "boolean") {
-									const effectClassName = effectIn ? "effect-in" : "effect-out";
-									const animationDelay = effectIn ? "500ms" : "0ms";
 									return (
-										<TableRow
-											className={cx("data-row", effectClassName)}
-											key={"table-row-" + rowIndex}
-											style={{
-												animationDelay: animationDelay,
-											}}
-											onAnimationEnd={e => {
-												if (!effectIn) {
-													e.target.style.display = "none";
-												}
-											}}>
+										<TableRow className={cx("data-row")} key={"table-row-" + rowIndex}>
 											{tableCells}
 										</TableRow>
 									);
-								}
-
-								return (
-									<TableRow className={cx("data-row")} key={"table-row-" + rowIndex}>
-										{tableCells}
-									</TableRow>
-								);
-							})}
-					</TableBody>
-				</Table>
-			</TableContainer>
+								})}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</div>
 		);
 	}
 );
