@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from "react";
 import {useState, useEffect, useRef} from "react";
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 import { ReCaptcha} from "react-recaptcha-google";
 import PropTypes from "prop-types";
 import axios from "axios";
