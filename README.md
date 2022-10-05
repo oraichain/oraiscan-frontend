@@ -5,7 +5,8 @@
 _:star: Based on [Mintscan by Cosmostation](https://github.com/cosmostation/mintscan-binance-dex-frontend)_
 # Oraichain
 
-![Banner!](https://cdn.discordapp.com/attachments/1014117272132010017/1014117366407381073/Full_Logo_Horizontal_BG-white.png)
+![Banner!](./doc/logo-full-h-light.png#gh-light-mode-only)
+![Banner!](./doc/logo-full-h-dark.png#gh-dark-mode-only)
 
 ## Overview
 
