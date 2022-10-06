@@ -2,7 +2,7 @@ import React from "react";
 import ReactJson from "react-json-view";
 import InfoRow from "src/components/common/InfoRow";
 import { formatFloat } from "src/helpers/helper";
-import { tryParseMessage } from "src/lib/scripts";
+import { tryParseMessage, compareTypeMessage } from "src/lib/scripts";
 import BigNumber from "bignumber.js";
 import cn from "classnames/bind";
 import styles from "./TxMessage.module.scss";
@@ -47,7 +47,7 @@ const TxMessageContent = ({
 				<span className={cx("title")}>{getTxTypeNew(type, data?.result, value)}</span>
 			</div>
 			<div className={cx("card-body")}>
-				{type === txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CREATE_VALIDATOR, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CREATE_VALIDATOR]) && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
@@ -79,22 +79,21 @@ const TxMessageContent = ({
 						</div>
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_DELEGATE && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_DELEGATE, txTypes.COSMOS_SDK_NEW_VERSION.MSG_DELEGATE]) && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
-				.
-				{type === txTypes.COSMOS_SDK.MSG_UNDELEGATE && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_UNDELEGATE, txTypes.COSMOS_SDK_NEW_VERSION.MSG_UNDELEGATE]) && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_SEND && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_SEND, txTypes.COSMOS_SDK_NEW_VERSION.MSG_SEND]) && (
 					<>
 						{getAddressRow("From Address", value?.from_address, value?.from_address_tag)}
 						{getAddressRow("To Address", value?.to_address, value?.to_address_tag)}
@@ -102,7 +101,7 @@ const TxMessageContent = ({
 						{getInfoRow("Memo", memo)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_MULTI_SEND && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_MULTI_SEND, txTypes.COSMOS_SDK_NEW_VERSION.MSG_MULTI_SEND]) && (
 					<>
 						{getAddressRow("From Address", value?.inputs?.[0]?.address, value?.inputs?.[0]?.address_tag)}
 						{getCurrencyRowFromObject("Total Amount", value?.inputs?.[0]?.coins?.[0])}
@@ -110,7 +109,7 @@ const TxMessageContent = ({
 						{getInfoRow("Memo", memo)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_EDIT_VALIDATOR, txTypes.COSMOS_SDK_NEW_VERSION.MSG_EDIT_VALIDATOR]) && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getInfoRow("Commission Rate", new BigNumber(value?.commission_rate || 0).toFixed(6))}
@@ -126,14 +125,14 @@ const TxMessageContent = ({
 						</div>
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATOR_REWARD && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_WITHDRAW_DELEGATOR_REWARD, txTypes.COSMOS_SDK_NEW_VERSION.MSG_WITHDRAW_DELEGATOR_REWARD]) && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address, value?.delegator_address_tag)}
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", value?.amount)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_WITHDRAW_VALIDATOR_COMMISSION && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_WITHDRAW_VALIDATOR_COMMISSION, txTypes.COSMOS_SDK_NEW_VERSION.MSG_WITHDRAW_VALIDATOR_COMMISSION]) && (
 					<>
 						{getAddressRow("Validator Address", value?.validator_address)}
 						{getCurrencyRowFromObject("Amount", data?.amount)}
@@ -316,14 +315,14 @@ const TxMessageContent = ({
 						{getInfoRow("Validator Count", value?.validator_count)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_VOTE && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_VOTE, txTypes.COSMOS_SDK_NEW_VERSION.MSG_VOTE]) && (
 					<>
 						{getInfoRow("Option", value?.option)}
 						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 						{getAddressRow("Voter", value?.voter, value?.voter_tag)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_VOTE]) && (
 					<>
 						{getInfoRow("Code Id", value?.code_id)}
 						{getInfoRow("Label", value?.label)}
@@ -342,7 +341,7 @@ const TxMessageContent = ({
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.EXECUTE_CONTRACT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.EXECUTE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT]) && (
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
@@ -363,7 +362,7 @@ const TxMessageContent = ({
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_IBC_TRANSFER && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_TRANSFER, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_TRANSFER]) && (
 					<>
 						{getInfoRow("Source Port", value?.source_port)}
 						{getInfoRow("Source Channel", value?.source_channel)}
@@ -387,7 +386,7 @@ const TxMessageContent = ({
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_UPDATE_CLIENT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Client ID", value?.client_id)}
@@ -407,7 +406,7 @@ const TxMessageContent = ({
 						{getInfoRow("Proposer Address", value?.header.signed_header.header.proposer_address)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_IBC_RECV_PACKET && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_RECV_PACKET, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_RECV_PACKET]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Sequence", value?.packet.sequence)}
@@ -417,7 +416,7 @@ const TxMessageContent = ({
 						{getIbcReceivedRows(value?.packet.data)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.STORE_CODE && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.STORE_CODE, txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE]) && (
 					<>
 						{getInfoRow("Code Id", value?.code_id)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
@@ -430,7 +429,7 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_SUBMIT_PROPOSAL && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_SUBMIT_PROPOSAL, txTypes.COSMOS_SDK_NEW_VERSION.MSG_SUBMIT_PROPOSAL]) && (
 					<>
 						{getAddressRow("Proposer", value?.proposer, value?.proposer_tag)}
 						{value?.content && getInfoRow("Proposal type", value?.content["@type"])}
@@ -440,14 +439,14 @@ const TxMessageContent = ({
 						{getCurrencyRowFromObject("Initial deposit", value?.initial_deposit?.[0])}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_DEPOSIT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_DEPOSIT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_DEPOSIT]) && (
 					<>
 						{getAddressRow("Depositor", value?.depositor, value?.depositor_tag)}
 						{getCurrencyRowFromObject("Amount", value?.amount?.[0])}
 						{getLinkRow("Proposal ID", "Proposal", value?.proposal_id, `/proposals/${value?.proposal_id}`)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_BEGIN_REDELEGATE, txTypes.COSMOS_SDK_NEW_VERSION.MSG_BEGIN_REDELEGATE]) && (
 					<>
 						{getAddressRow("Delegator Address", value?.delegator_address, "")}
 						{getAddressRow("Source Validator", value?.validator_src_address, "")}
@@ -465,7 +464,7 @@ const TxMessageContent = ({
 						</InfoRow> */}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_CONFIRM, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CONNECTION_OPEN_CONFIRM]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Connection ID", value?.connection_id)}
@@ -474,7 +473,7 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CREATE_CLIENT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CREATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CREATE_CLIENT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
@@ -486,7 +485,7 @@ const TxMessageContent = ({
 						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_TRY, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CONNECTION_OPEN_TRY]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
@@ -498,7 +497,7 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Init", value?.proof_init)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_TRY, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CHANNEL_OPEN_TRY]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Port ID", value?.port_id)}
@@ -507,7 +506,7 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Init", value?.proof_init)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_CONFIRM, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CHANNEL_OPEN_CONFIRM]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Port ID", value?.port_id)}
@@ -515,7 +514,7 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Ack", value?.proof_ack)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CONNECT_OPEN_INIT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CONNECT_OPEN_INIT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Client ID", value?.client_id)}
@@ -523,7 +522,7 @@ const TxMessageContent = ({
 						{getInfoRow("Connection ID", value?.connection_id)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CONNECTION_OPEN_ACK, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CONNECTION_OPEN_ACK]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
@@ -533,14 +532,14 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Try", value?.proof_try)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_INIT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CHANNEL_OPEN_INIT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Port ID", value?.port_id)}
 						{getInfoRowSummary("Version", value?.channel?.version)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CHANNEL_OPEN_ACK, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CHANNEL_OPEN_ACK]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Port ID", value?.port_id)}
@@ -549,7 +548,7 @@ const TxMessageContent = ({
 						{getInfoRowSummary("Proof Try", value?.proof_try)}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_CHANNEL_ACKNOWLEDGEMENT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_CHANNEL_ACKNOWLEDGEMENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_CHANNEL_ACKNOWLEDGEMENT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Sequence", value?.packet.sequence)}
@@ -574,7 +573,7 @@ const TxMessageContent = ({
 						{getInfoRow("Timeout Timestamp", new Date(value?.packet?.timeout_timestamp / Math.pow(10, 9)).toTimeString())}
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_TIMEOUT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_TIMEOUT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_TIMEOUT]) && (
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Sequence", value?.packet?.sequence)}
@@ -598,7 +597,7 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
-				{type === txTypes.COSMOS_SDK.MSG_MIGRATE_CONTRACT && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_MIGRATE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_MIGRATE_CONTRACT]) && (
 					<>
 						{getInfoRow("Code ID", value?.code_id)}
 						{getAddressRow("Contract", value?.contract)}
