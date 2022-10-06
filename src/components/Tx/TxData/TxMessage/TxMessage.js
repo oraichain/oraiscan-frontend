@@ -82,7 +82,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	let type = msg["@type"] || "";
 	const { memo } = data;
 	useEffect(() => {
-		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_MIGRATE.STORE_CODE) {
 			const loadStoreCode = async () => {
 				let source = msg?.source;
 				source = source?.split?.(" ")?.[0];
@@ -282,8 +282,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			const data = JSON.parse(atob(value));
 			return (
 				<div>
-					{getInfoRow("Denom", reduceString(data.denom))}
-					{getInfoRow("Amount", data.amount)}
+					{getInfoRow("Denom", reduceString(checkTokenCW20(data.denom)?.denom || data?.denom))}
+					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1000000, 6) : data.amount)}
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
@@ -484,7 +484,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		}
 
 		let storeCodeElement;
-		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_MIGRATE.STORE_CODE) {
 			if (loadingStoreCode) {
 				storeCodeElement = <Skeleton className={cx("skeleton-block")} variant='rect' height={200} />;
 			} else {

@@ -222,3 +222,8 @@ export const handleErrorMessage = (error) => {
 	if (error.message && error.message.includes('rpc error: code = NotFound desc')) return `Account does not exist on chain. Send some tokens there before trying to query sequence.`
 	return `${messageError} ${JSON.stringify(error)}`;
 }
+
+export const compareTypeMessage = (str, arr) => {
+	if (!str) return false;
+	return arr.includes(str);
+}
