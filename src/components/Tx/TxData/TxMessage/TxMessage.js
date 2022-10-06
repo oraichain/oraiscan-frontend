@@ -399,7 +399,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
-			if (inputObject.length <= 0) {
+			if (!inputObject || inputObject?.length <= 0) {
 				return null;
 			}
 			const amountData = handleConditionAmount(label, inputObject, keepOriginValue);
@@ -537,14 +537,13 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const getContractAddress = rawLogString => {
 			try {
 				const rawLogObj = JSON.parse(rawLogString);
-				const messageEvent = rawLogObj[0].events.find(event => event?.type === "message");
+				const messageEvent = rawLogObj[0].events.find(event => event?.type === "instantiate");
 
 				if (_.isNil(messageEvent)) {
 					return "-";
 				}
 
-				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "contract_address");
-
+				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "_contract_address" || attribute.key === "contract_address");
 				if (_.isNil(contractAddressObj)) {
 					return "-";
 				}

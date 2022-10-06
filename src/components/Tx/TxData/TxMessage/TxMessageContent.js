@@ -322,12 +322,12 @@ const TxMessageContent = ({
 						{getAddressRow("Voter", value?.voter, value?.voter_tag)}
 					</>
 				)}
-				{compareTypeMessage(type, [txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_VOTE]) && (
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.INSTANTIATE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.INSTANTIATE_CONTRACT]) && (
 					<>
 						{getInfoRow("Code Id", value?.code_id)}
 						{getInfoRow("Label", value?.label)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
-						{getCurrencyRowFromObject("Init funds", value?.init_funds)}
+						{getCurrencyRowFromObject("Init funds", value?.init_funds ?? value?.funds)}
 						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
@@ -335,7 +335,7 @@ const TxMessageContent = ({
 								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 								displayObjectSize={false}
 								displayDataTypes={false}
-								src={tryParseMessage(value?.init_msg)}
+								src={tryParseMessage(value?.init_msg ?? value?.msg)}
 							/>
 						</InfoRow>
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
