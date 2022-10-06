@@ -37,7 +37,7 @@ export default Object.freeze({
 
 
 	// MIGRATE VERSION COSMOS
-	COSMOS_SDK_MIGRATE: {
+	COSMOS_SDK_NEW_VERSION: {
 		MSG_CREATE_VALIDATOR: "/cosmos.staking.v1.MsgCreateValidator",
 		MSG_DELEGATE: "/cosmos.staking.v1.MsgDelegate",
 		MSG_UNDELEGATE: "/cosmos.staking.v1.MsgUndelegate",

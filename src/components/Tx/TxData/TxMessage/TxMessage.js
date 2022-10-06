@@ -82,7 +82,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	let type = msg["@type"] || "";
 	const { memo } = data;
 	useEffect(() => {
-		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_MIGRATE.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
 			const loadStoreCode = async () => {
 				let source = msg?.source;
 				source = source?.split?.(" ")?.[0];
@@ -484,7 +484,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		}
 
 		let storeCodeElement;
-		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_MIGRATE.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
 			if (loadingStoreCode) {
 				storeCodeElement = <Skeleton className={cx("skeleton-block")} variant='rect' height={200} />;
 			} else {
