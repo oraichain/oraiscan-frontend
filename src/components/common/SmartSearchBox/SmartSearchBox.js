@@ -33,7 +33,7 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 			return false;
 		} else if (stringNumCheck(searchValue)) {
 			return "block";
-		} else if (searchValue.substring(0, 4).toLowerCase() === "orai" && searchValue.length === 43) {
+		} else if (searchValue.substring(0, 4).toLowerCase() === "orai" && (searchValue.length === 43 || searchValue.length === 63)) {
 			try {
 				setSearchTypes("account|checking");
 				const data = await axios.get(`${consts.API_BASE}${consts.API.SMART_CONTRACT}/${searchValue}`);
