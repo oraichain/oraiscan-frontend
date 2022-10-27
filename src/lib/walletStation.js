@@ -5,6 +5,10 @@ import consts from "src/constants/consts";
 import { GasPrice } from "@cosmjs/stargate";
 import { Decimal } from '@cosmjs/math';
 import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
+import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -59,7 +63,7 @@ export default class WalletStation {
                 case typeSign.DELEGATETOKENS:
                     return await client.delegateTokens(delegator_address, validator_address, amount, gas);
                 case typeSign.UNDELEGATETOKENS:
-                    return await client.undelegateTokens(delegator_address, validator_address, amount , gas);
+                    return await client.undelegateTokens(delegator_address, validator_address, amount, gas);
                 case typeSign.WITHDRAWREWARDS:
                     return await client.withdrawRewards(delegator_address, validator_address, gas);
             }
@@ -74,7 +78,7 @@ export default class WalletStation {
         const { arr_send, fromAddress, totalAmount } = payload;
         const message = {
             typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
-            value: {
+            value: MsgMultiSend.fromPartial({
                 inputs: [
                     {
                         address: fromAddress,
@@ -82,7 +86,7 @@ export default class WalletStation {
                     },
                 ],
                 outputs: arr_send,
-            }
+            })
         };
         return this.signBroadcast({ ...payload, msg: message });
     };
@@ -101,10 +105,10 @@ export default class WalletStation {
         for (let msg of msgs) {
             messages.push({
                 typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-                value: {
+                value: MsgWithdrawDelegatorReward.fromPartial({
                     delegatorAddress: msg.delegator_address,
                     validatorAddress: msg.validator_address,
-                }
+                })
             });
         }
         return this.signAndBroadCast(msgs?.[0]?.delegator_address, messages);
@@ -113,12 +117,12 @@ export default class WalletStation {
     redelegate = async (delegator_address, validator_src_address, validator_dst_address, amount) => {
         const message = {
             typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-            value: {
+            value: MsgBeginRedelegate.fromPartial({
                 delegatorAddress: delegator_address,
                 validatorSrcAddress: validator_src_address,
                 validatorDstAddress: validator_dst_address,
                 amount
-            }
+            })
         }
         return this.signAndBroadCast(delegator_address, [message]);
     };
@@ -126,9 +130,9 @@ export default class WalletStation {
     withdrawCommission = async (validator_address) => {
         const message = {
             type_url: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-            value: {
+            value: MsgWithdrawValidatorCommission.fromPartial({
                 validatorAddress: validator_address
-            }
+            })
         }
         return this.signAndBroadCast(validator_address, [message]);
     };
@@ -136,7 +140,7 @@ export default class WalletStation {
     createValidator = async (msg) => {
         const message = {
             type_url: '/cosmos.staking.v1beta1.MsgCreateValidator',
-            value: {
+            value: MsgCreateValidator.fromPartial({
                 description: msg.description,
                 commission: msg.commission,
                 delegatorAddress: msg.delegator_address,
@@ -144,7 +148,7 @@ export default class WalletStation {
                 pubkey: msg.pubkey,
                 validatorAddress: msg.validatorAddress,
                 value: msg.value,
-            }
+            })
         }
         return this.signAndBroadCast(msg.delegator_address, [message]);
     }
@@ -152,21 +156,21 @@ export default class WalletStation {
     deposit = async (proposalId, depositor, amount) => {
         const message = {
             type_url: '/cosmos.gov.v1beta1.MsgDeposit',
-            value: {
+            value: MsgDeposit.fromPartial({
                 proposalId: Number(proposalId), depositor: depositor, amount
-            }
+            })
         }
         return this.signAndBroadCast(proposalId, [message]);
     }
 
     vote = async (proposalId, voter, option) => {
         const message = {
-            type_url: '/cosmos.gov.v1beta1.MsgDeposit',
-            value: {
+            type_url: '/cosmos.gov.v1beta1.MsgVote',
+            value: MsgVote.fromPartial({
                 proposalId,
                 voter: voter,
                 option
-            }
+            })
         }
         return this.signAndBroadCast(proposalId, [message]);
     }
@@ -188,7 +192,7 @@ export default class WalletStation {
         const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
         const message = {
             type_url: "/cosmos.gov.v1beta1.MsgSubmitProposal",
-            value: {
+            value: MsgSubmitProposal.fromPartial({
                 content: {
                     type_url: "/cosmos.params.v1beta1.ParameterChangeProposal",
                     value: {
@@ -197,7 +201,7 @@ export default class WalletStation {
                 },
                 proposer: proposer,
                 initialDeposit: initial_deposit,
-            }
+            })
         }
         return this.signAndBroadCast(proposer, message);
     }
@@ -206,7 +210,7 @@ export default class WalletStation {
         const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
         const message = {
             type_url: "/cosmos.gov.v1beta1.MsgSubmitProposal",
-            value: {
+            value: MsgSubmitProposal.fromPartial({
                 content: {
                     type_url: "/cosmos.gov.v1beta1.TextProposal",
                     value: {
@@ -215,7 +219,7 @@ export default class WalletStation {
                 },
                 proposer: proposer,
                 initialDeposit: initial_deposit,
-            }
+            })
         }
         return this.signBroadcast(proposer, message);
     }
