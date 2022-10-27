@@ -140,6 +140,7 @@ export default Object.freeze({
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/wasm/v1beta1/contract",
 		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces",
+		COMMUNITY_POOL: '/cosmos/distribution/v1beta1/community_pool',
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
