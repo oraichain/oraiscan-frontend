@@ -57,11 +57,11 @@ export default class WalletStation {
                 case typeSign.CW20:
                     return await client.execute(fromAddress, contractAddress, msg, gas);
                 case typeSign.DELEGATETOKENS:
-                    return await client.delegateTokens(delegator_address, validator_address, amount);
+                    return await client.delegateTokens(delegator_address, validator_address, amount, gas);
                 case typeSign.UNDELEGATETOKENS:
-                    return await client.undelegateTokens(delegator_address, validator_address, amount);
+                    return await client.undelegateTokens(delegator_address, validator_address, amount , gas);
                 case typeSign.WITHDRAWREWARDS:
-                    return await client.withdrawRewards(delegator_address, validator_address);
+                    return await client.withdrawRewards(delegator_address, validator_address, gas);
             }
         } catch (ex) {
             console.log("signBroadcast msg error: ", ex);
