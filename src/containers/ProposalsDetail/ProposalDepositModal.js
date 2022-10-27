@@ -24,6 +24,7 @@ import Long from "long";
 import axios from "axios";
 import { walletStation } from "src/lib/walletStation";
 import { handleTransactionResponse } from "src/helpers/transaction";
+import { amountCoinDecimal } from "src/helpers/helper";
 import { useHistory } from "react-router-dom";
 import { handleErrorMessage } from "../../lib/scripts";
 
@@ -152,7 +153,8 @@ const ProposalDepositModal = memo(({ open, onClose, data }) => {
 			setLoadingTransaction(true);
 			const amount = parseFloat(input.sendAmount).toPrecision(6);
 			const response = await walletStation.deposit(new Long(data.proposal_id), address, [
-				{ denom: "orai", amount: new BigNumber(amount).multipliedBy(1000000).toString() },
+				// { denom: "orai", amount: new BigNumber(amount).multipliedBy(1000000).toString() },
+				{ denom: consts.DENOM, amount: amountCoinDecimal(amount) },
 			]);
 			console.log("Result deposit", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);

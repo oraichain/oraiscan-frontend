@@ -255,3 +255,8 @@ export const addressDisplay = str => {
 	if (!str) return "";
 	return str.substring(0, 9) + "..." + str.substring(str.length - 9);
 };
+
+export const amountCoinDecimal = (amount, decimal = 1000000) => {
+	if (!amount) return "0";
+	return (amount * decimal).toString();
+};

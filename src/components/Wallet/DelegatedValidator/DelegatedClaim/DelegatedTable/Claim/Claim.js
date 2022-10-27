@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import BigNumber from "bignumber.js";
-import {formatOrai} from "src/helpers/helper";
+import {formatOrai, amountCoinDecimal} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {useFetch, useHistory} from "src/hooks";
 import {walletStation} from "src/lib/walletStation";
@@ -104,8 +104,11 @@ const Claim = memo(({validatorAddress, BtnComponent}) => {
 				return;
 			}
 
-			const response = await walletStation.delegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
-			console.log("Result delegate: ", response);
+			const response = await walletStation.delegate(address, validatorAddress, {
+				denom: consts.DENOM,
+				amount: amountCoinDecimal(data.sendAmount)
+			});
+
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
