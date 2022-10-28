@@ -33,7 +33,6 @@ export default class WalletStation {
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
             prefix: network.denom,
-            gasLimits: { exec: 10000000 },
         });
     };
 
@@ -226,7 +225,7 @@ export default class WalletStation {
 
     randomnessContract = async (contract, msg, sender) => {
         const message = {
-            type_url: '/cosmwasm.wasm.v1beta1.MsgExecuteContract',
+            type_url: '/cosmwasm.wasm.v1.MsgExecuteContract',
             value: {
                 contract,
                 msg: Buffer.from(msg),

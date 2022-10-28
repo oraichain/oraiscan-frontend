@@ -106,16 +106,13 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 							},
 						};
 					});
-					payload = args({ msg, type: typeSubmit, fromAddress: address, totalAmount: total_amount });
+					payload = args({ msg, type: typeSubmit, fromAddress: address, totalAmount: total_amount.toFixed(0) });
 				} else {
-					total_amount = new BigNumber(data.sendAmount.toString().replaceAll(",", ""))
-						.plus(new BigNumber(total_amount))
-						.multipliedBy(consts.NUM.COSMOS_DECIMAL);
 					msg = {
 						amount: handleBigNumber(data.sendAmount),
 						denom: consts.DENOM
 					}
-					payload = { msg, type: typeSubmit, total_amount, fromAddress: address, toAddress: data.recipientAddress }
+					payload = { msg, type: typeSubmit, fromAddress: address, toAddress: data.recipientAddress }
 				}
 
 			} else if (activeTabId === 3) {
@@ -128,15 +125,10 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 					let transferInfos = multiSendData.map(v => {
 						return { recipient: v.address, amount: handleBigNumber(v.amount) };
 					});
-					// executeMsg.value.msg = { multi_transfer: { transfer_infos: transferInfos } };
 					msgs = { multi_transfer: { transfer_infos: transferInfos } };
 				} else {
-					total_amount = +data.sendAmount + total_amount;
-					// executeMsg.value.msg = parseTransferAiri(data.recipientAddress, data.sendAmount);
 					msgs = parseTransferAiri(data.recipientAddress, data.sendAmount);
 				}
-				// msgs = [executeMsg];
-				// await client.execute(address, config.AIRI_ADDR, msgs)
 				payload = args({ msg: msgs, type: typeSend.CW20, fromAddress: address, contractAddress: config.AIRI_ADDR, });
 			}
 			const response = await walletStation.sendCoin(payload);
