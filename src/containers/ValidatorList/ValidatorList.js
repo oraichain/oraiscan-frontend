@@ -66,7 +66,7 @@ const ValidatorList = props => {
 	});
 
 	const validators = useMemo(() => {
-		if (data && data?.data?.length > 0 && dataInActive && dataInActive?.data.length > 0) {
+		if (data && data?.data?.length > 0 && dataInActive) {
 			const newData = data?.data.concat(dataInActive?.data);
 			const validatorList = newData
 				.sort((val1, val2) => val2.self_bonded - val1.self_bonded)
