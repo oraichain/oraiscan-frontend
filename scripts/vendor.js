@@ -15,7 +15,7 @@ const webpack = require('webpack');
 const path = require('path');
 const package = require('../package.json');
 const { fallback } = require('../config-overrides');
-const ignores = [];
+const ignores = ['cosmjs-types'];
 const isDevelopment = process.env.NODE_ENV === 'development';
 const vendorPath = path.resolve(
 	isDevelopment ? 'vendor' : paths.appPublic,

@@ -11,6 +11,8 @@ import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -194,7 +196,7 @@ export default class WalletStation {
             value: {
                 content: Any.fromPartial({
                     typeUrl: "/cosmos.params.v1beta1.ParameterChangeProposal",
-                    value: Buffer.from(JSON.stringify(change_info))
+                    value: ParameterChangeProposal.encode(change_info).finish()
                 }),
                 proposer: proposer,
                 initialDeposit: initial_deposit,
@@ -209,8 +211,8 @@ export default class WalletStation {
             typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
             value: {
                 content: Any.fromPartial({
-                    typeUrl: "/cosmos.gov.v1.TextProposal",
-                    value: Buffer.from(JSON.stringify(change_info))
+                    typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+                    value: TextProposal.encode(change_info).finish()
                 }),
                 proposer: proposer,
                 initialDeposit: initial_deposit,
