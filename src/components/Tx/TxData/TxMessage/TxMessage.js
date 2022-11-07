@@ -82,7 +82,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	let type = msg["@type"] || "";
 	const { memo } = data;
 	useEffect(() => {
-		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
 			const loadStoreCode = async () => {
 				let source = msg?.source;
 				source = source?.split?.(" ")?.[0];
@@ -282,8 +282,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			const data = JSON.parse(atob(value));
 			return (
 				<div>
-					{getInfoRow("Denom", reduceString(data.denom))}
-					{getInfoRow("Amount", data.amount)}
+					{getInfoRow("Denom", reduceString(checkTokenCW20(data.denom)?.denom || data?.denom))}
+					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1000000, 6) : data.amount)}
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
@@ -399,7 +399,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		const getCurrencyRowFromObject = (label, inputObject, keepOriginValue = false) => {
-			if (inputObject.length <= 0) {
+			if (!inputObject || inputObject?.length <= 0) {
 				return null;
 			}
 			const amountData = handleConditionAmount(label, inputObject, keepOriginValue);
@@ -484,7 +484,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		}
 
 		let storeCodeElement;
-		if (type === txTypes.COSMOS_SDK.STORE_CODE) {
+		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
 			if (loadingStoreCode) {
 				storeCodeElement = <Skeleton className={cx("skeleton-block")} variant='rect' height={200} />;
 			} else {
@@ -537,14 +537,13 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const getContractAddress = rawLogString => {
 			try {
 				const rawLogObj = JSON.parse(rawLogString);
-				const messageEvent = rawLogObj[0].events.find(event => event?.type === "message");
+				const messageEvent = rawLogObj[0].events.find(event => event?.type === "instantiate");
 
 				if (_.isNil(messageEvent)) {
 					return "-";
 				}
 
-				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "contract_address");
-
+				const contractAddressObj = messageEvent?.attributes?.find(attribute => attribute.key === "_contract_address" || attribute.key === "contract_address");
 				if (_.isNil(contractAddressObj)) {
 					return "-";
 				}
