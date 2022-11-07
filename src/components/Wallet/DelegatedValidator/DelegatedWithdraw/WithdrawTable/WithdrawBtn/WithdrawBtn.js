@@ -9,7 +9,9 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction, minusFees, handleTransactionResponse} from "src/helpers/transaction";
+import {payloadTransaction, handleTransactionResponse} from "src/helpers/transaction";
+import { amountCoinDecimal} from "src/helpers/helper";
+import consts from "src/constants/consts";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
 import {calculateAmount} from "src/helpers/calculateAmount";
@@ -75,7 +77,10 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		// let amount = minusFees(fee, data.amount);
 		try {
 			setLoadingTransaction(true);
-			const response = await walletStation.undelegate(address, validatorAddress, new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000));
+			const response = await walletStation.undelegate(address, validatorAddress, {
+				denom: consts.DENOM,
+				amount: amountCoinDecimal(data.amount)
+			})
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);

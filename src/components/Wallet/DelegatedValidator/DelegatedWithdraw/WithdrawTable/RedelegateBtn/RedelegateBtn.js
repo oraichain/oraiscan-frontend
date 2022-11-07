@@ -18,6 +18,8 @@ import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import {handleErrorMessage} from "../../../../../../lib/scripts";
 import styles from "./RedelegateBtn.module.scss";
+import { amountCoinDecimal } from 'src/helpers/helper'
+import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
 
@@ -81,7 +83,11 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 				address,
 				validatorAddress,
 				data.recipientAddress,
-				new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
+				{
+					denom: consts.DENOM,
+					amount: amountCoinDecimal(data.amount) 
+				}
+				// new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
 			);
 
 			console.log("response redelegate: ", response);

@@ -23,6 +23,10 @@
 		"ctc": "all-contributors check"
 	},
 	"dependencies": {
+		"@cosmjs/cosmwasm-stargate": "^0.29.0",
+		"@cosmjs/math": "^0.29.0",
+		"@cosmjs/proto-signing": "^0.29.0",
+		"@cosmjs/stargate": "^0.29.0",
 		"@hookform/error-message": "0.0.5",
 		"@hookform/resolvers": "^1.2.0",
 		"@keplr-wallet/cosmos": "^0.9.12",
@@ -44,6 +48,7 @@
 		"classnames": "^2.2.6",
 		"constant-case": "^3.0.4",
 		"copy-to-clipboard": "^3.3.1",
+		"cosmjs-types": "^0.5.2",
 		"draft-js": "^0.11.7",
 		"draftjs-to-html": "^0.9.1",
 		"firebase": "^7.13.2",

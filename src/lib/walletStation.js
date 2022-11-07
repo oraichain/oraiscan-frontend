@@ -1,12 +1,18 @@
 // @ts-nocheck
-import Cosmos from "@oraichain/cosmosjs";
-import config from "src/config.js";
 import { network } from "src/lib/config/networks";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { stringToPath } from "@cosmjs/crypto";
-import CosmosMessages from "@oraichain/cosmos-messages";
-import typeSend from "src/constants/typeSend";
+import typeSign from "src/constants/typeSend";
 import consts from "src/constants/consts";
+import { GasPrice } from "@cosmjs/stargate";
+import { Decimal } from '@cosmjs/math';
+import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
+import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { Any } from "cosmjs-types/google/protobuf/any";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -16,132 +22,217 @@ export const broadcastModeObj = {
 };
 
 export default class WalletStation {
-    constructor() {
-        const cosmos = new Cosmos(network.lcd, network.chainId);
-        cosmos.setBech32MainPrefix(consts.DENOM);
-        this.cosmos = cosmos;
-    }
-
-    constructTxBody = async (messages) => {
-        const block = await this.cosmos.get('/blocks/latest');
-        const timeoutHeight = parseInt(block.block.header.height) + consts.NUM.TX_TIMEOUT_HEIGHT;
-        return this.cosmos.constructTxBody({ messages, timeout_height: timeoutHeight });
-    }
-
-    broadcastMsg = async (wallet, txBody, broadcastMode, fees) => {
-        try {
-            return this.cosmos.submit(wallet, txBody, broadcastMode, fees, 10000000);
-        } catch (ex) {
-            console.log("broadcast msg error: ", ex);
-            throw ex;
-        }
-    }
-
+    constructor() { }
     collectWallet = async () => {
         const keplr = await window.Keplr.getKeplr();
         if (!keplr) {
             throw consts.INSTALL_KEPLR_FIRST;
         }
-        return await keplr.getOfflineSignerAuto(this.cosmos.chainId);
+        return await keplr.getOfflineSignerAuto(network.chainId);
     };
 
-    sendCoin = async (args, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const { type = typeSend.SEND, totalAmount, fromAddress, toAddress, arr_send, msg } = args;
-        const wallet = await this.collectWallet();
-        const amount = [{ denom: this.cosmos.bech32MainPrefix, amount: totalAmount?.toString() }];
-        let message = "";
-        switch (type) {
-            case typeSend.SEND:
-                message = CosmosMessages.getMsgSend(fromAddress, toAddress, amount);
-                break;
-            case typeSend.MULTISEND:
-                message = CosmosMessages.getMsgMultiSend(fromAddress, amount, arr_send);
-                break;
-            case typeSend.CW20:
-                message = CosmosMessages.getMsgExecuteContract(msg?.[0]?.value?.contract, msg?.[0]?.value?.msg, msg?.[0]?.value?.sender);
-                break;
-            default:
-                break;
+    signerClient = async (wallet) => {
+        return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
+            gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
+            prefix: network.denom,
+        });
+    };
+
+    signAndBroadCast = async (address, messages, gas = 'auto') => {
+        try {
+            const wallet = await this.collectWallet();
+            const client = await this.signerClient(wallet);
+            return await client.signAndBroadcast(address, messages, gas);
+        } catch (ex) {
+            console.log("signAndBroadcast msg error: ", ex);
+            throw ex;
         }
-        const txBody = await this.constructTxBody([message]);
-        return this.broadcastMsg(wallet, txBody, broadcastMode);
     };
 
-    delegate = async (delegator_address, validator_address, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+    signBroadcast = async (props) => {
         const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgDelegate(delegator_address, validator_address, { denom: this.cosmos.bech32MainPrefix, amount: amount.toString() });
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
+        const client = await this.signerClient(wallet);
+        const { fromAddress, toAddress, contractAddress, msg, type = typeSign.SEND, gas = 'auto', delegator_address, validator_address, amount } = props
+        try {
+            switch (type) {
+                case typeSign.SEND:
+                    return await client.sendTokens(fromAddress, toAddress, [msg], gas)
+                case typeSign.MULTISEND:
+                    return await client.signAndBroadcast(fromAddress, [msg], gas);
+                case typeSign.CW20:
+                    return await client.execute(fromAddress, contractAddress, msg, gas);
+                case typeSign.DELEGATETOKENS:
+                    return await client.delegateTokens(delegator_address, validator_address, amount, gas);
+                case typeSign.UNDELEGATETOKENS:
+                    return await client.undelegateTokens(delegator_address, validator_address, amount, gas);
+                case typeSign.WITHDRAWREWARDS:
+                    return await client.withdrawRewards(delegator_address, validator_address, gas);
+            }
+        } catch (ex) {
+            console.log("signBroadcast msg error: ", ex);
+            throw ex;
+        }
+    };
 
-    undelegate = async (delegator_address, validator_address, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgUndelegate(delegator_address, validator_address, { denom: this.cosmos.bech32MainPrefix, amount: amount.toString() });
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
+    sendCoin = async (payload) => {
+        if (payload.type !== typeSign.MULTISEND) return this.signBroadcast(payload);
+        const { arr_send, fromAddress, totalAmount } = payload;
+        const message = {
+            typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
+            value: MsgMultiSend.fromPartial({
+                inputs: [
+                    {
+                        address: fromAddress,
+                        coins: [{ denom: consts.DENOM, amount: totalAmount?.toString() }],
+                    },
+                ],
+                outputs: arr_send,
+            })
+        };
+        return this.signBroadcast({ ...payload, msg: message });
+    };
 
-    redelegate = async (delegator_address, validator_src_address, validator_dst_address, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgReDelegate(delegator_address, validator_src_address, validator_dst_address, { denom: this.cosmos.bech32MainPrefix, amount: amount.toString() });
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
+    delegate = async (delegator_address, validator_address, amount) => {
+        return this.signBroadcast({ delegator_address, validator_address, amount, type: typeSign.DELEGATETOKENS });
+    };
 
-    withdrawCommission = async (validator_address, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgWithdrawValidatorCommission(validator_address);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
+    undelegate = async (delegator_address, validator_address, amount) => {
+        return this.signBroadcast({ delegator_address, validator_address, amount, type: typeSign.UNDELEGATETOKENS });
+    };
 
-    createValidator = async (msg, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgCreateValidator(msg.description, msg.commission, msg.delegator_address, msg.min_self_delegation, msg.pubkey, msg.validator_address, msg.value);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
-
-    deposit = async (proposalId, depositor, amount, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgDepositProposal(proposalId, depositor, amount);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
-
-    vote = async (proposalId, voter, option, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgVoteProposal(proposalId, voter, option);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
-    }
-
-    withdrawDelegatorReward = async (msgs, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
+    withdrawDelegatorReward = async (msgs) => {
+        if (!Array.isArray(msgs)) return this.signBroadcast({ delegator_address: msgs?.delegator_address, validator_address: msgs?.validator_address, type: typeSign.WITHDRAWREWARDS });
         let messages = [];
         for (let msg of msgs) {
-            messages.push(CosmosMessages.getMsgWithdrawDelegatorReward(msg.delegator_address, msg.validator_address));
+            messages.push({
+                typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+                value: MsgWithdrawDelegatorReward.fromPartial({
+                    delegatorAddress: msg.delegator_address,
+                    validatorAddress: msg.validator_address,
+                })
+            });
         }
-        return this.broadcastMsg(wallet, this.cosmos.constructTxBody({ messages }), broadcastMode);
+        return this.signAndBroadCast(msgs?.[0]?.delegator_address, messages);
     }
 
-    executeContract = async (contract, msg, sender, sentFunds, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgExecuteContract(contract, msg, sender, sentFunds);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
+    redelegate = async (delegator_address, validator_src_address, validator_dst_address, amount) => {
+        const message = {
+            typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+            value: MsgBeginRedelegate.fromPartial({
+                delegatorAddress: delegator_address,
+                validatorSrcAddress: validator_src_address,
+                validatorDstAddress: validator_dst_address,
+                amount
+            })
+        }
+        return this.signAndBroadCast(delegator_address, [message]);
+    };
+
+    withdrawCommission = async (validator_address) => {
+        const message = {
+            typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+            value: MsgWithdrawValidatorCommission.fromPartial({
+                validatorAddress: validator_address
+            })
+        }
+        return this.signAndBroadCast(validator_address, [message]);
+    };
+
+    createValidator = async (msg) => {
+        const message = {
+            typeUrl: '/cosmos.staking.v1beta1.MsgCreateValidator',
+            value: MsgCreateValidator.fromPartial({
+                description: msg.description,
+                commission: msg.commission,
+                delegatorAddress: msg.delegator_address,
+                minSelfDelegation: msg.min_self_delegation,
+                pubkey: msg.pubkey,
+                validatorAddress: msg.validatorAddress,
+                value: msg.value,
+            })
+        }
+        return this.signAndBroadCast(msg.delegator_address, [message]);
     }
 
-    parameterChangeProposal = async (proposer, amount, change_info, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount.toString() }]
-        const message = CosmosMessages.getMsgParameterChangeProposal(proposer, initial_deposit, change_info);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
+    deposit = async (proposalId, depositor, amount) => {
+        const message = {
+            typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+            value: MsgDeposit.fromPartial({
+                proposalId: Number(proposalId), depositor: depositor, amount
+            })
+        }
+        return this.signAndBroadCast(proposalId, [message]);
     }
 
-    textProposal = async (proposer, amount, change_info, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount.toString() }]
-        const message = CosmosMessages.getMsgTextProposal(proposer, initial_deposit, change_info);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
+    vote = async (proposalId, voter, option) => {
+        const message = {
+            typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+            value: MsgVote.fromPartial({
+                proposalId,
+                voter: voter,
+                option
+            })
+        }
+        return this.signAndBroadCast(proposalId, [message]);
     }
 
-    randomnessContract = async (contract, msg, sender, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
-        const wallet = await this.collectWallet();
-        const message = CosmosMessages.getMsgExecuteContract(contract, msg, sender);
-        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
+    executeContract = async (contract, msg, sender, funds) => {
+        const message = {
+            typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+            value: MsgExecuteContract.fromPartial({
+                contract,
+                msg: Buffer.from(msg),
+                sender,
+                funds,
+            })
+        }
+        return this.signAndBroadCast(sender, [message]);
+    }
+
+    parameterChangeProposal = async (proposer, amount, change_info) => {
+        const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
+        const message = {
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            value: {
+                content: Any.fromPartial({
+                    typeUrl: "/cosmos.params.v1beta1.ParameterChangeProposal",
+                    value: ParameterChangeProposal.encode(change_info).finish()
+                }),
+                proposer: proposer,
+                initialDeposit: initial_deposit,
+            }
+        }
+        return this.signAndBroadCast(proposer, [message]);
+    }
+
+    textProposal = async (proposer, amount, change_info,) => {
+        const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
+        const message = {
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            value: {
+                content: Any.fromPartial({
+                    typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+                    value: TextProposal.encode(change_info).finish()
+                }),
+                proposer: proposer,
+                initialDeposit: initial_deposit,
+            }
+        }
+        console.log("message: ", message)
+        return this.signAndBroadCast(proposer, [message]);
+    }
+
+    randomnessContract = async (contract, msg, sender) => {
+        const message = {
+            typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+            value: MsgExecuteContract.fromPartial({
+                contract,
+                msg: Buffer.from(msg),
+                sender,
+                // funds, 
+            })
+        }
+        return this.signAndBroadCast(sender, [message]);
     }
 }
 

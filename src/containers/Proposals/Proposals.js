@@ -319,7 +319,6 @@ export default function (props) {
 				response = await walletStation.textProposal(address, amount, {
 					title: data.title,
 					description: draftToHtml(data.description),
-					amount,
 				});
 			} else {
 				response = await walletStation.parameterChangeProposal(address, amount, {
