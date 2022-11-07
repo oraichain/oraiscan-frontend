@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
-import {Container} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { Container } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {initWallet} from "src/store/modules/wallet";
+import { initWallet } from "src/store/modules/wallet";
 import NavBarMobile from "./NavBarMobile";
 import styles from "./NavBar.module.scss";
 import consts from "src/constants/consts";
@@ -17,13 +17,15 @@ import TwitterIcon from "src/assets/community/TwitterIcon";
 import YoutubeIcon from "src/assets/community/YoutubeIcon";
 import RedditIcon from "src/assets/community/RedditIcon";
 import GithubIcon from "src/assets/community/GithubIcon";
-import {updateToken} from "src/firebase-cloud-message";
+import { updateToken } from "src/firebase-cloud-message";
 import NavBarDesktop from "./NavBarDesktop";
-import {ThemeSetup} from "src/helpers/helper";
+import { ThemeSetup } from "src/helpers/helper";
 
-import {FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle} from "react-icons/fa";
+import { FaTelegramPlane, FaTwitter, FaDiscord, FaGithub, FaLinkedin, FaInfoCircle } from "react-icons/fa";
 
 const cx = cn.bind(styles);
+
+
 
 const initialNavLinks = [
 	{
@@ -115,7 +117,7 @@ const initialNavLinks = [
 				list: [
 					{
 						title: "Build CosmWasm smart contracts + CosmWasm IDE",
-						link: "https://marketplace.visualstudio.com/items?itemName=oraichain.cosmwasm-ide",
+						link: "https://cwide.io",
 						icon: null,
 						target: "_blank",
 					},
@@ -135,26 +137,15 @@ const initialNavLinks = [
 		],
 	},
 	{
-		title: "Earn",
+		title: "Delegate",
 		// link: "/",
 		children: [
 			{
-				name: "STAKING TO EARN 29% APR",
+				name: "SECURE OUR DPOS NETWORK",
 				list: [
 					{
-						title: "Secure our DPoS network",
+						title: "Delegate to validators",
 						link: "https://scan.orai.io/validators",
-						icon: null,
-						target: "_blank",
-					},
-				],
-			},
-			{
-				name: "FARMING WITH ORAI",
-				list: [
-					{
-						title: "Available on Ethereum and Binance Smart Chain",
-						link: "https://yai.finance",
 						icon: null,
 						target: "_blank",
 					},
@@ -233,14 +224,54 @@ const initialNavLinks = [
 				name: "WEB 3.0",
 				list: [
 					{
-						title: "Data Hub",
-						link: "https://datahub.orai.io",
+						title: "DINO Hub",
+						link: "https://dinohub.io/",
 						icon: null,
 						target: "_blank",
 					},
 					{
 						title: "AI Marketplace",
-						link: "https://market.orai.io",
+						link: "https://ai.dinohub.io/",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Data Marketplace (Coming soon)",
+						link: "",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "INCUBATOR",
+				list: [
+					{
+						title: "DApps Accelerator Program",
+						link: "https://hackathon.orai.io/",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Orchai",
+						link: "https://orchai.io/",
+						icon: null,
+						target: "_blank",
+					},
+					{
+						title: "Oraichain Labs US",
+						link: "https://orai.us/",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "GAMEFI",
+				list: [
+					{
+						title: "Kawaii Islands",
+						link: "https://kawaii.global",
 						icon: null,
 						target: "_blank",
 					},
@@ -258,39 +289,28 @@ const initialNavLinks = [
 				],
 			},
 			{
-				name: "GAMEFI",
-				list: [
-					{
-						title: "Kawaii Islands",
-						link: "https://kawaii.global",
-						icon: null,
-						target: "_blank",
-					},
-					{
-						title: "Wen Lambo",
-						link: "https://dcrc-racing.web.app",
-						icon: null,
-						target: "_blank",
-					},
-				],
-			},
-			{
-				name: "INCUBATOR",
-				list: [
-					{
-						title: "EDVC",
-						link: "https://edvc.org",
-						icon: null,
-						target: "_blank",
-					},
-				],
-			},
-			{
 				name: "WALLET",
 				list: [
 					{
+						title: "OWallet",
+						link: "https://docs.orai.io/wallets/wallets",
+						icon: null,
+						target: "_blank",
+					},
+					{
 						title: "Oraichain Wallet",
-						link: "https://docs.orai.io/oraichain-wallet",
+						link: "https://docs.orai.io/wallets/wallets",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
+				name: "IDE",
+				list: [
+					{
+						title: "CosmWasm IDE",
+						link: "https://cwide.io/",
 						icon: null,
 						target: "_blank",
 					},
@@ -314,6 +334,17 @@ const initialNavLinks = [
 				],
 			},
 			{
+				name: "CAREERS",
+				list: [
+					{
+						title: "Job opportunities",
+						link: "https://careers.orai.io/",
+						icon: null,
+						target: "_blank",
+					},
+				],
+			},
+			{
 				name: "COMMUNITY",
 				list: [
 					{
@@ -330,7 +361,7 @@ const initialNavLinks = [
 					},
 					{
 						title: "Discord",
-						link: "https://discord.gg/uUVSh3Xb",
+						link: "https://discord.gg/wwjg2ddfzd",
 						icon: <FaDiscord />,
 						target: "_blank",
 					},
@@ -344,7 +375,7 @@ const initialNavLinks = [
 			},
 		],
 	},
-	{title: "Connect Wallet", link: null, type: "wallet", children: []},
+	{ title: "Connect Wallet", link: null, type: "wallet", children: [] },
 ];
 
 function isSlowBlock(lastest, blocks) {
@@ -359,12 +390,12 @@ function isSlowBlock(lastest, blocks) {
 	}
 }
 
-const NavBar = ({toggleSearchArea}) => {
+const NavBar = ({ toggleSearchArea }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const {isDarkTheme} = ThemeSetup();
+	const { isDarkTheme } = ThemeSetup();
 	const dispatch = useDispatch();
-	const {address} = useSelector(state => state.wallet);
+	const { address } = useSelector(state => state.wallet);
 	const [navLinks, setNavLinks] = useState(initialNavLinks);
 	const [isMaintaining, setIsMaintaining] = useState(false);
 
