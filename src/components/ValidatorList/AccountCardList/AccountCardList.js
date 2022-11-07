@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
-import styles from "./AccountCardList.scss";
+import styles from "./AccountCardList.module.scss";
 import {useSelector} from "react-redux";
 
 const AccountCardList = memo(({data = []}) => {

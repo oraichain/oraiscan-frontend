@@ -3,9 +3,9 @@ import React, {memo} from "react";
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
 import DonutChart from "react-donut-chart";
-import styles from "./CoinsCard.scss";
 import {themeIds} from "src/constants/themes";
 import {useSelector} from "react-redux";
+import styles from "./CoinsCard.module.scss";
 
 const EmptyCoinsCard = memo(({denom}) => {
 	const cx = classNames.bind(styles);

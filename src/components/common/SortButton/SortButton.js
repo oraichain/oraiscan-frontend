@@ -1,9 +1,9 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./SortButton.scss";
 //  assets
 import arrowBlackSVG from "src/assets/assets/arrow_bk.svg";
 import arrowGreySVG from "src/assets/assets/arrow_gr.svg";
+import styles from "./SortButton.module.scss";
 
 const cx = cn.bind(styles);
 

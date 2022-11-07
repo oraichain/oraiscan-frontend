@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./TxTable.scss";
 
 import consts from "src/constants/consts";
 import {_, empty} from "src/lib/scripts";
@@ -8,6 +7,7 @@ import {useFetch, useHistory} from "src/hooks";
 //  components
 import TxTableRows, {ThinTableRow} from "../TxTableRows";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
+import styles from "./TxTable.module.scss";
 
 const cx = cn.bind(styles);
 

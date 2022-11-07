@@ -7,7 +7,7 @@ import Skeleton from "react-skeleton-loader";
 import {useHistory} from "react-router-dom";
 
 import {setAgoTime} from "src/lib/scripts";
-import styles from "./TableRowMobile.scss";
+import styles from "./TableRowMobile.module.scss";
 
 const cx = cn.bind(styles);
 

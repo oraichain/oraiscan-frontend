@@ -1,8 +1,8 @@
 // @ts-nocheck
-import React, { memo, useEffect, useState } from "react";
+import React, {memo, useEffect, useState} from "react";
 import cn from "classnames/bind";
-import { useForm, FormProvider } from "react-hook-form";
-import { withStyles } from "@material-ui/core/styles";
+import {useForm, FormProvider} from "react-hook-form";
+import {withStyles} from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -12,11 +12,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 import * as yup from "yup";
-import styles from "./RandomnessPopup.scss";
 import config from "src/config.js";
-import { showAlert } from "src/store/modules/global";
-import { useDispatch } from "react-redux";
-import { walletStation, broadcastModeObj } from "src/lib/walletStation";
+import {showAlert} from "src/store/modules/global";
+import {useDispatch} from "react-redux";
+import {walletStation, broadcastModeObj} from "src/lib/walletStation";
+import styles from "./RandomnessPopup.module.scss";
+
 const cx = cn.bind(styles);
 
 // yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -73,8 +74,7 @@ const cx = cn.bind(styles);
 // 	},
 // }))(MuiDialogActions);
 
-
-const RandomnessPopup = memo(({ open, closeDialog, eventHandleGetRamdomValue, validatorName, userInput, setLoadingPopup, address }) => {
+const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, validatorName, userInput, setLoadingPopup, address}) => {
 	const dispatch = useDispatch();
 
 	// const methods = useForm({
@@ -92,11 +92,10 @@ const RandomnessPopup = memo(({ open, closeDialog, eventHandleGetRamdomValue, va
 					},
 				})
 			);
-			const response = await walletStation.randomnessContract(contract, msg, address, broadcastModeObj.BROADCAST_MODE_BLOCK)
+			const response = await walletStation.randomnessContract(contract, msg, address, broadcastModeObj.BROADCAST_MODE_BLOCK);
 			if (response.tx_response && response.tx_response.code === 0) {
 				await eventHandleGetRamdomValue(response, contract);
 			}
-
 		} catch (error) {
 			setLoadingPopup(false);
 			dispatch(
@@ -112,7 +111,7 @@ const RandomnessPopup = memo(({ open, closeDialog, eventHandleGetRamdomValue, va
 
 	useEffect(() => {
 		if (open) onSubmit();
-	}, [open])
+	}, [open]);
 
 	// const { handleSubmit, setValue, errors, clearErrors, getValues } = methods;
 

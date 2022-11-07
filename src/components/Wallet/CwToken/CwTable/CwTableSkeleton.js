@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import {getHeaderRow} from "./CwTable";
-import styles from "./CwTable.scss";
+import styles from "./CwTable.module.scss";
 
 const CwTableSkeleton = memo(({rows = 10}) => {
 	const cx = classNames.bind(styles);

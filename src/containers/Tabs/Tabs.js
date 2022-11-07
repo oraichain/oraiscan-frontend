@@ -27,9 +27,9 @@ import backIcon from "src/assets/header/back_ic.svg";
 
 // functions and components
 import {closePageBar} from "src/store/modules/global";
-import styles from "./Tabs.scss";
 import config from "src/config.js";
 
+import styles from "./Tabs.module.scss";
 import "./Tabs.css";
 import NetworkSwitcher from "src/components/common/NetworkSwitcher";
 import ModeSwitch from "src/components/common/ModeSwitch";
@@ -224,7 +224,7 @@ const Tabs = memo(() => {
 				activePath: "/oracle-scripts",
 			},
 		],
-		"Subnetworks": [
+		Subnetworks: [
 			{
 				pathName: "/ai-oracle",
 				title: "AI Oracle",
@@ -234,7 +234,7 @@ const Tabs = memo(() => {
 				pathName: `/randomness/${contract}`,
 				title: "VRF",
 				activePath: `/randomness/${contract}`,
-			}
+			},
 		],
 		// Others: [
 		// 	{

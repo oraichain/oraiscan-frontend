@@ -16,7 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
-import { isNil } from "lodash-es";
+import { isNil, isNaN } from "lodash-es";
 import { formatFloat } from "src/helpers/helper";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -38,46 +38,39 @@ import SelectBox from "src/components/common/SelectBox";
 import AddIcon from "src/icons/AddIcon";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import moment from "moment";
-import styles from "./Proposals.scss";
 import { walletStation } from "src/lib/walletStation";
 import { handleTransactionResponse } from "src/helpers/transaction";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import { handleErrorMessage } from "../../lib/scripts";
 import BigNumber from "bignumber.js";
+import styles from "./Proposals.module.scss";
+import { ORAI } from "src/lib/config/constants";
 
 const cx = cn.bind(styles);
-
-const dateTimeVoting = time => {
-	const dateVoting = new Date().toISOString().split("T")[0];
-	const newDate = new Date();
-	const timeOption = time ? new Date(newDate.getTime() + time) : newDate;
-	const timeVoting = timeOption
-		.toTimeString()
-		.split(" ")[0]
-		.slice(0, -3);
-	return `${dateVoting}T${timeVoting}`;
-};
 
 const schema = yup.object().shape({
 	title: yup.string().required("The Title is required"),
 	description: yup.mixed().required("The Description is required"),
-	amount: yup.string().required("The Amount is required"),
+	amount: yup.number().required("The Amount is required"),
 	voting_period_day: yup
 		.number()
 		.transform(value => (isNaN(value) ? -1 : value))
-		.min(1, "Min value is 1 day"),
-	voting_period_time: yup
-		.string()
-		.when("voting_period_day", {
-			is: (val) => val === undefined,
-			then: yup.string().test("is-greater", "Min value is 1 hour", function (value) {
+		.min(1, "Min value is 1 day")
+		.notRequired(),
+	voting_period_time: yup.string().when("voting_period_day", {
+		is: val => val === undefined,
+		then: yup
+			.string()
+			.test("is-greater", "Min value is 1 hour", function (value) {
 				const defaultTime = "01:00:00";
-				return moment(value, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"))
-			}),
-			otherwise: yup.string().notRequired()
-		}),
+				return moment(value || defaultTime, "HH:mm:ss").isSameOrAfter(moment(defaultTime, "HH:mm:ss"));
+			})
+			.notRequired(),
+		otherwise: yup.string().notRequired(),
+	}),
 	unbondingTime: yup.string(),
+	min_deposit: yup.number().notRequired(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
 		.number()
@@ -106,12 +99,13 @@ const defaultValues = {
 	unbondingTime: 3600,
 	voting_period_day: 1,
 	voting_period_time: "01:00:00",
+	min_deposit: 10,
 	communitytax: 0,
 	InflationMin: 0,
 	InflationMax: 0,
 };
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -135,6 +129,14 @@ const fields = [
 	{
 		label: "Maximum Inflation",
 		value: INFLATION_MAX,
+	},
+	{
+		label: "Minimum Deposit Amount",
+		value: DEPOSIT_PARAMS,
+	},
+	{
+		label: "Text Proposal",
+		value: TEXT_PROPOSAL,
 	},
 ];
 
@@ -239,17 +241,18 @@ export default function (props) {
 	const hmsToMiliSeconds = times => {
 		const hmsArr = times.split(":");
 		const seconds = +hmsArr[0] * 60 * 60 + +hmsArr[1] * 60 + +hmsArr[2];
-		return new BigNumber(seconds).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
+		return new BigNumber(seconds).multipliedBy(new BigNumber(Math.pow(10, 9))).toFixed(0);
 	};
 
 	const handleDayTimePeriod = (days, times) => {
 		if (days) {
-			return new BigNumber(Math.round(days * 24 * 60 * 60)).mul(new BigNumber(Math.pow(10, 9))).toFixed(0);
+			return new BigNumber(Math.round(days * 24 * 60 * 60)).multipliedBy(new BigNumber(Math.pow(10, 9))).toFixed(0);
 		}
 		return hmsToMiliSeconds(times);
 	};
 
 	const handleOptionData = data => {
+		data.amount *= 10 ** 6;
 		switch (fieldValue) {
 			case VOTING_PERIOD:
 				const { voting_period_day: days, voting_period_time: times } = data;
@@ -258,7 +261,16 @@ export default function (props) {
 					subspace: "gov",
 					key: VOTING_PERIOD,
 					value: JSON.stringify({
-						voting_period: JSON.stringify(handleDayTimePeriod(days, times)),
+						voting_period: handleDayTimePeriod(days, times),
+					}),
+				};
+			case DEPOSIT_PARAMS:
+				return {
+					...data,
+					subspace: "gov",
+					key: DEPOSIT_PARAMS,
+					value: JSON.stringify({
+						min_deposit: [{ denom: ORAI, amount: (data.min_deposit * 10 ** 6).toString() }],
 					}),
 				};
 			case COMMUNITY_TAX:
@@ -282,12 +294,17 @@ export default function (props) {
 					key: INFLATION_MAX,
 					value: JSON.stringify(JSON.stringify(data?.InflationMax / 100)),
 				};
+			case TEXT_PROPOSAL:
+				return {
+					...data,
+					key: TEXT_PROPOSAL,
+				};
 			default:
 				return {
 					...data,
 					subspace: "staking",
 					key: UNBONDING_TIME,
-					value: JSON.stringify(data?.unbondingTime),
+					value: JSON.stringify(new BigNumber(+data?.unbondingTime * Math.pow(10, 9)).toFixed(0))
 				};
 		}
 	};
@@ -297,21 +314,30 @@ export default function (props) {
 			setLoadingTransaction(true);
 			const newData = handleOptionData(data);
 			const { title, description, subspace, key, value, amount } = newData;
-			const response = await walletStation.parameterChangeProposal(address, data.amount, {
-				title: data.title,
-				description: draftToHtml(data.description),
-				changes: [
-					{
-						subspace,
-						key,
-						value,
-					},
-				],
-				amount,
-			});
-			console.log("Result parameter change proposal: ", response);
+			var response;
+			if (key === TEXT_PROPOSAL) {
+				response = await walletStation.textProposal(address, amount, {
+					title: data.title,
+					description: draftToHtml(data.description),
+					amount,
+				});
+			} else {
+				response = await walletStation.parameterChangeProposal(address, amount, {
+					title: data.title,
+					description: draftToHtml(data.description),
+					changes: [
+						{
+							subspace,
+							key,
+							value,
+						},
+					],
+					amount,
+				});
+			}
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
+			console.log("error: ", error);
 			setLoadingTransaction(false);
 			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
@@ -421,13 +447,22 @@ export default function (props) {
 		if (value === VOTING_DAY) {
 			return (
 				<>
-					<Controller as={<input type='number' step='any' className={cx("text-field", "field-voting-input")} />} name={VOTING_DAY} control={control} ref={register} />
+					<Controller
+						as={<input type='number' step='any' className={cx("text-field", "field-voting-input")} />}
+						name={VOTING_DAY}
+						control={control}
+						ref={register}
+					/>
 				</>
 			);
 		}
 		return (
 			<>
-				<Controller as={<input type='time' step='1' className={cx("text-field", "field-voting-input", "without_ampm")} />} name={VOTING_TIME} control={control} />
+				<Controller
+					as={<input type='time' step='1' className={cx("text-field", "field-voting-input", "without_ampm")} />}
+					name={VOTING_TIME}
+					control={control}
+				/>
 			</>
 		);
 	};
@@ -487,9 +522,9 @@ export default function (props) {
 
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='amount'>
-								Amount (ORAI)
+								Deposit Amount (ORAI)
 							</label>
-							<input type='number' className={cx("text-field")} name='amount' ref={register} />
+							<input type='number' step={0.00000001} className={cx("text-field")} name='amount' ref={register} />
 							<ErrorMessage errors={errors} name='amount' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 
@@ -501,6 +536,18 @@ export default function (props) {
 									</label>
 									<input type='number' className={cx("text-field")} name='unbondingTime' ref={register} />
 									<ErrorMessage errors={errors} name='unbondingTime' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+							</>
+						)}
+
+						{fieldValue === DEPOSIT_PARAMS && (
+							<>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='min_deposit'>
+										Minimum Deposit Amount {`(${ORAI.toUpperCase()}`}
+									</label>
+									<input type='number' className={cx("text-field")} name='min_deposit' ref={register} />
+									<ErrorMessage errors={errors} name='min_deposit' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 								</div>
 							</>
 						)}
@@ -554,7 +601,13 @@ export default function (props) {
 						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
 						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
 						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} />
+
+						<div className={cx("field")}>
+							<label className={cx("label")}>Notes </label>
+							If the proposal cannot pass the deposit period, then all the deposited tokens will be burned. So please create & choose the proposals wisely!
+						</div>
 					</div>
+
 					<div className={cx("dialog-footer")}>
 						<button type='submit' className={cx("submit-button")}>
 							<span className={cx("submit-button-text")}>Create</span>

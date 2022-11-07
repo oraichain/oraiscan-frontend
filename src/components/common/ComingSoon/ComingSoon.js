@@ -1,6 +1,6 @@
 import React, {memo} from "react";
 import cn from "classnames/bind";
-import styles from "./ComingSoon.scss";
+import styles from "./ComingSoon.module.scss";
 
 const cx = cn.bind(styles);
 

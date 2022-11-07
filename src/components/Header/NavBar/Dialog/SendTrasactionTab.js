@@ -7,7 +7,7 @@ import {TextArea} from "src/components/common/form-controls";
 
 import {formatOrai} from "src/helpers/helper";
 
-import styles from "./Dialog.scss";
+import styles from "./Dialog.module.scss";
 
 const cx = cn.bind(styles);
 

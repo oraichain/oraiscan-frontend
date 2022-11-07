@@ -8,7 +8,7 @@ import {useHistory} from "src/hooks";
 import consts from "src/constants/consts";
 import {_} from "src/lib/scripts";
 import svg from "./SubHeaderAssets";
-import styles from "./SubHeader.scss";
+import styles from "./SubHeader.module.scss";
 
 const cx = cn.bind(styles);
 const routes = Object.freeze(_.map(consts.MENU, v => v.route));

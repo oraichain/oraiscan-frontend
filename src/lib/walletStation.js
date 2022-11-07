@@ -32,7 +32,7 @@ export default class WalletStation {
         try {
             return this.cosmos.submit(wallet, txBody, broadcastMode, fees, 10000000);
         } catch (ex) {
-            console.log(ex);
+            console.log("broadcast msg error: ", ex);
             throw ex;
         }
     }
@@ -126,8 +126,15 @@ export default class WalletStation {
 
     parameterChangeProposal = async (proposer, amount, change_info, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
         const wallet = await this.collectWallet();
-        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount }]
+        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount.toString() }]
         const message = CosmosMessages.getMsgParameterChangeProposal(proposer, initial_deposit, change_info);
+        return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
+    }
+
+    textProposal = async (proposer, amount, change_info, broadcastMode = broadcastModeObj.BROADCAST_MODE_BLOCK) => {
+        const wallet = await this.collectWallet();
+        const initial_deposit = [{ denom: this.cosmos.bech32MainPrefix, amount: amount.toString() }]
+        const message = CosmosMessages.getMsgTextProposal(proposer, initial_deposit, change_info);
         return this.broadcastMsg(wallet, await this.constructTxBody([message]), broadcastMode);
     }
 

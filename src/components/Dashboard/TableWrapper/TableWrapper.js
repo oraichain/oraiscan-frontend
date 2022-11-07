@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import {NavLink} from "react-router-dom";
 
-import styles from "./TableWrapper.scss";
+import styles from "./TableWrapper.module.scss";
 
 // components
 

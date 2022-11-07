@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames/bind";
-import style from "./Validator.scss";
 import {useFetch, usePrevious} from "src/hooks";
 import {nilCheck} from "src/lib/scripts";
 
@@ -11,6 +10,7 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import ValidatorDetails from "src/components/Validator/Details";
 import NotFound from "src/components/common/NotFound";
 import TxHolders from "src/components/Validator/TxHolders";
+import style from "./Validator.module.scss";
 
 const cx = cn.bind(style);
 

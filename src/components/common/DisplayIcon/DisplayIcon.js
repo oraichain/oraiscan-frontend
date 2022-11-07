@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./DisplayIcon.scss";
+import styles from "./DisplayIcon.module.scss";
 
 import Img from "src/components/common/Img";
 

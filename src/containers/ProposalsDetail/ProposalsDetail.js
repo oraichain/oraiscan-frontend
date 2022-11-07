@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {useGet} from "restful-react";
-import {useHistory} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import cn from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -23,7 +23,8 @@ import ProposalVoteModal from "./ProposalVoteModal";
 import ProposalDepositModal from "./ProposalDepositModal";
 import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
 import Depositors from "src/components/ProposalDetails/Depositors";
-import styles from "./ProposalsDetail.scss";
+import styles from "./ProposalsDetail.module.scss";
+import moment from "moment";
 
 const cx = cn.bind(styles);
 
@@ -33,10 +34,10 @@ export default function(props) {
 	const proposalId = props?.match?.params?.id;
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const type = queryStringParse?.type ?? "";
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 	const [showDepositModal, setShowDepositModal] = useState(false);
@@ -67,6 +68,7 @@ export default function(props) {
 	let depositorsTable;
 	let validatorVotesTable;
 	let finalButton;
+	let isValidDepositEndTime;
 
 	let voteButton = (
 		<div className={cx("create-button")} onClick={onVote}>
@@ -107,6 +109,8 @@ export default function(props) {
 			chartCard = <ChartCard data={data} />;
 		}
 
+		isValidDepositEndTime = moment(data?.deposit_end_time).isAfter(moment());
+
 		// handle button state
 		switch (data?.status) {
 			case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
@@ -136,13 +140,13 @@ export default function(props) {
 	);
 
 	transactionsCard = <TransactionsCard proposalId={proposalId} />;
-	depositorsTable = <Depositors proposalId={proposalId}/>;
-	validatorVotesTable = <ValidatorVotes  proposalId={proposalId} />;
+	depositorsTable = <Depositors proposalId={proposalId} />;
+	validatorVotesTable = <ValidatorVotes proposalId={proposalId} />;
 	return (
 		<>
 			{titleSection}
 			<Container fixed className={cx("proposal-details")}>
-				{finalButton}
+				{isValidDepositEndTime && finalButton}
 				<Grid container spacing={2}>
 					<Grid item lg={9} xs={12}>
 						{detailsCard}

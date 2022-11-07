@@ -7,7 +7,7 @@ import PriceDisplay from "../DashboardContent/PriceDisplay";
 import GraphDisplay from "../DashboardContent/GraphDisplay";
 import DetailDisplay from "../DashboardContent/DetailDisplay";
 import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
-import styles from "./PopupDashboard.scss";
+import styles from "./PopupDashboard.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -3,9 +3,9 @@ import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {formatOrai, formatNumber , parseIbc} from "src/helpers/helper";
+import {formatOrai, formatNumber, parseIbc} from "src/helpers/helper";
 import {_, reduceString, reduceStringAssets} from "src/lib/scripts";
-import styles from "./RelayersAssetsTableCardList.scss";
+import styles from "./RelayersAssetsTableCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

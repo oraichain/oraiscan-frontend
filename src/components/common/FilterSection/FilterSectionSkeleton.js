@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./FilterSection.scss";
+import styles from "./FilterSection.module.scss";
 
 const cx = classNames.bind(styles);
 

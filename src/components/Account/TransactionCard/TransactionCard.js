@@ -1,4 +1,4 @@
-import React, {memo, useState, useRef} from "react";
+import React, {memo, useState, useRef, useEffect} from "react";
 import {useGet} from "restful-react";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -12,7 +12,8 @@ import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./TransactionCard.scss";
+import styles from "./TransactionCard.module.scss";
+import {loadReCaptcha} from "react-recaptcha-google";
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +27,10 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	const onPageChange = page => {
 		setPageId(page);
 	};
+
+	useEffect(() => {
+		loadReCaptcha();    
+	});
 
 	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
 	if (royalty) {

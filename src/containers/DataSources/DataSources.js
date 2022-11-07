@@ -19,7 +19,7 @@ import DataSourceTableSkeleton from "src/components/DataSources/DataSourceTable/
 import DataSourceCardList from "src/components/DataSources/DataSourceCardList/DataSourceCardList";
 import DataSourceCardListSkeleton from "src/components/DataSources/DataSourceCardList/DataSourceCardListSkeleton";
 import ComingSoon from "src/components/common/ComingSoon";
-import styles from "./DataSources.scss";
+import styles from "./DataSources.module.scss";
 
 const cx = cn.bind(styles);
 

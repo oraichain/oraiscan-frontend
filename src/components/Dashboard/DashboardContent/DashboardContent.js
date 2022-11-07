@@ -11,7 +11,7 @@ import PriceDisplay from "./PriceDisplay";
 import DetailDisplay from "./DetailDisplay";
 import BlocksDisplay from "./BlocksDisplay";
 import TxDisplay from "./TxDisplay";
-import styles from "./DashboardContent.scss";
+import styles from "./DashboardContent.module.scss";
 
 const cx = cn.bind(styles);
 

@@ -10,9 +10,9 @@ import TransactionCardList from "src/components/TxList/TransactionCardList";
 import TransactionCardListSkeleton from "src/components/TxList/TransactionCardList/TransactionCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./TransactionCard.scss";
 import CwToken from "src/components/Wallet/CwToken";
 import Tabs from "src/components/TxList/Tabs";
+import styles from "./TransactionCard.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -63,7 +63,7 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 	return (
 		<div className={cx("transaction-card")}>
 			<div className={cx("transaction-card-header")}>
-				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} isTab/>
+				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} isTab />
 			</div>
 			<div className={cx("transaction-card-body")}>
 				{activeTab === 0 && tableSection}

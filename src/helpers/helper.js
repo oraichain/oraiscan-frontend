@@ -1,12 +1,12 @@
-import {floor} from "lodash";
+import { floor } from "lodash";
 import numeral from "numeral";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import moment from "moment";
 import sha256 from "js-sha256";
-import {useSelector} from "react-redux";
-import {themeIds} from "src/constants/themes";
-import {reduceString} from "src/lib/scripts";
+import { useSelector } from "react-redux";
+import { themeIds } from "src/constants/themes";
+import { reduceString } from "src/lib/scripts";
 import consts from "src/constants/consts";
 import Cosmos from "@oraichain/cosmosjs";
 
@@ -22,6 +22,33 @@ export const extractValueAndUnit = (inputString = "") => {
 	return {
 		valueString,
 		unitString,
+	};
+};
+
+export const checkTokenCW20 = value => {
+	const amountDecimal18 = [
+		{
+			denom: "ORAI",
+			address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
+		},
+		{
+			denom: "AIRI",
+			address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
+		},
+		{
+			denom: "USDT",
+			address: "oraib0x55d398326f99059fF775485246999027B3197955",
+		},
+		{
+			denom: "KWT",
+			address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
+		},
+	];
+	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "")
+	return {
+		status,
+		denom: status?.denom,
+		address: status?.address,
 	};
 };
 
@@ -121,7 +148,7 @@ export const formatNumber = value => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
-	return value.toString().replace(/^[+-]?\d+/, function(int) {
+	return value.toString().replace(/^[+-]?\d+/, function (int) {
 		return int.replace(/(\d)(?=(\d{3})+$)/g, "$1,");
 	});
 };
@@ -221,7 +248,7 @@ export const ThemeSetup = () => {
 };
 
 export const parseTxFee = amount => {
-	return {denom: consts.DENOM, amount};
+	return { denom: consts.DENOM, amount };
 };
 
 export const addressDisplay = str => {

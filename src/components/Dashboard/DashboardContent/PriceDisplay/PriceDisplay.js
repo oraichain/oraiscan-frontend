@@ -1,6 +1,5 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./PriceDisplay.scss";
 import {formatNumber} from "src/lib/scripts";
 //  component
 import Skeleton from "react-skeleton-loader";
@@ -9,6 +8,7 @@ import {useSelector} from "react-redux";
 
 import BlockTimeIcon from "src/icons/Dashboard/BlockTimeIcon";
 import OraiIcon from "src/icons/OraiIcon";
+import styles from "./PriceDisplay.module.scss";
 
 const cx = cn.bind(styles);
 

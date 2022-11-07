@@ -1,8 +1,8 @@
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import styles from "./BackTitle.scss";
 import backIcon from "src/assets/icons/back.svg";
+import styles from "./BackTitle.module.scss";
 
 const cx = classNames.bind(styles);
 

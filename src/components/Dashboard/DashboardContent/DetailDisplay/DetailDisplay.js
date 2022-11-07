@@ -1,6 +1,5 @@
 import * as React from "react";
 import cn from "classnames/bind";
-import styles from "./DetailDisplay.scss";
 import {formatNumber} from "src/lib/scripts";
 import {useFetch, useTimer} from "src/hooks";
 import consts from "src/constants/consts";
@@ -14,6 +13,7 @@ import {useSelector} from "react-redux";
 import down_rd from "src/assets/common/arrow_down.svg";
 import up_gr from "src/assets/common/arrow_up.svg";
 import blocktimeSVG from "src/assets/dashboard/blocktime_ic.svg";
+import styles from "./DetailDisplay.module.scss";
 
 const cx = cn.bind(styles);
 

@@ -16,7 +16,7 @@ import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendAiriTab.css";
-import styles from "./Dialog.scss";
+import styles from "./Dialog.module.scss";
 import { useSelector } from "src/hooks";
 
 const cx = cn.bind(styles);
@@ -211,6 +211,8 @@ export default function FormDialog({ address, amount, status, methods, handleInp
 								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
 									Add them to your address book
 								</a>
+								<br />
+								If you are depositing to Kucoin, please enter the required memo (NOT secret mnemonic) on Keplr
 							</div>
 						)}
 					</Grid>

@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
+import React, { memo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
 import classNames from "classnames/bind";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 import consts from "src/constants/consts";
-import {formatInteger, formatFloat, formatOrai} from "src/helpers/helper";
-import {setStatusBox} from "src/store/modules/blockchain";
+import { formatInteger, formatFloat, formatOrai } from "src/helpers/helper";
+import { setStatusBox } from "src/store/modules/blockchain";
 
-import styles from "./StatusBox.scss";
+import styles from "./StatusBox.module.scss";
+import { showAlert } from "src/store/modules/global";
 
 const StatusBox = memo(() => {
 	const cx = classNames.bind(styles);
@@ -16,7 +17,7 @@ const StatusBox = memo(() => {
 	const dispatch = useDispatch();
 	let timerID = useRef(null);
 
-	const {data, loading, refetch} = useGet({
+	const { data, loading, refetch, error } = useGet({
 		path: consts.API.ORAICHAIN_INFO,
 		resolve: data => {
 			setLoadCompleted(true);
@@ -24,6 +25,17 @@ const StatusBox = memo(() => {
 			return data;
 		},
 	});
+
+	if (error) {
+		dispatch(
+			showAlert({
+				show: true,
+				message: error.message,
+				autoHideDuration: 3000,
+				type: "error",
+			})
+		);
+	}
 
 	useEffect(() => {
 		if (loadCompleted) {

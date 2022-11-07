@@ -1,9 +1,8 @@
-import React, { memo } from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import classNames from "classnames/bind";
-import styles from "./Footer.scss";
 import TwitterIcon from "src/icons/TwitterIcon";
 import FooterBackground from "src/assets/footer/footer_background.jpg";
 import DecorIconDark from "src/assets/footer/decor-icon-dark.png";
@@ -16,17 +15,18 @@ import MediumIcon from "src/icons/MediumIcon";
 import CoinMarketCapIcon from "src/icons/CoinMarketCapIcon";
 import ModeSwitch from "src/components/common/ModeSwitch";
 import OraiLogo from "src/icons/OraiLogo";
-import { ThemeSetup } from "src/helpers/helper";
+import {ThemeSetup} from "src/helpers/helper";
+import styles from "./Footer.module.scss";
 
 const cx = classNames.bind(styles);
 
 const Footer = memo(() => {
-	const { isDarkTheme } = ThemeSetup();
+	const {isDarkTheme} = ThemeSetup();
 
 	return (
 		<div className={cx("footer")}>
 			<img src={isDarkTheme ? DecorIconDark : DecorIconLight} className={cx("decor-icon")} />
-			<img style={{ opacity: isDarkTheme ? "0.3" : "1" }} src={FooterBackground} className={cx("background")} />
+			<img style={{opacity: isDarkTheme ? "0.3" : "1"}} src={FooterBackground} className={cx("background")} />
 			<div className={cx("top-section")}>
 				<Container>
 					<Grid className={cx("top-section-grid")} container spacing={2}>

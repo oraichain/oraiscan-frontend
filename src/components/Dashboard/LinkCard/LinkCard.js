@@ -1,6 +1,6 @@
 import React, {memo} from "react";
-import styles from "./LinkCard.scss";
 import classNames from "classnames/bind";
+import styles from "./LinkCard.module.scss";
 
 const cx = classNames.bind(styles);
 

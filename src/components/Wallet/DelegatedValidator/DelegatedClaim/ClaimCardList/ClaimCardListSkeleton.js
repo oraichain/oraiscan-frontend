@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
-import styles from "./ClaimCardList.scss";
+import styles from "./ClaimCardList.module.scss";
 
 const cx = classNames.bind(styles);
 

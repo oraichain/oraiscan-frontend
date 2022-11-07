@@ -12,7 +12,7 @@ import ProposedBlocksTableSkeleton from "src/components/ValidatorDetails/Propose
 import ProposedBlocksCardList from "src/components/ValidatorDetails/ProposedBlocksCardList";
 import ProposedBlocksCardListSkeleton from "src/components/ValidatorDetails/ProposedBlocksCardList/ProposedBlocksCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
-import styles from "./ProposedBlocksCard.scss";
+import styles from "./ProposedBlocksCard.module.scss";
 
 import BlockTimeIcon from "src/icons/Validators/TotalBlocksIcon";
 

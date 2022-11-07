@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom";
 import consts from "src/constants/consts";
 import {reduceString, setAgoTime} from "src/lib/scripts";
 import {formatOrai, formatFloat} from "src/helpers/helper";
-import styles from "./Depositors.scss";
+import styles from "./Depositors.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -33,15 +33,15 @@ const DepositorsTable = memo(({data = []}) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
-		let itemAmount = {}
+		let itemAmount = {};
 		return data.map((item, index) => {
 			if (item?.amount) {
-				const denom = item?.amount.slice(-4)
-				const amount = item?.amount.slice(0, -4)
+				const denom = item?.amount.slice(-4);
+				const amount = item?.amount.slice(0, -4);
 				itemAmount = {
 					amount,
-					denom
-				}
+					denom,
+				};
 			}
 
 			const depositorDataCell = (

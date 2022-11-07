@@ -17,14 +17,18 @@ import AddAddressDialog from "./AddAddressDialog";
 import ShowExample from "./ShowExample";
 import SelectFile from "./SelectFile";
 import "./SendOraiTab.css";
-import styles from "./Dialog.scss";
+import styles from "./Dialog.module.scss";
 import {useSelector} from "src/hooks";
 
 const cx = cn.bind(styles);
 const {TextArea: TextAreaAnt} = Input;
 
 const calculateAmount = (balance, percent) => {
-	let result = balance.multipliedBy(percent).dividedBy(1000000).toFixed(6) + "";
+	let result =
+		balance
+			.multipliedBy(percent)
+			.dividedBy(1000000)
+			.toFixed(6) + "";
 	result = result.split(".")[0];
 	result = new BigNumber(result).dividedBy(100).toString();
 	return result;
@@ -206,6 +210,8 @@ export default function FormDialog({address, amount, status, methods, inputAmoun
 								<a href='/' className={cx("open-dialog")} onClick={handleClickOpen}>
 									Add them to your address book
 								</a>
+								<br />
+								If you are depositing to Kucoin, please enter the required memo (NOT secret mnemonic) on Keplr
 							</div>
 						)}
 					</Grid>
@@ -233,7 +239,7 @@ export default function FormDialog({address, amount, status, methods, inputAmoun
 								</button>
 							</div>
 						</div>
-						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name="sendAmount" errorobj={errors} />
+						<InputNumberOrai inputAmountValue={inputAmountValue} typePrice={"orai"} name='sendAmount' errorobj={errors} />
 					</Grid>
 				</Grid>
 			)}

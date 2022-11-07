@@ -7,10 +7,10 @@ import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { _, stringNumCheck } from "src/lib/scripts";
-import styles from "./SmartSearchBox.scss";
 import failIcon from "src/assets/transactions/fail_ic.svg";
 import consts from "src/constants/consts";
 import { useTheme } from "@material-ui/styles";
+import styles from "./SmartSearchBox.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -33,7 +33,7 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 			return false;
 		} else if (stringNumCheck(searchValue)) {
 			return "block";
-		} else if (searchValue.substring(0, 4).toLowerCase() === "orai" && searchValue.length === 43) {
+		} else if (searchValue.substring(0, 4).toLowerCase() === "orai" && (searchValue.length === 43 || searchValue.length === 63)) {
 			try {
 				setSearchTypes("account|checking");
 				const data = await axios.get(`${consts.API_BASE}${consts.API.SMART_CONTRACT}/${searchValue}`);

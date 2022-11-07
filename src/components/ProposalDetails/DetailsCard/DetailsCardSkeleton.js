@@ -4,7 +4,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import styles from "./DetailsCard.scss";
+import styles from "./DetailsCard.module.scss";
 
 const cx = classNames.bind(styles);
 

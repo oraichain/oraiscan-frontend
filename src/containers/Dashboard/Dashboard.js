@@ -1,12 +1,12 @@
 import React from "react";
 import cn from "classnames/bind";
-import { useDispatch } from "react-redux";
-import { useTheme } from "@material-ui/core/styles";
+import {useDispatch} from "react-redux";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { themeIds, themes } from "src/constants/themes";
-import { setActiveThemeId } from "src/store/modules/activeThemeId";
+import {themeIds, themes} from "src/constants/themes";
+import {setActiveThemeId} from "src/store/modules/activeThemeId";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -14,12 +14,12 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import InfoCard from "src/components/Dashboard/InfoCard";
 import BlocksCard from "src/components/Dashboard/BlocksCard";
 import TransactionsCard from "src/components/Dashboard/TransactionsCard";
-import styles from "./Dashboard.scss";
 import PopupDashboard from "src/components/Dashboard/PopupDashboard";
+import styles from "./Dashboard.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function (props) {
+export default function(props) {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const dispatch = useDispatch();

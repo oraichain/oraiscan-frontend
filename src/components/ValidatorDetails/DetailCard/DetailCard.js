@@ -1,21 +1,21 @@
-import React, { memo, useState } from "react";
+import React, {memo, useState} from "react";
 import classNames from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
-import styles from "./DetailCard.scss";
-import { formatOrai, formatInteger, formatPercentage } from "src/helpers/helper";
-import { NavLink } from "react-router-dom";
-import { Progress } from "antd";
+import {formatOrai, formatInteger, formatPercentage} from "src/helpers/helper";
+import {NavLink} from "react-router-dom";
+import {Progress} from "antd";
 import RightArrowIcon from "src/icons/RightArrowIcon";
 import Dialog from "@material-ui/core/Dialog";
 import RequestsCard from "src/components/ValidatorDetails/RequestsCard";
-import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
-import { isNil } from "lodash";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
+import {isNil} from "lodash";
+import styles from "./DetailCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const DetailCard = memo(({ data }) => {
+const DetailCard = memo(({data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [open, setOpen] = useState(false);

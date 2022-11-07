@@ -20,7 +20,6 @@ import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import config from "src/config";
-import styles from "./Dialog.scss";
 import "./Dialog.css";
 import consts from "src/constants/consts";
 import { args, handleTransactionResponse } from "src/helpers/transaction";
@@ -29,6 +28,7 @@ import typeSend from "src/constants/typeSend";
 import { walletStation } from "src/lib/walletStation";
 import { notification } from "antd";
 import { handleErrorMessage } from "../../../../lib/scripts";
+import styles from "./Dialog.module.scss";
 const cx = cn.bind(styles);
 
 yup.addMethod(yup.string, "lessThanNumber", function (amount) {
@@ -91,7 +91,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 				if (multiSendData) {
 					typeSendSubmit = typeSend.MULTISEND;
 					msg = multiSendData.map(v => {
-						total_amount = +v.amount + total_amount;
+						total_amount = +v.amount * Math.pow(10,6) + total_amount;
 						return {
 							type: typeUrl.MSG_SEND,
 							value: {
@@ -106,8 +106,12 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 							},
 						};
 					});
+					console.log({ total: msg, total_amount });
+
 				} else {
-					total_amount = new BigNumber(data.sendAmount.toString().replaceAll(",", "")).plus(new BigNumber(total_amount)).multipliedBy(consts.NUM.COSMOS_DECIMAL);
+					total_amount = new BigNumber(data.sendAmount.toString().replaceAll(",", ""))
+						.plus(new BigNumber(total_amount))
+						.multipliedBy(consts.NUM.COSMOS_DECIMAL);
 					msg = [
 						{
 							type: typeUrl.MSG_SEND,

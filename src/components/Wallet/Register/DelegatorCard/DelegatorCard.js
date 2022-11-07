@@ -10,7 +10,7 @@ import DelegatorCardList from "src/components/Wallet/Register/DelegatorCard/Dele
 import DelegatorCardListSkeleton from "src/components/Wallet/Register/DelegatorCard/DelegatorCardList/DelegatorCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./DelegatorCard.scss";
+import styles from "./DelegatorCard.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -1,13 +1,13 @@
-import React, { memo, useEffect, useMemo } from "react";
+import React, {memo, useEffect, useMemo} from "react";
 import classNames from "classnames/bind";
-import { tableThemes } from "src/constants/tableThemes";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./ValidatorVotes.scss";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import consts from "src/constants/consts";
 import {reduceString, setAgoTime} from "src/lib/scripts";
 import {logoBrand} from "src/constants/logoBrand";
 import aiIcon from "src/assets/common/ai_ic.svg";
+import styles from "./ValidatorVotes.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -19,11 +19,11 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [rankHeaderCell, validatorHeaderCell, txHashHeaderCell, answerHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{ width: "4%", minWidth: "100px" },
-		{ width: "24%", minWidth: "240px" },
-		{ width: "20%", minWidth: "140px" },
-		{ width: "14%", minWidth: "100px" },
-		{ width: "18%", minWidth: "100px" },
+		{width: "4%", minWidth: "100px"},
+		{width: "24%", minWidth: "240px"},
+		{width: "20%", minWidth: "140px"},
+		{width: "14%", minWidth: "100px"},
+		{width: "18%", minWidth: "100px"},
 	];
 	return {
 		headerCells,
@@ -31,7 +31,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-export const LogoValidatorCustom = ({ item }) => {
+export const LogoValidatorCustom = ({item}) => {
 	const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || {customLogo: ""};
 	const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 
@@ -89,14 +89,7 @@ const ValidatorVotesTable = memo(({data = [], converVoteTypes}) => {
 	const headerRow = useMemo(() => getHeaderRow(), []);
 	const dataRows = useMemo(() => getDataRows(data), [data, getDataRows]);
 
-	return (
-		<ThemedTable
-			theme={tableThemes.LIGHT}
-			headerCellStyles={headerRow.headerCellStyles}
-			headerCells={headerRow.headerCells}
-			dataRows={dataRows}
-		/>
-	);
+	return <ThemedTable theme={tableThemes.LIGHT} headerCellStyles={headerRow.headerCellStyles} headerCells={headerRow.headerCells} dataRows={dataRows} />;
 });
 
 export default ValidatorVotesTable;

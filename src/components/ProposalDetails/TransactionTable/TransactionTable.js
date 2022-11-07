@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import React, {memo, useMemo} from "react";
+import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { useSelector } from "react-redux";
-import { _, reduceString, setAgoTime } from "src/lib/scripts";
-import { formatOrai, formatFloat } from "src/helpers/helper";
-import { tableThemes } from "src/constants/tableThemes";
+import {useSelector} from "react-redux";
+import {_, reduceString, setAgoTime} from "src/lib/scripts";
+import {formatOrai, formatFloat} from "src/helpers/helper";
+import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./TransactionTable.scss";
 import successIcon from "src/assets/transactions/success_ic.svg";
 import failureIcon from "src/assets/transactions/fail_ic.svg";
+import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -29,13 +29,13 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{ width: "14%", minWidth: "140px" }, // TxHash
-		{ width: "18%", minWidth: "180px" }, // Type
-		{ width: "10%", minWidth: "100px" }, // Result
-		{ width: "24%", minWidth: "240px" }, // Amount
-		{ width: "14%", minWidth: "140px" }, // Fee
-		{ width: "10%", minWidth: "100px" }, // Height
-		{ width: "10%", minWidth: "100px" }, // Time
+		{width: "14%", minWidth: "140px"}, // TxHash
+		{width: "18%", minWidth: "180px"}, // Type
+		{width: "10%", minWidth: "100px"}, // Result
+		{width: "24%", minWidth: "240px"}, // Amount
+		{width: "14%", minWidth: "140px"}, // Fee
+		{width: "10%", minWidth: "100px"}, // Height
+		{width: "10%", minWidth: "100px"}, // Time
 	];
 	return {
 		headerCells,
@@ -43,7 +43,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({ data = [], rowMotions = [], account }) => {
+const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
 	const status = useSelector(state => state.blockchain.status);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
@@ -98,9 +98,7 @@ const TransactionTable = memo(({ data = [], rowMotions = [], account }) => {
 				} else if (account === item.messages[0].to_address) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-in")}>IN</div>;
 				}
-			} else if (
-				account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")
-			) {
+			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket")) {
 				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgRecvPacket");
 				if (message?.packet?.data) {
 					const data = JSON.parse(atob(message?.packet?.data));
@@ -108,9 +106,7 @@ const TransactionTable = memo(({ data = [], rowMotions = [], account }) => {
 						transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>IN</div>;
 					}
 				}
-			} else if (
-				account && (item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer"))
-			) {
+			} else if (account && item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer")) {
 				let message = item?.messages?.find(msg => getTxTypeNew(msg["@type"]) === "MsgTransfer");
 				if (account === message.sender) {
 					transferStatus = <div className={cx("transfer-status", "transfer-status-out")}>OUT</div>;
@@ -126,7 +122,7 @@ const TransactionTable = memo(({ data = [], rowMotions = [], account }) => {
 					</div>
 				</div>
 			) : (
-				<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
+				<div className={cx("amount-data-cell", {"amount-data-cell-with-transfer-status": transferStatus})}>
 					{transferStatus && transferStatus}
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>

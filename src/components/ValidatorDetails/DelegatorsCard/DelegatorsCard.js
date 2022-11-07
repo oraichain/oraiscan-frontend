@@ -10,7 +10,7 @@ import DelegatorsCardList from "src/components/ValidatorDetails/DelegatorsCardLi
 import DelegatorsCardListSkeleton from "src/components/ValidatorDetails/DelegatorsCardList/DelegatorsCardListSkeleton";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import styles from "./DelegatorsCard.scss";
+import styles from "./DelegatorsCard.module.scss";
 
 const cx = classNames.bind(styles);
 

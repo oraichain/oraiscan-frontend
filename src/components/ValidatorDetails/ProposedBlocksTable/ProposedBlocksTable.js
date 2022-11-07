@@ -6,7 +6,7 @@ import {formatOrai} from "src/helpers/helper";
 import {_, reduceString, setAgoTime} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./ProposedBlocksTable.scss";
+import styles from "./ProposedBlocksTable.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import cn from "classnames/bind";
 import {_} from "src/lib/scripts";
-import styles from "./StatusCard.scss";
+import styles from "./StatusCard.module.scss";
 
 const cx = cn.bind(styles);
 

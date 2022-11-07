@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {memo, useState, useEffect, useRef} from "react";
 import cn from "classnames/bind";
-import styles from "./RelayersAssetSearch.scss";
 import _ from "lodash";
 import DownAngleIcon from "src/icons/DownAngleIcon";
+import styles from "./RelayersAssetSearch.module.scss";
+
 const cx = cn.bind(styles);
 
 const assetsNetworks = ["Received", "Transfer"];
@@ -54,7 +55,7 @@ export default function({assetSearch, setAssetSearch, total}) {
 	return (
 		<div className={cx("assets__search")}>
 			<div className={cx("assets__title")}>
-				Relayed Assets <span  className={cx("assets__total")}>{total}</span>
+				Relayed Assets <span className={cx("assets__total")}>{total}</span>
 			</div>
 			<div className={cx("assets__form")}>
 				<div className={cx("network-switcher")}>

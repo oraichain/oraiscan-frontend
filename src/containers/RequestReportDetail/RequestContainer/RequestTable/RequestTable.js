@@ -6,13 +6,13 @@ import {Base64} from "js-base64";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import styles from "./RequestTable.scss";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import ClockIcon from "src/icons/ClockIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import {useDispatch} from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
 import {showAlert} from "src/store/modules/global";
+import styles from "./RequestTable.module.scss";
 
 const cx = classNames.bind(styles);
 

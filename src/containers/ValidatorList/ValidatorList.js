@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import { useGet } from "restful-react";
+import React, {useState, useRef, useEffect, useMemo} from "react";
+import {useGet} from "restful-react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import {useParams, useHistory, useLocation} from "react-router-dom";
 import queryString from "query-string";
 
 import consts from "src/constants/consts";
-import { _ } from "src/lib/scripts";
+import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -20,7 +20,7 @@ import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
 import ValidatorCardList from "src/components/ValidatorList/ValidatorCardList";
 import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
 import ValidatorCardListSkeleton from "src/components/ValidatorList/ValidatorCardList/ValidatorCardListSkeleton";
-import styles from "./ValidatorList.scss";
+import styles from "./ValidatorList.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -32,7 +32,7 @@ const ValidatorList = props => {
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	const history = useHistory();
-	const { status } = queryString.parse(history.location.search) || {};
+	const {status} = queryString.parse(history.location.search) || {};
 	const isActiveValidator = !status || status === "active";
 
 	let timerIdRef = useRef(null);
@@ -50,7 +50,7 @@ const ValidatorList = props => {
 		path += `&moniker=${keyword}`;
 	}
 
-	const { data, loading, error, refetch } = useGet({
+	const {data, loading, error, refetch} = useGet({
 		path: path,
 		resolve: data => {
 			if (!firstLoadCompleted) {
@@ -61,12 +61,12 @@ const ValidatorList = props => {
 		},
 	});
 
-	const { data: dataInActive, loading: loadingInActive, error: errorInactive, refetch: refetchInActive } = useGet({
+	const {data: dataInActive, loading: loadingInActive, error: errorInactive, refetch: refetchInActive} = useGet({
 		path: pathInActive,
 	});
 
 	const validators = useMemo(() => {
-		if (data && data?.data?.length > 0 && dataInActive && dataInActive?.data.length > 0) {
+		if (data && data?.data?.length > 0 && dataInActive) {
 			const newData = data?.data.concat(dataInActive?.data);
 			const validatorList = newData
 				.sort((val1, val2) => val2.self_bonded - val1.self_bonded)
@@ -128,7 +128,7 @@ const ValidatorList = props => {
 	statusCardList = <StatusCardList />;
 
 	const handleSelectValidator = status => {
-		return function () {
+		return function() {
 			if (status === "active") {
 				history.push("/validators");
 			}
@@ -173,7 +173,7 @@ const ValidatorList = props => {
 		if (error) {
 			tableSection = <NoResult />;
 		} else {
-			const data = isActiveValidator ? onValidators("") : onValidators("inactive")
+			const data = isActiveValidator ? onValidators("") : onValidators("inactive");
 			tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data} />;
 		}
 	}

@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames/bind";
-import styles from "./IndexedPagination.scss";
 import {getPercentage} from "src/lib/scripts";
+import styles from "./IndexedPagination.module.scss";
 
 const cx = cn.bind(styles);
 

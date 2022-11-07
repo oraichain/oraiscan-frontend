@@ -15,12 +15,14 @@ import consts from "src/constants/consts";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import QRCode from "src/components/common/QRCode";
 import { ReactComponent as ExchangeIcon } from "src/assets/icons/exchange.svg";
-import styles from "./StatusBar.scss";
 import { useGet } from "restful-react";
 import config from "src/config";
 import { _, reduceStringAssets } from "src/lib/scripts";
+import styles from "./StatusBar.module.scss";
+
 const cx = cn.bind(styles);
-export default function () {
+
+export default function() {
 	const theme = useTheme();
 	const { address } = useSelector(state => state.wallet);
 	const [path, setPath] = useState(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}`);
@@ -121,7 +123,7 @@ export default function () {
 									})
 								);
 							}}
-							src={require("../../../assets/wallet/copy.svg")}
+							src={require("../../../assets/wallet/copy.svg").default}
 							style={{ marginLeft: 7.5, cursor: "pointer" }}
 						/>
 					</div>
@@ -131,7 +133,7 @@ export default function () {
 						<Skeleton className={cx("skeleton-inline")} variant='text' width={380} height={24} />
 					)}{" "}
 					<a href={`https://scan.orai.io/account/${address}`} target='_blank' rel='noopener noreferrer' className={cx("footer")}>
-						<img alt='/' src={require("../../../assets/wallet/view.svg")} style={{ marginRight: 5 }} /> View on Oraiscan
+						<img alt='/' src={require("../../../assets/wallet/view.svg").default} style={{ marginRight: 5 }} /> View on Oraiscan
 					</a>
 				</div>
 			</Grid>
@@ -140,7 +142,7 @@ export default function () {
 					<div className={cx("title")}>ORAI Balance</div>
 					<div className={cx("balance")}>{balanceElement}</div>
 					<div className={cx("footer")} onClick={handleRefeshAccount}>
-						<img alt='/' src={require("../../../assets/wallet/refresh.svg")} style={{ marginRight: 5 }} /> Refresh
+						<img alt='/' src={require("../../../assets/wallet/refresh.svg").default} style={{ marginRight: 5 }} /> Refresh
 					</div>
 				</div>
 			</Grid>
@@ -156,7 +158,7 @@ export default function () {
 						<Skeleton className={cx("skeleton-inline")} variant='rect' width={113} height={106} />
 					)}
 					<div onClick={() => setIsZoom(true)} className={cx("footer")} style={{ position: "unset", display: "flex", justifyContent: "center" }}>
-						<img alt='/' src={require("../../../assets/wallet/zoom.svg")} style={{ marginRight: 5 }} /> Zoom in
+						<img alt='/' src={require("../../../assets/wallet/zoom.svg").default} style={{ marginRight: 5 }} /> Zoom in
 					</div>
 				</div>
 			</Grid>

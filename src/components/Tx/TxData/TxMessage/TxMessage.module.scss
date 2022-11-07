@@ -200,8 +200,14 @@
 .load-more {
 	display: flex;
 	justify-content: space-between;
+	@media screen and (max-width: 768px) {
+		flex-direction: column;
+	}
 	padding-top: 10px;
 	&-result {
+		@media screen and (max-width: 768px) {
+			margin-top: 5px;
+		}
 		cursor: pointer;
 		display: inline-flex;
 		flex-direction: row;

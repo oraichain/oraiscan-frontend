@@ -30,9 +30,19 @@ export const reduceStringAssets = (str, from, end) => {
 export const parseIbcMsgTransfer = (rawLog, type = "send_packet", key = "packet_data") => {
 	const arrayIbcDemonPacket = rawLog && rawLog?.[0]?.events?.find(e => e.type === type);
 	const ibcDemonPackData = arrayIbcDemonPacket && arrayIbcDemonPacket?.attributes?.find(ele => ele.key === key);
-	const ibcDemonObj = _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData.value) : { denom: "" };
+	const ibcDemonObj = ibcDemonPackData?.value && _.isString(ibcDemonPackData.value) ? JSON.parse(ibcDemonPackData?.value) : { denom: "" };
 	return ibcDemonObj;
 };
+
+
+export const isJsonString = str => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
 
 export const processText = inputText => {
 	var output = [];
@@ -211,4 +221,9 @@ export const handleErrorMessage = (error) => {
 	// handle special message
 	if (error.message && error.message.includes('rpc error: code = NotFound desc')) return `Account does not exist on chain. Send some tokens there before trying to query sequence.`
 	return `${messageError} ${JSON.stringify(error)}`;
+}
+
+export const compareTypeMessage = (str, arr) => {
+	if (!str) return false;
+	return arr.includes(str);
 }

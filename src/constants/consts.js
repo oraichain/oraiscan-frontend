@@ -229,9 +229,11 @@ export default Object.freeze({
 	PROPOSALS_OPTIONS: {
 		UNBONDING_TIME: "UnbondingTime",
 		VOTING_PERIOD: "votingparams",
+		DEPOSIT_PARAMS: 'depositparams',
 		COMMUNITY_TAX: "communitytax",
 		INFLATION_MIN: "InflationMin",
-		INFLATION_MAX: "InflationMax"
+		INFLATION_MAX: "InflationMax",
+		TEXT_PROPOSAL: 'TextProposal'
 	},
 
 	VOTING_PERIOD_OPTIONS: {
