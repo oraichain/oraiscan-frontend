@@ -5,6 +5,14 @@ import consts from "src/constants/consts";
 import { GasPrice } from "@cosmjs/stargate";
 import { Decimal } from '@cosmjs/math';
 import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
+import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { Any } from "cosmjs-types/google/protobuf/any";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -12,8 +20,6 @@ export const broadcastModeObj = {
     BROADCAST_MODE_SYNC: "BROADCAST_MODE_SYNC",
     BROADCAST_MODE_UNSPECIFIED: "BROADCAST_MODE_UNSPECIFIED",
 };
-
-export const gasDefault = { gas: "200000", amount: '0' }
 
 export default class WalletStation {
     constructor() { }
@@ -29,15 +35,14 @@ export default class WalletStation {
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
             prefix: network.denom,
-            gasLimits: { exec: 10000000 },
         });
     };
 
-    signAndBroadCast = async (address, messages) => {
+    signAndBroadCast = async (address, messages, gas = 'auto') => {
         try {
             const wallet = await this.collectWallet();
             const client = await this.signerClient(wallet);
-            return await client.signAndBroadcast(address, messages, gasDefault);
+            return await client.signAndBroadcast(address, messages, gas);
         } catch (ex) {
             console.log("signAndBroadcast msg error: ", ex);
             throw ex;
@@ -47,7 +52,7 @@ export default class WalletStation {
     signBroadcast = async (props) => {
         const wallet = await this.collectWallet();
         const client = await this.signerClient(wallet);
-        const { fromAddress, toAddress, contractAddress, msg, type = typeSign.SEND, gas = gasDefault, delegator_address, validator_address, amount } = props
+        const { fromAddress, toAddress, contractAddress, msg, type = typeSign.SEND, gas = 'auto', delegator_address, validator_address, amount } = props
         try {
             switch (type) {
                 case typeSign.SEND:
@@ -59,7 +64,7 @@ export default class WalletStation {
                 case typeSign.DELEGATETOKENS:
                     return await client.delegateTokens(delegator_address, validator_address, amount, gas);
                 case typeSign.UNDELEGATETOKENS:
-                    return await client.undelegateTokens(delegator_address, validator_address, amount , gas);
+                    return await client.undelegateTokens(delegator_address, validator_address, amount, gas);
                 case typeSign.WITHDRAWREWARDS:
                     return await client.withdrawRewards(delegator_address, validator_address, gas);
             }
@@ -74,7 +79,7 @@ export default class WalletStation {
         const { arr_send, fromAddress, totalAmount } = payload;
         const message = {
             typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
-            value: {
+            value: MsgMultiSend.fromPartial({
                 inputs: [
                     {
                         address: fromAddress,
@@ -82,7 +87,7 @@ export default class WalletStation {
                     },
                 ],
                 outputs: arr_send,
-            }
+            })
         };
         return this.signBroadcast({ ...payload, msg: message });
     };
@@ -101,10 +106,10 @@ export default class WalletStation {
         for (let msg of msgs) {
             messages.push({
                 typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-                value: {
+                value: MsgWithdrawDelegatorReward.fromPartial({
                     delegatorAddress: msg.delegator_address,
                     validatorAddress: msg.validator_address,
-                }
+                })
             });
         }
         return this.signAndBroadCast(msgs?.[0]?.delegator_address, messages);
@@ -113,30 +118,30 @@ export default class WalletStation {
     redelegate = async (delegator_address, validator_src_address, validator_dst_address, amount) => {
         const message = {
             typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-            value: {
+            value: MsgBeginRedelegate.fromPartial({
                 delegatorAddress: delegator_address,
                 validatorSrcAddress: validator_src_address,
                 validatorDstAddress: validator_dst_address,
                 amount
-            }
+            })
         }
         return this.signAndBroadCast(delegator_address, [message]);
     };
 
     withdrawCommission = async (validator_address) => {
         const message = {
-            type_url: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
-            value: {
+            typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+            value: MsgWithdrawValidatorCommission.fromPartial({
                 validatorAddress: validator_address
-            }
+            })
         }
         return this.signAndBroadCast(validator_address, [message]);
     };
 
     createValidator = async (msg) => {
         const message = {
-            type_url: '/cosmos.staking.v1beta1.MsgCreateValidator',
-            value: {
+            typeUrl: '/cosmos.staking.v1beta1.MsgCreateValidator',
+            value: MsgCreateValidator.fromPartial({
                 description: msg.description,
                 commission: msg.commission,
                 delegatorAddress: msg.delegator_address,
@@ -144,93 +149,90 @@ export default class WalletStation {
                 pubkey: msg.pubkey,
                 validatorAddress: msg.validatorAddress,
                 value: msg.value,
-            }
+            })
         }
         return this.signAndBroadCast(msg.delegator_address, [message]);
     }
 
     deposit = async (proposalId, depositor, amount) => {
         const message = {
-            type_url: '/cosmos.gov.v1beta1.MsgDeposit',
-            value: {
+            typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+            value: MsgDeposit.fromPartial({
                 proposalId: Number(proposalId), depositor: depositor, amount
-            }
+            })
         }
         return this.signAndBroadCast(proposalId, [message]);
     }
 
     vote = async (proposalId, voter, option) => {
         const message = {
-            type_url: '/cosmos.gov.v1beta1.MsgDeposit',
-            value: {
+            typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+            value: MsgVote.fromPartial({
                 proposalId,
                 voter: voter,
                 option
-            }
+            })
         }
         return this.signAndBroadCast(proposalId, [message]);
     }
 
-    executeContract = async (contract, msg, sender, sentFunds) => {
+    executeContract = async (contract, msg, sender, funds) => {
         const message = {
-            type_url: '/cosmwasm.wasm.v1beta1.MsgExecuteContract',
-            value: {
+            typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+            value: MsgExecuteContract.fromPartial({
                 contract,
                 msg: Buffer.from(msg),
                 sender,
-                sentFunds,
-            }
+                funds,
+            })
         }
-        return this.signAndBroadCast(sender, message);
+        return this.signAndBroadCast(sender, [message]);
     }
 
     parameterChangeProposal = async (proposer, amount, change_info) => {
         const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
         const message = {
-            type_url: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
             value: {
-                content: {
-                    type_url: "/cosmos.params.v1beta1.ParameterChangeProposal",
-                    value: {
-                        ...change_info
-                    }
-                },
+                content: Any.fromPartial({
+                    typeUrl: "/cosmos.params.v1beta1.ParameterChangeProposal",
+                    value: ParameterChangeProposal.encode(change_info).finish()
+                }),
                 proposer: proposer,
                 initialDeposit: initial_deposit,
             }
         }
-        return this.signAndBroadCast(proposer, message);
+        return this.signAndBroadCast(proposer, [message]);
     }
 
     textProposal = async (proposer, amount, change_info,) => {
         const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
         const message = {
-            type_url: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
             value: {
-                content: {
-                    type_url: "/cosmos.gov.v1beta1.TextProposal",
-                    value: {
-                        ...change_info
-                    }
-                },
+                content: Any.fromPartial({
+                    typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+                    value: TextProposal.encode(change_info).finish()
+                }),
                 proposer: proposer,
                 initialDeposit: initial_deposit,
             }
         }
-        return this.signBroadcast(proposer, message);
+        console.log("message: ", message)
+        return this.signAndBroadCast(proposer, [message]);
     }
 
     randomnessContract = async (contract, msg, sender) => {
         const message = {
-            type_url: '/cosmwasm.wasm.v1beta1.MsgExecuteContract',
-            value: {
+            typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+            value: MsgExecuteContract.fromPartial({
                 contract,
                 msg: Buffer.from(msg),
                 sender,
-                // sentFunds, 
-            }
+                // funds, 
+            })
         }
-        return this.signBroadcast(sender, message);
+        return this.signAndBroadCast(sender, [message]);
     }
 }
 
