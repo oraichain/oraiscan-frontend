@@ -1,26 +1,26 @@
 // @ts-nocheck
-import React, {memo} from "react";
+import React, { memo } from "react";
 import classNames from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
-import {useSelector} from "react-redux";
+import { useTheme } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import copy from "copy-to-clipboard";
 import Grid from "@material-ui/core/Grid";
 import ReactJson from "react-json-view";
 import _ from "lodash";
 import Interweave from "interweave";
-import {formatDateTime, formatOrai} from "src/helpers/helper";
+import { formatDateTime, formatOrai } from "src/helpers/helper";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
-import {useDispatch} from "src/hooks";
+import { useDispatch } from "src/hooks";
 import CopyIcon from "src/icons/CopyIcon";
-import {showAlert} from "src/store/modules/global";
-import {themeIds} from "src/constants/themes";
+import { showAlert } from "src/store/modules/global";
+import { themeIds } from "src/constants/themes";
 import styles from "./DetailsCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const DetailsCard = memo(({data}) => {
+const DetailsCard = memo(({ data }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const dispatch = useDispatch();
@@ -146,6 +146,22 @@ const DetailsCard = memo(({data}) => {
 									</td>
 								</tr>
 
+								{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? <>
+									<tr>
+										<td>
+											<div className={cx("item-title")}>New Admin</div>
+											<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
+										</td>
+
+									</tr>
+									<tr>
+										<td>
+											<div className={cx("item-title")}>Proposer</div>
+											<div className={cx("item-text")}>{data?.proposer ?? "-"}</div>
+										</td>
+									</tr>
+								</> : ""}
+
 								{data?.type && data?.type?.split(".")?.pop() === "SoftwareUpgradeProposal" ? (
 									<>
 										<tr>
@@ -213,7 +229,7 @@ const DetailsCard = memo(({data}) => {
 										<td>
 											<div className={cx("item-title")}> Changes </div>
 											<ReactJson
-												style={{backgroundColor: "transparent"}}
+												style={{ backgroundColor: "transparent" }}
 												name={false}
 												theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 												displayObjectSize={false}
@@ -266,6 +282,21 @@ const DetailsCard = memo(({data}) => {
 								{totalDepositElement}
 							</td>
 						</tr>
+						{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? <>
+							<tr>
+								<td colSpan={2}>
+									<div className={cx("item-title")}>New Admin</div>
+									<div className={cx("item-new-admin")}>{data?.new_admin ?? "-"}</div>
+								</td>
+							</tr>
+							<tr>
+								<td colSpan={2}>
+									<div className={cx("item-title")}>Proposer</div>
+									<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
+
+								</td>
+							</tr>
+						</> : ""}
 						<tr>
 							<td>
 								<div className={cx("item-title")}>Voting Start</div>
