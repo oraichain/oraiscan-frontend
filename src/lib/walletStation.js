@@ -11,6 +11,7 @@ import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { UpdateAdminProposal } from "cosmjs-types/cosmwasm/wasm/v1/proposal";
 import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 
@@ -42,6 +43,7 @@ export default class WalletStation {
         try {
             const wallet = await this.collectWallet();
             const client = await this.signerClient(wallet);
+            console.log({ messages });
             return await client.signAndBroadcast(address, messages, gas);
         } catch (ex) {
             console.log("signAndBroadcast msg error: ", ex);
@@ -201,6 +203,22 @@ export default class WalletStation {
                 proposer: proposer,
                 initialDeposit: initial_deposit,
             }
+        }
+        return this.signAndBroadCast(proposer, [message]);
+    }
+
+    updateAdminProposal = async (proposer, amount, change_info) => {
+        const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
+        const message = {
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            value: MsgSubmitProposal.fromPartial({
+                content: Any.fromPartial({
+                    typeUrl: "/cosmwasm.wasm.v1.UpdateAdminProposal",
+                    value: UpdateAdminProposal.encode(change_info).finish()
+                }),
+                proposer: proposer,
+                initialDeposit: initial_deposit,
+            })
         }
         return this.signAndBroadCast(proposer, [message]);
     }
