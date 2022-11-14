@@ -70,6 +70,8 @@ const schema = yup.object().shape({
 		otherwise: yup.string().notRequired(),
 	}),
 	unbondingTime: yup.string(),
+	newadmin: yup.string(),
+	contract: yup.string(),
 	min_deposit: yup.number().notRequired(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
@@ -103,9 +105,11 @@ const defaultValues = {
 	communitytax: 0,
 	InflationMin: 0,
 	InflationMax: 0,
+	newadmin: "",
+	contract: "",
 };
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -137,6 +141,10 @@ const fields = [
 	{
 		label: "Text Proposal",
 		value: TEXT_PROPOSAL,
+	},
+	{
+		label: "Update Admin Proposal",
+		value: UPDATE_ADMIN_PROPOSAL,
 	},
 ];
 
@@ -299,6 +307,11 @@ export default function (props) {
 					...data,
 					key: TEXT_PROPOSAL,
 				};
+			case UPDATE_ADMIN_PROPOSAL:
+				return {
+					...data,
+					key: UPDATE_ADMIN_PROPOSAL,
+				};
 			default:
 				return {
 					...data,
@@ -313,17 +326,24 @@ export default function (props) {
 		try {
 			setLoadingTransaction(true);
 			const newData = handleOptionData(data);
-			const { title, description, subspace, key, value, amount } = newData;
+			const { title, description, subspace, key, value, amount, newadmin, contract } = newData;
 			var response;
 			if (key === TEXT_PROPOSAL) {
 				response = await walletStation.textProposal(address, amount, {
-					title: data.title,
-					description: draftToHtml(data.description),
+					title: title,
+					description: draftToHtml(description),
+				});
+			} else if (key == UPDATE_ADMIN_PROPOSAL) {
+				response = await walletStation.updateAdminProposal(address, amount, {
+					title: title,
+					description: draftToHtml(description).trim(),
+					newAdmin: newadmin,
+					contract: contract,
 				});
 			} else {
 				response = await walletStation.parameterChangeProposal(address, amount, {
-					title: data.title,
-					description: draftToHtml(data.description),
+					title: title,
+					description: draftToHtml(description),
 					changes: [
 						{
 							subspace,
@@ -564,6 +584,26 @@ export default function (props) {
 									<div className={cx("vme-hidden")}></div>
 									<ErrorMessage errors={errors} name={votingValue} render={({ message }) => <p className={cx("error-message", "vme-text")}>{message}</p>} />
 								</div>
+							</div>
+						)}
+
+						{fieldValue === UPDATE_ADMIN_PROPOSAL && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='newadmin'>
+									New Admin
+								</label>
+								<input type='string' step='any' className={cx("text-field")} name='newadmin' ref={register} />
+								<ErrorMessage errors={errors} name='newadmin' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
+						{fieldValue === UPDATE_ADMIN_PROPOSAL && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='contract'>
+									Contract
+								</label>
+								<input type='string' step='any' className={cx("text-field")} name='contract' ref={register} />
+								<ErrorMessage errors={errors} name='contract' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
 						)}
 
