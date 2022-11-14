@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { RestfulProvider } from "restful-react"; //  Thank you Tejas - I'm not gonna lie, swr looks more juicy these days
 import { PersistGate } from "redux-persist/integration/react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import consts from "src/constants/consts";
 import App from "./App";
@@ -16,7 +16,7 @@ import Keplr from "./lib/keplr";
 import { network } from "./lib/config/networks";
 import { render } from "react-dom";
 
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
 		primary: {
 			main: "#f0b90b",
