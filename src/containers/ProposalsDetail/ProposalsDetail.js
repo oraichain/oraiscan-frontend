@@ -109,9 +109,10 @@ export default function(props) {
 			chartCard = <ChartCard data={data} />;
 		}
 
-		if (moment(data?.deposit_end_time).isValid()) {
-			isValidDepositEndTime = new Date(data?.deposit_end_time).getTime() <= new Date().getTime();
-		}
+		// if (moment(data?.deposit_end_time).isValid()) {
+		// 	isValidDepositEndTime = new Date(data?.deposit_end_time).getTime() <= new Date().getTime();
+		// }
+		isValidDepositEndTime = moment(data?.deposit_end_time).isAfter(moment());
 
 		// handle button state
 		switch (data?.status) {
