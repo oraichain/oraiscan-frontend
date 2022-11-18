@@ -68,7 +68,7 @@ export default function(props) {
 	let depositorsTable;
 	let validatorVotesTable;
 	let finalButton;
-	let isValidDepositEndTime;
+	let isValidDepositEndTime = false;
 
 	let voteButton = (
 		<div className={cx("create-button")} onClick={onVote}>
@@ -109,6 +109,9 @@ export default function(props) {
 			chartCard = <ChartCard data={data} />;
 		}
 
+		// if (moment(data?.deposit_end_time).isValid()) {
+		// 	isValidDepositEndTime = new Date(data?.deposit_end_time).getTime() <= new Date().getTime();
+		// }
 		isValidDepositEndTime = moment(data?.deposit_end_time).isAfter(moment());
 
 		// handle button state

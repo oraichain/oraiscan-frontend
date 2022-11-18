@@ -151,7 +151,6 @@ const DetailsCard = memo(({ data }) => {
 											<div className={cx("item-title")}>New Admin</div>
 											<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
 										</td>
-
 									</tr>
 									<tr>
 										<td>
