@@ -173,10 +173,10 @@ export default function (props) {
 	const type = queryStringParse?.type ?? null;
 	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
 	const [votingValue, setVotingValue] = useState(VOTING_DAY);
-	const minFee = useSelector(state => state.blockchain.minFee);
+	// const minFee = useSelector(state => state.blockchain.minFee);
 	const { address, account } = useSelector(state => state.wallet);
-	const [gas, setGas] = useState(200000);
-	const [fee, setFee] = useState(0);
+	// const [gas, setGas] = useState(200000);
+	// const [fee, setFee] = useState(0);
 	const [open, setOpen] = useState(false);
 
 	const {
@@ -637,9 +637,9 @@ export default function (props) {
 							</div>
 						)}
 
-						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
+						{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
 						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
-						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} />
+						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} /> */}
 
 						<div className={cx("field")}>
 							<label className={cx("label")}>Notes </label>
