@@ -35,6 +35,8 @@ import { network } from "./lib/config/networks";
 import { notification } from "antd";
 import consts from 'src/constants/consts';
 
+import Under from 'src/assets/assets/undermaintenance.jpeg';
+
 const cx = classNames.bind(styles);
 
 const useStyles = makeStyles({
@@ -185,13 +187,20 @@ export default function () {
 	return (
 		<ThemeProvider theme={themes.byIds[activeThemeId]}>
 			<GlobalStyles />
-			<div className={cx("app")}>
+			{/* <div className={cx("app")}>
 				<Alert />
 				<Header toggleSearchArea={toggleSearchArea} />
 				{searchArea}
 				{tabs}
 				<Router />
 				<Footer />
+			</div> */}
+			<div style={{ textAlign: 'center' }}>
+				<img src={Under} />
+				<div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+					<span>To prepare for v0.41.0 Upgrade, services on Oraichain network will be temporarily suspended until our next official announcement.</span>
+					<p>Time (estimated): From 2022-11-20 23:59 to 2022-11-20 09:00 (UTC)</p>
+				</div>
 			</div>
 		</ThemeProvider>
 	);
