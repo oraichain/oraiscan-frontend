@@ -23,7 +23,7 @@ import consts from "src/constants/consts";
 import {useFetch, useHistory} from "src/hooks";
 import styles from "./Delegate.module.scss";
 import "./Delegate.css";
-import {formatOrai, formatPercentage} from "src/helpers/helper";
+import {formatOrai, formatPercentage , amountCoinDecimal} from "src/helpers/helper";
 import {walletStation} from "src/lib/walletStation";
 import {handleTransactionResponse} from "src/helpers/transaction";
 import {notification} from "antd";
@@ -157,7 +157,10 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 		// const minFee = (fee * 1000000 + "").split(".")[0];
 		try {
 			setLoadingTransaction(true);
-			const response = await walletStation.delegate(address, operatorAddress, new BigNumber(data.sendAmount.replaceAll(",", "")).multipliedBy(1000000));
+			const response = await walletStation.delegate(address, operatorAddress, {
+				denom: consts.DENOM,
+				amount: amountCoinDecimal(data.sendAmount)
+			});
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);

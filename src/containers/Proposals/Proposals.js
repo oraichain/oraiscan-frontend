@@ -70,6 +70,8 @@ const schema = yup.object().shape({
 		otherwise: yup.string().notRequired(),
 	}),
 	unbondingTime: yup.string(),
+	newadmin: yup.string(),
+	contract: yup.string(),
 	min_deposit: yup.number().notRequired(),
 	// .required("The Unbonding time is required.")
 	communitytax: yup
@@ -103,9 +105,11 @@ const defaultValues = {
 	communitytax: 0,
 	InflationMin: 0,
 	InflationMax: 0,
+	newadmin: "",
+	contract: "",
 };
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -138,6 +142,10 @@ const fields = [
 		label: "Text Proposal",
 		value: TEXT_PROPOSAL,
 	},
+	{
+		label: "Update Admin Proposal",
+		value: UPDATE_ADMIN_PROPOSAL,
+	},
 ];
 
 const votingFields = [
@@ -165,10 +173,10 @@ export default function (props) {
 	const type = queryStringParse?.type ?? null;
 	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
 	const [votingValue, setVotingValue] = useState(VOTING_DAY);
-	const minFee = useSelector(state => state.blockchain.minFee);
+	// const minFee = useSelector(state => state.blockchain.minFee);
 	const { address, account } = useSelector(state => state.wallet);
-	const [gas, setGas] = useState(200000);
-	const [fee, setFee] = useState(0);
+	// const [gas, setGas] = useState(200000);
+	// const [fee, setFee] = useState(0);
 	const [open, setOpen] = useState(false);
 
 	const {
@@ -299,6 +307,11 @@ export default function (props) {
 					...data,
 					key: TEXT_PROPOSAL,
 				};
+			case UPDATE_ADMIN_PROPOSAL:
+				return {
+					...data,
+					key: UPDATE_ADMIN_PROPOSAL,
+				};
 			default:
 				return {
 					...data,
@@ -313,18 +326,24 @@ export default function (props) {
 		try {
 			setLoadingTransaction(true);
 			const newData = handleOptionData(data);
-			const { title, description, subspace, key, value, amount } = newData;
+			const { title, description, subspace, key, value, amount, newadmin, contract } = newData;
 			var response;
 			if (key === TEXT_PROPOSAL) {
 				response = await walletStation.textProposal(address, amount, {
-					title: data.title,
-					description: draftToHtml(data.description),
-					amount,
+					title: title,
+					description: draftToHtml(description),
+				});
+			} else if (key == UPDATE_ADMIN_PROPOSAL) {
+				response = await walletStation.updateAdminProposal(address, amount, {
+					title: title,
+					description: draftToHtml(description).trim(),
+					newAdmin: newadmin,
+					contract: contract,
 				});
 			} else {
 				response = await walletStation.parameterChangeProposal(address, amount, {
-					title: data.title,
-					description: draftToHtml(data.description),
+					title: title,
+					description: draftToHtml(description),
 					changes: [
 						{
 							subspace,
@@ -568,6 +587,26 @@ export default function (props) {
 							</div>
 						)}
 
+						{fieldValue === UPDATE_ADMIN_PROPOSAL && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='newadmin'>
+									New Admin
+								</label>
+								<input type='string' step='any' className={cx("text-field")} name='newadmin' ref={register} />
+								<ErrorMessage errors={errors} name='newadmin' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
+						{fieldValue === UPDATE_ADMIN_PROPOSAL && (
+							<div className={cx("field")}>
+								<label className={cx("label")} htmlFor='contract'>
+									Contract
+								</label>
+								<input type='string' step='any' className={cx("text-field")} name='contract' ref={register} />
+								<ErrorMessage errors={errors} name='contract' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							</div>
+						)}
+
 						{fieldValue === COMMUNITY_TAX && (
 							<div className={cx("field")}>
 								<label className={cx("label")} htmlFor='communitytax'>
@@ -598,9 +637,9 @@ export default function (props) {
 							</div>
 						)}
 
-						<Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
+						{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
 						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
-						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} />
+						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} /> */}
 
 						<div className={cx("field")}>
 							<label className={cx("label")}>Notes </label>

@@ -145,14 +145,12 @@ const DetailsCard = memo(({ data }) => {
 										{totalDepositElement}
 									</td>
 								</tr>
-
 								{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? <>
 									<tr>
 										<td>
 											<div className={cx("item-title")}>New Admin</div>
 											<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
 										</td>
-
 									</tr>
 									<tr>
 										<td>
@@ -161,7 +159,6 @@ const DetailsCard = memo(({ data }) => {
 										</td>
 									</tr>
 								</> : ""}
-
 								{data?.type && data?.type?.split(".")?.pop() === "SoftwareUpgradeProposal" ? (
 									<>
 										<tr>
@@ -293,7 +290,7 @@ const DetailsCard = memo(({ data }) => {
 								<td colSpan={2}>
 									<div className={cx("item-title")}>Proposer</div>
 									<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
-
+									
 								</td>
 							</tr>
 						</> : ""}

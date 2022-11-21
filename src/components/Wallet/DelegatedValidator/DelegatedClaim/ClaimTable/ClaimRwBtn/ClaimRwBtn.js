@@ -75,12 +75,12 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 			}
 			// const minGasFee = (fee * 1000000 + "").split(".")[0];
 
-			const response = await walletStation.withdrawDelegatorReward([
+			const response = await walletStation.withdrawDelegatorReward(
 				{
 					delegator_address: address,
 					validator_address: validatorAddress,
 				},
-			]);
+			);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 			console.log("response claim delegator reward single: ", response);
 		} catch (error) {
