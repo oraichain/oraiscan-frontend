@@ -8,7 +8,8 @@ import { useSelector } from "react-redux";
 import { themeIds } from "src/constants/themes";
 import { reduceString } from "src/lib/scripts";
 import consts from "src/constants/consts";
-import Cosmos from "@oraichain/cosmosjs";
+import { decodeTxRaw } from "@cosmjs/proto-signing"
+import { Any } from "cosmjs-types/google/protobuf/any";
 
 export const extractValueAndUnit = (inputString = "") => {
 	if (inputString === "") {
@@ -201,22 +202,14 @@ export const mergeArrays = (array1, array2, key) => {
 
 export const decodeTx = encodedTx => {
 	const uintArr = Buffer.from(encodedTx, "base64");
-	const msg = Cosmos.message.cosmos.tx.v1beta1.TxRaw.decode(uintArr);
+	const msg = decodeTxRaw(uintArr)
 	const hash = sha256.sha256(uintArr).toUpperCase();
-	const authInfo = Cosmos.message.cosmos.tx.v1beta1.AuthInfo.decode(msg.auth_info_bytes);
-	const fee = authInfo?.fee;
-
-	const decode_body = Cosmos.message.cosmos.tx.v1beta1.TxBody.decode(msg.body_bytes);
-	const typeUrl = decode_body.messages[0].type_url.substring(1);
-	const urlArr = typeUrl.split(".");
-	let msgType = Cosmos.message;
-	for (let i = 0; i < urlArr.length; i++) {
-		msgType = msgType[urlArr[i]];
-	}
-	const value = msgType.decode(decode_body.messages[0].value);
+	const fee = msg?.authInfo?.fee;
+	const typeUrl = msg?.body?.messages?.[0].typeUrl.substring(1);
+	const value = Any.decode(msg?.body?.messages?.[0]?.value);
 	return {
 		hash: hash,
-		messageType: urlArr[urlArr.length - 1],
+		messageType: typeUrl,
 		messageValue: value,
 		fee: fee,
 	};
