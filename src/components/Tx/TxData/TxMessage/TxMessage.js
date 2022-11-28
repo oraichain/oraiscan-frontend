@@ -283,7 +283,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return (
 				<div>
 					{getInfoRow("Denom", reduceString(checkTokenCW20(data.denom)?.denom || data?.denom))}
-					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1000000, 6) : data.amount)}
+					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18),1, 6) : data.amount)}
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
