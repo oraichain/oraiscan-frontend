@@ -348,10 +348,10 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			const denomCheck = checkTokenCW20(denom_name);
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount = formatOrai(amount, denomCheck?.denom === 'KWT' ? Math.pow(10, 18) : 1);
+				formatedAmount = denomCheck?.denom === 'KWT' ? formatOrai(amount, Math.pow(10, 18)) : formatOrai(amount, 1);
 			} else {
 				calculatedValue = amount / 1000000;
-				formatedAmount = formatOrai(amount, denomCheck?.denom === 'KWT' && Math.pow(10, 18));
+				formatedAmount = denomCheck?.denom === 'KWT' ? formatOrai(amount, Math.pow(10, 18)) : formatOrai(amount);
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
