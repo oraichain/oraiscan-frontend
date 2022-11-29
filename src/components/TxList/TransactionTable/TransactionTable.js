@@ -218,7 +218,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
 				return (
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
+						<span className={cx("amount-value")}>{formatOrai(amount, checkTokenCW20(denom).denom === 'KWT' && Math.pow(10,18))}</span>
 						<span className={cx("amount-denom")}>{denom}</span>
 						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
 					</div>
@@ -380,8 +380,8 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 						amount = 0;
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
-						amount = item?.amount?.[0]?.amount;
 						denom = newDenom ? newDenom : amountDenomName;
+						amount = item?.amount?.[0]?.amount
 					} else if (item?.messages[0]?.amount && item?.messages[0]?.amount?.length > 0) {
 						amount = item?.messages[0]?.amount[0]?.amount;
 						denom = item?.messages[0]?.amount[0]?.denom_name;
@@ -406,7 +406,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 							{transferStatus && transferStatus}
 							{amount ? (
 								<>
-									{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}
+									{checkAmountOrai(item?.amount?.[0]?.denom, checkTokenCW20(item?.amount?.[0]?.denom_name).denom === 'KWT' ? amount / Math.pow(10,12) : amount, item?.amount?.[0]?.denom_name, noDenomName)}
 								</>
 							) : (
 								<div className={cx("amount")}>

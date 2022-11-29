@@ -283,7 +283,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return (
 				<div>
 					{getInfoRow("Denom", reduceString(checkTokenCW20(data.denom)?.denom || data?.denom))}
-					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1000000, 6) : data.amount)}
+					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1, 6) : data.amount)}
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
@@ -345,12 +345,13 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
+			const denomCheck = checkTokenCW20(denom_name);
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount = formatOrai(amount, 1);
+				formatedAmount = formatOrai(amount, denomCheck?.denom === 'KWT' ? Math.pow(10, 18) : 1);
 			} else {
 				calculatedValue = amount / 1000000;
-				formatedAmount = formatOrai(amount);
+				formatedAmount = formatOrai(amount, denomCheck?.denom === 'KWT' && Math.pow(10, 18));
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (

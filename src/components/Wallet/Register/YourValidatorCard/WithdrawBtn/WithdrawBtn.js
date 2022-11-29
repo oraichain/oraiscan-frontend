@@ -22,7 +22,7 @@ const WithdrawBtn = memo(({validatorAddress, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
-	const {account} = useSelector(state => state.wallet);
+	const { address } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
@@ -45,7 +45,7 @@ const WithdrawBtn = memo(({validatorAddress, BtnComponent, validatorName}) => {
 			setLoadingTransaction(true);
 			const minGasFee = (fee * 1000000 + "").split(".")[0];
 
-			const response = await walletStation.withdrawCommission(validatorAddress);
+			const response = await walletStation.withdrawCommission(validatorAddress,address );
 			console.log("response withdraw commission reward: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
