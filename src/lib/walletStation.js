@@ -16,7 +16,7 @@ import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 import { createStakingAminoConverters } from '@cosmjs/stargate/build/modules/staking/aminomessages';
 import { createDistributionAminoConverters } from '@cosmjs/stargate/build/modules/distribution/aminomessages';
-
+import { createBankAminoConverters } from '@cosmjs/stargate/build/modules/bank/aminomessages';
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
     BROADCAST_MODE_ASYNC: "BROADCAST_MODE_ASYNC",
@@ -37,7 +37,8 @@ export default class WalletStation {
     signerClient = async (wallet) => {
         const aminoTypes = new AminoTypes({
             ...createStakingAminoConverters(),
-            ...createDistributionAminoConverters()
+            ...createDistributionAminoConverters(),
+            ...createBankAminoConverters()
         });
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
