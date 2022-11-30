@@ -88,12 +88,12 @@ const RandomnessPopup = memo(({open, closeDialog, eventHandleGetRamdomValue, val
 			const msg = Buffer.from(
 				JSON.stringify({
 					request_random: {
-						input: btoa(userInput),
+						input: btoa(userInput || 100),
 					},
 				})
 			);
-			const response = await walletStation.randomnessContract(contract, msg, address, broadcastModeObj.BROADCAST_MODE_BLOCK);
-			if (response.tx_response && response.tx_response.code === 0) {
+			const response = await walletStation.randomnessContract(contract, msg, address);
+			if (!response.code) {
 				await eventHandleGetRamdomValue(response, contract);
 			}
 		} catch (error) {

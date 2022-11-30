@@ -14,6 +14,7 @@ import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { UpdateAdminProposal } from "cosmjs-types/cosmwasm/wasm/v1/proposal";
 import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
+import { createWasmAminoConverters } from '@cosmjs/cosmwasm-stargate/build/modules/wasm/aminomessages';
 import { createStakingAminoConverters } from '@cosmjs/stargate/build/modules/staking/aminomessages';
 import { createDistributionAminoConverters } from '@cosmjs/stargate/build/modules/distribution/aminomessages';
 import { createBankAminoConverters } from '@cosmjs/stargate/build/modules/bank/aminomessages';
@@ -38,7 +39,8 @@ export default class WalletStation {
         const aminoTypes = new AminoTypes({
             ...createStakingAminoConverters(),
             ...createDistributionAminoConverters(),
-            ...createBankAminoConverters()
+            ...createBankAminoConverters(),
+            ...createWasmAminoConverters()
         });
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
