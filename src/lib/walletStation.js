@@ -2,7 +2,7 @@
 import { network } from "src/lib/config/networks";
 import typeSign from "src/constants/typeSend";
 import consts from "src/constants/consts";
-import { GasPrice } from "@cosmjs/stargate";
+import { GasPrice, AminoTypes } from "@cosmjs/stargate";
 import { Decimal } from '@cosmjs/math';
 import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
 import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
@@ -14,7 +14,9 @@ import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { UpdateAdminProposal } from "cosmjs-types/cosmwasm/wasm/v1/proposal";
 import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
-
+import { createStakingAminoConverters } from '@cosmjs/stargate/build/modules/staking/aminomessages';
+import { createDistributionAminoConverters } from '@cosmjs/stargate/build/modules/distribution/aminomessages';
+import { createBankAminoConverters } from '@cosmjs/stargate/build/modules/bank/aminomessages';
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
     BROADCAST_MODE_ASYNC: "BROADCAST_MODE_ASYNC",
@@ -33,9 +35,15 @@ export default class WalletStation {
     };
 
     signerClient = async (wallet) => {
+        const aminoTypes = new AminoTypes({
+            ...createStakingAminoConverters(),
+            ...createDistributionAminoConverters(),
+            ...createBankAminoConverters()
+        });
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
             prefix: network.denom,
+            aminoTypes
         });
     };
 
@@ -95,7 +103,17 @@ export default class WalletStation {
     };
 
     delegate = async (delegator_address, validator_address, amount) => {
-        return this.signBroadcast({ delegator_address, validator_address, amount, type: typeSign.DELEGATETOKENS });
+        const key = await window.Keplr.getKeplrKey(network.chainId);
+        if (!key.isNanoLedger) return this.signBroadcast({ delegator_address, validator_address, amount, type: typeSign.DELEGATETOKENS });
+        const messages = {
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            value: {
+                delegatorAddress: delegator_address,
+                validatorAddress: validator_address,
+                amount
+            }
+        };
+        return this.signAndBroadCast(delegator_address, [messages]);
     };
 
     undelegate = async (delegator_address, validator_address, amount) => {
@@ -130,14 +148,14 @@ export default class WalletStation {
         return this.signAndBroadCast(delegator_address, [message]);
     };
 
-    withdrawCommission = async (validator_address) => {
+    withdrawCommission = async (validator_address, address) => {
         const message = {
             typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
             value: MsgWithdrawValidatorCommission.fromPartial({
                 validatorAddress: validator_address
             })
         }
-        return this.signAndBroadCast(validator_address, [message]);
+        return this.signAndBroadCast(address, [message]);
     };
 
     createValidator = async (msg) => {

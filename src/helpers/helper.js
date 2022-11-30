@@ -251,5 +251,5 @@ export const addressDisplay = str => {
 
 export const amountCoinDecimal = (amount, decimal = 1000000) => {
 	if (!amount) return "0";
-	return (amount * decimal).toString();
+	return (amount.replaceAll(",", "") * decimal).toString();
 };
