@@ -137,13 +137,15 @@ const Randomness = ({ }) => {
 	};
 
 	const eventHandleGetRamdomValue = async (response, contract) => {
-		const round = response.tx_response.logs[0].events[1].attributes[3].value;
+		// const round = response.tx_response.logs[0].events[1].attributes[3].value;
+		const round = response?.events[10]?.attributes?.[3]?.value ?? 1;
 		setTxResponse({
 			contract: contract,
-			txHash: response.tx_response?.txhash,
+			txHash: response?.transactionHash,
 		});
 		setShowModal(true);
 		setUserInput("");
+		setLoadingPopup(false);
 		let wantedRound = {};
 
 		do {
@@ -174,6 +176,7 @@ const Randomness = ({ }) => {
 	};
 
 	const closeDialog = () => {
+		setLoadingPopup(true);
 		setOpen(false);
 	};
 
