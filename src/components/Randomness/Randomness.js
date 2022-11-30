@@ -138,7 +138,7 @@ const Randomness = ({ }) => {
 
 	const eventHandleGetRamdomValue = async (response, contract) => {
 		// const round = response.tx_response.logs[0].events[1].attributes[3].value;
-		const round = response?.events[10]?.attributes?.[3]?.value ?? 1;
+		const round = response?.events?.find(eve => eve.type === 'wasm')?.attributes?.find(att => att.key == 'round')?.value ?? 1;
 		setTxResponse({
 			contract: contract,
 			txHash: response?.transactionHash,
