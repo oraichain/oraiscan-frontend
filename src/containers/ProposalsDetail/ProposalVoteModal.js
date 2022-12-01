@@ -126,9 +126,31 @@ const ProposalVoteModal = memo(({ open, onClose, data }) => {
 		// can only vote if use has logged in
 		try {
 			if (address) {
+				// VOTE_OPTION_UNSPECIFIED = 0,
+				// /** VOTE_OPTION_YES - VOTE_OPTION_YES defines a yes vote option. */
+				// VOTE_OPTION_YES = 1,
+				// /** VOTE_OPTION_ABSTAIN - VOTE_OPTION_ABSTAIN defines an abstain vote option. */
+				// VOTE_OPTION_ABSTAIN = 2,
+				// /** VOTE_OPTION_NO - VOTE_OPTION_NO defines a no vote option. */
+				// VOTE_OPTION_NO = 3,
+				// /** VOTE_OPTION_NO_WITH_VETO - VOTE_OPTION_NO_WITH_VETO defines a no with veto vote option. */
+				// VOTE_OPTION_NO_WITH_VETO = 4,
+				// UNRECOGNIZED = -1
 				setLoadingTransaction(true);
 				console.log("vote option: ", voteField);
-				const response = await walletStation.vote(new Long(data.proposal_id), address, voteField);
+				let option = 1;
+				switch (voteField) {
+					case "Abstain":
+						option = 2
+						break;
+					case "No":
+						option = 3
+						break;
+					case "No with veto":
+						option = 4
+						break;
+				}
+				const response = await walletStation.vote(new Long(data.proposal_id), address, option);
 				console.log("Result vote: ", response);
 				handleTransactionResponse(response, notification, history, setLoadingTransaction);
 			} else {

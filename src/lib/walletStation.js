@@ -18,6 +18,8 @@ import { createWasmAminoConverters } from '@cosmjs/cosmwasm-stargate/build/modul
 import { createStakingAminoConverters } from '@cosmjs/stargate/build/modules/staking/aminomessages';
 import { createDistributionAminoConverters } from '@cosmjs/stargate/build/modules/distribution/aminomessages';
 import { createBankAminoConverters } from '@cosmjs/stargate/build/modules/bank/aminomessages';
+import { createGovAminoConverters } from '@cosmjs/stargate/build/modules/gov/aminomessages';
+
 export const broadcastModeObj = {
     BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
     BROADCAST_MODE_ASYNC: "BROADCAST_MODE_ASYNC",
@@ -40,7 +42,8 @@ export default class WalletStation {
             ...createStakingAminoConverters(),
             ...createDistributionAminoConverters(),
             ...createBankAminoConverters(),
-            ...createWasmAminoConverters()
+            ...createWasmAminoConverters(),
+            ...createGovAminoConverters()
         });
         return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
             gasPrice: new GasPrice(Decimal.fromUserInput('0', 6), network.denom),
@@ -195,7 +198,7 @@ export default class WalletStation {
                 option
             })
         }
-        return this.signAndBroadCast(proposalId, [message]);
+        return this.signAndBroadCast(voter, [message]);
     }
 
     executeContract = async (contract, msg, sender, funds) => {
