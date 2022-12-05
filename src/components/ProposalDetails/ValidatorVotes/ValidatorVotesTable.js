@@ -58,7 +58,7 @@ const ValidatorVotesTable = memo(({data = [], converVoteTypes}) => {
 		return data.map((item, index) => {
 			const rankDataCell = (
 				<div className={cx("rank")}>
-					<span className={cx("rank-content")}>{item?.rankCustom || "-"}</span>
+					<span className={cx("rank-content")}>{item?.rank || "-"}</span>
 				</div>
 			);
 			const validatorDataCell = (
