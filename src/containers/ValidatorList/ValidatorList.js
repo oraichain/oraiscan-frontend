@@ -69,7 +69,7 @@ const ValidatorList = props => {
 		if (data && data?.data?.length > 0 && dataInActive) {
 			const newData = data?.data.concat(dataInActive?.data);
 			const validatorList = newData
-				.sort((val1, val2) => val2.self_bonded - val1.self_bonded)
+				.sort((val1, val2) => val2.voting_power - val1.voting_power)
 				.map((val, index) => ({
 					...val,
 					rankCustom: index + 1,

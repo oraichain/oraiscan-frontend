@@ -197,9 +197,10 @@ const ProposalVoteModal = memo(({ open, onClose, data }) => {
 							))}
 						</div>
 					</div>
-					<div className={cx("balance-title")}> Fee </div>
-					<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
-					<Gas gas={gas} onChangeGas={setGas} />
+					<div className={cx("balance-title")}>  </div>
+					<div className={cx("custom-fee")}></div>
+					{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} /> */}
+					{/* <Gas gas={gas} onChangeGas={setGas} /> */}
 					<div className={cx("error-message-vote")}>{errorMessage}</div>
 				</DialogContent>
 				<DialogActions>
