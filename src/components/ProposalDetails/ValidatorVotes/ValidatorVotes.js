@@ -176,13 +176,7 @@ const ValidatorVotes = memo(({proposalId}) => {
 	}, [validatorVoteData]);
 
 	const onConvertRank = data => {
-		if (data.length > 0) {
-			return data.map((val, index) => ({
-				...val,
-				rankCustom: index + 1,
-			}));
-		}
-		return data;
+		return data ?? [];
 	};
 
 	useEffect(() => {
