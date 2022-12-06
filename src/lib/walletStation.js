@@ -186,7 +186,7 @@ export default class WalletStation {
                 proposalId: Number(proposalId), depositor: depositor, amount
             })
         }
-        return this.signAndBroadCast(proposalId, [message]);
+        return this.signAndBroadCast(depositor, [message]);
     }
 
     vote = async (proposalId, voter, option) => {
