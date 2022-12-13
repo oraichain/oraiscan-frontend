@@ -614,6 +614,17 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
+				<InfoRow label='RawLog'>
+					<ReactJson
+						style={{ backgroundColor: "transparent" }}
+						name={false}
+						theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+						displayObjectSize={false}
+						displayDataTypes={false}
+						collapsed={4}
+						src={tryParseMessage(JSON.parse(data?.raw_log))}
+					/>
+				</InfoRow>
 			</div>
 		</>
 	);
