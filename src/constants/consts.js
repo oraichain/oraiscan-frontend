@@ -123,6 +123,7 @@ export default Object.freeze({
 		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
 		OW20_CONTRACT: "/ow20_contract",
+		OW20_TOKEN: "/ow20_tokens",
 		WASM_CODE: "/wasm_code",
 		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
 	},
