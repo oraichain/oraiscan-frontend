@@ -32,6 +32,7 @@ const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
 const SmartContract = lazy(() => import(`src/containers/SmartContract`));
 const SmartContracts = lazy(() => import(`src/containers/SmartContracts`));
 const VerifiedContract = lazy(() => import(`src/containers/VerifiedContract`));
+const VerifiedContracts = lazy(() => import(`src/containers/VerifiedContracts`));
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
@@ -86,7 +87,8 @@ export default function(props) {
 					<Route path={`/randomness/${contract}`} component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
-					<Route path='/verified-contracts' component={VerifiedContract} />
+					<Route path='/verified-contracts' component={VerifiedContracts} />
+					<Route path='/verified-contract/:address' component={VerifiedContract} />
 					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
