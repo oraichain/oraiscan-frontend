@@ -1,0 +1,79 @@
+@import "src/styles/utils";
+// items
+.items {
+	margin-bottom: 16px;
+	border: 1px solid var(--common-borderColor);
+	background-color: var(--common-containerBackgroundColor);
+	padding: 12px;
+	font-size: 14px;
+	.header {
+		display: flex;
+		justify-content: space-between;
+		padding-bottom: 10px;
+		.label {
+			font-weight: 400;
+			color: var(--common-textColor);
+		}
+        .icon {
+            display: flex;
+			.link {
+				cursor: pointer;
+			}
+        }
+	}
+	.value {
+		padding-left: 10px;
+		.amount {
+			color: #5f51ff;
+		}
+		.type {
+			color: #767f8d;
+			font-style: italic;
+			font-weight: 500;
+		}
+		.label-contract {
+			padding-bottom: 6px;
+			color: var(--common-textColor);
+			font-weight: 600;
+		}
+		.btn {
+			padding-bottom: 12px;
+		}
+	}
+}
+
+.readcontract {
+	.input {
+		display: inline-flex;
+		width: 100%;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		border: 1px solid var(--common-borderColor);
+		padding: 8px;
+		margin-bottom: 16px;
+		background: var(--common-containerBackgroundColor);
+		.text-field {
+			display: inline-block;
+			flex-grow: 1;
+			color: var(--common-textColor);
+			background-color: var(--common-containerBackgroundColor);
+			border: none;
+			outline: none;
+			padding: 6px 0px;
+			&:focus {
+				border: none;
+				outline: none;
+			}
+			&::placeholder {
+				color: var(--common-placeholderTextColor);
+				font-family: "IBM Plex Sans";
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+			}
+		}
+	}
+	
+}
