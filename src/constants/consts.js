@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const api = config.SCAN_API;
 const lcdApi = config.LCD_API;
+const contractApi = config.CONTRACT_DEPLOY_API;
 
 export default Object.freeze({
 	DEFAULT_ARRAY: [],
@@ -52,6 +53,7 @@ export default Object.freeze({
 	GET_LOGO_LINK: symbol =>
 		_.isString(symbol) ? `https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/thumnail/${_.split(symbol)[0]}}.png` : "",
 	API_BASE: api,
+	API_CONTRACT_DEPLOY: contractApi,
 	LCD_API_BASE: lcdApi,
 	API: {
 		STATUS: "/status",
@@ -170,6 +172,9 @@ export default Object.freeze({
 		PRODUCTION: "",
 		STAGING: ""
 	},
+	PATH_CONTRACT: {
+		LIST: '/contracts'
+	},
 	MENU: [
 		{
 			display: "DASHBOARD",
@@ -212,6 +217,7 @@ export default Object.freeze({
 		WASM_CODE: "/wasm-code",
 		ORACLE_REQUEST: "/ai-request",
 		EXPORT_DATA: "/export-data",
+		VERIFIED_CONTRACT:"/verified-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",

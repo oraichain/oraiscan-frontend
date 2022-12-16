@@ -1,9 +1,9 @@
-import React from "react";
-import {useParams} from "react-router-dom";
-import {useGet} from "restful-react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
-import {Grid} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import consts from "src/constants/consts";
@@ -26,9 +26,9 @@ const VerifiedContract = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
-	// const address = params?.["address"];
-	const address = 'orai1cmra86aa3448fqpfwyql0nw0zdkvnszyma35km6prud67grm7ufqnr8fz2';
-	const path = `${consts.API.SMART_CONTRACT}/${address}`;
+	const address = params?.["address"];
+	const path = `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/${address}`;
+
 	const {data, loading, error, refetch} = useGet({
 		path: path,
 	});
@@ -39,7 +39,7 @@ const VerifiedContract = () => {
 	titleSection = isLargeScreen ? (
 		<Container fixed>
 			<TitleWrapper>
-				<PageTitle title={"Smart Contract"} />
+				<PageTitle title={""} />
 				<StatusBox />
 			</TitleWrapper>
 		</Container>
@@ -50,7 +50,7 @@ const VerifiedContract = () => {
 		</>
 	);
 
-	tableSection = <ContractCard address={data?.address} />;
+	tableSection = <ContractCard address={data?.data?.contract_address} data={data} />;
 
 	return (
 		<>
@@ -58,8 +58,15 @@ const VerifiedContract = () => {
 			<Container fixed className={cx("smart-contract")}>
 				<div className={cx("header-card")}>
 					<Grid spacing={2} container>
-						<ContractPreview data={data} />
-						<MoreInfo data={data} />
+						<ContractPreview data={{
+							...data,
+							address: data?.data?.contract_address,
+							code_id: data?.data?.code_id,
+						}} />
+						<MoreInfo data={{
+							...data,
+							creator: data?.data?.creator_address,
+						}} />
 					</Grid>
 				</div>
 				{/* <SmartContractCodeCard data={data} /> */}

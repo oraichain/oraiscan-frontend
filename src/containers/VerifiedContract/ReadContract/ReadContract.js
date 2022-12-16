@@ -1,14 +1,14 @@
-// @ts-nocheck
 import React, { memo } from "react";
 import classNames from "classnames/bind";
 import styles from "./ReadContract.module.scss";
-import TransactionsIcon from "src/icons/Tabs/TransactionsTabIcon";
 import HeaderContract from "../HeaderContract";
 import CopyVerifiedIcon from "src/icons/CopyContractIcon";
 import DownArrowIcon from "src/icons/DownArrowIcon";
-import { InputNumberOrai, TextArea, InputTextWithIcon } from "src/components/common/form-controls";
-import { Button, Grid, InputBase } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import VectorIcon from 'src/icons/VectorIcon';
+import copy from "copy-to-clipboard";
+import { showAlert } from "src/store/modules/global";
+import { useDispatch } from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -18,9 +18,9 @@ const ItemContract = ({ label, amount, type }) => {
             <div className={cx("header")} >
                 <div className={cx("label")}>{label}</div>
                 <div className={cx("icon")}>
-                    <CopyVerifiedIcon className={cx('link')}/>
+                    <CopyVerifiedIcon className={cx('link')} />
                     <div style={{ width: 16 }} />
-                    <DownArrowIcon className={cx('link')}/>
+                    <DownArrowIcon className={cx('link')} />
                 </div>
             </div>
             <div className={cx("value")}>
@@ -31,15 +31,15 @@ const ItemContract = ({ label, amount, type }) => {
     );
 };
 
-const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender }) => {
+const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender, onClickCopy }) => {
     return (
         <div className={cx("items")} >
             <div className={cx("header")} >
                 <div className={cx("label")}>{label}</div>
                 <div className={cx("icon")}>
-                    <CopyVerifiedIcon />
+                    <div onClick={() => onClickCopy(label)}><CopyVerifiedIcon /></div>
                     <div style={{ width: 16 }} />
-                    <DownArrowIcon />
+                    <div><DownArrowIcon /></div>
                 </div>
             </div>
             <div className={cx("value")}>
@@ -67,13 +67,24 @@ const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender }) => 
 }
 
 const ReadContract = memo(() => {
+    const dispatch = useDispatch();
+    const onClickCopy = (msg) => {
+        copy(JSON.stringify(msg))
+        dispatch(
+            showAlert({
+                show: true,
+                message: "Copied",
+                autoHideDuration: 1500,
+            })
+        );
+    }
     return (
         <div className={cx("readcontract")}>
-            <HeaderContract label={"Read Contract Infomation"}/>
+            <HeaderContract label={"Read Contract Infomation"} />
             <div style={{ height: 16 }} />
-            <ItemContract label={"1.  _maxTxAmount"} type={"uint256"} amount={"10000000000000"} />
-            <ItemContract label={"2.  _maxWalletSize"} type={"uint256"} amount={"10000000000000"} />
-            <Allowance label={"3.  allowance"} />
+            <ItemContract onClickCopy={onClickCopy} label={"1.  _maxTxAmount"} type={"uint256"} amount={"10000000000000"} />
+            <ItemContract onClickCopy={onClickCopy} label={"2.  _maxWalletSize"} type={"uint256"} amount={"10000000000000"} />
+            <Allowance onClickCopy={onClickCopy} label={"3.  allowance"} onClick={undefined} owner={undefined} setOwner={undefined} spender={undefined} setSpender={undefined} />
         </div>
     );
 });

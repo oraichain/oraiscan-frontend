@@ -24,3 +24,132 @@
 		width: initial;
 	}
 }
+
+.verified-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px 10px;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-icon {
+		width: 12px;
+		height: auto;
+		color: var(--common-buttonTextColor);
+	}
+}
+
+.dialog-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 16px;
+}
+
+.dialog-body {
+	padding: 16px;
+}
+
+.dialog-footer {
+	padding-top: 8px;
+	padding-bottom: 32px;
+	text-align: center;
+}
+
+.field {
+	position: relative;
+	margin-bottom: 40px;
+
+	&-voting {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&-input {
+			width: 62% !important;
+		}
+	}
+}
+
+.close-button {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.label {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--common-textColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 150%;
+}
+
+.text-field {
+	display: block;
+	width: 100%;
+	padding: 13px 15px;
+	color: var(--common-textColor);
+	border: 1px solid #405d78;
+	box-sizing: border-box;
+	border-radius: 6px;
+	background: var(--common-blockItemBackgroundColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+
+	&:focus-visible {
+		outline: none;
+	}
+}
+
+
+.create-button,
+.submit-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px 10px;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-icon {
+		width: 12px;
+		height: auto;
+		color: var(--common-buttonTextColor);
+	}
+}
