@@ -108,3 +108,7 @@ export const getListRequest = (aiOracle, aiRequest) => {
 export const uploadImagesValidator = async (data) => {
 	return await axios({ url: `${consts.API_BASE}${consts.API.UPLOAD_IMAGES_VALIDATORS}`, ...data });
 };
+
+export const axiosCall = async (data) => {
+	return await axios({ ...data });
+};
