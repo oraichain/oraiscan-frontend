@@ -7,6 +7,7 @@ const config = Object.freeze({
 		? process.env.REACT_APP_API_TESTNET || "https://api.testnet.scan.orai.io/v1"
 		: process.env.REACT_APP_API_PROD || process.env.REACT_APP_API_DEV || "https://api.scan.orai.io/v1",
 	LCD_API: isTestnet ? process.env.REACT_APP_LCD_API_TESTNET || "https://lcd.testnet.orai.io" : process.env.REACT_APP_LCD_API || "https://lcd.orai.io",
+	CONTRACT_DEPLOY_API:  process.env.REACT_APP_CONTRACT_API || "https://cosmwasm-verify.orai.io/api/v1",
 	walletapi: isTestnet
 		? process.env.REACT_APP_WALLET_API_TESTNET || "https://testnet-wallet.web.app"
 		: process.env.REACT_APP_WALLET_API || "https://api.wallet.orai.io",

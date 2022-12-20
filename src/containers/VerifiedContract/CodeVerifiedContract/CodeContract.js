@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./CodeContract.module.scss";
 import Grid from "@material-ui/core/Grid";
@@ -11,13 +11,19 @@ import RegularFileIcon from 'src/icons/RegularFileIcon';
 import PropTypes from "prop-types";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import _ from "lodash";
+import copy from "copy-to-clipboard";
+import { showAlert } from "src/store/modules/global";
+import { useDispatch, useSelector } from "react-redux";
+import ReactJson from "react-json-view";
+import { themeIds } from "src/constants/themes";
 
 const cx = classNames.bind(styles);
-
-const ItemCodeContract = () => {
+const heightDefault = 300;
+const heightCollase = 600;
+const ItemCodeContract = ({ contractName, compilerVersion, contractVerification }) => {
 	return (
 		<div className={cx("header")}>
-			<div className={cx("title")}><SuccessIcon /> Contract Source Code Verified</div>
+			<div className={cx("title")}>{contractVerification == "VERIFIED" && <SuccessIcon />} Contract Source Code Verified</div>
 			<Grid container spacing={2}>
 				<Grid item lg={6} xs={12}>
 					<div className={cx("contract-preview")}>
@@ -28,7 +34,7 @@ const ItemCodeContract = () => {
 										<div className={cx("item-title")}>Contract Name:</div>
 									</td>
 									<td>
-										<div className={cx("item-text")}>Outcry</div>
+										<div className={cx("item-text")}>{contractName ?? '-'}</div>
 									</td>
 								</tr>
 								<tr>
@@ -36,7 +42,7 @@ const ItemCodeContract = () => {
 										<div className={cx("item-title")}>Compiler Version:</div>
 									</td>
 									<td>
-										<div className={cx("item-text")}>v0.8.16+commit.07a7930e</div>
+										<div className={cx("item-text")}>{compilerVersion ?? '-'}</div>
 									</td>
 								</tr>
 							</tbody>
@@ -72,7 +78,8 @@ const ItemCodeContract = () => {
 	)
 }
 
-const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, label }) => {
+const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, label, msg, activeThemeId }) => {
+	const [height, setHeight] = useState(false);
 	return (
 		<div className={cx("items-code")}>
 			<Grid container spacing={2}>
@@ -85,17 +92,25 @@ const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, on
 					<div className={cx("action-right")} >
 						{linkChain && <><div className={cx('link')} onClick={onClickLinkChain}><LinkChainIcon /></div><div style={{ width: 16 }} /></>}
 						{leftHeader ? leftHeader : <>
-							<div className={cx('link')} onClick={onClickCopy}><CopyVerifiedIcon /> </div>
+							<div className={cx('link')} onClick={() => onClickCopy(msg)}><CopyVerifiedIcon /> </div>
 							<div style={{ width: 16 }} />
-							<div className={cx('link')} onClick={onClickDownArrow}><DownArrowIcon /></div></>}
+							<div className={cx('link')} onClick={() => setHeight(!height)}><DownArrowIcon style={{ transform: !height ? "rotate(0deg)" : "rotate(180deg)" }} /></div></>}
 					</div>
 				</Grid>
 			</Grid>
 			<div className={cx("source")} >
-				<div className={cx("data")}>
-					{
-						JSON.stringify('[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }][{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":" }]')
-					}
+				<div className={cx("data")} style={{ maxHeight: !height ? heightDefault : heightCollase, overflow: 'auto' }}>
+					{msg && <ReactJson
+						style={{ backgroundColor: "transparent" }}
+						name={false}
+						theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+						displayObjectSize={false}
+						displayDataTypes={false}
+						src={msg}
+						collapsed={false}
+						sortKeys={true}
+						quotesOnKeys={true}
+					/>}
 				</div>
 			</div>
 		</div>
@@ -149,46 +164,49 @@ const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayList }) =>
 				{arrayList.map((item, index) => (
 					<div key={"list-item-" + index} className={cx("list-item")} onClick={() => handleChange(item)}>
 						{item}
-					</div> 
+					</div>
 				))}
 			</div>
 		</div>
 	)
 }
 
-const CodeContract = memo(() => {
-	const selectDropdownCode = useRef(null);
-	const selectDropdownMore = useRef(null);
-	const selectDropdownAudit = useRef(null);
+const CodeContract = memo(({ data }) => {
+	// const selectDropdownCode = useRef(null);
+	// const selectDropdownMore = useRef(null);
 
-	const refDropdownCode = useRef(null);
-	const refDropdownMore = useRef(null);
-	const refDropdownAudit = useRef(null);
+	// const refDropdownCode = useRef(null);
+	// const refDropdownMore = useRef(null);
 
-	const [valueCode, setValueCode] = React.useState('Code');
-	const [valueMore, setValueMore] = React.useState('More Option');
-	const [valueAudit, setValueAudit] = React.useState('Export ABI')
+	// const [valueCode, setValueCode] = React.useState('Code');
+	// const [valueMore, setValueMore] = React.useState('More Option');
+	// @ts-ignore
+	const activeThemeId = useSelector(state => state.activeThemeId);
+	const dispatch = useDispatch();
+	const onClickCopy = (msg) => {
+		copy(JSON.stringify(msg))
+		dispatch(
+			showAlert({
+				show: true,
+				message: "Copied",
+				autoHideDuration: 1500,
+			})
+		);
+	}
 
 	return (
 		<div>
-			<ItemCodeContract />
+			<ItemCodeContract contractName={data?.data?.contract_name} compilerVersion={data?.data?.compiler_version} contractVerification={data?.data?.contract_verification} />
 			<div className={cx("flex")}>
 				<RegularFileIcon /> <span style={{ width: 4 }} />Contract Source Code
 			</div>
-			<div className={cx("flex")}>
+			{/* <div className={cx("flex")}>
 				<DropDownContract refDrop={refDropdownCode} refSelect={selectDropdownCode} value={valueCode} setValue={setValueCode} arrayList={[1, 2, 3]} />
 				<DropDownContract refDrop={refDropdownMore} refSelect={selectDropdownMore} value={valueMore} setValue={setValueMore} arrayList={[1, 2, 3]} />
-			</div>
-
-			<ItemContract linkChain />
-			<div className={cx("flex")}>
-				<RegularFileIcon />	<span style={{ width: 4 }} /> Contract Security Audit
-			</div>
-			<div className={cx("flex")}>
-				<DropDownContract refDrop={refDropdownAudit} refSelect={selectDropdownAudit} value={valueAudit} setValue={setValueAudit} arrayList={[1, 2, 3]} />
-			</div>
-			<ItemContract label="Contract ABI" />
-			<ItemContract label="Contract Creation Code" />
+			</div> */}
+			<ItemContract activeThemeId={activeThemeId} label="File 1 of 3: execute msg.ison" onClickCopy={onClickCopy} msg={data?.data?.execute_msg_schema} />
+			<ItemContract activeThemeId={activeThemeId} label="File 2 of 3: instantiate msg.json" onClickCopy={onClickCopy} msg={data?.data?.instantiate_msg_schema} />
+			<ItemContract activeThemeId={activeThemeId} label="File 3 of 3: query msg.json" onClickCopy={onClickCopy} msg={data?.data?.query_msg_schema} />
 		</div>
 	);
 });
@@ -200,13 +218,15 @@ ItemContract.propTypes = {
 	onClickCopy: PropTypes.func,
 	onClickLinkChain: PropTypes.func,
 	onClickDownArrow: PropTypes.func,
-	label: PropTypes.string
+	label: PropTypes.string,
+	msg: PropTypes.string,
 };
 
 ItemContract.defaultProps = {
 	linkChain: false,
 	leftHeader: undefined,
 	label: "",
+	msg: "",
 	onClickCopy: () => { },
 	onClickLinkChain: () => { },
 	onClickDownArrow: () => { }

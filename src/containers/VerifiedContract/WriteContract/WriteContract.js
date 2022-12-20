@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { memo } from "react";
 import classNames from "classnames/bind";
 import styles from "./WriteContract.module.scss";
@@ -9,7 +8,7 @@ import DownArrowIcon from "src/icons/DownArrowIcon";
 import { InputNumberOrai, TextArea, InputTextWithIcon } from "src/components/common/form-controls";
 import { Button, Grid, InputBase } from "@material-ui/core";
 import VectorIcon from 'src/icons/VectorIcon';
-
+import {  useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 const ItemContract = ({ label, amount, type }) => {
@@ -67,13 +66,15 @@ const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender }) => 
 }
 
 const WriteContract = memo(() => {
+	// @ts-ignore
+	const { address } = useSelector(state => state.wallet);
 	return (
 		<div className={cx("readcontract")}>
-			<HeaderContract />
+			<HeaderContract icon={<></>} label={address ? "Connect to web3" : "Connect to wallet"}/>
 			<div style={{ height: 16 }} />
 			<ItemContract label={"1.  _maxTxAmount"} type={"uint256"} amount={"10000000000000"} />
 			<ItemContract label={"2.  _maxWalletSize"} type={"uint256"} amount={"10000000000000"} />
-			<Allowance label={"3.  allowance"} />
+			<Allowance label={"3.  allowance"} onClick={undefined} owner={undefined} setOwner={undefined} spender={undefined} setSpender={undefined} />
 		</div>
 	);
 });

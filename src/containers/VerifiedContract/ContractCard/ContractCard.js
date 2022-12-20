@@ -12,14 +12,14 @@ import styles from "./ContractCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const ContractCard = memo(({address = "", account = ""}) => {
+const ContractCard = memo(({address = "", data}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [activeTab, setActiveTab] = useState(0);
 	const placeholder = !activeTab ? "Search Source Code" : "Filter Address / Txn Hash / Token";
-	let codeSection = <CodeContract />;
-	let readContractSection = <ReadContract />;
-	let WriteContractSection = <WriteContract />;
+	let codeSection = <CodeContract data={data}/>;
+	let readContractSection = <ReadContract data={data}/>;
+	let WriteContractSection = <WriteContract data={data}/>;
 
 	return (
 		<div className={cx("contract-card")}>
