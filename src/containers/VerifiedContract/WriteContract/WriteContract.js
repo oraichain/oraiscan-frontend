@@ -66,6 +66,7 @@ const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender }) => 
 }
 
 const WriteContract = memo(() => {
+	// @ts-ignore
 	const { address } = useSelector(state => state.wallet);
 	return (
 		<div className={cx("readcontract")}>
@@ -73,7 +74,7 @@ const WriteContract = memo(() => {
 			<div style={{ height: 16 }} />
 			<ItemContract label={"1.  _maxTxAmount"} type={"uint256"} amount={"10000000000000"} />
 			<ItemContract label={"2.  _maxWalletSize"} type={"uint256"} amount={"10000000000000"} />
-			<Allowance label={"3.  allowance"} />
+			<Allowance label={"3.  allowance"} onClick={undefined} owner={undefined} setOwner={undefined} spender={undefined} setSpender={undefined} />
 		</div>
 	);
 });

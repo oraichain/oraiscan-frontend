@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
@@ -13,23 +12,33 @@ import NoResult from "src/components/common/NoResult";
 import styles from "./VerifiedContracts.module.scss";
 import VerifiedContractCard from "src/components/VerifiedContracts/VerifiedContractTable";
 import VerifiedContractCardList from "src/components/VerifiedContracts/VerifiedContractCardList/VerifiedContractCardList";
+import VerifiedContractTableSkeleton from 'src/components/VerifiedContracts/VerifiedContractTable/VerifiedContractTableSkeleton';
+import VerifiedContractCardListSkeleton from 'src/components/VerifiedContracts/VerifiedContractCardList/VerifiedContractCardListSkeleton';
 import * as api from "src/lib/api";
 import AddIcon from "src/icons/AddIcon";
 import Dialog from "@material-ui/core/Dialog";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ErrorMessage } from "@hookform/error-message";
 import { handleErrorMessage } from "../../lib/scripts";
 import { notification } from "antd";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const cx = cn.bind(styles);
 const defaultValues = {
-	title: "",
+	contract_address: "",
+	wasm_file: undefined,
 };
 const schema = yup.object().shape({
-	title: yup.string().required("The Title is required"),
+	contract_address: yup.string().required("The Contract Address is required"),
+	wasm_file: yup
+		.mixed()
+		.nullable()
+		.notRequired()
+		.test("REQUIRED", "The Wasn File is required",
+			value => value.length ? value : false)
 })
 
 const VerifiedContracts = () => {
@@ -37,9 +46,10 @@ const VerifiedContracts = () => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [verifiedContractData, setVerifiedContractData] = useState([]);
 	const [verifiedPageId, setVerifiedPageId] = useState(1);
+	const [loading, setLoading] = useState(false);
 	const verifiedContractTotalPagesRef = useRef(null);
 	const [open, setOpen] = useState(false);
-
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {
 		handleSubmit,
 		register,
@@ -50,34 +60,28 @@ const VerifiedContracts = () => {
 	} = useForm({ defaultValues, resolver: yupResolver(schema) });
 
 	useEffect(() => {
-		(async () => {
-			await getData();
-		})()
-	}, [])
+		(async () => await getData())()
+	}, [verifiedPageId]);
 
-	useEffect(() => {
-		(async () => {
-			await getData();
-		})()
-	}, [verifiedPageId])
-
-	const getData = async () => {
+	const getData = useCallback(async () => {
 		try {
+			setLoading(true);
 			const verifiedData = await api.axiosCall({
 				method: 'post',
 				url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}`,
 				data: {
 					page: verifiedPageId,
-					limit: consts.REQUEST.LIMIT,
+					size: consts.REQUEST.LIMIT,
 				}
-			})
+			});
+			setLoading(false);
 			setVerifiedContractData(verifiedData?.data)
 		} catch (error) {
 			console.log({ error });
+			setLoading(false);
 		}
-	}
+	}, [verifiedPageId])
 
-	let smartContractTitleSection;
 	let paginationWasmcodeSection;
 	let tableVerifiedContract;
 	let verfiedButton;
@@ -85,7 +89,7 @@ const VerifiedContracts = () => {
 		<TitleWrapper>
 			{isLargeScreen ? (
 				<>
-					<PageTitle title='Verified Contracts' />
+					<PageTitle title={"Verified Contracts"} />
 					<StatusBox />
 				</>
 			) : (
@@ -97,29 +101,10 @@ const VerifiedContracts = () => {
 		</TitleWrapper>
 	);
 
-	// const {
-	// 	handleSubmit,
-	// 	register,
-	// 	unregister,
-	// 	control,
-	// 	formState: { errors },
-	// 	clearErrors,
-	// } = useForm({ defaultValues, resolver: yupResolver(schema) });
 
-	if (isLargeScreen) {
-		smartContractTitleSection = (
-			<Container fixed>
-				<TitleWrapper>
-					<PageTitle title='Verified Contract' />
-				</TitleWrapper>
-			</Container>
-		);
-	} else {
-		smartContractTitleSection = <TogglePageBar type='smart-contracts' />;
-	}
-
-
-	if (!verifiedContractData?.data?.length) {
+	if (loading) {
+		tableVerifiedContract = isLargeScreen ? <VerifiedContractTableSkeleton /> : <VerifiedContractCardListSkeleton />;
+	} else if (!verifiedContractData?.data?.length) {
 		tableVerifiedContract = <NoResult />
 		verifiedContractTotalPagesRef.current = null;
 	} else {
@@ -159,9 +144,38 @@ const VerifiedContracts = () => {
 
 	const onSubmit = async data => {
 		try {
-			
+			setLoadingTransaction(true);
+			const formData = new FormData();
+			formData.append("instantiate_msg_schema", data?.instantiate.length ? JSON.stringify(data?.instantiate) : data?.instantiate);
+			formData.append("query_msg_schema", data?.query.length ? JSON.stringify(data?.query) : data?.query);
+			formData.append("execute_msg_schema", data?.execute.length ? JSON.stringify(data?.execute) : data?.execute);
+			formData.append("contract_address", data?.contract_address);
+			formData.append("wasm_file", data?.wasm_file?.[0]);
+
+			const verified = await api.axiosCall({
+				method: 'post',
+				url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/verify`,
+				data: formData,
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			setLoadingTransaction(false);
+			handleClose();
+			if (verified?.data?.data?.contract_verification) {
+				notification.success({
+					message: "Verified Contract",
+					description: verified?.data?.data?.contract_verification,
+				});
+				await getData();
+			} else {
+				notification.error({
+					message: "Verified Contract",
+					description: verified?.data?.error?.Message,
+				});
+			}
 		} catch (error) {
 			console.log("error: ", error);
+			setLoadingTransaction(false);
+			handleClose();
 			notification.error({ message: handleErrorMessage(error) });
 		}
 	}
@@ -176,7 +190,7 @@ const VerifiedContracts = () => {
 				{tableVerifiedContract}
 				{paginationWasmcodeSection}
 			</Container>
-			<Dialog open={open} maxWidth='sm' fullWidth={true} aria-labelledby='create-proposal-dialog' onClose={handleClose}>
+			<Dialog open={open} maxWidth='sm' fullWidth={true} aria-labelledby='verified--dialog' onClose={handleClose}>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className={cx("dialog-header")}>
 						<div className={cx("close-button")} onClick={handleClose}>
@@ -190,24 +204,36 @@ const VerifiedContracts = () => {
 							<label className={cx("label")} htmlFor='title'>
 								Contract Address
 							</label>
-							<input type='text' className={cx("text-field")} name='title' ref={register} />
-							<ErrorMessage errors={errors} name='title' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+							<input type='text' className={cx("text-field")} name='contract_address' ref={register} />
+							<ErrorMessage errors={errors} name='contract_address' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Wasm File
 							</label>
-							<input type='file' className={cx("text-field")} name='wasm_file' ref={register} />
+							<input type='file' className={cx("text-field-file")} name='wasm_file' ref={register} />
 							<ErrorMessage errors={errors} name='wasm_file' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
-
-
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Instantiate Msg Schema
 							</label>
-							<input type='text' className={cx("text-field")} name='title' ref={register} />
-							{/* <ErrorMessage errors={errors} name='title' render={({ message }) => <p className={cx("error-message")}>{message}</p>} /> */}
+							<textarea className={cx("text-field")} name='instantiate' ref={register}></textarea>
+							<ErrorMessage errors={errors} name='instantiate' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Query Msg Schema
+							</label>
+							<textarea className={cx("text-field")} name='query' ref={register} ></textarea>
+							<ErrorMessage errors={errors} name='query' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Execute Msg Schema
+							</label>
+							<textarea className={cx("text-field")} name='execute' ref={register} ></textarea>
+							<ErrorMessage errors={errors} name='execute' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 					</div>
 					<div className={cx("dialog-footer")}>
@@ -217,6 +243,7 @@ const VerifiedContracts = () => {
 					</div>
 				</form>
 			</Dialog>
+			{loadingTransaction && <LoadingOverlay />}
 		</>
 	);
 };

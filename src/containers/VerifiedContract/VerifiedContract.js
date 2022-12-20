@@ -50,7 +50,7 @@ const VerifiedContract = () => {
 		</>
 	);
 
-	tableSection = <ContractCard address={data?.data?.contract_address} data={data} />;
+	tableSection = <ContractCard address={data?.data?.data?.contract_address} data={data?.data} />;
 
 	return (
 		<>
@@ -60,16 +60,15 @@ const VerifiedContract = () => {
 					<Grid spacing={2} container>
 						<ContractPreview data={{
 							...data,
-							address: data?.data?.contract_address,
-							code_id: data?.data?.code_id,
+							address: data?.data?.data?.contract_address,
+							code_id: data?.data?.data?.code_id,
 						}} />
 						<MoreInfo data={{
 							...data,
-							creator: data?.data?.creator_address,
+							creator: data?.data?.data?.creator_address,
 						}} />
 					</Grid>
 				</div>
-				{/* <SmartContractCodeCard data={data} /> */}
 				{tableSection}
 			</Container>
 		</>

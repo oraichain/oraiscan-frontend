@@ -5,31 +5,27 @@ import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import { tableThemes } from "src/constants/tableThemes";
-import { _ } from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./VerifiedContractTable.module.scss";
-import { storeWasmCode } from "src/store/modules/wasmcode";
-import { useDispatch } from "react-redux";
 import { formatDateTime } from "src/helpers/helper";
 import SuccessIcon from "src/icons/SuccessIcon";
+import {_ , reduceStringAssets} from "src/lib/scripts";
 
 const cx = classNames.bind(styles);
 
 export const getHeaderRow = () => {
-	const codeIdHeaderCell = <div className={cx("header-cell", "align-center")}>Code id</div>;
-	const nameHeaderCell = <div className={cx("header-cell", "align-left")}>Name</div>;
+	const codeIdHeaderCell = <div className={cx("header-cell", "align-left")}>Code id</div>;
+	const nameHeaderCell = <div className={cx("header-cell", "align-left")}>Contract Name</div>;
 	const verifiedAtHeaderCell = <div className={cx("header-cell", "align-left")}>Verified</div>;
 	const contractAddressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
-	const createdAtHeaderCell = <div className={cx("header-cell", "align-left")}>Created At</div>;
-	const headerCells = [contractAddressHeaderCell, nameHeaderCell, creatorHeaderCell, codeIdHeaderCell, verifiedAtHeaderCell, txHashHeaderCell, createdAtHeaderCell];
+	const headerCells = [contractAddressHeaderCell, nameHeaderCell, codeIdHeaderCell, verifiedAtHeaderCell, txHashHeaderCell , creatorHeaderCell];
 	const headerCellStyles = [
 		{ minWidth: "200px" },
 		{ minWidth: "240px" },
 		{ minWidth: "150px" },
 		{ minWidth: "120px" },
-		{ minWidth: "200px" },
 		{ minWidth: "200px" },
 		{ minWidth: "200px" },
 	];
@@ -44,8 +40,8 @@ const VerifiedContractTable = memo(({ data = [] }) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
-
 		return data.map((item, index) => {
+			const status = item?.contract_verification == 'VERIFIED' ? <><SuccessIcon /> <span style={{ width: 2 }} /></> : <span style={{ width: 26 }} />
 			const nameDataCell = _.isNil(item?.contract_name) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -55,21 +51,14 @@ const VerifiedContractTable = memo(({ data = [] }) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.VERIFIED_CONTRACT}/${item.contract_address}`}>
-					<SuccessIcon /> {item.contract_address}
+					{status} {reduceStringAssets(item?.contract_address, 8, 8)}
 				</NavLink>
 			);
-			const creatorDataCell = _.isNil(item?.creator_address) ? (
-				<div className={cx("align-left")}>-</div>
-			) : (
-				<NavLink className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.creator_address}`}>
-					{item.creator_address}
-				</NavLink>
-			);
-
+			
 			const codeIdDataCell = _.isNil(item?.code_id) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("code-id-data-cell", "align-center")} to={`${consts.PATH.WASM_CODE}/${item?.code_id}`}>
+				<NavLink className={cx("code-id-data-cell", "align-left")} to={`${consts.PATH.WASM_CODE}/${item?.code_id}`}>
 					{item?.code_id}
 				</NavLink>
 			);
@@ -85,17 +74,20 @@ const VerifiedContractTable = memo(({ data = [] }) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item?.contract_hash}`}>
-					{item?.contract_hash}
+					{reduceStringAssets(item?.contract_hash, 8, 8)}
 				</NavLink>
 			);
 
-			const createdAtDataCell = _.isNil(item?.created_at) ? (
+			const creatorDataCell = _.isNil(item?.creator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("time-data-cell", "align-left")}>{formatDateTime(item?.created_at)}</div>
+				<NavLink className={cx("creator-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item.creator_address}`}>
+					{reduceStringAssets(item?.creator_address, 8, 8)}
+				</NavLink>
 			);
 
-			return [contractAddressDataCell, nameDataCell, creatorDataCell, codeIdDataCell, verifiedAtDataCell, txHashDataCell, createdAtDataCell];
+
+			return [contractAddressDataCell, nameDataCell, codeIdDataCell, verifiedAtDataCell, txHashDataCell , creatorDataCell];
 		});
 	};
 

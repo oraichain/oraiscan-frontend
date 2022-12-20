@@ -103,6 +103,12 @@
 	line-height: 150%;
 }
 
+.error-message {
+	position: absolute;
+	left: 0;
+	color: #dc3545;
+}
+
 .text-field {
 	display: block;
 	width: 100%;
@@ -117,12 +123,37 @@
 	font-weight: normal;
 	font-size: 16px;
 	line-height: 150%;
+	&-file {
+		display: block;
+		width: 100%;
+		color: var(--common-textColor);
+		box-sizing: border-box;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		&::before {
+			content: "Choose File...";
+			display: inline-block;
+			background: linear-gradient(top, #f9f9f9, #e3e3e3);
+			border: 1px solid #405d78;
+			border-radius: 6px;
+			padding: 13px 15px;
+			outline: none;
+			white-space: nowrap;
+			cursor: pointer;
+			font-size: 12pt;
+		}
+		&::-webkit-file-upload-button {
+			visibility: hidden;
+		}
+	}
 
 	&:focus-visible {
 		outline: none;
 	}
 }
-
 
 .create-button,
 .submit-button {
