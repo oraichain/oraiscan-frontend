@@ -253,3 +253,33 @@ export const amountCoinDecimal = (amount, decimal = 1000000) => {
 	if (!amount) return "0";
 	return (amount.replaceAll(",", "") * decimal).toString();
 };
+
+export const calculateInflationFromApr = async () => {
+
+	const fetchData = async (endpoint) => {
+		return fetch(`${consts.LCD_API_BASE}/${endpoint}`).then(data => data.json());
+	}
+
+	const VAL_VOTING_POWER = 1000;
+	const DAYS_IN_YEARS = 365.2425;
+	const APR = 28.5;
+	const RATE = 0.03;
+	const { block_time } = (await fetch("https://api.scan.orai.io/v1/status").then(data => data.json()));
+	const delegatorsRewardPerDay = APR / (DAYS_IN_YEARS / VAL_VOTING_POWER * 100);
+	const numBlocksPerDay = 60 / block_time * 60 * 24;
+	const delegatorsRewardPerBlock = delegatorsRewardPerDay / numBlocksPerDay;
+
+	const valRewardPerBlock = delegatorsRewardPerBlock / (1 - RATE);
+
+	let { bonded_tokens } = (await fetchData("cosmos/staking/v1beta1/pool")).pool;
+	const { community_tax, base_proposer_reward, bonus_proposer_reward } = (await fetchData("cosmos/distribution/v1beta1/params")).params;
+	const voteMultiplier = 1 - parseFloat(community_tax) - (parseFloat(base_proposer_reward) + parseFloat(bonus_proposer_reward));
+	const blockRevision = valRewardPerBlock / (VAL_VOTING_POWER / bonded_tokens * voteMultiplier);
+
+	const totalSupply = (await fetchData("cosmos/bank/v1beta1/supply/orai")).amount.amount;
+	const { blocks_per_year } = (await fetchData("cosmos/mint/v1beta1/params")).params;
+	const inflationRate = blockRevision / (totalSupply / blocks_per_year);
+
+	console.log("inflation rate needed: ", inflationRate)
+	return inflationRate * 100; // display in percentage
+}

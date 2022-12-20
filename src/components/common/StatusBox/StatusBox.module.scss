@@ -45,3 +45,20 @@
 		}
 	}
 }
+
+.align-right {
+	text-align: right;
+}
+
+.header-cell {
+	color: var(--common-textColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.tooltip-header-cell {
+	margin-left: 5px;
+}
