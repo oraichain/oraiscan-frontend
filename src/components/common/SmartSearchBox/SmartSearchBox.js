@@ -118,7 +118,7 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 					) : (
 						<div
 							className={cx("dropdown-item")}
-							key={"droSpdown-item-" + searchType}
+							key={"dropdown-item-" + searchType}
 							onClick={e => {
 								gotoSearchTypePage(searchTypeSplit.length === 1 ? searchType : searchTypeSplit[0], searchTypeSplit.length === 1 ? searchValue : searchTypeSplit[1]);
 								!isLargeScreen && closeMobileNavigateBar();
