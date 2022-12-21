@@ -17,7 +17,7 @@ import ModeSwitch from "src/components/common/ModeSwitch";
 import OraiLogo from "src/icons/OraiLogo";
 import {ThemeSetup} from "src/helpers/helper";
 import styles from "./Footer.module.scss";
-
+import logoXmasLight from "src/assets/header/orai-xmas_light.svg";
 const cx = classNames.bind(styles);
 
 const Footer = memo(() => {
@@ -33,7 +33,8 @@ const Footer = memo(() => {
 						<Grid className={cx("top-section-grid-1")} container item lg={3} xs={12}>
 							<Grid item xs={12}>
 								<div className={cx("intro")}>
-									<OraiLogo className={cx("intro-logo")} />
+									{/* <OraiLogo className={cx("intro-logo")} /> */}
+									<img style={{ width: 195, height: 45}} src={logoXmasLight}></img>
 									<div className={cx("intro-description")}>
 										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services
 									</div>
