@@ -9,16 +9,13 @@ import Container from "@material-ui/core/Container";
 import consts from "src/constants/consts";
 import ContractPreview from "src/components/SmartContract/ContractPreview";
 import MoreInfo from "src/components/SmartContract/MoreInfo";
-import SmartContractCodeCard from "src/components/SmartContract/SmartContractCodeCard";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import NotFound from "src/components/common/NotFound";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import ContractCard from "./ContractCard";
 import styles from "./VerifiedContract.module.scss";
-import Tabs from "src/components/Wallet/Tabs";
 
 const cx = cn.bind(styles);
 

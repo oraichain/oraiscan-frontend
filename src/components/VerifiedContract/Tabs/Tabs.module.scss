@@ -1,6 +1,9 @@
 .tabs-all {
 	display: flex;
 	justify-content: space-between;
+	@media (max-width: 1024px) {
+		flex-direction: column;
+	}
 	.tabs {
 		display: flex;
 		flex-direction: row;

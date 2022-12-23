@@ -219,11 +219,6 @@ const Tabs = memo(() => {
 				activePath: "/smart-contracts",
 			},
 			{
-				pathName: "/oracle-scripts",
-				title: "Oracle Scripts",
-				activePath: "/oracle-scripts",
-			},
-			{
 				pathName: "/verified-contracts",
 				title: "Verified Contracts",
 				activePath: "/verified-contracts",
