@@ -6,20 +6,20 @@ import PropTypes from "prop-types";
 
 const cx = classNames.bind(styles);
 
-const HeaderContract = ({ label , icon }) => {
-    return ( 
+const HeaderContract = ({ label, icon, setActiveTab, activeTab }) => {
+    return (
         <div className={cx('header-contract')} >
             <div className={cx('left')}>
                 {icon ?? <ClarityContractLineIcon className={cx("tab-icon")} />}
-                <span>
+                <span style={{ paddingLeft: 6 }}>
                     {label}
                 </span>
             </div>
             <div className={cx('right')} >
-                <div className={cx('expland')} >
-                    Expand All
+                <div className={cx('expland')} onClick={() => setActiveTab(!activeTab)}>
+                    {activeTab ? "Collapse all" : "Expand All"}
                 </div>
-                <div  className={cx('reset')} >
+                <div className={cx('reset')} onClick={() => setActiveTab(activeTab == false ? undefined : false)}>
                     Reset
                 </div>
             </div>

@@ -80,7 +80,7 @@ export default function(props) {
 					<Route path='/ai-oracle' component={OracleAI} />
 					{/* <Route path='/ai-executors' component={Executors} /> */}
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
-					<Route path='/oracle-scripts' component={OracleScripts} />
+					{/* <Route path='/oracle-scripts' component={OracleScripts} /> */}
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
 					<Route path={`/randomness/:contract/:round`} component={RandomnessDetail} />

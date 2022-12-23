@@ -24,7 +24,7 @@ const ContractCard = memo(({address = "", data}) => {
 	return (
 		<div className={cx("contract-card")}>
 			<div className={cx("contract-card-header")}>
-				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} placeholder={placeholder}/>
+				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} placeholder={placeholder} keyword={undefined} setKeyword={undefined}/>
 			</div>
 			<div className={cx("contract-card-body")}>
 				{activeTab === 0 && codeSection}
