@@ -1,9 +1,9 @@
-import React, {useState, useRef} from "react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { useState, useRef } from "react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import consts from "src/constants/consts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -20,8 +20,8 @@ import styles from "./SmartContracts.module.scss";
 import WasmCodeTable from "src/components/WasmCode/WasmCodeTable";
 import WasmCodeCardList from "src/components/WasmCode/WasmCodeCardList/WasmCodeCardList";
 import SmartContractPopularTable from "src/components/SmartContracts/SmartContractPopularTable";
-import {useDispatch} from "react-redux";
-import {storeWasmCode, storePageCode} from "src/store/modules/wasmcode";
+import { useDispatch } from "react-redux";
+import { storeWasmCode, storePageCode } from "src/store/modules/wasmcode";
 import SmartContractPopularTableSkeleton from "src/components/SmartContracts/SmartContractPopularTable/SmartContractPopularTableSkeleton";
 
 const cx = cn.bind(styles);
@@ -62,15 +62,15 @@ const SmartContracts = () => {
 	// 	path = `${basePath}&page_id=${smartContractPageId}`;
 	// }
 
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
-	const {data: wasmCodeData, error: wasmCodeError, loading: wasmCodeLoading} = useGet({
+	const { data: wasmCodeData, error: wasmCodeError, loading: wasmCodeLoading } = useGet({
 		path: wasmCodePath,
 	});
 
-	const {data: popularSmartContractsData, error: popularSmartContractError, loading: popularSmartContractLoading} = useGet({
+	const { data: popularSmartContractsData, error: popularSmartContractError, loading: popularSmartContractLoading } = useGet({
 		path: popularSmartContract,
 	});
 
@@ -83,21 +83,19 @@ const SmartContracts = () => {
 	let tableWasmcode;
 
 	let popularTitleSection = (
-		<Container fixed>
-			<TitleWrapper>
-				{isLargeScreen ? (
-					<>
-						<PageTitle title='Popular contracts' />
-						<StatusBox />
-					</>
-				) : (
-					<>
-						<StatusBox />
-						<PageTitle title='Popular contracts' />
-					</>
-				)}
-			</TitleWrapper>
-		</Container>
+		<TitleWrapper>
+			{isLargeScreen ? (
+				<>
+					<PageTitle title='Popular contracts' />
+					<StatusBox />
+				</>
+			) : (
+				<>
+					<StatusBox />
+					<PageTitle title='Popular contracts' />
+				</>
+			)}
+		</TitleWrapper>
 	);
 
 	let wasmcodeTitleSection = (

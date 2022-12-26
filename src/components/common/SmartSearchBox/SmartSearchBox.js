@@ -51,7 +51,7 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 			try {
 				const data = await axios.get(`${consts.API_BASE}${consts.API.OW20_TOKEN}?symbol=${searchValue}`);
 				if (!_.isNil(data.data)) {
-					return data.data.map((obj) => "smart Contract" + ":" + obj.contract_address).join('|');
+					return data.data.map((obj) => "smart Contract" + ":" + obj.contract_address + ":" + obj.name + " ( " + obj.symbol + " ) ").join('|');
 				}
 			} catch (error) {
 				return "account";
@@ -109,6 +109,7 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 			const searchTypeArray = searchTypes.split("|");
 			dropdownItems = searchTypeArray.map(searchType => {
 				let type;
+				console.log({ searchType });
 				const searchTypeSplit = (searchType && searchType.split(":"));
 				type =
 					searchType === "checking" ? (
@@ -118,14 +119,21 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 					) : (
 						<div
 							className={cx("dropdown-item")}
-							key={"dropdown-item-" + searchType}
-							onClick={e => {
+							key={"droSpdown-item-" + searchType}
+							onClick={() => {
 								gotoSearchTypePage(searchTypeSplit.length === 1 ? searchType : searchTypeSplit[0], searchTypeSplit.length === 1 ? searchValue : searchTypeSplit[1]);
 								!isLargeScreen && closeMobileNavigateBar();
 							}}>
-							<span className={cx("dropdown-item-message")}>Search for</span>
-							<span className={cx("dropdown-item-type")}>{searchTypeSplit[0]}</span>
-							<span className={cx("dropdown-item-contract")}>{searchTypeSplit[1]}</span>
+							<div>
+								<span className={cx("dropdown-item-token")}>{searchTypeSplit?.[2]}</span>
+							</div>
+							<div>
+								<span className={cx("dropdown-item-contract")}>{searchTypeSplit[1]}</span>
+							</div>
+							<div>
+								<span className={cx("dropdown-item-message")}>Search for</span>
+								<span className={cx("dropdown-item-type")}>{searchTypeSplit[0]}</span>
+							</div>
 						</div>
 					);
 				return type;
@@ -135,13 +143,20 @@ const SmartSearchBox = memo(({ closeMobileNavigateBar = () => { } }) => {
 			dropdownItems = (
 				<div
 					className={cx("dropdown-item")}
-					onClick={e => {
+					onClick={() => {
 						gotoSearchTypePage(searchTypeSplit.length == 1 ? searchTypes : searchTypeSplit[0], searchTypeSplit.length == 1 ? searchValue : searchTypeSplit[1])
 						!isLargeScreen && closeMobileNavigateBar();
 					}}>
-					<span className={cx("dropdown-item-message")}>Search for</span>
-					<span className={cx("dropdown-item-type")}>{searchTypeSplit[0]}</span>
-					<span className={cx("dropdown-item-contract")}>{searchTypeSplit[1]}</span>
+					<div>
+						<span className={cx("dropdown-item-token")}>{searchTypeSplit?.[2]}</span>
+					</div>
+					<div>
+						<span className={cx("dropdown-item-contract")}>{searchTypeSplit[1]}</span>
+					</div>
+					<div>
+						<span className={cx("dropdown-item-message")}>Search for</span>
+						<span className={cx("dropdown-item-type")}>{searchTypeSplit[0]}</span>
+					</div>
 				</div>
 			);
 		}

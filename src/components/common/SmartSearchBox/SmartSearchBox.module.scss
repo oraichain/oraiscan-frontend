@@ -69,7 +69,7 @@
 	border-radius: 8px;
 	overflow: hidden;
 	color: var(--common-textColor);
-	z-index: 1;
+	z-index: 3;
 
 	@include media("<large") {
 		margin-left: 24px;
@@ -78,6 +78,7 @@
 	}
 
 	&-item {
+		flex-direction: column;
 		padding: 15px 20px;
 		border-bottom: 1px solid var(--common-borderColor);
 		cursor: pointer;
@@ -103,8 +104,9 @@
 			display: inline-block;
 			font-weight: bold;
 		}
-		&-contract {
-			padding-left: 15px;
+		&-token {
+			font-size: 16px;
+			font-weight: 600;
 		}
 	}
 }
