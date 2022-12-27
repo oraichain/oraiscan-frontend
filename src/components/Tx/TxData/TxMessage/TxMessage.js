@@ -32,7 +32,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import TxMessageContent from "./TxMessageContent";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import styles from "./TxMessage.module.scss";
-
+import { tryParseMessage } from "src/lib/scripts";
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -271,6 +271,30 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				<span className={cx("text-three-dots")}>{_.isNil(value) ? "-" : value}</span>
 			</InfoRow>
 		);
+
+		const getRawLog = (rawLog) => {
+			let messageParse = [];
+			try {
+				messageParse = tryParseMessage(JSON.parse(rawLog))
+			} catch (error) {
+				messageParse = [{ error: rawLog }]
+			} finally {
+				return (
+					<InfoRow label='RawLog'>
+						<ReactJson
+							style={{ backgroundColor: "transparent" }}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							collapsed={4}
+							src={messageParse}
+						/>
+					</InfoRow>
+				)
+			}
+
+		};
 
 		const getInfoRowSummary = (label, value) => (
 			<InfoRow label={label}>
@@ -876,6 +900,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					getMultiRoyaltyRow={getMultiRoyaltyRow}
 					getSubmitProposalContent={getSubmitProposalContent}
 					getInfoRowThreeDots={getInfoRowThreeDots}
+					getRawLog={getRawLog}
 					tryParseMessageBinary={tryParseMessageBinary}
 					activeThemeId={activeThemeId}
 					themeIds={themeIds}
