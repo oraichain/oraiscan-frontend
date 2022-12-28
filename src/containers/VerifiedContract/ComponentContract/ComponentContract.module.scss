@@ -1,7 +1,7 @@
 @import "src/styles/utils";
 
 .items-code {
-	padding: 16px 16px 50px 16px;
+	padding: 16px 0 50px 0;
 	.label {
 		display: flex;
 		color: var(--common-textColor);
@@ -27,14 +27,12 @@
 
 .header {
 	.title {
-		display: flex;
 		color: var(--common-textColor);
-		align-items: center;
 		font-size: 16px;
 		font-weight: 600;
 	}
 	.contract-preview {
-		padding: 15px 24px;
+		padding: 15px 0 15px 0;
 		margin-bottom: 15px;
 		border-radius: 8px;
 
@@ -43,10 +41,10 @@
 			tr {
 				td:nth-child(1) {
 					text-align: left;
-					width: 50%;
+					width: 40%;
 				}
 				td:nth-child(2) {
-					width: 50%;
+					width: 60%;
 				}
 
 				&:nth-child(1) {

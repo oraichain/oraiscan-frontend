@@ -9,7 +9,7 @@ import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./VerifiedContractTable.module.scss";
 import { formatDateTime } from "src/helpers/helper";
 import SuccessIcon from "src/icons/SuccessIcon";
-import {_ , reduceStringAssets} from "src/lib/scripts";
+import { _, reduceStringAssets } from "src/lib/scripts";
 
 const cx = classNames.bind(styles);
 
@@ -19,14 +19,14 @@ export const getHeaderRow = () => {
 	const verifiedAtHeaderCell = <div className={cx("header-cell", "align-left")}>Verified</div>;
 	const contractAddressHeaderCell = <div className={cx("header-cell", "align-left")}>Address</div>;
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
-	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
-	const headerCells = [contractAddressHeaderCell, nameHeaderCell, codeIdHeaderCell, verifiedAtHeaderCell, txHashHeaderCell , creatorHeaderCell];
+	const versionHeaderCell = <div className={cx("header-cell", "align-left")}>Version</div>;
+	const headerCells = [contractAddressHeaderCell, nameHeaderCell, codeIdHeaderCell, verifiedAtHeaderCell, versionHeaderCell, creatorHeaderCell];
 	const headerCellStyles = [
 		{ minWidth: "200px" },
-		{ minWidth: "240px" },
-		{ minWidth: "150px" },
-		{ minWidth: "120px" },
 		{ minWidth: "200px" },
+		{ minWidth: "150px" },
+		{ minWidth: "160px" },
+		{ minWidth: "300px" },
 		{ minWidth: "200px" },
 	];
 	return {
@@ -69,14 +69,23 @@ const VerifiedContractTable = memo(({ data = [] }) => {
 				<div className={cx("time-data-cell", "align-left")}>{formatDateTime(item?.verified_at)}</div>
 			);
 
-
-			const txHashDataCell = _.isNil(item?.contract_hash) ? (
+			const versionDataCell = _.isNil(item?.compiler_version) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item?.contract_hash}`}>
-					{reduceStringAssets(item?.contract_hash, 8, 8)}
-				</NavLink>
+				// reduceStringAssets(item?.compiler_version, 8, 8)
+				<>
+					{item?.compiler_version}
+				</>
 			);
+
+
+			// const txHashDataCell = _.isNil(item?.contract_hash) ? (
+			// 	<div className={cx("align-left")}>-</div>
+			// ) : (
+			// 	<NavLink className={cx("txhash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item?.contract_hash}`}>
+			// 		{reduceStringAssets(item?.contract_hash, 8, 8)}
+			// 	</NavLink>
+			// );
 
 			const creatorDataCell = _.isNil(item?.creator_address) ? (
 				<div className={cx("align-left")}>-</div>
@@ -87,7 +96,7 @@ const VerifiedContractTable = memo(({ data = [] }) => {
 			);
 
 
-			return [contractAddressDataCell, nameDataCell, codeIdDataCell, verifiedAtDataCell, txHashDataCell , creatorDataCell];
+			return [contractAddressDataCell, nameDataCell, codeIdDataCell, verifiedAtDataCell, versionDataCell, creatorDataCell];
 		});
 	};
 

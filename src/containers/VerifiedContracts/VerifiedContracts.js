@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from "react"
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
@@ -25,6 +27,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { handleErrorMessage } from "../../lib/scripts";
 import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
+import { makeStyles } from '@material-ui/core/styles';
 
 const cx = cn.bind(styles);
 const defaultValues = {
@@ -33,16 +36,54 @@ const defaultValues = {
 };
 const schema = yup.object().shape({
 	contract_address: yup.string().required("The Contract Address is required"),
-	wasm_file: yup
-		.mixed()
-		.nullable()
-		.notRequired()
-		.test("REQUIRED", "The Wasn File is required",
-			value => value.length ? value : false)
+	github_commit: yup.string().required("The Github Commit is required"),
+	// wasm_file: yup
+	// 	.mixed()
+	// 	.nullable()
+	// 	.notRequired()
+	// 	.test("REQUIRED", "The Wasn File is required",
+	// 		value => value.length ? value : false)
 })
+
+const useStyles = makeStyles({
+	root: {
+		'&:hover': {
+			backgroundColor: 'transparent',
+		},
+	},
+	icon: {
+		borderRadius: 5,
+		marginLeft: 3,
+		width: 22,
+		height: 22,
+		boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+		border: "1px solid #405d78 "
+
+	},
+	checkedIcon: {
+		backgroundColor: '#7664E4',
+		'&:before': {
+			display: 'block',
+			marginLeft: -1,
+			marginTop: -1,
+			width: 22,
+			height: 22,
+			backgroundImage:
+				"url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
+				" fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
+				"1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
+			content: '""',
+		},
+		'input:hover ~ &': {
+			backgroundColor: '#7664E4',
+		},
+	},
+});
+
 
 const VerifiedContracts = () => {
 	const theme = useTheme();
+	const classes = useStyles();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [verifiedContractData, setVerifiedContractData] = useState([]);
 	const [verifiedPageId, setVerifiedPageId] = useState(1);
@@ -145,18 +186,25 @@ const VerifiedContracts = () => {
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			const formData = new FormData();
-			formData.append("instantiate_msg_schema", data?.instantiate.length ? JSON.stringify(data?.instantiate) : data?.instantiate);
-			formData.append("query_msg_schema", data?.query.length ? JSON.stringify(data?.query) : data?.query);
-			formData.append("execute_msg_schema", data?.execute.length ? JSON.stringify(data?.execute) : data?.execute);
-			formData.append("contract_address", data?.contract_address);
-			formData.append("wasm_file", data?.wasm_file?.[0]);
+			// const formData = new FormData();
+			// formData.append("instantiate_msg_schema", data?.instantiate.length ? JSON.stringify(data?.instantiate) : data?.instantiate);
+			// formData.append("query_msg_schema", data?.query.length ? JSON.stringify(data?.query) : data?.query);
+			// formData.append("execute_msg_schema", data?.execute.length ? JSON.stringify(data?.execute) : data?.execute);
+			// formData.append("contract_address", data?.contract_address);
+			// formData.append("wasm_file", data?.wasm_file?.[0]);
+
 
 			const verified = await api.axiosCall({
 				method: 'post',
 				url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/verify`,
-				data: formData,
-				headers: { "Content-Type": "multipart/form-data" },
+				data: {
+					contract_address: data?.contract_address,
+					github_commit: data?.github_commit,
+					github_org: data?.github_org,
+					github_repo: data?.github_repo,
+					compiler_version: data?.compiler_version
+				},
+				headers: {},
 			});
 			setLoadingTransaction(false);
 			handleClose();
@@ -167,10 +215,17 @@ const VerifiedContracts = () => {
 				});
 				await getData();
 			} else {
-				notification.error({
-					message: "Verified Contract",
-					description: verified?.data?.error?.Message,
-				});
+				if (verified?.data?.error?.Code == "E014") {
+					notification.info({
+						message: "Verified Contract",
+						description: verified?.data?.error?.Message,
+					});
+				} else {
+					notification.error({
+						message: "Verified Contract",
+						description: verified?.data?.error?.Message,
+					});
+				}
 			}
 		} catch (error) {
 			console.log("error: ", error);
@@ -209,12 +264,57 @@ const VerifiedContracts = () => {
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
+								Github Commit
+							</label>
+							<input type='text' className={cx("text-field")} name='github_commit' ref={register} />
+							<ErrorMessage errors={errors} name='github_commit' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Github Org
+							</label>
+							<input type='text' className={cx("text-field")} name='github_org' ref={register} />
+							<ErrorMessage errors={errors} name='github_org' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Github Repo
+							</label>
+							<input type='text' className={cx("text-field")} name='github_repo' ref={register} />
+							<ErrorMessage errors={errors} name='github_repo' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Compiler Version
+							</label>
+							<input type='text' className={cx("text-field")} name='compiler_version' ref={register} />
+							<ErrorMessage errors={errors} name='compiler_version' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						{/* <div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
 								Wasm File
 							</label>
 							<input type='file' className={cx("text-field-file")} name='wasm_file' ref={register} />
 							<ErrorMessage errors={errors} name='wasm_file' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
+							<FormControlLabel
+								name="optimization"
+								value="optimization"
+								control={<Checkbox
+									className={classes.root}
+									disableRipple
+									color="default"
+									checkedIcon={<span className={cx(classes.icon, classes.checkedIcon)} />}
+									icon={<span className={classes.icon} />}
+									inputProps={{ 'aria-label': 'decorative checkbox' }}
+								/>}
+								label="Optimization"
+								labelPlacement="end"
+							/>
+							<ErrorMessage errors={errors} name='instantiate' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div> */}
+						{/* <div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Instantiate Msg Schema
 							</label>
@@ -234,7 +334,7 @@ const VerifiedContracts = () => {
 							</label>
 							<textarea className={cx("text-field")} name='execute' ref={register} ></textarea>
 							<ErrorMessage errors={errors} name='execute' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
+						</div> */}
 					</div>
 					<div className={cx("dialog-footer")}>
 						<button type='submit' className={cx("submit-button")}>

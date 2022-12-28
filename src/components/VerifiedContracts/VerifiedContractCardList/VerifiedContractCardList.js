@@ -88,6 +88,18 @@ const VerifiedContractCardList = memo(({ data = [] }) => {
 								</tr>
 								<tr>
 									<td>
+										<div className={cx("item-title")}>Version</div>
+									</td>
+									<td>
+										{_.isNil(item?.compiler_version) ? (
+											<div className={cx("item-text")}>-</div>
+										) : (
+											<>{item?.compiler_version}</>
+										)}
+									</td>
+								</tr>
+								{/* <tr>
+									<td>
 										<div className={cx("item-title")}>TxHash</div>
 									</td>
 									<td>
@@ -99,7 +111,7 @@ const VerifiedContractCardList = memo(({ data = [] }) => {
 											</NavLink>
 										)}
 									</td>
-								</tr>
+								</tr> */}
 								{/* <tr>
 									<td>
 										<div className={cx("item-title")}>Created At</div>
