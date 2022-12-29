@@ -28,8 +28,8 @@ const ContractCard = memo(({address = "", data}) => {
 			</div>
 			<div className={cx("contract-card-body")}>
 				{activeTab === 0 && codeSection}
-				{activeTab === 1 && readContractSection}
-				{activeTab === 2 && WriteContractSection}
+				{/* {activeTab === 1 && readContractSection}
+				{activeTab === 2 && WriteContractSection} */}
 			</div>
 		</div>
 	);

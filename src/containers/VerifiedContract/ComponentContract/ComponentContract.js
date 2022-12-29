@@ -19,10 +19,6 @@ const heightDefault = 300;
 const heightCollase = 600;
 const cx = classNames.bind(styles);
 
-export const SpanComponent = (width) => {
-	return <span style={{ width }}> </span>
-}
-
 export const ItemCodeContract = ({ contractName, compilerVersion, contractVerification }) => {
 	return (
 		<div className={cx("header")}>
@@ -142,7 +138,7 @@ export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHea
 			<Grid container spacing={2}>
 				<Grid item lg={6} xs={12}>
 					{label && <div className={cx("label")} >
-						<BiCodeSlashIcon /> <SpanComponent width={6} /> {label}
+						<BiCodeSlashIcon /> <div style={{ width: 6 }} /> {label}
 					</div>}
 				</Grid>
 				<Grid item lg={6} xs={12} >
