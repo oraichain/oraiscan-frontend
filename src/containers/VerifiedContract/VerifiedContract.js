@@ -48,6 +48,7 @@ const VerifiedContract = () => {
 	);
 
 	tableSection = <ContractCard address={data?.data?.contract_address} data={data?.data} />;
+  console.log('data', data?.data)
 
 	return (
 		<>
@@ -56,12 +57,12 @@ const VerifiedContract = () => {
 				<div className={cx("header-card")}>
 					<Grid spacing={2} container>
 						<ContractPreview data={{
-							...data.data,
+							...data?.data,
 							address: data?.data?.contract_address,
 							code_id: data?.data?.code_id,
 						}} />
 						<MoreInfo data={{
-							...data,
+							...data?.data,
 							creator: data?.data?.creator_address,
 						}} />
 					</Grid>
