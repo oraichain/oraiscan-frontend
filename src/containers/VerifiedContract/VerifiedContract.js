@@ -48,7 +48,6 @@ const VerifiedContract = () => {
 	);
 
 	tableSection = <ContractCard address={data?.data?.contract_address} data={data?.data} />;
-  console.log('data', data?.data)
 
 	return (
 		<>
