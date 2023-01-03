@@ -22,7 +22,18 @@ const cx = classNames.bind(styles);
 export const ItemCodeContract = ({ contractName, compilerVersion, contractVerification }) => {
 	return (
 		<div className={cx("header")}>
-			<div className={cx("title")}>{contractVerification == "VERIFIED" ? <> <SuccessIcon /><div style={{ width: 4 }} /></> : <div style={{ width: 24 }} />}  Contract Source Code: {contractVerification}</div>
+			<div className={cx("title")}>
+				{contractVerification === "VERIFIED" ? (
+					<>
+						{" "}
+						<SuccessIcon />
+						<div style={{ width: 4 }} />
+					</>
+				) : (
+					<div style={{ width: 24 }} />
+				)}{" "}
+				Contract Source Code: {contractVerification}
+			</div>
 			<Grid container spacing={2}>
 				<Grid item lg={6} xs={12}>
 					<div className={cx("contract-preview")}>
@@ -33,7 +44,7 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 										<div className={cx("item-title")}>Contract Name:</div>
 									</td>
 									<td>
-										<div className={cx("item-text")}>{contractName ?? '-'}</div>
+										<div className={cx("item-text")}>{contractName ?? "-"}</div>
 									</td>
 								</tr>
 								<tr>
@@ -41,7 +52,7 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 										<div className={cx("item-title")}>Compiler Version:</div>
 									</td>
 									<td>
-										<div className={cx("item-text")}>{compilerVersion ?? '-'}</div>
+										<div className={cx("item-text")}>{compilerVersion ?? "-"}</div>
 									</td>
 								</tr>
 							</tbody>
@@ -74,7 +85,7 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 				</Grid>
 			</Grid>
 		</div>
-	)
+	);
 }
 
 export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayList }) => {

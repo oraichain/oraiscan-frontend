@@ -18,8 +18,8 @@ const ContractCard = memo(({address = "", data}) => {
 	const [activeTab, setActiveTab] = useState(0);
 	const placeholder = !activeTab ? "Search Source Code" : "Filter Address / Txn Hash / Token";
 	let codeSection = <CodeContract data={data}/>;
-	let readContractSection = <ReadContract data={data}/>;
-	let WriteContractSection = <WriteContract data={data}/>;
+	// let readContractSection = <ReadContract data={data}/>;
+	// let WriteContractSection = <WriteContract data={data}/>;
 
 	return (
 		<div className={cx("contract-card")}>

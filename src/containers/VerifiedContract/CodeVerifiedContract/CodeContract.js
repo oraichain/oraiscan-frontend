@@ -23,7 +23,7 @@ const CodeContract = memo(({ data }) => {
 	// @ts-ignore
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const dispatch = useDispatch();
-	const href = `https://github.com/${data?.data?.github_org}/${data?.data?.github_repo}/commit/${data?.data?.github_commit}`
+	const href = `https://github.com/${data?.github_org}/${data?.github_repo}/commit/${data?.github_commit}`
 	const onClickCopy = (msg, typeCopy) => {
 		copy(typeCopy ? msg : JSON.stringify(msg))
 		dispatch(
@@ -37,7 +37,7 @@ const CodeContract = memo(({ data }) => {
 
 	return (
 		<div>
-			<ItemCodeContract contractName={data?.data?.contract_name} compilerVersion={data?.data?.compiler_version} contractVerification={data?.data?.contract_verification} />
+			<ItemCodeContract contractName={data?.contract_name} compilerVersion={data?.compiler_version} contractVerification={data?.contract_verification} />
 			<div >
 				Link Source Code:
 			</div>
@@ -59,7 +59,7 @@ const CodeContract = memo(({ data }) => {
 			{/* <ItemContract activeThemeId={activeThemeId} label="File 1 of 3: execute msg.ison" onClickCopy={onClickCopy} msg={data?.data?.execute_msg_schema} /> */}
 			{/* <ItemContract activeThemeId={activeThemeId} label="File 2 of 3: instantiate msg.json" onClickCopy={onClickCopy} msg={data?.data?.instantiate_msg_schema} />
 			<ItemContract activeThemeId={activeThemeId} label="File 3 of 3: query msg.json" onClickCopy={onClickCopy} msg={data?.data?.query_msg_schema} /> */}
-			<ItemContract activeThemeId={activeThemeId} label=" schema" onClickCopy={onClickCopy} msg={data?.data?.schema} />
+			<ItemContract activeThemeId={activeThemeId} label=" schema" onClickCopy={onClickCopy} msg={data?.schema} />
 		</div>
 	);
 });

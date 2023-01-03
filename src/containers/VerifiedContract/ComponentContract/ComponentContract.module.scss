@@ -27,6 +27,8 @@
 
 .header {
 	.title {
+        display: flex;
+        align-items: center;
 		color: var(--common-textColor);
 		font-size: 16px;
 		font-weight: 600;
