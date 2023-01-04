@@ -178,7 +178,7 @@ const VerifiedContracts = () => {
 
 	verfiedButton = (
 		<div className={cx("verified-button")} onClick={handleOpen}>
-			<span className={cx("verified-button-text")}>Verified Contract</span>
+			<span className={cx("verified-button-text")}>Verify Contract</span>
 			<AddIcon className={cx("verified-button-icon")} />
 		</div>
 	);
@@ -338,7 +338,7 @@ const VerifiedContracts = () => {
 					</div>
 					<div className={cx("dialog-footer")}>
 						<button type='submit' className={cx("submit-button")}>
-							<span className={cx("submit-button-text")}>Verified</span>
+							<span className={cx("submit-button-text")}>Verify</span>
 						</button>
 					</div>
 				</form>
