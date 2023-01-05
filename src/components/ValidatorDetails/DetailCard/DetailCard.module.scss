@@ -24,7 +24,7 @@
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
-			word-break: break-all;
+			word-break: break-word;
 		}
 
 		&-link {
@@ -46,10 +46,12 @@
 
 	table {
 		width: 100%;
+
 		tr {
 			td:nth-child(1) {
 				text-align: left;
 			}
+
 			td:nth-child(2) {
 				text-align: right;
 			}
