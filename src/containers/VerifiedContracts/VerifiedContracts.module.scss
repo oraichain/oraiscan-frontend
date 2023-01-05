@@ -1,0 +1,186 @@
+@import "src/styles/utils";
+
+.smart-contracts {
+	margin-top: 0;
+	margin-bottom: 30px;
+
+	@include media(">=large") {
+		margin-top: 30px;
+	}
+}
+
+.filter-section {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-start;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.search-input {
+	width: 100%;
+
+	@include media(">=large") {
+		width: initial;
+	}
+}
+
+.verified-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px 10px;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-icon {
+		width: 12px;
+		height: auto;
+		color: var(--common-buttonTextColor);
+	}
+}
+
+.dialog-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 16px;
+}
+
+.dialog-body {
+	padding: 16px;
+}
+
+.dialog-footer {
+	padding-top: 8px;
+	padding-bottom: 32px;
+	text-align: center;
+}
+
+.field {
+	position: relative;
+	margin-bottom: 40px;
+
+	&-voting {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&-input {
+			width: 62% !important;
+		}
+	}
+}
+
+.close-button {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.label {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--common-textColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 150%;
+}
+
+.error-message {
+	position: absolute;
+	left: 0;
+	color: #dc3545;
+}
+
+.text-field {
+	display: block;
+	width: 100%;
+	padding: 13px 15px;
+	color: var(--common-textColor);
+	border: 1px solid #405d78;
+	box-sizing: border-box;
+	border-radius: 6px;
+	background: var(--common-blockItemBackgroundColor);
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	&-file {
+		display: block;
+		width: 100%;
+		color: var(--common-textColor);
+		box-sizing: border-box;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		&::before {
+			content: "Choose File...";
+			display: inline-block;
+			background: linear-gradient(top, #f9f9f9, #e3e3e3);
+			border: 1px solid #405d78;
+			border-radius: 6px;
+			padding: 13px 15px;
+			outline: none;
+			white-space: nowrap;
+			cursor: pointer;
+			font-size: 12pt;
+		}
+		&::-webkit-file-upload-button {
+			visibility: hidden;
+		}
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+}
+
+.create-button,
+.submit-button {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 8px 10px;
+	background: var(--common-buttonBackgroundColor);
+	border: 1px solid var(--common-activeTabColor);
+	box-sizing: border-box;
+	border-radius: 4px;
+	cursor: pointer;
+
+	&-text {
+		display: inline-block;
+		color: var(--common-buttonTextColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 150%;
+	}
+
+	&-icon {
+		width: 12px;
+		height: auto;
+		color: var(--common-buttonTextColor);
+	}
+}

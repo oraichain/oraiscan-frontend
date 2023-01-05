@@ -1,0 +1,45 @@
+@import "src/styles/utils";
+
+.flex {
+	display: flex;
+	padding-top: 10px;
+	color: var(--common-textColor);
+}
+
+
+.source-code {
+	width: 100%;
+	margin-top: 8px;
+	@include media(">=large") {
+		display: flex;
+		justify-content: space-between;
+	}
+	&-link {
+		@include media(">=large") {
+			width: 95%;
+		}
+		color: var(--common-textColor);
+		background-color: var(--common-disableColor);
+		border: 1px solid var(--common-borderColor);
+		padding: 10px;
+		overflow: hidden;
+		white-space: nowrap; 
+		text-overflow: ellipsis;
+	}
+	&-btn {  
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
+		border: 1px solid var(--common-borderColor);
+		padding: 10px;
+		cursor: pointer;
+		text-align: center;
+		@include media("<=large") {
+			margin-top: 10px;
+		}
+		&:hover {
+			color: #7664E4;
+			font-weight: bold;
+			border-color: #7664E4;
+		}
+	}
+}

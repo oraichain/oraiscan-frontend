@@ -1,0 +1,225 @@
+@import "src/styles/utils";
+
+.items-code {
+	padding: 16px 0 50px 0;
+	.label {
+		display: flex;
+		color: var(--common-textColor);
+		align-items: center;
+	}
+	.action-right {
+		display: flex;
+		justify-content: flex-end;
+		.link {
+			cursor: pointer;
+		}
+	}
+	.source {
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
+		border: 1px solid var(--common-borderColor);
+		margin-top: 8px;
+		.data {
+			padding: 16px;
+		}
+	}
+}
+
+.header {
+	.title {
+        display: flex;
+        align-items: center;
+		color: var(--common-textColor);
+		font-size: 16px;
+		font-weight: 600;
+	}
+	.contract-preview {
+		padding: 15px 0 15px 0;
+		margin-bottom: 15px;
+		border-radius: 8px;
+
+		table {
+			width: 100%;
+			tr {
+				td:nth-child(1) {
+					text-align: left;
+					width: 40%;
+				}
+				td:nth-child(2) {
+					width: 60%;
+				}
+
+				&:nth-child(1) {
+					td {
+						padding-bottom: 15px;
+					}
+				}
+			}
+		}
+		.item-title {
+			color: var(--common-textColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-text {
+			color: var(--common-textColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: 600;
+			font-size: 16px;
+			line-height: 150%;
+		}
+	}
+}
+
+.dropdown-contract {
+	padding: 16px 16px 0px;
+	.selected-item {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		width: max-content;
+		height: 32px;
+		padding: 4px 8px;
+		cursor: pointer;
+		border-radius: 4px;
+		background-color: var(--common-containerBackgroundColor);
+		border: 1px solid var(--common-borderColor);
+		.arrow {
+			display: inline-block;
+			margin-right: 8px;
+			width: 11px;
+			height: auto;
+			color: var(--common-textColor);
+		}
+	}
+
+	.text-field {
+		display: inline-block;
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
+		border: none;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: 500;
+		font-size: 12px;
+		line-height: 150%;
+		flex-grow: 1;
+		width: 100%;
+		cursor: pointer;
+
+		&:focus-visible {
+			outline: none;
+		}
+		@media screen and (max-width: 960px) {
+			font-size: 13px;
+		}
+	}
+	.list {
+		display: none;
+		position: absolute;
+		width: max-content;
+		background-color: var(--common-containerBackgroundColor);
+		z-index: 10;
+		box-shadow: 0px 4px 20px var(--common-boxShadowColor);
+
+		&-item {
+			padding: 10px;
+			color: var(--common-textColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-size: 12px;
+			cursor: pointer;
+
+			&:hover {
+				color: #5f51ff;
+			}
+		}
+	}
+}
+
+// items
+.items {
+	margin-bottom: 16px;
+	border: 1px solid var(--common-borderColor);
+	background-color: var(--common-containerBackgroundColor);
+	padding: 12px;
+	font-size: 14px;
+	.header {
+		&:hover {
+			cursor: pointer;
+			color: #767f8d;
+		}
+		display: flex;
+		justify-content: space-between;
+		padding-bottom: 10px;
+		.label {
+			font-weight: 400;
+			color: var(--common-textColor);
+		}
+		.icon {
+			display: flex;
+			.link {
+				cursor: pointer;
+			}
+		}
+	}
+	.value {
+		padding-left: 10px;
+		.amount {
+			color: #5f51ff;
+		}
+		.type {
+			color: #767f8d;
+			font-style: italic;
+			font-weight: 500;
+			padding-left: 4px;
+		}
+		.label-contract {
+			padding-bottom: 6px;
+			color: var(--common-textColor);
+			font-weight: 600;
+		}
+		.btn {
+			padding-bottom: 12px;
+		}
+	}
+}
+
+.input {
+	display: inline-flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	border: 1px solid var(--common-borderColor);
+	padding: 8px;
+	margin-bottom: 16px;
+	background: var(--common-containerBackgroundColor);
+	.text-field {
+		display: inline-block;
+		flex-grow: 1;
+		color: var(--common-textColor);
+		background-color: var(--common-containerBackgroundColor);
+		border: none;
+		outline: none;
+		padding: 6px 0px;
+		&:focus {
+			border: none;
+			outline: none;
+		}
+		&::placeholder {
+			color: var(--common-placeholderTextColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 150%;
+		}
+	}
+}

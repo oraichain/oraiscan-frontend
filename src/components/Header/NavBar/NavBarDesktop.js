@@ -9,6 +9,7 @@ import Wallet from "./Wallet/Wallet";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import styles from "./NavBar.module.scss";
 import logoIcon from "src/assets/header/logo.svg";
+import logoXmasLight from "src/assets/header/orai-xmas_light.svg";
 import OraiLogo from "src/icons/OraiLogo";
 import ModeSwitch from "src/components/common/ModeSwitch";
 import { BiChevronDown } from "react-icons/bi";
@@ -38,7 +39,8 @@ const NavBarDesktop = ({ initialNavLinks, isDarkTheme }) => {
 			<NavLink to='/' className={cx("navbar-brand")}>
 				{/* <img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} />
 				<span className={cx("navbar-brand-text")}>Oraiscan</span> */}
-				<OraiLogo />
+				{/* <OraiLogo /> */}
+				<img style={{ width: 195, height: 45}} src={logoXmasLight}></img>
 			</NavLink>
 			<nav className={cx("header-menu")} ref={navbarCollapseRef}>
 				<ul>

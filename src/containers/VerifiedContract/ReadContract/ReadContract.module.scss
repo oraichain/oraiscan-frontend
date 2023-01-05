@@ -1,0 +1,36 @@
+@import "src/styles/utils";
+.read-contract {
+	.input {
+		display: inline-flex;
+		width: 100%;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		border: 1px solid var(--common-borderColor);
+		padding: 8px;
+		margin-bottom: 16px;
+		background: var(--common-containerBackgroundColor);
+		.text-field {
+			display: inline-block;
+			flex-grow: 1;
+			color: var(--common-textColor);
+			background-color: var(--common-containerBackgroundColor);
+			border: none;
+			outline: none;
+			padding: 6px 0px;
+			&:focus {
+				border: none;
+				outline: none;
+			}
+			&::placeholder {
+				color: var(--common-placeholderTextColor);
+				font-family: "IBM Plex Sans";
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 150%;
+			}
+		}
+	}
+	
+}

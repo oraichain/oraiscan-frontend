@@ -76,7 +76,8 @@ const colors = {
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
 	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
 	SEPARATE_LINE_DARK: "#423F5A",
-	MINT_GREEN: '#37cc6e',
+	// MINT_GREEN: '#37cc6e',
+	BLACK_SQUEEZE:"#F6F9FB",
 	HOVER_DARK: "#403845",
 	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
 };
@@ -109,6 +110,7 @@ export const themes = {
 					oraiDenomTextColor: colors.LINK_COLOR,
 					backGroundColorGray: colors.PURPLE_1,
 					separateLine: colors.SEPARATE_LINE_DARK,
+					disableColor: colors.PURPLE_1,
 					boxShadowColor: "none",
 					modal: {
 						modalCommonTextColor: colors.PERANO,
@@ -326,6 +328,7 @@ export const themes = {
 					resultIconFailureColor: colors.RADICAL_RED,
 					resultIconPendingColor: colors.YELLOW_SEA,
 					placeholderTextColor: colors.SEPARATE_LINE_DARK,
+					disableColor: colors.BLACK_SQUEEZE,
 					oraiDenomTextColor: colors.NEON_BLUE,
 					backGroundColorGray: colors.GRAY,
 					separateLine: colors.GAINSBORO,

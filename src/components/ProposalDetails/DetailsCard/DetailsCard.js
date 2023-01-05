@@ -20,6 +20,21 @@ import styles from "./DetailsCard.module.scss";
 
 const cx = classNames.bind(styles);
 
+const filter = {
+	attribute(name, value) {
+		if (name === 'href') {
+			return encodeURIComponent(value);
+		}
+		return {};
+	},
+	node(name, node) {
+		if (name === 'a') {
+            node.setAttribute('target', '_blank');
+        }
+		return node;
+	},
+};
+
 const DetailsCard = memo(({ data }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -97,7 +112,7 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave content={data.description} />}</div>
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave filters={filter} content={data.description} />}</div>
 		</div>
 	);
 

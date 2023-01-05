@@ -1,0 +1,43 @@
+@import "src/styles/utils";
+
+.smart-contract {
+	margin-top: 0;
+	margin-bottom: 30px;
+	@media (min-width: 1279px) {
+		margin-top: 30px;
+	}
+
+	.header-card {
+		margin-bottom: 30px;
+	}
+}
+
+.header-contract {
+	display: flex;
+	justify-content: space-between;
+	.left {
+		display: flex;
+		align-items: center;
+		span {
+			color: var(--common-textColor);
+		}
+	}
+	.right {
+		display: flex;
+		.expland {
+			color: var(--common-textColor);
+			padding-right: 16px;
+			cursor: pointer;
+			&:hover {
+				color: #7F74FF;
+			} 
+		}
+		.reset {
+			color: var(--common-textColor);
+			cursor: pointer;
+			&:hover {
+				color: #7F74FF;
+			} 
+		}
+	}
+}
