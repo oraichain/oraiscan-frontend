@@ -67,6 +67,15 @@
 		font-size: 16px;
 		line-height: 150%;
 		word-break: break-all;
+
+		@include media(">=large") {
+			overflow: hidden;
+			cursor: pointer;
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 1;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+		}
 	}
 
 	.item-link {
@@ -76,5 +85,13 @@
 		font-weight: normal;
 		font-size: 16px;
 		line-height: 150%;
+
+		@include media(">=large") {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 1;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+		}
 	}
 }

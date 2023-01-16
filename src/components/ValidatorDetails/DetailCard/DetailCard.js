@@ -1,21 +1,21 @@
-import React, {memo, useState} from "react";
+import React, { memo, useState } from "react";
 import classNames from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Grid from "@material-ui/core/Grid";
-import {formatOrai, formatInteger, formatPercentage} from "src/helpers/helper";
-import {NavLink} from "react-router-dom";
-import {Progress} from "antd";
+import { formatOrai, formatInteger, formatPercentage } from "src/helpers/helper";
+import { Progress } from "antd";
 import RightArrowIcon from "src/icons/RightArrowIcon";
 import Dialog from "@material-ui/core/Dialog";
 import RequestsCard from "src/components/ValidatorDetails/RequestsCard";
-import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
-import {isNil} from "lodash";
+import { isNil } from "lodash";
+// @ts-ignore
 import styles from "./DetailCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const DetailCard = memo(({data}) => {
+// @ts-ignore
+const DetailCard = memo(({ data }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [open, setOpen] = useState(false);
@@ -166,36 +166,32 @@ const DetailCard = memo(({data}) => {
 		<div className={cx("detail-card")}>
 			{isLargeScreen ? (
 				<Grid container spacing={0}>
-					<Grid container item xs={12}>
-						<Grid item xs={4}>
-							{websiteElement}
-						</Grid>
-						<Grid item xs={4}>
+					<Grid container item xs={8}>
+						<Grid item xs={6}>
 							{votingPowerElement}
 						</Grid>
-						<Grid item xs={4}>
-							{detailsElement}
-						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
 							{commissionElement}
 						</Grid>
-						<Grid item xs={4}>
-							{bondedHeightElement}
-						</Grid>
-						<Grid item xs={4}>
-							{reportingElement}
-						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
 							{uptimeElement}
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
+							{bondedHeightElement}
+						</Grid>
+						<Grid item xs={6}>
 							{selfBondedElement}
 						</Grid>
-						<Grid item xs={4}>
-							{requestsElement}
-						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={6}>
 							{missedBlockElement}
+						</Grid>
+					</Grid>
+					<Grid container item xs={4}>
+						<Grid item xs={12}>
+							{websiteElement}
+						</Grid>
+						<Grid item xs={12}>
+							{detailsElement}
 						</Grid>
 					</Grid>
 				</Grid>

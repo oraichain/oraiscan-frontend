@@ -1,12 +1,12 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./DelegatorTable.module.scss";
 
@@ -17,14 +17,14 @@ export const getHeaderRow = () => {
 	const stakedHeaderCell = <div className={cx("header-cell", "align-left")}>Staked (ORAI)</div>;
 	const claimableRewardsHeaderCell = <div className={cx("header-cell", "align-left")}>Claimable Rewards (ORAI)</div>;
 	const headerCells = [addressHeaderCell, stakedHeaderCell, claimableRewardsHeaderCell];
-	const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}];
+	const headerCellStyles = [{ width: "auto" }, { width: "auto" }, { width: "auto" }];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const DelegatorTable = memo(({data = [], address = ""}) => {
+const DelegatorTable = memo(({ data = [], address = "" }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -38,8 +38,8 @@ const DelegatorTable = memo(({data = [], address = ""}) => {
 			}
 
 			const addressDataCell = item?.address ? (
-				<div className={cx("address-data-cell", {"address-data-cell-with-owner-badge": ownerBadge})}>
-					<NavLink className={cx("address")} to={`${consts.PATH.VALIDATORS}/${item.address}`}>
+				<div className={cx("address-data-cell", { "address-data-cell-with-owner-badge": ownerBadge })}>
+					<NavLink className={cx("address")} to={`${consts.PATH.ACCOUNT}/${item.address}`}>
 						{item.address}
 					</NavLink>
 					{ownerBadge && ownerBadge}
