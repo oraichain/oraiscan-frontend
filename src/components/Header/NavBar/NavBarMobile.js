@@ -18,7 +18,6 @@ import styles from "./NavBarMobile.module.scss";
 import CloseIcon from "src/icons/CloseIcon";
 import logoIcon from "src/assets/header/logo.svg";
 import OraiIcon from "src/icons/OraiIcon";
-import logoXmasLight from "src/assets/header/xmas_light.svg";
 const cx = cn.bind(styles);
 
 const NavBarMobile = ({ toggleSearchArea, initialNavLinks, isDarkTheme }) => {
@@ -46,8 +45,7 @@ const NavBarMobile = ({ toggleSearchArea, initialNavLinks, isDarkTheme }) => {
 		<div className={cx("navbar")}>
 			<NavLink to='/' className={cx("navbar-brand")}>
 				{/* <img className={cx("navbar-brand-icon")} src={logoIcon} alt={"logo"} /> */}
-				{/* <OraiIcon className={cx("navbar-brand-icon")} /> */}
-				<img className={cx("navbar-brand-icon")} src={logoXmasLight}></img>
+				<OraiIcon className={cx("navbar-brand-icon")} />
 				<span className={cx("navbar-brand-text")}>ORAICHAIN</span>
 			</NavLink>
 			{!_.isNil(address) && (

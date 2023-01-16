@@ -373,6 +373,7 @@ const TxMessageContent = ({
 						{getAddressRow("Receiver", value?.receiver)}
 						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
+						{getInfoRow("Memo Messages", data?.messages?.[ind]?.memo)}
 						{/* <InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
