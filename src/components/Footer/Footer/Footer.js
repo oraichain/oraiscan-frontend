@@ -200,7 +200,7 @@ const Footer = memo(() => {
 							</a>
 						</div>
 						<div className={cx("social-section-text")}>
-							©️ 2020 - 2023 Oraichain Labs. All rights reserved.{" "}
+							©️ 2020 - 2023 Oraichain Foundation. All rights reserved.{" "}
 							<span
 								style={{
 									textDecoration: "underline",
