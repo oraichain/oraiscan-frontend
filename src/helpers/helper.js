@@ -31,18 +31,27 @@ export const checkTokenCW20 = value => {
 		{
 			denom: "ORAI",
 			address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
+			decimal: 18,
 		},
 		{
 			denom: "AIRI",
 			address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
+			decimal: 18,
 		},
 		{
 			denom: "USDT",
 			address: "oraib0x55d398326f99059fF775485246999027B3197955",
+			decimal: 18,
 		},
 		{
 			denom: "KWT",
 			address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
+			decimal: 18,
+		},
+		{
+			denom: "ORAI ERC20",
+			address: "eth-mainnet0X4C11249814F11B9346808179CF06E71AC328C1B5",
+			decimal: 12,
 		},
 	];
 	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "")
@@ -50,6 +59,7 @@ export const checkTokenCW20 = value => {
 		status,
 		denom: status?.denom,
 		address: status?.address,
+		decimal: status?.decimal ?? 18
 	};
 };
 
