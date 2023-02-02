@@ -5,10 +5,11 @@ import { Buffer } from "buffer";
 import consts from "src/constants/consts";
 
 export const getAiOracleRequests = async () => {
-	const qData = { get_requests_by_service: { service: "price", limit: 10, order: 2 } };
+	const qData = { get_requests_by_service: { service: "orchai_price", limit: 10, order: 2 } };
 	const encodeData = Buffer.from(JSON.stringify(qData)).toString("base64");
 
-	const { data: fullRequestData } = await axios.get(`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_CONTRACT_ADDR}/smart/${encodeData}`);
+  const endpoint = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${config.AIORACLE_CONTRACT_ADDR}/smart/${encodeData}`;
+	const { data: fullRequestData } = await axios.get(endpoint);
 
 	if (fullRequestData?.data?.length > 0) {
 		for (let stageData of fullRequestData.data) {
