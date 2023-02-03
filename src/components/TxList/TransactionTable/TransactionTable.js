@@ -213,14 +213,16 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 	};
 
 	const checkAmountOrai = (denom, amount, newDenom, noDenomName) => {
+		const denomCheck = checkTokenCW20(denom);
+		let priceToken = status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : "";
 		if (denom?.toLowerCase()?.includes("ibc")) {
 			if (newDenom?.toLowerCase()?.includes(consts.GRAVITY)) {
 				denom = newDenom ? reduceStringAssets(newDenom.toLowerCase()) : noDenomName;
 				return (
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(amount, checkTokenCW20(denom).denom === 'KWT' && Math.pow(10,18))}</span>
+						<span className={cx("amount-value")}>{formatOrai(amount, denomCheck && Math.pow(10, denomCheck.decimal))}</span>
 						<span className={cx("amount-denom")}>{denom}</span>
-						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+						<div className={cx("amount-usd")}>{priceToken}</div>
 					</div>
 				);
 			}
@@ -231,21 +233,24 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>{formatOrai(amount)}</span>
 						<span className={cx("amount-denom")}>{denom}</span>
-						<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
+						<div className={cx("amount-usd")}>{priceToken}</div>
 					</div>
 				);
 			}
 		}
-		const denomCheck = checkTokenCW20(denom);
+		const priceOraiCheck = denom?.toLowerCase() === consts.DENOM_ORAI;
+		const priceTokenCheck = denom?.toLowerCase() === denomCheck?.address?.toLowerCase();
 		return (
 			<div className={cx("amount")}>
-				<span className={cx("amount-value")}>{Number(denomCheck.status ? formatOrai(+amount / Math.pow(10, checkTokenCW20(denom)?.decimal), 1000000, 6) : formatOrai(amount))}</span>
+				<span className={cx("amount-value")}>{Number(denomCheck.status ? formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) : formatOrai(amount))}</span>
 				<span className={cx("amount-denom")}>{denomCheck.status ? reduceStringAssets(denomCheck.denom) : reduceStringAssets(denom)}</span>
-				{denom?.toLowerCase() === consts.DENOM_ORAI ? (
-					<div className={cx("amount-usd")}>{status?.price ? " ($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : ""}</div>
-				) : (
-					<></>
-				)}
+				{priceOraiCheck ? (
+					<div className={cx("amount-usd")}>{priceToken}</div>
+				) : priceTokenCheck ?
+					<div className={cx("amount-usd")}>{"($" + status?.price * formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) + ")"}</div>
+					: (
+						<></>
+					)}
 			</div>
 		);
 	};
@@ -406,7 +411,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 							{transferStatus && transferStatus}
 							{amount ? (
 								<>
-									{checkAmountOrai(item?.amount?.[0]?.denom, checkTokenCW20(item?.amount?.[0]?.denom_name).denom === 'KWT' ? amount / Math.pow(10,12) : amount, item?.amount?.[0]?.denom_name, noDenomName)}
+									{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}
 								</>
 							) : (
 								<div className={cx("amount")}>
