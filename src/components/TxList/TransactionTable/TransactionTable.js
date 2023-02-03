@@ -242,7 +242,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 		const priceTokenCheck = denom?.toLowerCase() === denomCheck?.address?.toLowerCase();
 		return (
 			<div className={cx("amount")}>
-				<span className={cx("amount-value")}>{Number(denomCheck.status ? formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) : formatOrai(amount))}</span>
+				<span className={cx("amount-value")}>{denomCheck.status ? formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) : formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denomCheck.status ? reduceStringAssets(denomCheck.denom) : reduceStringAssets(denom)}</span>
 				{priceOraiCheck ? (
 					<div className={cx("amount-usd")}>{priceToken}</div>
