@@ -305,10 +305,11 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 		const getIbcReceivedRows = value => {
 			const data = JSON.parse(atob(value));
+			const denomCheck = checkTokenCW20(data.denom);
 			return (
 				<div>
-					{getInfoRow("Denom", reduceString(checkTokenCW20(data.denom)?.denom || data?.denom))}
-					{getInfoRow("Amount", checkTokenCW20(data.denom)?.status ? formatOrai(+data.amount / Math.pow(10, 18), 1, 6) : data.amount)}
+					{getInfoRow("Denom", reduceString(denomCheck?.denom || data?.denom))}
+					{getInfoRow("Amount", denomCheck?.status ? formatOrai(+data.amount / Math.pow(10, denomCheck?.decimal), 1, 6) : data.amount)}
 					{getAddressRow("Receiver", data.receiver)}
 					{getInfoRow("Sender", data.sender)}
 				</div>
@@ -373,10 +374,10 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			const denomCheck = checkTokenCW20(denom_name);
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount =  Number(denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1));
+				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
 			} else {
 				calculatedValue = amount / 1000000;
-				formatedAmount =  Number(denomCheck?.denom ? formatOrai(amount / Math.pow(10, denomCheck?.decimal)) : formatOrai(amount));
+				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
@@ -822,7 +823,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, 18) : item?.amount / Math.pow(10, 6)) : "0"}</span>
+							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}</span>
 							<span className={cx("amount-denom")}>{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
 							{/* <span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || reduceStringAssets(item?.demom) || reduceStringAssets(denomSplit?.[0])}</span> */}
 							{/* <span className={cx("amount-usd")}>

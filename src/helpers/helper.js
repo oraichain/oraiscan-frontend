@@ -51,7 +51,7 @@ export const checkTokenCW20 = value => {
 		{
 			denom: "ORAI ERC20",
 			address: "eth-mainnet0X4C11249814F11B9346808179CF06E71AC328C1B5",
-			decimal: 12,
+			decimal: 18,
 		},
 	];
 	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "")
