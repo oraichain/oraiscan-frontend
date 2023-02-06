@@ -36,6 +36,8 @@ import { notification } from "antd";
 import consts from 'src/constants/consts';
 
 import Under from 'src/assets/assets/undermaintenance.jpeg';
+import * as Sentry from '@sentry/react';
+import { BrowserTracing } from '@sentry/tracing';
 
 const cx = classNames.bind(styles);
 
@@ -94,6 +96,20 @@ export default function () {
 			window.removeEventListener("keplr_keystorechange", keplrHandler);
 		};
 	}, []);
+
+	if (process.env.REACT_APP_SENTRY_ENVIRONMENT) {
+		Sentry.init({
+		  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+		  dsn: 'https://6c7dc9a65b774e5d90f1ff8fcfd95171@o1323226.ingest.sentry.io/4504630913269760',
+		  integrations: [new BrowserTracing()],
+	  
+		  // Set tracesSampleRate to 1.0 to capture 100%
+		  // of transactions for performance monitoring.
+		  // We recommend adjusting this value in production
+		  tracesSampleRate: 1.0,
+		});
+	  }
+	  
 
 	const keplrHandler = async () => {
 		try {
