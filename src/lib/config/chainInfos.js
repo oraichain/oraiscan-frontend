@@ -47,7 +47,7 @@ export const embedChainInfos = [
             average: 0.03,
             high: 0.05
         },
-        features: ['stargate', 'no-legacy-stdTx', 'ibc-transfer', 'cosmwasm']
+        features: ['stargate', 'no-legacy-stdTx', 'ibc-transfer', 'cosmwasm', 'wasmd_0.24+']
     },
     {
         rpc: networks[NetworkKey.TESTNET].rpc,
@@ -88,6 +88,6 @@ export const embedChainInfos = [
             average: 0.000025,
             high: 0.00004
         },
-        features: ['stargate', 'no-legacy-stdTx', 'ibc-transfer', 'cosmwasm']
+        features: ['stargate', 'no-legacy-stdTx', 'ibc-transfer', 'cosmwasm', 'wasmd_0.24+']
     }
 ];
