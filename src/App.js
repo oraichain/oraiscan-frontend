@@ -102,7 +102,7 @@ export default function () {
 		  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
 		  dsn: 'https://6c7dc9a65b774e5d90f1ff8fcfd95171@o1323226.ingest.sentry.io/4504630913269760',
 		  integrations: [new BrowserTracing()],
-	  
+		  denyUrls: [/extensions\//i, /^chrome:\/\//i],
 		  // Set tracesSampleRate to 1.0 to capture 100%
 		  // of transactions for performance monitoring.
 		  // We recommend adjusting this value in production
