@@ -43,9 +43,9 @@ export const embedChainInfos = [
         },
         walletUrlForStaking: "https://scan.orai.io/validators",
         gasPriceStep: {
-            low: 0.01,
-            average: 0.03,
-            high: 0.05
+            low: 0.003,
+            average: 0.005,
+            high: 0.007
         },
         features: ['stargate', 'no-legacy-stdTx', 'ibc-transfer', 'cosmwasm', 'wasmd_0.24+']
     },
