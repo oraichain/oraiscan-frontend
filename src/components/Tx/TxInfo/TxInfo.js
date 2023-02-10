@@ -75,6 +75,18 @@ const TxInfo = ({data}) => {
 						<div className={cx("raw-log")}>{data?.raw_log}</div>
 					</InfoRow>
 				)}
+				{
+					data?.result?.toLowerCase?.() === 'success' && (
+						<>
+							<InfoRow label='Gas used'>
+								<div className={cx("raw-log")}>{data?.gas_used}</div>
+							</InfoRow>
+							<InfoRow label='Gas Limit'>
+								<div className={cx("raw-log")}>{data?.gas_wanted ?? data?.fee?.gas_limit}</div>
+							</InfoRow>
+						</>
+					)
+				}
 				<InfoRow label='Height'>
 					{_.isNil(data?.height) ? (
 						"-"
