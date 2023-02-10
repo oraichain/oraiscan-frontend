@@ -255,5 +255,5 @@ export default Object.freeze({
 		FAILURE: "failure",
 		PENDING: "pending"
 	},
-	INSTALL_KEPLR_FIRST: "You have to install Keplr first to continue",
+	INSTALL_KEPLR_FIRST: "You need to install OWallet or Keplr to continue.",
 });
