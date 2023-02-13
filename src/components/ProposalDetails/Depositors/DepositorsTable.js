@@ -64,7 +64,7 @@ const DepositorsTable = memo(({data = []}) => {
 			);
 			const answerDataCell = (
 				<div className={cx("align-left")}>
-					{formatOrai(itemAmount?.amount)} {itemAmount?.denom.toUpperCase()}
+					{formatOrai(itemAmount?.amount)} {itemAmount?.denom?.toUpperCase()}
 				</div>
 			);
 			const timeDataCell = <div className={cx("align-right")}>{setAgoTime(item?.time_deposit)}</div>;
