@@ -169,6 +169,12 @@ const DetailsCard = memo(({ data }) => {
 									</tr>
 									<tr>
 										<td>
+											<div className={cx("item-title")}>Contract Address</div>
+											<div className={cx("item-text")}>{data?.contract ?? "-"}</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
 											<div className={cx("item-title")}>Proposer</div>
 											<div className={cx("item-text")}>{data?.proposer ?? "-"}</div>
 										</td>
