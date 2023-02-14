@@ -303,9 +303,14 @@ const DetailsCard = memo(({ data }) => {
 							</tr>
 							<tr>
 								<td colSpan={2}>
+									<div className={cx("item-title")}>Contract</div>
+									<div className={cx("item-proposer")}>{data?.contract ?? "-"}</div>
+								</td>
+							</tr>
+							<tr>
+								<td colSpan={2}>
 									<div className={cx("item-title")}>Proposer</div>
 									<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
-									
 								</td>
 							</tr>
 						</> : ""}
