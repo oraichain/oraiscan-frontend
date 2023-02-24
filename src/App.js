@@ -97,7 +97,7 @@ export default function () {
 		};
 	}, []);
 
-	if (process.env.REACT_APP_SENTRY_ENVIRONMENT) {
+	if (process.env.REACT_APP_SENTRY_ENVIRONMENT === 'production') {
 		Sentry.init({
 		  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
 		  dsn: 'https://6c7dc9a65b774e5d90f1ff8fcfd95171@o1323226.ingest.sentry.io/4504630913269760',
@@ -107,7 +107,7 @@ export default function () {
 		  // Set tracesSampleRate to 1.0 to capture 100%
 		  // of transactions for performance monitoring.
 		  // We recommend adjusting this value in production
-		  tracesSampleRate: 1.0,
+		  tracesSampleRate: 0.5,
 		});
 	  }
 	  
