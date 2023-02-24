@@ -440,7 +440,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 					<div className={cx("fee-data-cell", "align-right")}>
 						<div className={cx("fee")}>
 							<span className={cx("fee-value")}>{formatOrai(item.fee?.amount[0]?.amount || 0)}</span>
-							<span className={cx("fee-denom")}>{item.fee?.amount[0]?.denom || item.fee?.amount[0]?.denom_name || 'ORAI'}</span>
+							<span className={cx("fee-denom")}>{item.fee?.amount?.[0]?.denom || item.fee?.amount?.[0]?.denom_name || 'ORAI'}</span>
 							{/* <span className={cx("fee-usd")}>
 									{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
 								</span> */}
