@@ -1,10 +1,10 @@
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {amountDecimal18, formatOrai} from "src/helpers/helper";
-import {_, reduceString, reduceStringAssets} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { amountDecimal18, formatOrai } from "src/helpers/helper";
+import { _, reduceString, reduceStringAssets } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./AssetsTable.module.scss";
 
@@ -16,9 +16,9 @@ export const getHeaderRow = () => {
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "140px"}, // Name
-		{minWidth: "80px"}, // Amount
-		{minWidth: "80px"}, // Total Value
+		{ minWidth: "140px" }, // Name
+		{ minWidth: "80px" }, // Amount
+		{ minWidth: "80px" }, // Total Value
 	];
 
 	return {
@@ -27,7 +27,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const AssetsTable = memo(({data = []}) => {
+const AssetsTable = memo(({ data = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -38,7 +38,7 @@ const AssetsTable = memo(({data = []}) => {
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("align-left")}>{tokenInfo ? tokenInfo.name : reduceStringAssets(item.validator_address, 30, 0)}</div>
+				<div className={cx("denom-data-cell", "align-left")}>{tokenInfo ? tokenInfo.name : reduceStringAssets(item.validator_address, 30, 0)}</div>
 				// <NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
 				// 	{reduceString(item.validator_address, 15, 0)}
 				// 	{item.validator_address}
@@ -51,7 +51,7 @@ const AssetsTable = memo(({data = []}) => {
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(item.amount,Math.pow(10,tokenInfo ? tokenInfo.decimal : 6) )}</span>
+							<span className={cx("amount-value")}>{formatOrai(item.amount, Math.pow(10, tokenInfo ? tokenInfo.decimal : 6))}</span>
 							<span className={cx("amount-denom")}>{tokenInfo ? tokenInfo?.name : reduceStringAssets(item.denom, 7, 3)}</span>
 						</div>
 					</div>
