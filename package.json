@@ -40,6 +40,7 @@
 		"@oraichain/cosmos-messages": "0.0.3",
 		"@sentry/react": "^7.36.0",
 		"@sentry/tracing": "^7.36.0",
+		"@sentry/webpack-plugin": "^1.20.0",
 		"@walletconnect/browser-utils": "^1.7.5",
 		"@walletconnect/client": "^1.7.5",
 		"antd": "^4.9.4",
