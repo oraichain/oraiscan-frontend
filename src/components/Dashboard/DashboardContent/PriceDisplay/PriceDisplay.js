@@ -12,24 +12,14 @@ import styles from "./PriceDisplay.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function(props) {
+export default function() {
 	const status = useSelector(state => state.blockchain.status);
 
-	// React.useEffect(() => {
-	// 	const cancelToken = axios.CancelToken;
-	// 	const source = cancelToken.source();
-	// 	dispatch(getCryptoBasicData("binancecoin", "usd", source.token));
-	// 	dispatch(getCryptoStatus(source.token));
-	// 	return () => {
-	// 		source.cancel("cleanup cancel");
-	// 	};
-	// }, [dispatch]);
 	return React.useMemo(
 		() => (
 			<div className={cx("PriceDisplay")}>
 				<div className={cx("iconBlockTime-wrapper")}>
 					<div className={cx("logo")}>
-						{/* <img alt='ORAI_icon' /> */}
 						<OraiIcon className={cx("logo-icon")} />
 						<div className={cx("logo-text")}>ORAI</div>
 					</div>

@@ -81,11 +81,10 @@ const StatusBox = memo(() => {
 
 	useEffect(() => {
 		calculateInflationFromApr()
-			.then((inflation) => {
-				console.log("inflation rate: ", inflation)
+			.then(inflation => {
 				setWantedInflationRate(inflation);
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log("error getting wanted inflation rate: ", err.message);
 			});
 	}, []);

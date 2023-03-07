@@ -1,0 +1,52 @@
+@import "src/styles/utils";
+
+.blocks-card {
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+	height: 100%;
+
+	@media screen and (min-width: 1280px) {
+		padding: 20px;
+		background: var(--common-containerBackgroundColor);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
+		border-radius: 8px;
+	}
+
+	&-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-bottom: 20px;
+
+		.title {
+			display: inline-block;
+			color: var(--common-textColor);
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 150%;
+		}
+
+		.show-more {
+			display: inline-flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			padding: 2px 8px;
+			color: var(--common-buttonTextColor);
+			background: var(--common-buttonBackgroundColor);
+			border: 1px solid var(--common-activeTabColor);
+			box-sizing: border-box;
+			border-radius: 4px;
+			font-family: "IBM Plex Sans";
+			font-style: normal;
+			font-weight: normal;
+			font-size: 13px;
+		}
+	}
+
+	&-body {
+	}
+}

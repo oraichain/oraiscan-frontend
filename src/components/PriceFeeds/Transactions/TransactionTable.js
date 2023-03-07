@@ -1,14 +1,12 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {logoBrand} from "src/constants/logoBrand";
-import {tableThemes} from "src/constants/tableThemes";
-import {formatOrai} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import ThemedTable from "src/components/common/ThemedTable";
+import consts from "src/constants/consts";
+import { tableThemes } from "src/constants/tableThemes";
+import { _ } from "src/lib/scripts";
 import styles from "./TransactionTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -29,16 +27,14 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TestCaseTable = memo(({data = []}) => {
+const TestCaseTable = memo(({ data = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 		data = data.filter((element, index, self) => index === self.findIndex(selfElement => selfElement.txhash === element.txhash));
-		console.log("data: ", data);
 
 		return data.map(item => {
-			console.log(item);
 			const requestCell = _.isNil(item?.requestID) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (

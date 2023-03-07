@@ -1,15 +1,16 @@
-import React, {useState, useEffect, useRef} from "react";
-import {NavLink} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { arraysEqual, calculateBefore, mergeArrays } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import BlockTable from "src/components/Dashboard/BlockTable";
+import BlockTableDashboard from "src/components/Dashboard/BlockTable";
+import BlockTable from "src/components/BlockList/BlockTable";
 import BlockTableSkeleton from "src/components/Dashboard/BlockTable/BlockTableSkeleton";
 import BlockCardList from "src/components/Dashboard/BlockCardList";
 import BlockCardListSkeleton from "src/components/Dashboard/BlockCardList/BlockCardListSkeleton";
@@ -17,7 +18,7 @@ import styles from "./BlocksCard.module.scss";
 
 const cx = cn.bind(styles);
 
-const BlocksCard = () => {
+const BlocksTableWrapper = ({ isShowMore = false }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
@@ -92,7 +93,11 @@ const BlocksCard = () => {
 	 */
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+			if (isShowMore) {
+				tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+			} else {
+				tableSection = isLargeScreen ? <BlockTableDashboard data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+			}
 		} else {
 			tableSection = isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />;
 		}
@@ -139,9 +144,20 @@ const BlocksCard = () => {
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <BlockTable data={mergedData} rowMotions={rowMotions} /> : <BlockCardList data={blocks?.data} />;
+
+					// check to render column table in diffent page. ( dashboard 4 cols, /blocks: 5 cols)
+					if (isShowMore) {
+						tableSection = isLargeScreen ? <BlockTable data={mergedData} /> : <BlockCardList data={blocks?.data} />;
+					} else {
+						tableSection = isLargeScreen ? <BlockTableDashboard data={mergedData} /> : <BlockCardList data={blocks?.data} />;
+					}
 				} else {
-					tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+					// check to render column table in diffent page. ( dashboard 4 cols, /blocks: 5 cols)
+					if (isShowMore) {
+						tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+					} else {
+						tableSection = isLargeScreen ? <BlockTableDashboard data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
+					}
 				}
 				prevDataRef.current = [...blocks.data];
 			} else {
@@ -152,19 +168,11 @@ const BlocksCard = () => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
-		<div className={cx("blocks-card")}>
-			<div className={cx("blocks-card-header")}>
-				<span className={cx("title")}>Blocks</span>
-				<NavLink to={consts.PATH.BLOCKLIST} className={cx("show-more")}>
-					Show more
-				</NavLink>
-			</div>
-			<div className={cx("blocks-card-body")}>
-				{tableSection}
-				{paginationSection}
-			</div>
-		</div>
+		<>
+			{tableSection}
+			{paginationSection}
+		</>
 	);
 };
 
-export default BlocksCard;
+export default BlocksTableWrapper;
