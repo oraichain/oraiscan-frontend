@@ -1,35 +1,24 @@
-import * as React from "react";
-import cn from "classnames/bind";
 import axios from "axios";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useTheme} from "@material-ui/core/styles";
+import cn from "classnames/bind";
+import * as React from "react";
 
 import consts from "src/constants/consts";
-import {_, empty, getUnixTimes} from "src/lib/scripts";
-import {getMarketChartRange} from "src/lib/api";
+import { getMarketChartRange } from "src/lib/api";
+import { empty, getUnixTimes, _ } from "src/lib/scripts";
 
-import ErrorPage from "src/components/common/ErrorPage";
 import Chart from "src/components/common/Chart";
+import ErrorPage from "src/components/common/ErrorPage";
 import styles from "./GraphDisplay.module.scss";
 
 const cx = cn.bind(styles);
 
-//  coingecko api
-/*
-	0: prices
-	1: market_caps
-	2: total_volumes
-*/
-
 const TWO_HOURS_IN_MINUTES = 24 * 60;
 const DATA_COUNT_DENOM = 4;
 
-export default function(props) {
+export default function() {
 	const [data, setData] = React.useState(null);
 	const [showPrice, setShowPrice] = React.useState(true);
 	const [graphWrapperWidth, setGraphWrapperWidth] = React.useState(100);
-	const theme = useTheme();
-	const isMobile = !useMediaQuery(theme.breakpoints.up("lg"));
 	const graphWrapperRef = React.useRef();
 
 	const transformData = data => {
@@ -49,9 +38,6 @@ export default function(props) {
 		getMarketChartRange(consts.COIN_ID, "usd", times[0], times[1], source.token)
 			.then(res => {
 				if (_.isObject(res.data)) {
-					// const mapped = _.map(_.initial(_.keys(res.data)), key => _.map(res.data[key], v => [v[0], Math.round(v[1] * 100) / 100]));
-					// setData(_.map(mapped, arr => _.filter(arr, (v, idx) => idx % DATA_COUNT_DENOM === 0 || idx === 0 || idx === mapped.length - 1)));
-
 					setData([transformData(res?.data?.prices), transformData(res?.data?.total_volumes)]);
 				}
 			})
@@ -63,15 +49,17 @@ export default function(props) {
 			source.cancel("cleanup cancel");
 		};
 	}, []);
-	const clickTab = React.useMemo(() => () => setShowPrice(v => !v), []);
+
+	const clickTab = () => setShowPrice(v => !v);
+
 	return (
 		<div className={cx("GraphDisplay")}>
 			<div className={cx("tab-wrapper")}>
 				<div className={cx("tab-wrapper-btn")}>
-					<button className={cx({selected: showPrice})} onClick={clickTab}>
+					<button className={cx({ selected: showPrice })} onClick={clickTab}>
 						<p>Price</p>
 					</button>
-					<button className={cx({selected: !showPrice})} onClick={clickTab}>
+					<button className={cx({ selected: !showPrice })} onClick={clickTab}>
 						<p>Volume</p>
 					</button>
 				</div>

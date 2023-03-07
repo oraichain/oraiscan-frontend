@@ -92,18 +92,6 @@ const ValidatorList = props => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	if (loadCompleted) {
-	// 		timerIdRef.current = setTimeout(() => {
-	// 			refetch();
-	// 			setLoadCompleted(false);
-	// 		}, consts.REQUEST.TIMEOUT);
-	// 		return () => {
-	// 			cleanUp();
-	// 		};
-	// 	}
-	// }, [loadCompleted, refetch]);
-
 	let titleSection;
 	let statusCardList;
 	let filterSection;
@@ -159,21 +147,21 @@ const ValidatorList = props => {
 		</div>
 	);
 
-	if (loading) {
-		tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
-		// if (firstLoadCompleted) {
-		// 	tableSection = isLargeScreen ? <ValidatorTable data={data?.data} /> : <ValidatorCardList data={data?.data} />;
-		// } else {
-		// 	tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
-		// }
-	} else {
-		if (error) {
-			tableSection = <NoResult />;
+	/**
+	 * just rerender table validator when loading or change type active isActiveValidator
+	 */
+	useMemo(() => {
+		if (loading) {
+			tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
 		} else {
-			const data = isActiveValidator ? onValidators("") : onValidators("inactive");
-			tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data} />;
+			if (error) {
+				tableSection = <NoResult />;
+			} else {
+				const data = isActiveValidator ? onValidators("") : onValidators("inactive");
+				tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data} />;
+			}
 		}
-	}
+	}, [loading, isActiveValidator]);
 
 	return (
 		<>

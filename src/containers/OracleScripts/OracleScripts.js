@@ -1,24 +1,23 @@
-import React, {useState, useRef} from "react";
-import {useGet} from "restful-react";
-import PropTypes from "prop-types";
-import {useTheme} from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import consts from "src/constants/consts";
-import TogglePageBar from "src/components/common/TogglePageBar";
-import TitleWrapper from "src/components/common/TitleWrapper";
+import { useRef, useState } from "react";
+import { useGet } from "restful-react";
+import NoResult from "src/components/common/NoResult";
 import PageTitle from "src/components/common/PageTitle";
-import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
 import SearchInput from "src/components/common/SearchInput";
-import NoResult from "src/components/common/NoResult";
-import TopOracleScriptCardList from "src/components/OracleScripts/TopOracleScriptCardList";
-import TopOracleScriptCardListSkeleton from "src/components/OracleScripts/TopOracleScriptCardList/TopOracleScriptCardListSkeleton";
-import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
-import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
+import StatusBox from "src/components/common/StatusBox";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import OracleScriptCardList from "src/components/OracleScripts/OracleScriptCardList";
 import OracleScriptCardListSkeleton from "src/components/OracleScripts/OracleScriptCardList/OracleScriptCardListSkeleton";
+import OracleScriptTable from "src/components/OracleScripts/OracleScriptTable";
+import OracleScriptTableSkeleton from "src/components/OracleScripts/OracleScriptTable/OracleScriptTableSkeleton";
+import TopOracleScriptCardList from "src/components/OracleScripts/TopOracleScriptCardList";
+import TopOracleScriptCardListSkeleton from "src/components/OracleScripts/TopOracleScriptCardList/TopOracleScriptCardListSkeleton";
+import consts from "src/constants/consts";
 import styles from "./OracleScripts.module.scss";
 
 const cx = cn.bind(styles);
@@ -120,7 +119,6 @@ const OracleScripts = () => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("oracle-scripts")}>
-				{/* <ComingSoon /> */}
 				{topOracleScriptCardList}
 				{filterSection}
 				{tableSection}

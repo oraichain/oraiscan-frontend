@@ -237,10 +237,7 @@ const ValidatorTable = memo(({data = []}) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
-			// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || {customLogo: ""};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || { customLogo: "" };
 			const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
 
@@ -303,7 +300,6 @@ const ValidatorTable = memo(({data = []}) => {
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
 
-			// const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
 			const estAPR = item?.apr.toFixed(2);
 
 			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{estAPR} %</div>;

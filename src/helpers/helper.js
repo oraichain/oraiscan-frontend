@@ -296,12 +296,11 @@ export const calculateInflationFromApr = async () => {
 	let { bonded_tokens } = (await fetchData("cosmos/staking/v1beta1/pool")).pool;
 	const { community_tax, base_proposer_reward, bonus_proposer_reward } = (await fetchData("cosmos/distribution/v1beta1/params")).params;
 	const voteMultiplier = 1 - parseFloat(community_tax) - (parseFloat(base_proposer_reward) + parseFloat(bonus_proposer_reward));
-	const blockRevision = valRewardPerBlock / (VAL_VOTING_POWER / bonded_tokens * voteMultiplier);
+	const blockRevision = valRewardPerBlock / ((VAL_VOTING_POWER / bonded_tokens) * voteMultiplier);
 
 	const totalSupply = (await fetchData("cosmos/bank/v1beta1/supply/orai")).amount.amount;
 	const { blocks_per_year } = (await fetchData("cosmos/mint/v1beta1/params")).params;
 	const inflationRate = blockRevision / (totalSupply / blocks_per_year);
 
-	console.log("inflation rate needed: ", inflationRate)
 	return inflationRate * 100; // display in percentage
-}
+};

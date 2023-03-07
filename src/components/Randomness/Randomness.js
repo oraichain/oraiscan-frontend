@@ -1,37 +1,33 @@
-import * as React from "react";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { useParams } from "react-router";
-import PropTypes from "prop-types";
-import { isNil, reject } from "lodash";
-import cn from "classnames/bind";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Container from "@material-ui/core/Container";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import TitleWrapper from "src/components/common/TitleWrapper";
-import PageTitle from "src/components/common/PageTitle";
-import StatusBox from "src/components/common/StatusBox";
-import TogglePageBar from "src/components/common/TogglePageBar";
-import { useGet } from "restful-react";
-import { getLatestRound, getRound } from "src/lib/drand/drand";
-import SearchIcon from "src/icons/SearchIcon";
-import RandomnessSkeleton from "./RandomnessSkeleton";
-import consts from "src/constants/consts";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import RandomnessView from "./RandomnessView";
+import cn from "classnames/bind";
+import PropTypes from "prop-types";
+import { useGet } from "restful-react";
+import PageTitle from "src/components/common/PageTitle";
+import StatusBox from "src/components/common/StatusBox";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import TogglePageBar from "src/components/common/TogglePageBar";
+import consts from "src/constants/consts";
+import SearchIcon from "src/icons/SearchIcon";
+import { getLatestRound, getRound } from "src/lib/drand/drand";
+import LoadingOverlay from "../common/LoadingOverlay";
 import NewRadomModalResult from "./NewRadomModalResult";
 import styles from "./Randomness.module.scss";
 import RandomnessPopup from "./RandomnessPopup";
-import LoadingOverlay from "../common/LoadingOverlay";
+import RandomnessSkeleton from "./RandomnessSkeleton";
+import RandomnessView from "./RandomnessView";
 
 const cx = cn.bind(styles);
 
-const Randomness = ({ }) => {
+const Randomness = ({}) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const wallet = useSelector(state => state.wallet);
-	// const { contract } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [roundValue, setRoundValue] = useState(null);
@@ -59,14 +55,12 @@ const Randomness = ({ }) => {
 
 	const handleGetLatestRound = async () => {
 		const latestData = await getLatestRound();
-		console.log("latest data: ", latestData);
 		if (latestData && latestData.latest) {
 			if (!latestData.latest.combined_sig) {
 				let round = latestData.latest.round - 1;
 				let roundResult = {};
 				do {
 					roundResult = await getRound(round);
-					console.log("round result: ", roundResult);
 					round = round - 1;
 				} while (!roundResult || !roundResult.latest || !roundResult.latest.combined_sig);
 				loadData(roundResult);
@@ -76,7 +70,6 @@ const Randomness = ({ }) => {
 				let roundResult = {};
 				do {
 					roundResult = await getRound(round);
-					console.log("round result: ", roundResult);
 					round = round - 1;
 				} while (!roundResult || !roundResult.latest || roundResult.latest.aggregate_sig.sender === "");
 				loadData(roundResult);
@@ -105,10 +98,8 @@ const Randomness = ({ }) => {
 
 	const handleSearch = async () => {
 		setLoading(true);
-		console.log("round value: ", roundValue);
 		const searchResult = await getRound(roundValue);
 		// if the round value is valid, we stop searching
-		console.log("search result: ", searchResult);
 		if (searchResult && searchResult.latest && (searchResult.latest.combined_sig || searchResult.latest.aggregate_sig.sender !== "")) {
 			loadData(searchResult);
 			return;
@@ -137,8 +128,7 @@ const Randomness = ({ }) => {
 	};
 
 	const eventHandleGetRamdomValue = async (response, contract) => {
-		// const round = response.tx_response.logs[0].events[1].attributes[3].value;
-		const round = response?.events?.find(eve => eve.type === 'wasm')?.attributes?.find(att => att.key == 'round')?.value ?? 1;
+		const round = response?.events?.find(eve => eve.type === "wasm")?.attributes?.find(att => att.key == "round")?.value ?? 1;
 		setTxResponse({
 			contract: contract,
 			txHash: response?.transactionHash,
@@ -150,7 +140,6 @@ const Randomness = ({ }) => {
 
 		do {
 			wantedRound = await handleGetRound(round);
-			console.log("wanted round: ", wantedRound);
 		} while (!wantedRound || !wantedRound.latest || !wantedRound.latest.combined_sig);
 
 		setShowModal(false);

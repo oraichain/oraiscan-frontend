@@ -23,7 +23,7 @@ const INDEX_DISPLAY_DECIMAL_PLACES = 4;
 const BASE_PROPERTY = "height";
 const PAGE_SIZE = 20;
 
-export default function(props) {
+export default function() {
 	const [, , state, updateCurrentPage, jumpToEnd, [realTime, setRealTime]] = useIndexedPagination({
 		path: consts.API.BLOCKLIST,
 		pageSize: PAGE_SIZE,
@@ -38,10 +38,8 @@ export default function(props) {
 		if (empty(state.index)) return;
 		const isFrontToTrue = state.isFront === true && previousIsFront === false;
 		if (realTime === false && isFrontToTrue && state.pageData[state.index[0]]?.[BASE_PROPERTY] === state.maxIndex) {
-			// console.log("setRealTimeTrue");
 			setRealTime(true);
 		} else if (state.index[0] !== 0 && realTime === true) {
-			// console.log("setRealTimeFalse");
 			setRealTime(false);
 		}
 		// eslint-disable-next-line
@@ -50,22 +48,19 @@ export default function(props) {
 	const onePageClick = (after = false) => {
 		if (after && state.isFront) return;
 		if (realTime && !after) {
-			// console.log("setRealTimeFalse");
 			setRealTime(false);
 		}
 		if (!after && state.index[1] + state.pageSize > state.maxIndex) return;
 		updateCurrentPage(after);
-		// console.log("clicked next");
 	};
 	const formattedMaxHeight = useMemo(() => formatNumber(state.maxIndex, 3), [state.maxIndex]);
-	// console.log("check", state.maxIndex, state.pageData[0]?[BASE_PROPERTY]);
 
 	const tableBodyRender = useMemo(() => {
 		return (
 			<TableBody>
 				{_.map(
 					empty(state.pageData) || (state.pageData.length < PAGE_SIZE && state.isNoMore)
-						? Array.from({length: PAGE_SIZE}, (z, idx) => ({id: idx}))
+						? Array.from({ length: PAGE_SIZE }, (z, idx) => ({ id: idx }))
 						: state.pageData,
 					(v, idx) => {
 						if (v === undefined) return <BlockListTableRow key={idx} blockData={{}} />;
@@ -103,8 +98,6 @@ export default function(props) {
 	const realTimeButtonClick = e => {
 		e.preventDefault();
 		if (!state.isFront) return;
-		// if (realTime === true) forceLoadAfter(true);
-		// console.log("setRealTime click", !realTime);
 		setRealTime(v => !v);
 	};
 

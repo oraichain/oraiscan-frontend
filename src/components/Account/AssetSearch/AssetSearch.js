@@ -1,17 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useState, useEffect, useRef} from "react";
 import cn from "classnames/bind";
 import _ from "lodash";
+import { useEffect, useRef } from "react";
+import { assetsNetworks } from "src/constants/ibc";
 import DownAngleIcon from "src/icons/DownAngleIcon";
-import {assetsNetworks} from "src/constants/ibc";
-import {useMemo} from "react";
-import {formatOrai} from "src/helpers/helper";
-import {parseNumberToCurrency} from "src/lib/scripts";
+import { parseNumberToCurrency } from "src/lib/scripts";
 import styles from "./AssetSearch.module.scss";
 
 const cx = cn.bind(styles);
 
-export default function({assetSearch, setAssetSearch, totalValue}) {
+export default function({ assetSearch, setAssetSearch, totalValue }) {
 	const selectedItemRef = useRef(null);
 	const listRef = useRef(null);
 	const showList = () => {
@@ -55,19 +53,12 @@ export default function({assetSearch, setAssetSearch, totalValue}) {
 		};
 	}, []);
 
-	useEffect(() => {
-		console.log("total value: ", totalValue);
-	}, [totalValue]);
-
 	return (
 		<>
 			<div className={cx("assets__search")}>
 				<div className={cx("assets__title")}>Assets</div>
 				<div className={cx("assets__form")}>
 					<div className={cx("network-switcher")}>
-						{/* <div className={cx("selected-item")}>
-						<input type='text' className={cx("text-field")} readOnly />
-					</div> */}
 						<div className={cx("selected-item")} ref={selectedItemRef}>
 							<input type='text' className={cx("text-field")} value={assetsNetworks[assetSearch]} readOnly />
 							<DownAngleIcon className={cx("arrow")} />

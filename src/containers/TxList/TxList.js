@@ -126,18 +126,6 @@ const TxList = () => {
 
 	let tableData;
 	if (pending && Array.isArray(data?.result?.txs)) {
-		// const data = {
-		// 	jsonrpc: "2.0",
-		// 	id: -1,
-		// 	result: {
-		// 		n_txs: "1",
-		// 		total: "1",
-		// 		total_bytes: "320",
-		// 		txs: [
-		// 			"Cp8BCpwBCjcvY29zbW9zLmRpc3RyaWJ1dGlvbi52MWJldGExLk1zZ1dpdGhkcmF3RGVsZWdhdG9yUmV3YXJkEmEKK29yYWkxMzBqc2w2NnJnc3M2ZXE3cXVyMDJ5ZnI2dHpwcGR2eGdrZzk2NDASMm9yYWl2YWxvcGVyMTMwanNsNjZyZ3NzNmVxN3F1cjAyeWZyNnR6cHBkdnhnbHo3bjdnEloKUgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQKJzoUdo6kFlyUrTtOQgNA6/NY+ulQeJGDc6eB42FbDmBIECgIIARihmAUSBBDAmgwaQGC03ZLQQEw4+rdP0PSRkt5iSbyVTKEQacDqcc4FsW24Fv0D0i3pS2IvMe4jLefO8nFFhYxz7GM4Zok2mIa1de8=",
-		// 		],
-		// 	},
-		// };
 		tableData = data.result.txs.map(tx => {
 			const decodedTx = decodeTx(tx);
 			return {
@@ -158,7 +146,11 @@ const TxList = () => {
 
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+			tableSection = isLargeScreen ? (
+				<TransactionTable txHashClick={pending} data={tableData} />
+			) : (
+				<TransactionCardList txHashClick={pending} data={tableData} />
+			);
 		} else {
 			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 		}
@@ -196,9 +188,17 @@ const TxList = () => {
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+					tableSection = isLargeScreen ? (
+						<TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} />
+					) : (
+						<TransactionCardList txHashClick={pending} data={tableData} />
+					);
 				} else {
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+					tableSection = isLargeScreen ? (
+						<TransactionTable txHashClick={pending} data={tableData} />
+					) : (
+						<TransactionCardList txHashClick={pending} data={tableData} />
+					);
 				}
 				prevDataRef.current = [...tableData];
 			} else {
