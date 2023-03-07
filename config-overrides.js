@@ -5,6 +5,7 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const { execSync } = require('child_process');
 const paths = require('react-scripts/config/paths');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const fallback = {
     fs: false,
@@ -114,6 +115,26 @@ module.exports = {
                 env: process.env,
                 cwd: process.cwd()
             });
+        }
+
+        if (!isDevelopment && process.env.SENTRY_AUTH_TOKEN) {
+            config.devtool = 'source-map';
+            config.plugins.push(
+                new SentryWebpackPlugin({
+                    org: 'oraichain',
+                    project: 'oraiscan-frontend',
+
+                    // Specify the directory containing build artifacts
+                    include: './build',
+
+                    // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
+                    // and needs the `project:releases` and `org:read` scopes
+                    authToken: process.env.SENTRY_AUTH_TOKEN
+
+                    // Optionally uncomment the line below to override automatic release name detection
+                    // release: process.env.RELEASE,
+                })
+            );
         }
 
         config.plugins.push(

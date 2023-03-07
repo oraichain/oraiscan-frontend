@@ -57,6 +57,12 @@ export const amountDecimal18 = [
 		decimal: 18,
 		name: "orai eth"
 	},
+	{
+		denom: "Milky",
+		address: "oraib0x6fE3d0F096FC932A905accd1EB1783F6e4cEc717",
+		decimal: 18,
+		name: "milky"
+	}
 ];
 
 export const checkTokenCW20 = value => {

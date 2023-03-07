@@ -99,18 +99,25 @@ export default function () {
 
 	if (process.env.REACT_APP_SENTRY_ENVIRONMENT === 'production') {
 		Sentry.init({
-		  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
-		  dsn: 'https://6c7dc9a65b774e5d90f1ff8fcfd95171@o1323226.ingest.sentry.io/4504630913269760',
-		  integrations: [new BrowserTracing()],
-		  denyUrls: [/extensions\//i, /^chrome:\/\//i, /^chrome-extension:\/\//i],
-    	  ignoreErrors: ['Request rejected'],
-		  // Set tracesSampleRate to 1.0 to capture 100%
-		  // of transactions for performance monitoring.
-		  // We recommend adjusting this value in production
-		  tracesSampleRate: 0.5,
+			environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+			dsn: 'https://6c7dc9a65b774e5d90f1ff8fcfd95171@o1323226.ingest.sentry.io/4504630913269760',
+			integrations: [new BrowserTracing()],
+			denyUrls: [
+				/extensions\//i,
+				/extension/i,
+				/vendor/i,
+				/^chrome:\/\//i,
+				/^chrome-extension:\/\//i,
+				/^moz-extension:\/\//i
+			],
+			ignoreErrors: ['Request rejected', 'Failed to fetch', 'Load failed', 'Request aborted'],
+			// Set tracesSampleRate to 1.0 to capture 100%
+			// of transactions for performance monitoring.
+			// We recommend adjusting this value in production
+			tracesSampleRate: 0.5,
 		});
-	  }
-	  
+	}
+
 
 	const keplrHandler = async () => {
 		try {

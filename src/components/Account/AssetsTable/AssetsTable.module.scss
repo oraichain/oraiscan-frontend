@@ -26,8 +26,13 @@
 	line-height: 150%;
 }
 
+.denom-data-cell {
+	text-transform: uppercase;
+}
+
 .amount-data-cell,
 .reward-data-cell {
+
 	.amount,
 	.reward {
 		font-family: 'IBM Plex Sans';

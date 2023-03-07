@@ -45,6 +45,7 @@ jobs:
       - name: Build
         run: yarn build
         env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           REACT_APP_SENTRY_ENVIRONMENT: production
           CI: false
       - name: Deploy to firebase

@@ -94,7 +94,9 @@ export const getListOWContract = (address, page) => {
 // };
 
 export const getGeckoMarketBalance = async (ids = '', currency = 'usd') => {
-	return await axios(`${consts.API_COINGECKO.PRICE(ids, currency)}`);
+	// remove undefined
+	ids = ids.replace(new RegExp("\,undefined", "gm"), "");
+	return ids ? await axios(`${consts.API_COINGECKO.PRICE(ids, currency)}`) : { data: {} };
 };
 
 export const getImagesValidator = async (address) => {
