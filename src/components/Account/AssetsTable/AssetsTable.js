@@ -1,11 +1,9 @@
-import React, { memo, useMemo } from "react";
-import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import { amountDecimal18, formatOrai } from "src/helpers/helper";
-import { _, reduceString, reduceStringAssets } from "src/lib/scripts";
-import { tableThemes } from "src/constants/tableThemes";
+import {memo, useMemo} from "react";
 import ThemedTable from "src/components/common/ThemedTable";
+import {tableThemes} from "src/constants/tableThemes";
+import {amountDecimal18, formatOrai} from "src/helpers/helper";
+import {reduceStringAssets, _} from "src/lib/scripts";
 import styles from "./AssetsTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -15,10 +13,11 @@ export const getHeaderRow = () => {
 	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
+	
 	const headerCellStyles = [
-		{ minWidth: "140px" }, // Name
-		{ minWidth: "80px" }, // Amount
-		{ minWidth: "80px" }, // Total Value
+		{ width: "40%" }, // Name
+		{ width: "30%" }, // Amount
+		{ width: "30%" }, // Total Value
 	];
 
 	return {
@@ -39,10 +38,6 @@ const AssetsTable = memo(({ data = [] }) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("denom-data-cell", "align-left")}>{tokenInfo ? tokenInfo.name : reduceStringAssets(item.validator_address, 30, 0)}</div>
-				// <NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
-				// 	{reduceString(item.validator_address, 15, 0)}
-				// 	{item.validator_address}
-				// </NavLink>
 			);
 
 			const amountDataCell =

@@ -11,7 +11,7 @@ import styles from "./BlockList.module.scss";
 
 const cx = cn.bind(styles);
 
-const BlockList = props => {
+const BlockList = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 

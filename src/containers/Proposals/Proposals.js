@@ -1,51 +1,48 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useGet } from "restful-react";
-import { useSelector } from "react-redux";
-import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import queryString from "query-string";
-import { useForm, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from "draftjs-to-html";
-import * as yup from "yup";
-import _ from "lodash";
-import { yupResolver } from "@hookform/resolvers/yup";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {ErrorMessage} from "@hookform/error-message";
+import {yupResolver} from "@hookform/resolvers/yup";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
-import { isNil, isNaN } from "lodash-es";
-import { formatFloat } from "src/helpers/helper";
-import consts from "src/constants/consts";
-import TitleWrapper from "src/components/common/TitleWrapper";
-import PageTitle from "src/components/common/PageTitle";
-import StatusBox from "src/components/common/StatusBox";
-import TogglePageBar from "src/components/common/TogglePageBar";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {notification} from "antd";
+import BigNumber from "bignumber.js";
+import cn from "classnames/bind";
+import draftToHtml from "draftjs-to-html";
+import {isNaN, isNil} from "lodash-es";
+import moment from "moment";
+import queryString from "query-string";
+import React, {useEffect, useRef, useState} from "react";
+import {Editor} from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import {Controller, useForm} from "react-hook-form";
+import {useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
+import {useGet} from "restful-react";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import FilterSection from "src/components/common/FilterSection";
 import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 import NoResult from "src/components/common/NoResult";
+import PageTitle from "src/components/common/PageTitle";
 import Pagination from "src/components/common/Pagination";
-import { Fee, Gas } from "src/components/common/Fee";
-import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
-import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
-import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTable";
-import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
+import SelectBox from "src/components/common/SelectBox";
+import StatusBox from "src/components/common/StatusBox";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import TogglePageBar from "src/components/common/TogglePageBar";
 import ProposalCardList from "src/components/Proposals/ProposalCardList/ProposalCardList";
 import ProposalCardListSkeleton from "src/components/Proposals/ProposalCardList/ProposalCardListSkeleton";
-import SelectBox from "src/components/common/SelectBox";
+import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTable";
+import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
+import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
+import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
+import consts from "src/constants/consts";
+import {handleTransactionResponse} from "src/helpers/transaction";
 import AddIcon from "src/icons/AddIcon";
-import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
-import moment from "moment";
-import { walletStation } from "src/lib/walletStation";
-import { handleTransactionResponse } from "src/helpers/transaction";
-import { notification } from "antd";
-import LoadingOverlay from "src/components/common/LoadingOverlay";
-import { handleErrorMessage } from "../../lib/scripts";
-import BigNumber from "bignumber.js";
+import {ORAI} from "src/lib/config/constants";
+import {walletStation} from "src/lib/walletStation";
+import * as yup from "yup";
+import {handleErrorMessage} from "../../lib/scripts";
 import styles from "./Proposals.module.scss";
-import { ORAI } from "src/lib/config/constants";
 
 const cx = cn.bind(styles);
 
@@ -173,16 +170,12 @@ export default function (props) {
 	const type = queryStringParse?.type ?? null;
 	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
 	const [votingValue, setVotingValue] = useState(VOTING_DAY);
-	// const minFee = useSelector(state => state.blockchain.minFee);
-	const { address, account } = useSelector(state => state.wallet);
-	// const [gas, setGas] = useState(200000);
-	// const [fee, setFee] = useState(0);
+	const { address } = useSelector(state => state.wallet);
 	const [open, setOpen] = useState(false);
 
 	const {
 		handleSubmit,
 		register,
-		unregister,
 		control,
 		formState: { errors },
 		clearErrors,
@@ -636,10 +629,6 @@ export default function (props) {
 								<ErrorMessage errors={errors} name='InflationMax' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
 						)}
-
-						{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("fee")} />
-						<div className={cx("message")}>Minimin Tx Fee: {formatFloat(minFee)} ORAI</div>
-						<Gas gas={gas} onChangeGas={setGas} className={cx("gas")} /> */}
 
 						<div className={cx("field")}>
 							<label className={cx("label")}>Notes </label>

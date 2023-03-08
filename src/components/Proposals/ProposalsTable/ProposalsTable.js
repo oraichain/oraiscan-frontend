@@ -29,12 +29,12 @@ export const getHeaderRow = () => {
 	const totalDepositHeaderCell = <div className={cx("header-cell", "align-right")}>Total Deposit</div>;
 	const headerCells = [idHeaderCell, titleHeaderCell, statusHeaderCell, votingStartHeaderCell, submitTimeHeaderCell, totalDepositHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // ID
-		{width: "auto"}, // Title
-		{width: "auto"}, // Status
-		{width: "auto"}, // Voting Start
-		{width: "auto"}, // Submit Time
-		{width: "auto"}, // Total Deposit
+		{width: "5%"}, // ID
+		{width: "30.5%"}, // Title
+		{width: "13.8%"}, // Status
+		{width: "19.4%"}, // Voting Start
+		{width: "19.4%"}, // Submit Time
+		{width: "11.9%"}, // Total Deposit
 	];
 	return {
 		headerCells,

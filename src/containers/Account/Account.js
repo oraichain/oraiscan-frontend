@@ -267,9 +267,13 @@ const Account = props => {
 					<div className={cx("assets-card")}>
 						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
 						{assetSearch === 1 && coinsCard}
-						{assetSearch === 0 && tableSection}
-						{assetSearch === 2 && tableSection}
-						{(assetSearch === 0 || assetSearch === 2) && paginationSection}
+						{
+							(assetSearch === 0 || assetSearch === 2) && 
+							<>
+								{tableSection}
+								{paginationSection}
+							</>
+						}
 					</div>
 				</Grid>
 			</Grid>

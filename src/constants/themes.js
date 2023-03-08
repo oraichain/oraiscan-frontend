@@ -76,7 +76,6 @@ const colors = {
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
 	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
 	SEPARATE_LINE_DARK: "#423F5A",
-	// MINT_GREEN: '#37cc6e',
 	BLACK_SQUEEZE:"#F6F9FB",
 	HOVER_DARK: "#403845",
 	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
@@ -239,7 +238,6 @@ export const themes = {
 								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
-								// pending
 							},
 						},
 					},
@@ -252,7 +250,6 @@ export const themes = {
 								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
-								// pending
 							},
 						},
 					},
@@ -475,7 +472,6 @@ export const themes = {
 								ownerTextColor: colors.MINT_GREEN,
 							},
 							getCode: {
-								// pending
 							},
 						},
 					},

@@ -89,11 +89,6 @@ export const getPercentage = (num1 = 0, num2 = 100, decimal = 4) => {
 	return `${Math.floor((num1 / num2) * 100 * Math.pow(10, decimal)) / Math.pow(10, decimal)}`;
 };
 
-//  not needed atm but will in the future
-// const phoneRegex = Object.freeze([/Android/i, /BlackBerry/i, /iPhone|iPad|iPod/i, /iPhone|iPad|iPod/i, /Opera Mini/i, /IEMobile/i, /WPDesktop/i]);
-// export const isMobile = () => _.find(phoneRegex, regex => window.navigator.userAgent.match(regex)) !== undefined;
-// export const isIOS = () => window.navigator.userAgent.match(/iPhone|iPad|iPod/i);
-
 export const recursiveGetFirstValue = obj => {
 	if (_.isArray(obj)) return recursiveGetFirstValue(obj[0]);
 	if (_.isObject(obj)) return recursiveGetFirstValue(obj[_.keys(obj)[0]]);

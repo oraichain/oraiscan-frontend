@@ -6,7 +6,7 @@ import {_, compareProperty} from "src/lib/scripts";
 import {multiply} from "src/lib/Big";
 import txTypes from "src/constants/txTypes";
 
-const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE] = [
+const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE, SET_STATUS_BOX] = [
 	"GET_BASIC_DATA",
 	"GET_BASIC_DATA_AIRI",
 	"GET_STATUS",
@@ -15,6 +15,7 @@ const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GE
 	"GET_VALIDATORS",
 	"GET_FASTEST_NODE",
 	"GET_MIN_FEE",
+	"SET_STATUS_BOX"
 ];
 
 export const getCyptoAcceleratedNode = createAction(GET_FASTEST_NODE, () => api.getFastestNode(consts.API_BINANCE_ACCELERATED));
@@ -23,7 +24,7 @@ export const getCryptoBasicDataAiri = createAction(GET_BASIC_DATA_AIRI, (id, cur
 export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getStatus(cancelToken));
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
-export const setStatusBox = createAction("SET_STATUS_BOX");
+export const setStatusBox = createAction(SET_STATUS_BOX);
 export const getMinFee = createAction(GET_MIN_FEE, cancelToken => api.getMinFee(cancelToken));
 
 const initState = {
@@ -125,7 +126,6 @@ const handlers = {
 			if (!data.current_price) {
 				return state;
 			}
-			// console.log("basicData>>", data);
 			return {
 				...state,
 				status: {
@@ -165,7 +165,6 @@ const handlers = {
 		onSuccess: (state, action) => {
 			if (!_.isArray(action.payload?.data?.assetInfoList)) return {...state};
 			const data = _.map(action.payload.data.assetInfoList, v => ({...v, marketCap: Number(multiply(v?.price, v?.supply, 5))}));
-			// console.log("assets>>", data);
 			//  using native array sort
 			//  since the benchmark here https://www.npmjs.com/package/fast-sort#benchmark
 			//  shows that in the case of a flat array with high randomization, arraySort is fastest at 100 items
@@ -198,8 +197,6 @@ const flatTxTypes = Object.freeze({
 
 const assignFee = (obj, fee) => {
 	const target = _.camelCase(fee.msg_type).toLowerCase();
-	// console.log(target);
-	// console.log(flatTxTypes);
 	const foundProperty = _.find(_.keys(flatTxTypes), property => {
 		return _.includes(_.camelCase(property).toLowerCase(), target) || _.includes(_.camelCase(flatTxTypes[property]).toLowerCase(), target);
 	});

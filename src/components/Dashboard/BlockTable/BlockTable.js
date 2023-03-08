@@ -20,10 +20,10 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [heightHeaderCell, proposerHeaderCell, txsHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // Height
-		{width: "auto"}, // Proposer
-		{width: "auto"}, // Txs
-		{width: "auto"}, // Time
+		{width: "25%"}, // Height
+		{width: "35%"}, // Proposer
+		{width: "20%"}, // Txs
+		{width: "20%"}, // Time
 	];
 	return {
 		headerCells,

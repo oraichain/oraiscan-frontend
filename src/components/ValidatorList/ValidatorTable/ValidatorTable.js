@@ -16,8 +16,6 @@ import ThemedTable from "src/components/common/ThemedTable";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
-import aiIcon from "src/assets/common/ai_ic.svg";
-import {css} from "highcharts";
 import {logoBrand} from "src/constants/logoBrand";
 import {Progress} from "antd";
 import styles from "./ValidatorTable.module.scss";
@@ -196,15 +194,15 @@ const ValidatorTable = memo(({data = []}) => {
 			delegateHeaderCell,
 		];
 		const headerCellStyles = [
-			{width: "30px"}, // Rank
-			{minWidth: "180px"}, // Validator
-			{width: "150px"}, // Voting Power
-			{width: "160px"}, // Self Bonded
-			{width: "160px"}, // Cumulative Share
-			{width: "110px"}, // Uptime
-			{width: "140px"}, // Commission
-			{width: "110px"}, // EstAPRCell
-			{width: "60px"}, // Delegate
+			{width: "5.4%"}, // Rank
+			{width: "17.7%"}, // Validator
+			{width: "11.8%"}, // Voting Power
+			{width: "13.1%"}, // Self Bonded
+			{width: "12.3%"}, // Cumulative Share
+			{width: "9%"}, // Uptime
+			{width: "11.7%"}, // Commission
+			{width: "9%"}, // EstAPRCell
+			{width: "10%"}, // Delegate
 		];
 		return {
 			headerCells,

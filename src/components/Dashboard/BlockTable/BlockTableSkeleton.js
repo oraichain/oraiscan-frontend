@@ -3,7 +3,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {getHeaderRow} from "src/components/Dashboard/BlockTable/BlockTable";
+import {getHeaderRow} from "./BlockTable";
 import styles from "./BlockTable.module.scss";
 
 const BlockTableSkeleton = memo(({rows = 10}) => {
@@ -13,25 +13,25 @@ const BlockTableSkeleton = memo(({rows = 10}) => {
 		for (let i = 1; i <= rows; i++) {
 			const heightDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text'  />
 				</div>
 			);
 
 			const nodeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text'  />
 				</div>
 			);
 
 			const txsDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text'  />
 				</div>
 			);
 
 			const timeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text'  />
 				</div>
 			);
 
