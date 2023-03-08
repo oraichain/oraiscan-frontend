@@ -31,6 +31,8 @@ import useGlobalApp from "./useGlobalApp";
 
 import * as Sentry from '@sentry/react';
 import {BrowserTracing} from '@sentry/tracing';
+import { network } from "./lib/config/networks";
+import { initWallet } from "./store/modules/wallet";
 
 const cx = classNames.bind(styles);
 

@@ -106,10 +106,10 @@ const TxInfo = ({data}) => {
 						</div>
 					)}
 				</InfoRow>
-        <InfoRow>
+        <InfoRow label='Memo'>
             {_.isNil(data?.memo) ? ("-") : (
               <div className={cx("time")}>
-                <span className={cx("time-value")}>{formatOrai(data?.memo)}</span>
+                <span className={cx("time-value")}>{data?.memo}</span>
               </div>
             )}
         </InfoRow>
