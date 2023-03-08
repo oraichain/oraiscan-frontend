@@ -106,6 +106,13 @@ const TxInfo = ({data}) => {
 						</div>
 					)}
 				</InfoRow>
+        <InfoRow>
+            {_.isNil(data?.memo) ? ("-") : (
+              <div className={cx("time")}>
+                <span className={cx("time-value")}>{formatOrai(data?.memo)}</span>
+              </div>
+            )}
+        </InfoRow>
 				<InfoRow label='Time'>
 					<div className={cx("time")}>{_.isNil(data?.timestamp) ? "-" : setAgoTime(data.timestamp) + " (" + getTotalTime(data.timestamp) + ")"}</div>
 				</InfoRow>
