@@ -28,7 +28,6 @@
 
 			.proposal-id-title {
 				display: flex;
-				align-items: center;
 			}
 
 			.proposal-id {
@@ -51,9 +50,6 @@
 				font-weight: bold;
 				font-size: 14px;
 				line-height: 150%;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
 				@media screen and (min-width: 1280px) {
 					font-size: 16px;
 				}
@@ -233,6 +229,10 @@
 				@media screen and (min-width: 1280px) {
 					font-size: 16px;
 				}
+			}
+
+			.item-text-proposer {
+				color: var(--common-linkColor);
 			}
 
 			.item-link {

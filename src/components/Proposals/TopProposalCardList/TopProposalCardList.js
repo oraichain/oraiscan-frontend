@@ -14,6 +14,7 @@ import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import ViewMoreProposalIcon from "src/icons/Proposals/ViewMoreProposalIcon";
 import {isNil} from "lodash";
+import {reduceString} from "src/lib/scripts";
 
 const cx = classNames.bind(styles);
 
@@ -92,8 +93,8 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 														<div className={cx("item-title")}>Proposer</div>
 													</td>
 													<td>
-														<NavLink className={cx("view-more")} to={`${consts.PATH.ACCOUNT}/${item?.proposal ?? 0}`}>
-															<span className={cx("view-more-text")}>{item?.proposal ? item?.proposal : "-"}</span>
+														<NavLink className={cx("")} to={`${consts.PATH.ACCOUNT}/${item?.proposal ?? 0}`}>
+															<span className={cx("item-text-proposer")}>{item?.proposal && reduceString(item?.proposal, 8, 8)}</span>
 														</NavLink>
 													</td>
 												</tr>
