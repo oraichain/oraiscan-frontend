@@ -121,7 +121,7 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 				) : (
 					<div className={cx("voting-start-data-cell", "align-right")}>
 						{" "}
-						{setAgoTime(item.voting_start_time)} ({formatDateTime(item.voting_start_time)} )
+						{setAgoTime(item.voting_start_time)} <br /> ({formatDateTime(item.voting_start_time)} )
 					</div>
 				);
 
@@ -130,7 +130,7 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 			) : (
 				<div className={cx("submit-time-data-cell", "align-right")}>
 					{" "}
-					{setAgoTime(item.submit_time)} ({formatDateTime(item.submit_time)})
+					{setAgoTime(item.submit_time)} <br /> ({formatDateTime(item.submit_time)})
 				</div>
 			);
 

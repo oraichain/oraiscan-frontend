@@ -11,7 +11,7 @@
 	}
 
 	.top-proposal-card {
-		padding: 20px;
+		padding: 32px;
 		display: flex;
 		flex-direction: column;
 		background: var(--common-containerBackgroundColor);
@@ -26,16 +26,36 @@
 			align-items: center;
 			margin-bottom: 10px;
 
+			.proposal-id-title {
+				display: flex;
+				align-items: center;
+			}
+
 			.proposal-id {
-				color: var(--common-linkColor);
+				color: var(--common-textColor);
 				font-family: 'IBM Plex Sans';
 				font-style: normal;
-				font-weight: normal;
-				font-size: 16px;
+				font-weight: bold;
+				font-size: 14px;
 				line-height: 150%;
-
+				margin-right: 5px;
 				@media screen and (min-width: 1280px) {
-					font-size: 14px;
+					font-size: 16px;
+				}
+			}
+
+			.proposal-title {
+				color: var(--proposals-topProposalCard-textTitleColor);
+				font-family: 'IBM Plex Sans';
+				font-style: normal;
+				font-weight: bold;
+				font-size: 14px;
+				line-height: 150%;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				@media screen and (min-width: 1280px) {
+					font-size: 16px;
 				}
 			}
 
@@ -44,62 +64,122 @@
 				flex-direction: row;
 				justify-content: flex-start;
 				align-items: center;
-				padding: 2px 10px;
-				height: 24px;
+				padding: 5px 10px;
 				box-sizing: border-box;
 				border-radius: 4px;
-
-				&-icon-passed {
+			
+				&-icon {
 					display: inline-block;
-					width: auto;
-					margin-right: 1px;
-					color: var(--proposals-topProposalCard-statusPassedTextColor);
+					&-passed {
+						color: var(--proposals-proposalTable-statusPassedTextColor);
+					}
+					&-rejected {
+						color: var(--proposals-proposalTable-statusRejectedTextColor);
+					}
+		
+					&-unspecified {
+						color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
+					}
+		
+					&-deposit-period {
+						color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
+					}
+		
+					&-voting-period {
+						color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
+					}
+		
+					&-failed {
+						color: var(--proposals-proposalTable-statusFailedTextColor);
+					}
 				}
-
-				&-icon-rejected {
-					display: inline-block;
-					width: auto;
-					margin-right: 1px;
-					color: var(--proposals-topProposalCard-statusRejectedTextColor);
-				}
-
+		
 				&-text {
 					display: inline-block;
+					margin-left: 4px;
 					font-family: 'IBM Plex Sans';
 					font-style: normal;
 					font-weight: normal;
-					font-size: 11px;
+					font-size: 14px;
+					white-space: nowrap;
 				}
-
+		
 				&-passed {
-					border: 1px solid var(--proposals-topProposalCard-statusPassedBorderColor);
-					background-color: var(--proposals-topProposalCard-statusPassedBackgroundColor);
+					border: 1px solid var(--proposals-proposalTable-statusPassedBorderColor);
+					background-color: var(--proposals-proposalTable-statusPassedBackgroundColor);
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusPassedTextColor);
+						color: var(--proposals-proposalTable-statusPassedTextColor);
 					}
 				}
-
+		
 				&-rejected {
-					border: 1px solid var(--proposals-topProposalCard-statusRejectedBorderColor);
-					background-color: var(--proposals-topProposalCard-statusRejectedBackgroundColor);
+					border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
+					background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
+					.status-text {
+						color: var(--proposals-proposalTable-statusRejectedTextColor);
+					}
+				}
+		
+				&-unspecified {
+					border: 1px solid var(--proposals-proposalTable-statusUnspecifiedBorderColor);
+					background-color: var(--proposals-proposalTable-statusUnspecifiedBackgroundColor);
 					.proposal-status-text {
-						color: var(--proposals-topProposalCard-statusRejectedTextColor);
+						color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
+					}
+				}
+		
+				&-deposit-period {
+					border: 1px solid var(--proposals-proposalTable-statusDepositPeriodBorderColor);
+					background-color: var(--proposals-proposalTable-statusDepositPeriodBackgroundColor);
+					.proposal-status-text {
+						color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
+					}
+				}
+		
+				&-voting-period {
+					border: 1px solid var(--proposals-proposalTable-statusVotingPeriodBorderColor);
+					background-color: var(--proposals-proposalTable-statusVotingPeriodBackgroundColor);
+					.proposal-status-text {
+						color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
+					}
+				}
+		
+				&-failed {
+					border: 1px solid var(--proposals-proposalTable-statusFailedBorderColor);
+					background-color: var(--proposals-proposalTable-statusFailedBackgroundColor);
+					.proposal-status-text {
+						color: var(--proposals-proposalTable-statusFailedTextColor);
 					}
 				}
 			}
 		}
 
+		&-body-wrapper {
+			display: flex;
+
+		}
+
+		&-chart {
+			width: 35%;
+		}
+
 		&-body {
+			width: 65%;
+			display: flex;
+			align-items: center;
 			table {
-				width: 100%;
+				width: 90%;
 				tr {
+					td {
+						padding: 5px 0 !important;
+					}
 					td:nth-child(1) {
 						text-align: left;
-						width: 35%;
+						width: 40%;
 					}
 					td:nth-child(2) {
 						text-align: right;
-						width: 65%;
+						width: 60%;
 					}
 
 					&:nth-child(1),
@@ -124,21 +204,9 @@
 				}
 			}
 
-			.proposal-title {
-				margin-bottom: 10px;
-				color: var(--common-textColor);
-				font-family: 'IBM Plex Sans';
-				font-style: normal;
-				font-weight: 500;
-				font-size: 18px;
-				line-height: 150%;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				max-width: 256px;
-				@media screen and (min-width: 1280px) {
-					font-size: 16px;
-				}
+			.view-more {
+				width: 10%;
+				margin-left: 20px;
 			}
 
 			.item-title {
@@ -146,10 +214,10 @@
 				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: 500;
-				font-size: 16px;
+				font-size: 14px;
 
 				@media screen and (min-width: 1280px) {
-					font-size: 14px;
+					font-size: 16px;
 				}
 			}
 
@@ -158,12 +226,12 @@
 				font-family: 'IBM Plex Sans';
 				font-style: normal;
 				font-weight: normal;
-				font-size: 16px;
+				font-size: 14px;
 				line-height: 150%;
 				word-break: break-all;
 
 				@media screen and (min-width: 1280px) {
-					font-size: 14px;
+					font-size: 16px;
 				}
 			}
 
@@ -253,14 +321,7 @@
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	height: 24px;
 	width: 100%;
-	margin-top: auto;
-	background: var(--common-buttonBackgroundColor);
-	border: 1px solid var(--common-activeTabColor);
-	box-sizing: border-box;
-	border-radius: 4px;
-	padding: 24px;
 
 	&-text {
 		display: inline-block;
@@ -274,13 +335,5 @@
 			line-height: 150%;
 			font-size: 14px;
 		}
-	}
-
-	&-icon {
-		display: inline-block;
-		color: var(--common-buttonTextColor);
-		width: auto;
-		height: 8px;
-		margin-left: 8px;
 	}
 }
