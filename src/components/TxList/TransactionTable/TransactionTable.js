@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import { _, reduceString, processText, setAgoTime, formatNumber, parseIbcMsgTransfer, parseIbcMsgRecvPacket, reduceStringAssets } from "src/lib/scripts";
+import { _, reduceString, setAgoTime, reduceStringAssets } from "src/lib/scripts";
 import { formatOrai, formatFloat, checkTokenCW20 } from "src/helpers/helper";
 import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -14,7 +14,6 @@ import CheckIcon from "src/icons/CheckIcon";
 import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
 import styles from "./TransactionTable.module.scss";
-import BigNumber from "bignumber.js";
 
 const cx = classNames.bind(styles);
 
@@ -40,7 +39,6 @@ const handleRoyaltyPercentage = royalty => {
 export const getHeaderRow = (royalty = false) => {
 	const txHashHeaderCell = <div className={cx("header-cell", "align-left")}>TxHash</div>;
 	const typeHeaderCell = <div className={cx("header-cell", "align-left")}>Type</div>;
-	// const ibcAmountHeaderCell = <div className={cx("header-cell", "align-center")}>IBC Amount </div>;
 	const resultHeaderCell = <div className={cx("header-cell", "align-center")}>Result</div>;
 	let amountHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Royalty Amount" : "Amount"}</div>;
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
@@ -49,7 +47,6 @@ export const getHeaderRow = (royalty = false) => {
 	let headerCells = [
 		txHashHeaderCell,
 		typeHeaderCell,
-		// ibcAmountHeaderCell,
 		resultHeaderCell,
 		amountHeaderCell,
 		feeHeaderCell,
@@ -57,28 +54,28 @@ export const getHeaderRow = (royalty = false) => {
 		timeHeaderCell,
 	];
 	let headerCellStyles = [
-		{ width: "14%", minWidth: "140px" }, // TxHash
-		{ width: "18%", minWidth: "180px" }, // Type
-		// {width: "6%", minWidth: "100px"}, // IBC Amount
-		{ width: "10%", minWidth: "100px" }, // Result
-		{ width: "22%", minWidth: "220px" }, // Amount
-		{ width: "10%", minWidth: "140px" }, // Fee
-		{ width: "10%", minWidth: "100px" }, // Height
-		{ width: "10%", minWidth: "100px" }, // Time
+		
+		{ width: "15%"}, // TxHash
+		{ width: "23%"}, // Type
+		{ width: "10%"}, // Result
+		{ width: "22%"}, // Amount
+		{ width: "10%"}, // Fee
+		{ width: "10%"}, // Height
+		{ width: "10%"}, // Time
 	];
-
 	if (royalty) {
 		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
 		headerCells.push(newRoyaltyHeaderCell);
 		headerCellStyles = [
-			{ width: "12%", minWidth: "120px" }, // TxHash
-			{ width: "18%", minWidth: "180px" }, // Type
-			{ width: "10%", minWidth: "100px" }, // Result
-			{ width: "16%", minWidth: "160px" }, // Royalty Amount
-			{ width: "10%", minWidth: "120px" }, // Fee
-			{ width: "10%", minWidth: "100px" }, // Height
-			{ width: "10%", minWidth: "100px" }, // Time
-			{ width: "10%", minWidth: "120px" }, // New Royalty
+		
+			{ width: "12%"}, // TxHash
+			{ width: "18%"}, // Type
+			{ width: "10%"}, // Result
+			{ width: "16%"}, // Amount
+			{ width: "12%"}, // Fee
+			{ width: "12%"}, // Height
+			{ width: "10%"}, // Time
+			{ width: "10%"}, // New Royalty
 		];
 	}
 
@@ -441,9 +438,6 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 						<div className={cx("fee")}>
 							<span className={cx("fee-value")}>{formatOrai(item.fee?.amount?.[0]?.amount || 0)}</span>
 							<span className={cx("fee-denom")}>{item.fee?.amount?.[0]?.denom || item.fee?.amount?.[0]?.denom_name || 'ORAI'}</span>
-							{/* <span className={cx("fee-usd")}>
-									{status?.price ? "($" + (status?.price * Number(formatOrai(item.fee.amount[0].amount))).toFixed(8) + ")" : ""}
-								</span> */}
 						</div>
 					</div>
 				);

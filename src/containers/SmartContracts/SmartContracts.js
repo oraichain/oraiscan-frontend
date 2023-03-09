@@ -10,7 +10,6 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import Pagination from "src/components/common/Pagination";
-import SearchInput from "src/components/common/SearchInput";
 import NoResult from "src/components/common/NoResult";
 import SmartContractTable from "src/components/SmartContracts/SmartContractTable";
 import SmartContractTableSkeleton from "src/components/SmartContracts/SmartContractTable/SmartContractTableSkeleton";
@@ -29,7 +28,6 @@ const cx = cn.bind(styles);
 const SmartContracts = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	// const [keyword, setKeyword] = useState(null);
 	const [smartContractPageId, setSmartContractPageId] = useState(1);
 	const smartContractTotalPagesRef = useRef(null);
 	const [wasmCodePageId, setWasmCodePageId] = useState(1);
@@ -55,12 +53,6 @@ const SmartContracts = () => {
 
 	const wasmCodePath = `${consts.API.WASM_CODE}?limit=${consts.REQUEST.LIMIT}&page_id=${wasmCodePageId}`;
 	const popularSmartContract = `${consts.API.SMART_CONTRACTS}/popular`;
-
-	// if (keyword) {
-	// 	path = `${basePath}&page_id=${smartContractPageId}&tc_name=${keyword}`;
-	// } else {
-	// 	path = `${basePath}&page_id=${smartContractPageId}`;
-	// }
 
 	const { data, loading, error } = useGet({
 		path: path,
@@ -177,19 +169,6 @@ const SmartContracts = () => {
 			tableSmartContractSection = <NoResult />;
 		}
 	}
-
-	// filterSection = (
-	// 	<div className={cx("filter-section")}>
-	// 		<SearchInput
-	// 			className={cx("search-input")}
-	// 			placeholder='Search smart contracts'
-	// 			value={keyword}
-	// 			onChange={e => {
-	// 				setKeyword(e.target.value);
-	// 			}}
-	// 		/>
-	// 	</div>
-	// );
 
 	paginationSmartContractSection = smartContractTotalPagesRef.current ? (
 		<Pagination pages={smartContractTotalPagesRef.current} page={smartContractPageId} onChange={(e, page) => onSmartContractPageChange(page)} />

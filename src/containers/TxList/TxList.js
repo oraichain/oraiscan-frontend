@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import PropTypes from "prop-types";
 import {useGet} from "restful-react";
 import queryString from "query-string";
 import Container from "@material-ui/core/Container";

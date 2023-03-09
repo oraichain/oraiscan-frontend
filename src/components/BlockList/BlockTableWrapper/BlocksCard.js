@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useGet } from "restful-react";
 import cn from "classnames/bind";
-import consts from "src/constants/consts";
-import { arraysEqual, calculateBefore, mergeArrays } from "src/helpers/helper";
-import { _ } from "src/lib/scripts";
-import Pagination from "src/components/common/Pagination";
-import NoResult from "src/components/common/NoResult";
-import BlockTableDashboard from "src/components/Dashboard/BlockTable";
+import {useEffect, useRef, useState} from "react";
+import {useGet} from "restful-react";
 import BlockTable from "src/components/BlockList/BlockTable";
-import BlockTableSkeleton from "src/components/Dashboard/BlockTable/BlockTableSkeleton";
+import BlockTableSkeleton from "src/components/BlockList/BlockTable/BlockTableSkeleton";
+import NoResult from "src/components/common/NoResult";
+import Pagination from "src/components/common/Pagination";
 import BlockCardList from "src/components/Dashboard/BlockCardList";
 import BlockCardListSkeleton from "src/components/Dashboard/BlockCardList/BlockCardListSkeleton";
+import BlockTableDashboard from "src/components/Dashboard/BlockTable";
+import BlockTableDashboardSkeleton from "src/components/Dashboard/BlockTable/BlockTableSkeleton";
+import consts from "src/constants/consts";
+import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
 import styles from "./BlocksCard.module.scss";
 
 const cx = cn.bind(styles);
@@ -64,6 +63,12 @@ const BlocksTableWrapper = ({ isShowMore = false }) => {
 		},
 	});
 
+
+	/** TODO: fetch dữ liệu 10s 1 lần
+	 * SetTimeOut 10s 1 lần thực hiện setLoadingComplete false,
+	 *  và Kiểm tra nếu canRefetchRef = true thì refetch lại blocks, 
+	 * refetch xong thì loadComplete true => tiếp tục setTimeout
+	 */
 	useEffect(() => {
 		if (loadCompleted) {
 			timerIdRef.current = setTimeout(() => {
@@ -99,7 +104,11 @@ const BlocksTableWrapper = ({ isShowMore = false }) => {
 				tableSection = isLargeScreen ? <BlockTableDashboard data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
 			}
 		} else {
-			tableSection = isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />;
+			if (isShowMore) {
+				tableSection = isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />
+			} else {
+				tableSection = isLargeScreen ? <BlockTableDashboardSkeleton /> : <BlockCardListSkeleton />;
+			}
 		}
 	} else {
 		if (error) {
@@ -147,9 +156,9 @@ const BlocksTableWrapper = ({ isShowMore = false }) => {
 
 					// check to render column table in diffent page. ( dashboard 4 cols, /blocks: 5 cols)
 					if (isShowMore) {
-						tableSection = isLargeScreen ? <BlockTable data={mergedData} /> : <BlockCardList data={blocks?.data} />;
+						tableSection = isLargeScreen ? <BlockTable data={mergedData}  rowMotions={rowMotions} /> : <BlockCardList data={blocks?.data} />;
 					} else {
-						tableSection = isLargeScreen ? <BlockTableDashboard data={mergedData} /> : <BlockCardList data={blocks?.data} />;
+						tableSection = isLargeScreen ? <BlockTableDashboard data={mergedData}  rowMotions={rowMotions} /> : <BlockCardList data={blocks?.data} />;
 					}
 				} else {
 					// check to render column table in diffent page. ( dashboard 4 cols, /blocks: 5 cols)

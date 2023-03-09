@@ -1,48 +1,38 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import { useGet } from "restful-react";
 import Container from "@material-ui/core/Container";
-import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
+import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import cn from "classnames/bind";
 import queryString from "query-string";
+import React, {useMemo, useRef, useState} from "react";
+import {useHistory} from "react-router-dom";
+import {useGet} from "restful-react";
 
-import consts from "src/constants/consts";
-import { _ } from "src/lib/scripts";
-import TogglePageBar from "src/components/common/TogglePageBar";
-import TitleWrapper from "src/components/common/TitleWrapper";
-import PageTitle from "src/components/common/PageTitle";
-import StatusBox from "src/components/common/StatusBox";
-import StatusCardList from "src/components/TxList/StatusCardList";
-import SearchInput from "src/components/common/SearchInput";
 import NoResult from "src/components/common/NoResult";
-import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
+import PageTitle from "src/components/common/PageTitle";
+import SearchInput from "src/components/common/SearchInput";
+import StatusBox from "src/components/common/StatusBox";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import TogglePageBar from "src/components/common/TogglePageBar";
+import StatusCardList from "src/components/TxList/StatusCardList";
 import ValidatorCardList from "src/components/ValidatorList/ValidatorCardList";
-import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
 import ValidatorCardListSkeleton from "src/components/ValidatorList/ValidatorCardList/ValidatorCardListSkeleton";
+import ValidatorTable from "src/components/ValidatorList/ValidatorTable";
+import ValidatorTableSkeleton from "src/components/ValidatorList/ValidatorTable/ValidatorTableSkeleton";
+import consts from "src/constants/consts";
+import {_} from "src/lib/scripts";
 import styles from "./ValidatorList.module.scss";
 
 const cx = cn.bind(styles);
 
-const ValidatorList = props => {
+const ValidatorList = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const basePath = `${consts.API.VALIDATORS}`;
 	const [keyword, setKeyword] = useState("");
-	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	const history = useHistory();
 	const { status } = queryString.parse(history.location.search) || {};
 	const isActiveValidator = !status || status === "active";
-
-	let timerIdRef = useRef(null);
-
-	const cleanUp = () => {
-		if (timerIdRef.current) {
-			clearTimeout(timerIdRef.current);
-			setLoadCompleted(false);
-		}
-	};
 
 	let path = `${basePath}?page_id=1`;
 	let pathInActive = `${path}&status=inactive`;
@@ -50,18 +40,15 @@ const ValidatorList = props => {
 		path += `&moniker=${keyword}`;
 	}
 
-	const { data, loading, error, refetch } = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 		resolve: data => {
-			if (!firstLoadCompleted) {
-				setFirstLoadCompleted(true);
-			}
 			setLoadCompleted(true);
 			return data;
 		},
 	});
 
-	const { data: dataInActive, loading: loadingInActive, error: errorInactive, refetch: refetchInActive } = useGet({
+	const { data: dataInActive } = useGet({
 		path: pathInActive,
 	});
 
@@ -132,7 +119,6 @@ const ValidatorList = props => {
 				value={keyword}
 				readOnly={_.isNil(data) ? true : false}
 				onChange={e => {
-					cleanUp();
 					setKeyword(e.target.value);
 				}}
 			/>
