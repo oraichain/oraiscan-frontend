@@ -1,24 +1,24 @@
 import Grid from "@material-ui/core/Grid";
 import classNames from "classnames/bind";
-import {memo} from "react";
+import { memo } from "react";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import ChartCard from './ChartCard/ChartCard';
-import {formatDateTime} from "src/helpers/helper";
+import { formatDateTime } from "src/helpers/helper";
 import styles from "./TopProposalCardList.module.scss";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
 import FailedIcon from "src/icons/Proposals/FailedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import ViewMoreProposalIcon from "src/icons/Proposals/ViewMoreProposalIcon";
-import {isNil} from "lodash";
-import {reduceString} from "src/lib/scripts";
+import { isNil } from "lodash";
+import { reduceString } from "src/lib/scripts";
 
 const cx = classNames.bind(styles);
 
-const TopProposalCardList = memo(({data = [], type = null}) => {
+const TopProposalCardList = memo(({ data = [], type = null }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -65,7 +65,7 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 						default:
 							break;
 					}
-		
+
 					return (
 						<Grid item lg={6} xs={12} key={"top-proposal-card-list-item-" + index}>
 							<div className={cx("top-proposal-card")}>
@@ -84,7 +84,7 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 									<div className={cx("top-proposal-card-chart")}>
 										<ChartCard data={item} />
 									</div>
-										
+
 									<div className={cx("top-proposal-card-body")}>
 										<table>
 											<tbody>
@@ -93,8 +93,8 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 														<div className={cx("item-title")}>Proposer</div>
 													</td>
 													<td>
-														<NavLink className={cx("")} to={`${consts.PATH.ACCOUNT}/${item?.proposal ?? 0}`}>
-															<span className={cx("item-text-proposer")}>{item?.proposal && reduceString(item?.proposal, 8, 8)}</span>
+														<NavLink className={cx("item-text")} to={`${consts.PATH.ACCOUNT}/${item?.proposer ?? 0}`}>
+															<span className={cx("item-text-proposer")}>{item?.proposer && reduceString(item?.proposer, 8, 8)}</span>
 														</NavLink>
 													</td>
 												</tr>
