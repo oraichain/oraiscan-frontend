@@ -33,7 +33,7 @@ import TxMessageContent from "./TxMessageContent";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import styles from "./TxMessage.module.scss";
 import { tryParseMessage } from "src/lib/scripts";
-
+import IBCProgress from './IBCProgress'
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -93,21 +93,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			loadStoreCode();
 		}
 	}, [type, msg.source]);
-
-	const toolTippedImg = useMemo(() => {
-		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
-		return (
-			<Tooltip
-				placement='right-start'
-				TransitionComponent={Fade}
-				TransitionProps={{ timeout: 300 }}
-				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
-				disableTouchListener
-				disableFocusListener>
-				<img className={cx("icon")} src={getTxTypeIcon(type)} alt='' />
-			</Tooltip>
-		);
-	}, [type, fees]);
 
 	const messageDetails = useMemo(() => {
 		const getAmountHeaderRow = () => {
@@ -368,7 +353,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					console.log("get currency row from object error: ", error);
 				}
 			}
-			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
@@ -674,10 +658,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							}
 
 							if (start && att["key"] === "amount") {
-								// const index = att["value"].indexOf("orai");
 								const value = att["value"]?.split(",") || [];
-								// const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
-								// obj.amount = value;
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
 									let splitValue = e.split("/");
@@ -690,8 +671,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 									};
 									msgTransfer.push(obj);
 								}
-								// start = false;
-								// msgTransfer.push(obj);
 								continue;
 							}
 						}
@@ -876,6 +855,16 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 			return { checkRoyalty: checkRoyaltyAmount, royaltys: royaltys };
 		};
+
+		// add IBC progress
+		const getIBCProgressRow = ({label, dataTxs}) => {
+			return (
+				<InfoRow label={label}>
+					<IBCProgress dataTxs={dataTxs} />
+				</InfoRow>
+			) 
+		}
+
 		return (
 			<>
 				<TxMessageContent
@@ -909,6 +898,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					key={key}
 					ind={ind}
 					storeCodeElement={storeCodeElement}
+					getIBCProgressRow={getIBCProgressRow}
 				/>
 			</>
 		);

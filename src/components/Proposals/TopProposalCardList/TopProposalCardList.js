@@ -66,6 +66,41 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 							break;
 					}
 
+					switch (item?.status) {
+						case "PROPOSAL_STATUS_PASSED":
+							statusStateClassName = "proposal-status-passed";
+							statusIcon = <PassedIcon className={cx("proposal-status-icon-passed")}></PassedIcon>;
+							statusText = "Passed";
+							break;
+						case "PROPOSAL_STATUS_REJECTED":
+							statusStateClassName = "proposal-status-rejected";
+							statusIcon = <RejectedIcon className={cx("proposal-status-icon-rejected")}></RejectedIcon>;
+							statusText = "Rejected";
+							break;
+						case "PROPOSAL_STATUS_FAILED":
+							statusStateClassName = "proposal-status-failed";
+							statusIcon = <FailedIcon className={cx("proposal-status-icon-failed")}></FailedIcon>;
+							statusText = "Failed";
+							break;
+						case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
+							statusStateClassName = "proposal-status-deposit-period";
+							statusIcon = <DepositPeriodIcon className={cx("proposal-status-icon-deposit-period")}></DepositPeriodIcon>;
+							statusText = "Deposit Period";
+							break;
+						case "PROPOSAL_STATUS_VOTING_PERIOD":
+							statusStateClassName = "proposal-status-voting-period";
+							statusIcon = <VotingPeriodIcon className={cx("proposal-status-icon-voting-period")}></VotingPeriodIcon>;
+							statusText = "Voting Period";
+							break;
+						case "PROPOSAL_STATUS_REJECTED":
+							statusStateClassName = "proposal-status-unspecified";
+							statusIcon = <UnspecifiedIcon className={cx("proposal-status-icon-unspecified")}></UnspecifiedIcon>;
+							statusText = "Unspecified";
+							break;
+						default:
+							break;
+					}
+		
 					return (
 						<Grid item lg={6} xs={12} key={"top-proposal-card-list-item-" + index}>
 							<div className={cx("top-proposal-card")}>
@@ -96,17 +131,6 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 														<NavLink className={cx("item-text")} to={`${consts.PATH.ACCOUNT}/${item?.proposer ?? 0}`}>
 															<span className={cx("item-text-proposer")}>{item?.proposer && reduceString(item?.proposer, 8, 8)}</span>
 														</NavLink>
-													</td>
-												</tr>
-
-												<tr>
-													<td>
-														<div className={cx("item-title")}>Voting Start</div>
-													</td>
-													<td>
-														<div className={cx("item-text")}>
-															{item?.voting_start_time && item.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(item.voting_start_time) : "-"}
-														</div>
 													</td>
 												</tr>
 

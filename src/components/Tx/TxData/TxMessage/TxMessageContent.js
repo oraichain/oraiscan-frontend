@@ -40,11 +40,11 @@ const TxMessageContent = ({
 	storeCodeElement,
 	ind,
 	getRawLog,
+	getIBCProgressRow,
 }) => {
 	return (
 		<>
 			<div className={cx("card-header")}>
-				{/* {toolTippedImg} */}
 				<span className={cx("title")}>{getTxTypeNew(type, data?.result, value)}</span>
 			</div>
 			<div className={cx("card-body")}>
@@ -346,8 +346,6 @@ const TxMessageContent = ({
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
-						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-						{/* {getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])} */}
 						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result, data?.amount)}
 						<InfoRow label='Message'>
 							<ReactJson
@@ -363,6 +361,10 @@ const TxMessageContent = ({
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 					</>
 				)}
+
+
+				{/* add IBC Progress */}
+
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_TRANSFER, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_TRANSFER]) && (
 					<>
 						{getInfoRow("Source Port", value?.source_port)}
@@ -374,6 +376,7 @@ const TxMessageContent = ({
 						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
 						{getInfoRow("Memo Messages", data?.messages?.[ind]?.memo)}
+						{getIBCProgressRow({label: "IBC Progress", dataTxs: data})}
 						{/* <InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
@@ -386,6 +389,7 @@ const TxMessageContent = ({
 						</InfoRow> */}
 						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
+						
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_UPDATE_CLIENT]) && (
@@ -479,8 +483,6 @@ const TxMessageContent = ({
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-						{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
-						{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
 						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
 						{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
 						{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
@@ -492,7 +494,6 @@ const TxMessageContent = ({
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
 						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-						{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
 						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
 						{getInfoRowSummary("Proof Client", value?.proof_client)}
 						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
