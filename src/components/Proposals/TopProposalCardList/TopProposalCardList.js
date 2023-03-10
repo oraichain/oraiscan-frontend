@@ -93,8 +93,8 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 														<div className={cx("item-title")}>Proposer</div>
 													</td>
 													<td>
-														<NavLink className={cx("")} to={`${consts.PATH.ACCOUNT}/${item?.proposal ?? 0}`}>
-															<span className={cx("item-text-proposer")}>{item?.proposal && reduceString(item?.proposal, 8, 8)}</span>
+														<NavLink className={cx("")} to={`${consts.PATH.ACCOUNT}/${item?.proposer ?? 0}`}>
+															<span className={cx("item-text-proposer")}>{item?.proposer && reduceString(item?.proposer, 8, 8)}</span>
 														</NavLink>
 													</td>
 												</tr>

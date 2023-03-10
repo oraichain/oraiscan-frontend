@@ -152,17 +152,25 @@
 
 		&-body-wrapper {
 			display: flex;
-
+			@include media("<medium") {
+				flex-direction: column;
+			}
 		}
 
 		&-chart {
 			width: 35%;
+			@include media("<medium") {
+				width: 100%;
+			}
 		}
 
 		&-body {
 			width: 65%;
 			display: flex;
 			align-items: center;
+			@include media("<medium") {
+				width: 100%;
+			}
 			table {
 				width: 90%;
 				tr {
