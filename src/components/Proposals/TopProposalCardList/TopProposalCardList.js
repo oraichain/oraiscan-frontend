@@ -1,15 +1,12 @@
+import Grid from "@material-ui/core/Grid";
+import classNames from "classnames/bind";
+import {isNil} from "lodash";
 import React, {memo} from "react";
 import {NavLink} from "react-router-dom";
-import classNames from "classnames/bind";
-import Grid from "@material-ui/core/Grid";
-import {isNil} from "lodash";
-import Tooltip from "@material-ui/core/Tooltip";
-import {_} from "src/lib/scripts";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import ViewMoreIcon from "src/icons/RightArrowIcon";
-import MostVotedIcon from "src/icons/Proposals/MostVotedIcon";
 
 import consts from "src/constants/consts";
 import {formatDateTime} from "src/helpers/helper";
@@ -97,15 +94,6 @@ const TopProposalCardList = memo(({data = [], type = null}) => {
 													</div>
 												</td>
 											</tr>
-
-											{/* <tr>
-												<td colSpan={2}>
-													<NavLink className={cx("view-more")} to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) ? "?type=" + type : ""}`}>
-														<span className={cx("view-more-text")}>View more</span>
-														<ViewMoreIcon className={cx("view-more-icon")} />
-													</NavLink>
-												</td>
-											</tr> */}
 										</tbody>
 									</table>
 								</div>
