@@ -111,7 +111,7 @@
 				&-rejected {
 					border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
 					background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
-					.status-text {
+					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusRejectedTextColor);
 					}
 				}

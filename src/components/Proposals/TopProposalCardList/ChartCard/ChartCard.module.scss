@@ -5,6 +5,9 @@
 	border-radius: 8px;
 	fill: var(--common-textColor);
 	:global {
+		.donutchart {
+			cursor: pointer;
+		}
 		.donutchart-innertext {
 			font-weight: bold;
 			font-size: 12px;
