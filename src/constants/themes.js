@@ -79,6 +79,8 @@ const colors = {
 	BLACK_SQUEEZE:"#F6F9FB",
 	HOVER_DARK: "#403845",
 	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
+	TEXT_TITLE_PROPOSAL_LIGHT: "#553BB3",
+	TEXT_TITLE_PROPOSAL_DARK: "#A095FF"
 };
 
 export const themes = {
@@ -194,6 +196,7 @@ export const themes = {
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
+							textTitleColor: colors.TEXT_TITLE_PROPOSAL_DARK
 						},
 						proposalTable: {
 							statusRejectedTextColor: colors.STATUS_REJECTED_DARK,
@@ -415,6 +418,7 @@ export const themes = {
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
+							textTitleColor: colors.TEXT_TITLE_PROPOSAL_LIGHT
 						},
 						proposalTable: {
 							statusRejectedTextColor: colors.VIOLET_RED,
