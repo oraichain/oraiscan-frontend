@@ -32,7 +32,7 @@
 
 			.proposal-id {
 				color: var(--common-textColor);
-				font-family: 'IBM Plex Sans';
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: bold;
 				font-size: 14px;
@@ -45,7 +45,7 @@
 
 			.proposal-title {
 				color: var(--proposals-topProposalCard-textTitleColor);
-				font-family: 'IBM Plex Sans';
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: bold;
 				font-size: 14px;
@@ -63,7 +63,7 @@
 				padding: 5px 10px;
 				box-sizing: border-box;
 				border-radius: 4px;
-			
+
 				&-icon {
 					display: inline-block;
 					&-passed {
@@ -72,34 +72,34 @@
 					&-rejected {
 						color: var(--proposals-proposalTable-statusRejectedTextColor);
 					}
-		
+
 					&-unspecified {
 						color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
 					}
-		
+
 					&-deposit-period {
 						color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
 					}
-		
+
 					&-voting-period {
 						color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
 					}
-		
+
 					&-failed {
 						color: var(--proposals-proposalTable-statusFailedTextColor);
 					}
 				}
-		
+
 				&-text {
 					display: inline-block;
 					margin-left: 4px;
-					font-family: 'IBM Plex Sans';
+					font-family: "IBM Plex Sans";
 					font-style: normal;
 					font-weight: normal;
 					font-size: 14px;
 					white-space: nowrap;
 				}
-		
+
 				&-passed {
 					border: 1px solid var(--proposals-proposalTable-statusPassedBorderColor);
 					background-color: var(--proposals-proposalTable-statusPassedBackgroundColor);
@@ -107,7 +107,7 @@
 						color: var(--proposals-proposalTable-statusPassedTextColor);
 					}
 				}
-		
+
 				&-rejected {
 					border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
 					background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
@@ -115,7 +115,7 @@
 						color: var(--proposals-proposalTable-statusRejectedTextColor);
 					}
 				}
-		
+
 				&-unspecified {
 					border: 1px solid var(--proposals-proposalTable-statusUnspecifiedBorderColor);
 					background-color: var(--proposals-proposalTable-statusUnspecifiedBackgroundColor);
@@ -123,7 +123,7 @@
 						color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
 					}
 				}
-		
+
 				&-deposit-period {
 					border: 1px solid var(--proposals-proposalTable-statusDepositPeriodBorderColor);
 					background-color: var(--proposals-proposalTable-statusDepositPeriodBackgroundColor);
@@ -131,7 +131,7 @@
 						color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
 					}
 				}
-		
+
 				&-voting-period {
 					border: 1px solid var(--proposals-proposalTable-statusVotingPeriodBorderColor);
 					background-color: var(--proposals-proposalTable-statusVotingPeriodBackgroundColor);
@@ -139,7 +139,7 @@
 						color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
 					}
 				}
-		
+
 				&-failed {
 					border: 1px solid var(--proposals-proposalTable-statusFailedBorderColor);
 					background-color: var(--proposals-proposalTable-statusFailedBackgroundColor);
@@ -215,7 +215,7 @@
 
 			.item-title {
 				color: var(--common-textColor);
-				font-family: 'IBM Plex Sans';
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: 500;
 				font-size: 14px;
@@ -227,12 +227,16 @@
 
 			.item-text {
 				color: var(--common-textColor);
-				font-family: 'IBM Plex Sans';
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: normal;
 				font-size: 14px;
 				line-height: 150%;
 				word-break: break-all;
+
+				@media screen and (max-width: 480px) {
+					font-size: 12px;
+				}
 
 				@media screen and (min-width: 1280px) {
 					font-size: 16px;
@@ -241,11 +245,14 @@
 
 			.item-text-proposer {
 				color: var(--common-linkColor);
+				@media screen and (max-width: 480px) {
+					font-size: 13px;
+				}
 			}
 
 			.item-link {
 				color: var(--common-linkColor);
-				font-family: 'IBM Plex Sans';
+				font-family: "IBM Plex Sans";
 				font-style: normal;
 				font-weight: normal;
 				font-size: 16px;
@@ -305,7 +312,7 @@
 				&-text {
 					display: inline-block;
 					color: var(--common-textColor);
-					font-family: 'IBM Plex Sans';
+					font-family: "IBM Plex Sans";
 					font-style: normal;
 					font-weight: normal;
 					font-size: 16px;
@@ -334,7 +341,7 @@
 	&-text {
 		display: inline-block;
 		color: var(--common-buttonTextColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
