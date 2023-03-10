@@ -103,6 +103,7 @@ let proposals = theme => {
       --proposals-topProposalCard-graphColor_no: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
       --proposals-topProposalCard-graphColor_abstain: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
       --proposals-topProposalCard-graphColor_nowithveto: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_nowithveto};
+      --proposals-topProposalCard-textTitleColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.textTitleColor};
     `,
 		proposalTable: `
       --proposals-proposalTable-statusPassedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedTextColor};
