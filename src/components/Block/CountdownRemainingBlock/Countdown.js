@@ -50,19 +50,19 @@ function Countdown({ remainingBlock }) {
 			formattedTime += `<strong>${months.toString()}</strong>Months `;
 		}
 
-		if (days > 0) {
+		if (days >= 0) {
 			formattedTime += `<strong>${days.toString()}</strong>Days`;
 		}
 
-		if (hours > 0) {
+		if (hours >= 0) {
 			formattedTime += `<strong>${hours.toString()}</strong>Hours `;
 		}
 
-		if (minutes > 0) {
+		if (minutes >= 0) {
 			formattedTime += `<strong>${minutes.toString()}</strong>Mins `;
 		}
 
-		if (seconds > 0 || formattedTime === "") {
+		if (seconds >= 0 || formattedTime === "") {
 			formattedTime += `<strong>${seconds.toString()}</strong>Secs`;
 		}
 		const dateTimeElement = document.getElementById("datetime");
@@ -86,4 +86,4 @@ function Countdown({ remainingBlock }) {
 	);
 }
 
-export default Countdown;
+export default Countdown; 

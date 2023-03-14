@@ -6,12 +6,12 @@
     .countdown-time {
         font-size: 2rem;
         color: var(--common-textColor);
+        @include media("<medium") {
+            font-size: 14px;
+        }
         & > div {
             @include media("<medium") {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
+              
             }
         }
         strong {
@@ -19,15 +19,22 @@
             color: var(--common-activeTabColor);
             font-weight: bold;
             font-size: 4rem;
-            margin: 0 0.7rem -0.5rem 0;
-            margin-left: 4rem;
+            margin: 0 0.7rem -0.5rem 4rem;
+            @include media("<medium") {
+                font-size: 20px;
+                margin: 0 0.3rem -0.5rem 2rem;
+            }
         }
         strong:first-child {
             margin-left: 0;
         }
 
         .countdown-target {
-            font-size: 1.2rem;
+            font-size: 20px;
+            @include media("<medium") {
+                font-size: 14px;
+                margin-top: 10px;
+            }
         }
     }
 
@@ -38,6 +45,9 @@
         font-size: 20px;
         color: var(--common-textColor);
         background-color: var(--common-tabColor);
+        @include media("<medium") {
+            font-size: 16px;
+        }
     }
 
     .countdown-block {
@@ -57,9 +67,13 @@
             @include media("<medium") {
                 width: 100%;
                 margin-bottom: 20px;
+                font-size: 16px;
             }
             strong {
                 font-size: 24px;
+                @include media("<medium") {
+                    font-size: 20px;
+                }
             }
         }
         .countdown-for-block {

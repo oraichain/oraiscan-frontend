@@ -22,7 +22,7 @@ const StatusBox = memo(() => {
 	const dispatch = useDispatch();
 	let timerID = useRef(null);
 
-	const { data, loading, refetch, error } = useGet({
+	const { data, refetch, error } = useGet({
 		path: consts.API.ORAICHAIN_INFO,
 		resolve: data => {
 			setLoadCompleted(true);
@@ -31,7 +31,7 @@ const StatusBox = memo(() => {
 		},
 	});
 
-	const { data: communityPool, loading: poolLoading, refetch: refetchPool, error: errorPool } = useGet({
+	const { data: communityPool,  refetch: refetchPool, error: errorPool } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.COMMUNITY_POOL}`,
 		resolve: ({ pool }) => {
 			const oraiPool = pool.find(pool => pool.denom === ORAI);
