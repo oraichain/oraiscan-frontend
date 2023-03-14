@@ -157,14 +157,6 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	const bigValue = new BigNumber(value);
 	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
-
-	// if (`${value}`.length > 9) {
-	// 	const bigValue = new BigNumber(value);
-	// 	result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
-	// } else {
-	// 	result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
-	// }
-
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
 export const formatNumber = value => {
@@ -201,7 +193,6 @@ export const calRemainingTime = time => {
 	const x = new moment();
 	const y = new moment(time);
 	const duration = moment.duration(y.diff(x));
-	console.log("duration", duration);
 	let result = "0s";
 	if (duration._data.years) result = `${duration._data.years} years`;
 	else if (duration._data.months) result = `${duration._data.months} months`;
@@ -304,3 +295,11 @@ export const calculateInflationFromApr = async () => {
 
 	return inflationRate * 100; // display in percentage
 };
+
+
+// check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
+export const getDecimals = (denom = "") =>  {
+	const decimalsCosmos = 6;
+	const decimalsEthBsc = 18;
+	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos
+}
