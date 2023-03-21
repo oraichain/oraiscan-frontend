@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
-import {isNil} from "lodash-es";
-import {_} from "src/lib/scripts";
+import { isNil } from "lodash-es";
+import { _ } from "src/lib/scripts";
 import consts from "src/constants/consts";
-import {formatDateTime, formatOrai} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
+import { formatDateTime, formatOrai } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
-import {setAgoTime} from "src/lib/scripts";
+import { setAgoTime } from "src/lib/scripts";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
@@ -30,13 +30,13 @@ export const getHeaderRow = () => {
 	const voteHeaderCell = <div className={cx("header-cell", "align-right")}>Vote</div>;
 	const headerCells = [idHeaderCell, titleHeaderCell, statusHeaderCell, votingStartHeaderCell, submitTimeHeaderCell, totalDepositHeaderCell, voteHeaderCell];
 	const headerCellStyles = [
-		{width: "5%"}, // ID
-		{width: "27.5%"}, // Title
-		{width: "10.8%"}, // Status
-		{width: "19.4%"}, // Voting Start
-		{width: "19.4%"}, // Submit Time
-		{width: "11.9%"}, // Total Deposit
-		{width: "6%"}, // Vote
+		{ width: "5%" }, // ID
+		{ width: "27.5%" }, // Title
+		{ width: "10.8%" }, // Status
+		{ width: "19.4%" }, // Voting Start
+		{ width: "19.4%" }, // Submit Time
+		{ width: "11.9%" }, // Total Deposit
+		{ width: "6%" }, // Vote
 	];
 	return {
 		headerCells,
@@ -44,13 +44,13 @@ export const getHeaderRow = () => {
 	};
 };
 
-const ProposalsTable = memo(({data = [], type = null}) => {
+const ProposalsTable = memo(({ data = [], type = null }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
-		console.log('data', data)
+		console.log("data", data);
 
 		return data.map(item => {
 			const idDataCell = _.isNil(item?.proposal_id) ? (
@@ -121,11 +121,12 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 
 			const votingStartDataCell =
 				_.isNil(item?.voting_start_time) || item.status === "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? (
-					<div >-</div>
+					<div>-</div>
 				) : (
 					<div className={cx("voting-start-data-cell")}>
 						{" "}
-						{setAgoTime(item.voting_start_time)} <br /> ({formatDateTime(item.voting_start_time)} )
+						{setAgoTime(item.voting_start_time)} <br />
+						<span>({formatDateTime(item.voting_start_time)} )</span>
 					</div>
 				);
 
@@ -134,7 +135,7 @@ const ProposalsTable = memo(({data = [], type = null}) => {
 			) : (
 				<div className={cx("submit-time-data-cell")}>
 					{" "}
-					{setAgoTime(item.submit_time)} <br /> ({formatDateTime(item.submit_time)})
+					{setAgoTime(item.submit_time)} <br /> <span>({formatDateTime(item.submit_time)})</span>
 				</div>
 			);
 
