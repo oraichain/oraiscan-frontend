@@ -33,7 +33,19 @@ const AssetsTable = memo(({ data = [] }) => {
 		}
 		return data.map(item => {
 			const validatorAddressSplit = item?.validator_address?.split("/")?.[0] || item?.validator_address;
-			const tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
+			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
+			if(!tokenInfo && item.validator_address.includes("erc20")) {
+				tokenInfo = { 
+					name: "ERC20",
+					decimal: 18
+				}
+			}
+			if(!tokenInfo && item.validator_address.includes("airi")) {
+				tokenInfo = { 
+					name: "AIRI",
+					decimal: 18
+				}
+			}
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -58,7 +70,8 @@ const AssetsTable = memo(({ data = [] }) => {
 				) : (
 					<div className={cx("reward-data-cell", "align-right")}>
 						<div className={cx("reward")}>
-							<span className={cx("reward-value")}>{formatOrai(item.reward)}</span>
+							{/* <span className={cx("reward-value")}>{formatOrai(item.reward)}</span> */}
+							<span className={cx("reward-value")}>{formatOrai(item.reward, Math.pow(10, tokenInfo ? tokenInfo.decimal : 6))}</span>
 							<span className={cx("reward-denom")}>{item.denom_reward}</span>
 						</div>
 					</div>
