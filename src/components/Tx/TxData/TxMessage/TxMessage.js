@@ -731,28 +731,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			);
 		};
 
-		const getRedelegateTime = (key = 0, rawLog = "[]", result = "") => {
-			let time = null;
-			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-				for (let event of rawLogArr[key].events) {
-					if (event["type"] === "redelegate") {
-						for (let att of event["attributes"]) {
-							if (att["key"] === "completion_time") {
-								time = att["value"];
-
-								break;
-							}
-						}
-
-						break;
-					}
-				}
-			}
-
-			return time;
-		};
-
 		const getTransferDataRows = data => {
 			return data.map(item => {
 				const recipientDataCell = _.isNil(item?.recipient) ? (
@@ -804,10 +782,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}</span>
 							<span className={cx("amount-denom")}>{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
-							{/* <span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || reduceStringAssets(item?.demom) || reduceStringAssets(denomSplit?.[0])}</span> */}
-							{/* <span className={cx("amount-usd")}>
-								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
-							</span> */}
 						</div>
 					</div>
 				);
