@@ -1,8 +1,7 @@
 import React, {memo, useMemo} from "react";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {formatOrai, parseIbc} from "src/helpers/helper";
+import {formatOrai, getDecimals, parseIbc} from "src/helpers/helper";
 import {_, reduceString} from "src/lib/scripts";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -99,7 +98,7 @@ const DelegationTable = memo(({data = []}) => {
 			) : (
 				<div className={cx("amount-data-cell", "align-right")}>
 					<div className={cx("amount")}>
-						<span className={cx("amount-value")}>{formatOrai(item.amount)}</span>
+						<span className={cx("amount-value")}>{formatOrai(item.amount, Math.pow(10, getDecimals(item.denom)))}</span>
 						<span className={cx("amount-denom")}>{parseIbc(item.denom)}</span>
 					</div>
 				</div>
@@ -110,7 +109,7 @@ const DelegationTable = memo(({data = []}) => {
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{JSON.parse(item?.transaction?.fee)?.amount?.[0]?.value / Math.pow(10, 6).toFixed(6) || "0.000000"}</span>
+							<span className={cx("amount-value")}>{(JSON.parse(item?.transaction?.fee)?.amount?.[0]?.amount / Math.pow(10, 6)).toFixed(6) || "0.000000"}</span>
 							<span className={cx("amount-denom")}> {JSON.parse(item?.transaction?.fee)?.amount?.[0]?.denom}</span>
 						</div>
 					</div>

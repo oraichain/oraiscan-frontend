@@ -80,6 +80,7 @@
 		width: 95%;
 		overflow: visible;
 		margin: auto;
+		display: flex;
 		@include media(">=xxsmall") {
 			width: map_get($breakpoints, xxsmall) - 40px;
 		}

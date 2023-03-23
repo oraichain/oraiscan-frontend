@@ -1,7 +1,7 @@
 import React from "react";
 import ReactJson from "react-json-view";
 import InfoRow from "src/components/common/InfoRow";
-import { formatFloat } from "src/helpers/helper";
+import { checkAttributeEvents, formatFloat } from "src/helpers/helper";
 import { tryParseMessage, compareTypeMessage } from "src/lib/scripts";
 import BigNumber from "bignumber.js";
 import cn from "classnames/bind";
@@ -362,7 +362,7 @@ const TxMessageContent = ({
 						</InfoRow>
 						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
-						{getIBCProgressRow({label: "IBC Progress", dataTxs: data})}
+						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
 				)}
 
@@ -379,7 +379,7 @@ const TxMessageContent = ({
 						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
 						{getInfoRow("Memo Messages", data?.messages?.[ind]?.memo)}
-						{getIBCProgressRow({label: "IBC Progress", dataTxs: data})}
+						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_UPDATE_CLIENT]) && (

@@ -62,6 +62,13 @@
 		&-denom {
 			color: var(--common-oraiDenomTextColor);
 		}
+		@include media("<medium") {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 50%;
+			white-space: normal;
+			margin-left: 10px;
+		}
 	}
 
 	&-link {
@@ -71,6 +78,13 @@
 		font-weight: 500;
 		font-size: 14px;
 		line-height: 150%;
+		@include media("<medium") {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 50%;
+			white-space: normal;
+			margin-left: 10px;
+		}
 	}
 }
 

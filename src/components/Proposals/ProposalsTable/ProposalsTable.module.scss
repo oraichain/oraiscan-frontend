@@ -1,4 +1,5 @@
 @import "src/styles/utils";
+
 .align-left {
 	text-align: left;
 }
@@ -31,6 +32,11 @@
 	line-height: 150%;
 }
 
+.submit-time-data-cell span,
+.voting-start-data-cell span {
+	color: var(--common-timeAgoColor);
+}
+
 .title-data-cell {
 	color: var(--common-linkColor);
 	font-family: 'IBM Plex Sans';
@@ -55,7 +61,7 @@
 		}
 
 		&-denom {
-			display: inline-block;
+			display: block;
 			color: var(--common-oraiDenomTextColor);
 		}
 	}
@@ -75,9 +81,11 @@
 
 		&-icon {
 			display: inline-block;
+
 			&-passed {
 				color: var(--proposals-proposalTable-statusPassedTextColor);
 			}
+
 			&-rejected {
 				color: var(--proposals-proposalTable-statusRejectedTextColor);
 			}
@@ -112,6 +120,7 @@
 		&-passed {
 			border: 1px solid var(--proposals-proposalTable-statusPassedBorderColor);
 			background-color: var(--proposals-proposalTable-statusPassedBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusPassedTextColor);
 			}
@@ -120,6 +129,7 @@
 		&-rejected {
 			border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
 			background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusRejectedTextColor);
 			}
@@ -128,6 +138,7 @@
 		&-unspecified {
 			border: 1px solid var(--proposals-proposalTable-statusUnspecifiedBorderColor);
 			background-color: var(--proposals-proposalTable-statusUnspecifiedBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
 			}
@@ -136,6 +147,7 @@
 		&-deposit-period {
 			border: 1px solid var(--proposals-proposalTable-statusDepositPeriodBorderColor);
 			background-color: var(--proposals-proposalTable-statusDepositPeriodBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
 			}
@@ -144,6 +156,7 @@
 		&-voting-period {
 			border: 1px solid var(--proposals-proposalTable-statusVotingPeriodBorderColor);
 			background-color: var(--proposals-proposalTable-statusVotingPeriodBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
 			}
@@ -152,6 +165,7 @@
 		&-failed {
 			border: 1px solid var(--proposals-proposalTable-statusFailedBorderColor);
 			background-color: var(--proposals-proposalTable-statusFailedBackgroundColor);
+
 			.status-text {
 				color: var(--proposals-proposalTable-statusFailedTextColor);
 			}
@@ -162,4 +176,3 @@
 .skeleton {
 	display: inline-block;
 }
-
