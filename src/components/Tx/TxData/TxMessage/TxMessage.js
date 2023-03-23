@@ -358,10 +358,10 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			const denomCheck = checkTokenCW20(denom_name);
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
+				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
 			} else {
 				calculatedValue = amount / 1000000;
-				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
+				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
@@ -831,12 +831,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		// add IBC progress
-		const getIBCProgressRow = ({label, dataTxs}) => {
+		const getIBCProgressRow = (label, data) => {
 			return (
 				<InfoRow label={label}>
-					<IBCProgress dataTxs={dataTxs} />
+					<IBCProgress dataTxs={data} />
 				</InfoRow>
-			) 
+			)
 		}
 
 		return (

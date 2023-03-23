@@ -298,8 +298,20 @@ export const calculateInflationFromApr = async () => {
 
 
 // check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
-export const getDecimals = (denom = "") =>  {
+export const getDecimals = (denom = "") => {
 	const decimalsCosmos = 6;
 	const decimalsEthBsc = 18;
 	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos
+}
+
+export const checkAttributeEvents = (rawLog = "[]", key = 'send_packet') => {
+	try {
+		if (!rawLog) return false;
+		const parseRawLog = JSON.parse(rawLog);
+		const findSendPack = parseRawLog?.[0]?.events?.find(e => e.type == key);
+		if (!findSendPack) return false;
+		return true;
+	} catch (error) {
+		return false;
+	}
 }
