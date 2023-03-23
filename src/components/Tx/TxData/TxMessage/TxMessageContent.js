@@ -342,6 +342,9 @@ const TxMessageContent = ({
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
+
+
+				{/* update 23/3/2023: add IBC progress for MsgExecute */}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.EXECUTE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT]) && (
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
@@ -359,6 +362,7 @@ const TxMessageContent = ({
 						</InfoRow>
 						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
+						{getIBCProgressRow({label: "IBC Progress", dataTxs: data})}
 					</>
 				)}
 
@@ -369,7 +373,6 @@ const TxMessageContent = ({
 					<>
 						{getInfoRow("Source Port", value?.source_port)}
 						{getInfoRow("Source Channel", value?.source_channel)}
-						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{getCurrencyRowFromObject("Token", value?.amount)}
 						{getAddressRow("Sender", value?.sender)}
 						{getAddressRow("Receiver", value?.receiver)}
@@ -377,19 +380,6 @@ const TxMessageContent = ({
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
 						{getInfoRow("Memo Messages", data?.messages?.[ind]?.memo)}
 						{getIBCProgressRow({label: "IBC Progress", dataTxs: data})}
-						{/* <InfoRow label='Message'>
-							<ReactJson
-								style={{ backgroundColor: "transparent" }}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								src={tryParseMessage(value?.msg)}
-							/>
-						</InfoRow> */}
-						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
-						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
-						
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_UPDATE_CLIENT]) && (
