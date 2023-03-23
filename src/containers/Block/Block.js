@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useGet} from "restful-react";
 import cn from "classnames/bind";
@@ -17,6 +17,9 @@ import TogglePageBar from "src/components/common/TogglePageBar";
 import NotFound from "src/components/common/NotFound";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import styles from "./Block.module.scss";
+import {getCryptoValidators} from "src/store/modules/blockchain";
+import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
 
 const cx = cn.bind(styles);
 
@@ -29,6 +32,14 @@ const Block = () => {
 	const {data: data, loading: loading, error: error} = useGet({
 		path: path,
 	});
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const cancelToken = axios.CancelToken;
+		const source = cancelToken.source();
+		dispatch(getCryptoValidators(source.token));
+	},[])
 
 	let titleSection;
 	let headerCard;

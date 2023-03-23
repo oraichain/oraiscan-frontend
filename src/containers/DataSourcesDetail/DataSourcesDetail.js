@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React from "react";
+import React, {useEffect} from "react";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useParams} from "react-router-dom";
@@ -13,10 +13,12 @@ import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import {Information, DataSourceDetailListTable, RequestTableMobile} from "src/components/DataSourcesDetail";
 import consts from "src/constants/consts";
-import {useFetch} from "src/hooks";
+import {useDispatch, useFetch} from "src/hooks";
 import {ReactComponent as BackIcon} from "src/assets/icons/back.svg";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import styles from "./DataSourcesDetail.module.scss";
+import {getCryptoValidators} from "src/store/modules/blockchain";
+import axios from "axios";
 
 const cx = cn.bind(styles);
 
@@ -28,6 +30,15 @@ export default function(props) {
 	const history = useHistory();
 	const theme = useTheme();
 	const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const cancelToken = axios.CancelToken;
+		const source = cancelToken.source();
+		dispatch(getCryptoValidators(source.token));
+	},[])
+
 	const onPageChange = page => {
 		setUrl(`${url}`);
 	};

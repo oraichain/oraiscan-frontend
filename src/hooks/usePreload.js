@@ -19,7 +19,6 @@ export default function usePreload() {
 		dispatch(getCryptoBasicDataAiri("airight", "usd", source.token));
 		dispatch(getCryptoStatus(source.token));
 		//dispatch(getCryptoFees(source.token));
-		dispatch(getCryptoValidators(source.token));
 		dispatch(getMinFee());
 		if (window.location.pathname !== "/assets/") {
 			//	dispatch(getCryptoAssets(source.token));
