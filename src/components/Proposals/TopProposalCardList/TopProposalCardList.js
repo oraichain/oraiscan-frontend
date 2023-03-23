@@ -133,7 +133,17 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 														</NavLink>
 													</td>
 												</tr>
-
+												
+												<tr>
+													<td>
+														<div className={cx("item-title")}>Voting Start</div>
+													</td>
+													<td>
+														<div className={cx("item-text")}>
+															{item?.voting_end_time && item.status !== "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? formatDateTime(item.voting_start_time) : "-"}
+														</div>
+													</td>
+												</tr>
 												<tr>
 													<td>
 														<div className={cx("item-title")}>Voting End</div>

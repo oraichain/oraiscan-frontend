@@ -30,8 +30,17 @@ const BlockCardList = memo(({data = []}) => {
 							</tr>
 
 							<tr>
-								<td colSpan={2}>
+								<td >
 									<div className={cx("item-title")}>Proposer</div>
+									{/* {_.isNil(item?.moniker) ? (
+										<div className={cx("item-link")}>-</div>
+									) : (
+										<NavLink className={cx("item-link")} to={`${consts.PATH.VALIDATORS}/${item.moniker}`}>
+											{item.moniker}
+										</NavLink>
+									)} */}
+								</td>
+								<td>
 									{_.isNil(item?.moniker) ? (
 										<div className={cx("item-link")}>-</div>
 									) : (

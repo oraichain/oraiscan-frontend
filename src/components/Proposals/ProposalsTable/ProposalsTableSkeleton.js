@@ -47,7 +47,13 @@ const ProposalsTableSkeleton = memo(({rows = 10}) => {
 				</div>
 			);
 
-			dataRows.push([idDataCell, titleDataCell, statusDataCell, votingStartDataCell, submitTimeDataCell, totalDepositDataCell]);
+			const voteDepositDataCell = (
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
+				</div>
+			);
+
+			dataRows.push([idDataCell, titleDataCell, statusDataCell, votingStartDataCell, submitTimeDataCell, totalDepositDataCell, voteDepositDataCell]);
 		}
 		return dataRows;
 	};
