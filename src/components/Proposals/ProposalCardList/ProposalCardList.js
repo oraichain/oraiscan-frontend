@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
-import {isNil} from "lodash";
+import React, { memo } from "react";
+import { isNil } from "lodash";
 import classNames from "classnames/bind";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
@@ -11,13 +11,13 @@ import FailedIcon from "src/icons/Proposals/FailedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
 import styles from "./ProposalCardList.module.scss";
 
 const cx = classNames.bind(styles);
 
-const ProposalCardList = memo(({data = [], type = ""}) => {
+const ProposalCardList = memo(({ data = [], type = "" }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -54,7 +54,7 @@ const ProposalCardList = memo(({data = [], type = ""}) => {
 						statusIcon = <VotingPeriodIcon className={cx("status-icon-voting-period")}></VotingPeriodIcon>;
 						statusText = "Voting Period";
 						break;
-					case "PROPOSAL_STATUS_REJECTED":
+					case "PROPOSAL_STATUS_UNSPECIFIED":
 						statusStateClassName = "status-unspecified";
 						statusIcon = <UnspecifiedIcon className={cx("status-icon-unspecified")}></UnspecifiedIcon>;
 						statusText = "Unspecified";

@@ -1,0 +1,27 @@
+.chart-card {
+	height: 100%;
+	padding: 10px 0 0 0;
+	background: var(--common-containerBackgroundColor);
+	border-radius: 8px;
+	fill: var(--common-textColor);
+	:global {
+		.donutchart {
+			cursor: pointer;
+			path {
+				opacity: 1;
+				stroke-width: 2;
+			}
+		}
+		.donutchart-innertext {
+			font-weight: bold;
+			font-size: 12px;
+		}
+	}
+	&-body {
+		text-align: center;
+	}
+}
+
+.skeleton {
+	display: inline-block;
+}

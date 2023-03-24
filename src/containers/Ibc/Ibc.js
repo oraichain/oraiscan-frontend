@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import {useHistory} from "react-router-dom";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -6,20 +6,16 @@ import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import {useGet} from "restful-react";
 import consts from "src/constants/consts";
-import {replaceQueryString} from "src/helpers/helper";
 import {_} from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
-import StatusBox from "src/components/common/StatusBox";
 import ChainBox from "src/components/common/ChainBox";
 import Pagination from "src/components/common/Pagination";
-import SearchBox from "src/components/common/SearchBox";
 import AssetsIbcTable from "src/components/Ibc/AssetsIbcTable/AssetsIbcTable";
 import AssetsIbcTableSkeleton from "src/components/Ibc/AssetsIbcTable/AssetsIbcTableSkeleton";
 import AssetsIbcCardList from "src/components/Ibc/AssetsIbcCardList/AssetsIbcCardList";
 import AssetsIbcCardListSkeleton from "src/components/Ibc/AssetsIbcCardList/AssetsIbcCardListSkeleton";
-import ComingSoon from "src/components/common/ComingSoon";
 import FilterSection from "src/components/Ibc/FilterSection";
 import styles from "./Ibc.module.scss";
 const cx = cn.bind(styles);
@@ -34,9 +30,6 @@ const IbcAssets = props => {
 	const [list, setList] = useState([]);
 	const getPaginationPath = (pathname, page) => {
 		return pathname + "?page=" + page;
-	};
-	const redirectToFirstPage = pathname => {
-		history.push(getPaginationPath(pathname, 1));
 	};
 
 	const [total, setTotal] = useState(-1);
@@ -123,7 +116,6 @@ const IbcAssets = props => {
 	}
 
 	const onPageChange = page => {
-		// cleanUp();
 		setShowLoading(true);
 		history.push(getPaginationPath(props.location.pathname, page));
 	};
@@ -138,7 +130,6 @@ const IbcAssets = props => {
 		<>
 			{titleSection}
 			<Container fixed className={cx("ibc-assets")}>
-				{/* <ComingSoon /> */}
 				{filterSection}
 				{tableSection}
 				{paginationSection}

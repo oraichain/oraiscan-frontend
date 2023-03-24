@@ -1,43 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import classNames from "classnames/bind";
-import * as yup from "yup";
-import _ from "lodash";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Router from "src/containers/Router/Router";
-import { ThemeProvider } from "styled-components";
-import { themes } from "src/constants/themes";
-import Header from "src/containers/Header";
-import Tabs from "src/containers/Tabs";
-import Footer from "src/containers/Footer";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {notification} from "antd";
+import classNames from "classnames/bind";
+import _ from "lodash";
+import {useEffect, useState} from "react";
+import {isMobile} from "react-device-detect";
+import {useDispatch, useSelector} from "react-redux";
+import DarkModeTopBackground from "src/assets/common/dark_mode_top_background.png";
+import {ReactComponent as CloseIcon} from "src/assets/icons/close.svg";
 import Alert from "src/components/common/Alert/Alert";
 import SearchArea from "src/components/Dashboard/SearchArea";
-import { GlobalStyles } from "src/GlobalStyles";
-import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
-import DarkModeTopBackground from "src/assets/common/dark_mode_top_background.png";
-import useGlobalApp from "./useGlobalApp";
-import { updateToken, onMessageListener } from "src/firebase-cloud-message";
-import { showAlert } from "src/store/modules/global";
-import { isMobile } from "react-device-detect";
-import styles from "./App.scss";
-import { ThemeSetup } from "./helpers/helper";
-import { embedChainInfos } from "src/lib/config/chainInfos";
-import Keplr from "src/lib/keplr";
-import { initWallet } from "src/store/modules/wallet";
-import WalletStation from "./lib/walletStation";
-import { network } from "./lib/config/networks";
-import { notification } from "antd";
 import consts from 'src/constants/consts';
+import {themes} from "src/constants/themes";
+import Footer from "src/containers/Footer";
+import Header from "src/containers/Header";
+import Router from "src/containers/Router/Router";
+import Tabs from "src/containers/Tabs";
+import {onMessageListener, updateToken} from "src/firebase-cloud-message";
+import {GlobalStyles} from "src/GlobalStyles";
+import {showAlert} from "src/store/modules/global";
+import {ThemeProvider} from "styled-components";
+import * as yup from "yup";
+import styles from "./App.scss";
+import {ThemeSetup} from "./helpers/helper";
+import useGlobalApp from "./useGlobalApp";
 
-import Under from 'src/assets/assets/undermaintenance.jpeg';
 import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
+import {BrowserTracing} from '@sentry/tracing';
+import { network } from "./lib/config/networks";
+import { initWallet } from "./store/modules/wallet";
 
 const cx = classNames.bind(styles);
 
@@ -69,7 +64,6 @@ export default function () {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const { address } = useSelector(state => state.wallet);
 	const [isSearchAreaVisible, setIsSearchAreaVisible] = useState(false);
-	const m = useGlobalApp();
 	const classes = useStyles();
 
 	const toggleSearchArea = () => {
@@ -118,13 +112,11 @@ export default function () {
 		});
 	}
 
-
 	const keplrHandler = async () => {
 		try {
 			console.log("Key store in Keplr is changed. You may need to refetch the account info.");
 			await window.Keplr.suggestChain(network.chainId);
 			await updateAddress();
-			// window.location.reload();
 		} catch (error) {
 			notification.error({ message: error });
 			dispatch(initWallet({}));
@@ -139,9 +131,6 @@ export default function () {
 			const key = await window.Keplr.getKeplrKey();
 
 			if (key?.bech32Address) {
-				// if (newAddress === address) {
-				// 	dispatch(initWallet({}));
-				// }
 				dispatch(initWallet({ address: key?.bech32Address, name: key?.name, pubKey: Buffer.from(key?.pubKey).toString("base64") }));
 			}
 		} catch (error) {
@@ -161,7 +150,6 @@ export default function () {
 
 	onMessageListener()
 		.then(payload => {
-			// console.log(payload);
 			dispatch(
 				showAlert({
 					show: true,

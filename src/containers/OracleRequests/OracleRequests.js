@@ -34,15 +34,11 @@ const cx = cn.bind(styles);
 const OracleRequests = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	// const history = useHistory();
-	// const queryStringParse = queryString.parse(history.location.search) || {};
-	// const creator = queryStringParse?.creator ?? "";
 	const [isGridView, setIsGridView] = useState(true);
 	const [keyword, setKeyword] = useState("");
 	const [pageId, setPageId] = useState(0);
 	const [total, setTotal] = useState(0);
 	const totalPagesRef = useRef(null);
-	// const listRequestsRef = useRef([]);
 	const [listRequest, setListRequest] = useState([]);
 	const onPageChange = page => {
 		setPageId(page);
@@ -92,15 +88,7 @@ const OracleRequests = () => {
 		setListRequest(listRequestAPI?.data?.data);
 	};
 
-	//case 1: search -> change page
-	//
-
 	const fetchSecond = async (listRequestAPI, page) => {
-		// if (keyword) {
-		// 	setTotal(1);
-		// } else if (!keyword) {
-		// 	setTotal(listRequestAPI?.data?.data?.[0]?.stage);
-		// }
 		setListRequest(
 			keyword
 				? [
@@ -146,7 +134,7 @@ const OracleRequests = () => {
 		titleSection = <TogglePageBar type='ai_requests' />;
 	}
 
-	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />; //setKeyword={setKeyword}
+	filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;
 
 	if (!listRequest?.length) {
 		oracleRequestCard = (

@@ -61,7 +61,7 @@ const DepositorsCard = memo(({ data = [] }) => {
 									<td>
 										<div className={cx("item-title")}>Amount</div>
 										<div className={cx("item-text")}>
-											{formatOrai(itemAmount[0]?.amount)} {itemAmount[0]?.denom.toUpperCase()}
+											{formatOrai(itemAmount?.amount)} {itemAmount?.denom.toUpperCase()}
 										</div>
 									</td>
 									<td>

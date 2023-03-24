@@ -40,11 +40,8 @@ export default function Basic({handleSelectFile}) {
 
 			reader.addEventListener("load", function(e) {
 				const lines = e.target.result.split("\n");
-				const {validRows, invalidRows} = validateLines(lines);
-				console.log({
-					validRows,
-					invalidRows,
-				});
+				const { validRows, invalidRows } = validateLines(lines);
+
 				if (validRows.length === 0) {
 					setInvalidRows(invalidRows);
 					return;

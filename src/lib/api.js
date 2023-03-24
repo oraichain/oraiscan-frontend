@@ -23,7 +23,6 @@ export const getBasicData = (id, currency, cancelToken) => {
 };
 
 export const getMarketChartRange = (id, currency, from, to, cancelToken) => {
-	// return axios.get(`${coinGeckoAPI}/coins/binancecoin/market_chart/range?id=${id}&vs_currency=${currency}&from=${from}&to=${to}`, {cancelToken});
 	return axios.get(`${consts.API_BASE}/market/chart?id=${id}`, { cancelToken });
 };
 
@@ -87,11 +86,6 @@ export const getListCwToken = (address, page) => {
 export const getListOWContract = (address, page) => {
 	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}${consts.API.OW20_CONTRACT}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`
 }
-
-//  original api using coingecko
-// export const getGeckoMarketChartRange = (id = "binancecoin", currency = "USD", from, to, cancelToken) => {
-// 	return axios.get(`${consts.API_COINGECKO.BASE}${consts.API_COINGECKO.GET_MARKET_CHART_RANGE(id, from, to)}`, {cancelToken});
-// };
 
 export const getGeckoMarketBalance = async (ids = '', currency = 'usd') => {
 	// remove undefined

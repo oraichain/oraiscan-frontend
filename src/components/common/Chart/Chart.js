@@ -1,19 +1,16 @@
-import React, {useMemo, useRef, useEffect} from "react";
+import React, { useMemo, useRef, useEffect } from "react";
 import HighchartsReact from "highcharts-react-official";
 import highcharts from "highcharts";
 
-import {_, formatNumber, getHours, getTime} from "src/lib/scripts";
-import {useSelector} from "src/hooks";
-import {themeIds} from "src/constants/themes";
+import { _, formatNumber, getHours, getTime } from "src/lib/scripts";
+import { useSelector } from "src/hooks";
+import { themeIds } from "src/constants/themes";
 
 import "./Chart.css";
 
-export default function({options, data, showAxis = true, displayMax = false, wrapperWidth}) {
+export default function({ options, data, showAxis = true, displayMax = false, wrapperWidth }) {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const myRef = useRef();
-	useEffect(() => {
-		// myRef.current.chart.setSize(wrapperWidth, 250);
-	}, [wrapperWidth]);
 
 	const xAxis = {
 		visible: true,
@@ -40,9 +37,6 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 	};
 	const yAxis = {
 		visible: true,
-		// opposite: true,
-		// endOnTick: true,
-		// gridLineColor: "#eeeeee",
 		labels: {
 			enabled: true,
 			align: "left",
@@ -295,10 +289,8 @@ export default function({options, data, showAxis = true, displayMax = false, wra
 					tickPositions,
 				},
 			],
-			// ...options,
 			...defaultOptions,
 		};
 	}, [options, data, displayMax, showAxis, activeThemeId]);
-	// return <HighchartsReact ref={myRef} highcharts={highcharts} options={graphOptions} containerProps={{style: {height: "100%", width: "100%"}}} />;
-	return <HighchartsReact containerProps={{className: "highchart"}} highcharts={highcharts} options={graphOptions} />;
+	return <HighchartsReact containerProps={{ className: "highchart" }} highcharts={highcharts} options={graphOptions} />;
 }

@@ -37,7 +37,6 @@ export default function({fetchAccountTxs = () => {}, balances = [], prices = [],
 	React.useEffect(() => {
 		//  check for new rows
 		if (empty(allAssets) || _.every(balances, (v, i) => mappedAssets[i]?.symbol === v?.symbol)) return;
-		console.log("mapping assets");
 		const tempAssets = _.cloneDeep(balances);
 		_.each(tempAssets, v => {
 			const found = _.find(allAssets, asset => asset.asset === v.symbol);
@@ -51,7 +50,6 @@ export default function({fetchAccountTxs = () => {}, balances = [], prices = [],
 	React.useEffect(() => {
 		if (empty(prevBalances) || _.isEqual(prevBalances, balances) || empty(mappedAssets)) return;
 		setMappedAssets(v => _.merge(v, balances));
-		// console.log("merge new values");
 	}, [balances, mappedAssets, prevBalances]);
 
 	const txTable = React.useMemo(() => <TxTable txData={txData} account={account} />, [txData, account]);

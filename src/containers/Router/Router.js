@@ -11,12 +11,12 @@ const cx = cn.bind(styles);
 const contract = config.randomnessContractAddress;
 
 const Dashboard = lazy(() => import(`src/containers/Dashboard`));
-// const Validator = lazy(() => import(`src/containers/Validator`));
 const ValidatorList = lazy(() => import(`src/containers/ValidatorList`));
 const ValidatorDetails = lazy(() => import(`src/containers/ValidatorDetails`));
 const AccountList = lazy(() => import(`src/containers/AccountList`));
 const Block = lazy(() => import(`src/containers/Block`));
-const BlockList = lazy(() => import(`src/containers/BlockList`));
+// const BlockList = lazy(() => import(`src/containers/BlockList`));
+const BlockList = lazy(() => import(`src/containers/BlockListV2`));
 const TxList = lazy(() => import(`src/containers/TxList`));
 const Tx = lazy(() => import(`src/containers/Tx`));
 const NotFound = lazy(() => import(`src/containers/NotFound`));
@@ -36,8 +36,6 @@ const VerifiedContracts = lazy(() => import(`src/containers/VerifiedContracts`))
 const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
-// const Executors = lazy(() => import('src/containers/Executors'));
-// const OracleRequests = lazy(() => import(`src/containers/OracleRequests`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
 const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 const Randomness = lazy(() => import(`src/components/Randomness`));
@@ -76,11 +74,8 @@ export default function(props) {
 					<Route path='/ai_requests/:id/report' component={RequestReportDetail} />
 					<Route path='/ai_requests/:id' component={RequestDetails} />
 					<Route path='/ai_requests' component={Requests} />
-					{/* <Route path='/ai-requests' component={OracleRequests} /> */}
 					<Route path='/ai-oracle' component={OracleAI} />
-					{/* <Route path='/ai-executors' component={Executors} /> */}
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
-					{/* <Route path='/oracle-scripts' component={OracleScripts} /> */}
 					<Route path='/wallet' component={Wallet} />
 					<Route path='/price-feeds' component={PriceFeeds} />
 					<Route path={`/randomness/:contract/:round`} component={RandomnessDetail} />

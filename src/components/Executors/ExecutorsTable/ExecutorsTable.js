@@ -1,11 +1,8 @@
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {formatOrai} from "src/helpers/helper";
-import {_, reduceString, reduceStringAssets} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import React, {memo, useMemo} from "react";
 import ThemedTable from "src/components/common/ThemedTable";
+import {tableThemes} from "src/constants/tableThemes";
+import {_} from "src/lib/scripts";
 import styles from "./ExecutorsTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -16,9 +13,9 @@ export const getHeaderRow = () => {
 	const activeHeaderCell = <div className={cx("header-cell", "align-right")}>Active</div>;
 	const headerCells = [publicKeyHeaderCell, executingHeaderCell, activeHeaderCell];
 	const headerCellStyles = [
-		{minWidth: "140px"}, // Name
-		{minWidth: "80px"}, // Index
-		{minWidth: "80px"}, // Active
+		{width: "72%"}, // Name
+		{width: "14%"}, // Index
+		{width: "14%"}, // Active
 	];
 
 	return {
@@ -38,7 +35,6 @@ const ExecutorsTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<div className={cx("align-left")}>
-					{/* {reduceStringAssets(item.pubkey, 30, 0)} */}
 					{item.pubkey}
 				</div>
 			);

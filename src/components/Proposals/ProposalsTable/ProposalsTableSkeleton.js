@@ -12,42 +12,48 @@ const ProposalsTableSkeleton = memo(({rows = 10}) => {
 		let dataRows = [];
 		for (let i = 1; i <= rows; i++) {
 			const idDataCell = (
-				<div className={cx("align-left")}>
-					<Skeleton variant='text' width={25} height={21} className={cx("skeleton")} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-left")}>
+					<Skeleton />
 				</div>
 			);
 
 			const titleDataCell = (
-				<div className={cx("align-left")}>
-					<Skeleton variant='text' height={24} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-left")}>
+					<Skeleton  />
 				</div>
 			);
 
 			const statusDataCell = (
-				<div className={cx("align-center")}>
-					<Skeleton variant='text' width={70} height={24} className={cx("skeleton")} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-center")}>
+					<Skeleton/>
 				</div>
 			);
 
 			const votingStartDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' width={130} height={21} className={cx("skeleton")} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
 				</div>
 			);
 
 			const submitTimeDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' width={130} height={21} className={cx("skeleton")} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
 				</div>
 			);
 
 			const totalDepositDataCell = (
-				<div className={cx("align-right")}>
-					<Skeleton variant='text' width={100} height={21} className={cx("skeleton")} />
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
 				</div>
 			);
 
-			dataRows.push([idDataCell, titleDataCell, statusDataCell, votingStartDataCell, submitTimeDataCell, totalDepositDataCell]);
+			const voteDepositDataCell = (
+				<div style={{height: 43}} className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
+				</div>
+			);
+
+			dataRows.push([idDataCell, titleDataCell, statusDataCell, votingStartDataCell, submitTimeDataCell, totalDepositDataCell, voteDepositDataCell]);
 		}
 		return dataRows;
 	};

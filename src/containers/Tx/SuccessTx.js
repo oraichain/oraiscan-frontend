@@ -1,27 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useRef} from "react";
-import {useParams, useLocation} from "react-router-dom";
-import {useGet} from "restful-react";
-import cn from "classnames/bind";
-import PropTypes from "prop-types";
+import Container from "@material-ui/core/Container";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Container from "@material-ui/core/Container";
-import _ from "lodash";
-import consts from "src/constants/consts";
-import {decodeTx} from "src/helpers/helper";
-import PageTitle from "src/components/common/PageTitle";
+import cn from "classnames/bind";
+import {useParams} from "react-router-dom";
+import NavigateBackBar from "src/components/common/NavigateBackBar";
 import NotFound from "src/components/common/NotFound";
+import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import TogglePageBar from "src/components/common/TogglePageBar";
-import NavigateBackBar from "src/components/common/NavigateBackBar";
-import TxInfo from "src/components/Tx/TxInfo";
-import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import TxData from "src/components/Tx/TxData";
 import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
-import {useGetTx} from "./useGetTx";
+import TxInfo from "src/components/Tx/TxInfo";
+import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import styles from "./Tx.module.scss";
+import {useGetTx} from "./useGetTx";
 
 const cx = cn.bind(styles);
 

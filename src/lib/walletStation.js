@@ -6,7 +6,7 @@ import { GasPrice, AminoTypes } from "@cosmjs/stargate";
 import { Decimal } from '@cosmjs/math';
 import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
 import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
-import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgBeginRedelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { Any } from "cosmjs-types/google/protobuf/any";
@@ -270,7 +270,6 @@ export default class WalletStation {
                 contract,
                 msg: Buffer.from(msg),
                 sender,
-                // funds, 
             })
         }
         return this.signAndBroadCast(sender, [message]);

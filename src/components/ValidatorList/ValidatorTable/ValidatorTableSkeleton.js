@@ -65,14 +65,15 @@ const getHeaderRow = () => {
 		delegateHeaderCell,
 	];
 	const headerCellStyles = [
-		{width: "40px"}, // Rank
-		{minWidth: "180px"}, // Validator
-		{width: "160px"}, // Voting Power
-		{width: "240px"}, // Cumulative Share
-		{width: "110px"}, // Uptime
-		{width: "140px"}, // Commission
-		{width: "110px"}, // EstAPRCell
-		{width: "80px"}, // Delegate
+		{width: "5.4%"}, // Rank
+		{width: "17.7%"}, // Validator
+		{width: "11.8%"}, // Voting Power
+		{width: "13.1%"}, // Self Bonded
+		{width: "12.3%"}, // Cumulative Share
+		{width: "9%"}, // Uptime
+		{width: "11.7%"}, // Commission
+		{width: "9%"}, // EstAPRCell
+		{width: "10%"}, // Delegate
 	];
 	return {
 		headerCells,

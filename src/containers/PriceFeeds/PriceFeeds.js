@@ -32,7 +32,6 @@ const PriceFeeds = ({}) => {
 	const [data, setData] = useState({
 		data: [],
 	});
-	console.log(data, "THIS DATA");
 	const [renewPriceFeed, setRenewPriceFeed] = useState(0);
 
 	let titleSection;
@@ -74,7 +73,6 @@ const PriceFeeds = ({}) => {
 			try {
 				setIsLoading(true);
 				const data = await getPriceBSCTestnet(pricePair);
-				console.log(data, "sadsadasdas");
 				networkRef.current === priceFeedNetworks.BSC_TESTNET && setData(data);
 				setIsLoading(false);
 			} catch (e) {
@@ -107,27 +105,7 @@ const PriceFeeds = ({}) => {
 	}, [renewPriceFeed, network]);
 
 	useEffect(() => {
-		// const url = process.env.REACT_APP_WEBSOCKET_URL || `wss://rpc.orai.io/websocket`;
-		// const socket = new WebSocket(url);
-		// socket.onopen = () => {
-		// 	socket.send(
-		// 		JSON.stringify({
-		// 			jsonrpc: "2.0",
-		// 			method: "subscribe",
-		// 			params: [`message.action='set_ai_request'`],
-		// 			id: 1,
-		// 		})
-		// 	);
-		// };
-
 		let i = 0;
-
-		// socket.onmessage = res => {
-		// 	const data = JSON.parse(res.data);
-		// 	console.log(data);
-		// 	i && setRenewPriceFeed(v => v + 1);
-		// 	i++;
-		// };
 
 		const renewPriceInterval = setInterval(() => {
 			i && setRenewPriceFeed(v => v + 1);

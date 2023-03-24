@@ -157,14 +157,6 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 
 	const bigValue = new BigNumber(value);
 	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
-
-	// if (`${value}`.length > 9) {
-	// 	const bigValue = new BigNumber(value);
-	// 	result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
-	// } else {
-	// 	result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
-	// }
-
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
 export const formatNumber = value => {
@@ -201,7 +193,6 @@ export const calRemainingTime = time => {
 	const x = new moment();
 	const y = new moment(time);
 	const duration = moment.duration(y.diff(x));
-	console.log("duration", duration);
 	let result = "0s";
 	if (duration._data.years) result = `${duration._data.years} years`;
 	else if (duration._data.months) result = `${duration._data.months} months`;
@@ -296,12 +287,31 @@ export const calculateInflationFromApr = async () => {
 	let { bonded_tokens } = (await fetchData("cosmos/staking/v1beta1/pool")).pool;
 	const { community_tax, base_proposer_reward, bonus_proposer_reward } = (await fetchData("cosmos/distribution/v1beta1/params")).params;
 	const voteMultiplier = 1 - parseFloat(community_tax) - (parseFloat(base_proposer_reward) + parseFloat(bonus_proposer_reward));
-	const blockRevision = valRewardPerBlock / (VAL_VOTING_POWER / bonded_tokens * voteMultiplier);
+	const blockRevision = valRewardPerBlock / ((VAL_VOTING_POWER / bonded_tokens) * voteMultiplier);
 
 	const totalSupply = (await fetchData("cosmos/bank/v1beta1/supply/orai")).amount.amount;
 	const { blocks_per_year } = (await fetchData("cosmos/mint/v1beta1/params")).params;
 	const inflationRate = blockRevision / (totalSupply / blocks_per_year);
 
-	console.log("inflation rate needed: ", inflationRate)
 	return inflationRate * 100; // display in percentage
+};
+
+
+// check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
+export const getDecimals = (denom = "") => {
+	const decimalsCosmos = 6;
+	const decimalsEthBsc = 18;
+	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos
+}
+
+export const checkAttributeEvents = (rawLog = "[]", key = 'send_packet') => {
+	try {
+		if (!rawLog) return false;
+		const parseRawLog = JSON.parse(rawLog);
+		const findSendPack = parseRawLog?.[0]?.events?.find(e => e.type == key);
+		if (!findSendPack) return false;
+		return true;
+	} catch (error) {
+		return false;
+	}
 }
