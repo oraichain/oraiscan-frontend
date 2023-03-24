@@ -73,7 +73,7 @@ const Account = props => {
 	}, [balanceData]);
 
 	const fetchData = async () => {
-		let arrayCoin = [];
+		let arrayCoin = "";
 		if (arrayAssetSearch[assetSearch] === "cw20") {
 			if (balanceData.length > 0) {
 				arrayCoin = balanceData.reduce((acc, cur) => {
