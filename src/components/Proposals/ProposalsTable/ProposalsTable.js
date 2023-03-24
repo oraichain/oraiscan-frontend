@@ -99,7 +99,7 @@ const ProposalsTable = memo(({ data = [], type = null }) => {
 					statusIcon = <VotingPeriodIcon className={cx("status-icon-voting-period")}></VotingPeriodIcon>;
 					statusText = "Voting Period";
 					break;
-				case "PROPOSAL_STATUS_REJECTED":
+				case "PROPOSAL_STATUS_UNSPECIFIED":
 					statusStateClassName = "status-unspecified";
 					statusIcon = <UnspecifiedIcon className={cx("status-icon-unspecified")}></UnspecifiedIcon>;
 					statusText = "Unspecified";

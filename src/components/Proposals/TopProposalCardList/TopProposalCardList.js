@@ -57,7 +57,7 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 							statusIcon = <VotingPeriodIcon className={cx("proposal-status-icon-voting-period")}></VotingPeriodIcon>;
 							statusText = "Voting Period";
 							break;
-						case "PROPOSAL_STATUS_REJECTED":
+						case "PROPOSAL_STATUS_UNSPECIFIED":
 							statusStateClassName = "proposal-status-unspecified";
 							statusIcon = <UnspecifiedIcon className={cx("proposal-status-icon-unspecified")}></UnspecifiedIcon>;
 							statusText = "Unspecified";
@@ -92,7 +92,7 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 							statusIcon = <VotingPeriodIcon className={cx("proposal-status-icon-voting-period")}></VotingPeriodIcon>;
 							statusText = "Voting Period";
 							break;
-						case "PROPOSAL_STATUS_REJECTED":
+						case "PROPOSAL_STATUS_UNSPECIFIED":
 							statusStateClassName = "proposal-status-unspecified";
 							statusIcon = <UnspecifiedIcon className={cx("proposal-status-icon-unspecified")}></UnspecifiedIcon>;
 							statusText = "Unspecified";
@@ -100,7 +100,7 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 						default:
 							break;
 					}
-		
+
 					return (
 						<Grid item lg={6} xs={12} key={"top-proposal-card-list-item-" + index}>
 							<div className={cx("top-proposal-card")}>
@@ -133,7 +133,7 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 														</NavLink>
 													</td>
 												</tr>
-												
+
 												<tr>
 													<td>
 														<div className={cx("item-title")}>Voting Start</div>
