@@ -8,10 +8,6 @@
 	box-sizing: border-box;
 	border-radius: 8px;
 
-	@include media("<medium") {
-		margin-bottom: 20px;
-	}
-
 	&-item {
 		margin: 10px 10px;
 
@@ -42,6 +38,15 @@
 			font-weight: bold;
 			font-size: 14px;
 			line-height: 150%;
+		}
+	}
+	@include media("<medium") {
+		margin-bottom: 20px;
+		flex-wrap: wrap;
+		&-item {
+			&:first-child {
+				margin-left: 10px;
+			}
 		}
 	}
 }

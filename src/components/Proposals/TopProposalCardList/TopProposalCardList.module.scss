@@ -38,6 +38,7 @@
 				font-size: 14px;
 				line-height: 150%;
 				margin-right: 5px;
+
 				@media screen and (min-width: 1280px) {
 					font-size: 16px;
 				}
@@ -47,9 +48,10 @@
 				color: var(--proposals-topProposalCard-textTitleColor);
 				font-family: "IBM Plex Sans";
 				font-style: normal;
-				font-weight: bold;
+				font-weight: 500;
 				font-size: 14px;
 				line-height: 150%;
+
 				@media screen and (min-width: 1280px) {
 					font-size: 16px;
 				}
@@ -66,9 +68,11 @@
 
 				&-icon {
 					display: inline-block;
+
 					&-passed {
 						color: var(--proposals-proposalTable-statusPassedTextColor);
 					}
+
 					&-rejected {
 						color: var(--proposals-proposalTable-statusRejectedTextColor);
 					}
@@ -103,6 +107,7 @@
 				&-passed {
 					border: 1px solid var(--proposals-proposalTable-statusPassedBorderColor);
 					background-color: var(--proposals-proposalTable-statusPassedBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusPassedTextColor);
 					}
@@ -111,6 +116,7 @@
 				&-rejected {
 					border: 1px solid var(--proposals-proposalTable-statusRejectedBorderColor);
 					background-color: var(--proposals-proposalTable-statusRejectedBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusRejectedTextColor);
 					}
@@ -119,6 +125,7 @@
 				&-unspecified {
 					border: 1px solid var(--proposals-proposalTable-statusUnspecifiedBorderColor);
 					background-color: var(--proposals-proposalTable-statusUnspecifiedBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusUnspecifiedTextColor);
 					}
@@ -127,6 +134,7 @@
 				&-deposit-period {
 					border: 1px solid var(--proposals-proposalTable-statusDepositPeriodBorderColor);
 					background-color: var(--proposals-proposalTable-statusDepositPeriodBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusDepositPeriodTextColor);
 					}
@@ -135,6 +143,7 @@
 				&-voting-period {
 					border: 1px solid var(--proposals-proposalTable-statusVotingPeriodBorderColor);
 					background-color: var(--proposals-proposalTable-statusVotingPeriodBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusVotingPeriodTextColor);
 					}
@@ -143,6 +152,7 @@
 				&-failed {
 					border: 1px solid var(--proposals-proposalTable-statusFailedBorderColor);
 					background-color: var(--proposals-proposalTable-statusFailedBackgroundColor);
+
 					.proposal-status-text {
 						color: var(--proposals-proposalTable-statusFailedTextColor);
 					}
@@ -152,6 +162,7 @@
 
 		&-body-wrapper {
 			display: flex;
+
 			@include media("<medium") {
 				flex-direction: column;
 			}
@@ -159,6 +170,7 @@
 
 		&-chart {
 			width: 35%;
+
 			@include media("<medium") {
 				width: 100%;
 			}
@@ -168,19 +180,24 @@
 			width: 65%;
 			display: flex;
 			align-items: center;
+
 			@include media("<medium") {
 				width: 100%;
 			}
+
 			table {
 				width: 90%;
+
 				tr {
 					td {
 						padding: 5px 0 !important;
 					}
+
 					td:nth-child(1) {
 						text-align: left;
 						width: 40%;
 					}
+
 					td:nth-child(2) {
 						text-align: right;
 						width: 60%;
@@ -245,6 +262,7 @@
 
 			.item-text-proposer {
 				color: var(--common-linkColor);
+
 				@media screen and (max-width: 480px) {
 					font-size: 13px;
 				}

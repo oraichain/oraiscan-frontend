@@ -17,7 +17,7 @@ const ChartCard = memo(({data}) => {
 		<div className={cx("chart-card")}>
 			<div className={cx("chart-card-body")}>
 				<DonutChart
-					startAngle={-90}
+					// startAngle={-90}
 					width={144}
 					height={144}
 					outerRadius={0.95}

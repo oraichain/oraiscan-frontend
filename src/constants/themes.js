@@ -74,13 +74,15 @@ const colors = {
 	STATUS_VOTING_PERIOD_DARK: "#B4FBEE",
 	STATUS_FAIL_DARK: "#EEAFAC",
 	PAGINGNATION_TEXT_DARK: "#EBEAEF",
-	PAGINGNATION_ACTIVE_TEXT_DARK: "#BDAFE2",
+	PAGINGNATION_ACTIVE_TEXT_DARK: "#8A77FF",
 	SEPARATE_LINE_DARK: "#423F5A",
-	BLACK_SQUEEZE:"#F6F9FB",
+	BLACK_SQUEEZE: "#F6F9FB",
 	HOVER_DARK: "#403845",
 	BOX_SHADOW_LIGHT: "rgba(174, 195, 210, 0.25)",
 	TEXT_TITLE_PROPOSAL_LIGHT: "#553BB3",
-	TEXT_TITLE_PROPOSAL_DARK: "#A095FF"
+	TEXT_TITLE_PROPOSAL_DARK: "#A095FF",
+	GREY_COLOR_DARK: "#AFAFAF",
+	GREY_COLOR_LIGHT: "#656565",
 };
 
 export const themes = {
@@ -113,6 +115,7 @@ export const themes = {
 					separateLine: colors.SEPARATE_LINE_DARK,
 					disableColor: colors.PURPLE_1,
 					boxShadowColor: "none",
+					timeAgoColor: colors.GREY_COLOR_DARK,
 					modal: {
 						modalCommonTextColor: colors.PERANO,
 						modalCommonBorderColor: colors.PERANO,
@@ -196,7 +199,7 @@ export const themes = {
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
-							textTitleColor: colors.TEXT_TITLE_PROPOSAL_DARK
+							textTitleColor: colors.TEXT_TITLE_PROPOSAL_DARK,
 						},
 						proposalTable: {
 							statusRejectedTextColor: colors.STATUS_REJECTED_DARK,
@@ -240,8 +243,7 @@ export const themes = {
 								statusPendingColor: colors.YELLOW_SEA,
 								ownerTextColor: colors.MINT_GREEN,
 							},
-							getCode: {
-							},
+							getCode: {},
 						},
 					},
 					oracleScripts: {
@@ -252,8 +254,7 @@ export const themes = {
 								statusPendingColor: colors.YELLOW_SEA,
 								ownerTextColor: colors.MINT_GREEN,
 							},
-							getCode: {
-							},
+							getCode: {},
 						},
 					},
 					requests: {
@@ -333,6 +334,7 @@ export const themes = {
 					backGroundColorGray: colors.GRAY,
 					separateLine: colors.GAINSBORO,
 					boxShadowColor: colors.BOX_SHADOW_LIGHT,
+					timeAgoColor: colors.GREY_COLOR_LIGHT,
 					modal: {
 						modalCommonTextColor: colors.MEDIUM_STATE_BLUE,
 						modalCommonBorderColor: colors.MEDIUM_STATE_BLUE,
@@ -418,7 +420,7 @@ export const themes = {
 							graphColor_no: colors.VIKING, // not sure, lack of design
 							graphColor_abstain: colors.ROMANTIC, // not sure, lack of design
 							graphColor_nowithveto: colors.MAGIC_MINT, // not sure, lack of design
-							textTitleColor: colors.TEXT_TITLE_PROPOSAL_LIGHT
+							textTitleColor: colors.TEXT_TITLE_PROPOSAL_LIGHT,
 						},
 						proposalTable: {
 							statusRejectedTextColor: colors.VIOLET_RED,
@@ -475,8 +477,7 @@ export const themes = {
 								statusPendingColor: colors.YELLOW_SEA,
 								ownerTextColor: colors.MINT_GREEN,
 							},
-							getCode: {
-							},
+							getCode: {},
 						},
 					},
 					requests: {

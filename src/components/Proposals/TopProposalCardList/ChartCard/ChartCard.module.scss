@@ -7,6 +7,10 @@
 	:global {
 		.donutchart {
 			cursor: pointer;
+			path {
+				opacity: 1;
+				stroke-width: 2;
+			}
 		}
 		.donutchart-innertext {
 			font-weight: bold;

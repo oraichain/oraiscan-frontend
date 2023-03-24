@@ -155,7 +155,6 @@ const OracleRequests = () => {
 	) : (
 		<></>
 	);
-	console.log("OracleRequests");
 
 	return (
 		<>
