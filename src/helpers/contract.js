@@ -93,11 +93,11 @@ export const getProperties = (jsValidator, schema) => {
 	};
 };
 
-export const handleQueryContract = query => {
-	if (query) {
-		const { fieldList, fieldName } = query;
+export const processMsgInput = async msg => {
+	if (msg) {
+		const { fieldList, fieldName } = msg;
 
-		const msgQuery = {
+		const msgObj = {
 			[fieldName]: {},
 		};
 
@@ -106,26 +106,24 @@ export const handleQueryContract = query => {
 
 			if (!isError) {
 				item.value &&
-					_.assign(msgQuery[fieldName], {
+					_.assign(msgObj[fieldName], {
 						[item.fieldName]: parseValue(item),
 					});
 				return;
 			}
 
 			_.assign(item, { isError });
-			msgQuery[fieldName] = null;
+			msgObj[fieldName] = null;
 		});
 
-		console.log(msgQuery, fieldList);
-
-		if (msgQuery[fieldName]) {
-			alert(JSON.stringify(msgQuery));
-			// query(msgQuery, query);
+		if (msgObj[fieldName]) {
+			return msgObj;
 		}
 	}
 };
 
 export const makeSchemaInput = (jsValidator, schemas) => {
+	if (!schemas) return [];
 	return schemas
 		.map(msg => {
 			try {
@@ -136,5 +134,5 @@ export const makeSchemaInput = (jsValidator, schemas) => {
 				return null;
 			}
 		})
-		.filter(list => list && list?.fieldName !== "download_logo"); // ignore case download_logo - CW20
+		.filter(list => list?.fieldName !== "download_logo"); // ignore case download_logo - CW20
 };

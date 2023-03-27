@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import { Button, Collapse } from "@material-ui/core";
 import VectorIcon from "src/icons/VectorIcon";
 import { Validator } from "jsonschema";
-import { handleQueryContract, makeSchemaInput } from "./utils";
+import { makeSchemaInput } from "src/helpers/contract";
 
 const heightDefault = 300;
 const heightCollase = 600;
@@ -144,14 +144,61 @@ export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayLis
 	);
 };
 
-export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, label, msg, activeThemeId }) => {
+const HandleItemContract = ({ schema, onHandle, handleText }) => {
+	const [root, setRoot] = useState([]);
+
+	useEffect(() => {
+		const jsValidator = new Validator();
+		jsValidator.addSchema(schema);
+		setRoot(makeSchemaInput(jsValidator, schema?.oneOf));
+	}, [schema]);
+
+	return (
+		<div>
+			{root.map((msg, index) => {
+				console.log(msg);
+				return (
+					<div key={msg.fieldName}>
+						<div className={cx("label")}>
+							{index + 1}. {msg.fieldName}
+						</div>
+
+						{msg.fieldList.map((item, subInd) => {
+							return (
+								<div className={cx("label")} key={item.fieldName}>
+									{item.isRequired ? "*" : ""}
+									<input
+										onChange={e => {
+											const newMsg = { ...msg };
+											const newRoot = [...root];
+											newMsg.fieldList[subInd].value = e.target.value.trim();
+											newRoot[index] = newMsg;
+											setRoot(newRoot);
+										}}
+										className={cx("text-field")}
+										type={item.type}
+										value={item.value}
+										placeholder={`${item.fieldName} (${item.type})`}
+									/>
+								</div>
+							);
+						})}
+						<Button
+							onClick={() => {
+								onHandle?.(msg);
+							}}
+							variant='contained'>
+							{handleText}
+						</Button>
+					</div>
+				);
+			})}
+		</div>
+	);
+};
+
+export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, onQuery, onExecute, label, msg, activeThemeId }) => {
 	const [height, setHeight] = useState(false);
-
-	const jsValidator = new Validator();
-	const jsonReadContract = msg.query || msg;
-	jsValidator.addSchema(jsonReadContract);
-
-	const root = jsonReadContract ? makeSchemaInput(jsValidator, jsonReadContract.oneOf) : [];
 
 	return (
 		<div className={cx("items-code")}>
@@ -189,42 +236,11 @@ export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHea
 					</div>
 				</Grid>
 			</Grid>
-			<div>
-				{root.map((msg, index) => {
-					return (
-						<div key={msg.fieldName}>
-							<div className={cx("label")}>
-								{index + 1}. {msg.fieldName}
-							</div>
 
-							{msg.fieldList.map(item => {
-								return (
-									<div className={cx("label")} key={item.fieldName}>
-										{item.isRequired ? "*" : ""}
+			<HandleItemContract handleText='Query' schema={msg.query} onHandle={onQuery} />
 
-										<input
-											onChange={e => {
-												item.value = e.target.value;
-											}}
-											className={cx("text-field")}
-											type={item.type}
-											value={item.value}
-											placeholder={`${item.fieldName} (${item.type})`}
-										/>
-									</div>
-								);
-							})}
-							<Button
-								onClick={() => {
-									handleQueryContract(msg);
-								}}
-								variant='contained'>
-								Query
-							</Button>
-						</div>
-					);
-				})}
-			</div>
+			<HandleItemContract handleText='Execute' schema={msg.execute} onHandle={onExecute} />
+
 			<div className={cx("source")}>
 				<div className={cx("data")} style={{ maxHeight: !height ? heightDefault : heightCollase, overflow: "auto" }}>
 					{msg && (
@@ -325,14 +341,16 @@ ItemContract.propTypes = {
 	onClickLinkChain: PropTypes.func,
 	onClickDownArrow: PropTypes.func,
 	label: PropTypes.string,
-	msg: PropTypes.string,
+	msg: PropTypes.object,
+	onQuery: PropTypes.func,
+	onExecute: PropTypes.func,
 };
 
 ItemContract.defaultProps = {
 	linkChain: false,
 	leftHeader: undefined,
 	label: "",
-	msg: "",
+	msg: {},
 	onClickCopy: () => {},
 	onClickLinkChain: () => {},
 	onClickDownArrow: () => {},
