@@ -14,7 +14,7 @@ export default Object.freeze({
 		TX: tx => `/tx/${tx}?format=json`,
 	},
 	API_COINGECKO: {
-		PRICE: (ids, currency) => `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${currency}`,
+		PRICE: (ids, currency) => `https://price.market.orai.io/simple/price?ids=${ids}&vs_currencies=${currency}`,
 	},
 	COIN_ID: "oraichain-token",
 	AIRI_ID: "airight",
