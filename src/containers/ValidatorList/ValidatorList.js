@@ -133,21 +133,16 @@ const ValidatorList = () => {
 		</div>
 	);
 
-	/**
-	 * just rerender table validator when loading or change type active isActiveValidator
-	 */
-	useMemo(() => {
-		if (loading) {
-			tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
+	if (loading) {
+		tableSection = isLargeScreen ? <ValidatorTableSkeleton /> : <ValidatorCardListSkeleton />;
+	} else {
+		if (error) {
+			tableSection = <NoResult />;
 		} else {
-			if (error) {
-				tableSection = <NoResult />;
-			} else {
-				const data = isActiveValidator ? onValidators("") : onValidators("inactive");
-				tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data} />;
-			}
+			const data = isActiveValidator ? onValidators("") : onValidators("inactive");
+			tableSection = isLargeScreen ? <ValidatorTable data={data} /> : <ValidatorCardList data={data} />;
 		}
-	}, [loading, isActiveValidator]);
+	}
 
 	return (
 		<>
