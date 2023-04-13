@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
 import {tableThemes} from "src/constants/tableThemes";
-import {_} from "src/lib/scripts";
+import {_, reduceString} from "src/lib/scripts";
 import ThemedTable from "src/components/common/ThemedTable";
 import SourceViewer from "src/components/common/SourceViewer";
 import styles from "./SmartContractTable.module.scss";
@@ -47,7 +47,7 @@ const SmartContractTable = memo(({data = []}) => {
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${item.address}`}>
-					{item.address}
+					{reduceString(item.address, 6, 6)}
 				</NavLink>
 			);
 
