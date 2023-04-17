@@ -144,56 +144,89 @@ export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayLis
 	);
 };
 
-const HandleItemContract = ({ schema, onHandle, handleText }) => {
+export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab }) => {
 	const [root, setRoot] = useState([]);
-
+	const [state, setState] = useState({});
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		const jsValidator = new Validator();
 		jsValidator.addSchema(schema);
 		setRoot(makeSchemaInput(jsValidator, schema?.oneOf));
 	}, [schema]);
 
+	useMemo(() => {
+		const obj = root && root.reduce(
+			(acc, _, index) => {
+				return { ...acc, [index + 1]: activeTab }
+			},
+			{}
+		);
+		setState(obj);
+	}, [activeTab]);
+
 	return (
 		<div>
 			{root.map((msg, index) => {
-				console.log(msg);
 				return (
-					<div key={msg.fieldName}>
-						<div className={cx("label")}>
-							{index + 1}. {msg.fieldName}
-						</div>
-
-						{msg.fieldList.map((item, subInd) => {
-							return (
-								<div className={cx("label")} key={item.fieldName}>
-									{item.isRequired ? "*" : ""}
-									<input
-										onChange={e => {
-											const newMsg = { ...msg };
-											const newRoot = [...root];
-											newMsg.fieldList[subInd].value = e.target.value.trim();
-											newRoot[index] = newMsg;
-											setRoot(newRoot);
-										}}
-										className={cx("text-field")}
-										type={item.type}
-										value={item.value}
-										placeholder={`${item.fieldName} (${item.type})`}
-									/>
+					<div className={cx("items")}>
+						<div className={cx("header")} onClick={() => setState({
+							...state,
+							[index + 1]: !state[index + 1]
+						})}>
+							<div className={cx("label")}>{index + 1}. {msg.fieldName}</div>
+							<div className={cx("icon")}>
+								<div onClick={() => onClickCopy(msg.fieldName)}>
+									<CopyVerifiedIcon />
 								</div>
-							);
-						})}
-						<Button
-							onClick={() => {
-								onHandle?.(msg);
-							}}
-							variant='contained'>
-							{handleText}
-						</Button>
-					</div>
-				);
+								<div style={{ width: 16 }} />
+								<div onClick={() =>
+									setState({
+										...state,
+										[index + 1]: !state[index + 1]
+									})
+								}>
+									<DownArrowIcon className={cx("link")} style={{ transform: !state[index + 1] ? "rotate(0deg)" : "rotate(180deg)" }} />
+								</div>
+							</div>
+						</div>
+						<Collapse in={state[index + 1]}>
+							<div className={cx("value")}>
+								{msg.fieldList.map((item, subInd) =>
+									<div className={cx("input")}>
+										{item.isRequired ? "*" : ""}
+										<input
+											onChange={e => {
+												const newMsg = { ...msg };
+												const newRoot = [...root];
+												newMsg.fieldList[subInd].value = e.target.value.trim();
+												newRoot[index] = newMsg;
+												setRoot(newRoot);
+											}}
+											className={cx("text-field")}
+											type={item.type}
+											value={item.value}
+											placeholder={`${item.fieldName} (${item.type})`}
+										/>
+									</div>
+								)}
+								<div className={cx("btn")}>
+									<Button variant='contained' onClick={() => {
+										if (loading) return;
+										onHandle?.(msg, contractAddress, setLoading);
+									}}>
+										{handleText}
+									</Button>
+								</div>
+								{/* <div className={cx("vector")}>
+									<VectorIcon />
+									<span className={cx("type")}> uint256</span>
+								</div> */}
+							</div>
+						</Collapse>
+					</div >
+				)
 			})}
-		</div>
+		</div >
 	);
 };
 
@@ -236,10 +269,6 @@ export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHea
 					</div>
 				</Grid>
 			</Grid>
-
-			<HandleItemContract handleText='Query' schema={msg.query} onHandle={onQuery} />
-
-			<HandleItemContract handleText='Execute' schema={msg.execute} onHandle={onExecute} />
 
 			<div className={cx("source")}>
 				<div className={cx("data")} style={{ maxHeight: !height ? heightDefault : heightCollase, overflow: "auto" }}>
@@ -289,51 +318,6 @@ export const ReadWriteContract = ({ label, amount, type, status }) => {
 	);
 };
 
-export const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender, onClickCopy, status }) => {
-	const [state, setState] = useState(false);
-	useMemo(() => {
-		setState(status);
-	}, [status]);
-
-	return (
-		<div className={cx("items")}>
-			<div className={cx("header")} onClick={() => setState(!state)}>
-				<div className={cx("label")}>{label}</div>
-				<div className={cx("icon")}>
-					<div onClick={() => onClickCopy(label)}>
-						<CopyVerifiedIcon />
-					</div>
-					<div style={{ width: 16 }} />
-					<div onClick={() => setState(!state)}>
-						<DownArrowIcon className={cx("link")} style={{ transform: !state ? "rotate(0deg)" : "rotate(180deg)" }} />
-					</div>
-				</div>
-			</div>
-			<Collapse in={state}>
-				<div className={cx("value")}>
-					<div className={cx("label-contract")}>owner (address)</div>
-					<div className={cx("input")}>
-						<input type='text' className={cx("text-field")} placeholder={""} value={owner} readOnly={false} onChange={setOwner} />
-					</div>
-					<div className={cx("label-contract")}>spender (address)</div>
-					<div className={cx("input")}>
-						<input type='text' className={cx("text-field")} placeholder={""} value={spender} readOnly={false} onChange={setSpender} />
-					</div>
-					<div className={cx("btn")}>
-						<Button variant='contained' onClick={onClick}>
-							Query
-						</Button>
-					</div>
-					<div className={cx("vector")}>
-						<VectorIcon />
-						<span className={cx("type")}> uint256</span>
-					</div>
-				</div>
-			</Collapse>
-		</div>
-	);
-};
-
 ItemContract.propTypes = {
 	linkChain: PropTypes.bool,
 	leftHeader: PropTypes.element,
@@ -351,7 +335,7 @@ ItemContract.defaultProps = {
 	leftHeader: undefined,
 	label: "",
 	msg: {},
-	onClickCopy: () => {},
-	onClickLinkChain: () => {},
-	onClickDownArrow: () => {},
+	onClickCopy: () => { },
+	onClickLinkChain: () => { },
+	onClickDownArrow: () => { },
 };
