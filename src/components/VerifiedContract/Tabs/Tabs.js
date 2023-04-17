@@ -14,12 +14,12 @@ export default function ({ activeTab, setActiveTab, address, keyword, setKeyword
 				<div className={cx("tab", activeTab === 0 ? "active" : "")} onClick={() => setActiveTab(0)}>
 					<div className={cx("tab-text")}>Code</div>
 				</div>
-				{/* <div className={cx("tab", activeTab === 1 ? "active" : "")} onClick={() => setActiveTab(1)}>
+				<div className={cx("tab", activeTab === 1 ? "active" : "")} onClick={() => setActiveTab(1)}>
 					<div className={cx("tab-text")}>Read Contract</div>
 				</div>
 				<div className={cx("tab", activeTab === 2 ? "active" : "")} onClick={() => setActiveTab(2)}>
 					<div className={cx("tab-text")}>Write Contract</div>
-				</div> */}
+				</div>
 			</div>
 			{/* <div className={cx("search")}>
 				<SearchInput

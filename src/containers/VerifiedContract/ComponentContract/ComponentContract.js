@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 import SuccessIcon from "src/icons/SuccessIcon";
 import styles from "./ComponentContract.module.scss";
 import Grid from "@material-ui/core/Grid";
 import CopyVerifiedIcon from "src/icons/CopyContractIcon";
 import DownArrowIcon from "src/icons/DownArrowIcon";
 import BiCodeSlashIcon from "src/icons/BiCodeSlashIcon";
-import LinkChainIcon from 'src/icons/LinkChainIcon'
+import LinkChainIcon from "src/icons/LinkChainIcon";
 import classNames from "classnames/bind";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import _ from "lodash";
@@ -13,7 +13,9 @@ import ReactJson from "react-json-view";
 import { themeIds } from "src/constants/themes";
 import PropTypes from "prop-types";
 import { Button, Collapse } from "@material-ui/core";
-import VectorIcon from 'src/icons/VectorIcon';
+import VectorIcon from "src/icons/VectorIcon";
+import { Validator } from "jsonschema";
+import { makeSchemaInput } from "src/helpers/contract";
 
 const heightDefault = 300;
 const heightCollase = 600;
@@ -86,13 +88,13 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 			</Grid>
 		</div>
 	);
-}
+};
 
 export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayList }) => {
-	const handleChange = (item) => {
+	const handleChange = item => {
 		hideList();
 		setValue(item);
-	}
+	};
 	const showList = () => {
 		if (!_.isNil(refDrop.current)) {
 			refDrop.current.style.display = "block";
@@ -139,119 +141,182 @@ export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayLis
 				))}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, label, msg, activeThemeId }) => {
+export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab }) => {
+	const [root, setRoot] = useState([]);
+	const [state, setState] = useState({});
+	const [loading, setLoading] = useState(false);
+	useEffect(() => {
+		const jsValidator = new Validator();
+		jsValidator.addSchema(schema);
+		setRoot(makeSchemaInput(jsValidator, schema?.oneOf));
+	}, [schema]);
+
+	useMemo(() => {
+		const obj = root && root.reduce(
+			(acc, _, index) => {
+				return { ...acc, [index + 1]: activeTab }
+			},
+			{}
+		);
+		setState(obj);
+	}, [activeTab]);
+
+	return (
+		<div>
+			{root.map((msg, index) => {
+				return (
+					<div className={cx("items")}>
+						<div className={cx("header")} onClick={() => setState({
+							...state,
+							[index + 1]: !state[index + 1]
+						})}>
+							<div className={cx("label")}>{index + 1}. {msg.fieldName}</div>
+							<div className={cx("icon")}>
+								<div onClick={() => onClickCopy(msg.fieldName)}>
+									<CopyVerifiedIcon />
+								</div>
+								<div style={{ width: 16 }} />
+								<div onClick={() =>
+									setState({
+										...state,
+										[index + 1]: !state[index + 1]
+									})
+								}>
+									<DownArrowIcon className={cx("link")} style={{ transform: !state[index + 1] ? "rotate(0deg)" : "rotate(180deg)" }} />
+								</div>
+							</div>
+						</div>
+						<Collapse in={state[index + 1]}>
+							<div className={cx("value")}>
+								{msg.fieldList.map((item, subInd) =>
+									<div className={cx("input")}>
+										{item.isRequired ? "*" : ""}
+										<input
+											onChange={e => {
+												const newMsg = { ...msg };
+												const newRoot = [...root];
+												newMsg.fieldList[subInd].value = e.target.value.trim();
+												newRoot[index] = newMsg;
+												setRoot(newRoot);
+											}}
+											className={cx("text-field")}
+											type={item.type}
+											value={item.value}
+											placeholder={`${item.fieldName} (${item.type})`}
+										/>
+									</div>
+								)}
+								<div className={cx("btn")}>
+									<Button variant='contained' onClick={() => {
+										if (loading) return;
+										onHandle?.(msg, contractAddress, setLoading);
+									}}>
+										{handleText}
+									</Button>
+								</div>
+								{/* <div className={cx("vector")}>
+									<VectorIcon />
+									<span className={cx("type")}> uint256</span>
+								</div> */}
+							</div>
+						</Collapse>
+					</div >
+				)
+			})}
+		</div >
+	);
+};
+
+export const ItemContract = ({ linkChain, onClickCopy, onClickLinkChain, leftHeader, onClickDownArrow, onQuery, onExecute, label, msg, activeThemeId }) => {
 	const [height, setHeight] = useState(false);
+
 	return (
 		<div className={cx("items-code")}>
 			<Grid container spacing={2}>
 				<Grid item lg={6} xs={12}>
-					{label && <div className={cx("label")} >
-						<BiCodeSlashIcon /> <div style={{ width: 6 }} /> {label}
-					</div>}
+					{label && (
+						<div className={cx("label")}>
+							<BiCodeSlashIcon /> <div style={{ width: 6 }} /> {label}
+						</div>
+					)}
 				</Grid>
-				<Grid item lg={6} xs={12} >
-					<div className={cx("action-right")} >
-						{linkChain && <><div className={cx('link')} onClick={onClickLinkChain}><LinkChainIcon /></div><div style={{ width: 16 }} /></>}
-						{leftHeader ? leftHeader : <>
-							<div className={cx('link')} onClick={() => onClickCopy(msg)}><CopyVerifiedIcon /> </div>
-							<div style={{ width: 16 }} />
-							<div className={cx('link')} onClick={() => setHeight(!height)}><DownArrowIcon style={{ transform: !height ? "rotate(0deg)" : "rotate(180deg)" }} /></div></>}
+				<Grid item lg={6} xs={12}>
+					<div className={cx("action-right")}>
+						{linkChain && (
+							<>
+								<div className={cx("link")} onClick={onClickLinkChain}>
+									<LinkChainIcon />
+								</div>
+								<div style={{ width: 16 }} />
+							</>
+						)}
+						{leftHeader ? (
+							leftHeader
+						) : (
+							<>
+								<div className={cx("link")} onClick={() => onClickCopy(msg)}>
+									<CopyVerifiedIcon />{" "}
+								</div>
+								<div style={{ width: 16 }} />
+								<div className={cx("link")} onClick={() => setHeight(!height)}>
+									<DownArrowIcon style={{ transform: !height ? "rotate(0deg)" : "rotate(180deg)" }} />
+								</div>
+							</>
+						)}
 					</div>
 				</Grid>
 			</Grid>
-			<div className={cx("source")} >
-				<div className={cx("data")} style={{ maxHeight: !height ? heightDefault : heightCollase, overflow: 'auto' }}>
-					{msg && <ReactJson
-						style={{ backgroundColor: "transparent" }}
-						name={false}
-						theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-						displayObjectSize={false}
-						displayDataTypes={false}
-						src={msg}
-						collapsed={false}
-						sortKeys={true}
-						quotesOnKeys={true}
-					/>}
+
+			<div className={cx("source")}>
+				<div className={cx("data")} style={{ maxHeight: !height ? heightDefault : heightCollase, overflow: "auto" }}>
+					{msg && (
+						<ReactJson
+							style={{ backgroundColor: "transparent" }}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							src={msg}
+							collapsed={false}
+							sortKeys={true}
+							quotesOnKeys={true}
+						/>
+					)}
 				</div>
 			</div>
 		</div>
-	)
-}
-
-export const ReadWriteContract = ({ label, amount, type, status }) => {
-    const [state, setState] = useState(false);
-    useMemo(() => {
-        setState(status);
-    }, [status])
-    return (
-        <div className={cx("items")} >
-            <div className={cx("header")} onClick={() => setState(!state)}>
-                <div className={cx("label")}>{label}</div>
-                <div className={cx("icon")}>
-                    <CopyVerifiedIcon className={cx('link')} />
-                    <div style={{ width: 16 }} />
-                    <div onClick={() => setState(!state)}>
-                        <DownArrowIcon className={cx('link')} style={{ transform: !state ? "rotate(0deg)" : "rotate(180deg)" }} />
-                    </div>
-                </div>
-            </div>
-            <Collapse in={state}>
-                <div className={cx("value")}>
-                    <span className={cx("amount")}>{amount} </span>
-                    <span className={cx("type")}>{type}</span>
-                </div>
-            </Collapse>
-        </div>
-    );
+	);
 };
 
-
-export const Allowance = ({ label, onClick, owner, setOwner, spender, setSpender, onClickCopy, status }) => {
-    const [state, setState] = useState(false);
-    useMemo(() => {
-        setState(status);
-    }, [status])
-
-    return (
-        <div className={cx("items")} >
-            <div className={cx("header")}  onClick={() => setState(!state)}>
-                <div className={cx("label")}>{label}</div>
-                <div className={cx("icon")}>
-                    <div onClick={() => onClickCopy(label)}><CopyVerifiedIcon /></div>
-                    <div style={{ width: 16 }} />
-                    <div onClick={() => setState(!state)}>
-                        <DownArrowIcon className={cx('link')} style={{ transform: !state ? "rotate(0deg)" : "rotate(180deg)" }} />
-                    </div>
-                </div>
-            </div>
-            <Collapse in={state}>
-                <div className={cx("value")}>
-                    <div className={cx("label-contract")}>owner (address)</div>
-                    <div className={cx("input")}>
-                        <input type='text' className={cx("text-field")} placeholder={''} value={owner} readOnly={false} onChange={setOwner} />
-                    </div>
-                    <div className={cx("label-contract")}>spender (address)</div>
-                    <div className={cx("input")}>
-                        <input type='text' className={cx("text-field")} placeholder={''} value={spender} readOnly={false} onChange={setSpender} />
-                    </div>
-                    <div className={cx("btn")}>
-                        <Button variant='contained' onClick={onClick}>
-                            Query
-                        </Button>
-                    </div>
-                    <div className={cx("vector")}>
-                        <VectorIcon />
-                        <span className={cx("type")}> uint256</span>
-                    </div>
-                </div>
-            </Collapse>
-        </div>
-    )
-}
-
+export const ReadWriteContract = ({ label, amount, type, status }) => {
+	const [state, setState] = useState(false);
+	useMemo(() => {
+		setState(status);
+	}, [status]);
+	return (
+		<div className={cx("items")}>
+			<div className={cx("header")} onClick={() => setState(!state)}>
+				<div className={cx("label")}>{label}</div>
+				<div className={cx("icon")}>
+					<CopyVerifiedIcon className={cx("link")} />
+					<div style={{ width: 16 }} />
+					<div onClick={() => setState(!state)}>
+						<DownArrowIcon className={cx("link")} style={{ transform: !state ? "rotate(0deg)" : "rotate(180deg)" }} />
+					</div>
+				</div>
+			</div>
+			<Collapse in={state}>
+				<div className={cx("value")}>
+					<span className={cx("amount")}>{amount} </span>
+					<span className={cx("type")}>{type}</span>
+				</div>
+			</Collapse>
+		</div>
+	);
+};
 
 ItemContract.propTypes = {
 	linkChain: PropTypes.bool,
@@ -260,15 +325,17 @@ ItemContract.propTypes = {
 	onClickLinkChain: PropTypes.func,
 	onClickDownArrow: PropTypes.func,
 	label: PropTypes.string,
-	msg: PropTypes.string,
+	msg: PropTypes.object,
+	onQuery: PropTypes.func,
+	onExecute: PropTypes.func,
 };
 
 ItemContract.defaultProps = {
 	linkChain: false,
 	leftHeader: undefined,
 	label: "",
-	msg: "",
+	msg: {},
 	onClickCopy: () => { },
 	onClickLinkChain: () => { },
-	onClickDownArrow: () => { }
+	onClickDownArrow: () => { },
 };
