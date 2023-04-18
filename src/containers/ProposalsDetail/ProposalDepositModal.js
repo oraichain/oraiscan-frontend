@@ -30,7 +30,7 @@ import { handleErrorMessage } from "../../lib/scripts";
 
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function (amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "validate-deposit",
 		exclusive: false,
@@ -67,8 +67,6 @@ const ProposalDepositModal = memo(({ open, onClose, data }) => {
 	const minFee = useSelector(state => state.blockchain.minFee);
 	// const [balanceInfo, , , , ,] = useFetch(`${consts.LCD_API_BASE}${consts.LCD_API.BALANCES}/${address}?t=${Date.now()}`);
 	const [balanceInfo, setBalanceInfo] = useState({});
-	const [fee, setFee] = useState(0);
-	const [gas, setGas] = useState(200000);
 	const percents = [25, 50, 75, 100];
 	const [percent, setPercent] = useState(0);
 	const [amount, setAmount] = useState(0);
@@ -166,7 +164,7 @@ const ProposalDepositModal = memo(({ open, onClose, data }) => {
 	};
 
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return onClose();
 			}
@@ -216,9 +214,6 @@ const ProposalDepositModal = memo(({ open, onClose, data }) => {
 					<div className={cx("form-field")}>
 						<InputNumberOrai name='sendAmount' errorobj={errors} />
 					</div>
-					<div className={cx("balance-title")}> Fee </div>
-					<Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
-					<Gas gas={gas} onChangeGas={setGas} />
 				</DialogContent>
 				<DialogActions>
 					<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={onClose}>
