@@ -15,8 +15,8 @@ export const onQuery = async (msg, contract_address) => {
         const ret = await client.queryContractSmart(contract_address, input);
         return ret;
     } catch (ex) {
-        notification.error({ message: `${JSON.stringify(ex)}`, });
         console.log("onQuery msg error: ", ex);
+        return ex;
     }
 };
 
@@ -33,7 +33,7 @@ export const onExecute = async (msg, contract_address) => {
         const ret = await client.execute(accounts[0].address, contract_address, input, "auto");
         return ret;
     } catch (ex) {
-        notification.error({ message: `${JSON.stringify(ex)}`, });
-        console.log("onExecute msg error: ", ex);
+        console.log("onQuery msg error: ", ex);
+        return ex;
     }
 };
