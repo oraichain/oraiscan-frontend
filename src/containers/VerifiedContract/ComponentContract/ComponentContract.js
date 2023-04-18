@@ -144,7 +144,7 @@ export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayLis
 	);
 };
 
-export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab }) => {
+export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab, activeThemeId }) => {
 	const [root, setRoot] = useState([]);
 	const [state, setState] = useState({});
 	const [loading, setLoading] = useState(false);
@@ -232,7 +232,7 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 								{json?.[index + 1] && <ReactJson
 									style={{ backgroundColor: "transparent" }}
 									name={false}
-									theme={"monokai"}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 									displayObjectSize={false}
 									displayDataTypes={false}
 									collapsed={4}

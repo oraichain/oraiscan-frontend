@@ -16,6 +16,7 @@ const WriteContract = memo(({ data }) => {
     const { address } = useSelector(state => state.wallet);
     const history = useHistory();
     const [activeTab, setActiveTab] = useState(true);
+    const activeThemeId = useSelector(state => state.activeThemeId);
     const dispatch = useDispatch();
     const onClickCopy = (msg) => {
         copy(JSON.stringify(msg))
@@ -31,7 +32,7 @@ const WriteContract = memo(({ data }) => {
         <div className={cx("write-contract")}>
             <HeaderContract icon={<></>} onClickLink={() => address && history.push(`/account/${address}`)} label={address ? "Connect to web3" : "Connect to wallet"} activeTab={activeTab} setActiveTab={setActiveTab} />
             <div style={{ height: 16 }} />
-            <HandleItemContract handleText='Execute' setActiveTab={setActiveTab} activeTab={activeTab} onClickCopy={onClickCopy} contractAddress={data?.contract_address} schema={data?.schema?.execute} onHandle={onExecute} />
+            <HandleItemContract activeThemeId={activeThemeId} handleText='Execute' setActiveTab={setActiveTab} activeTab={activeTab} onClickCopy={onClickCopy} contractAddress={data?.contract_address} schema={data?.schema?.execute} onHandle={onExecute} />
         </div>
     );
 });
