@@ -144,10 +144,11 @@ export const DropDownContract = ({ refDrop, refSelect, value, setValue, arrayLis
 	);
 };
 
-export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab }) => {
+export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, setActiveTab, contractAddress, activeTab, activeThemeId }) => {
 	const [root, setRoot] = useState([]);
 	const [state, setState] = useState({});
 	const [loading, setLoading] = useState(false);
+	const [json, setJson] = useState({});
 	useEffect(() => {
 		const jsValidator = new Validator();
 		jsValidator.addSchema(schema);
@@ -210,13 +211,33 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 									</div>
 								)}
 								<div className={cx("btn")}>
-									<Button variant='contained' onClick={() => {
-										if (loading) return;
-										onHandle?.(msg, contractAddress, setLoading);
+									<Button variant='contained' onClick={async () => {
+										try {
+											if (loading) return;
+											setLoading(true);
+											const result = await onHandle?.(msg, contractAddress);
+											setJson({
+												...json,
+												[index + 1]: result
+											});
+										} catch (error) {
+											console.log('error: ', error);
+										} finally {
+											setLoading(false);
+										}
 									}}>
 										{handleText}
 									</Button>
 								</div>
+								{json?.[index + 1] && <ReactJson
+									style={{ backgroundColor: "transparent" }}
+									name={false}
+									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+									displayObjectSize={false}
+									displayDataTypes={false}
+									collapsed={4}
+									src={json?.[index + 1]}
+								/>}
 								{/* <div className={cx("vector")}>
 									<VectorIcon />
 									<span className={cx("type")}> uint256</span>
