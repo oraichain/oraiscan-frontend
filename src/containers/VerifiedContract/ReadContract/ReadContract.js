@@ -4,13 +4,16 @@ import styles from "./ReadContract.module.scss";
 import HeaderContract from "../HeaderContract";
 import copy from "copy-to-clipboard";
 import { showAlert } from "src/store/modules/global";
-import { useDispatch } from "react-redux";
-import { Allowance , ReadWriteContract } from '../ComponentContract';
+import { useDispatch, useSelector } from "react-redux";
+import { HandleItemContract } from '../ComponentContract';
+import { onQuery } from '../ContractInteraction';
+
 const cx = classNames.bind(styles);
 
-const ReadContract = memo(() => {
+const ReadContract = memo(({ data }) => {
     const [activeTab, setActiveTab] = useState(false);
     const dispatch = useDispatch();
+    const activeThemeId = useSelector(state => state.activeThemeId);
     const onClickCopy = (msg) => {
         copy(JSON.stringify(msg))
         dispatch(
@@ -25,9 +28,7 @@ const ReadContract = memo(() => {
         <div className={cx("read-contract")}>
             <HeaderContract label={"Read Contract Infomation"} activeTab={activeTab} setActiveTab={setActiveTab} />
             <div style={{ height: 16 }} />
-            <ReadWriteContract status={activeTab} onClickCopy={onClickCopy} label={"1.  _maxTxAmount"} type={"uint256"} amount={"10000000000000"} />
-            <ReadWriteContract status={activeTab} onClickCopy={onClickCopy} label={"2.  _maxWalletSize"} type={"uint256"} amount={"10000000000000"} />
-            <Allowance status={activeTab} onClickCopy={onClickCopy} label={"3.  allowance"} onClick={undefined} owner={undefined} setOwner={undefined} spender={undefined} setSpender={undefined} />
+            <HandleItemContract activeThemeId={activeThemeId} handleText='Query' setActiveTab={setActiveTab} activeTab={activeTab} onClickCopy={onClickCopy} contractAddress={data?.contract_address} schema={data?.schema?.query} onHandle={onQuery} />
         </div>
     );
 });
