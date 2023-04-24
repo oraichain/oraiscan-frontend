@@ -1,6 +1,6 @@
-import React, {memo, useEffect, useState} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useEffect, useState } from "react";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import Pagination from "src/components/common/Pagination";
@@ -8,13 +8,16 @@ import NoResult from "src/components/common/NoResult";
 import CwTable from "./CwTable";
 import CwTableSkeleton from "./CwTable/CwTableSkeleton";
 import CwCardSkeleton from "./CwCard/CwCardSkeleton";
-import {getListCwToken, getListOWContract} from "src/lib/api";
+import { getListCwToken, getListOWContract } from "src/lib/api";
 import CwCard from "./CwCard";
 import styles from "./CwToken.module.scss";
+import { NavLink } from "react-router-dom";
+import consts from "src/constants/consts";
+import { typeExport } from "src/containers/Account/Account";
 
 const cx = classNames.bind(styles);
 
-const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
+const CwToken = memo(({ account = "", address = "", isOw20 = false }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [dataCw, setDataCw] = useState({
@@ -24,7 +27,7 @@ const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
 			page_id: 1,
 		},
 	});
-	const {data, page} = dataCw;
+	const { data, page } = dataCw;
 	const [path, setPath] = useState(() => {
 		if (!isOw20) {
 			return getListCwToken(address, page);
@@ -32,7 +35,7 @@ const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
 		return getListOWContract(address, page);
 	});
 
-	const {data: dataRes} = useGet({
+	const { data: dataRes } = useGet({
 		path,
 	});
 
@@ -75,6 +78,13 @@ const CwToken = memo(({account = "", address = "", isOw20 = false}) => {
 				<>
 					{isLargeScreen ? <CwTable data={data} account={account} address={address} /> : <CwCard data={data} account={account} address={address} />}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
+					<span className={cx("text")}>
+						[ Download{" "}
+						<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${address}?type=${typeExport.cw20}`}>
+							CSV Export
+						</NavLink>{" "}
+						]
+					</span>
 				</>
 			) : (
 				<NoResult />
