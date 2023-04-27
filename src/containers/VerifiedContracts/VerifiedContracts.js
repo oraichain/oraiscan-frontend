@@ -189,6 +189,7 @@ const VerifiedContracts = () => {
 					github_org: data?.github_org,
 					github_repo: data?.github_repo,
 					compiler_version: data?.compiler_version,
+					contract_name: data?.contract_name
 				},
 				headers: {},
 			});
@@ -246,6 +247,13 @@ const VerifiedContracts = () => {
 							</label>
 							<input type='text' className={cx("text-field")} placeholder="orai1wgclpy30tv7300xu0rtwjs930n73h8qv5qk522" name='contract_address' ref={register} />
 							<ErrorMessage errors={errors} name='contract_address' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Contract Name
+							</label>
+							<input type='text' className={cx("text-field")} name='contract_name' placeholder="oraichain-token" ref={register} />
+							<ErrorMessage errors={errors} name='contract_name' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
