@@ -116,6 +116,7 @@ export default Object.freeze({
 		ORACLE_REQUESTS: "/oracle_requests",
 		ORACLE_REPORT: "/oracle_report",
 		EXPORT_DATA: "/account/txs_csv",
+		EXPORT_CW20_TRANSACTION: "/ow20_smart_contracts/txs_csv",
 		IBC_TOKENS: "/ibc/tokens",
 		UPLOAD_IMAGES_VALIDATORS: "/validator/update-image",
 		GET_IMAGES_VALIDATORS: "/validator-detail",
@@ -141,7 +142,7 @@ export default Object.freeze({
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/cosmwasm/wasm/v1/contract",
 		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces",
-		COMMUNITY_POOL: '/cosmos/distribution/v1beta1/community_pool',
+		COMMUNITY_POOL: "/cosmos/distribution/v1beta1/community_pool",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
@@ -169,10 +170,10 @@ export default Object.freeze({
 		DEFAULT: "m/44'/118'/0'/0/0",
 		EXAMPLE: "44/118/0/0/0",
 		PRODUCTION: "",
-		STAGING: ""
+		STAGING: "",
 	},
 	PATH_CONTRACT: {
-		LIST: '/contracts'
+		LIST: "/contracts",
 	},
 	MENU: [
 		{
@@ -216,7 +217,7 @@ export default Object.freeze({
 		WASM_CODE: "/wasm-code",
 		ORACLE_REQUEST: "/ai-request",
 		EXPORT_DATA: "/export-data",
-		VERIFIED_CONTRACT:"/verified-contract",
+		VERIFIED_CONTRACT: "/verified-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
@@ -235,11 +236,11 @@ export default Object.freeze({
 	PROPOSALS_OPTIONS: {
 		UNBONDING_TIME: "UnbondingTime",
 		VOTING_PERIOD: "votingparams",
-		DEPOSIT_PARAMS: 'depositparams',
+		DEPOSIT_PARAMS: "depositparams",
 		COMMUNITY_TAX: "communitytax",
 		INFLATION_MIN: "InflationMin",
 		INFLATION_MAX: "InflationMax",
-		TEXT_PROPOSAL: 'TextProposal',
+		TEXT_PROPOSAL: "TextProposal",
 		UPDATE_ADMIN_PROPOSAL: "UpdateAdminProposal",
 	},
 
@@ -251,7 +252,7 @@ export default Object.freeze({
 	RESULT_STATUS: {
 		SUCCESS: "success",
 		FAILURE: "failure",
-		PENDING: "pending"
+		PENDING: "pending",
 	},
 	INSTALL_KEPLR_FIRST: "You need to install OWallet or Keplr to continue.",
 });

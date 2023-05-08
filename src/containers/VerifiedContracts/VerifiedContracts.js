@@ -189,6 +189,7 @@ const VerifiedContracts = () => {
 					github_org: data?.github_org,
 					github_repo: data?.github_repo,
 					compiler_version: data?.compiler_version,
+					contract_name: data?.contract_name
 				},
 				headers: {},
 			});
@@ -244,35 +245,42 @@ const VerifiedContracts = () => {
 							<label className={cx("label")} htmlFor='title'>
 								Contract Address
 							</label>
-							<input type='text' className={cx("text-field")} name='contract_address' ref={register} />
+							<input type='text' className={cx("text-field")} placeholder="orai1wgclpy30tv7300xu0rtwjs930n73h8qv5qk522" name='contract_address' ref={register} />
 							<ErrorMessage errors={errors} name='contract_address' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Contract Name
+							</label>
+							<input type='text' className={cx("text-field")} name='contract_name' placeholder="oraichain-token" ref={register} />
+							<ErrorMessage errors={errors} name='contract_name' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Commit
 							</label>
-							<input type='text' className={cx("text-field")} name='github_commit' ref={register} />
+							<input type='text' className={cx("text-field")} placeholder="572ddabe691bb1d2fd927830e2f455e66d44cda1" name='github_commit' ref={register} />
 							<ErrorMessage errors={errors} name='github_commit' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Org
 							</label>
-							<input type='text' className={cx("text-field")} name='github_org' ref={register} />
+							<input type='text' className={cx("text-field")} name='github_org' placeholder="oraichain" ref={register} />
 							<ErrorMessage errors={errors} name='github_org' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Repo
 							</label>
-							<input type='text' className={cx("text-field")} name='github_repo' ref={register} />
+							<input type='text' className={cx("text-field")} name='github_repo' placeholder="oraiscan-frontend" ref={register} />
 							<ErrorMessage errors={errors} name='github_repo' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Compiler Version
 							</label>
-							<input type='text' className={cx("text-field")} name='compiler_version' ref={register} />
+							<input type='text' className={cx("text-field")} name='compiler_version' placeholder="cosmwasm/workspace-optimizer:0.12.10" ref={register} />
 							<ErrorMessage errors={errors} name='compiler_version' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 					</div>
