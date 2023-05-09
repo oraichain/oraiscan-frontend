@@ -28,7 +28,7 @@ import {useHistory} from "react-router-dom";
 const cx = cn.bind(styles);
 
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL, COMMUNITY_POOL_SPEND_PROPOSAL },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -71,6 +71,8 @@ const schema = yup.object().shape({
 		.transform(value => (isNaN(value) ? -1 : value))
 		.max(100, "Max value is 100%")
 		.min(0, "Min value is 0%"),
+	receiveAmount: yup.number(),
+	recipient: yup.string(),
 });
 export default function CreateProposal() {
 	const [open, setOpen] = useState(false);
@@ -190,6 +192,11 @@ export default function CreateProposal() {
 					...data,
 					key: UPDATE_ADMIN_PROPOSAL,
 				};
+			case COMMUNITY_POOL_SPEND_PROPOSAL:
+				return {
+					...data,
+					key: COMMUNITY_POOL_SPEND_PROPOSAL,
+				};
 			default:
 				return {
 					...data,
@@ -204,7 +211,7 @@ export default function CreateProposal() {
 		try {
 			setLoadingTransaction(true);
 			const newData = handleOptionData(data);
-			const { title, description, subspace, key, value, amount, newadmin, contract } = newData;
+			const { title, description, subspace, key, value, amount, newadmin, contract, recipient, receiveAmount } = newData;
 			var response;
 			if (key === TEXT_PROPOSAL) {
 				response = await walletStation.textProposal(address, amount, {
@@ -217,6 +224,13 @@ export default function CreateProposal() {
 					description: draftToHtml(description).trim(),
 					newAdmin: newadmin,
 					contract: contract,
+				});
+			}  else if (key == COMMUNITY_POOL_SPEND_PROPOSAL) {
+				response = await walletStation.communityPoolSpendProposal(address, amount, {
+					title,
+					description: draftToHtml(description).trim(),
+					recipient, 
+					amount: [{ denom: ORAI, amount: (receiveAmount * Math.pow(10, 6)).toString() }],
 				});
 			} else {
 				response = await walletStation.parameterChangeProposal(address, amount, {
@@ -385,6 +399,26 @@ export default function CreateProposal() {
 								<input type='number' step='any' className={cx("text-field")} name='InflationMax' ref={register} />
 								<ErrorMessage errors={errors} name='InflationMax' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 							</div>
+						)}
+
+						{fieldValue === COMMUNITY_POOL_SPEND_PROPOSAL && (
+							<>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='recipient'>
+										Recipient
+									</label>
+									<input type='string' step='any' className={cx("text-field")} name='recipient' ref={register} />
+									<ErrorMessage errors={errors} name='recipient' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+								<div className={cx("field")}>
+									<label className={cx("label")} htmlFor='receiveAmount'>
+										Amount (ORAI)
+									</label>
+									<input type='number' step={0.00000001} className={cx("text-field")} name='receiveAmount' ref={register} />
+									<ErrorMessage errors={errors} name='receiveAmount' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+								</div>
+							</>
+							
 						)}
 
 						<div className={cx("field")}>
