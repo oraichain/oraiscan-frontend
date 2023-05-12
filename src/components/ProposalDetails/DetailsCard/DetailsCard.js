@@ -116,7 +116,8 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : data.description}</div>
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave filters={filter} content={data.description} />}</div>
+
 		</div>
 	);
 
