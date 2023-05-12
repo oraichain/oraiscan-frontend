@@ -11,6 +11,9 @@
 			td {
 				padding-bottom: 15px;
 			}
+			td:nth-child(2) {
+				width: 30%;
+			}
 			.copy {
 				cursor: pointer;
 				display: inline-flex;
