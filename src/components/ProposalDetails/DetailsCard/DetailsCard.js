@@ -113,8 +113,6 @@ const DetailsCard = memo(({ data }) => {
 		</>
 	);
 
-	console.log(data.description)
-
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
@@ -127,6 +125,18 @@ const DetailsCard = memo(({ data }) => {
 			<div className={cx("item-link")}>{data?.title ? data?.title : "-"}</div>
 		</>
 	);
+
+	const proposerElement = (
+		<tr>
+			<td>
+				<div className={cx("item-title")}>Proposer</div>
+				<NavLink  className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.proposer ?? 0}`}>
+					<span className={cx("item-text-proposer")}>{data?.proposer}</span>
+				</NavLink>
+			</td>
+		</tr>
+	)
+
 
 	return (
 		<div className={cx("details-card")}>
@@ -143,9 +153,7 @@ const DetailsCard = memo(({ data }) => {
 										</div>
 									</td>
 								</tr>
-								<tr>
-									<td colSpan={2}>{titleElement}</td>
-								</tr>
+								
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Type</div>
@@ -227,6 +235,8 @@ const DetailsCard = memo(({ data }) => {
 								) : (
 									""
 								)}
+
+								{proposerElement}
 
 								{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
 										<tr>
