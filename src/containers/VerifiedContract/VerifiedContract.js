@@ -26,7 +26,7 @@ const VerifiedContract = () => {
 	const address = params?.["address"];
 	const path = `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/${address}`;
 
-	const {data, loading, error, refetch} = useGet({
+	const {data, loading, error, refetch: refetchSmartContract} = useGet({
 		path: path,
 	});
 
@@ -47,7 +47,7 @@ const VerifiedContract = () => {
 		</>
 	);
 
-	tableSection = <ContractCard address={data?.data?.contract_address} data={data?.data} />;
+	tableSection = <ContractCard refetchSmartContract={refetchSmartContract} address={data?.data?.contract_address} data={data?.data} />;
 
 	return (
 		<>
