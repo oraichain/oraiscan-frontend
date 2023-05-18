@@ -242,6 +242,7 @@ export default Object.freeze({
 		INFLATION_MAX: "InflationMax",
 		TEXT_PROPOSAL: "TextProposal",
 		UPDATE_ADMIN_PROPOSAL: "UpdateAdminProposal",
+		COMMUNITY_POOL_SPEND_PROPOSAL: "communityPoolSpendProposal"
 	},
 
 	VOTING_PERIOD_OPTIONS: {

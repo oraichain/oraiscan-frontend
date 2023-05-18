@@ -17,6 +17,9 @@ import CopyIcon from "src/icons/CopyIcon";
 import { showAlert } from "src/store/modules/global";
 import { themeIds } from "src/constants/themes";
 import styles from "./DetailsCard.module.scss";
+import {NavLink} from "react-router-dom";
+import consts from "src/constants/consts";
+import {addressDisplay} from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
@@ -62,9 +65,10 @@ const DetailsCard = memo(({ data }) => {
 		</div>
 	);
 	const titleElement = <div className={cx("proposal-title")}>{data?.title ?? "-"}</div>;
-	const proposerElement = (
+
+	const proposerElementMobile = (
 		<>
-			<div className={cx("item-link")}>{data?.proposer ?? "-"}</div>
+			<div className={cx("item-link")}>{addressDisplay(data?.proposer) ?? "-"}</div>
 		</>
 	);
 	const denomElement = (
@@ -112,7 +116,7 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave filters={filter} content={data.description} />}</div>
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : data.description}</div>
 		</div>
 	);
 
@@ -121,6 +125,18 @@ const DetailsCard = memo(({ data }) => {
 			<div className={cx("item-link")}>{data?.title ? data?.title : "-"}</div>
 		</>
 	);
+
+	const proposerElement = (
+		<tr>
+			<td>
+				<div className={cx("item-title")}>Proposer</div>
+				<NavLink  className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.proposer ?? 0}`}>
+					<span className={cx("item-text-proposer")}>{data?.proposer}</span>
+				</NavLink>
+			</td>
+		</tr>
+	)
+
 
 	return (
 		<div className={cx("details-card")}>
@@ -137,9 +153,7 @@ const DetailsCard = memo(({ data }) => {
 										</div>
 									</td>
 								</tr>
-								<tr>
-									<td colSpan={2}>{titleElement}</td>
-								</tr>
+								
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Type</div>
@@ -222,6 +236,26 @@ const DetailsCard = memo(({ data }) => {
 									""
 								)}
 
+								{proposerElement}
+
+								{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
+										<tr>
+											<td>
+												<div className={cx("item-title")}>Recipient</div>
+												{data.messages ? 
+												<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
+													{JSON.parse(data.messages)[0]?.content?.recipient}
+												</NavLink> : "-"}
+											</td>
+											<td>
+												<div className={cx("item-title")}>Amount</div>
+												<div className={cx("item-text")}>{data.messages ? `${formatOrai(JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount)} ${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`  : "-"}</div>
+											</td>
+										</tr>
+								) : (
+									""
+								)}
+
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Voting Start</div>
@@ -282,7 +316,7 @@ const DetailsCard = memo(({ data }) => {
 							<td>
 								<div className={cx("item-title")}>Proposer</div>
 							</td>
-							<td>{proposerElement}</td>
+							<td>{proposerElementMobile}</td>
 						</tr>
 						<tr>
 							<td>
@@ -292,7 +326,7 @@ const DetailsCard = memo(({ data }) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Initial Deposit</div>
+								<div className={cx("item-title")}>Denom</div>
 								{denomElement}
 							</td>
 							<td>
@@ -320,6 +354,32 @@ const DetailsCard = memo(({ data }) => {
 								</td>
 							</tr>
 						</> : ""}
+						{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
+							<>
+							
+							<tr>
+								<td>
+									<div className={cx("item-title")}>Recipient</div>
+								</td>
+								<td>
+									<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
+										{addressDisplay(JSON.parse(data.messages)[0]?.content?.recipient)}
+									</NavLink> 
+								</td>
+								</tr>
+								<tr>
+								<td>
+									<div className={cx("item-title")}>Amount</div>
+								</td>
+								<td>
+
+									<div className={cx("item-text")}>{data.messages ? `${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount} ${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`  : "-"}</div>
+								</td>
+							</tr>
+							</>
+						) : (
+							""
+						)}
 						<tr>
 							<td>
 								<div className={cx("item-title")}>Voting Start</div>

@@ -1,7 +1,7 @@
 import consts from "src/constants/consts";
 
 const {
-	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL },
+	PROPOSALS_OPTIONS: { UNBONDING_TIME, VOTING_PERIOD, COMMUNITY_TAX, INFLATION_MIN, INFLATION_MAX, TEXT_PROPOSAL, DEPOSIT_PARAMS, UPDATE_ADMIN_PROPOSAL, COMMUNITY_POOL_SPEND_PROPOSAL },
 	VOTING_PERIOD_OPTIONS: { VOTING_DAY, VOTING_TIME },
 } = consts;
 
@@ -18,6 +18,8 @@ const defaultValues = {
 	InflationMax: 0,
 	newadmin: "",
 	contract: "",
+	recipient: "",
+	receiveAmount: 10
 };
 
 
@@ -53,6 +55,10 @@ const fields = [
 	{
 		label: "Update Admin Proposal",
 		value: UPDATE_ADMIN_PROPOSAL,
+	},
+	{
+		label: "Community Pool Spend Proposal",
+		value: COMMUNITY_POOL_SPEND_PROPOSAL,
 	},
 ];
 

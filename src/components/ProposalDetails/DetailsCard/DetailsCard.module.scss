@@ -11,6 +11,9 @@
 			td {
 				padding-bottom: 15px;
 			}
+			td:nth-child(2) {
+				width: 30%;
+			}
 			.copy {
 				cursor: pointer;
 				display: inline-flex;
@@ -48,6 +51,15 @@
 				}
 			}
 		}
+	}
+
+	.tx-hash-data-cell {
+		color: var(--common-linkColor);
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 150%;
 	}
 
 	.proposal-id {
@@ -121,7 +133,7 @@
 		font-weight: 500;
 		font-size: 18px;
 		line-height: 150%;
-
+		word-break: break-all;
 		@media screen and (min-width: 1280px) {
 			font-size: 16px;
 		}
@@ -145,7 +157,7 @@
 		font-weight: 500;
 		font-size: 16px;
 		line-height: 150%;
-
+		word-break: break-all;
 		@media screen and (min-width: 1280px) {
 			font-size: 14px;
 		}
@@ -177,7 +189,9 @@
 		font-size: 16px;
 		line-height: 150%;
 		word-break: break-all;
-
+		@media screen and (min-width: 1280px) {
+			max-width: 80%;
+		}
 		.copy-icon {
 			margin-left: 15px;
 			display: inline-flex;
@@ -239,7 +253,7 @@
 			font-weight: normal;
 			font-size: 16px;
 			line-height: 150%;
-
+			word-break: break-word;
 			@media screen and (min-width: 1280px) {
 				font-size: 14px;
 			}
@@ -264,3 +278,5 @@
 .skeleton {
 	display: inline-block;
 }
+
+

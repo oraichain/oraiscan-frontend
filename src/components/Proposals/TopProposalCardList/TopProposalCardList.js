@@ -104,15 +104,19 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 					return (
 						<Grid item lg={6} xs={12} key={"top-proposal-card-list-item-" + index}>
 							<div className={cx("top-proposal-card")}>
+								<div className={cx("proposal-status", statusStateClassName)}>
+									{statusIcon}
+									<span className={cx("proposal-status-text")}>{statusText}</span>
+								</div>
 								<div className={cx("top-proposal-card-header")}>
 									<div className={cx("proposal-id-title")}>
 										<div className={cx("proposal-id")}>{item?.proposal_id ? "#" + item.proposal_id : "-"}</div>
 										<div className={cx("proposal-title")}>{item?.title ?? "-"}</div>
 									</div>
-									<div className={cx("proposal-status", statusStateClassName)}>
+									{/* <div className={cx("proposal-status", statusStateClassName)}>
 										{statusIcon}
 										<span className={cx("proposal-status-text")}>{statusText}</span>
-									</div>
+									</div> */}
 								</div>
 
 								<div className={cx("top-proposal-card-body-wrapper")}>
