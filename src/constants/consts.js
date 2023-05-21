@@ -127,6 +127,7 @@ export default Object.freeze({
 		OW20_TOKEN: "/ow20_tokens",
 		WASM_CODE: "/wasm_code",
 		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
+		UPLOAD_SCHEMA: "/upload-schema"
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -174,6 +175,8 @@ export default Object.freeze({
 	},
 	PATH_CONTRACT: {
 		LIST: "/contracts",
+		UPLOAD_SCHEMA: '/contracts/upload-schema',
+		GET_NONCE: '/contracts/nonce/',
 	},
 	MENU: [
 		{

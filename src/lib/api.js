@@ -105,6 +105,10 @@ export const uploadImagesValidator = async (data) => {
 	return await axios({ url: `${consts.API_BASE}${consts.API.UPLOAD_IMAGES_VALIDATORS}`, ...data });
 };
 
+export const uploadSchema = async (data) => {
+	return await axios({ url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.UPLOAD_SCHEMA}`, ...data });
+};
+
 export const axiosCall = async (data) => {
 	return await axios({ ...data });
 };
