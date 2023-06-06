@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -15,17 +15,17 @@ import MediumIcon from "src/icons/MediumIcon";
 import CoinMarketCapIcon from "src/icons/CoinMarketCapIcon";
 import ModeSwitch from "src/components/common/ModeSwitch";
 import OraiLogo from "src/icons/OraiLogo";
-import {ThemeSetup} from "src/helpers/helper";
+import { ThemeSetup } from "src/helpers/helper";
 import styles from "./Footer.module.scss";
 const cx = classNames.bind(styles);
 
 const Footer = memo(() => {
-	const {isDarkTheme} = ThemeSetup();
+	const { isDarkTheme } = ThemeSetup();
 
 	return (
 		<div className={cx("footer")}>
 			<img src={isDarkTheme ? DecorIconDark : DecorIconLight} className={cx("decor-icon")} />
-			<img style={{opacity: isDarkTheme ? "0.3" : "1"}} src={FooterBackground} className={cx("background")} />
+			<img style={{ opacity: isDarkTheme ? "0.3" : "1" }} src={FooterBackground} className={cx("background")} />
 			<div className={cx("top-section")}>
 				<Container>
 					<Grid className={cx("top-section-grid")} container spacing={2}>
@@ -186,10 +186,10 @@ const Footer = memo(() => {
 							<a className={cx("nav-link", "social-link")} href='https://twitter.com/oraichain' target='_blank'>
 								<TwitterIcon className={cx("nav-icon")} />
 							</a>
-							<a className={cx("nav-link", "social-link")} href='https://www.coingecko.com/en/coins/oraichain-token' target='_blank'>
+							<a className={cx("nav-link", "social-link")} href='https://discord.gg/vbv98nY7Cv' target='_blank'>
 								<DiscordIcon className={cx("nav-icon")} />
 							</a>
-							<a className={cx("nav-link", "social-link")} href='https://www.coingecko.com/en/coins/oraichain-token' target='_blank'>
+							<a className={cx("nav-link", "social-link")} href='https://github.com/oraichain' target='_blank'>
 								<GitHubIcon className={cx("nav-icon")} />
 							</a>
 							<a className={cx("nav-link", "social-link")} href='https://coinmarketcap.com/currencies/oraichain-token/' target='_blank'>
