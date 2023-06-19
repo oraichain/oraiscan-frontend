@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { themeIds } from "src/constants/themes";
 import { reduceString } from "src/lib/scripts";
 import consts from "src/constants/consts";
-import { decodeTxRaw } from "@cosmjs/proto-signing"
+import { decodeTxRaw } from "@cosmjs/proto-signing";
 import { Any } from "cosmjs-types/google/protobuf/any";
 
 export const extractValueAndUnit = (inputString = "") => {
@@ -31,47 +31,47 @@ export const amountDecimal18 = [
 		denom: "ORAI",
 		address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
 		decimal: 18,
-		name: "orai bsc"
+		name: "orai bsc",
 	},
 	{
 		denom: "AIRI",
 		address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
 		decimal: 18,
-		name: "airi bsc"
+		name: "airi bsc",
 	},
 	{
 		denom: "USDT",
 		address: "oraib0x55d398326f99059fF775485246999027B3197955",
 		decimal: 18,
-		name: "usdt bsc"
+		name: "usdt bsc",
 	},
 	{
 		denom: "KWT",
 		address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
 		decimal: 18,
-		name: "kwt bsc"
+		name: "kwt bsc",
 	},
 	{
 		denom: "ORAI ERC20",
 		address: "eth-mainnet0X4C11249814F11B9346808179CF06E71AC328C1B5",
 		decimal: 18,
-		name: "orai eth"
+		name: "orai eth",
 	},
 	{
 		denom: "Milky",
 		address: "oraib0x6fE3d0F096FC932A905accd1EB1783F6e4cEc717",
 		decimal: 18,
-		name: "milky"
-	}
+		name: "milky",
+	},
 ];
 
 export const checkTokenCW20 = value => {
-	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "")
+	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "");
 	return {
 		status,
 		denom: status?.denom,
 		address: status?.address,
-		decimal: status?.decimal ?? 18
+		decimal: status?.decimal ?? 18,
 	};
 };
 
@@ -163,7 +163,7 @@ export const formatNumber = value => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
-	return value.toString().replace(/^[+-]?\d+/, function (int) {
+	return value.toString().replace(/^[+-]?\d+/, function(int) {
 		return int.replace(/(\d)(?=(\d{3})+$)/g, "$1,");
 	});
 };
@@ -215,7 +215,7 @@ export const mergeArrays = (array1, array2, key) => {
 
 export const decodeTx = encodedTx => {
 	const uintArr = Buffer.from(encodedTx, "base64");
-	const msg = decodeTxRaw(uintArr)
+	const msg = decodeTxRaw(uintArr);
 	const hash = sha256.sha256(uintArr).toUpperCase();
 	const fee = msg?.authInfo?.fee;
 	const typeUrl = msg?.body?.messages?.[0].typeUrl.substring(1);
@@ -268,18 +268,17 @@ export const amountCoinDecimal = (amount, decimal = 1000000) => {
 };
 
 export const calculateInflationFromApr = async () => {
-
-	const fetchData = async (endpoint) => {
+	const fetchData = async endpoint => {
 		return fetch(`${consts.LCD_API_BASE}/${endpoint}`).then(data => data.json());
-	}
+	};
 
 	const VAL_VOTING_POWER = 1000;
 	const DAYS_IN_YEARS = 365.2425;
 	const APR = 28.5;
 	const RATE = 0.03;
-	const { block_time } = (await fetch("https://api.scan.orai.io/v1/status").then(data => data.json()));
-	const delegatorsRewardPerDay = APR / (DAYS_IN_YEARS / VAL_VOTING_POWER * 100);
-	const numBlocksPerDay = 60 / block_time * 60 * 24;
+	const { block_time } = await fetch("https://api.scan.orai.io/v1/status").then(data => data.json());
+	const delegatorsRewardPerDay = APR / ((DAYS_IN_YEARS / VAL_VOTING_POWER) * 100);
+	const numBlocksPerDay = (60 / block_time) * 60 * 24;
 	const delegatorsRewardPerBlock = delegatorsRewardPerDay / numBlocksPerDay;
 
 	const valRewardPerBlock = delegatorsRewardPerBlock / (1 - RATE);
@@ -296,15 +295,14 @@ export const calculateInflationFromApr = async () => {
 	return inflationRate * 100; // display in percentage
 };
 
-
 // check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
 export const getDecimals = (denom = "") => {
 	const decimalsCosmos = 6;
 	const decimalsEthBsc = 18;
-	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos
-}
+	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos;
+};
 
-export const checkAttributeEvents = (rawLog = "[]", key = 'send_packet') => {
+export const checkAttributeEvents = (rawLog = "[]", key = "send_packet") => {
 	try {
 		if (!rawLog) return false;
 		const parseRawLog = JSON.parse(rawLog);
@@ -314,4 +312,13 @@ export const checkAttributeEvents = (rawLog = "[]", key = 'send_packet') => {
 	} catch (error) {
 		return false;
 	}
-}
+};
+
+export const isJsonString = str => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+};

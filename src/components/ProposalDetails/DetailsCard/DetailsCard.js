@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import ReactJson from "react-json-view";
 import _ from "lodash";
 import Interweave from "interweave";
-import { formatDateTime, formatOrai } from "src/helpers/helper";
+import { formatDateTime, formatOrai, isJsonString } from "src/helpers/helper";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import { useDispatch } from "src/hooks";
@@ -135,15 +135,6 @@ const DetailsCard = memo(({ data }) => {
 			</td>
 		</tr>
 	);
-
-	const isJsonString = str => {
-		try {
-			JSON.parse(str);
-		} catch (e) {
-			return false;
-		}
-		return true;
-	};
 
 	return (
 		<div className={cx("details-card")}>
