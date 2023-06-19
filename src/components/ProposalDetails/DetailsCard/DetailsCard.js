@@ -116,7 +116,8 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : data.description}</div>
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave filters={filter} content={data.description} />}</div>
+
 		</div>
 	);
 
@@ -241,14 +242,14 @@ const DetailsCard = memo(({ data }) => {
 								{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
 										<tr>
 											<td>
-												<div className={cx("item-title")}>Recipient</div>
+												<div className={cx("item-title")}>Community pool spend recipient</div>
 												{data.messages ? 
 												<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
 													{JSON.parse(data.messages)[0]?.content?.recipient}
 												</NavLink> : "-"}
 											</td>
 											<td>
-												<div className={cx("item-title")}>Amount</div>
+												<div className={cx("item-title")}>Community pool spend amount</div>
 												<div className={cx("item-text")}>{data.messages ? `${formatOrai(JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount)} ${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`  : "-"}</div>
 											</td>
 										</tr>
@@ -359,7 +360,7 @@ const DetailsCard = memo(({ data }) => {
 							
 							<tr>
 								<td>
-									<div className={cx("item-title")}>Recipient</div>
+									<div className={cx("item-title")}>Community pool spend recipient</div>
 								</td>
 								<td>
 									<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
@@ -369,7 +370,7 @@ const DetailsCard = memo(({ data }) => {
 								</tr>
 								<tr>
 								<td>
-									<div className={cx("item-title")}>Amount</div>
+									<div className={cx("item-title")}>Community pool spend amount</div>
 								</td>
 								<td>
 
