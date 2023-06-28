@@ -20,6 +20,7 @@ import styles from "./DetailsCard.module.scss";
 import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
 import { addressDisplay } from "src/helpers/helper";
+import txTypes from "src/constants/txTypes";
 const cx = classNames.bind(styles);
 
 const filter = {
@@ -63,7 +64,7 @@ const DetailsCard = memo(({ data }) => {
 			<span className={cx("status-text")}>{statusText}</span>
 		</div>
 	);
-	const titleElement = <div className={cx("proposal-title")}>{data?.title ?? "-"}</div>;
+	const titleElement = <div className={cx("proposal-title")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>;
 
 	const proposerElementMobile = (
 		<>
@@ -121,7 +122,7 @@ const DetailsCard = memo(({ data }) => {
 
 	const titleColumnElement = (
 		<>
-			<div className={cx("item-link")}>{data?.title ? data?.title : "-"}</div>
+			<div className={cx("item-link")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>
 		</>
 	);
 
