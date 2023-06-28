@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import ReactJson from "react-json-view";
 import _ from "lodash";
 import Interweave from "interweave";
-import { formatDateTime, formatOrai } from "src/helpers/helper";
+import { formatDateTime, formatOrai, isJsonString } from "src/helpers/helper";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import { useDispatch } from "src/hooks";
@@ -17,23 +17,23 @@ import CopyIcon from "src/icons/CopyIcon";
 import { showAlert } from "src/store/modules/global";
 import { themeIds } from "src/constants/themes";
 import styles from "./DetailsCard.module.scss";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
-import {addressDisplay} from "src/helpers/helper";
-
+import { addressDisplay } from "src/helpers/helper";
+import txTypes from "src/constants/txTypes";
 const cx = classNames.bind(styles);
 
 const filter = {
 	attribute(name, value) {
-		if (name === 'href') {
+		if (name === "href") {
 			return encodeURIComponent(value);
 		}
 		return {};
 	},
 	node(name, node) {
-		if (name === 'a') {
-            node.setAttribute('target', '_blank');
-        }
+		if (name === "a") {
+			node.setAttribute("target", "_blank");
+		}
 		return node;
 	},
 };
@@ -64,7 +64,7 @@ const DetailsCard = memo(({ data }) => {
 			<span className={cx("status-text")}>{statusText}</span>
 		</div>
 	);
-	const titleElement = <div className={cx("proposal-title")}>{data?.title ?? "-"}</div>;
+	const titleElement = <div className={cx("proposal-title")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>;
 
 	const proposerElementMobile = (
 		<>
@@ -116,14 +116,13 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : <Interweave filters={filter} content={data.description} />}</div>
-
+			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : data.description}</div>
 		</div>
 	);
 
 	const titleColumnElement = (
 		<>
-			<div className={cx("item-link")}>{data?.title ? data?.title : "-"}</div>
+			<div className={cx("item-link")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>
 		</>
 	);
 
@@ -131,13 +130,12 @@ const DetailsCard = memo(({ data }) => {
 		<tr>
 			<td>
 				<div className={cx("item-title")}>Proposer</div>
-				<NavLink  className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.proposer ?? 0}`}>
+				<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.proposer ?? 0}`}>
 					<span className={cx("item-text-proposer")}>{data?.proposer}</span>
 				</NavLink>
 			</td>
 		</tr>
-	)
-
+	);
 
 	return (
 		<div className={cx("details-card")}>
@@ -154,7 +152,7 @@ const DetailsCard = memo(({ data }) => {
 										</div>
 									</td>
 								</tr>
-								
+
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Type</div>
@@ -175,26 +173,30 @@ const DetailsCard = memo(({ data }) => {
 										{totalDepositElement}
 									</td>
 								</tr>
-								{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? <>
-									<tr>
-										<td>
-											<div className={cx("item-title")}>New Admin</div>
-											<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div className={cx("item-title")}>Contract Address</div>
-											<div className={cx("item-text")}>{data?.contract ?? "-"}</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div className={cx("item-title")}>Proposer</div>
-											<div className={cx("item-text")}>{data?.proposer ?? "-"}</div>
-										</td>
-									</tr>
-								</> : ""}
+								{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? (
+									<>
+										<tr>
+											<td>
+												<div className={cx("item-title")}>New Admin</div>
+												<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div className={cx("item-title")}>Contract Address</div>
+												<div className={cx("item-text")}>{data?.contract ?? "-"}</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div className={cx("item-title")}>Proposer</div>
+												<div className={cx("item-text")}>{data?.proposer ?? "-"}</div>
+											</td>
+										</tr>
+									</>
+								) : (
+									""
+								)}
 								{data?.type && data?.type?.split(".")?.pop() === "SoftwareUpgradeProposal" ? (
 									<>
 										<tr>
@@ -239,20 +241,31 @@ const DetailsCard = memo(({ data }) => {
 
 								{proposerElement}
 
-								{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
-										<tr>
-											<td>
-												<div className={cx("item-title")}>Community pool spend recipient</div>
-												{data.messages ? 
-												<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
+								{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" && isJsonString(data.messages) ? (
+									<tr>
+										<td>
+											<div className={cx("item-title")}>Recipient</div>
+											{data.messages ? (
+												<NavLink
+													className={cx("tx-hash-data-cell", "align-left")}
+													to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
 													{JSON.parse(data.messages)[0]?.content?.recipient}
-												</NavLink> : "-"}
-											</td>
-											<td>
-												<div className={cx("item-title")}>Community pool spend amount</div>
-												<div className={cx("item-text")}>{data.messages ? `${formatOrai(JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount)} ${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`  : "-"}</div>
-											</td>
-										</tr>
+												</NavLink>
+											) : (
+												"-"
+											)}
+										</td>
+										<td>
+											<div className={cx("item-title")}>Amount</div>
+											<div className={cx("item-text")}>
+												{data.messages
+													? `${formatOrai(JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount)} ${JSON.parse(
+															data.messages
+													  )[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`
+													: "-"}
+											</div>
+										</td>
+									</tr>
 								) : (
 									""
 								)}
@@ -335,48 +348,58 @@ const DetailsCard = memo(({ data }) => {
 								{totalDepositElement}
 							</td>
 						</tr>
-						{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? <>
-							<tr>
-								<td colSpan={2}>
-									<div className={cx("item-title")}>New Admin</div>
-									<div className={cx("item-new-admin")}>{data?.new_admin ?? "-"}</div>
-								</td>
-							</tr>
-							<tr>
-								<td colSpan={2}>
-									<div className={cx("item-title")}>Contract</div>
-									<div className={cx("item-proposer")}>{data?.contract ?? "-"}</div>
-								</td>
-							</tr>
-							<tr>
-								<td colSpan={2}>
-									<div className={cx("item-title")}>Proposer</div>
-									<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
-								</td>
-							</tr>
-						</> : ""}
-						{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" ? (
+						{data?.type && data?.type?.split(".")?.pop() === "UpdateAdminProposal" ? (
 							<>
-							
-							<tr>
-								<td>
-									<div className={cx("item-title")}>Community pool spend recipient</div>
-								</td>
-								<td>
-									<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
-										{addressDisplay(JSON.parse(data.messages)[0]?.content?.recipient)}
-									</NavLink> 
-								</td>
+								<tr>
+									<td colSpan={2}>
+										<div className={cx("item-title")}>New Admin</div>
+										<div className={cx("item-new-admin")}>{data?.new_admin ?? "-"}</div>
+									</td>
 								</tr>
 								<tr>
-								<td>
-									<div className={cx("item-title")}>Community pool spend amount</div>
-								</td>
-								<td>
-
-									<div className={cx("item-text")}>{data.messages ? `${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount} ${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`  : "-"}</div>
-								</td>
-							</tr>
+									<td colSpan={2}>
+										<div className={cx("item-title")}>Contract</div>
+										<div className={cx("item-proposer")}>{data?.contract ?? "-"}</div>
+									</td>
+								</tr>
+								<tr>
+									<td colSpan={2}>
+										<div className={cx("item-title")}>Proposer</div>
+										<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
+									</td>
+								</tr>
+							</>
+						) : (
+							""
+						)}
+						{data?.type && data?.type?.split(".")?.pop() === "CommunityPoolSpendProposal" && isJsonString(data.messages) ? (
+							<>
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Recipient</div>
+									</td>
+									<td>
+										<NavLink
+											className={cx("tx-hash-data-cell", "align-left")}
+											to={`${consts.PATH.ACCOUNT}/${JSON.parse(data.messages)[0]?.content?.recipient}`}>
+											{addressDisplay(JSON.parse(data.messages)[0]?.content?.recipient)}
+										</NavLink>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Amount</div>
+									</td>
+									<td>
+										<div className={cx("item-text")}>
+											{data.messages
+												? `${JSON.parse(data.messages)[0]?.content?.amount?.[0]?.amount} ${JSON.parse(
+														data.messages
+												  )[0]?.content?.amount?.[0]?.denom?.toUpperCase()}`
+												: "-"}
+										</div>
+									</td>
+								</tr>
 							</>
 						) : (
 							""

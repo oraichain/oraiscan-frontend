@@ -17,6 +17,7 @@ import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 import styles from "./ProposalsTable.module.scss";
+import txTypes from "src/constants/txTypes";
 
 const cx = classNames.bind(styles);
 
@@ -50,8 +51,6 @@ const ProposalsTable = memo(({ data = [], type = null }) => {
 			return [];
 		}
 
-		console.log("data", data);
-
 		return data.map(item => {
 			const idDataCell = _.isNil(item?.proposal_id) ? (
 				<div className={cx("align-left")}>-</div>
@@ -59,13 +58,15 @@ const ProposalsTable = memo(({ data = [], type = null }) => {
 				<div className={cx("id-data-cell", "align-left")}>#{item.proposal_id}</div>
 			);
 
-			const titleDataCell = _.isNil(item?.title) ? (
+			const title = item.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + item?.title :  item?.title
+
+			const titleDataCell = _.isNil(title) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
 				<NavLink
 					className={cx("title-data-cell", "align-left")}
 					to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) ? "?type=" + type : ""}`}>
-					{item.title}
+						{title}
 				</NavLink>
 			);
 

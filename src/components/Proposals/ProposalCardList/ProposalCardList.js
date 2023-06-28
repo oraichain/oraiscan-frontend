@@ -14,6 +14,7 @@ import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
 import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
 import styles from "./ProposalCardList.module.scss";
+import txTypes from "src/constants/txTypes";
 
 const cx = classNames.bind(styles);
 
@@ -63,6 +64,8 @@ const ProposalCardList = memo(({ data = [], type = "" }) => {
 						break;
 				}
 
+				const title = item.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + item?.title :  item?.title
+
 				return (
 					<div className={cx("proposal-card-list-item")} key={"proposal-card-list-item-" + index}>
 						<table>
@@ -77,13 +80,13 @@ const ProposalCardList = memo(({ data = [], type = "" }) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Title</div>
-										{_.isNil(item?.title) ? (
+										{_.isNil(title) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
 											<NavLink
 												className={cx("item-link", "align-left")}
 												to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) && type !== "" ? "?type=" + type : ""}`}>
-												{item?.title}
+												{title}
 											</NavLink>
 										)}
 									</td>
