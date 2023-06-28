@@ -15,6 +15,7 @@ import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import ViewMoreProposalIcon from "src/icons/Proposals/ViewMoreProposalIcon";
 import { isNil } from "lodash";
 import { reduceString } from "src/lib/scripts";
+import txTypes from "src/constants/txTypes";
 
 const cx = classNames.bind(styles);
 
@@ -111,12 +112,8 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 								<div className={cx("top-proposal-card-header")}>
 									<div className={cx("proposal-id-title")}>
 										<div className={cx("proposal-id")}>{item?.proposal_id ? "#" + item.proposal_id : "-"}</div>
-										<div className={cx("proposal-title")}>{item?.title ?? "-"}</div>
+										<div className={cx("proposal-title")}>{item.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + item?.title :  item?.title ?? "-"}</div>
 									</div>
-									{/* <div className={cx("proposal-status", statusStateClassName)}>
-										{statusIcon}
-										<span className={cx("proposal-status-text")}>{statusText}</span>
-									</div> */}
 								</div>
 
 								<div className={cx("top-proposal-card-body-wrapper")}>

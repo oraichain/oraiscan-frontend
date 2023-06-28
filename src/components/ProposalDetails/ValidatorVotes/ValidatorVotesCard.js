@@ -69,7 +69,7 @@ const ValidatorVotesCard = memo(({data = [], converVoteTypes}) => {
 									</td>
 									<td>
 										<div className={cx("item-title")}>Time</div>
-										<div className={cx("item-text")}>{setAgoTime(item?.time_vote) || "-"}</div>
+										<div className={cx("item-text")}>{item?.option !== "VOTE_OPTION_DID_NOT_VOTE" ? setAgoTime(item?.time_vote) : "-"}</div>
 									</td>
 								</tr>
 							</tbody>
