@@ -64,7 +64,11 @@ const DetailsCard = memo(({ data }) => {
 			<span className={cx("status-text")}>{statusText}</span>
 		</div>
 	);
-	const titleElement = <div className={cx("proposal-title")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>;
+	const titleElement = (
+		<div className={cx("proposal-title")}>
+			{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title : data?.title ?? "-"}
+		</div>
+	);
 
 	const proposerElementMobile = (
 		<>
@@ -116,13 +120,15 @@ const DetailsCard = memo(({ data }) => {
 	const descriptionElement = (
 		<div className={cx("description")}>
 			<div className={cx("description-header")}>Description</div>
-			<div className={cx("description-body")}>{_.isNil(data?.description) ? "-" : data.description}</div>
+			<div dangerouslySetInnerHTML={{ __html: data?.description }} className={cx("description-body")} />
 		</div>
 	);
 
 	const titleColumnElement = (
 		<>
-			<div className={cx("item-link")}>{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title :  data?.title ?? "-"}</div>
+			<div className={cx("item-link")}>
+				{data.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + data?.title : data?.title ?? "-"}
+			</div>
 		</>
 	);
 

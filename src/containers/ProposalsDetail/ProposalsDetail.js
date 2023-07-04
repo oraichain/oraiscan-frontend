@@ -24,6 +24,9 @@ import ProposalDepositModal from "./ProposalDepositModal";
 import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
 import Depositors from "src/components/ProposalDetails/Depositors";
 import styles from "./ProposalsDetail.module.scss";
+import { queryStation } from "src/lib/queryStation";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+
 import moment from "moment";
 
 const cx = cn.bind(styles);
@@ -35,11 +38,22 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const { address, account } = useSelector(state => state.wallet);
+	const [des, setDes] = useState({});
 	const type = queryStringParse?.type ?? "";
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const { data, loading, error } = useGet({
 		path: path,
 	});
+
+	async function getDescriptionProposal() {
+		const description = await queryStation.proposalId(proposalId);
+		setDes(TextProposal.decode(description.proposal.content.value));
+	}
+
+	useEffect(() => {
+		getDescriptionProposal();
+	}, [data]);
+
 	const [showDepositModal, setShowDepositModal] = useState(false);
 	const handleCloseDepositModal = () => {
 		setShowDepositModal(false);
@@ -105,7 +119,13 @@ export default function(props) {
 			detailsCard = <DetailsCard data={{}} />;
 			chartCard = <ChartCard data={{}} />;
 		} else {
-			detailsCard = <DetailsCard data={data} />;
+			let dataDescription = {
+				...data,
+			};
+			if (!data.description) {
+				dataDescription.description = des?.description;
+			}
+			detailsCard = <DetailsCard data={dataDescription} />;
 			chartCard = <ChartCard data={data} />;
 		}
 
