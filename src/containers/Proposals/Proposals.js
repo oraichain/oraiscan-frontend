@@ -1,15 +1,16 @@
 import Container from "@material-ui/core/Container";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {isNaN, isNil} from "lodash-es";
+import { isNaN, isNil } from "lodash-es";
 import queryString from "query-string";
-import {lazy, useRef, useState} from "react";
-import {useHistory} from "react-router-dom";
-import {useGet} from "restful-react";
+import { lazy, useRef, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import FilterSection from "src/components/common/FilterSection";
-import FilterSectionSkeleton from "src/components/common/FilterSection/FilterSectionSkeleton";
+import { updateProposal } from "src/store/modules/proposal";
+import { useSelector, useDispatch } from "react-redux";
 import NoResult from "src/components/common/NoResult";
+import { calculateTallyProposal } from "src/helpers/helper";
 import PageTitle from "src/components/common/PageTitle";
 import Pagination from "src/components/common/Pagination";
 import StatusBox from "src/components/common/StatusBox";
@@ -21,25 +22,48 @@ import ProposalsTable from "src/components/Proposals/ProposalsTable/ProposalsTab
 import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/ProposalsTableSkeleton";
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
-import consts from "src/constants/consts";
 import styles from "./Proposals.module.scss";
+import { queryStation } from "src/lib/queryStation";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+
 const CreateProposal = lazy(() => import(`./CreateProposal`));
 const cx = cn.bind(styles);
 
 const PROPOSAL_STATUS_ALL = "PROPOSAL_STATUS_ALL";
+const arr = ["/cosmos.gov.v1beta1.", "/cosmos.upgrade.v1beta1.", "/cosmos.params.v1beta1."];
+const LIMIT = 10;
 
-export default function () {
+const ProposalStatus = {
+	PROPOSAL_STATUS_ALL: -1, //UNRECOGNIZED
+	PROPOSAL_STATUS_UNSPECIFIED: 0,
+	PROPOSAL_STATUS_DEPOSIT_PERIOD: 1,
+	PROPOSAL_STATUS_VOTING_PERIOD: 2,
+	PROPOSAL_STATUS_PASSED: 3,
+	PROPOSAL_STATUS_REJECTED: 4,
+	PROPOSAL_STATUS_FAILED: 5,
+};
+
+const listProposalFilter = (proposals = [], type, status = PROPOSAL_STATUS_ALL) => {
+	let data = proposals;
+	if (status !== PROPOSAL_STATUS_ALL) data = data.filter(e => e.status == status);
+	if (type) data = data.filter(e => [...arr.map(ar => ar + type)].includes(e.type_url));
+	return { data };
+};
+
+export default function() {
 	const theme = useTheme();
+	const dispatch = useDispatch();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	const { proposals, bondTotal } = useSelector(state => state.proposal);
 	const [status, setStatus] = useState(PROPOSAL_STATUS_ALL);
+	const [loading, setLoading] = useState(false);
 	const [topPageId, setTopPageId] = useState(1);
-	const totalTopPagesRef = useRef(null);
 	const [pageId, setPageId] = useState(1);
+	const totalTopPagesRef = useRef(null);
 	const totalPagesRef = useRef(null);
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const type = queryStringParse?.type ?? null;
-
 	const onTopPageChange = page => {
 		setTopPageId(page);
 	};
@@ -48,26 +72,77 @@ export default function () {
 		setPageId(page);
 	};
 
-	const topPath = `${consts.API.PROPOSALS}?status${!isNil(type) ? "&type=" + type : ""}&limit=4&page_id=${topPageId}`;
-	const { data: topData, loading: topLoading, error: topError } = useGet({
-		path: topPath,
-	});
+	const getDataProposal = async (offset = 0, limit = undefined, isFlag = false) => {
+		const { proposals, pagination } = await queryStation.proposalList(-1, "", "", undefined, offset, limit);
+		let list = [];
 
-	const statusPath = consts.API.PROPOSAL_STATUS;
-	const { data: statusData, loading: statusLoading, error: statusError } = useGet({
-		path: statusPath,
-	});
+		if (isFlag) {
+			list = proposals.map(e => {
+				const value = TextProposal.decode(e?.content?.value);
+				const status = Object.keys(ProposalStatus)[Object.values(ProposalStatus).indexOf(e.status)];
+				const totalVote = Object.values(e?.finalTallyResult).reduce((acc, cur) => acc + parseInt(cur), 0);
+				const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: e?.finalTallyResult });
+				return {
+					...tallyObj,
+					proposal_id: e?.proposalId?.toString(),
+					status,
+					title: value?.title,
+					submit_time: e.submitTime.seconds.toNumber() * 1000,
+					voting_end_time: e.votingEndTime.seconds.toNumber() * 1000,
+					total_deposit: e.totalDeposit.reduce((acc, cur) => acc + parseInt(cur.amount), 0),
+					voting_start_time: e.votingStartTime.seconds.toNumber() * 1000,
+					deposit_end_time: e.depositEndTime.seconds.toNumber() * 1000,
+					type_url: e.content.typeUrl,
+					finalTallyResult: e?.finalTallyResult,
+				};
+			});
+		}
+		return { list, pagination, proposals };
+	};
 
-	const basePath = `${consts.API.PROPOSALS}?limit=${consts.REQUEST.LIMIT}${type ? "&type=" + type : ""}`;
-	let path;
-	if (status === PROPOSAL_STATUS_ALL) {
-		path = `${basePath}&page_id=${pageId}`;
-	} else {
-		path = `${basePath}&status=${status}&page_id=${pageId}`;
-	}
-	const { data, loading, error } = useGet({
-		path: path,
-	});
+	const getProposalList = async () => {
+		try {
+			setLoading(true);
+			const { pagination } = await getDataProposal();
+			const total = pagination.total.toNumber();
+			if (!proposals.length) {
+				let listProposalData = [];
+				for (let i = 0; i < Math.ceil(total / 100); i++) {
+					const p = await getDataProposal(i * 100, undefined, true);
+					listProposalData = [...listProposalData, ...p.list];
+				}
+				return dispatch(updateProposal(listProposalData));
+			}
+
+			if (total > proposals.length) {
+				const limit = total - proposals.length;
+				if (limit && limit > 100) {
+					let listProposalData = [];
+					for (let i = 0; i < Math.ceil(limit / 100); i++) {
+						let limitProposal = i * 100;
+						if (i + 1 == Math.ceil(limit / 100)) {
+							limitProposal = limit - i * 100;
+						}
+						const p = await getDataProposal(limitProposal, undefined, true);
+						listProposalData = [...listProposalData, ...p.list];
+					}
+					return dispatch(updateProposal(listProposalData));
+				}
+				if (limit && limit < 100) {
+					const p = await getDataProposal(0, limit, true);
+					return dispatch(updateProposal([...p.list]));
+				}
+			}
+		} catch (error) {
+			console.log({ error });
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getProposalList();
+	}, []);
 
 	let titleSection;
 	let topProposalCardList;
@@ -89,53 +164,28 @@ export default function () {
 		titleSection = <TogglePageBar type='proposals' />;
 	}
 
-	if (topLoading) {
+	if (loading) {
 		topProposalCardList = <TopProposalCardListSkeleton />;
 	} else {
-		if (topError) {
-			totalPagesRef.current = null;
-			topProposalCardList = <TopProposalCardList data={[]} />;
+		const { data } = listProposalFilter(proposals, type, status);
+		if (!isNaN(data)) {
+			totalTopPagesRef.current = Math.ceil(data.length / 4);
 		} else {
-			if (!isNaN(topData?.page?.total_page)) {
-				totalTopPagesRef.current = topData?.page?.total_page;
-			} else {
-				totalTopPagesRef.current = null;
-			}
-
-			if (Array.isArray(topData?.data) && topData?.data?.length > 0) {
-				topProposalCardList = <TopProposalCardList data={topData?.data} type={type} />;
-			} else {
-				tableSection = <NoResult />;
-			}
+			totalTopPagesRef.current = null;
+		}
+		if (Array.isArray(data) && data?.length > 0) {
+			topProposalCardList = <TopProposalCardList data={data.slice((topPageId - 1) * 4, topPageId * 4)} type={type} />;
+		} else {
+			tableSection = <NoResult />;
 		}
 	}
 
-	if (statusLoading) {
-		filterSection = <FilterSectionSkeleton />;
-	} else {
+	if (ProposalStatus) {
 		let filterData;
-		if (statusError) {
-			filterData = [
-				{
-					label: "ALL",
-					value: PROPOSAL_STATUS_ALL,
-				},
-			];
-		} else {
-			filterData = statusData.map(value => {
-				const filterItem = {
-					label: value.replace("PROPOSAL_STATUS_", "").replace("_", " "),
-					value: value,
-				};
-				return filterItem;
-			});
-
-			filterData.unshift({
-				label: "ALL",
-				value: PROPOSAL_STATUS_ALL,
-			});
-		}
-
+		filterData = Object.keys(ProposalStatus).map(value => ({
+			label: value.replace("PROPOSAL_STATUS_", ""),
+			value,
+		}));
 		filterSection = (
 			<FilterSection
 				className={cx("filter-section")}
@@ -151,21 +201,21 @@ export default function () {
 	if (loading) {
 		tableSection = isLargeScreen ? <ProposalsTableSkeleton /> : <ProposalCardListSkeleton />;
 	} else {
-		if (error) {
-			totalPagesRef.current = null;
-			tableSection = <NoResult />;
+		const { data } = listProposalFilter(proposals, type, status);
+		if (!isNaN(data)) {
+			totalPagesRef.current = Math.ceil(data.length / LIMIT);
 		} else {
-			if (!isNaN(data?.page?.total_page)) {
-				totalPagesRef.current = data.page.total_page;
-			} else {
-				totalPagesRef.current = null;
-			}
+			totalPagesRef.current = null;
+		}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <ProposalsTable data={data.data} type={type} /> : <ProposalCardList data={data.data} type={type} />;
-			} else {
-				tableSection = <NoResult />;
-			}
+		if (Array.isArray(data) && data.length > 0) {
+			tableSection = isLargeScreen ? (
+				<ProposalsTable data={data.slice((pageId - 1) * LIMIT, LIMIT * pageId)} type={type} />
+			) : (
+				<ProposalCardList data={data.slice((pageId - 1) * LIMIT, LIMIT * pageId)} type={type} />
+			);
+		} else {
+			tableSection = <NoResult />;
 		}
 	}
 

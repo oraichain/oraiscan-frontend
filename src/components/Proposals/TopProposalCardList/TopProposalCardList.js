@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import { memo } from "react";
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
-import ChartCard from './ChartCard/ChartCard';
+import ChartCard from "./ChartCard/ChartCard";
 import { formatDateTime } from "src/helpers/helper";
 import styles from "./TopProposalCardList.module.scss";
 import { NavLink } from "react-router-dom";
@@ -112,7 +112,7 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 								<div className={cx("top-proposal-card-header")}>
 									<div className={cx("proposal-id-title")}>
 										<div className={cx("proposal-id")}>{item?.proposal_id ? "#" + item.proposal_id : "-"}</div>
-										<div className={cx("proposal-title")}>{item.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + item?.title :  item?.title ?? "-"}</div>
+										<div className={cx("proposal-title")}>{item?.title ? item.title : "-"}</div>
 									</div>
 								</div>
 
@@ -125,14 +125,14 @@ const TopProposalCardList = memo(({ data = [], type = null }) => {
 										<table>
 											<tbody>
 												<tr>
-													<td>
+													{/* <td>
 														<div className={cx("item-title")}>Proposer</div>
 													</td>
 													<td>
 														<NavLink className={cx("item-text")} to={`${consts.PATH.ACCOUNT}/${item?.proposer ?? 0}`}>
 															<span className={cx("item-text-proposer")}>{item?.proposer && reduceString(item?.proposer, 8, 8)}</span>
 														</NavLink>
-													</td>
+													</td> */}
 												</tr>
 
 												<tr>

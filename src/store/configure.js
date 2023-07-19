@@ -1,17 +1,17 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import penderMiddleware from "redux-pender";
-import {createLogger} from "redux-logger";
-import {persistStore, persistReducer} from "redux-persist";
+import { createLogger } from "redux-logger";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import {_} from "src/lib/scripts";
+import { _ } from "src/lib/scripts";
 
 import * as modules from "./modules";
 
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["wallet", "contact", "activeThemeId"],
+	whitelist: ["wallet", "contact", "activeThemeId", "proposal"],
 };
 
 // add all reducers
