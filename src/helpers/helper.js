@@ -292,7 +292,10 @@ export const calculateInflationFromApr = async () => {
 	const { blocks_per_year } = (await fetchData("cosmos/mint/v1beta1/params")).params;
 	const inflationRate = blockRevision / (totalSupply / blocks_per_year);
 
-	return inflationRate * 100; // display in percentage
+	return {
+		inflationRate: inflationRate * 100,
+		bonded_tokens,
+	}; // display in percentage
 };
 
 // check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
@@ -321,4 +324,28 @@ export const isJsonString = str => {
 		return false;
 	}
 	return true;
+};
+
+export const calculateTallyProposal = ({ totalVote, bonded, tally }) => {
+	if (!totalVote) {
+		return {
+			yes_percentage: 0,
+			abstain_percentage: 0,
+			no_percentage: 0,
+			no_with_veto_percentage: 0,
+			vote_percentage: 0,
+		};
+	}
+	const yes_percentage = Math.round((parseInt(tally?.yes) / totalVote) * 10000) / 100;
+	const abstain_percentage = Math.round((parseInt(tally?.abstain) / totalVote) * 10000) / 100;
+	const noPercentage = Math.round((parseInt(tally?.no) / totalVote) * 10000) / 100;
+	const noWithVetoPercentage = Math.round((parseInt(tally?.noWithVeto) / totalVote) * 10000) / 100;
+	const votePercentage = Math.round((totalVote / parseInt(bonded || 0)) * 10000) / 100;
+	return {
+		yes_percentage,
+		abstain_percentage,
+		no_percentage: noPercentage,
+		no_with_veto_percentage: noWithVetoPercentage,
+		vote_percentage: votePercentage,
+	};
 };
