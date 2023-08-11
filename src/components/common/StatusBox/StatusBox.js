@@ -115,7 +115,7 @@ const StatusBox = memo(() => {
 				</div>
 			</div>
 			<div className={cx("status-box-item")}>
-				<span className={cx("status-label")}>Community Pool: </span>
+				<span className={cx("status-label")}>DAO Treasury: </span>
 				<span className={cx("status-value")}>{formatOrai(communityPool?.amount, 1000000, 2) + " " + communityPool?.denom.toUpperCase()}</span>
 			</div>
 		</div>
