@@ -22,7 +22,6 @@ const Tx = lazy(() => import(`src/containers/Tx`));
 const NotFound = lazy(() => import(`src/containers/NotFound`));
 const Account = lazy(() => import(`src/containers/Account`));
 const DataSources = lazy(() => import(`src/containers/DataSources`));
-const Ibc = lazy(() => import(`src/containers/Ibc`));
 const DataSourcesDetail = lazy(() => import(`src/containers/DataSourcesDetail`));
 const TestCases = lazy(() => import(`src/containers/TestCases`));
 const OracleScripts = lazy(() => import(`src/containers/OracleScripts`));
@@ -37,15 +36,12 @@ const Requests = lazy(() => import(`src/containers/Requests`));
 const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
 const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
 const Wallet = lazy(() => import(`src/containers/Wallet`));
-const PriceFeeds = lazy(() => import(`src/containers/PriceFeeds`));
 const Randomness = lazy(() => import(`src/components/Randomness`));
 const RandomnessDetail = lazy(() => import(`src/components/Randomness/RandomnessDetail`));
 const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
-const Relayers = lazy(() => import(`src/containers/Relayers`));
 const RelayerDetail = lazy(() => import(`src/containers/RelayerDetail`));
-const OracleAI = lazy(() => import(`src/containers/OracleAI`));
 const WasmCodeDetail = lazy(() => import(`src/containers/WasmCode`));
 
 export default function(props) {
@@ -67,19 +63,15 @@ export default function(props) {
 					<Route path='/accounts' component={AccountList} />
 					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 					<Route path='/data-sources' component={DataSources} />
-					<Route path='/ibc/assets' component={Ibc} />
 					<Route path='/test-cases' component={TestCases} />
 					<Route path='/proposals/:id' component={ProposalsDetail} />
 					<Route path='/proposals' component={Proposals} />
 					<Route path='/ai_requests/:id/report' component={RequestReportDetail} />
 					<Route path='/ai_requests/:id' component={RequestDetails} />
 					<Route path='/ai_requests' component={Requests} />
-					<Route path='/ai-oracle' component={OracleAI} />
 					<Route path='/oracle-scripts/:id' component={OracleScriptDetail} />
 					<Route path='/wallet' component={Wallet} />
-					<Route path='/price-feeds' component={PriceFeeds} />
 					<Route path={`/randomness/:contract/:round`} component={RandomnessDetail} />
-					<Route path={`/randomness/${contract}`} component={Randomness} />
 					<Route path='/smart-contracts' component={SmartContracts} />
 					<Route path='/smart-contract/:address' component={SmartContract} />
 					<Route path='/verified-contracts' component={VerifiedContracts} />
@@ -88,7 +80,6 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
 					<Route path='/ibc/relayers/:channelId' component={RelayerDetail} />
-					<Route path='/ibc/relayers' component={Relayers} />
 					<Route path='/wasm-code/:codeId' component={WasmCodeDetail} />
 					<Route render={() => <NotFound />} />
 				</Switch>
