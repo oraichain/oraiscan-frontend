@@ -120,8 +120,6 @@ export default Object.freeze({
 		IBC_TOKENS: "/ibc/tokens",
 		UPLOAD_IMAGES_VALIDATORS: "/validator/update-image",
 		GET_IMAGES_VALIDATORS: "/validator-detail",
-		IBC_RELAYERS: "/ibc/relayers",
-		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
 		OW20_CONTRACT: "/ow20_contract",
 		OW20_TOKEN: "/ow20_tokens",

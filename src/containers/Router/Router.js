@@ -41,7 +41,6 @@ const RandomnessDetail = lazy(() => import(`src/components/Randomness/Randomness
 const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
-const RelayerDetail = lazy(() => import(`src/containers/RelayerDetail`));
 const WasmCodeDetail = lazy(() => import(`src/containers/WasmCode`));
 
 export default function(props) {
@@ -79,7 +78,6 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id/report' component={OracleReportDetail} />
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
-					<Route path='/ibc/relayers/:channelId' component={RelayerDetail} />
 					<Route path='/wasm-code/:codeId' component={WasmCodeDetail} />
 					<Route render={() => <NotFound />} />
 				</Switch>
