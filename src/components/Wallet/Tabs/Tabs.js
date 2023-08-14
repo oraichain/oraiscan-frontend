@@ -22,10 +22,6 @@ export default function({activeTab, setActiveTab, isBecomeValidator, address}) {
 				<TransactionsIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Transactions</div>
 			</div>
-			<div className={cx("tab", activeTab === 1 ? "active" : "")} onClick={() => setActiveTab(1)}>
-				<TransactionsIcon className={cx("tab-icon")} />
-				<div className={cx("tab-text")}>Royalty Transactions</div>
-			</div>
 			{dataRes?.data && dataRes?.data?.length > 0 && (
 				<div className={cx("tab", activeTab === 6 ? "active" : "")} onClick={() => setActiveTab(6)}>
 					<div className={cx("tab-text")}>CW-20 Token Txns</div>
@@ -34,7 +30,6 @@ export default function({activeTab, setActiveTab, isBecomeValidator, address}) {
 			{isBecomeValidator && (
 				<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
 					<ValidatorsIcon className={cx("tab-icon")} />
-					{/* <div className={cx("tab-text")}> {isBecomeValidator ? "Your Delegators" : "Become A Validator"}</div> */}
 					<div className={cx("tab-text")}>Your Delegators</div>
 				</div>
 			)}
@@ -45,10 +40,6 @@ export default function({activeTab, setActiveTab, isBecomeValidator, address}) {
 			<div className={cx("tab", activeTab === 4 ? "active" : "")} onClick={() => setActiveTab(4)}>
 				<ContactIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Contact</div>
-			</div>
-			<div className={cx("tab", activeTab === 5 ? "active" : "")} onClick={() => setActiveTab(5)}>
-				<DelegatedIcon className={cx("tab-icon")} />
-				<div className={cx("tab-text")}>AI Executor</div>
 			</div>
 		</div>
 	);

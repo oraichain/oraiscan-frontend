@@ -87,9 +87,6 @@
 	.dropdown-trans {
 		transform: translate(-103%, 333%) !important;
 	}
-	.dropdown-ibc {
-		transform: translate(-103%, 430%) !important;
-	}
 	.dropdown-validators {
 		transform: translate(-103%, 185%) !important;
 	}
@@ -98,9 +95,6 @@
 	}
 	.dropdown-smart {
 		transform: translate(-103%, 530%) !important;
-	}
-	.dropdown-sub {
-		transform: translate(-103%, 233%) !important;
 	}
 }
 
