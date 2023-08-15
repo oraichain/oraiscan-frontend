@@ -3,7 +3,7 @@ import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
 import queryString from "query-string";
-import React, {useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useGet} from "restful-react";
 
