@@ -4,48 +4,29 @@ import cn from "classnames/bind";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
-import BigNumber from "bignumber.js";
-import * as yup from "yup";
-import {showAlert} from "src/store/modules/global";
 import {useHistory} from "react-router-dom";
 import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
-import {calculateAmount} from "src/helpers/calculateAmount";
 import DialogForm from "src/components/DialogForm";
 import {walletStation} from "src/lib/walletStation";
 import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {handleErrorMessage} from "../../../../../../lib/scripts";
-import styles from "./ClaimRwBtn.module.scss";
+import {handleErrorMessage} from "src/lib/scripts.js";
+import styles from "../ClaimRwBtn/ClaimRwBtn.module.scss";
 
 const cx = cn.bind(styles);
-
-yup.addMethod(yup.string, "lessThanNumber", function(amount) {
-	return this.test({
-		name: "validate-withdraw",
-		exclusive: false,
-		message: "Transfer amount must be greater than 0 and less than your account's amount",
-		test(value) {
-			if (_.isNaN(value)) {
-				return true;
-			}
-			return parseFloat(value) > 0 && parseFloat(value) <= parseFloat(amount);
-		},
-	});
-});
-
 const {GAS_DEFAULT} = amountConsts;
 
-const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim}) => {
+const ClaimRwAllBtn = memo(({withdrawable, BtnComponent, delegatedData}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
-	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const [fee, setFee] = useState(0);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const balance = new BigNumber(withdrawable);
+	// const balance = new BigNumber(withdrawable);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -59,30 +40,24 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 		resolver: undefined,
 	});
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
-	console.log({withdrawable, balance});
+
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
-				return dispatch(
-					showAlert({
-						show: true,
-						message: "Claimable Rewards ORAI must greater than 0",
-						autoHideDuration: 1500,
-						type: "error",
-					})
-				);
-			}
+			let msg = [];
+			delegatedData.forEach(element => {
+				if (parseFloat(element.claimable_rewards) && parseFloat(element.claimable_rewards) > 0) {
+					msg.push({
+						delegator_address: address,
+						validator_address: element.validator_address,
+					});
+				}
+			});
 			// const minGasFee = (fee * 1000000 + "").split(".")[0];
 
-			const response = await walletStation.withdrawDelegatorReward(
-				{
-					delegator_address: address,
-					validator_address: validatorAddress,
-				},
-			);
+			const response = await walletStation.withdrawDelegatorReward(msg);
+			console.log("response claim rewards: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
-			console.log("response claim delegator reward single: ", response);
 		} catch (error) {
 			setLoadingTransaction(false);
 			notification.error({message: handleErrorMessage(error)});
@@ -116,7 +91,7 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 				closeDialog={closeDialog}
 				open={open}
 				methods={methods}
-				validatorName={validatorName}
+				// validatorName={validatorName}
 				fee={fee}
 				minFee={minFee}
 				setFee={setFee}
@@ -124,11 +99,11 @@ const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validato
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Claim token reward"}
+				buttonName={"Claim all token rewards"}
 			/>
 			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });
 
-export default ClaimRwBtn;
+export default ClaimRwAllBtn;

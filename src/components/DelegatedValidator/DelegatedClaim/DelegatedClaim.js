@@ -5,10 +5,10 @@ import cn from "classnames/bind";
 import {useTheme} from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
-import ClaimTable from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTable";
-import ClaimTableSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTableSkeleton";
-import ClaimCardList from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";
-import ClaimCardListSkeleton from "src/components/Wallet/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardListSkeleton";
+import ClaimTable from "src/components/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTable";
+import ClaimTableSkeleton from "src/components/DelegatedValidator/DelegatedClaim/ClaimTable/ClaimTableSkeleton";
+import ClaimCardList from "src/components/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardList";
+import ClaimCardListSkeleton from "src/components/DelegatedValidator/DelegatedClaim/ClaimCardList/ClaimCardListSkeleton";
 import NoResult from "src/components/common/NoResult";
 import arrowIcon from "src/assets/wallet/arrow.svg";
 import styles from "./DelegatedClaim.module.scss";
@@ -43,10 +43,6 @@ export default function({setActiveTab, address}) {
 		<div className={cx("delegated-claim")}>
 			<div className={cx("delegated-claim-header")}>
 				<div className={cx("title")}>Claim Reward</div>
-				<button className={cx("button")} onClick={() => setActiveTab(1)}>
-					Withdraw
-					<img className={cx("button-icon")} src={arrowIcon} />
-				</button>
 			</div>
 			{tableSection}
 		</div>

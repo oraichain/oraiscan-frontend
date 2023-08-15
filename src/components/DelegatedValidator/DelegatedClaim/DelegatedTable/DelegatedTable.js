@@ -9,7 +9,7 @@ import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import GiftIcon from "./Gift";
-import {walletStation} from "src/lib/walletStation";
+import {walletStation} from "src/lib/walletStation.js";
 import {handleTransactionResponse} from "src/helpers/transaction";
 import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";

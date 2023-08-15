@@ -42,6 +42,7 @@ const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetai
 const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
 const ExportData = lazy(() => import(`src/containers/ExportData`));
 const WasmCodeDetail = lazy(() => import(`src/containers/WasmCode`));
+const DelegatedValidator = lazy(() => import(`src/components/DelegatedValidator/DelegatedValidator`));
 
 export default function(props) {
 	//  preload stuff that needs preloading
@@ -79,6 +80,7 @@ export default function(props) {
 					<Route path='/ai-request/:contract/:id' component={OracleRequestDetail} />
 					<Route path='/export-data/:account' component={ExportData} />
 					<Route path='/wasm-code/:codeId' component={WasmCodeDetail} />
+					<Route path='/delegated-validator' component={DelegatedValidator}/>
 					<Route render={() => <NotFound />} />
 				</Switch>
 			</Suspense>

@@ -11,10 +11,8 @@ import TitleWrapper from "src/components/common/TitleWrapper";
 import StatusBar from "src/components/Wallet/StatusBar";
 import Tabs from "src/components/Wallet/Tabs";
 import {RegisterDetail} from "src/components/Wallet/Register";
-import DelegatedValidator from "src/components/Wallet/DelegatedValidator";
 import Transaction from "src/components/Wallet/Transaction";
 import Contact from "src/components/Wallet/Contact";
-import AiServiceFee from "src/components/Wallet/AiServiceFee";
 import CwToken from "src/components/Wallet/CwToken";
 import styles from "./Wallet.module.scss";
 
@@ -43,9 +41,8 @@ export default function(props) {
 			<Tabs activeTab={activeTab} setActiveTab={setActiveTab} isBecomeValidator={isBecomeValidator} address={address} />
 			{activeTab === 0 && <Transaction account={address} />}
 			{activeTab === 6 && <CwToken address={address} />}
-			{activeTab === 2 && <DelegatedValidator address={address} />}
 			{activeTab === 3 && isBecomeValidator && <RegisterDetail address={address} validatorAddress={data?.operator_address} />}
 			{activeTab === 4 && <Contact />}
-		</Container>
+		</Container> 
 	);
 }
