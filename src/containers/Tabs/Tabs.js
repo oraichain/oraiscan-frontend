@@ -19,10 +19,7 @@ import DashBoardTabIcon from "src/icons/Tabs/DashBoardTabIcon";
 import ProposalsTabIcon from "src/icons/Tabs/ProposalsTabIcon";
 import PriceFeedsTabIcon from "src/icons/Tabs/PriceFeedsTabIcon";
 import ValidatorsTabIcon from "src/icons/Tabs/ValidatorsTabIcon";
-import TestCaseTabIcon from "src/icons/Tabs/TestCaseTabIcon";
-import RequestsTabIcon from "src/icons/Tabs/RequestsTabIcon";
 import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
-import IbcTabIcon from "src/icons/Tabs/IbcTabIcon";
 import backIcon from "src/assets/header/back_ic.svg";
 
 // functions and components
@@ -48,16 +45,11 @@ const Tabs = memo(() => {
 	const [openTransactions, setOpenTransactions] = React.useState(false);
 	const [openProposals, setOpenProposals] = React.useState(false);
 	const [openOracleScripts, setOpenOracleScripts] = React.useState(false);
-	const [openRequests, setOpenRequests] = React.useState(false);
 	const [openOthers, setOpenOthers] = React.useState(false);
-	const [openIbc, setOpenIbc] = React.useState(false);
 	const validatorsAnchorRef = React.useRef(null);
 	const transactionsAnchorRef = React.useRef(null);
 	const proposalsAnchorRef = React.useRef(null);
 	const oracleScriptsAnchorRef = React.useRef(null);
-	const requestsAnchorRef = React.useRef(null);
-	const othersAnchorRef = React.useRef(null);
-	const ibcAnchorRef = React.useRef(null);
 
 	const handleOpenValidators = () => {
 		setOpenValidators(true);
@@ -91,28 +83,12 @@ const Tabs = memo(() => {
 		setOpenOracleScripts(false);
 	};
 
-	const handleOpenRequests = () => {
-		setOpenRequests(true);
-	};
-
-	const handleCloseRequests = () => {
-		setOpenRequests(false);
-	};
-
 	const handleOpenOthers = () => {
 		setOpenOthers(true);
 	};
 
 	const handleCloseOthers = () => {
 		setOpenOthers(false);
-	};
-
-	const handleOpenIbc = () => {
-		setOpenIbc(true);
-	};
-
-	const handleCloseIbc = () => {
-		setOpenIbc(false);
 	};
 
 	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName}) => (
@@ -224,42 +200,7 @@ const Tabs = memo(() => {
 				activePath: "/verified-contracts",
 			},
 		],
-		Subnetworks: [
-			{
-				pathName: "/ai-oracle",
-				title: "AI Oracle",
-				activePath: "/ai-oracle",
-			},
-			{
-				pathName: `/randomness/${contract}`,
-				title: "VRF",
-				activePath: `/randomness/${contract}`,
-			},
-		],
-		// Others: [
-		// 	{
-		// 		pathName: "/data-sources",
-		// 		title: "Data Sources (Legacy)",
-		// 		activePath: "/data-soruces",
-		// 	},
-		// 	{
-		// 		pathName: "/test-cases",
-		// 		title: "Test Cases (Legacy)",
-		// 		activePath: "/test-cases",
-		// 	},
-		// ],
-		IBC: [
-			{
-				pathName: "/ibc/assets",
-				title: "Assets",
-				activePath: "/ibc/assets",
-			},
-			{
-				pathName: "/ibc/relayers",
-				title: "Relayers",
-				activePath: "/ibc/relayers",
-			},
-		],
+		
 	};
 
 	const tabs = [
@@ -272,13 +213,6 @@ const Tabs = memo(() => {
 			name: "Validators",
 			img: <ValidatorsTabIcon className={cx("tab-icon")}></ValidatorsTabIcon>,
 			route: "/validators",
-			render: renderTabDropdownComponent,
-		},
-		{
-			name: "Subnetworks",
-			img: <RequestsTabIcon className={cx("tab-icon")}></RequestsTabIcon>,
-			route: "/ai-oracle",
-			dropdownClassName: "requests-dropdown",
 			render: renderTabDropdownComponent,
 		},
 		{
@@ -301,23 +235,6 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 		{
-			name: "IBC",
-			img: <IbcTabIcon className={cx("tab-icon")}></IbcTabIcon>,
-			route: "/ibc/assets",
-			dropdownClassName: "ibc-dropdown",
-			render: renderTabDropdownComponent,
-		},
-		{
-			name: "Price Feeds",
-			img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-			route: "/price-feeds",
-		},
-		// {
-		// 	name: "Randomness",
-		// 	img: <DataSourcesTabIcon className={cx("tab-icon")}></DataSourcesTabIcon>,
-		// 	route: "/randomness/" + contract,
-		// },
-		{
 			name: "Smart Contracts",
 			img: <OracleScriptsTabIcon className={cx("tab-icon")}></OracleScriptsTabIcon>,
 			route: "/smart-contracts",
@@ -325,13 +242,6 @@ const Tabs = memo(() => {
 			render: renderTabDropdownComponent,
 		},
 
-		// {
-		// 	name: "Others",
-		// 	// img: <PriceFeedsTabIcon className={cx("tab-icon")}></PriceFeedsTabIcon>,
-		// 	route: "/data-sources",
-		// 	dropdownClassName: "others-dropdown",
-		// 	render: renderTabDropdownComponent,
-		// },
 	];
 
 	return (
@@ -391,32 +301,6 @@ const Tabs = memo(() => {
 								open = openOracleScripts;
 								handleOpen = handleOpenOracleScripts;
 								handleClose = handleCloseOracleScripts;
-								break;
-							case "Subnetworks":
-								classNameDropdown = "dropdown-transactions dropdown-sub";
-								childs = childDropdown?.[name];
-								anchorRef = requestsAnchorRef;
-								open = openRequests;
-								handleOpen = handleOpenRequests;
-								handleClose = handleCloseRequests;
-								break;
-							// case "Others":
-							// 	classNameDropdown = "dropdown-transactions";
-							// 	childs = childDropdown?.[name];
-							// 	anchorRef = othersAnchorRef;
-							// 	open = openOthers;
-							// 	handleOpen = handleOpenOthers;
-							// 	handleClose = handleCloseOthers;
-							// 	break;
-							case "IBC":
-								classNameDropdown = "dropdown-transactions dropdown-ibc";
-								childs = childDropdown?.[name];
-								anchorRef = ibcAnchorRef;
-								open = openIbc;
-								handleOpen = handleOpenIbc;
-								handleClose = handleCloseIbc;
-								break;
-							default:
 								break;
 						}
 						tab = render({
