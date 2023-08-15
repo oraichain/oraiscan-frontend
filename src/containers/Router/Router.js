@@ -37,7 +37,7 @@ const OracleReportDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName
 const ExportData = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ExportData" */ 'src/containers/ExportData'), 'ExportData'));
 const WasmCodeDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "WasmCodeDetail" */ 'src/containers/WasmCode'), 'WasmCodeDetail'));
 const BlockList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "BlockListV2" */ 'src/containers/BlockListV2'), "BlockListV2"));
-const DelegatedValidator = lazy(() => lazyRetry(() => import(/* webpackChunkName: "DelegatedValidator" */ 'src/components/DelegatedValidator/DelegatedValidator'), "DelegatedValidator"));
+const DelegatedValidator = lazy(() => lazyRetry(() => import(/* webpackChunkName: "DelegatedValidator" */ 'src/containers/DelegatedValidator/DelegatedValidator'), "DelegatedValidator"));
 
 // a function to retry loading a chunk to avoid chunk load error for out of date code
 const lazyRetry = function(componentImport, name) {
