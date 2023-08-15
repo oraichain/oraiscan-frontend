@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
-import {constantCase} from "constant-case";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useMemo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
+import { constantCase } from "constant-case";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, mergeArrays} from "src/helpers/helper";
-import {formatInteger} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { arraysEqual, mergeArrays } from "src/helpers/helper";
+import { formatInteger } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
@@ -20,7 +20,7 @@ import styles from "./TransactionsCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const TransactionsCard = memo(({proposalId}) => {
+const TransactionsCard = memo(({ proposalId }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [firstLoadTransactionCompleted, setFirstLoadTransactionCompleted] = useState(false);
@@ -57,9 +57,8 @@ const TransactionsCard = memo(({proposalId}) => {
 			if (!voteTypes[key]) {
 				continue;
 			}
-			const labelArr = voteTypes[key].split("_") || [];
-			const labelTxt = labelArr[labelArr.length - 1];
-			const label = labelArr[labelArr.length - 1] + " (" + (totalTxs[labelTxt] || 0) + ")";
+			const labelTxt = voteTypes[key]?.replace("VOTE_OPTION_", "") ?? "-";
+			const label = labelTxt.replaceAll("_", " ") + " (" + (totalTxs[labelTxt] || 0) + ")";
 			const value = voteTypes[key];
 			filterData.push({
 				label: label,
@@ -85,7 +84,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	}
 
 	const votePath = `${consts.API.PROPOSAL_VOTES}`;
-	const {data: voteData} = useGet({
+	const { data: voteData } = useGet({
 		path: votePath,
 	});
 	if (voteData) {
@@ -98,7 +97,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	}
 
 	const totalTxsPath = `${consts.API.PROPOSALS_TOTAL_TXS}/${proposalId}`;
-	const {data: totalTxsData, refetch: refetchTotalTxs} = useGet({
+	const { data: totalTxsData, refetch: refetchTotalTxs } = useGet({
 		path: totalTxsPath,
 	});
 
@@ -115,7 +114,7 @@ const TransactionsCard = memo(({proposalId}) => {
 	if (!_.isNil(voteType) && voteType !== voteTypesRef.current["ALL"]) {
 		transactionPath = `${transactionPath}&vote=${voteType}`;
 	}
-	const {data: transactionData, loading: transactionLoading, error: transactionError, refetch: refetchTransaction} = useGet({
+	const { data: transactionData, loading: transactionLoading, error: transactionError, refetch: refetchTransaction } = useGet({
 		path: transactionPath,
 	});
 

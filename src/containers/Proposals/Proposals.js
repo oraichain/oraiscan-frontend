@@ -77,25 +77,34 @@ export default function() {
 		let list = [];
 
 		if (isFlag) {
-			list = proposals.map(e => {
-				const value = TextProposal.decode(e?.content?.value);
-				const status = Object.keys(ProposalStatus)[Object.values(ProposalStatus).indexOf(e.status)];
-				const totalVote = Object.values(e?.finalTallyResult).reduce((acc, cur) => acc + parseInt(cur), 0);
-				const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: e?.finalTallyResult });
-				return {
-					...tallyObj,
-					proposal_id: e?.proposalId?.toString(),
-					status,
-					title: value?.title,
-					submit_time: e.submitTime.seconds.toNumber() * 1000,
-					voting_end_time: e.votingEndTime.seconds.toNumber() * 1000,
-					total_deposit: e.totalDeposit.reduce((acc, cur) => acc + parseInt(cur.amount), 0),
-					voting_start_time: e.votingStartTime.seconds.toNumber() * 1000,
-					deposit_end_time: e.depositEndTime.seconds.toNumber() * 1000,
-					type_url: e.content.typeUrl,
-					finalTallyResult: e?.finalTallyResult,
-				};
-			});
+			for (const proposal of proposals) {
+				const value = TextProposal.decode(proposal?.content?.value);
+				const status = Object.keys(ProposalStatus)[Object.values(ProposalStatus).indexOf(proposal.status)];
+				let totalVote = Object.values(proposal?.finalTallyResult).reduce((acc, cur) => acc + parseInt(cur), 0);
+				let finalTally = proposal?.finalTallyResult;
+				if (status === "PROPOSAL_STATUS_VOTING_PERIOD") {
+					const { tally } = await queryStation.tally(proposal.proposalId);
+					totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
+					finalTally = tally;
+				}
+				const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: finalTally });
+				list = [
+					...list,
+					{
+						...tallyObj,
+						proposal_id: proposal?.proposalId?.toString(),
+						status,
+						title: value?.title,
+						submit_time: proposal.submitTime.seconds.toNumber() * 1000,
+						voting_end_time: proposal.votingEndTime.seconds.toNumber() * 1000,
+						total_deposit: proposal.totalDeposit.reduce((acc, cur) => acc + parseInt(cur.amount), 0),
+						voting_start_time: proposal.votingStartTime.seconds.toNumber() * 1000,
+						deposit_end_time: proposal.depositEndTime.seconds.toNumber() * 1000,
+						type_url: proposal.content.typeUrl,
+						finalTallyResult: finalTally,
+					},
+				];
+			}
 		}
 		return { list, pagination, proposals };
 	};
@@ -131,6 +140,36 @@ export default function() {
 				if (limit && limit < 100) {
 					const p = await getDataProposal(0, limit, true);
 					return dispatch(updateProposal([...p.list]));
+				}
+			}
+
+			if (total === proposals.length) {
+				const votingProposal = proposals.filter(e => e.status === "PROPOSAL_STATUS_VOTING_PERIOD");
+				if (votingProposal.length) {
+					let votingList = [];
+					for (const voting of votingProposal) {
+						console.log({ voting });
+						const { tally } = await queryStation.tally(voting.proposal_id);
+						const totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
+						const finalTally = tally;
+						const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: finalTally });
+						votingList = [
+							...votingList,
+							{
+								...voting,
+								...tallyObj,
+								finalTallyResult: finalTally,
+							},
+						];
+					}
+					if (votingList.length) {
+						const arrVotingProposal = proposals.map(e => {
+							const findVoting = votingList.find(vot => vot.proposal_id === e.proposal_id);
+							if (findVoting) return findVoting;
+							return e;
+						});
+						dispatch(updateProposal(arrVotingProposal));
+					}
 				}
 			}
 		} catch (error) {

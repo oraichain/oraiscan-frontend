@@ -34,8 +34,6 @@ const AccountList = memo(() => {
 	const basePath = `${consts.API.ACCOUNTS}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
-	const [listBalance, setListBalance] = useState([]);
-
 	const { data, loading, error } = useGet({
 		path: path,
 	});
@@ -43,27 +41,6 @@ const AccountList = memo(() => {
 	let titleSection;
 	let tableSection;
 	let paginationSection;
-
-	//TODO: hardcode hotfix with balance
-	const fetchBalance = async address => {
-		const resp = await axios.get(`https://api.scan.orai.io/v1/account/coins/${address}`);
-		return resp?.data;
-	};
-
-	const fetchAllBalance = async data => {
-		const bal = data.map(e => {
-			return fetchBalance(e.address);
-		});
-		const balanceList = await Promise.all(bal);
-		setListBalance(balanceList);
-	};
-
-	useEffect(() => {
-		if (data?.data?.length) {
-			fetchAllBalance(data.data);
-		}
-		return () => {};
-	}, [data]);
 
 	titleSection = isLargeScreen ? (
 		<Container fixed>
@@ -89,14 +66,8 @@ const AccountList = memo(() => {
 				totalPagesRef.current = null;
 			}
 
-			const dataWithBalance = data?.data?.map((e, i) => {
-				return {
-					...e,
-					balance: listBalance[i]?.total,
-				};
-			});
 			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <AccountTable data={dataWithBalance} /> : <AccountCardList data={dataWithBalance} />;
+				tableSection = isLargeScreen ? <AccountTable data={data.data} /> : <AccountCardList data={data.data} />;
 			} else {
 				tableSection = <NoResult />;
 			}

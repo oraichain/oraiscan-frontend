@@ -4,46 +4,63 @@ import cn from "classnames/bind";
 import Loading from "src/components/common/Loading";
 import {usePreload} from "src/hooks";
 import ScrollToTop from "./ScrollToTop";
-import config from "src/config.js";
 import styles from "./Router.module.scss";
 
 const cx = cn.bind(styles);
-const contract = config.randomnessContractAddress;
 
-const Dashboard = lazy(() => import(`src/containers/Dashboard`));
-const ValidatorList = lazy(() => import(`src/containers/ValidatorList`));
-const ValidatorDetails = lazy(() => import(`src/containers/ValidatorDetails`));
-const AccountList = lazy(() => import(`src/containers/AccountList`));
-const Block = lazy(() => import(`src/containers/Block`));
-// const BlockList = lazy(() => import(`src/containers/BlockList`));
-const BlockList = lazy(() => import(`src/containers/BlockListV2`));
-const TxList = lazy(() => import(`src/containers/TxList`));
-const Tx = lazy(() => import(`src/containers/Tx`));
-const NotFound = lazy(() => import(`src/containers/NotFound`));
-const Account = lazy(() => import(`src/containers/Account`));
-const DataSources = lazy(() => import(`src/containers/DataSources`));
-const DataSourcesDetail = lazy(() => import(`src/containers/DataSourcesDetail`));
-const TestCases = lazy(() => import(`src/containers/TestCases`));
-const OracleScripts = lazy(() => import(`src/containers/OracleScripts`));
-const OracleScriptDetail = lazy(() => import(`src/containers/OracleScriptDetail`));
-const Proposals = lazy(() => import(`src/containers/Proposals`));
-const ProposalsDetail = lazy(() => import(`src/containers/ProposalsDetail`));
-const SmartContract = lazy(() => import(`src/containers/SmartContract`));
-const SmartContracts = lazy(() => import(`src/containers/SmartContracts`));
-const VerifiedContract = lazy(() => import(`src/containers/VerifiedContract`));
-const VerifiedContracts = lazy(() => import(`src/containers/VerifiedContracts`));
-const Requests = lazy(() => import(`src/containers/Requests`));
-const RequestReportDetail = lazy(() => import(`src/containers/RequestReportDetail`));
-const RequestDetails = lazy(() => import(`src/containers/RequestDetails`));
-const Wallet = lazy(() => import(`src/containers/Wallet`));
-const Randomness = lazy(() => import(`src/components/Randomness`));
-const RandomnessDetail = lazy(() => import(`src/components/Randomness/RandomnessDetail`));
-const OracleRequestDetail = lazy(() => import(`src/containers/OracleRequestDetail`));
-const OracleReportDetail = lazy(() => import(`src/containers/OracleReportDetail`));
-const ExportData = lazy(() => import(`src/containers/ExportData`));
-const WasmCodeDetail = lazy(() => import(`src/containers/WasmCode`));
-const DelegatedValidator = lazy(() => import(`src/components/DelegatedValidator/DelegatedValidator`));
+const Dashboard = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Dashboard" */ 'src/containers/Dashboard'), "Dashboard"));
+const ValidatorList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ValidatorList" */ 'src/containers/ValidatorList'), 'ValidatorList'));
+const ValidatorDetails = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ValidatorDetails" */ 'src/containers/ValidatorDetails'), 'ValidatorDetails'));
+const AccountList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "AccountList" */ 'src/containers/AccountList'), 'AccountList'));
+const Block = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Block" */ 'src/containers/Block'), 'Block'));
+const TxList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "TxList" */ 'src/containers/TxList'), 'TxList'));
+const Tx = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Tx" */ 'src/containers/Tx'), 'Tx'));
+const NotFound = lazy(() => lazyRetry(() => import(/* webpackChunkName: "NotFound" */ 'src/containers/NotFound'), 'NotFound'));
+const Account = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Account" */ 'src/containers/Account'), 'Account'));
+const DataSources = lazy(() => lazyRetry(() => import(/* webpackChunkName: "DataSources" */ 'src/containers/DataSources'), 'DataSources'));
+const DataSourcesDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "DataSourcesDetail" */ 'src/containers/DataSourcesDetail'), 'DataSourcesDetail'));
+const TestCases = lazy(() => lazyRetry(() => import(/* webpackChunkName: "TestCases" */ 'src/containers/TestCases'), 'TestCases'));
+const OracleScriptDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "OracleScriptDetail" */ 'src/containers/OracleScriptDetail'), 'OracleScriptDetail'));
+const Proposals = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Proposals" */ 'src/containers/Proposals'), 'Proposals'));
+const ProposalsDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ProposalsDetail" */ 'src/containers/ProposalsDetail'), 'ProposalsDetail'));
+const SmartContract = lazy(() => lazyRetry(() => import(/* webpackChunkName: "SmartContract" */ 'src/containers/SmartContract'), 'SmartContract'));
+const SmartContracts = lazy(() => lazyRetry(() => import(/* webpackChunkName: "SmartContracts" */ 'src/containers/SmartContracts'), 'SmartContracts'));
+const VerifiedContract = lazy(() => lazyRetry(() => import(/* webpackChunkName: "VerifiedContract" */ 'src/containers/VerifiedContract'), 'VerifiedContract'));
+const VerifiedContracts = lazy(() => lazyRetry(() => import(/* webpackChunkName: "VerifiedContracts" */ 'src/containers/VerifiedContracts'), 'VerifiedContracts'));
+const Requests = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Requests" */ 'src/containers/Requests'), 'Requests'));
+const RequestReportDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "RequestReportDetail" */ 'src/containers/RequestReportDetail'), 'RequestReportDetail'));
+const RequestDetails = lazy(() => lazyRetry(() => import(/* webpackChunkName: "RequestDetails" */ 'src/containers/RequestDetails'), 'RequestDetails'));
+const Wallet = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Wallet" */ 'src/containers/Wallet'), 'Wallet'));
+const RandomnessDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "RandomnessDetail" */ 'src/components/Randomness/RandomnessDetail'), 'RandomnessDetail'));
+const OracleRequestDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "OracleRequestDetail" */ 'src/containers/OracleRequestDetail'), 'OracleRequestDetail'));
+const OracleReportDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "OracleReportDetail" */ 'src/containers/OracleReportDetail'), 'OracleReportDetail'));
+const ExportData = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ExportData" */ 'src/containers/ExportData'), 'ExportData'));
+const WasmCodeDetail = lazy(() => lazyRetry(() => import(/* webpackChunkName: "WasmCodeDetail" */ 'src/containers/WasmCode'), 'WasmCodeDetail'));
+const BlockList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "BlockListV2" */ 'src/containers/BlockListV2'), "BlockListV2"));
+const DelegatedValidator = lazy(() => lazyRetry(() => import(/* webpackChunkName: "DelegatedValidator" */ 'src/components/DelegatedValidator/DelegatedValidator'), "DelegatedValidator"));
 
+// a function to retry loading a chunk to avoid chunk load error for out of date code
+const lazyRetry = function(componentImport, name) {
+    return new Promise((resolve, reject) => {
+        // check if the window has already been refreshed
+        const hasRefreshed = JSON.parse(
+            window.sessionStorage.getItem(`retry-${name}-refreshed`) || 'false'
+        );
+
+         // try to import the component
+        componentImport().then((component) => {
+			window.sessionStorage.setItem(`retry-${name}-refreshed`, 'false'); // success so reset the refresh
+            resolve(component);
+        }).catch((error) => {
+            if (!hasRefreshed) { 
+                window.sessionStorage.setItem(`retry-${name}-refreshed`, 'true'); // we are now going to refresh
+                return window.location.reload(); // refresh the page
+            }
+            reject(error); 
+        });
+    });
+};
+ 
 export default function(props) {
 	//  preload stuff that needs preloading
 	usePreload();
