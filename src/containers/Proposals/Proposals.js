@@ -7,10 +7,8 @@ import queryString from "query-string";
 import { lazy, useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import FilterSection from "src/components/common/FilterSection";
-import { updateProposal } from "src/store/modules/proposal";
 import { useSelector, useDispatch } from "react-redux";
 import NoResult from "src/components/common/NoResult";
-import { calculateTallyProposal } from "src/helpers/helper";
 import PageTitle from "src/components/common/PageTitle";
 import Pagination from "src/components/common/Pagination";
 import StatusBox from "src/components/common/StatusBox";
@@ -23,30 +21,17 @@ import ProposalsTableSkeleton from "src/components/Proposals/ProposalsTable/Prop
 import TopProposalCardList from "src/components/Proposals/TopProposalCardList";
 import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCardList/TopProposalCardListSkeleton";
 import styles from "./Proposals.module.scss";
-import { queryStation } from "src/lib/queryStation";
-import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { LIMIT, arrFilterType, PROPOSAL_STATUS } from "./constant";
+import { handleListProposal, getDataProposal } from "./helper";
+import { changeProposal, updateProposal } from "../../store/modules/proposal";
 
 const CreateProposal = lazy(() => import(`./CreateProposal`));
 const cx = cn.bind(styles);
 
-const PROPOSAL_STATUS_ALL = "PROPOSAL_STATUS_ALL";
-const arr = ["/cosmos.gov.v1beta1.", "/cosmos.upgrade.v1beta1.", "/cosmos.params.v1beta1."];
-const LIMIT = 10;
-
-const ProposalStatus = {
-	PROPOSAL_STATUS_ALL: -1, //UNRECOGNIZED
-	PROPOSAL_STATUS_UNSPECIFIED: 0,
-	PROPOSAL_STATUS_DEPOSIT_PERIOD: 1,
-	PROPOSAL_STATUS_VOTING_PERIOD: 2,
-	PROPOSAL_STATUS_PASSED: 3,
-	PROPOSAL_STATUS_REJECTED: 4,
-	PROPOSAL_STATUS_FAILED: 5,
-};
-
-const listProposalFilter = (proposals = [], type, status = PROPOSAL_STATUS_ALL) => {
+const listProposalFilter = (proposals = [], type, status = "PROPOSAL_STATUS_ALL") => {
 	let data = proposals;
-	if (status !== PROPOSAL_STATUS_ALL) data = data.filter(e => e.status == status);
-	if (type) data = data.filter(e => [...arr.map(ar => ar + type)].includes(e.type_url));
+	if (status !== "PROPOSAL_STATUS_ALL") data = data.filter(e => e.status == status);
+	if (type) data = data.filter(e => [...arrFilterType.map(ar => ar + type)].includes(e.type_url));
 	return { data };
 };
 
@@ -55,7 +40,7 @@ export default function() {
 	const dispatch = useDispatch();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const { proposals, bondTotal } = useSelector(state => state.proposal);
-	const [status, setStatus] = useState(PROPOSAL_STATUS_ALL);
+	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
 	const [loading, setLoading] = useState(false);
 	const [topPageId, setTopPageId] = useState(1);
 	const [pageId, setPageId] = useState(1);
@@ -72,106 +57,15 @@ export default function() {
 		setPageId(page);
 	};
 
-	const getDataProposal = async (offset = 0, limit = undefined, isFlag = false) => {
-		const { proposals, pagination } = await queryStation.proposalList(-1, "", "", undefined, offset, limit);
-		let list = [];
-
-		if (isFlag) {
-			for (const proposal of proposals) {
-				const value = TextProposal.decode(proposal?.content?.value);
-				const status = Object.keys(ProposalStatus)[Object.values(ProposalStatus).indexOf(proposal.status)];
-				let totalVote = Object.values(proposal?.finalTallyResult).reduce((acc, cur) => acc + parseInt(cur), 0);
-				let finalTally = proposal?.finalTallyResult;
-				if (status === "PROPOSAL_STATUS_VOTING_PERIOD") {
-					const { tally } = await queryStation.tally(proposal.proposalId);
-					totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
-					finalTally = tally;
-				}
-				const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: finalTally });
-				list = [
-					...list,
-					{
-						...tallyObj,
-						proposal_id: proposal?.proposalId?.toString(),
-						status,
-						title: value?.title,
-						submit_time: proposal.submitTime.seconds.toNumber() * 1000,
-						voting_end_time: proposal.votingEndTime.seconds.toNumber() * 1000,
-						total_deposit: proposal.totalDeposit.reduce((acc, cur) => acc + parseInt(cur.amount), 0),
-						voting_start_time: proposal.votingStartTime.seconds.toNumber() * 1000,
-						deposit_end_time: proposal.depositEndTime.seconds.toNumber() * 1000,
-						type_url: proposal.content.typeUrl,
-						finalTallyResult: finalTally,
-					},
-				];
-			}
-		}
-		return { list, pagination, proposals };
-	};
-
-	const getProposalList = async () => {
+	const getListProposal = async () => {
 		try {
 			setLoading(true);
-			const { pagination } = await getDataProposal();
+			const { pagination } = await getDataProposal({ offset: 0, limit: undefined, isFlag: false, bondTotal });
 			const total = pagination.total.toNumber();
-			if (!proposals.length) {
-				let listProposalData = [];
-				for (let i = 0; i < Math.ceil(total / 100); i++) {
-					const p = await getDataProposal(i * 100, undefined, true);
-					listProposalData = [...listProposalData, ...p.list];
-				}
-				return dispatch(updateProposal(listProposalData));
-			}
-
-			if (total > proposals.length) {
-				const limit = total - proposals.length;
-				if (limit && limit > 100) {
-					let listProposalData = [];
-					for (let i = 0; i < Math.ceil(limit / 100); i++) {
-						let limitProposal = i * 100;
-						if (i + 1 == Math.ceil(limit / 100)) {
-							limitProposal = limit - i * 100;
-						}
-						const p = await getDataProposal(limitProposal, undefined, true);
-						listProposalData = [...listProposalData, ...p.list];
-					}
-					return dispatch(updateProposal(listProposalData));
-				}
-				if (limit && limit < 100) {
-					const p = await getDataProposal(0, limit, true);
-					return dispatch(updateProposal([...p.list]));
-				}
-			}
-
-			if (total === proposals.length) {
-				const votingProposal = proposals.filter(e => e.status === "PROPOSAL_STATUS_VOTING_PERIOD");
-				if (votingProposal.length) {
-					let votingList = [];
-					for (const voting of votingProposal) {
-						console.log({ voting });
-						const { tally } = await queryStation.tally(voting.proposal_id);
-						const totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
-						const finalTally = tally;
-						const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: finalTally });
-						votingList = [
-							...votingList,
-							{
-								...voting,
-								...tallyObj,
-								finalTallyResult: finalTally,
-							},
-						];
-					}
-					if (votingList.length) {
-						const arrVotingProposal = proposals.map(e => {
-							const findVoting = votingList.find(vot => vot.proposal_id === e.proposal_id);
-							if (findVoting) return findVoting;
-							return e;
-						});
-						dispatch(updateProposal(arrVotingProposal));
-					}
-				}
-			}
+			const checkCacheDuplicate = total < proposals.length;
+			const { list, type } = await handleListProposal({ total, proposals, bondTotal, isNullProposal: checkCacheDuplicate });
+			if (type === "changeProposal") dispatch(changeProposal(list));
+			if (type === "updateProposal") dispatch(updateProposal(list));
 		} catch (error) {
 			console.log({ error });
 		} finally {
@@ -180,7 +74,7 @@ export default function() {
 	};
 
 	useEffect(() => {
-		getProposalList();
+		getListProposal();
 	}, []);
 
 	let titleSection;
@@ -219,9 +113,9 @@ export default function() {
 		}
 	}
 
-	if (ProposalStatus) {
+	if (PROPOSAL_STATUS) {
 		let filterData;
-		filterData = Object.keys(ProposalStatus).map(value => ({
+		filterData = Object.keys(PROPOSAL_STATUS).map(value => ({
 			label: value.replace("PROPOSAL_STATUS_", ""),
 			value,
 		}));
