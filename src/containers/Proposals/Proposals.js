@@ -59,7 +59,7 @@ export default function() {
 
 	const getListProposal = async () => {
 		try {
-			setLoading(true);
+			if (!proposals.length) setLoading(true);
 			const { pagination } = await getDataProposal({ offset: 0, limit: undefined, isFlag: false, bondTotal });
 			const total = pagination.total.toNumber();
 			const checkCacheDuplicate = total < proposals.length;
