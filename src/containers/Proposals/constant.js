@@ -82,4 +82,18 @@ const votingFields = [
 	},
 ];
 
-export { defaultValues, fields, votingFields };
+const arrFilterType = ["/cosmos.gov.v1beta1.", "/cosmos.upgrade.v1beta1.", "/cosmos.params.v1beta1."];
+const LIMIT = 10;
+const LIMIT_PROPOSAL = 100;
+
+const PROPOSAL_STATUS = {
+	PROPOSAL_STATUS_ALL: -1, //UNRECOGNIZED
+	PROPOSAL_STATUS_UNSPECIFIED: 0,
+	PROPOSAL_STATUS_DEPOSIT_PERIOD: 1,
+	PROPOSAL_STATUS_VOTING_PERIOD: 2,
+	PROPOSAL_STATUS_PASSED: 3,
+	PROPOSAL_STATUS_REJECTED: 4,
+	PROPOSAL_STATUS_FAILED: 5,
+};
+
+export { defaultValues, fields, votingFields, arrFilterType, LIMIT, LIMIT_PROPOSAL, PROPOSAL_STATUS };
