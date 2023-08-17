@@ -15,7 +15,7 @@ import BigNumber from "bignumber.js";
 import {formatOrai, amountCoinDecimal} from "src/helpers/helper";
 import consts from "src/constants/consts";
 import {useFetch, useHistory} from "src/hooks";
-import {walletStation} from "src/lib/walletStation";
+import {walletStation} from "src/lib/walletStation.js";
 import {handleTransactionResponse} from "src/helpers/transaction";
 import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";

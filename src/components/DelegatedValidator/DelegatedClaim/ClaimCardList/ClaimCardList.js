@@ -12,7 +12,7 @@ import {walletStation} from "src/lib/walletStation";
 import {notification} from "antd";
 import {handleTransactionResponse} from "src/helpers/transaction";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {handleErrorMessage} from "../../../../../lib/scripts";
+import {handleErrorMessage} from "src/lib/scripts.js";
 import styles from "./ClaimCardList.module.scss";
 
 const cx = classNames.bind(styles);

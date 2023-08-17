@@ -158,6 +158,11 @@ const Tabs = memo(() => {
 				title: "Accounts",
 				activePath: "/accounts",
 			},
+			{
+				pathName: "/delegated-validator",
+				title: "Delegated Validator",
+				activePath: "/delegated-validator",
+			},
 		],
 		Transactions: [
 			{

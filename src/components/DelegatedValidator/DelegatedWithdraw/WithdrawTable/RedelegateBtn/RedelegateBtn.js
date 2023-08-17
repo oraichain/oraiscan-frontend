@@ -7,19 +7,19 @@ import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {InputNumberOrai, TextArea} from "src/components/common/form-controls";
+import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction, handleTransactionResponse} from "src/helpers/transaction";
-import { amountCoinDecimal} from "src/helpers/helper";
-import consts from "src/constants/consts";
+import {payloadTransaction, minusFees, handleTransactionResponse} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
 import {calculateAmount} from "src/helpers/calculateAmount";
 import {walletStation} from "src/lib/walletStation";
 import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {handleErrorMessage} from "../../../../../../lib/scripts";
-import styles from "./WithdrawBtn.module.scss";
+import {handleErrorMessage} from "src/lib/scripts.js";
+import styles from "./RedelegateBtn.module.scss";
+import { amountCoinDecimal } from 'src/helpers/helper'
+import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
 
@@ -39,9 +39,10 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 
 const {GAS_DEFAULT, PERCENTS} = amountConsts;
 
-const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
+	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const percents = PERCENTS;
@@ -49,7 +50,6 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
-	const [loadingTransaction, setLoadingTransaction] = useState(false);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -73,14 +73,24 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
 
 	const onSubmit = async data => {
-		// const minGasFee = (fee * 1000000 + "").split(".")[0];
-		// let amount = minusFees(fee, data.amount);
 		try {
 			setLoadingTransaction(true);
-			const response = await walletStation.undelegate(address, validatorAddress, {
-				denom: consts.DENOM,
-				amount: amountCoinDecimal(data.amount)
-			})
+			console.log({data});
+			// const minGasFee = (fee * 1000000 + "").split(".")[0];
+			// let amount = minusFees(fee, data.amount);
+
+			const response = await walletStation.redelegate(
+				address,
+				validatorAddress,
+				data.recipientAddress,
+				{
+					denom: consts.DENOM,
+					amount: amountCoinDecimal(data.amount) 
+				}
+				// new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
+			);
+
+			console.log("response redelegate: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
@@ -108,6 +118,18 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 		setGas(value);
 	};
 
+	// const handleClickEndAdornment = () => {
+	// 	const form = getValues();
+	// 	if (form.recipientAddress) {
+	// 		const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
+	// 		let newWindow = window.open(url);
+	// 		if (newWindow) {
+	// 			newWindow.opener = null;
+	// 			newWindow = null;
+	// 		}
+	// 	}
+	// };
+
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
@@ -123,7 +145,9 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Withdraw tokens"}>
+				buttonName={"Redelegate tokens"}>
+				<div className={cx("label")}>Destination Validator Operator Address</div>
+				<InputTextWithIcon name='recipientAddress' errorobj={errors} />
 				<div className={cx("space-between")}>
 					<label htmlFor='amount' className={cx("label")}>
 						Amount (ORAI)
@@ -151,4 +175,4 @@ const WithdrawBtn = memo(({validatorAddress, withdrawable, BtnComponent, validat
 	);
 });
 
-export default WithdrawBtn;
+export default RedelegateBtn;
