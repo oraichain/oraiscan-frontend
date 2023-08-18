@@ -6,7 +6,7 @@ import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 
 export const handleListProposal = async ({ total, proposals, bondTotal, isNullProposal }) => {
 	try {
-		if (!proposals.length || isNullProposal) {
+		if (!proposals.length || isNullProposal || total === proposals.length) {
 			let listProposalData = [];
 			for (let i = 0; i < Math.ceil(total / LIMIT_PROPOSAL); i++) {
 				const p = await getDataProposal({ offset: i * LIMIT_PROPOSAL, bondTotal, isFlag: true });
@@ -44,39 +44,6 @@ export const handleListProposal = async ({ total, proposals, bondTotal, isNullPr
 			}
 		}
 
-		if (total === proposals.length) {
-			const votingProposal = proposals.find(e => e.status === "PROPOSAL_STATUS_VOTING_PERIOD");
-			if (votingProposal) {
-				let votingList = [];
-				for (const voting of proposals) {
-					if (voting.status === "PROPOSAL_STATUS_VOTING_PERIOD") {
-						const { tally } = await queryStation.tally(voting.proposal_id);
-						const totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
-						const finalTally = tally;
-						const tallyObj = calculateTallyProposal({ bonded: bondTotal, totalVote, tally: finalTally });
-						votingList = [
-							...votingList,
-							{
-								...voting,
-								...tallyObj,
-								finalTallyResult: finalTally,
-							},
-						];
-					} else {
-						votingList = [
-							...votingList,
-							{
-								...voting,
-							},
-						];
-					}
-				}
-				return {
-					list: votingList,
-					type: "changeProposal",
-				};
-			}
-		}
 	} catch (error) {
 		console.log({ error });
 	}
@@ -85,9 +52,6 @@ export const handleListProposal = async ({ total, proposals, bondTotal, isNullPr
 export const getDataProposal = async ({ offset = 0, limit = undefined, isFlag = false, bondTotal }) => {
 	const { proposals, pagination } = await queryStation.proposalList(-1, "", "", undefined, offset, limit);
 	let list = [];
-	console.log({
-		isFlag,
-	});
 	if (isFlag) {
 		for (const proposal of proposals) {
 			const value = TextProposal.decode(proposal?.content?.value);

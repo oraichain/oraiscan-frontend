@@ -1,25 +1,21 @@
 // @ts-nocheck
 import React, {memo, useState, useEffect} from "react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
+import {showAlert} from "src/store/modules/global";
 import {useHistory} from "react-router-dom";
-import {payloadTransaction, minusFees, handleTransactionResponse} from "src/helpers/transaction";
+import {handleTransactionResponse, payloadTransaction} from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
-import {calculateAmount} from "src/helpers/calculateAmount";
 import {walletStation} from "src/lib/walletStation";
 import {notification} from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {handleErrorMessage} from "../../../../../../lib/scripts";
-import styles from "./RedelegateBtn.module.scss";
-import { amountCoinDecimal } from 'src/helpers/helper'
-import consts from "src/constants/consts";
+import {handleErrorMessage} from "src/lib/scripts.js";
+import styles from "./ClaimRwBtn.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -37,15 +33,14 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT, PERCENTS} = amountConsts;
+const {GAS_DEFAULT} = amountConsts;
 
-const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const ClaimRwBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName, handleClickClaim}) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const {address, account} = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
-	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -59,39 +54,34 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		setGas(GAS_DEFAULT);
 	};
 
-	const validationSchemaForm = yup.object().shape({
-		amount: yup
-			.string()
-			.required("Send Amount Field is Required")
-			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
-	});
-
 	const methods = useForm({
-		resolver: yupResolver(validationSchemaForm),
+		resolver: undefined,
 	});
 	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
-
+	console.log({withdrawable, balance});
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			console.log({data});
+			if (parseFloat(withdrawable) <= 0 || !parseFloat(withdrawable)) {
+				return dispatch(
+					showAlert({
+						show: true,
+						message: "Claimable Rewards ORAI must greater than 0",
+						autoHideDuration: 1500,
+						type: "error",
+					})
+				);
+			}
 			// const minGasFee = (fee * 1000000 + "").split(".")[0];
-			// let amount = minusFees(fee, data.amount);
 
-			const response = await walletStation.redelegate(
-				address,
-				validatorAddress,
-				data.recipientAddress,
+			const response = await walletStation.withdrawDelegatorReward(
 				{
-					denom: consts.DENOM,
-					amount: amountCoinDecimal(data.amount) 
-				}
-				// new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
+					delegator_address: address,
+					validator_address: validatorAddress,
+				},
 			);
-
-			console.log("response redelegate: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
+			console.log("response claim delegator reward single: ", response);
 		} catch (error) {
 			setLoadingTransaction(false);
 			notification.error({message: handleErrorMessage(error)});
@@ -118,18 +108,6 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		setGas(value);
 	};
 
-	// const handleClickEndAdornment = () => {
-	// 	const form = getValues();
-	// 	if (form.recipientAddress) {
-	// 		const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
-	// 		let newWindow = window.open(url);
-	// 		if (newWindow) {
-	// 			newWindow.opener = null;
-	// 			newWindow = null;
-	// 		}
-	// 	}
-	// };
-
 	return (
 		<div className={cx("delegate")}>
 			<BtnComponent handleClick={openDialog} />
@@ -145,34 +123,11 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 				gas={gas}
 				handleClick={handleSubmit(onSubmit)}
 				warning={true}
-				buttonName={"Redelegate tokens"}>
-				<div className={cx("label")}>Destination Validator Operator Address</div>
-				<InputTextWithIcon name='recipientAddress' errorobj={errors} />
-				<div className={cx("space-between")}>
-					<label htmlFor='amount' className={cx("label")}>
-						Amount (ORAI)
-					</label>
-					<div className={cx("percent-buttons")}>
-						{percents.map(value => (
-							<button
-								type='button'
-								className={cx("btn", "btn-outline-primary", "m-2")}
-								onClick={() => {
-									setValue("amount", calculateAmount(balance, value));
-									clearErrors();
-								}}>
-								{value + "%"}
-							</button>
-						))}
-					</div>
-				</div>
-				<div className={cx("form-field")}>
-					<InputNumberOrai name='amount' required errorobj={errors} />
-				</div>
-			</DialogForm>
+				buttonName={"Claim token reward"}
+			/>
 			{loadingTransaction && <LoadingOverlay />}
 		</div>
 	);
 });
 
-export default RedelegateBtn;
+export default ClaimRwBtn;
