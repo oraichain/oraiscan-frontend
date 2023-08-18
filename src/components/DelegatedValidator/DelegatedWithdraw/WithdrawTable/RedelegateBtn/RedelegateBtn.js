@@ -1,24 +1,26 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect, useMemo } from "react";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
-import {useForm, FormProvider} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import _ from "lodash";
+import { useForm, FormProvider } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import _, { add } from "lodash";
 import BigNumber from "bignumber.js";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {InputNumberOrai, InputTextWithIcon, TextArea} from "src/components/common/form-controls";
-import {useHistory} from "react-router-dom";
-import {payloadTransaction, minusFees, handleTransactionResponse} from "src/helpers/transaction";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { InputNumberOrai, InputTextWithIcon, TextArea } from "src/components/common/form-controls";
+import { useHistory } from "react-router-dom";
+import { payloadTransaction, minusFees, handleTransactionResponse } from "src/helpers/transaction";
 import amountConsts from "src/constants/amount";
 import DialogForm from "src/components/DialogForm";
-import {calculateAmount} from "src/helpers/calculateAmount";
-import {walletStation} from "src/lib/walletStation";
-import {notification} from "antd";
+import { calculateAmount } from "src/helpers/calculateAmount";
+import { walletStation } from "src/lib/walletStation";
+import { notification } from "antd";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {handleErrorMessage} from "src/lib/scripts.js";
+import aiIcon from "src/assets/common/ai_ic.svg";
+import { handleErrorMessage } from "src/lib/scripts.js";
 import styles from "./RedelegateBtn.module.scss";
-import { amountCoinDecimal } from 'src/helpers/helper'
+import { amountCoinDecimal } from "src/helpers/helper";
 import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
@@ -37,19 +39,40 @@ yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	});
 });
 
-const {GAS_DEFAULT, PERCENTS} = amountConsts;
+const { GAS_DEFAULT, PERCENTS } = amountConsts;
 
-const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, validatorName}) => {
+const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, validatorName }) => {
 	const [open, setOpen] = useState(false);
 	const [gas, setGas] = useState(GAS_DEFAULT);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
-	const {address, account} = useSelector(state => state.wallet);
+	const { address, account } = useSelector(state => state.wallet);
 	const minFee = useSelector(state => state.blockchain.minFee);
 	const percents = PERCENTS;
 	const [fee, setFee] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const balance = new BigNumber(withdrawable);
+
+	const basePath = `${consts.API.VALIDATORS}`;
+	const [keyword] = useState("");
+
+	let path = `${basePath}?page_id=1`;
+	if (keyword !== "") {
+		path += `&moniker=${keyword}`;
+	}
+
+	const { data } = useGet({
+		path,
+	});
+
+	const newArr = useMemo(() => {
+		if (data?.data.length > 0) {
+			return data?.data.map((item, index) => {
+				return { logo_URL: item.image || aiIcon, moniker: item.moniker, apr: item.apr, operator_address: item.operator_address };
+			});
+		}
+		return [];
+	}, [data]);
 
 	const openDialog = () => {
 		setOpen(true);
@@ -70,12 +93,12 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, getValues} = methods;
+	const { handleSubmit, setValue, errors, setError, clearErrors, getValues } = methods;
 
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			console.log({data});
+			console.log({ data });
 			// const minGasFee = (fee * 1000000 + "").split(".")[0];
 			// let amount = minusFees(fee, data.amount);
 
@@ -85,16 +108,17 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 				data.recipientAddress,
 				{
 					denom: consts.DENOM,
-					amount: amountCoinDecimal(data.amount) 
+					amount: amountCoinDecimal(data.amount),
 				}
 				// new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
 			);
 
+			console.log("check:", data.recipientAddress);
 			console.log("response redelegate: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({message: handleErrorMessage(error)});
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
@@ -118,17 +142,13 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		setGas(value);
 	};
 
-	// const handleClickEndAdornment = () => {
-	// 	const form = getValues();
-	// 	if (form.recipientAddress) {
-	// 		const url = `${consts.DOMAIN}account/${form.recipientAddress}`;
-	// 		let newWindow = window.open(url);
-	// 		if (newWindow) {
-	// 			newWindow.opener = null;
-	// 			newWindow = null;
-	// 		}
-	// 	}
-	// };
+	const [activeIndex, setActiveIndex] = useState(null);
+
+	const handleItemClick = operator_address => {
+		console.log({ operator_address });
+		setValue("recipientAddress", operator_address);
+		setActiveIndex(operator_address);
+	};
 
 	return (
 		<div className={cx("delegate")}>
@@ -147,7 +167,26 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 				warning={true}
 				buttonName={"Redelegate tokens"}>
 				<div className={cx("label")}>Destination Validator Operator Address</div>
-				<InputTextWithIcon name='recipientAddress' errorobj={errors} />
+				<div className={cx("listrecipientAddress")}>
+					<ul className={cx("ulItem")}>
+						{newArr?.map(e => {
+							return (
+								<li
+									key={e.operator_address}
+									onClick={() => handleItemClick(e.operator_address)}
+									className={cx("recipientItem", activeIndex === e.operator_address ? "active" : "")}>
+									<img src={e.logo_URL} alt='/' className={cx("logo")} />
+									<div className={cx("recipientItemDetails")}>
+										<span className={cx("monikerItemDetails")}>{e.moniker}</span>
+										<span className={cx("APRItemDetails")}>Est APR: {e.apr.toFixed(2) + "%"}</span>
+									</div>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
+				<InputTextWithIcon name='recipientAddress' errorobj={errors} className={cx("inputTag")}></InputTextWithIcon>
+
 				<div className={cx("space-between")}>
 					<label htmlFor='amount' className={cx("label")}>
 						Amount (ORAI)
@@ -174,5 +213,4 @@ const RedelegateBtn = memo(({validatorAddress, withdrawable, BtnComponent, valid
 		</div>
 	);
 });
-
 export default RedelegateBtn;
