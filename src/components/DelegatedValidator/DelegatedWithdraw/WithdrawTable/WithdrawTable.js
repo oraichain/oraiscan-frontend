@@ -1,14 +1,14 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {useSelector, useDispatch} from "react-redux";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
-import {tableThemes} from "src/constants/tableThemes";
-import {logoBrand} from "src/constants/logoBrand";
+import { useSelector, useDispatch } from "react-redux";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
+import { tableThemes } from "src/constants/tableThemes";
+import { logoBrand } from "src/constants/logoBrand";
 import ThemedTable from "src/components/common/ThemedTable";
 import WithdrawBtn from "./WithdrawBtn";
 import arrowIcon from "src/assets/wallet/arrow_down.svg";
@@ -34,14 +34,22 @@ export const getHeaderRow = () => {
 		withdrawHeaderCell,
 		redelegateHeaderCell,
 	];
-	const headerCellStyles = [{width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "auto"}, {width: "140px"}, {width: "150px"}];
+	const headerCellStyles = [
+		{ width: "auto" },
+		{ width: "auto" },
+		{ width: "auto" },
+		{ width: "auto" },
+		{ width: "auto" },
+		{ width: "140px" },
+		{ width: "150px" },
+	];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
 
-const BtnComponent = ({handleClick, buttonName}) => {
+const BtnComponent = ({ handleClick, buttonName }) => {
 	return (
 		<div className={cx("withdraw-data-cell", "align-center")}>
 			<button className={cx("button")} onClick={handleClick}>
@@ -52,7 +60,7 @@ const BtnComponent = ({handleClick, buttonName}) => {
 	);
 };
 
-const WithdrawTable = memo(({data}) => {
+const WithdrawTable = memo(({ data }) => {
 	// const {address, account} = useSelector(state => state.wallet);
 	// const dispatch = useDispatch();
 
@@ -63,12 +71,12 @@ const WithdrawTable = memo(({data}) => {
 
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || {};
-			const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || { customLogo: null };
+			const logoURL = item.moniker_image ? item.moniker_image : logoItem.logo ? logoItem.logo : false;
 			const logoName = item.validator || "";
 
 			const validatorDataCell = item?.validator ? (
-				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator}`}>
+				<NavLink className={cx("validator-data-cell", "align-left")} to={`${consts.PATH.VALIDATORS}/${item.validator_address}`}>
 					<div className={cx("validator")}>
 						{logoURL && <img alt='/' className={cx("validator-icon")} src={logoURL} />}
 						{!logoURL && <div className={cx("logo-custom")}> {logoName.substring(0, 3).toUpperCase()} </div>}
@@ -107,7 +115,7 @@ const WithdrawTable = memo(({data}) => {
 				<WithdrawBtn
 					validatorAddress={item?.validator_address}
 					withdrawable={item?.withdrawable}
-					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Withdraw"})}
+					BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Withdraw" })}
 					validatorName={item.validator}
 				/>
 			);
@@ -116,7 +124,7 @@ const WithdrawTable = memo(({data}) => {
 				<RedelegateBtn
 					validatorAddress={item?.validator_address}
 					withdrawable={item?.withdrawable}
-					BtnComponent={({handleClick}) => BtnComponent({handleClick, buttonName: "Redelegate"})}
+					BtnComponent={({ handleClick }) => BtnComponent({ handleClick, buttonName: "Redelegate" })}
 					validatorName={item.validator}
 				/>
 			);
