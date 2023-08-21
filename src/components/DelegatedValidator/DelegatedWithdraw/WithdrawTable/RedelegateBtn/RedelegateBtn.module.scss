@@ -102,7 +102,11 @@
 	width: 100%;
 	cursor: pointer;
 	height: 200px;
-	overflow: scroll;
+	overflow-y: scroll;
+	padding: 3px 2px 3px 2px ;
+	box-sizing: content-box;
+	border: 1px solid var(--common-borderColor);
+	border-radius: 6px;
 }
 
 .ulItem {
@@ -113,12 +117,24 @@
 		justify-content: flex-start;
 		align-items: center;
 		padding: 10px 0 10px 10px;
-		border-radius: 5px;
+		border-radius: 6px;
 	}
 
 	.active {
-		color: var(--common-textColor);
+		// color: var(--common-textColor);
 		background-color: #6657c0;
+		.recipientItemDetails{
+			.monikerItemDetails{
+				color: #ffffff;
+				background: #6657c0;
+				border-color: #6657c0;
+			}
+			.APRItemDetails{
+				color: #ffffff;
+				background: #6657c0;
+				border-color: #6657c0;
+			}
+		}
 	}
 
 	.logo {
@@ -141,6 +157,11 @@
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
+			&:hover {
+				color: #ffffff;
+				background: #6657c0;
+				border-color: #6657c0;
+			}
 		}
 
 		.APRItemDetails {
@@ -152,12 +173,27 @@
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 150%;
+			&:hover {
+				color: #ffffff;
+				background: #6657c0;
+				border-color: #6657c0;
+			}
 		}
 	}
 
 	:hover {
-		color: var(--common-textColor);
 		background-color: #6657c0;
+		.monikerItemDetails{
+			color: #ffffff;
+			background: #6657c0;
+			border-color: #6657c0;
+		}
+		.APRItemDetails{
+			color: #ffffff;
+			background: #6657c0;
+			border-color: #6657c0;
+		}
+		
 	}
 }
 

@@ -67,9 +67,13 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 
 	const newArr = useMemo(() => {
 		if (data?.data.length > 0) {
-			return data?.data.map((item, index) => {
-				return { logo_URL: item.image || aiIcon, moniker: item.moniker, apr: item.apr, operator_address: item.operator_address };
-			});
+			return data?.data
+				.filter(item => {
+					return item?.operator_address !== validatorAddress;
+				})
+				.map(item => {
+					return { logo_URL: item.image || aiIcon, moniker: item.moniker, apr: item.apr, operator_address: item.operator_address };
+				});
 		}
 		return [];
 	}, [data]);
