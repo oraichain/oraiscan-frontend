@@ -72,7 +72,7 @@ const WithdrawTable = memo(({ data }) => {
 		return data.map((item, index) => {
 			// const validatorIcon = logoBrand.find(logoBrandItem => item?.validator === logoBrandItem.operatorAddress)?.logo ?? aiIcon;
 			const logoItem = logoBrand.find(it => it.operatorAddress === item?.validator_address) || { customLogo: null };
-			const logoURL = item.moniker_image ? item.moniker_image : logoItem.logo ? logoItem.logo : false;
+			const logoURL = item.moniker_image || logoItem.logo;
 			const logoName = item.validator || "";
 
 			const validatorDataCell = item?.validator ? (

@@ -65,7 +65,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 		path,
 	});
 
-	const newArr = useMemo(() => {
+	const listValidators = useMemo(() => {
 		if (data?.data.length > 0) {
 			return data?.data
 				.filter(item => {
@@ -91,7 +91,6 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 			.string()
 			.required("Send Amount Field is Required")
 			.lessThanNumber(balance.dividedBy(1000000), "lessThanNumber"),
-		// freeMessage: yup.string().required("Recipient Address Field is Required"),
 	});
 
 	const methods = useForm({
@@ -102,28 +101,16 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			console.log({ data });
-			// const minGasFee = (fee * 1000000 + "").split(".")[0];
-			// let amount = minusFees(fee, data.amount);
 
-			const response = await walletStation.redelegate(
-				address,
-				validatorAddress,
-				data.recipientAddress,
-				{
-					denom: consts.DENOM,
-					amount: amountCoinDecimal(data.amount),
-				}
-				// new BigNumber(data.amount.replaceAll(",", "")).multipliedBy(1000000)
-			);
+			const response = await walletStation.redelegate(address, validatorAddress, data.recipientAddress, {
+				denom: consts.DENOM,
+				amount: amountCoinDecimal(data.amount),
+			});
 
-			console.log("check:", data.recipientAddress);
-			console.log("response redelegate: ", response);
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
 			notification.error({ message: handleErrorMessage(error) });
-			console.log(error);
 		}
 	};
 
@@ -149,7 +136,6 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 	const [activeIndex, setActiveIndex] = useState(null);
 
 	const handleItemClick = operator_address => {
-		console.log({ operator_address });
 		setValue("recipientAddress", operator_address);
 		setActiveIndex(operator_address);
 	};
@@ -173,7 +159,7 @@ const RedelegateBtn = memo(({ validatorAddress, withdrawable, BtnComponent, vali
 				<div className={cx("label")}>Destination Validator Operator Address</div>
 				<div className={cx("listrecipientAddress")}>
 					<ul className={cx("ulItem")}>
-						{newArr?.map(e => {
+						{listValidators?.map(e => {
 							return (
 								<li
 									key={e.operator_address}
