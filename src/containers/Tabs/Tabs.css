@@ -30,11 +30,7 @@
 	background-color: var(--common-blockItemBackgroundColor);
 }
 
-@media only screen and (max-width: 1280px) {
-	.dropdown-validators {
-		transform: translate(-103%, 98%) !important;
-	}
-}
+
 
 .dropdown-transactions {
 	z-index: 2;
@@ -83,7 +79,13 @@
 	}
 } */
 
-@media only screen and (max-width: 1280px) {
+/* @media only screen and (max-width: 1280px) {
+	.dropdown-validators {
+		transform: translate(-103%, 98%) !important;
+	}
+} */
+
+/* @media only screen and (max-width: 1280px) {
 	.dropdown-trans {
 		transform: translate(-103%, 333%) !important;
 	}
@@ -96,7 +98,7 @@
 	.dropdown-smart {
 		transform: translate(-103%, 530%) !important;
 	}
-}
+} */
 
 .dropdown-proposals .MuiButtonBase-root {
 	padding: 20px 15px;
