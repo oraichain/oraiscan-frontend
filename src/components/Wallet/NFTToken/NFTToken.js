@@ -78,13 +78,6 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 				<>
 					{isLargeScreen ? <NFTTable data={data} account={account} address={address} /> : <NFTCard data={data} account={account} address={address} />}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-					<span className={cx("text")}>
-						[ Download{" "}
-						<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${address}?type=${typeExport.cw20}`}>
-							CSV Export
-						</NavLink>{" "}
-						]
-					</span>
 				</>
 			) : (
 				<NoResult />
