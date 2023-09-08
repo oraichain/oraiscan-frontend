@@ -11,9 +11,10 @@ import styles from "./Tabs.module.scss";
 const cx = cn.bind(styles);
 
 export default function({ activeTab, setActiveTab, isBecomeValidator, address }) {
-	const { data: dataRes } = useGet({
+	const response = useGet({
 		path: getListCwToken(address),
 	});
+	const dataRes = response?.data?.data;
 
 	return (
 		<div className={cx("tabs")}>
@@ -21,12 +22,12 @@ export default function({ activeTab, setActiveTab, isBecomeValidator, address })
 				<TransactionsIcon className={cx("tab-icon")} />
 				<div className={cx("tab-text")}>Transactions</div>
 			</div>
-			{dataRes?.data && dataRes?.data?.length > 0 && (
+			{dataRes && dataRes?.length > 0 && (
 				<div className={cx("tab", activeTab === 6 ? "active" : "")} onClick={() => setActiveTab(6)}>
 					<div className={cx("tab-text")}>CW-20 Token Txs</div>
 				</div>
 			)}
-			{dataRes?.data && dataRes?.data?.length > 0 && (
+			{dataRes && dataRes?.length > 0 && (
 				<div className={cx("tab", activeTab === 7 ? "active" : "")} onClick={() => setActiveTab(7)}>
 					<div className={cx("tab-text")}>NFT Txs</div>
 				</div>

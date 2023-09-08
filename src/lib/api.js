@@ -53,7 +53,7 @@ export const getFastestNode = (apiArr = []) => {
 			)
 	);
 	return Promise.race(promiseArr);
-};
+};∏
 
 export const getValidator = async (validatorInfo, cancelToken) => {
 	return await axios(`${consts.API_BASE}${consts.API.VALIDATOR}/${validatorInfo}`, cancelToken);

@@ -5,79 +5,35 @@ import styles from "./NFTCard.module.scss";
 
 const CwCardSkeleton = memo(({ rows = 10 }) => {
 	const cx = classNames.bind(styles);
-
 	let CwCardSkeletonItems = [];
+	const dataSource = [
+		{ title: "TxHash" },
+		{ title: "NFT ID" },
+		{ title: "NFT Name" },
+		{ title: "Creator Type" },
+		{ title: "Creator" },
+		{ title: "Contract address" },
+		{ title: "Contract" },
+		{ title: "Time" },
+	];
+
 	for (let i = 1; i <= rows; i++) {
 		CwCardSkeletonItems.push(
 			<div className={cx("NFTToken-card-list-item")} key={"NFTToken-card-list-item-" + i}>
 				<table>
 					<tbody>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>TxHash</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>NFT ID</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>NFT Name</div>
-								<Skeleton />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Creator Type</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Creator</div>
-							</td>
-
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Contract address</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Contract</div>
-							</td>
-
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Time</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
+						{dataSource.map(({ title }) => {
+							return (
+							<tr>
+								<td>
+									<div className={cx("item-title")}>{title}</div>
+								</td>
+								<td>
+									<Skeleton />
+								</td>
+							</tr>
+						)})}
+					
 					</tbody>
 				</table>
 			</div>
