@@ -1,5 +1,5 @@
 import React from "react";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import InfoRow from "src/components/common/InfoRow";
 import { checkAttributeEvents, formatFloat } from "src/helpers/helper";
 import { tryParseMessage, compareTypeMessage } from "src/lib/scripts";

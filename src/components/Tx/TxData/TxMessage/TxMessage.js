@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import { Fade, Tooltip } from "@material-ui/core";
@@ -33,7 +33,7 @@ import TxMessageContent from "./TxMessageContent";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import styles from "./TxMessage.module.scss";
 import { tryParseMessage } from "src/lib/scripts";
-import IBCProgress from './IBCProgress'
+import IBCProgress from "./IBCProgress";
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -61,7 +61,7 @@ const tryParseMessageBinary = data => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch { }
+				} catch {}
 			}
 		}
 		return obj;
@@ -258,12 +258,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			</InfoRow>
 		);
 
-		const getRawLog = (rawLog) => {
+		const getRawLog = rawLog => {
 			let messageParse = [];
 			try {
-				messageParse = tryParseMessage(JSON.parse(rawLog))
+				messageParse = tryParseMessage(JSON.parse(rawLog));
 			} catch (error) {
-				messageParse = [{ error: rawLog }]
+				messageParse = [{ error: rawLog }];
 			} finally {
 				return (
 					<InfoRow label='RawLog'>
@@ -277,9 +277,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							src={messageParse}
 						/>
 					</InfoRow>
-				)
+				);
 			}
-
 		};
 
 		const getInfoRowSummary = (label, value) => (
@@ -685,7 +684,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const processText = inputText => {
 			let output = [];
 			let json = inputText.split(" ");
-			json.forEach(function (item) {
+			json.forEach(function(item) {
 				output.push(
 					item
 						.replace(/\'/g, "")
@@ -717,7 +716,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const getFundsRow = (label, key = 0, rawLog = [], result = "", amount) => {
 			return (
 				<>
-					{Array.isArray(rawLog) && rawLog.length !== 0 && (amount.length < 2) && (
+					{Array.isArray(rawLog) && rawLog.length !== 0 && amount.length < 2 && (
 						<InfoRow isTransfer={true} label={label}>
 							<ThemedTable
 								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
@@ -727,7 +726,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 						</InfoRow>
 					)}
 				</>
-
 			);
 		};
 
@@ -780,8 +778,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}</span>
-							<span className={cx("amount-denom")}>{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
+							<span className={cx("amount-value")}>
+								{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}
+							</span>
+							<span className={cx("amount-denom")}>
+								{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}
+							</span>
 						</div>
 					</div>
 				);
@@ -836,8 +838,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				<InfoRow label={label}>
 					<IBCProgress dataTxs={data} />
 				</InfoRow>
-			)
-		}
+			);
+		};
 
 		return (
 			<>

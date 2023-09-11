@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import copy from "copy-to-clipboard";
 import Grid from "@material-ui/core/Grid";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import _ from "lodash";
 import Interweave from "interweave";
 import { formatDateTime, formatOrai, isJsonString } from "src/helpers/helper";
