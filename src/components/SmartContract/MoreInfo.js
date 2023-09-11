@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
-import {NavLink} from "react-router-dom";
-import {isNil} from "lodash";
+import { NavLink } from "react-router-dom";
+import { isNil } from "lodash";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import InfoRow from "src/components/common/InfoRow";
@@ -11,7 +11,7 @@ import consts from "src/constants/consts";
 
 const cx = cn.bind(styles);
 
-const MoreInfo = ({data}) => {
+const MoreInfo = ({ data }) => {
 	return (
 		<Grid item lg={6} xs={12}>
 			<div className={cx("more-info")}>
@@ -57,7 +57,7 @@ const MoreInfo = ({data}) => {
 								<div className={cx("item-title")}>Label</div>
 							</td>
 							<td>
-								<div className={cx("item-text")}>{isNil(data?.label) ? "-" : data?.label}</div>
+								<div className={cx("item-text")}>{isNil(data?.contract_name) ? "-" : data?.contract_name}</div>
 							</td>
 						</tr>
 					</tbody>

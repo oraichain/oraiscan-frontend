@@ -183,7 +183,7 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 						<Collapse in={state[index + 1]}>
 							<div className={cx("value")}>
 								{msg.fieldList.map((item, subInd) => (
-									<div className={cx("input")}>
+									<div key={subInd} className={cx("input")}>
 										{item.isRequired ? "*" : ""}
 										<input
 											onChange={e => {
@@ -202,6 +202,7 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 								))}
 								<div className={cx("btn")}>
 									<Button
+										className={cx("execute-button")}
 										variant='contained'
 										onClick={async () => {
 											try {

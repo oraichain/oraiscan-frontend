@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 const WriteContract = memo(({ data }) => {
 	const { address } = useSelector(state => state.wallet);
 	const history = useHistory();
-	const [activeTab, setActiveTab] = useState(true);
+	const [activeTab, setActiveTab] = useState(false);
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const dispatch = useDispatch();
 	const onClickCopy = msg => {
@@ -33,7 +33,7 @@ const WriteContract = memo(({ data }) => {
 			<HeaderContract
 				icon={<></>}
 				onClickLink={() => address && history.push(`/account/${address}`)}
-				label={address ? "" : "Connect to wallet"}
+				label={address ? "Write Contract Infomation" : "Connect to wallet"}
 				activeTab={activeTab}
 				setActiveTab={setActiveTab}
 			/>

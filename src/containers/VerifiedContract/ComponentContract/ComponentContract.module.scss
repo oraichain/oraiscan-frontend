@@ -187,6 +187,12 @@
 		}
 		.btn {
 			padding-bottom: 12px;
+
+			.execute-button{
+				color: var(--common-buttonTextColor);
+				background: var(--common-buttonBackgroundColor);
+    			border: 1px solid var(--common-activeTabColor);
+			}
 		}
 	}
 }
