@@ -6,6 +6,9 @@ const ReactJson = ({ style, name, theme, displayObjectSize, collapsed, displayDa
 		<JSONTree
 			data={src}
 			theme={theme}
+			shouldExpandNodeInitially={(keyPath, data, level) => {
+				return collapsed && level < collapsed;
+			}}
 			sortObjectKeys={sortKeys}
 			valueRenderer={(_, raw) => {
 				if (typeof raw === "string" && raw.match(/^https?:\/\//)) {
