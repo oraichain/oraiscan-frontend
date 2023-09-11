@@ -27,11 +27,11 @@ export default function({ activeTab, setActiveTab, isBecomeValidator, address })
 					<div className={cx("tab-text")}>CW-20 Token Txs</div>
 				</div>
 			)}
-			{dataRes && dataRes?.length > 0 && (
+			{/* {dataRes && dataRes?.length > 0 && (
 				<div className={cx("tab", activeTab === 7 ? "active" : "")} onClick={() => setActiveTab(7)}>
 					<div className={cx("tab-text")}>CW-721 Transactions</div>
 				</div>
-			)}
+			)} */}
 			{isBecomeValidator && (
 				<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
 					<ValidatorsIcon className={cx("tab-icon")} />

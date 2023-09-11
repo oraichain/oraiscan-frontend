@@ -1,29 +1,29 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable no-undef */
 import * as React from "react";
-import {useState, useEffect, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import axios from "axios";
 import copy from "copy-to-clipboard";
-import {showAlert} from "src/store/modules/global";
-import {_} from "src/lib/scripts";
+import { showAlert } from "src/store/modules/global";
+import { _ } from "src/lib/scripts";
 import CopyIcon from "src/icons/CopyIcon";
 import InfoRow from "src/components/common/InfoRow";
 import consts from "src/constants/consts";
 import config from "src/config";
-import {generateRandomString} from "src/helpers/helper";
+import { generateRandomString } from "src/helpers/helper";
 import styles from "./Randomness.module.scss";
-import ReactJson from "react-json-view";
-import {themeIds} from "src/constants/themes";
-import {tryParseMessage} from "src/lib/scripts";
-import {Base64} from "js-base64";
+import ReactJson from "src/components/ReactJson";
+import { themeIds } from "src/constants/themes";
+import { tryParseMessage } from "src/lib/scripts";
+import { Base64 } from "js-base64";
 
 const cx = cn.bind(styles);
 
-const RandomnessView = ({data, errorMessage}) => {
+const RandomnessView = ({ data, errorMessage }) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const activeThemeId = useSelector(state => state.activeThemeId);
@@ -36,7 +36,7 @@ const RandomnessView = ({data, errorMessage}) => {
 
 	const handelGetTx = async () => {
 		try {
-			const {randomnessContractAddress} = config;
+			const { randomnessContractAddress } = config;
 			const apiGetTx = `${consts.LCD_API_BASE}${consts.LCD_API.TXS}?events=wasm.round%3D%27${data?.latest?.round}%27&events=wasm.contract_address%3D%27${randomnessContractAddress}%27&events=wasm.action%3D%27share_sig%27`;
 			const tx = await axios.get(apiGetTx);
 
@@ -60,10 +60,10 @@ const RandomnessView = ({data, errorMessage}) => {
 
 	const getVerified = async () => {
 		try {
-			const obj = {verify_round: data?.latest?.round};
+			const obj = { verify_round: data?.latest?.round };
 			let objJsonStr = JSON.stringify(obj);
 			const queryVerified = Base64.encode(objJsonStr);
-			const {randomnessContractAddress} = config;
+			const { randomnessContractAddress } = config;
 			const apiGetVerified = `${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${randomnessContractAddress}/smart/${queryVerified}`;
 			const verified = await axios.get(apiGetVerified);
 			setVerify(verified.data?.data);
@@ -135,7 +135,7 @@ const RandomnessView = ({data, errorMessage}) => {
 			</InfoRow>
 			<InfoRow label='Signature shares'>
 				<ReactJson
-					style={{backgroundColor: "transparent", wordBreak: "break-all"}}
+					style={{ backgroundColor: "transparent", wordBreak: "break-all" }}
 					name={false}
 					theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 					displayObjectSize={true}
