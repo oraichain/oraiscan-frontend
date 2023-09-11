@@ -29,7 +29,7 @@ export default function({ activeTab, setActiveTab, isBecomeValidator, address })
 			)}
 			{dataRes && dataRes?.length > 0 && (
 				<div className={cx("tab", activeTab === 7 ? "active" : "")} onClick={() => setActiveTab(7)}>
-					<div className={cx("tab-text")}>NFT Txs</div>
+					<div className={cx("tab-text")}>CW-721 Transactions</div>
 				</div>
 			)}
 			{isBecomeValidator && (

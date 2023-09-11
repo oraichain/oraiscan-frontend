@@ -25,6 +25,12 @@ export default function({activeTab, setActiveTab, address, isTab = false}) {
 					<div className={cx("tab-text")}>Royalty Transactions</div>
 				</div>
 			)}
+			{!isTab && (
+			<div className={cx("tab", activeTab === 3 ? "active" : "")} onClick={() => setActiveTab(3)}>
+				<TransactionsIcon className={cx("tab-icon")} />
+				<div className={cx("tab-text")}>CW-721 transactions</div>
+			</div>
+			)}
 			{dataRes?.data && dataRes?.data?.length > 0 && (
 				<div className={cx("tab", activeTab === 2 ? "active" : "")} onClick={() => setActiveTab(2)}>
 					<TransactionsIcon className={cx("tab-icon")} />

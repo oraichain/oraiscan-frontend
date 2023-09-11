@@ -112,6 +112,36 @@
 	font-size: 14px;
 	line-height: 150%;
 }
+.type-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	.first-message-type {
+		padding: 6px 10px;
+		margin-right: 5px;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
+		color: var(--common-transactions-transactionTypeTextColor);
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+
+	.number-of-message {
+		color: var(--common-textColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+}
 
 .transfer-status {
 	display: block;
@@ -136,4 +166,5 @@
 		color: var(--common-transactions-amountTransactionTextOutColor);
 		border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
 	}
+	
 }

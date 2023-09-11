@@ -11,15 +11,13 @@ import NFTCardSkeleton from "./NFTCard/NFTCardSkeleton";
 import { getListNFTToken, getListOWContract } from "src/lib/api";
 import NFTCard from "./NFTCard";
 import styles from "./NFTToken.module.scss";
-import { NavLink } from "react-router-dom";
-import consts from "src/constants/consts";
-import { typeExport } from "src/containers/Account/Account";
 
 const cx = classNames.bind(styles);
 
 const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+	
 	const [dataCw, setDataCw] = useState({
 		data: [],
 		page: {
@@ -69,9 +67,8 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 	const tableSekeleton = () => {
 		return isLargeScreen ? <NFTTableSkeleton /> : <NFTCardSkeleton />;
 	};
-
 	return (
-		<div className={cx("cw20")}>
+		<div className={cx("nft")}>
 			{!dataRes ? (
 				tableSekeleton()
 			) : Array.isArray(data) && data.length > 0 ? (
