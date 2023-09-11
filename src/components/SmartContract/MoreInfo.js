@@ -57,7 +57,7 @@ const MoreInfo = ({ data }) => {
 								<div className={cx("item-title")}>Label</div>
 							</td>
 							<td>
-								<div className={cx("item-text")}>{isNil(data?.contract_name) ? "-" : data?.contract_name}</div>
+								<div className={cx("item-text")}>{isNil(data?.label) ? "-" : data?.label}</div>
 							</td>
 						</tr>
 					</tbody>
