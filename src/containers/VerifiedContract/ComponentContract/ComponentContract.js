@@ -9,7 +9,7 @@ import LinkChainIcon from "src/icons/LinkChainIcon";
 import classNames from "classnames/bind";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import _ from "lodash";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import { themeIds } from "src/constants/themes";
 import PropTypes from "prop-types";
 import { Button, Collapse } from "@material-ui/core";
@@ -49,14 +49,6 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 										<div className={cx("item-text")}>{contractName ?? "-"}</div>
 									</td>
 								</tr>
-								<tr>
-									<td>
-										<div className={cx("item-title")}>Compiler Version:</div>
-									</td>
-									<td>
-										<div className={cx("item-text")}>{compilerVersion ?? "-"}</div>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -67,18 +59,10 @@ export const ItemCodeContract = ({ contractName, compilerVersion, contractVerifi
 							<tbody>
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Optimization Enabled:</div>
+										<div className={cx("item-title")}>Compiler Version:</div>
 									</td>
 									<td>
-										<div className={cx("item-text")}>Yes with 200 runs</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div className={cx("item-title")}>Other Settings:</div>
-									</td>
-									<td>
-										<div className={cx("item-text")}>Default evmVersion, MIT license</div>
+										<div className={cx("item-text")}>{compilerVersion ?? "-"}</div>
 									</td>
 								</tr>
 							</tbody>
@@ -156,12 +140,11 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 	}, [schema]);
 
 	useMemo(() => {
-		const obj = root && root.reduce(
-			(acc, _, index) => {
-				return { ...acc, [index + 1]: activeTab }
-			},
-			{}
-		);
+		const obj =
+			root &&
+			root.reduce((acc, _, index) => {
+				return { ...acc, [index + 1]: activeTab };
+			}, {});
 		setState(obj);
 	}, [activeTab]);
 
@@ -170,30 +153,37 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 			{root.map((msg, index) => {
 				return (
 					<div className={cx("items")}>
-						<div className={cx("header")} onClick={() => setState({
-							...state,
-							[index + 1]: !state[index + 1]
-						})}>
-							<div className={cx("label")}>{index + 1}. {msg.fieldName}</div>
+						<div
+							className={cx("header")}
+							onClick={() =>
+								setState({
+									...state,
+									[index + 1]: !state[index + 1],
+								})
+							}>
+							<div className={cx("label")}>
+								{index + 1}. {msg.fieldName}
+							</div>
 							<div className={cx("icon")}>
 								<div onClick={() => onClickCopy(msg.fieldName)}>
 									<CopyVerifiedIcon />
 								</div>
 								<div style={{ width: 16 }} />
-								<div onClick={() =>
-									setState({
-										...state,
-										[index + 1]: !state[index + 1]
-									})
-								}>
+								<div
+									onClick={() =>
+										setState({
+											...state,
+											[index + 1]: !state[index + 1],
+										})
+									}>
 									<DownArrowIcon className={cx("link")} style={{ transform: !state[index + 1] ? "rotate(0deg)" : "rotate(180deg)" }} />
 								</div>
 							</div>
 						</div>
 						<Collapse in={state[index + 1]}>
 							<div className={cx("value")}>
-								{msg.fieldList.map((item, subInd) =>
-									<div className={cx("input")}>
+								{msg.fieldList.map((item, subInd) => (
+									<div key={subInd} className={cx("input")}>
 										{item.isRequired ? "*" : ""}
 										<input
 											onChange={e => {
@@ -209,45 +199,50 @@ export const HandleItemContract = ({ schema, onHandle, handleText, onClickCopy, 
 											placeholder={`${item.fieldName} (${item.type})`}
 										/>
 									</div>
-								)}
+								))}
 								<div className={cx("btn")}>
-									<Button variant='contained' onClick={async () => {
-										try {
-											if (loading) return;
-											setLoading(true);
-											const result = await onHandle?.(msg, contractAddress);
-											setJson({
-												...json,
-												[index + 1]: result
-											});
-										} catch (error) {
-											console.log('error: ', error);
-										} finally {
-											setLoading(false);
-										}
-									}}>
+									<Button
+										className={cx("execute-button")}
+										variant='contained'
+										onClick={async () => {
+											try {
+												if (loading) return;
+												setLoading(true);
+												const result = await onHandle?.(msg, contractAddress);
+												setJson({
+													...json,
+													[index + 1]: result,
+												});
+											} catch (error) {
+												console.log("error: ", error);
+											} finally {
+												setLoading(false);
+											}
+										}}>
 										{handleText}
 									</Button>
 								</div>
-								{json?.[index + 1] && <ReactJson
-									style={{ backgroundColor: "transparent" }}
-									name={false}
-									theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-									displayObjectSize={false}
-									displayDataTypes={false}
-									collapsed={4}
-									src={json?.[index + 1]}
-								/>}
+								{json?.[index + 1] && (
+									<ReactJson
+										style={{ backgroundColor: "transparent" }}
+										name={false}
+										theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+										displayObjectSize={false}
+										displayDataTypes={false}
+										collapsed={4}
+										src={json?.[index + 1]}
+									/>
+								)}
 								{/* <div className={cx("vector")}>
 									<VectorIcon />
 									<span className={cx("type")}> uint256</span>
 								</div> */}
 							</div>
 						</Collapse>
-					</div >
-				)
+					</div>
+				);
 			})}
-		</div >
+		</div>
 	);
 };
 
@@ -356,7 +351,7 @@ ItemContract.defaultProps = {
 	leftHeader: undefined,
 	label: "",
 	msg: {},
-	onClickCopy: () => { },
-	onClickLinkChain: () => { },
-	onClickDownArrow: () => { },
+	onClickCopy: () => {},
+	onClickLinkChain: () => {},
+	onClickDownArrow: () => {},
 };
