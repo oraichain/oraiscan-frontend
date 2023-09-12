@@ -33,7 +33,7 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 		return getListOWContract(address, page);
 	});
 
-	const { data: dataRes } = useGet({
+	const { data: dataRes, loading, error } = useGet({
 		path,
 	});
 
@@ -50,8 +50,10 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 		}
 	}, [dataRes]);
 
-	const totalPages = page?.total_page ?? 0;
-	const currentPage = page?.page_id ?? 1;
+	// const totalPages = page?.total_page ?? 0;
+	// const currentPage = page?.page_id ?? 1;
+	let totalPages;
+	let currentPage;
 
 	const onPageChange = newPage => {
 		const pageObj = {
@@ -64,21 +66,64 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 		return setPath(getListOWContract(address, pageObj));
 	};
 
-	const tableSekeleton = () => {
-		return isLargeScreen ? <NFTTableSkeleton /> : <NFTCardSkeleton />;
-	};
+	// const tableSekeleton = () => {
+	// 	return isLargeScreen ? <NFTTableSkeleton /> : <NFTCardSkeleton />;
+	// };
+
+	let tableSection;
+	let paginationSection;
+
+	if (loading) {
+		tableSection = isLargeScreen ? <NFTTableSkeleton /> : <NFTCardSkeleton />;
+	} else {
+		if (error) {
+			currentPage = null; 
+			tableSection = <NoResult />;
+		} else {
+			if (!isNaN(data?.page_id)) {
+				currentPage = data.page_id;
+			} else {
+				currentPage = null;
+			}
+
+			if (Array.isArray(data) && data?.length > 0) {
+				tableSection = isLargeScreen ? (
+					<>
+					<NFTTable data={data} account={account} address={address}/>
+					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
+					</>
+					
+				) : (
+					<>
+					<NFTCard data={data} account={account} address={address} />
+					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
+
+					</>
+				);
+			} else {
+				tableSection = <NoResult />;
+			}
+		}
+	}
+	if (totalPages > 0){
+		paginationSection = <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />;
+	} 
+
+
 	return (
 		<div className={cx("nft")}>
-			{!dataRes ? (
+			{/* {!dataRes ? (
 				tableSekeleton()
-			) : Array.isArray(data) && data.length > 0 ? (
+			) : Array.isArray(data) && data?.length > 0 ? (
 				<>
 					{isLargeScreen ? <NFTTable data={data} account={account} address={address} /> : <NFTCard data={data} account={account} address={address} />}
 					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 				</>
 			) : (
 				<NoResult />
-			)}
+			)} */}
+			{tableSection}
+			{paginationSection}
 		</div>
 	);
 });
