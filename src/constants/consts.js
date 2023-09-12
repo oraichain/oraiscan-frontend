@@ -121,11 +121,12 @@ export default Object.freeze({
 		UPLOAD_IMAGES_VALIDATORS: "/validator/update-image",
 		GET_IMAGES_VALIDATORS: "/validator-detail",
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
+		NFT_TXS: "/nft_transaction",
 		OW20_CONTRACT: "/ow20_contract",
 		OW20_TOKEN: "/ow20_tokens",
 		WASM_CODE: "/wasm_code",
 		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
-		UPLOAD_SCHEMA: "/upload-schema"
+		UPLOAD_SCHEMA: "/upload-schema",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -173,8 +174,8 @@ export default Object.freeze({
 	},
 	PATH_CONTRACT: {
 		LIST: "/contracts",
-		UPLOAD_SCHEMA: '/contracts/upload-schema',
-		GET_NONCE: '/contracts/nonce/',
+		UPLOAD_SCHEMA: "/contracts/upload-schema",
+		GET_NONCE: "/contracts/nonce/",
 	},
 	MENU: [
 		{
@@ -243,7 +244,7 @@ export default Object.freeze({
 		INFLATION_MAX: "InflationMax",
 		TEXT_PROPOSAL: "TextProposal",
 		UPDATE_ADMIN_PROPOSAL: "UpdateAdminProposal",
-		COMMUNITY_POOL_SPEND_PROPOSAL: "communityPoolSpendProposal"
+		COMMUNITY_POOL_SPEND_PROPOSAL: "communityPoolSpendProposal",
 	},
 
 	VOTING_PERIOD_OPTIONS: {

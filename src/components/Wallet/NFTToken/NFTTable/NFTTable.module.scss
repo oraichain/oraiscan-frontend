@@ -12,8 +12,8 @@
 }
 
 .header-cell {
-  color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	color: var(--common-textColor);
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -27,7 +27,7 @@
 
 .sm-contract-data-cell {
 	color: var(--common-linkColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -45,9 +45,10 @@
 		margin-right: 5px;
 		border: 1px solid #5f51ff;
 		box-sizing: border-box;
+		text-transform: uppercase;
 		border-radius: 4px;
 		color: #5f51ff;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 12px;
@@ -56,7 +57,7 @@
 
 	.number-of-message {
 		color: #5f51ff;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 12px;
@@ -106,11 +107,41 @@
 .height-data-cell {
 	display: block;
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 150%;
+}
+.type-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	.first-message-type {
+		padding: 6px 10px;
+		margin-right: 5px;
+		border: 1px solid var(--common-transactions-transactionTypeLabelColor);
+		background-color: var(--common-transactions-transactionTypeBackgroundColor);
+		color: var(--common-transactions-transactionTypeTextColor);
+		box-sizing: border-box;
+		border-radius: 4px;
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+
+	.number-of-message {
+		color: var(--common-textColor);
+		font-family: "IBM Plex Sans";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
 }
 
 .transfer-status {

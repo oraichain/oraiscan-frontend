@@ -50,7 +50,7 @@ const TransactionCard = memo(({ account = "", royalty = false }) => {
 		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
 		if (error) {
-			totalPagesRef.current = null;
+			totalPagesRef.current = null; 
 			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {

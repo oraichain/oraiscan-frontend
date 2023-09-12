@@ -17,41 +17,56 @@ const NFTTableSkeleton = memo(({rows = 10}) => {
 				</div>
 			);
 
-			const ageDataCell = (
+			const nftIDDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const fromDataCell = (
+			const nftNameDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
 					<Skeleton />
 				</div>
 			);
 
-			const statusDataCell = (
+			const creatorTypeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
 
-			const toDataCell = (
+			const creatorDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
 
-			const valueDataCell = (
+			// const contractAddrDataCell = (
+			// 	<div className={cx("skeleton-data-cell", "align-right")}>
+			// 		<Skeleton />
+			// 	</div>
+			// );
+			// const contractDataCell = (
+			// 	<div className={cx("skeleton-data-cell", "align-right")}>
+			// 		<Skeleton />
+			// 	</div>
+			// );
+			const timeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
-			const tokenDataCell = (
+			const ownerDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
 				</div>
 			);
-			dataRows.push([txHashDataCell, ageDataCell, fromDataCell, statusDataCell, toDataCell, valueDataCell, tokenDataCell]);
+			const descriptionDataCell = (
+				<div className={cx("skeleton-data-cell", "align-right")}>
+					<Skeleton />
+				</div>
+			);
+			dataRows.push([txHashDataCell, nftIDDataCell, nftNameDataCell, creatorTypeDataCell, ownerDataCell, creatorDataCell, timeDataCell, descriptionDataCell]);
 		}
 		return dataRows;
 	};
