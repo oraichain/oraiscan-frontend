@@ -22,7 +22,7 @@ const NFTCardSkeleton = memo(({ rows = 20 }) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("item-title")}>NFT Name</div>
+								<div className={cx("item-title")}>Name</div>
 							</td>
 							<td>
 								<Skeleton />

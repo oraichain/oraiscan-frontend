@@ -36,16 +36,17 @@ export const getHeaderRow = () => {
 		timeHeaderCell,
 	];
 	let headerCellStyles = [
-		{ width: "14%", minWidth: "140px" }, // TxHash
-		{ width: "8%", minWidth: "80px" }, // NFT ID
-		{ width: "14%", minWidth: "120px" }, // NFT Name
-		{ width: "12%", minWidth: "120px" }, // Creator type
+		{ width: "12%", minWidth: "120px" }, // TxHash
+		{ width: "14%", minWidth: "120px" }, // Name
+		{ width: "8%", minWidth: "80px" }, // Type
 		{ width: "12%", minWidth: "120px" }, //Owner
-		// { width: "12%", minWidth: "120px" }, // Creator
+		{ width: "8%", minWidth: "80px" }, // Token ID
+		{ width: "12%", minWidth: "120px" }, // Creator
 		// { width: "12%", minWidth: "120px" }, // Contract address
-		{ width: "12%", minWidth: "120px" }, // Contract
-		{ width: "12%", minWidth: "120px" }, // Time
+		// { width: "12%", minWidth: "120px" }, // Contract
 		{ width: "12%", minWidth: "120px" }, // Description
+		{ width: "8%", minWidth: "80px" }, // time
+		
 	];
 
 	return {

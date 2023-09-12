@@ -45,7 +45,7 @@ const NFTCard = memo(({ data = [], address }) => {
 
 								<tr>
 									<td>
-										<div className={cx("item-title")}>NFT Name </div>
+										<div className={cx("item-title")}>Name </div>
 									</td>
 									<td>
 										<span className={cx("item-text")}>{item?.nft_name}</span>

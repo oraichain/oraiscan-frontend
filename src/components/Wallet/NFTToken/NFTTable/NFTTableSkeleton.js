@@ -41,16 +41,16 @@ const NFTTableSkeleton = memo(({rows = 10}) => {
 				</div>
 			);
 
-			const contractAddrDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
-			const contractDataCell = (
-				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton />
-				</div>
-			);
+			// const contractAddrDataCell = (
+			// 	<div className={cx("skeleton-data-cell", "align-right")}>
+			// 		<Skeleton />
+			// 	</div>
+			// );
+			// const contractDataCell = (
+			// 	<div className={cx("skeleton-data-cell", "align-right")}>
+			// 		<Skeleton />
+			// 	</div>
+			// );
 			const timeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />
@@ -66,7 +66,7 @@ const NFTTableSkeleton = memo(({rows = 10}) => {
 					<Skeleton />
 				</div>
 			);
-			dataRows.push([txHashDataCell, nftIDDataCell, nftNameDataCell, creatorTypeDataCell, ownerDataCell, creatorDataCell, contractAddrDataCell, contractDataCell, timeDataCell, descriptionDataCell]);
+			dataRows.push([txHashDataCell, nftIDDataCell, nftNameDataCell, creatorTypeDataCell, ownerDataCell, creatorDataCell, timeDataCell, descriptionDataCell]);
 		}
 		return dataRows;
 	};

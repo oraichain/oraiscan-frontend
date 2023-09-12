@@ -50,10 +50,8 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 		}
 	}, [dataRes]);
 
-	// const totalPages = page?.total_page ?? 0;
-	// const currentPage = page?.page_id ?? 1;
-	let totalPages;
-	let currentPage;
+	let totalPages = page?.total_page ?? 0;
+	let currentPage = page?.page_id ?? 1;
 
 	const onPageChange = newPage => {
 		const pageObj = {
@@ -90,14 +88,11 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 				tableSection = isLargeScreen ? (
 					<>
 					<NFTTable data={data} account={account} address={address}/>
-					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
 					</>
 					
 				) : (
 					<>
 					<NFTCard data={data} account={account} address={address} />
-					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-
 					</>
 				);
 			} else {
@@ -112,16 +107,6 @@ const NFTToken = memo(({ account = "", address = "", isOw20 = false }) => {
 
 	return (
 		<div className={cx("nft")}>
-			{/* {!dataRes ? (
-				tableSekeleton()
-			) : Array.isArray(data) && data?.length > 0 ? (
-				<>
-					{isLargeScreen ? <NFTTable data={data} account={account} address={address} /> : <NFTCard data={data} account={account} address={address} />}
-					{totalPages > 0 && <Pagination pages={totalPages} page={currentPage} onChange={(e, page) => onPageChange(page)} />}
-				</>
-			) : (
-				<NoResult />
-			)} */}
 			{tableSection}
 			{paginationSection}
 		</div>
