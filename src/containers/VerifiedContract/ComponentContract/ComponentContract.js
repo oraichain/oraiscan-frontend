@@ -9,7 +9,7 @@ import LinkChainIcon from "src/icons/LinkChainIcon";
 import classNames from "classnames/bind";
 import DownAngleIcon from "src/icons/DownAngleIcon";
 import _ from "lodash";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import { themeIds } from "src/constants/themes";
 import PropTypes from "prop-types";
 import { Button, Collapse } from "@material-ui/core";

@@ -20,16 +20,6 @@ const NFTCardSkeleton = memo(({ rows = 20 }) => {
 								<Skeleton />
 							</td>
 						</tr>
-
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Token ID</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-
 						<tr>
 							<td>
 								<div className={cx("item-title")}>NFT Name</div>
@@ -56,13 +46,21 @@ const NFTCardSkeleton = memo(({ rows = 20 }) => {
 						</tr>
 						<tr>
 							<td>
-								<div className={cx("item-title")}>Creator</div>
+								<div className={cx("item-title")}>Token ID</div>
 							</td>
 							<td>
 								<Skeleton />
 							</td>
 						</tr>
 						<tr>
+							<td>
+								<div className={cx("item-title")}>Creator</div>
+							</td>
+							<td>
+								<Skeleton />
+							</td>
+						</tr>
+						{/* <tr>
 							<td>
 								<div className={cx("item-title")}>Contract address</div>
 							</td>
@@ -77,6 +75,14 @@ const NFTCardSkeleton = memo(({ rows = 20 }) => {
 							<td>
 								<Skeleton />
 							</td>
+						</tr> */}
+						<tr>
+							<td>
+								<div className={cx("item-title")}>Description</div>
+							</td>
+							<td>
+								<Skeleton />
+							</td>
 						</tr>
 						<tr>
 							<td>
@@ -86,16 +92,6 @@ const NFTCardSkeleton = memo(({ rows = 20 }) => {
 								<Skeleton />
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<div className={cx("item-title")}>Description</div>
-							</td>
-							<td>
-								<Skeleton />
-							</td>
-						</tr>
-						
-
 					</tbody>
 				</table>
 			</div>
