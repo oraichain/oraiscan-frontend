@@ -84,7 +84,7 @@ export const getListCwToken = (address, page) => {
 };
 
 export const getListNFTToken = (address, page) => {
-	return `${consts.API_BASE}${consts.API.NFT_TXS}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`;
+	return `${consts.API_BASE}${consts.API.NFT_TXS}/${address}?limit=${page?.limit || 10}&page_id=${page?.page_id || 1}`;
 };
 
 export const getListOWContract = (address, page) => {

@@ -36,7 +36,7 @@ export const getHeaderRow = () => {
 		timeHeaderCell,
 	];
 	let headerCellStyles = [
-		{ width: "12%", minWidth: "120px" }, // TxHash
+		{ width: "14%", minWidth: "120px" }, // TxHash
 		{ width: "14%", minWidth: "120px" }, // Name
 		{ width: "8%", minWidth: "80px" }, // Type
 		{ width: "12%", minWidth: "120px" }, //Owner
@@ -46,7 +46,6 @@ export const getHeaderRow = () => {
 		// { width: "12%", minWidth: "120px" }, // Contract
 		{ width: "12%", minWidth: "120px" }, // Description
 		{ width: "8%", minWidth: "80px" }, // time
-		
 	];
 
 	return {
