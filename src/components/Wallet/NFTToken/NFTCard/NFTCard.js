@@ -42,17 +42,10 @@ const NFTCard = memo(({ data = [], address }) => {
 						<table>
 							<tbody>
 								{reduceStringAdress("TxHash", item?.tx_hash, `${consts.PATH.TXLIST}/${item.tx_hash}`)}
+
 								<tr>
 									<td>
-										<div className={cx("item-title")}>NFT ID</div>
-									</td>
-									<td>
-										<span className={cx("item-text")}>{item?.nft_id}</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div className={cx("item-title")}>NFT Name </div>
+										<div className={cx("item-title")}>Name </div>
 									</td>
 									<td>
 										<span className={cx("item-text")}>{item?.nft_name}</span>
@@ -60,16 +53,34 @@ const NFTCard = memo(({ data = [], address }) => {
 								</tr>
 								<tr>
 									<td>
-										<div className={cx("item-title")}>Creator Type</div>
+										<div className={cx("item-title")}>Type</div>
 									</td>
 									<td>
-										<span className={cx("item-text")}>{item?.creator_type.toUpperCase()}</span>
+										<span className={cx("type-data-cell")}>
+											<span className={cx("first-message-type")}>{item.creator_type}</span>
+										</span>
+									</td>
+								</tr>
+								{reduceStringAdress("Owner", item?.owner, `${consts.PATH.TXLIST}/${item.owner}`)}
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Token ID</div>
+									</td>
+									<td>
+										<span className={cx("item-text")}>{item?.nft_id}</span>
 									</td>
 								</tr>
 								{reduceStringAdress("Creator", item?.creator, `${consts.PATH.TXLIST}/${item.creator}`)}
-								{reduceStringAdress("Contract address", item?.contract_address, `${consts.PATH.TXLIST}/${item.contract_address}`)}
-								{reduceStringAdress("Contract", item?.contract, `${consts.PATH.TXLIST}/${item.contract}`)}
-
+								{/* {reduceStringAdress("Contract address", item?.contract_address, `${consts.PATH.TXLIST}/${item.contract_address}`)} */}
+								{/* {reduceStringAdress("Contract", item?.contract, `${consts.PATH.TXLIST}/${item.contract}`)} */}
+								<tr>
+									<td>
+										<div className={cx("item-title")}>Description</div>
+									</td>
+									<td>
+										<span className={cx("item-text")}>{item?.description}</span>
+									</td>
+								</tr>
 								<tr>
 									<td>
 										<div className={cx("item-title")}>Time</div>

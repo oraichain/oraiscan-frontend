@@ -35,6 +35,7 @@ import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
+import NFTToken from "../../components/Wallet/NFTToken";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -295,6 +296,7 @@ const Account = props => {
 						{activeTab === 0 && <TransactionCard account={account} />}
 						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
 						{activeTab === 2 && <CwToken address={account} />}
+						{activeTab === 3 && <NFTToken address={account} />}
 					</div>
 				</Grid>
 			</Grid>

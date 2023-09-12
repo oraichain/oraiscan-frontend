@@ -15,7 +15,7 @@
 	scrollbar-width: none; /* Firefox */
 
 	@media (min-width: 600px) {
-		display: inline-flex;
+		display: inline-flex; 
 		border-radius: 8px;
 		border: 1px solid var(--common-borderColor);
 	}
