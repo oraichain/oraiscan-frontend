@@ -72,11 +72,7 @@ function Countdown({ remainingBlock }) {
 	};
 
 	formatTime(remainingTime);
-
-	const timezoneOffset = "+0700";
-	const futureTime = moment()
-		.add(remainingTime, "seconds")
-		.utcOffset(timezoneOffset);
+	const futureTime = new Date(new Date().getTime() + remainingTime * 1000);
 
 	return (
 		<div className={cx("countdown-time")}>
