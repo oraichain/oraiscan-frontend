@@ -1,22 +1,23 @@
-import React, {memo} from "react";
-import {usePagination} from "@material-ui/lab/Pagination";
+import React, { memo } from "react";
+import { usePagination } from "@material-ui/lab/Pagination";
 import classNames from "classnames/bind";
-import {noop} from "lodash";
-import {ReactComponent as FirstButtonIcon} from "src/assets/pagination/first_button_ic.svg";
-import {ReactComponent as LastButtonIcon} from "src/assets/pagination/last_button_ic.svg";
-import {ReactComponent as PrevButtonIcon} from "src/assets/pagination/prev_button_ic.svg";
-import {ReactComponent as NextButtonIcon} from "src/assets/pagination/next_button_ic.svg";
+import { noop } from "lodash";
+import { ReactComponent as FirstButtonIcon } from "src/assets/pagination/first_button_ic.svg";
+import { ReactComponent as LastButtonIcon } from "src/assets/pagination/last_button_ic.svg";
+import { ReactComponent as PrevButtonIcon } from "src/assets/pagination/prev_button_ic.svg";
+import { ReactComponent as NextButtonIcon } from "src/assets/pagination/next_button_ic.svg";
 import styles from "./Pagination.module.scss";
 
 const cx = classNames.bind(styles);
 
-const Pagination = memo(({pages, onChange = noop, page = 1, itemClassName}) => {
-	const {items} = usePagination({
+const Pagination = memo(({ disabled = false, pages, onChange = noop, page = 1, itemClassName, isCustomPaging = false }) => {
+	const { items } = usePagination({
 		count: pages,
 		page: page,
 		showFirstButton: true,
 		showLastButton: true,
 		onChange,
+		disabled,
 	});
 
 	const getButtonIcon = type => {
@@ -43,27 +44,48 @@ const Pagination = memo(({pages, onChange = noop, page = 1, itemClassName}) => {
 	return (
 		<nav className={cx("container")}>
 			<ul className={cx("pagination")}>
-				{items.map(({page, type, selected, ...item}, index) => {
+				{items.map(({ page, type, selected, ...item }, index) => {
 					let children = null;
-					switch (type) {
-						case "start-ellipsis":
-						case "end-ellipsis":
-							children = "...";
-							break;
-						case "page":
-							children = (
-								<button type='button' className={cx("page-button", {active: selected})} {...item}>
-									{page}
-								</button>
-							);
-							break;
-						default:
+					if (isCustomPaging) {
+						// if (["first", "last", "previous", "next"].includes(type)) {
+						if (["previous", "next"].includes(type)) {
 							children = (
 								<button type='button' {...item}>
 									{getButtonIcon(type)}
 								</button>
 							);
-							break;
+						}
+						if (selected) {
+							children = (
+								<button type='button' className={cx("page-button", { active: selected })} {...item}>
+									{page}
+								</button>
+							);
+						}
+						if (!children) {
+							return null;
+						}
+					} else {
+						switch (type) {
+							case "start-ellipsis":
+							case "end-ellipsis":
+								children = "...";
+								break;
+							case "page":
+								children = (
+									<button type='button' className={cx("page-button", { active: selected })} {...item}>
+										{page}
+									</button>
+								);
+								break;
+							default:
+								children = (
+									<button type='button' {...item}>
+										{getButtonIcon(type)}
+									</button>
+								);
+								break;
+						}
 					}
 
 					return (
