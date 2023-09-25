@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef} from "react";
-import {NavLink} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, calculateBefore, mergeArrays} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { arraysEqual, calculateBefore, mergeArrays } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import TransactionTable from "src/components/Dashboard/TransactionTable";
@@ -53,7 +53,7 @@ const TransactionsCard = props => {
 		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
 	}
 
-	const {data, loading, error, refetch} = useGet({
+	const { data, loading, error, refetch } = useGet({
 		path: path,
 		resolve: data => {
 			if (!firstLoadCompleted) {
@@ -131,7 +131,11 @@ const TransactionsCard = props => {
 			}
 		}
 	}
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? (
+		<Pagination isCustomPaging={true} pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
+	) : (
+		<></>
+	);
 
 	return (
 		<div className={cx("transactions-card")}>

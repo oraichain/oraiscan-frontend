@@ -44,7 +44,6 @@ const TxList = () => {
 	const prevDataRef = useRef([]);
 
 	let timerIdRef = useRef(null);
-	let timerTxsRef = useRef(null);
 
 	let titleSection;
 	let tableSection;
@@ -53,12 +52,6 @@ const TxList = () => {
 	const cleanUp = () => {
 		if (timerIdRef) {
 			clearInterval(timerIdRef.current);
-		}
-	};
-
-	const cleanUpTxs = () => {
-		if (timerTxsRef) {
-			clearInterval(timerTxsRef.current);
 		}
 	};
 
@@ -188,61 +181,33 @@ const TxList = () => {
 			setLoading(true);
 			if (pending) {
 				await queryListPending();
-				return;
+			} else {
+				let before = null,
+					type = "";
+				if (data?.paging?.total && !isInterval) {
+					before = prevOldPage.current < pageId ? data.paging.before : data.paging.after;
+					type = prevOldPage.current < pageId ? "next" : "previous";
+				}
+				await queryList({ before, type });
 			}
-			let before = null,
-				type = "";
-			if (data?.paging?.total && !isInterval) {
-				before = prevOldPage.current < pageId ? data.paging.before : data.paging.after;
-				type = prevOldPage.current < pageId ? "next" : "previous";
-			}
-			await queryList({ before, type });
 		} finally {
-			setTimeout(() => {
-				setLoading(false);
-			}, 800);
+			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
 		getListTxs();
-	}, []);
-
-	useEffect(() => {
-		getListTxs();
-		if (pageId == 1) {
-			timerIdRef.current = null;
-			timerTxsRef.current = setInterval(() => {
+		if (pageId == 1 || pending) {
+			timerIdRef.current = setInterval(() => {
 				getListTxs(true);
 			}, consts.REQUEST.TIMEOUT);
 		} else {
-			cleanUpTxs();
-		}
-		return () => {
-			cleanUpTxs();
-		};
-	}, [pageId]);
-
-	useEffect(() => {
-		if (!pending) {
-			getListTxs(true);
 			cleanUp();
-			timerIdRef.current = null;
-			timerTxsRef.current = setInterval(() => {
-				getListTxs(true);
-			}, consts.REQUEST.TIMEOUT);
-			return;
 		}
-		setTableData([]);
-		clearInterval(timerTxsRef.current);
-		timerTxsRef.current = null;
-		timerIdRef.current = setInterval(() => {
-			getListTxs();
-		}, consts.REQUEST.TIMEOUT);
 		return () => {
 			cleanUp();
 		};
-	}, [pending]);
+	}, [pageId, pending]);
 
 	paginationSection = totalPagesRef.current ? (
 		!pending && <Pagination disabled={loading} isCustomPaging pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
