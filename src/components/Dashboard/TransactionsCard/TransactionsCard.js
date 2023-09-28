@@ -30,6 +30,9 @@ const TransactionsCard = props => {
 	const prevDataRef = useRef(null);
 
 	let timerIdRef = useRef(null);
+	const prevOldPage = useRef(null);
+	const [beforelItemsRef, setBeforelItemsRef] = useState(0);
+	const [type, setType] = useState("before");
 
 	const cleanUp = () => {
 		if (timerIdRef) {
@@ -42,6 +45,9 @@ const TransactionsCard = props => {
 		setFirstLoadCompleted(false);
 		setLoadCompleted(false);
 		setPageId(page);
+		prevOldPage.current = pageId;
+		setType(prevOldPage.current < page ? "before" : "after");
+		setBeforelItemsRef(prevOldPage.current < page ? data.paging.before : data.paging.after);
 	};
 
 	if (!firstLoadCompleted) {
@@ -50,7 +56,10 @@ const TransactionsCard = props => {
 
 	let path = basePath;
 	if (totalItemsRef.current) {
-		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
+		path += `&${type}=` + beforelItemsRef;
+		if (pageId === 1) {
+			path = basePath + "&before=0";
+		}
 	}
 
 	const { data, loading, error, refetch } = useGet({
@@ -132,7 +141,7 @@ const TransactionsCard = props => {
 		}
 	}
 	paginationSection = totalPagesRef.current ? (
-		<Pagination isCustomPaging={true} pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
+		<Pagination disabled={loading} isCustomPaging={true} pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
 	) : (
 		<></>
 	);
