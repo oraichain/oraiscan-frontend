@@ -31,8 +31,8 @@ const TransactionsCard = props => {
 
 	let timerIdRef = useRef(null);
 	const prevOldPage = useRef(null);
-	const [beforelItemsRef, setBeforelItemsRef] = useState(null);
-	const [type, setType] = useState(null);
+	const [beforelItemsRef, setBeforelItemsRef] = useState(0);
+	const [type, setType] = useState("before");
 
 	const cleanUp = () => {
 		if (timerIdRef) {
@@ -46,7 +46,7 @@ const TransactionsCard = props => {
 		setLoadCompleted(false);
 		setPageId(page);
 		prevOldPage.current = pageId;
-		setType(prevOldPage.current < page ? "next" : "previous");
+		setType(prevOldPage.current < page ? "before" : "after");
 		setBeforelItemsRef(prevOldPage.current < page ? data.paging.before : data.paging.after);
 	};
 
@@ -56,7 +56,10 @@ const TransactionsCard = props => {
 
 	let path = basePath;
 	if (totalItemsRef.current) {
-		path += "&before=" + beforelItemsRef + "&type=" + type;
+		path += `&${type}=` + beforelItemsRef;
+		if (pageId === 1) {
+			path = basePath + "&before=0";
+		}
 	}
 
 	const { data, loading, error, refetch } = useGet({
