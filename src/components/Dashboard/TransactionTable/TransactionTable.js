@@ -46,8 +46,8 @@ export const getHeaderRow = () => {
 	const headerCells = [txHashHeaderCell, typeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
 		// change width to % to fixed location.
-		{width: "20.4%"}, // TxHash
-		{width: "49%"}, // Type
+		{width: "23.4%"}, // TxHash
+		{width: "46%"}, // Type
 		{width: "17.8%"}, // Height
 		{width: "12.8%"}, // Time
 	];

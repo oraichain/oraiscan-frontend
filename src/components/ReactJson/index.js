@@ -1,9 +1,34 @@
 import React from "react";
 import { JSONTree } from "react-json-tree";
 import cn from "classnames/bind";
+import { fromBech32 } from "@cosmjs/encoding";
 import styles from "./ReactJson.module.scss";
 
 const cx = cn.bind(styles);
+
+const ValueItem = raw => {
+	if (typeof raw === "string") {
+		if (raw.match(/^https?:\/\//)) {
+			return (
+				<a target='_blank' href={raw}>
+					{raw}
+				</a>
+			);
+		}
+		// check is bech32 address
+		try {
+			const { prefix } = fromBech32(raw);
+			if (prefix.startsWith("orai")) {
+				return (
+					<a target='_blank' href={`/${prefix === "oraivaloper" ? "validators" : "account"}/${raw}`}>
+						{raw}
+					</a>
+				);
+			}
+		} catch {}
+	}
+	return raw;
+};
 
 const ReactJson = ({ style, name, theme, displayObjectSize, collapsed, displayDataTypes, src, sortKeys, quotesOnKeys }) => {
 	return (
@@ -17,16 +42,7 @@ const ReactJson = ({ style, name, theme, displayObjectSize, collapsed, displayDa
 					return !collapsed || level < collapsed;
 				}}
 				sortObjectKeys={sortKeys}
-				valueRenderer={(_, raw) => {
-					if (typeof raw === "string" && raw.match(/^https?:\/\//)) {
-						return (
-							<a target='_blank' href={raw}>
-								{raw}
-							</a>
-						);
-					}
-					return raw;
-				}}
+				valueRenderer={(_, raw) => ValueItem(raw)}
 			/>
 		</div>
 	);

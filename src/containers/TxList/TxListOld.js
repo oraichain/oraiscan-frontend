@@ -39,10 +39,6 @@ const TxList = () => {
 	const canRefetchRef = useRef(true);
 	const prevDataRef = useRef([]);
 
-	const prevOldPage = useRef(null);
-	const [beforelItemsRef, setBeforelItemsRef] = useState(0);
-	const [type, setType] = useState("before");
-
 	let timerIdRef = useRef(null);
 
 	const cleanUp = () => {
@@ -56,10 +52,6 @@ const TxList = () => {
 		setFirstLoadCompleted(false);
 		setLoadCompleted(false);
 		setPageId(page);
-
-		prevOldPage.current = pageId;
-		setType(prevOldPage.current < page ? "before" : "after");
-		setBeforelItemsRef(prevOldPage.current < page ? data.paging.before : data.paging.after);
 	};
 
 	if (!firstLoadCompleted) {
@@ -86,11 +78,7 @@ const TxList = () => {
 	} else {
 		path = restBasePath;
 		if (totalItemsRef.current) {
-			// path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
-			path += `&${type}=` + beforelItemsRef;
-			if (pageId === 1) {
-				path = restBasePath + "&before=0";
-			}
+			path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
 		}
 	}
 
@@ -217,11 +205,7 @@ const TxList = () => {
 			}
 		}
 	}
-	paginationSection = totalPagesRef.current ? (
-		<Pagination disabled={loading} isCustomPaging={true} pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
-	) : (
-		<></>
-	);
+	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	return (
 		<>
