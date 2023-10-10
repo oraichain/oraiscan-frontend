@@ -34,7 +34,7 @@ const Footer = memo(() => {
 								<div className={cx("intro")}>
 									<OraiLogo className={cx("intro-logo")} />
 									<div className={cx("intro-description")}>
-										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and Oracle Services
+										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and oracle Services
 									</div>
 								</div>
 
@@ -135,7 +135,8 @@ const Footer = memo(() => {
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://drive.google.com/file/d/1jiU7gzBD8DqqecRh_CkS3pI7bv_qTJ6B/view' target='_blank'>
+										{/* <a className={cx("nav-link")} href='https://drive.google.com/file/d/1jiU7gzBD8DqqecRh_CkS3pI7bv_qTJ6B/view' target='_blank'> */}
+										<a className={cx("nav-link")} href='https://orai.io/branding' target='_blank'>
 											Media Kit
 										</a>
 									</li>
