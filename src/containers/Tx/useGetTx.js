@@ -65,8 +65,9 @@ const useGetTx = txHash => {
 			for (let i = 0; i < listTimeout.length; i++) {
 				clearTimeout(listTimeout[i]);
 			}
-			const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
-			if ((isTxFetchSuccess(txRpc) || isTestnet) && !JSON.stringify(txRpc?.data?.result?.tx_result?.log).includes(SMARTCONTRACT_IGNORE)) {
+			const txRpc = await getDataAsync(`${consts.RPC_API_BASE}/tx?hash=0x${txHash}`);
+			const notInIgnoredContract = !JSON.stringify(txRpc?.data?.result?.tx_result?.log).includes(SMARTCONTRACT_IGNORE);
+			if ((isTxFetchSuccess(txRpc) || isTestnet) && notInIgnoredContract) {
 				const getTxScan = async () => {
 					const tx = await getDataAsync(path);
 					if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {

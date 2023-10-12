@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const api = config.SCAN_API;
 const lcdApi = config.LCD_API;
+const rpcApi = config.RPC_API;
 const contractApi = config.CONTRACT_DEPLOY_API;
 
 export default Object.freeze({
@@ -53,6 +54,7 @@ export default Object.freeze({
 	API_BASE: api,
 	API_CONTRACT_DEPLOY: contractApi,
 	LCD_API_BASE: lcdApi,
+	RPC_API_BASE: rpcApi,
 	API: {
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
