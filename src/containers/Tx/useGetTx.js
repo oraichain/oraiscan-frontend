@@ -4,6 +4,7 @@ import _ from "lodash";
 import axios from "axios";
 import consts from "src/constants/consts";
 import { isTestnet } from "src/config";
+import { SMARTCONTRACT_IGNORE } from "src/lib/config/constants";
 
 const convertData = (pendingTxState, txHash) => {
 	if (!pendingTxState) {
@@ -65,7 +66,7 @@ const useGetTx = txHash => {
 				clearTimeout(listTimeout[i]);
 			}
 			const txRpc = await getDataAsync(`https://rpc.orai.io/tx?hash=0x${txHash}`);
-			if (isTxFetchSuccess(txRpc) || isTestnet) {
+			if ((isTxFetchSuccess(txRpc) || isTestnet) && !JSON.stringify(txRpc?.data?.result?.tx_result?.log).includes(SMARTCONTRACT_IGNORE)) {
 				const getTxScan = async () => {
 					const tx = await getDataAsync(path);
 					if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {
