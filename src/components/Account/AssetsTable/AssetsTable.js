@@ -1,9 +1,9 @@
 import classNames from "classnames/bind";
-import {memo, useMemo} from "react";
+import { memo, useMemo } from "react";
 import ThemedTable from "src/components/common/ThemedTable";
-import {tableThemes} from "src/constants/tableThemes";
-import {amountDecimal18, formatOrai} from "src/helpers/helper";
-import {reduceStringAssets, _} from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
+import { amountDecimal18, formatOrai } from "src/helpers/helper";
+import { reduceStringAssets, _ } from "src/lib/scripts";
 import styles from "./AssetsTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -13,7 +13,7 @@ export const getHeaderRow = () => {
 	const amountHeaderCell = <div className={cx("header-cell", "align-right")}>Amount</div>;
 	const rewardHeaderCell = <div className={cx("header-cell", "align-right")}>Total Value</div>;
 	const headerCells = [validatorHeaderCell, amountHeaderCell, rewardHeaderCell];
-	
+
 	const headerCellStyles = [
 		{ width: "40%" }, // Name
 		{ width: "30%" }, // Amount
@@ -31,20 +31,27 @@ const AssetsTable = memo(({ data = [] }) => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
+
 		return data.map(item => {
 			const validatorAddressSplit = item?.validator_address?.split("/")?.[0] || item?.validator_address;
 			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
-			if(!tokenInfo && item.validator_address.includes("erc20")) {
-				tokenInfo = { 
+			if (!tokenInfo && item.validator_address.includes("erc20")) {
+				tokenInfo = {
 					name: "ERC20",
-					decimal: 18
-				}
+					decimal: 18,
+				};
 			}
-			if(!tokenInfo && item.validator_address.includes("airi")) {
-				tokenInfo = { 
+			if (!tokenInfo && item.validator_address.includes("airi")) {
+				tokenInfo = {
 					name: "AIRI",
-					decimal: 18
-				}
+					decimal: 18,
+				};
+			}
+			if (!tokenInfo && item.validator_address.includes("inj")) {
+				tokenInfo = {
+					name: "INJ",
+					decimal: 18,
+				};
 			}
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
