@@ -19,7 +19,7 @@ const defaultValues = {
 	title: "",
 	description: "",
 	amount: 10,
-	unbondingTime: 3600,
+	unbondingTime: 1209600000,
 	voting_period_day: 1,
 	voting_period_time: "01:00:00",
 	min_deposit: 10,
@@ -33,6 +33,10 @@ const defaultValues = {
 };
 
 const fields = [
+	{
+		label: "Text Proposal",
+		value: TEXT_PROPOSAL,
+	},
 	{
 		label: "Unbonding time",
 		value: UNBONDING_TIME,
@@ -56,10 +60,6 @@ const fields = [
 	{
 		label: "Minimum Deposit Amount",
 		value: DEPOSIT_PARAMS,
-	},
-	{
-		label: "Text Proposal",
-		value: TEXT_PROPOSAL,
 	},
 	{
 		label: "Update Admin Proposal",

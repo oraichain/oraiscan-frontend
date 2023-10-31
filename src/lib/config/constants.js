@@ -32,7 +32,6 @@ export const GITHUB = "https://github.com/oraichain/oraiscan-frontend";
 
 // bsc and eth information
 export const ETHEREUM_CHAIN_ID = "0x1";
-export const ETHEREUM_RPC = "https://mainnet.infura.io/v3/648e041e75924b5c9d0254e4a76c9978";
 export const BSC_CHAIN_ID = "0x38";
 export const BSC_RPC = "https://bsc-dataseed.binance.org";
 
