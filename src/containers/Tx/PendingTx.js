@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useRef} from "react";
-import {useParams} from "react-router-dom";
-import {useGet} from "restful-react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import { useGet } from "restful-react";
 import cn from "classnames/bind";
 import PropTypes from "prop-types";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
 import consts from "src/constants/consts";
-import {decodeTx} from "src/helpers/helper";
+import { decodeTx } from "src/helpers/helper";
 import PageTitle from "src/components/common/PageTitle";
 import NotFound from "src/components/common/NotFound";
 import StatusBox from "src/components/common/StatusBox";
@@ -25,18 +25,18 @@ import axios from "axios";
 
 const cx = cn.bind(styles);
 
-const PendingTx = ({setPending, pending}) => {
+const PendingTx = ({ setPending, pending }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const params = useParams();
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState({
 		result: {
-			txs: []
-		}
+			txs: [],
+		},
 	});
 	const txHash = params?.["tx"];
-	const path = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
+	const path = `${consts.RPC_API_BASE}/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 
 	let timerIdRef = useRef(null);
 	let pendingRef = useRef(pending);

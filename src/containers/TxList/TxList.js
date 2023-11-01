@@ -29,7 +29,7 @@ const TxList = () => {
 	const prevPendingRef = useRef(null);
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const queryStringParse = queryString.parse(history.location.search) || {};
-	const pendingBasePath = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
+	const pendingBasePath = `${consts.RPC_API_BASE}/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 	const restBasePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
