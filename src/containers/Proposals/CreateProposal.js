@@ -77,7 +77,7 @@ const schema = yup.object().shape({
 export default function CreateProposal() {
 	const [open, setOpen] = useState(false);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
-	const [fieldValue, setFieldValue] = useState(UNBONDING_TIME);
+	const [fieldValue, setFieldValue] = useState(TEXT_PROPOSAL);
 	const { address } = useSelector(state => state.wallet);
 	const [votingValue, setVotingValue] = useState(VOTING_DAY);
 	const history = useHistory();
