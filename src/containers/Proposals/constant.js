@@ -19,7 +19,7 @@ const defaultValues = {
 	title: "",
 	description: "",
 	amount: 10,
-	unbondingTime: 1209600000,
+	unbondingTime: 1209600,
 	voting_period_day: 1,
 	voting_period_time: "01:00:00",
 	min_deposit: 10,
