@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import classNames from "classnames/bind";
 import { NavLink } from "react-router-dom";
-import { _, reduceString, setAgoTime } from "src/lib/scripts";
 import { formatOrai } from "src/helpers/helper";
 import consts from "src/constants/consts";
 import styles from "./TopHoldersCard.module.scss";
