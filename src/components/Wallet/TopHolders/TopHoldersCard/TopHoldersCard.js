@@ -8,11 +8,11 @@ import styles from "./TopHoldersCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const TopHoldersCard = memo(({ data = [], address }) => {
+const TopHoldersCard = memo(({ data = [], tokenInfo }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
-	const reduceStringAdress = (title, value, toHref = "") => {
+	const renderMobileField = (title, value, toHref = "") => {
 		return (
 			<tr>
 				<td>
@@ -22,7 +22,7 @@ const TopHoldersCard = memo(({ data = [], address }) => {
 					{value ? (
 						<div className={cx("address-data-cell")}>
 							<NavLink className={cx("address")} to={toHref}>
-								{reduceString(value, 6, 6)}
+								{value}
 							</NavLink>
 						</div>
 					) : (
@@ -40,8 +40,12 @@ const TopHoldersCard = memo(({ data = [], address }) => {
 					<div className={cx("TopHoldersToken-card-list-item")} key={"TopHoldersToken-card-list-item-" + item?.id}>
 						<table>
 							<tbody>
-								{reduceStringAdress("TxHash", item?.tx_hash, `${consts.PATH.TXLIST}/${item.tx_hash}`)}
-								{reduceStringAdress("From", item?.sender, `${consts.PATH.TXLIST}/${item.sender}`)}
+								{renderMobileField("Address", item?.address, `${consts.PATH.ACCOUNTS}/${item.address}`)}
+								{renderMobileField(
+									"Balance",
+									`${formatOrai(Number(item.balance), Math.pow(10, tokenInfo?.decimals))} ${tokenInfo?.symbol.toUpperCase()}`,
+									`${consts.PATH.ACCOUNTS}/${item.address}`
+								)}
 							</tbody>
 						</table>
 					</div>

@@ -39,8 +39,6 @@ const TopHoldersToken = memo(({ address = "" }) => {
 			const topHodlers = dataRes?.topHolders?.holders ?? [];
 			const offset = itemPerPage * currentPage - itemPerPage;
 
-			console.log("offset", offset, itemPerPage * currentPage);
-
 			const slicedArray = topHodlers.slice(offset, itemPerPage * currentPage);
 
 			setDataTopHolders({
