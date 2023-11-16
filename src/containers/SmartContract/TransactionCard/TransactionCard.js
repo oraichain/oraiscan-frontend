@@ -1,6 +1,6 @@
-import React, {memo, useState, useRef} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useState, useRef } from "react";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -11,12 +11,13 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import CwToken from "src/components/Wallet/CwToken";
+import TopHolders from "src/components/Wallet/TopHolders";
 import Tabs from "src/components/TxList/Tabs";
 import styles from "./TransactionCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const TransactionCard = memo(({address = "", account = ""}) => {
+const TransactionCard = memo(({ address = "", account = "" }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -30,7 +31,7 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 	const basePath = `${consts.API.TXS_CONTRACT}/${address}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
@@ -68,7 +69,8 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 			<div className={cx("transaction-card-body")}>
 				{activeTab === 0 && tableSection}
 				{activeTab === 2 && <CwToken address={address} isOw20 />}
-				{activeTab !== 2 && paginationSection}
+				{activeTab === 4 && <TopHolders address={address} isOw20 />}
+				{activeTab !== 2 && activeTab !== 4 ? paginationSection : null}
 			</div>
 		</div>
 	);

@@ -262,4 +262,5 @@ export default Object.freeze({
 	},
 	INSTALL_KEPLR_FIRST: "You need to install OWallet or Keplr to continue.",
 	AIRI_CONTRACT_ADDRESS: "orai10ldgzued6zjp0mkqwsv2mux3ml50l97c74x8sg",
+	ORAIX_CONTRACT_ADDRESS: "orai1lus0f0rhx8s03gdllx2n6vhkmf0536dv57wfge",
 });

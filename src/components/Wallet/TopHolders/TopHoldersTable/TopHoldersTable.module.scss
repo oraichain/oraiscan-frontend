@@ -1,0 +1,139 @@
+@import "src/styles/utils";
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.header-cell {
+  color: var(--common-textColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.skeleton-data-cell {
+	box-sizing: border-box;
+	height: 32px;
+}
+
+.sm-contract-data-cell {
+	color: var(--common-linkColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.type-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	.first-message-type {
+		padding: 6px 10px;
+		margin-right: 5px;
+		border: 1px solid #5f51ff;
+		box-sizing: border-box;
+		border-radius: 4px;
+		color: #5f51ff;
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+
+	.number-of-message {
+		color: #5f51ff;
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 150%;
+	}
+}
+
+.result-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+
+	img {
+		margin-right: 9px;
+	}
+}
+
+.amount-data-cell {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+
+	p {
+		margin-right: 8px;
+	}
+
+	span:nth-child(1) {
+		padding-right: 4px;
+	}
+
+	span:nth-child(2) {
+		text-transform: uppercase;
+	}
+}
+
+.fee-data-cell {
+	span:nth-child(1) {
+		padding-right: 4px;
+	}
+
+	span:nth-child(2) {
+		text-transform: uppercase;
+	}
+}
+
+.time-data-cell,
+.height-data-cell {
+	display: block;
+	color: var(--common-textColor);
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+.transfer-status {
+	display: block;
+	min-width: 40px;
+	text-align: center;
+	padding: 7px;
+	border-radius: 4px;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 150%;
+
+	&-in {
+		background: var(--common-transactions-amountTransactionBackgroundInColor);
+		color: var(--common-transactions-amountTransactionTextInColor);
+		border: 1px solid var(--common-transactions-amountTransactionLabelInColor);
+	}
+
+	&-out {
+		background: var(--common-transactions-amountTransactionBackgroundOutColor);
+		color: var(--common-transactions-amountTransactionTextOutColor);
+		border: 1px solid var(--common-transactions-amountTransactionLabelOutColor);
+	}
+}
