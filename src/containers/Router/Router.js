@@ -12,7 +12,6 @@ const Dashboard = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Dashbo
 const ValidatorList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ValidatorList" */ "src/containers/ValidatorList"), "ValidatorList"));
 const ValidatorDetails = lazy(() => lazyRetry(() => import(/* webpackChunkName: "ValidatorDetails" */ "src/containers/ValidatorDetails"), "ValidatorDetails"));
 const AccountList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "AccountList" */ "src/containers/AccountList"), "AccountList"));
-const TopHolderList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "AccountList" */ "src/containers/TopHolderList"), "TopHolderList"));
 const Block = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Block" */ "src/containers/Block"), "Block"));
 const TxList = lazy(() => lazyRetry(() => import(/* webpackChunkName: "TxList" */ "src/containers/TxList"), "TxList"));
 const Tx = lazy(() => lazyRetry(() => import(/* webpackChunkName: "Tx" */ "src/containers/Tx"), "Tx"));
@@ -95,7 +94,6 @@ export default function(props) {
 					<Route path='/txs' render={props => <TxList {...props} />} />
 					<Route path='/account/:account' render={props => <Account {...props} />} />
 					<Route path='/accounts' component={AccountList} />
-					<Route path='/top-holders' component={TopHolderList} />
 					<Route path='/data-sources/:detailId' component={DataSourcesDetail} />
 					<Route path='/data-sources' component={DataSources} />
 					<Route path='/test-cases' component={TestCases} />
