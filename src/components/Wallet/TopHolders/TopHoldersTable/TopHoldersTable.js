@@ -24,7 +24,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TopHoldersTable = memo(({ data = [], address, tokenInfo = {} }) => {
+const TopHoldersTable = memo(({ data = [], tokenInfo = {} }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
