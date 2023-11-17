@@ -1,0 +1,80 @@
+@import "src/styles/utils";
+
+.TopHoldersToken-card-list {
+	&-item {
+		padding: 15px;
+		margin-bottom: 15px;
+		background-color: var(--common-containerBackgroundColor);
+		box-shadow: 0px 2px 8px var(--common-boxShadowColor);
+		border-radius: 8px;
+
+		table {
+			width: 100%;
+			tr {
+				td {
+					padding-bottom: 15px;
+				}
+
+				td:nth-child(1) {
+					text-align: left;
+					width: 40%;
+				}
+				td:nth-child(2) {
+					text-align: right;
+					width: 60%;
+				}
+			}
+		}
+
+		.item-title {
+			color: var(--common-textColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-text {
+			color: var(--common-textColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-link {
+			color:  var(--common-linkColor);
+			font-family: 'IBM Plex Sans';
+			font-style: normal;
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 150%;
+		}
+
+		.item-status {
+			width: 50px;
+		}
+
+		.address-data-cell {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+
+			&-with-owner-badge {
+				justify-content: space-between;
+			}
+
+			.address {
+				color: var(--common-linkColor);
+				font-family: 'IBM Plex Sans';
+				font-style: normal;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 150%;
+			}
+		}
+	}
+}
