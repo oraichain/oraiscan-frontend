@@ -184,19 +184,21 @@ const DetailsCard = memo(({ data }) => {
 										<tr>
 											<td>
 												<div className={cx("item-title")}>New Admin</div>
-												<div className={cx("item-text")}>{data?.new_admin ?? "-"}</div>
+												<div className={cx("item-new-admin")}>
+													<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.new_admin}`}>
+														<span className={cx("item-text-proposer")}>{data?.new_admin}</span>
+													</NavLink>
+												</div>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<div className={cx("item-title")}>Contract Address</div>
-												<div className={cx("item-text")}>{data?.contract ?? "-"}</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div className={cx("item-title")}>Proposer</div>
-												<div className={cx("item-text")}>{data?.proposer ?? "-"}</div>
+												<div className={cx("item-proposer")}>
+													<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${data?.contract}`}>
+														<span className={cx("item-text-proposer")}>{data?.contract ?? "-"}</span>
+													</NavLink>
+												</div>
 											</td>
 										</tr>
 									</>
@@ -359,19 +361,21 @@ const DetailsCard = memo(({ data }) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>New Admin</div>
-										<div className={cx("item-new-admin")}>{data?.new_admin ?? "-"}</div>
+										<div className={cx("item-new-admin")}>
+											<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${data?.new_admin}`}>
+												<span className={cx("item-text-proposer")}>{data?.new_admin}</span>
+											</NavLink>
+										</div>
 									</td>
 								</tr>
 								<tr>
 									<td colSpan={2}>
-										<div className={cx("item-title")}>Contract</div>
-										<div className={cx("item-proposer")}>{data?.contract ?? "-"}</div>
-									</td>
-								</tr>
-								<tr>
-									<td colSpan={2}>
-										<div className={cx("item-title")}>Proposer</div>
-										<div className={cx("item-proposer")}>{data?.proposer ?? "-"}</div>
+										<div className={cx("item-title")}>Contract Address</div>
+										<div className={cx("item-proposer")}>
+											<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.SMART_CONTRACT}/${data?.contract}`}>
+												<span className={cx("item-text-proposer")}>{data?.contract ?? "-"}</span>
+											</NavLink>
+										</div>
 									</td>
 								</tr>
 							</>
