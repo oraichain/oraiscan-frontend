@@ -63,10 +63,17 @@ export const amountDecimal18 = [
 		decimal: 18,
 		name: "milky",
 	},
+	{
+		denom: "INJ",
+		address: "ibc/49D820DFDE9F885D7081725A58202ABA2F465CAEE4AFBC683DFB79A8E013E83E",
+		decimal: 18,
+		name: "injective",
+	},
 ];
 
 export const checkTokenCW20 = value => {
-	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "");
+	const checkCondition = (amo, value) => amo.address.toUpperCase() == value?.toUpperCase() || amo.denom.toUpperCase() == value?.toUpperCase() || "";
+	const status = amountDecimal18.find(amo => checkCondition(amo, value));
 	return {
 		status,
 		denom: status?.denom,

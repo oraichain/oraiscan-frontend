@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
-import { formatFloat, formatOrai } from "src/helpers/helper";
+import { checkTokenCW20, formatFloat, formatOrai } from "src/helpers/helper";
 import { getNewRoyalty, getRoyaltyAmount, getTokenId } from "src/components/TxList/TransactionTable/TransactionTable";
 import { _, reduceString, setAgoTime, parseIbcMsgTransfer, parseIbcMsgRecvPacket, isJsonString } from "src/lib/scripts";
 import CheckIcon from "src/icons/CheckIcon";
@@ -75,6 +75,8 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 						denom_name = item.messages[0].amount[0]?.denom_name;
 					}
 
+					const denomCheck = checkTokenCW20(denom_name);
+
 					amountDataCell =
 						_.isNil(denom_name) || _.isNil(denom) || _.isNil(amount) ? (
 							<div className={cx("amount-data-cell")}>
@@ -88,7 +90,7 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 							<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
 								{transferStatus && transferStatus}
 								<div className={cx("amount")}>
-									<span className={cx("amount-value")}>{formatOrai(amount)} </span>
+									<span className={cx("amount-value")}>{formatOrai(amount, denomCheck.decimal && Math.pow(10, denomCheck.decimal))} </span>
 									<span className={cx("amount-denom")}>{denom_name || denom}</span>
 									{(denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI) && (
 										<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
@@ -181,7 +183,6 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 							</div>
 						);
 					}
-
 				}
 
 				return (
@@ -195,13 +196,12 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 									<td>
 										{_.isNil(item?.tx_hash) ? (
 											<div className={cx("item-link")}>-</div>
+										) : !txHashClick ? (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+												{reduceString(item.tx_hash, 6, 6)}
+											</NavLink>
 										) : (
-											!txHashClick ?
-												<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-													{reduceString(item.tx_hash, 6, 6)}
-												</NavLink> : <div className={cx("item-link")}>
-													{reduceString(item.tx_hash, 6, 6)}
-												</div>
+											<div className={cx("item-link")}>{reduceString(item.tx_hash, 6, 6)}</div>
 										)}
 									</td>
 								</tr>
