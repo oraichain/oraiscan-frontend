@@ -39,6 +39,7 @@
 		"@material-ui/lab": "^4.0.0-alpha.57",
 		"@material-ui/styles": "^4.9.0",
 		"@oraichain/cosmos-messages": "0.0.3",
+		"@oraichain/oraidex-common": "^1.0.43",
 		"@sentry/react": "^7.36.0",
 		"@sentry/tracing": "^7.36.0",
 		"@sentry/webpack-plugin": "^1.20.0",

@@ -40,8 +40,13 @@ const TxMessageContent = ({
 	storeCodeElement,
 	ind,
 	getRawLog,
+	getInfoRowFromRawData,
+	getWasmDataJson,
+	getPriceInfoFromRawData,
 	getIBCProgressRow,
 }) => {
+	const { base, quote, wasmAttributes } = getWasmDataJson(data?.raw_log) || {};
+
 	return (
 		<>
 			<div className={cx("card-header")}>
@@ -356,6 +361,11 @@ const TxMessageContent = ({
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
+						{getInfoRowFromRawData(wasmAttributes, "pair", "Pair")}
+						{getPriceInfoFromRawData(wasmAttributes, "take_profit", "Take profit", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "stop_loss", "Stop loss", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "pnl", "Pnl", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "withdraw_amount", "Withdraw amount", quote)}
 						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result, data?.amount)}
 						<InfoRow label='Message'>
 							<ReactJson
