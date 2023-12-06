@@ -1,10 +1,19 @@
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import consts from "src/constants/consts";
+
 //  reduxy
 // import {getCryptoAssets, getCryptoBep8} from "src/store/modules/assets";
-import {getCryptoBasicData, getCryptoBasicDataAiri,  getCryptoStatus, getCryptoValidators, getCyptoAcceleratedNode, getMinFee} from "src/store/modules/blockchain";
+import {
+	getCryptoBasicData,
+	getCryptoBasicDataAiri,
+	getCryptoStatus,
+	getCryptoValidators,
+	getCyptoAcceleratedNode,
+	getMinFee,
+	getPriceTokens,
+} from "src/store/modules/blockchain";
 //  hooks
 
 export default function usePreload() {
@@ -18,6 +27,7 @@ export default function usePreload() {
 		dispatch(getCryptoBasicData("oraichain-token", "usd", source.token));
 		dispatch(getCryptoBasicDataAiri("airight", "usd", source.token));
 		dispatch(getCryptoStatus(source.token));
+		dispatch(getPriceTokens(source.token));
 		//dispatch(getCryptoFees(source.token));
 		dispatch(getMinFee());
 		if (window.location.pathname !== "/assets/") {
@@ -33,6 +43,7 @@ export default function usePreload() {
 			const source = cancelToken.source();
 			dispatch(getCryptoBasicData(consts.COIN_ID, "usd", source.token));
 			dispatch(getCryptoBasicDataAiri(consts.AIRI_ID, "usd", source.token));
+			dispatch(getPriceTokens(source.token));
 			//  spacing out the request
 			//  probably won't need a cleanup function because it's never unloaded
 			setTimeout(() => {
