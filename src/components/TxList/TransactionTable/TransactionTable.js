@@ -173,6 +173,8 @@ export const getTokenId = (rawLog = "[]", result = "") => {
 
 const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txHashClick = false }) => {
 	const status = useSelector(state => state.blockchain.status);
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
+
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
 		let typeMsg = typeArr[typeArr.length - 1];
@@ -226,6 +228,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 		}
 		const priceOraiCheck = denom?.toLowerCase() === consts.DENOM_ORAI;
 		const priceTokenCheck = denom?.toLowerCase() === denomCheck?.address?.toLowerCase();
+		const tokenPrice = priceTokens[denomCheck.coingeckoId] || 0;
 
 		return (
 			<div className={cx("amount")}>
@@ -234,7 +237,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 				{priceOraiCheck ? (
 					<div className={cx("amount-usd")}>{priceToken}</div>
 				) : priceTokenCheck ? (
-					<div className={cx("amount-usd")}>{"($" + formatOrai(+amount * status?.price, Math.pow(10, denomCheck?.decimal), 6) + ")"}</div>
+					<div className={cx("amount-usd")}>{"($" + formatOrai(+amount * tokenPrice, Math.pow(10, denomCheck.decimal), 6) + ")"}</div>
 				) : (
 					<></>
 				)}

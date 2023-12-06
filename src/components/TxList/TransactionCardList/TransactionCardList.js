@@ -43,6 +43,7 @@ const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 const TransactionCardList = memo(({ data = [], account, royalty = false, txHashClick = false }) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
 
 	return (
 		<div className='transaction-card-list'>
@@ -76,6 +77,11 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 					}
 
 					const denomCheck = checkTokenCW20(denom_name);
+					const congeckoPrice = priceTokens[denomCheck.coingeckoId] || 0;
+
+					const priceOrai = status?.price ? "($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : "";
+					const priceOther = congeckoPrice ? "($" + formatOrai(+amount * congeckoPrice, Math.pow(10, denomCheck.decimal), 6) + ")" : "";
+					const priceShow = denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI ? priceOrai : priceOther;
 
 					amountDataCell =
 						_.isNil(denom_name) || _.isNil(denom) || _.isNil(amount) ? (
@@ -91,10 +97,9 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 								{transferStatus && transferStatus}
 								<div className={cx("amount")}>
 									<span className={cx("amount-value")}>{formatOrai(amount, denomCheck.decimal && Math.pow(10, denomCheck.decimal))} </span>
-									<span className={cx("amount-denom")}>{denom_name || denom}</span>
-									{(denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI) && (
-										<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
-									)}
+									<span className={cx("amount-denom")}>{denomCheck.denom || denom_name || denom}</span>
+
+									<div className={cx("amount-usd")}>{priceShow}</div>
 								</div>
 							</div>
 						);

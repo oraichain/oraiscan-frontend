@@ -32,42 +32,49 @@ export const amountDecimal18 = [
 		address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
 		decimal: 18,
 		name: "orai bsc",
+		coingeckoId: "oraichain-token",
 	},
 	{
 		denom: "AIRI",
 		address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
 		decimal: 18,
 		name: "airi bsc",
+		coingeckoId: "airight",
 	},
 	{
 		denom: "USDT",
 		address: "oraib0x55d398326f99059fF775485246999027B3197955",
 		decimal: 18,
 		name: "usdt bsc",
+		coingeckoId: "tether",
 	},
 	{
 		denom: "KWT",
 		address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
 		decimal: 18,
 		name: "kwt bsc",
+		coingeckoId: "kawaii-islands",
 	},
 	{
 		denom: "ORAI ERC20",
 		address: "eth-mainnet0X4C11249814F11B9346808179CF06E71AC328C1B5",
 		decimal: 18,
 		name: "orai eth",
+		coingeckoId: "oraichain-token",
 	},
 	{
 		denom: "Milky",
 		address: "oraib0x6fE3d0F096FC932A905accd1EB1783F6e4cEc717",
 		decimal: 18,
 		name: "milky",
+		coingeckoId: "milky-token",
 	},
 	{
 		denom: "INJ",
 		address: "ibc/49D820DFDE9F885D7081725A58202ABA2F465CAEE4AFBC683DFB79A8E013E83E",
 		decimal: 18,
 		name: "injective",
+		coingeckoId: "injective-protocol",
 	},
 ];
 
@@ -79,6 +86,7 @@ export const checkTokenCW20 = value => {
 		denom: status?.denom,
 		address: status?.address,
 		decimal: status?.decimal ?? 18,
+		coingeckoId: status?.coingeckoId,
 	};
 };
 

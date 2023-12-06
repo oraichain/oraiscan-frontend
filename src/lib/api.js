@@ -22,6 +22,15 @@ export const getBasicData = (id, currency, cancelToken) => {
 	return axios.get(`${consts.API_BASE}/market?id=${id}`, { cancelToken });
 };
 
+export const buildCoinGeckoPricesURL = tokens =>
+	// `https://api.coingecko.com/api/v3/simple/price?ids=${tokens.join('%2C')}&vs_currencies=usd`;
+	`https://price.market.orai.io/simple/price?ids=${tokens.join("%2C")}&vs_currencies=usd`;
+
+export const getCoingeckoPrices = async (tokens, cancelToken) => {
+	const coingeckoPricesURL = buildCoinGeckoPricesURL(tokens);
+	return await axios.get(coingeckoPricesURL, { cancelToken });
+};
+
 export const getMarketChartRange = (id, currency, from, to, cancelToken) => {
 	return axios.get(`${consts.API_BASE}/market/chart?id=${id}`, { cancelToken });
 };
