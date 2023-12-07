@@ -34,6 +34,8 @@ import copyIcon from "src/assets/common/copy_ic.svg";
 import styles from "./TxMessage.module.scss";
 import { tryParseMessage } from "src/lib/scripts";
 import IBCProgress from "./IBCProgress";
+import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
+import { toDisplay } from "@oraichain/oraidex-common/build/helper";
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -252,11 +254,53 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			</InfoRow>
 		);
 
+		const getInfoPriceRow = (label, value, denom) => (
+			<InfoRow label={label}>
+				<span className={cx("text")}>
+					{_.isNil(value) ? "-" : toDisplay(BigInt(Math.trunc(value)), CW20_DECIMALS)}&nbsp;
+					{denom}
+				</span>
+			</InfoRow>
+		);
+
 		const getInfoRowThreeDots = (label, value) => (
 			<InfoRow label={label}>
 				<span className={cx("text-three-dots")}>{_.isNil(value) ? "-" : value}</span>
 			</InfoRow>
 		);
+
+		const getWasmDataJson = rawLog => {
+			let messageParse = [];
+			try {
+				messageParse = tryParseMessage(JSON.parse(rawLog));
+			} catch (error) {
+				messageParse = [{ error: rawLog }];
+			} finally {
+				const wasmData = messageParse[0]?.events?.find(e => e.type === "wasm");
+				const wasmAttributes = wasmData?.attributes;
+
+				const pair = wasmData?.attributes?.find(wd => wd.key === "pair");
+				const [base, quote] = pair?.value?.split("/") || [];
+
+				return {
+					base,
+					quote,
+					wasmAttributes,
+				};
+			}
+		};
+
+		const getInfoRowFromRawData = (wasmAttributes, key, label) => {
+			const data = wasmAttributes?.find(wd => wd.key === key);
+
+			return !data ? null : getInfoRow(label, data.value);
+		};
+
+		const getPriceInfoFromRawData = (wasmAttributes, key, label, denom) => {
+			const data = wasmAttributes?.find(wd => wd.key === key);
+
+			return !data ? null : getInfoPriceRow(label, data.value, denom);
+		};
 
 		const getRawLog = rawLog => {
 			let messageParse = [];
@@ -364,7 +408,9 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
-				<span className={cx("amount-denom")}>{denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
+				<span className={cx("amount-denom")}>
+					{denomCheck?.denom || denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}
+				</span>
 			);
 			const amountUsd = (
 				<>
@@ -871,6 +917,9 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					activeThemeId={activeThemeId}
 					themeIds={themeIds}
 					getRawLog={getRawLog}
+					getInfoRowFromRawData={getInfoRowFromRawData}
+					getWasmDataJson={getWasmDataJson}
+					getPriceInfoFromRawData={getPriceInfoFromRawData}
 					key={key}
 					ind={ind}
 					storeCodeElement={storeCodeElement}

@@ -44,38 +44,28 @@ export const getHeaderRow = (royalty = false) => {
 	const feeHeaderCell = <div className={cx("header-cell", "align-right")}>{royalty ? "Token Id" : "Fee"}</div>;
 	const heightHeaderCell = <div className={cx("header-cell", "align-right")}>Height</div>;
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
-	let headerCells = [
-		txHashHeaderCell,
-		typeHeaderCell,
-		resultHeaderCell,
-		amountHeaderCell,
-		feeHeaderCell,
-		heightHeaderCell,
-		timeHeaderCell,
-	];
+	let headerCells = [txHashHeaderCell, typeHeaderCell, resultHeaderCell, amountHeaderCell, feeHeaderCell, heightHeaderCell, timeHeaderCell];
 	let headerCellStyles = [
-		
-		{ width: "15%"}, // TxHash
-		{ width: "23%"}, // Type
-		{ width: "10%"}, // Result
-		{ width: "22%"}, // Amount
-		{ width: "10%"}, // Fee
-		{ width: "10%"}, // Height
-		{ width: "10%"}, // Time
+		{ width: "15%" }, // TxHash
+		{ width: "23%" }, // Type
+		{ width: "10%" }, // Result
+		{ width: "22%" }, // Amount
+		{ width: "10%" }, // Fee
+		{ width: "10%" }, // Height
+		{ width: "10%" }, // Time
 	];
 	if (royalty) {
 		const newRoyaltyHeaderCell = <div className={cx("header-cell", "align-right")}>New Royalty</div>;
 		headerCells.push(newRoyaltyHeaderCell);
 		headerCellStyles = [
-		
-			{ width: "12%"}, // TxHash
-			{ width: "18%"}, // Type
-			{ width: "10%"}, // Result
-			{ width: "16%"}, // Amount
-			{ width: "12%"}, // Fee
-			{ width: "12%"}, // Height
-			{ width: "10%"}, // Time
-			{ width: "10%"}, // New Royalty
+			{ width: "12%" }, // TxHash
+			{ width: "18%" }, // Type
+			{ width: "10%" }, // Result
+			{ width: "16%" }, // Amount
+			{ width: "12%" }, // Fee
+			{ width: "12%" }, // Height
+			{ width: "10%" }, // Time
+			{ width: "10%" }, // New Royalty
 		];
 	}
 
@@ -118,7 +108,6 @@ export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
 				break;
 			}
 		}
-
 	}
 
 	return handleRoyaltyPercentage(newRoyalty);
@@ -184,6 +173,8 @@ export const getTokenId = (rawLog = "[]", result = "") => {
 
 const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txHashClick = false }) => {
 	const status = useSelector(state => state.blockchain.status);
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
+
 	const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 		const typeArr = type.split(".");
 		let typeMsg = typeArr[typeArr.length - 1];
@@ -237,17 +228,19 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 		}
 		const priceOraiCheck = denom?.toLowerCase() === consts.DENOM_ORAI;
 		const priceTokenCheck = denom?.toLowerCase() === denomCheck?.address?.toLowerCase();
+		const tokenPrice = priceTokens[denomCheck.coingeckoId] || 0;
+
 		return (
 			<div className={cx("amount")}>
 				<span className={cx("amount-value")}>{denomCheck.status ? formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) : formatOrai(amount)}</span>
 				<span className={cx("amount-denom")}>{denomCheck.status ? reduceStringAssets(denomCheck.denom) : reduceStringAssets(denom)}</span>
 				{priceOraiCheck ? (
 					<div className={cx("amount-usd")}>{priceToken}</div>
-				) : priceTokenCheck ?
-					<div className={cx("amount-usd")}>{"($" + status?.price * formatOrai(+amount, Math.pow(10, denomCheck?.decimal), 6) + ")"}</div>
-					: (
-						<></>
-					)}
+				) : priceTokenCheck ? (
+					<div className={cx("amount-usd")}>{"($" + formatOrai(+amount * tokenPrice, Math.pow(10, denomCheck.decimal), 6) + ")"}</div>
+				) : (
+					<></>
+				)}
 			</div>
 		);
 	};
@@ -263,14 +256,12 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 			let amountDenomName = item?.amount?.[0]?.amount?.denom;
 			const txHashDataCell = _.isNil(item?.tx_hash) ? (
 				<div className={cx("align-left")}>-</div>
+			) : txHashStatus ? (
+				<div className={cx("tx-hash-data-cell", "align-left")}>{reduceString(item.tx_hash, 6, 6)}</div>
 			) : (
-				txHashStatus ?
-					<div className={cx("tx-hash-data-cell", "align-left")}>
-						{reduceString(item.tx_hash, 6, 6)}
-					</div>
-					: <NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-						{reduceString(item.tx_hash, 6, 6)}
-					</NavLink>
+				<NavLink className={cx("tx-hash-data-cell", "align-left")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+					{reduceString(item.tx_hash, 6, 6)}
+				</NavLink>
 			);
 
 			const typeDataCell = _.isNil(item?.messages?.[item?.messages?.length - 1]?.["@type"]) ? (
@@ -359,8 +350,8 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 								{objRoyaltyAmount.amount === "0"
 									? " ($0)"
 									: status?.price
-										? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
-										: ""}
+									? " ($" + formatFloat(status.price * (objRoyaltyAmount.amount / 1000000), 4) + ")"
+									: ""}
 							</div>
 						</div>
 					</div>
@@ -383,7 +374,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 						denom = consts.MORE;
 					} else if (!_.isNil(item?.amount?.[0]?.denom) && !_.isNil(item?.amount?.[0]?.amount)) {
 						denom = newDenom ? newDenom : amountDenomName;
-						amount = item?.amount?.[0]?.amount
+						amount = item?.amount?.[0]?.amount;
 					} else if (item?.messages[0]?.amount && item?.messages[0]?.amount?.length > 0) {
 						amount = item?.messages[0]?.amount[0]?.amount;
 						denom = item?.messages[0]?.amount[0]?.denom_name;
@@ -407,9 +398,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 						<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus }, "align-right")}>
 							{transferStatus && transferStatus}
 							{amount ? (
-								<>
-									{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}
-								</>
+								<>{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName)}</>
 							) : (
 								<div className={cx("amount")}>
 									<span className={cx("amount-value")}>0</span>
@@ -437,7 +426,7 @@ const TransactionTable = memo(({ data, rowMotions, account, royalty = false, txH
 					<div className={cx("fee-data-cell", "align-right")}>
 						<div className={cx("fee")}>
 							<span className={cx("fee-value")}>{formatOrai(item.fee?.amount?.[0]?.amount || 0)}</span>
-							<span className={cx("fee-denom")}>{item.fee?.amount?.[0]?.denom || item.fee?.amount?.[0]?.denom_name || 'ORAI'}</span>
+							<span className={cx("fee-denom")}>{item.fee?.amount?.[0]?.denom || item.fee?.amount?.[0]?.denom_name || "ORAI"}</span>
 						</div>
 					</div>
 				);

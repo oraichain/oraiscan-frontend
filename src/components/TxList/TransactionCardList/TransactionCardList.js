@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import consts from "src/constants/consts";
-import { formatFloat, formatOrai } from "src/helpers/helper";
+import { checkTokenCW20, formatFloat, formatOrai } from "src/helpers/helper";
 import { getNewRoyalty, getRoyaltyAmount, getTokenId } from "src/components/TxList/TransactionTable/TransactionTable";
 import { _, reduceString, setAgoTime, parseIbcMsgTransfer, parseIbcMsgRecvPacket, isJsonString } from "src/lib/scripts";
 import CheckIcon from "src/icons/CheckIcon";
@@ -43,6 +43,7 @@ const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 const TransactionCardList = memo(({ data = [], account, royalty = false, txHashClick = false }) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
 
 	return (
 		<div className='transaction-card-list'>
@@ -75,6 +76,13 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 						denom_name = item.messages[0].amount[0]?.denom_name;
 					}
 
+					const denomCheck = checkTokenCW20(denom_name);
+					const congeckoPrice = priceTokens[denomCheck.coingeckoId] || 0;
+
+					const priceOrai = status?.price ? "($" + formatFloat(status.price * (amount / 1000000), 4) + ")" : "";
+					const priceOther = congeckoPrice ? "($" + formatOrai(+amount * congeckoPrice, Math.pow(10, denomCheck.decimal), 6) + ")" : "";
+					const priceShow = denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI ? priceOrai : priceOther;
+
 					amountDataCell =
 						_.isNil(denom_name) || _.isNil(denom) || _.isNil(amount) ? (
 							<div className={cx("amount-data-cell")}>
@@ -88,11 +96,10 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 							<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
 								{transferStatus && transferStatus}
 								<div className={cx("amount")}>
-									<span className={cx("amount-value")}>{formatOrai(amount)} </span>
-									<span className={cx("amount-denom")}>{denom_name || denom}</span>
-									{(denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI) && (
-										<div className={cx("amount-usd")}>{status?.price ? "($" + formatFloat(status?.price * (amount / 1000000), 4) + ")" : ""}</div>
-									)}
+									<span className={cx("amount-value")}>{formatOrai(amount, denomCheck.decimal && Math.pow(10, denomCheck.decimal))} </span>
+									<span className={cx("amount-denom")}>{denomCheck.denom || denom_name || denom}</span>
+
+									<div className={cx("amount-usd")}>{priceShow}</div>
 								</div>
 							</div>
 						);
@@ -181,7 +188,6 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 							</div>
 						);
 					}
-
 				}
 
 				return (
@@ -195,13 +201,12 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 									<td>
 										{_.isNil(item?.tx_hash) ? (
 											<div className={cx("item-link")}>-</div>
+										) : !txHashClick ? (
+											<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
+												{reduceString(item.tx_hash, 6, 6)}
+											</NavLink>
 										) : (
-											!txHashClick ?
-												<NavLink className={cx("item-link")} to={`${consts.PATH.TXLIST}/${item.tx_hash}`}>
-													{reduceString(item.tx_hash, 6, 6)}
-												</NavLink> : <div className={cx("item-link")}>
-													{reduceString(item.tx_hash, 6, 6)}
-												</div>
+											<div className={cx("item-link")}>{reduceString(item.tx_hash, 6, 6)}</div>
 										)}
 									</td>
 								</tr>
