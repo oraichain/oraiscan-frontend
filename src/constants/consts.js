@@ -62,6 +62,7 @@ export default Object.freeze({
 		TXS_BLOCK: "/txs-block",
 		ACCOUNT: "/account",
 		ACCOUNTS: "/accounts",
+		TOPHOLDERS: "/token",
 		ACCOUNT_TXS: acc => `/account/txs/${acc}?page=1&rows=20`,
 		TXLIST: "/txs",
 		TX: "/txs",
@@ -260,4 +261,6 @@ export default Object.freeze({
 		PENDING: "pending",
 	},
 	INSTALL_KEPLR_FIRST: "You need to install OWallet or Keplr to continue.",
+	AIRI_CONTRACT_ADDRESS: "orai10ldgzued6zjp0mkqwsv2mux3ml50l97c74x8sg",
+	ORAIX_CONTRACT_ADDRESS: "orai1lus0f0rhx8s03gdllx2n6vhkmf0536dv57wfge",
 });

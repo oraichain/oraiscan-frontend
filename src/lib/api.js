@@ -92,6 +92,10 @@ export const getListCwToken = (address, page) => {
 	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`;
 };
 
+export const getListTopHoldersToken = (contract_address, page) => {
+	return `${consts.API_BASE}/token/${contract_address}?limit=${page?.limit || 100}`;
+};
+
 export const getListNFTToken = (address, page) => {
 	return `${consts.API_BASE}${consts.API.NFT_TXS}/${address}?limit=${page?.limit || 10}&page_id=${page?.page_id || 1}`;
 };

@@ -1,15 +1,15 @@
 // @ts-nocheck
-import React, {memo, useState} from "react";
+import React, { memo, useState } from "react";
 
 // libraries
-import {useLocation, useHistory} from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
-import {Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList, useMediaQuery} from "@material-ui/core";
-import {useTheme} from "@material-ui/core/styles";
+import { Popper, Grow, Paper, MenuItem, ClickAwayListener, MenuList, useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import cn from "classnames/bind";
-import {useDispatch} from "react-redux";
-import {ExpandMore} from "@material-ui/icons";
-import {isNil} from "lodash-es";
+import { useDispatch } from "react-redux";
+import { ExpandMore } from "@material-ui/icons";
+import { isNil } from "lodash-es";
 
 // icons
 import OracleScriptsTabIcon from "src/icons/Tabs/OracleScriptsTabIcon";
@@ -23,7 +23,7 @@ import TransactionsTabIcon from "src/icons/Tabs/TransactionsTabIcon";
 import backIcon from "src/assets/header/back_ic.svg";
 
 // functions and components
-import {closePageBar} from "src/store/modules/global";
+import { closePageBar } from "src/store/modules/global";
 import config from "src/config.js";
 
 import styles from "./Tabs.module.scss";
@@ -35,7 +35,7 @@ const cx = cn.bind(styles);
 const contract = config.randomnessContractAddress;
 
 const Tabs = memo(() => {
-	const {pathname} = useLocation();
+	const { pathname } = useLocation();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -91,9 +91,9 @@ const Tabs = memo(() => {
 		setOpenOthers(false);
 	};
 
-	const renderTabDropdownComponent = ({classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName}) => (
+	const renderTabDropdownComponent = ({ classNameDropdown, childs, anchorRef, handleOpen, handleClose, open, name, route, img, index, dropdownClassName }) => (
 		<button
-			className={cx("tab", {"active-dropdown": childs?.find(item => item?.activePath === pathname)})}
+			className={cx("tab", { "active-dropdown": childs?.find(item => item?.activePath === pathname) })}
 			ref={anchorRef}
 			onMouseEnter={isLargeScreen ? handleOpen : null}
 			onMouseLeave={isLargeScreen ? handleClose : null}
@@ -118,7 +118,7 @@ const Tabs = memo(() => {
 				anchorEl={anchorRef?.current}
 				disablePortal={isLargeScreen ? false : true}
 				transition>
-				{({TransitionProps, placement}) => (
+				{({ TransitionProps, placement }) => (
 					<Grow {...TransitionProps}>
 						<Paper className={cx(dropdownClassName)}>
 							<ClickAwayListener onClickAway={handleClose}>
@@ -205,7 +205,6 @@ const Tabs = memo(() => {
 				activePath: "/verified-contracts",
 			},
 		],
-		
 	};
 
 	const tabs = [
@@ -246,7 +245,6 @@ const Tabs = memo(() => {
 			dropdownClassName: "oracle-scripts-dropdown",
 			render: renderTabDropdownComponent,
 		},
-
 	];
 
 	return (
@@ -265,7 +263,7 @@ const Tabs = memo(() => {
 						<NetworkSwitcher />
 					</div>
 				</div>
-				{tabs.map(({name, img, route, render, dropdownClassName}, index) => {
+				{tabs.map(({ name, img, route, render, dropdownClassName }, index) => {
 					let tab;
 					if (!isNil(render)) {
 						let classNameDropdown;
@@ -324,7 +322,7 @@ const Tabs = memo(() => {
 					} else
 						tab = (
 							<div
-								className={cx("tab", {active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1})}
+								className={cx("tab", { active: route === "/" ? pathname === "/" : pathname.indexOf(route) > -1 })}
 								onClick={() => {
 									history.push(route);
 									dispatch(closePageBar());
