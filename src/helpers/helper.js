@@ -28,28 +28,28 @@ export const extractValueAndUnit = (inputString = "") => {
 
 export const amountDecimal18 = [
 	{
-		denom: "ORAI",
+		denom: "ORAI BSC",
 		address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
 		decimal: 18,
 		name: "orai bsc",
 		coingeckoId: "oraichain-token",
 	},
 	{
-		denom: "AIRI",
+		denom: "AIRI BSC",
 		address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
 		decimal: 18,
 		name: "airi bsc",
 		coingeckoId: "airight",
 	},
 	{
-		denom: "USDT",
+		denom: "USDT BSC",
 		address: "oraib0x55d398326f99059fF775485246999027B3197955",
 		decimal: 18,
 		name: "usdt bsc",
 		coingeckoId: "tether",
 	},
 	{
-		denom: "KWT",
+		denom: "KWT BSC",
 		address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
 		decimal: 18,
 		name: "kwt bsc",
@@ -63,7 +63,7 @@ export const amountDecimal18 = [
 		coingeckoId: "oraichain-token",
 	},
 	{
-		denom: "Milky",
+		denom: "Milky BSC",
 		address: "oraib0x6fE3d0F096FC932A905accd1EB1783F6e4cEc717",
 		decimal: 18,
 		name: "milky",
@@ -171,7 +171,7 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 	}
 
 	const bigValue = new BigNumber(value);
-	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
+	let result = new BigNumber(bigValue.dividedBy(divisor).toFixed(numberOfDigitsAfterDecimalPoint)).toFormat();
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
 export const formatNumber = value => {

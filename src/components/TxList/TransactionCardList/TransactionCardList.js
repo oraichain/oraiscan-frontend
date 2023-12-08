@@ -1,44 +1,19 @@
 // @ts-nocheck
-import React, { memo } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Tooltip } from "@material-ui/core";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import { memo } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { checkAmountOrai } from "src/components/TxList/TransactionTable/TransactionTable";
 import consts from "src/constants/consts";
 import { checkTokenCW20, formatFloat, formatOrai } from "src/helpers/helper";
-import { getNewRoyalty, getRoyaltyAmount, getTokenId } from "src/components/TxList/TransactionTable/TransactionTable";
-import { _, reduceString, setAgoTime, parseIbcMsgTransfer, parseIbcMsgRecvPacket, isJsonString } from "src/lib/scripts";
+import { getAmountDenomInfo, getNewRoyalty, getRoyaltyAmount, getTokenId, getTxTypeNew } from "src/helpers/transaction";
 import CheckIcon from "src/icons/CheckIcon";
-import TimesIcon from "src/icons/TimesIcon";
 import RedoIcon from "src/icons/RedoIcon";
-import { Tooltip } from "@material-ui/core";
+import TimesIcon from "src/icons/TimesIcon";
+import { _, isJsonString, parseIbcMsgRecvPacket, parseIbcMsgTransfer, reduceString, setAgoTime } from "src/lib/scripts";
 import styles from "./TransactionCardList.module.scss";
-
-const getTxTypeNew = (type, rawLog = "[]", result = "") => {
-	const typeArr = type.split(".");
-	let typeMsg = typeArr[typeArr.length - 1];
-	if (typeMsg === "MsgExecuteContract" && result === "Success") {
-		let rawLogArr = JSON.parse(rawLog);
-		for (let event of rawLogArr[0].events) {
-			if (event["type"] === "wasm") {
-				for (let att of event["attributes"]) {
-					if (att["key"] === "action") {
-						let attValue = att["value"]
-							.split("_")
-							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-							.join("");
-						typeMsg += "/" + attValue;
-						break;
-					}
-				}
-
-				break;
-			}
-		}
-	}
-
-	return typeMsg;
-};
 
 const TransactionCardList = memo(({ data = [], account, royalty = false, txHashClick = false }) => {
 	const cx = classNames.bind(styles);
@@ -63,18 +38,7 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 						</div>
 					);
 				} else {
-					let amount;
-					let denom;
-					let denom_name;
-					if (!_.isNil(item?.messages?.[0]?.amount?.[0]?.denom) && !_.isNil(item?.messages?.[0]?.amount?.[0]?.amount)) {
-						amount = item.messages[0].amount[0].amount;
-						denom = item.messages[0].amount[0].denom;
-						denom_name = item.messages[0].amount[0]?.denom_name;
-					} else if (!_.isNil(item?.messages?.[0]?.amount?.denom) && !_.isNil(item?.messages?.[0]?.amount?.amount)) {
-						amount = item.messages[0].amount.amount;
-						denom = item.messages[0].amount.denom;
-						denom_name = item.messages[0].amount[0]?.denom_name;
-					}
+					const { denom, amount, noDenomName, denomName: denom_name } = getAmountDenomInfo(item, account);
 
 					const denomCheck = checkTokenCW20(denom_name);
 					const congeckoPrice = priceTokens[denomCheck.coingeckoId] || 0;
@@ -84,13 +48,17 @@ const TransactionCardList = memo(({ data = [], account, royalty = false, txHashC
 					const priceShow = denom_name === consts.DENOM_ORAI || denom === consts.DENOM_ORAI ? priceOrai : priceOther;
 
 					amountDataCell =
-						_.isNil(denom_name) || _.isNil(denom) || _.isNil(amount) ? (
+						_.isNil(denom) || _.isNil(amount) ? (
 							<div className={cx("amount-data-cell")}>
-								<div className={cx("amount")}>
-									<span className={cx("amount-value")}>0</span>
-									<span className={cx("amount-denom")}>ORAI</span>
-									<div className={cx("amount-usd")}>($0)</div>
-								</div>
+								{amount ? (
+									<>{checkAmountOrai(item?.amount?.[0]?.denom, amount, item?.amount?.[0]?.denom_name, noDenomName, priceTokens, status, "card-list")}</>
+								) : (
+									<div className={cx("amount")}>
+										<span className={cx("amount-value")}>0</span>
+										<span className={cx("amount-denom")}>ORAI</span>
+										<div className={cx("amount-usd")}>($0)</div>
+									</div>
+								)}
 							</div>
 						) : (
 							<div className={cx("amount-data-cell", { "amount-data-cell-with-transfer-status": transferStatus })}>
