@@ -160,6 +160,24 @@
 	}
 }
 
+.custom-amount {
+	color: var(--common-textColor);
+	font-size: 16px;
+	line-height: 150%;
+
+	.amount-value {
+		padding-right: 4px;
+	}
+
+	.amount-denom {
+		text-transform: uppercase;
+	}
+
+	.amount-usd {
+		padding-left: 4px;
+	}
+}
+
 .fee-data-cell {
 	.fee {
 		color: var(--common-textColor);
