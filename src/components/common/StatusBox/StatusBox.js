@@ -109,7 +109,7 @@ const StatusBox = memo(() => {
 				<div className={cx("header-cell", "align-right")}>
 					<span className={cx("status-label")}>Wanted Inflation: </span>
 					<span className={cx("status-value")}>{wantedInflationRate ? formatFloat(wantedInflationRate) + "%" : "--"}</span>
-					<Tooltip title='Infration rate needed to guarantee ~29% APR with 3% commission' className={cx("tooltip-header-cell")}>
+					<Tooltip title='Inflation rate needed to guarantee ~29% APR with 3% commission' className={cx("tooltip-header-cell")}>
 						<QuestionCircleOutlined />
 					</Tooltip>
 				</div>
