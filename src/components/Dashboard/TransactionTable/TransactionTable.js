@@ -45,10 +45,11 @@ export const getHeaderRow = () => {
 	const timeHeaderCell = <div className={cx("header-cell", "align-right")}>Time</div>;
 	const headerCells = [txHashHeaderCell, typeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
-		{width: "auto"}, // TxHash
-		{width: "auto"}, // Type
-		{width: "auto"}, // Height
-		{width: "auto"}, // Time
+		// change width to % to fixed location.
+		{width: "23.4%"}, // TxHash
+		{width: "46%"}, // Type
+		{width: "17.8%"}, // Height
+		{width: "12.8%"}, // Time
 	];
 	return {
 		headerCells,
@@ -56,8 +57,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], rowMotions = [], account}) => {
-	const status = useSelector(state => state.blockchain.status);
+const TransactionTable = memo(({data = [], rowMotions = []}) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];

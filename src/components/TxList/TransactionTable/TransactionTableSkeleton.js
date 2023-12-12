@@ -29,13 +29,6 @@ const TransactionTableSkeleton = memo(({ rows = 5 }) => {
 				</div>
 			);
 
-
-			// const ibcDataCell = (
-			// 	<div className={cx("skeleton-data-cell", "align-left")}>
-			// 		<Skeleton />
-			// 	</div>
-			// );
-
 			const amountDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
 					<Skeleton />

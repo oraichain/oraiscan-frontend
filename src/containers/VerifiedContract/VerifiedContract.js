@@ -26,7 +26,7 @@ const VerifiedContract = () => {
 	const address = params?.["address"];
 	const path = `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/${address}`;
 
-	const {data, loading, error, refetch} = useGet({
+	const { data, loading, error, refetch: refetchSmartContract } = useGet({
 		path: path,
 	});
 
@@ -47,7 +47,7 @@ const VerifiedContract = () => {
 		</>
 	);
 
-	tableSection = <ContractCard address={data?.data?.contract_address} data={data?.data} />;
+	tableSection = <ContractCard refetchSmartContract={refetchSmartContract} address={data?.data?.contract_address} data={data?.data} />;
 
 	return (
 		<>
@@ -55,15 +55,20 @@ const VerifiedContract = () => {
 			<Container fixed className={cx("smart-contract")}>
 				<div className={cx("header-card")}>
 					<Grid spacing={2} container>
-						<ContractPreview data={{
-							...data?.data,
-							address: data?.data?.contract_address,
-							code_id: data?.data?.code_id,
-						}} />
-						<MoreInfo data={{
-							...data?.data,
-							creator: data?.data?.creator_address,
-						}} />
+						<ContractPreview
+							data={{
+								...data?.data,
+								address: data?.data?.contract_address,
+								code_id: data?.data?.code_id,
+							}}
+						/>
+						<MoreInfo
+							data={{
+								...data?.data,
+								creator: data?.data?.creator_address,
+								label: data?.data?.contract_name,
+							}}
+						/>
 					</Grid>
 				</div>
 				{tableSection}

@@ -32,12 +32,13 @@ export default Object.freeze({
 		MSG_CHANNEL_OPEN_INIT: "/ibc.core.channel.v1beta1.MsgChannelOpenInit",
 		MSG_CHANNEL_OPEN_ACK: "/ibc.core.channel.v1beta1.MsgChannelOpenAck",
 		MSG_CHANNEL_ACKNOWLEDGEMENT: "/ibc.core.channel.v1beta1.MsgAcknowledgement",
-		MSG_TIMEOUT: "/ibc.core.channel.v1beta1.MsgTimeout"
+		MSG_UPDATE_ADMIN_CONTRACT: "/cosmwasm.wasm.v1beta1.MsgUpdateAdmin",
+		MSG_TIMEOUT: "/ibc.core.channel.v1beta1.MsgTimeout",
 	},
-
 
 	// MIGRATE VERSION COSMOS
 	COSMOS_SDK_NEW_VERSION: {
+		MSG_UPDATE_ADMIN_CONTRACT: "/cosmwasm.wasm.v1.MsgUpdateAdmin",
 		MSG_CREATE_VALIDATOR: "/cosmos.staking.v1.MsgCreateValidator",
 		MSG_DELEGATE: "/cosmos.staking.v1.MsgDelegate",
 		MSG_UNDELEGATE: "/cosmos.staking.v1.MsgUndelegate",
@@ -69,7 +70,7 @@ export default Object.freeze({
 		MSG_CHANNEL_OPEN_INIT: "/ibc.core.channel.v1.MsgChannelOpenInit",
 		MSG_CHANNEL_OPEN_ACK: "/ibc.core.channel.v1.MsgChannelOpenAck",
 		MSG_CHANNEL_ACKNOWLEDGEMENT: "/ibc.core.channel.v1.MsgAcknowledgement",
-		MSG_TIMEOUT: "/ibc.core.channel.v1.MsgTimeout"
+		MSG_TIMEOUT: "/ibc.core.channel.v1.MsgTimeout",
 	},
 
 	//  DEX

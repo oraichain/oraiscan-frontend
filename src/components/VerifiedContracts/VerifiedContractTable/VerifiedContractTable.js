@@ -21,20 +21,20 @@ export const getHeaderRow = () => {
 	const creatorHeaderCell = <div className={cx("header-cell", "align-left")}>Creator</div>;
 	const versionHeaderCell = <div className={cx("header-cell", "align-left")}>Version</div>;
 	const headerCells = [contractAddressHeaderCell, nameHeaderCell, codeIdHeaderCell, verifiedAtHeaderCell, versionHeaderCell, creatorHeaderCell];
+
 	const headerCellStyles = [
-		{ minWidth: "200px" },
-		{ minWidth: "200px" },
-		{ minWidth: "150px" },
-		{ minWidth: "160px" },
-		{ minWidth: "300px" },
-		{ minWidth: "200px" },
+		{ width: "16.38%" },
+		{ width: "16.38%" },
+		{ width: "12.16%" },
+		{ width: "14.35%" },
+		{ width: "24.35%" },
+		{ width: "16.38%" },
 	];
 	return {
 		headerCells,
 		headerCellStyles,
 	};
 };
-
 const VerifiedContractTable = memo(({ data = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {

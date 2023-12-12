@@ -27,17 +27,19 @@
 		.expland {
 			color: var(--common-textColor);
 			padding-right: 16px;
+			font-weight: 700;
 			cursor: pointer;
 			&:hover {
-				color: #7F74FF;
-			} 
+				color: #7f74ff;
+			}
 		}
 		.reset {
+			font-weight: 700;
 			color: var(--common-textColor);
 			cursor: pointer;
 			&:hover {
-				color: #7F74FF;
-			} 
+				color: #7f74ff;
+			}
 		}
 	}
 }

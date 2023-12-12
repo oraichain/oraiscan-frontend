@@ -17,6 +17,7 @@ import useIncrementalListLoader from "./useIncrementalListLoader";
 import useCheckOutsideClick from "./useCheckOutsideClick";
 import {useDispatch, useSelector} from "react-redux";
 import useDebounce from "./useDebounce";
+import useCheckFutureBlock from "./useCheckFutureBlock";
 
 export {
 	useFetch,
@@ -39,4 +40,5 @@ export {
 	useSelector,
 	useDispatch,
 	useDebounce,
+	useCheckFutureBlock,
 };

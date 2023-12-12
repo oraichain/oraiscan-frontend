@@ -1,6 +1,7 @@
-import React, {memo, useState, useRef} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useState, useRef } from "react";
+import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -11,16 +12,19 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import CwToken from "src/components/Wallet/CwToken";
+import TopHolders from "src/components/Wallet/TopHolders";
 import Tabs from "src/components/TxList/Tabs";
 import styles from "./TransactionCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const TransactionCard = memo(({address = "", account = ""}) => {
+const TransactionCard = memo(({ address = "", account = "" }) => {
 	const theme = useTheme();
+	const history = useHistory();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
-	const [activeTab, setActiveTab] = useState(0);
+	const initActiveTab = window.location.search === "?cw20" ? 2 : 0;
+	const [activeTab, setActiveTab] = useState(initActiveTab);
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
@@ -30,7 +34,7 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 	const basePath = `${consts.API.TXS_CONTRACT}/${address}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
@@ -60,15 +64,23 @@ const TransactionCard = memo(({address = "", account = ""}) => {
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
+	const handleSetActiveTab = tabId => {
+		let str = `/smart-contract/${address}`;
+		if (tabId) str += "?cw20";
+		history.replace(str);
+		setActiveTab(tabId);
+	};
+
 	return (
 		<div className={cx("transaction-card")}>
 			<div className={cx("transaction-card-header")}>
-				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} isTab />
+				<Tabs activeTab={activeTab} setActiveTab={handleSetActiveTab} address={address} isTab />
 			</div>
 			<div className={cx("transaction-card-body")}>
 				{activeTab === 0 && tableSection}
 				{activeTab === 2 && <CwToken address={address} isOw20 />}
-				{activeTab !== 2 && paginationSection}
+				{activeTab === 4 && <TopHolders address={address} isOw20 />}
+				{activeTab !== 2 && activeTab !== 4 ? paginationSection : null}
 			</div>
 		</div>
 	);

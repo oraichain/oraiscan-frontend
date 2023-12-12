@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo} from "react";
-import {isNil} from "lodash";
+import React, { memo } from "react";
+import { isNil } from "lodash";
 import classNames from "classnames/bind";
-import {_} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 
 import PassedIcon from "src/icons/Proposals/PassedIcon";
 import DepositPeriodIcon from "src/icons/Proposals/DepositPeriodIcon";
@@ -11,13 +11,14 @@ import FailedIcon from "src/icons/Proposals/FailedIcon";
 import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import UnspecifiedIcon from "src/icons/Proposals/UnspecifiedIcon";
 import VotingPeriodIcon from "src/icons/Proposals/VotingPeriodIcon";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import consts from "src/constants/consts";
 import styles from "./ProposalCardList.module.scss";
+import txTypes from "src/constants/txTypes";
 
 const cx = classNames.bind(styles);
 
-const ProposalCardList = memo(({data = [], type = ""}) => {
+const ProposalCardList = memo(({ data = [], type = "" }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -54,7 +55,7 @@ const ProposalCardList = memo(({data = [], type = ""}) => {
 						statusIcon = <VotingPeriodIcon className={cx("status-icon-voting-period")}></VotingPeriodIcon>;
 						statusText = "Voting Period";
 						break;
-					case "PROPOSAL_STATUS_REJECTED":
+					case "PROPOSAL_STATUS_UNSPECIFIED":
 						statusStateClassName = "status-unspecified";
 						statusIcon = <UnspecifiedIcon className={cx("status-icon-unspecified")}></UnspecifiedIcon>;
 						statusText = "Unspecified";
@@ -62,6 +63,8 @@ const ProposalCardList = memo(({data = [], type = ""}) => {
 					default:
 						break;
 				}
+
+				const title = item.type === txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT ? "Frontier List Token" + item?.title :  item?.title
 
 				return (
 					<div className={cx("proposal-card-list-item")} key={"proposal-card-list-item-" + index}>
@@ -77,13 +80,13 @@ const ProposalCardList = memo(({data = [], type = ""}) => {
 								<tr>
 									<td colSpan={2}>
 										<div className={cx("item-title")}>Title</div>
-										{_.isNil(item?.title) ? (
+										{_.isNil(title) ? (
 											<div className={cx("item-link")}>-</div>
 										) : (
 											<NavLink
 												className={cx("item-link", "align-left")}
 												to={`${consts.PATH.PROPOSALS}/${item?.proposal_id ?? 0}${!isNil(type) && type !== "" ? "?type=" + type : ""}`}>
-												{item?.title}
+												{title}
 											</NavLink>
 										)}
 									</td>

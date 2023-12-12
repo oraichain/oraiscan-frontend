@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import { Fade, Tooltip } from "@material-ui/core";
@@ -33,7 +33,9 @@ import TxMessageContent from "./TxMessageContent";
 import copyIcon from "src/assets/common/copy_ic.svg";
 import styles from "./TxMessage.module.scss";
 import { tryParseMessage } from "src/lib/scripts";
-
+import IBCProgress from "./IBCProgress";
+import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
+import { toDisplay } from "@oraichain/oraidex-common/build/helper";
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -61,7 +63,7 @@ const tryParseMessageBinary = data => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch { }
+				} catch {}
 			}
 		}
 		return obj;
@@ -93,21 +95,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			loadStoreCode();
 		}
 	}, [type, msg.source]);
-
-	const toolTippedImg = useMemo(() => {
-		const feeValue = !_.isNil(fees[type]?.fee) ? divide(fees[type].fee, consts.NUM.BASE_MULT) : "none";
-		return (
-			<Tooltip
-				placement='right-start'
-				TransitionComponent={Fade}
-				TransitionProps={{ timeout: 300 }}
-				title={`Tx Fee: ${feeValue}${feeValue !== "none" ? ` BNB` : ""}`}
-				disableTouchListener
-				disableFocusListener>
-				<img className={cx("icon")} src={getTxTypeIcon(type)} alt='' />
-			</Tooltip>
-		);
-	}, [type, fees]);
 
 	const messageDetails = useMemo(() => {
 		const getAmountHeaderRow = () => {
@@ -267,18 +254,60 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			</InfoRow>
 		);
 
+		const getInfoPriceRow = (label, value, denom) => (
+			<InfoRow label={label}>
+				<span className={cx("text")}>
+					{_.isNil(value) ? "-" : toDisplay(BigInt(Math.trunc(value)), CW20_DECIMALS)}&nbsp;
+					{denom}
+				</span>
+			</InfoRow>
+		);
+
 		const getInfoRowThreeDots = (label, value) => (
 			<InfoRow label={label}>
 				<span className={cx("text-three-dots")}>{_.isNil(value) ? "-" : value}</span>
 			</InfoRow>
 		);
 
-		const getRawLog = (rawLog) => {
+		const getWasmDataJson = rawLog => {
 			let messageParse = [];
 			try {
-				messageParse = tryParseMessage(JSON.parse(rawLog))
+				messageParse = tryParseMessage(JSON.parse(rawLog));
 			} catch (error) {
-				messageParse = [{ error: rawLog }]
+				messageParse = [{ error: rawLog }];
+			} finally {
+				const wasmData = messageParse[0]?.events?.find(e => e.type === "wasm");
+				const wasmAttributes = wasmData?.attributes;
+
+				const pair = wasmData?.attributes?.find(wd => wd.key === "pair");
+				const [base, quote] = pair?.value?.split("/") || [];
+
+				return {
+					base,
+					quote,
+					wasmAttributes,
+				};
+			}
+		};
+
+		const getInfoRowFromRawData = (wasmAttributes, key, label) => {
+			const data = wasmAttributes?.find(wd => wd.key === key);
+
+			return !data ? null : getInfoRow(label, data.value);
+		};
+
+		const getPriceInfoFromRawData = (wasmAttributes, key, label, denom) => {
+			const data = wasmAttributes?.find(wd => wd.key === key);
+
+			return !data ? null : getInfoPriceRow(label, data.value, denom);
+		};
+
+		const getRawLog = rawLog => {
+			let messageParse = [];
+			try {
+				messageParse = tryParseMessage(JSON.parse(rawLog));
+			} catch (error) {
+				messageParse = [{ error: rawLog }];
 			} finally {
 				return (
 					<InfoRow label='RawLog'>
@@ -292,9 +321,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							src={messageParse}
 						/>
 					</InfoRow>
-				)
+				);
 			}
-
 		};
 
 		const getInfoRowSummary = (label, value) => (
@@ -368,20 +396,21 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					console.log("get currency row from object error: ", error);
 				}
 			}
-			// const priceInUSD = new BigNumber(amount || 0).multipliedBy(status?.price || 0).toFormat(2);
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
+				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
 			} else {
 				calculatedValue = amount / 1000000;
-				formatedAmount =  denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
+				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
 			}
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
-				<span className={cx("amount-denom")}>{denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}</span>
+				<span className={cx("amount-denom")}>
+					{denomCheck?.denom || denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}
+				</span>
 			);
 			const amountUsd = (
 				<>
@@ -674,10 +703,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							}
 
 							if (start && att["key"] === "amount") {
-								// const index = att["value"].indexOf("orai");
 								const value = att["value"]?.split(",") || [];
-								// const amount = index !== -1 ? att["value"].slice(0, index) : att["value"];
-								// obj.amount = value;
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
 									let splitValue = e.split("/");
@@ -690,8 +716,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 									};
 									msgTransfer.push(obj);
 								}
-								// start = false;
-								// msgTransfer.push(obj);
 								continue;
 							}
 						}
@@ -706,7 +730,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const processText = inputText => {
 			let output = [];
 			let json = inputText.split(" ");
-			json.forEach(function (item) {
+			json.forEach(function(item) {
 				output.push(
 					item
 						.replace(/\'/g, "")
@@ -738,7 +762,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		const getFundsRow = (label, key = 0, rawLog = [], result = "", amount) => {
 			return (
 				<>
-					{Array.isArray(rawLog) && rawLog.length !== 0 && (amount.length < 2) && (
+					{Array.isArray(rawLog) && rawLog.length !== 0 && amount.length < 2 && (
 						<InfoRow isTransfer={true} label={label}>
 							<ThemedTable
 								headerCellStyles={getFundsHeaderRow()?.headerCellStyles}
@@ -748,30 +772,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 						</InfoRow>
 					)}
 				</>
-
 			);
-		};
-
-		const getRedelegateTime = (key = 0, rawLog = "[]", result = "") => {
-			let time = null;
-			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-				for (let event of rawLogArr[key].events) {
-					if (event["type"] === "redelegate") {
-						for (let att of event["attributes"]) {
-							if (att["key"] === "completion_time") {
-								time = att["value"];
-
-								break;
-							}
-						}
-
-						break;
-					}
-				}
-			}
-
-			return time;
 		};
 
 		const getTransferDataRows = data => {
@@ -823,12 +824,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				const amountDataCell = (
 					<div className={cx("amount-data-cell")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}</span>
-							<span className={cx("amount-denom")}>{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}</span>
-							{/* <span className={cx("amount-denom")}>{reduceStringAssets(item?.denom_name) || reduceStringAssets(item?.demom) || reduceStringAssets(denomSplit?.[0])}</span> */}
-							{/* <span className={cx("amount-usd")}>
-								{denomSplit[1] ? reduceStringAssets(denomSplit?.[1], 3, 3) : " "}
-							</span> */}
+							<span className={cx("amount-value")}>
+								{item?.amount ? (denomCheck.status ? item?.amount / Math.pow(10, denomCheck?.decimal) : item?.amount / Math.pow(10, 6)) : "0"}
+							</span>
+							<span className={cx("amount-denom")}>
+								{reduceStringAssets(denomCheck.status ? denomCheck?.denom : item?.denom_name) || item?.denom || denomSplit?.[0]}
+							</span>
 						</div>
 					</div>
 				);
@@ -876,6 +877,16 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 			return { checkRoyalty: checkRoyaltyAmount, royaltys: royaltys };
 		};
+
+		// add IBC progress
+		const getIBCProgressRow = (label, data) => {
+			return (
+				<InfoRow label={label}>
+					<IBCProgress dataTxs={data} />
+				</InfoRow>
+			);
+		};
+
 		return (
 			<>
 				<TxMessageContent
@@ -906,9 +917,13 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					activeThemeId={activeThemeId}
 					themeIds={themeIds}
 					getRawLog={getRawLog}
+					getInfoRowFromRawData={getInfoRowFromRawData}
+					getWasmDataJson={getWasmDataJson}
+					getPriceInfoFromRawData={getPriceInfoFromRawData}
 					key={key}
 					ind={ind}
 					storeCodeElement={storeCodeElement}
+					getIBCProgressRow={getIBCProgressRow}
 				/>
 			</>
 		);

@@ -1,4 +1,4 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 let common = theme => {
 	return `
@@ -47,6 +47,8 @@ let common = theme => {
   --common-transactions-amountTransactionBackgroundOutColor: ${theme?.data?.common?.transactions?.amountTransactionBackgroundOutColor};
   --common-backGroundColorGray: ${theme?.data?.common?.backGroundColorGray};
   --common-disableColor: ${theme?.data?.common?.disableColor};
+
+  --common-timeAgoColor: ${theme?.data?.common?.timeAgoColor};
 `;
 };
 
@@ -103,6 +105,7 @@ let proposals = theme => {
       --proposals-topProposalCard-graphColor_no: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_no};
       --proposals-topProposalCard-graphColor_abstain: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_abstain};
       --proposals-topProposalCard-graphColor_nowithveto: ${theme?.data?.tabs?.proposals?.topProposalCard?.graphColor_nowithveto};
+      --proposals-topProposalCard-textTitleColor: ${theme?.data?.tabs?.proposals?.topProposalCard?.textTitleColor};
     `,
 		proposalTable: `
       --proposals-proposalTable-statusPassedTextColor: ${theme?.data?.tabs?.proposals?.proposalTable?.statusPassedTextColor};
@@ -213,33 +216,33 @@ let priceFeed = theme => {
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    ${({theme}) => common(theme)}
-    ${({theme}) => dashboard(theme)}
+    ${({ theme }) => common(theme)}
+    ${({ theme }) => dashboard(theme)}
 
-    ${({theme}) => validators(theme)?.validators}
-    ${({theme}) => validators(theme)?.validatorDetails}
+    ${({ theme }) => validators(theme)?.validators}
+    ${({ theme }) => validators(theme)?.validatorDetails}
 
-    ${({theme}) => proposals(theme)?.proposalDetails}
-    ${({theme}) => proposals(theme)?.proposalTable}
-    ${({theme}) => proposals(theme)?.topProposalCard}
+    ${({ theme }) => proposals(theme)?.proposalDetails}
+    ${({ theme }) => proposals(theme)?.proposalTable}
+    ${({ theme }) => proposals(theme)?.topProposalCard}
 
-    ${({theme}) => dataSources(theme)?.dataSourceDetails}
-    ${({theme}) => dataSources(theme)?.dataSourceTable}
+    ${({ theme }) => dataSources(theme)?.dataSourceDetails}
+    ${({ theme }) => dataSources(theme)?.dataSourceTable}
 
-    ${({theme}) => oracleScripts(theme)?.oracleScriptDetails}
-    ${({theme}) => oracleScripts(theme)?.oracleScriptTable}
+    ${({ theme }) => oracleScripts(theme)?.oracleScriptDetails}
+    ${({ theme }) => oracleScripts(theme)?.oracleScriptTable}
 
-    ${({theme}) => requests(theme)?.requestDetails}
-    ${({theme}) => requests(theme)?.requestTable}
-    ${({theme}) => requests(theme)?.requests}
+    ${({ theme }) => requests(theme)?.requestDetails}
+    ${({ theme }) => requests(theme)?.requestTable}
+    ${({ theme }) => requests(theme)?.requests}
 
-    ${({theme}) => accounts(theme)?.accountDetails}
-    ${({theme}) => accounts(theme)?.accountTable}
+    ${({ theme }) => accounts(theme)?.accountDetails}
+    ${({ theme }) => accounts(theme)?.accountTable}
 
-    ${({theme}) => wallet(theme)?.becomeValidator}
-    ${({theme}) => wallet(theme)?.delegatedValidator}
-    ${({theme}) => wallet(theme)?.transactionTable}
-    ${({theme}) => wallet(theme)?.contact}
-    ${({theme}) => priceFeed(theme)}
+    ${({ theme }) => wallet(theme)?.becomeValidator}
+    ${({ theme }) => wallet(theme)?.delegatedValidator}
+    ${({ theme }) => wallet(theme)?.transactionTable}
+    ${({ theme }) => wallet(theme)?.contact}
+    ${({ theme }) => priceFeed(theme)}
   }
 `;

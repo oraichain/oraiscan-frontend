@@ -16,8 +16,6 @@ import ThemedTable from "src/components/common/ThemedTable";
 import sortNoneIcon from "src/assets/common/sort_none_ic.svg";
 import sortAscIcon from "src/assets/common/sort_asc_ic.svg";
 import sortDescIcon from "src/assets/common/sort_desc_ic.svg";
-import aiIcon from "src/assets/common/ai_ic.svg";
-import {css} from "highcharts";
 import {logoBrand} from "src/constants/logoBrand";
 import {Progress} from "antd";
 import styles from "./ValidatorTable.module.scss";
@@ -196,15 +194,15 @@ const ValidatorTable = memo(({data = []}) => {
 			delegateHeaderCell,
 		];
 		const headerCellStyles = [
-			{width: "30px"}, // Rank
-			{minWidth: "180px"}, // Validator
-			{width: "150px"}, // Voting Power
-			{width: "160px"}, // Self Bonded
-			{width: "160px"}, // Cumulative Share
-			{width: "110px"}, // Uptime
-			{width: "140px"}, // Commission
-			{width: "110px"}, // EstAPRCell
-			{width: "60px"}, // Delegate
+			{width: "5.4%"}, // Rank
+			{width: "17.7%"}, // Validator
+			{width: "11.8%"}, // Voting Power
+			{width: "13.1%"}, // Self Bonded
+			{width: "12.3%"}, // Cumulative Share
+			{width: "9%"}, // Uptime
+			{width: "11.7%"}, // Commission
+			{width: "9%"}, // EstAPRCell
+			{width: "10%"}, // Delegate
 		];
 		return {
 			headerCells,
@@ -237,10 +235,7 @@ const ValidatorTable = memo(({data = []}) => {
 		let previousVotingPower = 0;
 
 		return data.map(item => {
-			// const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress) || {};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
-			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || {customLogo: ""};
-			// const logoURL = logoItem.customLogo ? false : logoItem.logo;
+			const logoItem = logoBrand.find(it => it.operatorAddress === item?.operator_address) || { customLogo: "" };
 			const logoURL = item?.image ? item.image : logoItem.customLogo ? false : logoItem.logo;
 			const logoName = item?.moniker || "";
 
@@ -303,7 +298,6 @@ const ValidatorTable = memo(({data = []}) => {
 				<div className={cx("commission-data-cell", "align-right")}>{item?.commission_rate ? formatPercentage(item.commission_rate, 2) + "%" : "-"}</div>
 			);
 
-			// const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
 			const estAPR = item?.apr.toFixed(2);
 
 			const estAPRnDataCell = <div className={cx("commission-data-cell", "align-right")}>{estAPR} %</div>;

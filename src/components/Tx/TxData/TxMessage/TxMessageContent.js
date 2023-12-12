@@ -1,7 +1,7 @@
 import React from "react";
-import ReactJson from "react-json-view";
+import ReactJson from "src/components/ReactJson";
 import InfoRow from "src/components/common/InfoRow";
-import { formatFloat } from "src/helpers/helper";
+import { checkAttributeEvents, formatFloat } from "src/helpers/helper";
 import { tryParseMessage, compareTypeMessage } from "src/lib/scripts";
 import BigNumber from "bignumber.js";
 import cn from "classnames/bind";
@@ -40,11 +40,16 @@ const TxMessageContent = ({
 	storeCodeElement,
 	ind,
 	getRawLog,
+	getInfoRowFromRawData,
+	getWasmDataJson,
+	getPriceInfoFromRawData,
+	getIBCProgressRow,
 }) => {
+	const { base, quote, wasmAttributes } = getWasmDataJson(data?.raw_log) || {};
+
 	return (
 		<>
 			<div className={cx("card-header")}>
-				{/* {toolTippedImg} */}
 				<span className={cx("title")}>{getTxTypeNew(type, data?.result, value)}</span>
 			</div>
 			<div className={cx("card-body")}>
@@ -78,6 +83,14 @@ const TxMessageContent = ({
 								{getInfoRow("Security Contact", value?.description?.security_contact)}
 							</div>
 						</div>
+					</>
+				)}
+				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_UPDATE_ADMIN_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_UPDATE_ADMIN_CONTRACT]) && (
+					<>
+						{getAddressRow("Contract", value?.contract)}
+						{getAddressRow("Sender", value?.sender)}
+						{getAddressRow("New Admin", value?.new_admin)}
+						{getCurrencyRowFromObject("Init funds", value?.init_funds ?? value?.funds)}
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_DELEGATE, txTypes.COSMOS_SDK_NEW_VERSION.MSG_DELEGATE]) && (
@@ -342,12 +355,17 @@ const TxMessageContent = ({
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
+
+				{/* update 23/3/2023: add IBC progress for MsgExecute */}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.EXECUTE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT]) && (
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
-						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
-						{/* {getCurrencyRowFromObject("Sent funds", value?.sent_funds?.[0])} */}
+						{getInfoRowFromRawData(wasmAttributes, "pair", "Pair")}
+						{getPriceInfoFromRawData(wasmAttributes, "take_profit", "Take profit", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "stop_loss", "Stop loss", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "pnl", "Pnl", quote)}
+						{getPriceInfoFromRawData(wasmAttributes, "withdraw_amount", "Withdraw amount", quote)}
 						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result, data?.amount)}
 						<InfoRow label='Message'>
 							<ReactJson
@@ -361,31 +379,23 @@ const TxMessageContent = ({
 						</InfoRow>
 						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
+						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
 				)}
+
+				{/* add IBC Progress */}
+
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_TRANSFER, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_TRANSFER]) && (
 					<>
 						{getInfoRow("Source Port", value?.source_port)}
 						{getInfoRow("Source Channel", value?.source_channel)}
-						{/* {getCurrencyRowFromObject("Amount", value?.sent_funds?.[0])} */}
 						{getCurrencyRowFromObject("Token", value?.amount)}
 						{getAddressRow("Sender", value?.sender)}
 						{getAddressRow("Receiver", value?.receiver)}
 						{getInfoRow("Timeout Height", value?.timeout_height?.revision_height)}
 						{getInfoRow("Timeout Timestamp", value?.timeout_timestamp)}
 						{getInfoRow("Memo Messages", data?.messages?.[ind]?.memo)}
-						{/* <InfoRow label='Message'>
-							<ReactJson
-								style={{ backgroundColor: "transparent" }}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								src={tryParseMessage(value?.msg)}
-							/>
-						</InfoRow> */}
-						{/* {getTransferRow("Transfer", key, data?.raw_log, data?.result)}
-						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)} */}
+						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_UPDATE_CLIENT, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_UPDATE_CLIENT]) && (
@@ -479,8 +489,6 @@ const TxMessageContent = ({
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
-						{/* {getInfoRow("Trusting", value?.client_state?.trusting_period)} */}
-						{/* {getInfoRow("Unbonding", value?.client_state?.unbonding_period)} */}
 						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
 						{getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)}
 						{getInfoRow("Next Validators Hash", value?.consensus_state?.next_validators_hash)}
@@ -492,7 +500,6 @@ const TxMessageContent = ({
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Chain ID", value?.client_state?.chain_id)}
 						{getInfoRow("Height", value?.client_state?.latest_height?.revision_height)}
-						{/* {getInfoRow("Revision", value?.client_state?.latest_height?.revision_number)} */}
 						{getInfoRow("Max Clock Drift", value?.client_state?.max_clock_drift)}
 						{getInfoRowSummary("Proof Client", value?.proof_client)}
 						{getInfoRowSummary("Proof Consensus", value?.proof_consensus)}
@@ -616,9 +623,7 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
-				{
-					getRawLog(data?.raw_log)
-				}
+				{getRawLog(data?.raw_log)}
 			</div>
 		</>
 	);

@@ -5,7 +5,7 @@ import {Tooltip} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_} from "src/lib/scripts";
+import {_, reduceString} from "src/lib/scripts";
 import {formatOrai} from "src/helpers/helper";
 import {tableThemes} from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -59,12 +59,12 @@ const AccountTable = memo(({data = []}) => {
 				addressDataCell = name ? (
 					<Tooltip title={`${name} (${item?.address})`} arrow placement='top-start'>
 						<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
-							{name ? name : item?.address}
+							{name ? name : reduceString(item?.address, 6, 6)}
 						</NavLink>
 					</Tooltip>
 				) : (
 					<NavLink className={cx("address-data-cell", "align-left")} to={`${consts.PATH.ACCOUNT}/${item?.address}`}>
-						{item?.address}
+						{item?.address && reduceString(item.address, 6, 6)}
 					</NavLink>
 				);
 			}

@@ -1,6 +1,6 @@
-import React, {memo, useState} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useState, useEffect } from "react";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -10,13 +10,14 @@ import AccountCardList from "src/components/ValidatorList/AccountCardList/Accoun
 import AccountCardListSkeleton from "src/components/ValidatorList/AccountCardList/AccountCardListSkeleton.js";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
-import {useRef} from "react";
-import {Container} from "@material-ui/core";
+import { useRef } from "react";
+import { Container } from "@material-ui/core";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
 import StatusBox from "src/components/common/StatusBox";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import styles from "./AccountList.module.scss";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
@@ -33,7 +34,7 @@ const AccountList = memo(() => {
 	const basePath = `${consts.API.ACCOUNTS}?limit=${consts.REQUEST.LIMIT}`;
 	const path = `${basePath}&page_id=${pageId}`;
 
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 

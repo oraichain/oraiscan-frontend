@@ -6,13 +6,14 @@ import { GasPrice, AminoTypes } from "@cosmjs/stargate";
 import { Decimal } from '@cosmjs/math';
 import * as cosmwasm from '@cosmjs/cosmwasm-stargate';
 import { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
-import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgBeginRedelegate, MsgCreateValidator } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { UpdateAdminProposal } from "cosmjs-types/cosmwasm/wasm/v1/proposal";
 import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { CommunityPoolSpendProposal } from "cosmjs-types/cosmos/distribution/v1beta1/distribution";
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 import { createWasmAminoConverters } from '@cosmjs/cosmwasm-stargate/build/modules/wasm/aminomessages';
 import { createStakingAminoConverters } from '@cosmjs/stargate/build/modules/staking/aminomessages';
@@ -270,8 +271,23 @@ export default class WalletStation {
                 contract,
                 msg: Buffer.from(msg),
                 sender,
-                // funds, 
             })
+        }
+        return this.signAndBroadCast(sender, [message]);
+    }
+
+    communityPoolSpendProposal = async (sender, amount, community_pool_info) => {
+        const initial_deposit = [{ denom: consts.DENOM, amount: amount.toString() }]
+        const message = {
+            typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+            value: {
+                content: Any.fromPartial({
+                    typeUrl: "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal",
+                    value: CommunityPoolSpendProposal.encode(community_pool_info).finish()
+                }),
+                proposer: sender,
+                initialDeposit: initial_deposit,
+            }
         }
         return this.signAndBroadCast(sender, [message]);
     }

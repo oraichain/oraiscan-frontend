@@ -1,12 +1,25 @@
 import consts from "src/constants/consts";
-import {createAction, handleActions} from "redux-actions";
-import {pender} from "redux-pender";
+import { createAction, handleActions } from "redux-actions";
+import { pender } from "redux-pender";
 import * as api from "src/lib/api";
-import {_, compareProperty} from "src/lib/scripts";
-import {multiply} from "src/lib/Big";
+import { _, compareProperty } from "src/lib/scripts";
+import { multiply } from "src/lib/Big";
 import txTypes from "src/constants/txTypes";
+import { flattenTokens } from "@oraichain/oraidex-common/build/token";
 
-const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GET_VALIDATORS, GET_FASTEST_NODE, GET_MIN_FEE] = [
+const [
+	GET_PRICE_TOKEN,
+	GET_BASIC_DATA,
+	GET_BASIC_DATA_AIRI,
+	GET_STATUS,
+	GET_ASSETS,
+	GET_FEES,
+	GET_VALIDATORS,
+	GET_FASTEST_NODE,
+	GET_MIN_FEE,
+	SET_STATUS_BOX,
+] = [
+	"GET_PRICE_TOKEN",
 	"GET_BASIC_DATA",
 	"GET_BASIC_DATA_AIRI",
 	"GET_STATUS",
@@ -15,6 +28,7 @@ const [GET_BASIC_DATA, GET_BASIC_DATA_AIRI, GET_STATUS, GET_ASSETS, GET_FEES, GE
 	"GET_VALIDATORS",
 	"GET_FASTEST_NODE",
 	"GET_MIN_FEE",
+	"SET_STATUS_BOX",
 ];
 
 export const getCyptoAcceleratedNode = createAction(GET_FASTEST_NODE, () => api.getFastestNode(consts.API_BINANCE_ACCELERATED));
@@ -23,8 +37,14 @@ export const getCryptoBasicDataAiri = createAction(GET_BASIC_DATA_AIRI, (id, cur
 export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getStatus(cancelToken));
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
-export const setStatusBox = createAction("SET_STATUS_BOX");
+export const setStatusBox = createAction(SET_STATUS_BOX);
 export const getMinFee = createAction(GET_MIN_FEE, cancelToken => api.getMinFee(cancelToken));
+export const getPriceTokens = createAction(GET_PRICE_TOKEN, cancelToken =>
+	api.getCoingeckoPrices(
+		flattenTokens.map(ft => ft.coinGeckoId),
+		cancelToken
+	)
+);
 
 const initState = {
 	status: {
@@ -47,6 +67,7 @@ const initState = {
 		last_updated_at: null,
 		blockTime: null,
 	},
+	priceTokens: {},
 	acceleratedNode: consts.API_BINANCE_ACCELERATED[0],
 	validators: [],
 	fees: [],
@@ -60,25 +81,25 @@ const handlers = {
 	...pender({
 		type: GET_FASTEST_NODE,
 		onSuccess: (state, action) => {
-			return {...state, acceleratedNode: action.payload};
+			return { ...state, acceleratedNode: action.payload };
 		},
-		onFailure: state => ({...state}),
+		onFailure: state => ({ ...state }),
 	}),
 	...pender({
 		type: GET_FEES,
 		onSuccess: (state, action) => {
-			const {data} = action.payload;
+			const { data } = action.payload;
 			const fees = {};
 			const txFees = {};
 			_.each(data, v => {
 				if (_.keys(v)[0] === "msg_type") assignFee(fees, v);
 				else {
 					if (_.isArray(v?.dex_fee_fields)) {
-						_.each(v.dex_fee_fields, dexV => _.assign(txFees, {[dexV.fee_name]: dexV.fee_value}));
+						_.each(v.dex_fee_fields, dexV => _.assign(txFees, { [dexV.fee_name]: dexV.fee_value }));
 					} else {
 						_.assign(fees, {
-							"/cosmos.bank.v1beta1.MsgSend": {fee: v.fixed_fee_params.fee, feeFor: v.fixed_fee_params.fee_for},
-							"/cosmos.bank.v1beta1.MsgMultiSend": {fee: v.multi_transfer_fee},
+							"/cosmos.bank.v1beta1.MsgSend": { fee: v.fixed_fee_params.fee, feeFor: v.fixed_fee_params.fee_for },
+							"/cosmos.bank.v1beta1.MsgMultiSend": { fee: v.multi_transfer_fee },
 						});
 					}
 				}
@@ -91,13 +112,13 @@ const handlers = {
 			};
 		},
 		onFailure: state => {
-			return {...state};
+			return { ...state };
 		},
 	}),
 	...pender({
 		type: GET_VALIDATORS,
 		onSuccess: (state, action) => {
-			const {data} = action.payload;
+			const { data } = action.payload;
 			const validators = {};
 			_.each(data.data, v => {
 				if (!v?.moniker) return;
@@ -115,17 +136,16 @@ const handlers = {
 			};
 		},
 		onFailure: state => {
-			return {...state};
+			return { ...state };
 		},
 	}),
 	...pender({
 		type: GET_BASIC_DATA,
 		onSuccess: (state, action) => {
-			const {data} = action.payload;
+			const { data } = action.payload;
 			if (!data.current_price) {
 				return state;
 			}
-			// console.log("basicData>>", data);
 			return {
 				...state,
 				status: {
@@ -141,13 +161,13 @@ const handlers = {
 		},
 		onFailure: state => {
 			//  TODO : retry on fail
-			return {...state};
+			return { ...state };
 		},
 	}),
 	...pender({
 		type: GET_STATUS,
 		onSuccess: (state, action) => {
-			const {data} = action.payload;
+			const { data } = action.payload;
 			return {
 				...state,
 				status: {
@@ -157,15 +177,14 @@ const handlers = {
 			};
 		},
 		onFailure: state => {
-			return {...state};
+			return { ...state };
 		},
 	}),
 	...pender({
 		type: GET_ASSETS,
 		onSuccess: (state, action) => {
-			if (!_.isArray(action.payload?.data?.assetInfoList)) return {...state};
-			const data = _.map(action.payload.data.assetInfoList, v => ({...v, marketCap: Number(multiply(v?.price, v?.supply, 5))}));
-			// console.log("assets>>", data);
+			if (!_.isArray(action.payload?.data?.assetInfoList)) return { ...state };
+			const data = _.map(action.payload.data.assetInfoList, v => ({ ...v, marketCap: Number(multiply(v?.price, v?.supply, 5)) }));
 			//  using native array sort
 			//  since the benchmark here https://www.npmjs.com/package/fast-sort#benchmark
 			//  shows that in the case of a flat array with high randomization, arraySort is fastest at 100 items
@@ -178,14 +197,34 @@ const handlers = {
 	}),
 	SET_STATUS_BOX: (state, action) => {
 		state.statusBox = action.payload;
-		return {...state};
+		return { ...state };
 	},
 	...pender({
 		type: GET_MIN_FEE,
 		onSuccess: (state, action) => {
-			return {...state, minFee: action.payload.data};
+			return { ...state, minFee: action.payload.data };
 		},
-		onFailure: state => ({...state}),
+		onFailure: state => ({ ...state }),
+	}),
+	...pender({
+		type: GET_PRICE_TOKEN,
+		onSuccess: (state, action) => {
+			const { data } = action.payload;
+			const prices = state.priceTokens;
+
+			for (const key in data) {
+				prices[key] = data[key].usd;
+			}
+			// const statePrice = Object.fromEntries(flattenTokens.map(ft => ft.coinGeckoId).map(token => [token, prices[token]]));
+
+			return {
+				...state,
+				priceTokens: {
+					...prices,
+				},
+			};
+		},
+		onFailure: state => ({ ...state }),
 	}),
 };
 
@@ -198,12 +237,10 @@ const flatTxTypes = Object.freeze({
 
 const assignFee = (obj, fee) => {
 	const target = _.camelCase(fee.msg_type).toLowerCase();
-	// console.log(target);
-	// console.log(flatTxTypes);
 	const foundProperty = _.find(_.keys(flatTxTypes), property => {
 		return _.includes(_.camelCase(property).toLowerCase(), target) || _.includes(_.camelCase(flatTxTypes[property]).toLowerCase(), target);
 	});
-	_.assign(obj, {[flatTxTypes[foundProperty]]: {fee: fee.fee, feeFor: fee.fee_for}});
+	_.assign(obj, { [flatTxTypes[foundProperty]]: { fee: fee.fee, feeFor: fee.fee_for } });
 };
 
 const compareAsset = (a, b) => compareProperty(a, b, "marketCap");

@@ -6,13 +6,15 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useTheme} from "@material-ui/core/styles";
 
 import {tableThemes} from "src/constants/tableThemes";
-import {useDebounce} from "src/hooks";
+import {useDebounce, useDispatch} from "src/hooks";
 import SearchIcon from "src/assets/common/search-icon.svg";
 
 import DataSourceTableMobile from "./DataSourceTableMobile";
 import Pagination from "../Pagination";
 import ThemedTable from "../ThemedTable";
 import styleTableWithPagination from "./TableWithPagination.module.scss";
+import axios from "axios";
+import {getCryptoValidators} from "src/store/modules/blockchain";
 
 const cxTableWithPagination = classNames.bind(styleTableWithPagination);
 
@@ -33,6 +35,14 @@ const TableWithPagination = memo(
 		const themeHook = useTheme();
 		const isDesktop = useMediaQuery(themeHook.breakpoints.up("lg"));
 		const valueDebounce = useDebounce(value, 500);
+
+		const dispatch = useDispatch();
+		useEffect(() => {
+			const cancelToken = axios.CancelToken;
+			const source = cancelToken.source();
+			dispatch(getCryptoValidators(source.token));
+		},[])
+
 		const onChange = React.useCallback(e => {
 			setValue(e.target.value);
 		}, []);

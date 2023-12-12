@@ -1,29 +1,23 @@
 // @ts-nocheck
-import React, { useState, useRef, useEffect } from "react";
-import cn from "classnames/bind";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Container from "@material-ui/core/Container";
-import { useHistory } from "react-router-dom";
-import queryString from "query-string";
-import Skeleton from "@material-ui/lab/Skeleton";
-import consts from "src/constants/consts";
-import { formatInteger } from "src/helpers/helper";
-import TogglePageBar from "src/components/common/TogglePageBar";
-import TitleWrapper from "src/components/common/TitleWrapper";
+import {useTheme} from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import cn from "classnames/bind";
+import React, {useEffect, useRef, useState} from "react";
+import ChainBox from 'src/components/common/ChainBox';
 import PageTitle from "src/components/common/PageTitle";
 import Pagination from "src/components/common/Pagination";
-import ChainBox from 'src/components/common/ChainBox';
-import FilterSection from "src/components/Requests/FilterSection";
+import TitleWrapper from "src/components/common/TitleWrapper";
+import TogglePageBar from "src/components/common/TogglePageBar";
+import consts from "src/constants/consts";
 
 import ExecutorsList from "src/components/Executors/ExecutorsTable";
 import ExecutorsTableSkeleton from "src/components/Executors/ExecutorsTable/ExecutorsTableSkeleton";
 import ExecutorsCardList from "src/components/Executors/ExecutorsTableCardList";
 import ExecutorsTableCardListCardListSkeleton from "src/components/Executors/ExecutorsTableCardList/ExecutorsTableCardListCardListSkeleton";
-import styles from "./Executors.module.scss";
-import * as api from "src/lib/api";
-import { isNil } from "lodash";
 import config from "src/config";
+import * as api from "src/lib/api";
+import styles from "./Executors.module.scss";
 
 const cx = cn.bind(styles);
 
@@ -32,18 +26,13 @@ const Executors = () => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(0);
 	const [total, setTotal] = useState(0);
-	// const [offset, setOffset] = useState('');
 	const totalPagesRef = useRef(null);
 	const [listExecutors, setListExecutors] = useState([]);
 	const onPageChange = page => {
-		// if (page > pageId + 2) {
-		// 	return;
-		// }
 		setPageId(page);
 	};
 
 	let titleSection;
-	let filterSection;
 	let executorsTable;
 	let paginationSection;
 
@@ -109,8 +98,6 @@ const Executors = () => {
 	} else {
 		titleSection = <TogglePageBar type='ai-executors' />;
 	}
-
-	// filterSection = <FilterSection isGridView={isGridView} keyword={keyword} setIsGridView={setIsGridView} setKeyword={setKeyword} />;
 
 	if (!listExecutors?.length) {
 		executorsTable = isLargeScreen ? <ExecutorsTableSkeleton /> : <ExecutorsTableCardListCardListSkeleton />;

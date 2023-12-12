@@ -6,10 +6,12 @@ import PropTypes from "prop-types";
 
 const cx = classNames.bind(styles);
 
-const HeaderContract = ({ label, icon, setActiveTab, activeTab }) => {
+const HeaderContract = ({ label, icon, setActiveTab, activeTab, onClickLink }) => {
     return (
         <div className={cx('header-contract')} >
-            <div className={cx('left')}>
+            <div className={cx('left')} onClick={onClickLink} style={{
+                cursor: onClickLink ? 'pointer' : 'none',
+            }}>
                 {icon ?? <ClarityContractLineIcon className={cx("tab-icon")} />}
                 <span style={{ paddingLeft: 6 }}>
                     {label}

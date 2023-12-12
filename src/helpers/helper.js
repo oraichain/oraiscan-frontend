@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { themeIds } from "src/constants/themes";
 import { reduceString } from "src/lib/scripts";
 import consts from "src/constants/consts";
-import { decodeTxRaw } from "@cosmjs/proto-signing"
+import { decodeTxRaw } from "@cosmjs/proto-signing";
 import { Any } from "cosmjs-types/google/protobuf/any";
 
 export const extractValueAndUnit = (inputString = "") => {
@@ -28,50 +28,65 @@ export const extractValueAndUnit = (inputString = "") => {
 
 export const amountDecimal18 = [
 	{
-		denom: "ORAI",
+		denom: "ORAI BSC",
 		address: "oraib0xA325Ad6D9c92B55A3Fc5aD7e412B1518F96441C0",
 		decimal: 18,
-		name: "orai bsc"
+		name: "orai bsc",
+		coingeckoId: "oraichain-token",
 	},
 	{
-		denom: "AIRI",
+		denom: "AIRI BSC",
 		address: "oraib0x7e2A35C746F2f7C240B664F1Da4DD100141AE71F",
 		decimal: 18,
-		name: "airi bsc"
+		name: "airi bsc",
+		coingeckoId: "airight",
 	},
 	{
-		denom: "USDT",
+		denom: "USDT BSC",
 		address: "oraib0x55d398326f99059fF775485246999027B3197955",
 		decimal: 18,
-		name: "usdt bsc"
+		name: "usdt bsc",
+		coingeckoId: "tether",
 	},
 	{
-		denom: "KWT",
+		denom: "KWT BSC",
 		address: "oraib0x257a8d1E03D17B8535a182301f15290F11674b53",
 		decimal: 18,
-		name: "kwt bsc"
+		name: "kwt bsc",
+		coingeckoId: "kawaii-islands",
 	},
 	{
 		denom: "ORAI ERC20",
 		address: "eth-mainnet0X4C11249814F11B9346808179CF06E71AC328C1B5",
 		decimal: 18,
-		name: "orai eth"
+		name: "orai eth",
+		coingeckoId: "oraichain-token",
 	},
 	{
-		denom: "Milky",
+		denom: "Milky BSC",
 		address: "oraib0x6fE3d0F096FC932A905accd1EB1783F6e4cEc717",
 		decimal: 18,
-		name: "milky"
-	}
+		name: "milky",
+		coingeckoId: "milky-token",
+	},
+	{
+		denom: "INJ",
+		address: "ibc/49D820DFDE9F885D7081725A58202ABA2F465CAEE4AFBC683DFB79A8E013E83E",
+		decimal: 18,
+		name: "injective",
+		coingeckoId: "injective-protocol",
+	},
 ];
 
 export const checkTokenCW20 = value => {
-	const status = amountDecimal18.find(amo => amo.address.toUpperCase() == (value && value.toUpperCase()) || "")
+	const checkCondition = (amo, value) => amo.address.toUpperCase() == value?.toUpperCase() || amo.denom.toUpperCase() == value?.toUpperCase() || "";
+	const status = amountDecimal18.find(amo => checkCondition(amo, value));
 	return {
 		status,
 		denom: status?.denom,
 		address: status?.address,
-		decimal: status?.decimal ?? 18
+		decimal: status?.decimal ?? 18,
+		coingeckoId: status?.coingeckoId,
 	};
 };
 
@@ -156,22 +171,14 @@ export const formatOrai = (value, divisor = 1000000, numberOfDigitsAfterDecimalP
 	}
 
 	const bigValue = new BigNumber(value);
-	let result = bigValue.dividedBy(divisor).toFormat(numberOfDigitsAfterDecimalPoint);
-
-	// if (`${value}`.length > 9) {
-	// 	const bigValue = new BigNumber(value);
-	// 	result = formatFloat(bigValue.dividedBy(divisor), numberOfDigitsAfterDecimalPoint);
-	// } else {
-	// 	result = formatFloat(parseFloat(value) / divisor, numberOfDigitsAfterDecimalPoint);
-	// }
-
+	let result = new BigNumber(bigValue.dividedBy(divisor).toFixed(numberOfDigitsAfterDecimalPoint)).toFormat();
 	return `${result}` === "NaN" ? "0.000000" : result;
 };
 export const formatNumber = value => {
 	if (value === undefined || value === null) {
 		return "_";
 	}
-	return value.toString().replace(/^[+-]?\d+/, function (int) {
+	return value.toString().replace(/^[+-]?\d+/, function(int) {
 		return int.replace(/(\d)(?=(\d{3})+$)/g, "$1,");
 	});
 };
@@ -201,7 +208,6 @@ export const calRemainingTime = time => {
 	const x = new moment();
 	const y = new moment(time);
 	const duration = moment.duration(y.diff(x));
-	console.log("duration", duration);
 	let result = "0s";
 	if (duration._data.years) result = `${duration._data.years} years`;
 	else if (duration._data.months) result = `${duration._data.months} months`;
@@ -224,7 +230,7 @@ export const mergeArrays = (array1, array2, key) => {
 
 export const decodeTx = encodedTx => {
 	const uintArr = Buffer.from(encodedTx, "base64");
-	const msg = decodeTxRaw(uintArr)
+	const msg = decodeTxRaw(uintArr);
 	const hash = sha256.sha256(uintArr).toUpperCase();
 	const fee = msg?.authInfo?.fee;
 	const typeUrl = msg?.body?.messages?.[0].typeUrl.substring(1);
@@ -277,18 +283,17 @@ export const amountCoinDecimal = (amount, decimal = 1000000) => {
 };
 
 export const calculateInflationFromApr = async () => {
-
-	const fetchData = async (endpoint) => {
+	const fetchData = async endpoint => {
 		return fetch(`${consts.LCD_API_BASE}/${endpoint}`).then(data => data.json());
-	}
+	};
 
 	const VAL_VOTING_POWER = 1000;
 	const DAYS_IN_YEARS = 365.2425;
 	const APR = 28.5;
 	const RATE = 0.03;
-	const { block_time } = (await fetch("https://api.scan.orai.io/v1/status").then(data => data.json()));
-	const delegatorsRewardPerDay = APR / (DAYS_IN_YEARS / VAL_VOTING_POWER * 100);
-	const numBlocksPerDay = 60 / block_time * 60 * 24;
+	const { block_time } = await fetch("https://api.scan.orai.io/v1/status").then(data => data.json());
+	const delegatorsRewardPerDay = APR / ((DAYS_IN_YEARS / VAL_VOTING_POWER) * 100);
+	const numBlocksPerDay = (60 / block_time) * 60 * 24;
 	const delegatorsRewardPerBlock = delegatorsRewardPerDay / numBlocksPerDay;
 
 	const valRewardPerBlock = delegatorsRewardPerBlock / (1 - RATE);
@@ -296,12 +301,66 @@ export const calculateInflationFromApr = async () => {
 	let { bonded_tokens } = (await fetchData("cosmos/staking/v1beta1/pool")).pool;
 	const { community_tax, base_proposer_reward, bonus_proposer_reward } = (await fetchData("cosmos/distribution/v1beta1/params")).params;
 	const voteMultiplier = 1 - parseFloat(community_tax) - (parseFloat(base_proposer_reward) + parseFloat(bonus_proposer_reward));
-	const blockRevision = valRewardPerBlock / (VAL_VOTING_POWER / bonded_tokens * voteMultiplier);
+	const blockRevision = valRewardPerBlock / ((VAL_VOTING_POWER / bonded_tokens) * voteMultiplier);
 
 	const totalSupply = (await fetchData("cosmos/bank/v1beta1/supply/orai")).amount.amount;
 	const { blocks_per_year } = (await fetchData("cosmos/mint/v1beta1/params")).params;
 	const inflationRate = blockRevision / (totalSupply / blocks_per_year);
 
-	console.log("inflation rate needed: ", inflationRate)
-	return inflationRate * 100; // display in percentage
-}
+	return {
+		inflationRate: inflationRate * 100,
+		bonded_tokens,
+	}; // display in percentage
+};
+
+// check asset is belong Cosmos Hub ( decimals 6 ) or belong to Ethereum, BSC ( decimals 18 ).
+export const getDecimals = (denom = "") => {
+	const decimalsCosmos = 6;
+	const decimalsEthBsc = 18;
+	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos;
+};
+
+export const checkAttributeEvents = (rawLog = "[]", key = "send_packet") => {
+	try {
+		if (!rawLog) return false;
+		const parseRawLog = JSON.parse(rawLog);
+		const findSendPack = parseRawLog?.[0]?.events?.find(e => e.type == key);
+		if (!findSendPack) return false;
+		return true;
+	} catch (error) {
+		return false;
+	}
+};
+
+export const isJsonString = str => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+};
+
+export const calculateTallyProposal = ({ totalVote, bonded, tally }) => {
+	if (!totalVote) {
+		return {
+			yes_percentage: 0,
+			abstain_percentage: 0,
+			no_percentage: 0,
+			no_with_veto_percentage: 0,
+			vote_percentage: 0,
+		};
+	}
+	const yes_percentage = Math.round((parseInt(tally?.yes) / totalVote) * 10000) / 100;
+	const abstain_percentage = Math.round((parseInt(tally?.abstain) / totalVote) * 10000) / 100;
+	const noPercentage = Math.round((parseInt(tally?.no) / totalVote) * 10000) / 100;
+	const noWithVetoPercentage = Math.round((parseInt(tally?.noWithVeto) / totalVote) * 10000) / 100;
+	const votePercentage = Math.round((totalVote / parseInt(bonded || 0)) * 10000) / 100;
+	return {
+		yes_percentage,
+		abstain_percentage,
+		no_percentage: noPercentage,
+		no_with_veto_percentage: noWithVetoPercentage,
+		vote_percentage: votePercentage,
+	};
+};

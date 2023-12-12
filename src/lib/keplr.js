@@ -107,12 +107,6 @@ export default class Keplr {
         signingMethods: [],
         qrcodeModal: new KeplrQRCodeModalV1()
       });
-      // this.walletConnector._clientMeta = {
-      //   name: 'Oraichain',
-      //   description: 'Oraichain is the first IBC-native Cosmos interchain AMM',
-      //   url: 'https://oraidex.io',
-      //   icons: ['https://dhj8dql1kzq2v.cloudfront.net/owallet-256x256.png']
-      // };
       this.walletConnector.on('disconnect', this.onWalletConnectDisconnected);
     }
 
@@ -187,7 +181,6 @@ export default class Keplr {
   // @ts-ignore
   async getKeplrKey(chainId) {
     chainId = chainId ?? network.chainId;
-    // chainId = "Oraichain"
     if (!chainId) return undefined;
     const keplr = await this.getKeplr();
     if (keplr) {

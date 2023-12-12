@@ -13,24 +13,24 @@ const TransactionTableSkeleton = memo(({rows = 10}) => {
 		for (let i = 1; i <= rows; i++) {
 			const txHashDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text' />
 				</div>
 			);
 
 			const typeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-left")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text' />
 				</div>
 			);
 
 			const heightDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text' />
 				</div>
 			);
 			const timeDataCell = (
 				<div className={cx("skeleton-data-cell", "align-right")}>
-					<Skeleton className={cx("skeleton-inline-block")} variant='text' width={50} height={24} />
+					<Skeleton className={cx("skeleton-inline-block")} variant='text' />
 				</div>
 			);
 			dataRows.push([txHashDataCell, typeDataCell, heightDataCell, timeDataCell]);

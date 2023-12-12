@@ -1,0 +1,19 @@
+.stepper {
+    padding: 0 0 20px 0;
+    :global {
+        .MuiStepLabel-label.MuiStepLabel-completed  {
+            color: var(--common-textColor);
+           
+        }
+        .MuiTypography-body2 {
+            font-size: 1rem;
+        }
+        .MuiStepIcon-root.MuiStepIcon-completed {
+            color: var(--proposals-topProposalCard-statusPassedTextColor);
+        }
+        .MuiCollapse-wrapperInner .MuiTypography-root{
+            color: var(--common-linkColor);
+            cursor: pointer;
+        }
+    }
+}	

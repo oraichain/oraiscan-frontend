@@ -1,9 +1,9 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import classNames from "classnames/bind";
 import Address from "src/components/common/Address";
-import {logoBrand} from "src/constants/logoBrand";
+import { logoBrand } from "src/constants/logoBrand";
 import aiIcon from "src/assets/common/ai_ic.svg";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import checkIcon from "src/assets/validatorDetails/check.svg";
 import CheckIcon from "src/icons/Validators/CheckIcon";
 import Upload from "rc-upload";
@@ -11,17 +11,18 @@ import RejectedIcon from "src/icons/Proposals/RejectedIcon";
 import keccak256 from "keccak256";
 import secp256k1 from "secp256k1";
 import * as api from "src/lib/api";
-import {notification} from "antd";
+import { notification } from "antd";
 import consts from "src/constants/consts";
-import {network} from "src/lib/config/networks";
+import { network } from "src/lib/config/networks";
 import styles from "./AddressCard.module.scss";
+import { sha256 } from "js-sha256";
 
 const cx = classNames.bind(styles);
 
-const AddressCard = memo(({moniker, operatorAddress, address, isInactive}) => {
+const AddressCard = memo(({ moniker, operatorAddress, address, isInactive }) => {
 	const [src, setSrc] = React.useState("");
 	const logoItem = logoBrand.find(it => it.operatorAddress === operatorAddress);
-	const [dataDetails, setDataDetails] = React.useState({image: "", nonce: 0});
+	const [dataDetails, setDataDetails] = React.useState({ image: "", nonce: 0 });
 	const [logoURL, setLogoURL] = React.useState("");
 	// const logoURL = src ? src : dataDetails?.image ? dataDetails?.image : logoItem.logo ? logoItem.logo : "";
 	const logoName = moniker || "";
@@ -56,208 +57,46 @@ const AddressCard = memo(({moniker, operatorAddress, address, isInactive}) => {
 		}, 5000);
 	};
 
-	const getFixedAminoSignDoc = chainId => {
-		return {
+	const sortObject = obj => {
+		if (typeof obj !== "object" || obj === null) return obj;
+
+		if (Array.isArray(obj)) return obj.map(sortObject);
+
+		return Object.fromEntries(
+			Object.entries(obj)
+				.sort(([k1], [k2]) => k1.localeCompare(k2))
+				.map(([k, v]) => [k, sortObject(v)])
+		);
+	};
+
+	const getSignDoc = (data, signer) => {
+		return sortObject({
+			chain_id: "",
 			account_number: "0",
-			chain_id: chainId,
-			fee: {amount: [{amount: "0", denom: "orai"}], gas: "200000"},
-			memo: "submit",
+			sequence: "0",
+			fee: {
+				gas: "0",
+				amount: [],
+			},
 			msgs: [
 				{
-					type: "cosmos-sdk/MsgSend",
+					type: "sign/MsgSignData",
 					value: {
-						amount: [{amount: "0", denom: "foobar"}],
-						from_address: "foobar",
-						to_address: "foobar",
+						signer,
+						data: Buffer.from(data).toString("base64"),
 					},
 				},
 			],
-			sequence: "0",
-		};
-	};
-
-	const getFixedSignDoc = chainId => {
-		return {
-			bodyBytes: Uint8Array.from([
-				10,
-				61,
-				10,
-				28,
-				47,
-				99,
-				111,
-				115,
-				109,
-				111,
-				115,
-				46,
-				98,
-				97,
-				110,
-				107,
-				46,
-				118,
-				49,
-				98,
-				101,
-				116,
-				97,
-				49,
-				46,
-				77,
-				115,
-				103,
-				83,
-				101,
-				110,
-				100,
-				18,
-				29,
-				10,
-				6,
-				102,
-				111,
-				111,
-				98,
-				97,
-				114,
-				18,
-				6,
-				102,
-				111,
-				111,
-				98,
-				97,
-				114,
-				26,
-				11,
-				10,
-				6,
-				102,
-				111,
-				111,
-				98,
-				97,
-				114,
-				18,
-				1,
-				48,
-				18,
-				6,
-				115,
-				117,
-				98,
-				109,
-				105,
-				116,
-			]),
-			authInfoBytes: Uint8Array.from([
-				10,
-				78,
-				10,
-				70,
-				10,
-				31,
-				47,
-				99,
-				111,
-				115,
-				109,
-				111,
-				115,
-				46,
-				99,
-				114,
-				121,
-				112,
-				116,
-				111,
-				46,
-				115,
-				101,
-				99,
-				112,
-				50,
-				53,
-				54,
-				107,
-				49,
-				46,
-				80,
-				117,
-				98,
-				75,
-				101,
-				121,
-				18,
-				35,
-				10,
-				33,
-				2,
-				92,
-				51,
-				66,
-				167,
-				70,
-				56,
-				216,
-				64,
-				133,
-				48,
-				180,
-				69,
-				85,
-				89,
-				166,
-				158,
-				108,
-				171,
-				124,
-				137,
-				250,
-				106,
-				100,
-				171,
-				219,
-				241,
-				112,
-				201,
-				253,
-				156,
-				117,
-				58,
-				18,
-				4,
-				10,
-				2,
-				8,
-				1,
-				18,
-				15,
-				10,
-				9,
-				10,
-				4,
-				111,
-				114,
-				97,
-				105,
-				18,
-				1,
-				48,
-				16,
-				192,
-				154,
-				12,
-			]),
-			chainId,
-			accountNumber: 0,
-		};
+			memo: "",
+		});
 	};
 
 	const props = {
 		action: async file => {
 			const restrict = file?.type?.split("/");
+			console.log({
+				restrict,
+			});
 			if (restrict?.[0] !== "image" || restrict?.[1] === "svg+xml") {
 				return restrictFile();
 			}
@@ -265,53 +104,23 @@ const AddressCard = memo(({moniker, operatorAddress, address, isInactive}) => {
 			if (!keplr) throw consts.INSTALL_KEPLR_FIRST;
 			const key = await keplr.getKey(network.chainId);
 			const sender = key?.bech32Address;
-			const isLedger = key?.isNanoLedger;
 			const formData = new FormData();
 
 			const utcTimestamp = new Date().getTime();
-			const timestamp = utcTimestamp.toString();
-
 			var response = {};
-			var signDoc = {};
-			var postData = {};
-
-			if (isLedger) {
-				signDoc = getFixedAminoSignDoc(network.chainId);
-				response = await keplr.signAmino(network.chainId, sender, {
-					...signDoc,
-					account_number: timestamp,
-				});
-				postData = {
-					isAmino: true,
-					data: response?.signed,
-				};
-			} else {
-				signDoc = getFixedSignDoc(network.chainId);
-				response = await keplr.signDirect(network.chainId, sender, {
-					...signDoc,
-					accountNumber: timestamp,
-				});
-				postData = {
-					isAmino: false,
-					data: {
-						...response?.signed,
-						bodyBytes: Buffer.from(response?.signed.bodyBytes).toString("base64"),
-						authInfoBytes: Buffer.from(response?.signed.authInfoBytes).toString("base64"),
-					},
-				};
-			}
-			const signature_hash = response?.signature?.signature;
-
-			formData.append("image", file);
-			formData.append("address", sender);
-			formData.append("signature_hash", signature_hash);
-			formData.append("post_data", JSON.stringify(postData));
-			formData.append("account_number", timestamp);
+			const data = JSON.stringify(getSignDoc("foobar", sender));
+			const msg = Buffer.from(sha256.digest(data)).toString("base64");
 			try {
+				response = await keplr.signArbitrary(network.chainId, sender, "foobar");
+				formData.append("image", file);
+				formData.append("address", sender);
+				formData.append("signature_hash", response.signature);
+				formData.append("msg", msg);
+
 				const uploadImages = await api.uploadImagesValidator({
 					method: "post",
 					data: formData,
-					headers: {"Content-Type": "multipart/form-data"},
+					headers: { "Content-Type": "multipart/form-data" },
 				});
 				if (uploadImages?.data?.status) {
 					notification.success({
@@ -325,12 +134,12 @@ const AddressCard = memo(({moniker, operatorAddress, address, isInactive}) => {
 					});
 				}
 			} catch (error) {
+				console.log({ error });
 				notification.error({
 					message: "Upload Image Validator",
 					description: error?.response?.data,
 				});
 			}
-
 			setTimeout(() => {
 				notification.destroy();
 			}, 5000);

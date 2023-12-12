@@ -1,15 +1,14 @@
-import React, {useState, useEffect, useRef} from "react";
-import {useHistory} from "react-router-dom";
-import {useTheme} from "@material-ui/core/styles";
+import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import PropTypes from "prop-types";
-import {useGet} from "restful-react";
+import { useGet } from "restful-react";
 import queryString from "query-string";
 import Container from "@material-ui/core/Container";
 import cn from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, calculateBefore, decodeTx, mergeArrays} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { arraysEqual, calculateBefore, decodeTx, mergeArrays } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import TogglePageBar from "src/components/common/TogglePageBar";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -30,7 +29,7 @@ const TxList = () => {
 	const prevPendingRef = useRef(null);
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const queryStringParse = queryString.parse(history.location.search) || {};
-	const pendingBasePath = `https://rpc.orai.io/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
+	const pendingBasePath = `${consts.RPC_API_BASE}/unconfirmed_txs?limit=${consts.REQUEST.LIMIT}`;
 	const restBasePath = `${consts.API.TXLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
@@ -39,6 +38,10 @@ const TxList = () => {
 	const totalPagesRef = useRef(null);
 	const canRefetchRef = useRef(true);
 	const prevDataRef = useRef([]);
+
+	const prevOldPage = useRef(null);
+	const [beforelItemsRef, setBeforelItemsRef] = useState(0);
+	const [type, setType] = useState("before");
 
 	let timerIdRef = useRef(null);
 
@@ -53,6 +56,10 @@ const TxList = () => {
 		setFirstLoadCompleted(false);
 		setLoadCompleted(false);
 		setPageId(page);
+
+		prevOldPage.current = pageId;
+		setType(prevOldPage.current < page ? "before" : "after");
+		setBeforelItemsRef(prevOldPage.current < page ? data.paging.before : data.paging.after);
 	};
 
 	if (!firstLoadCompleted) {
@@ -79,11 +86,15 @@ const TxList = () => {
 	} else {
 		path = restBasePath;
 		if (totalItemsRef.current) {
-			path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
+			// path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
+			path += `&${type}=` + beforelItemsRef;
+			if (pageId === 1) {
+				path = restBasePath + "&before=0";
+			}
 		}
 	}
 
-	const {data, loading, error, refetch} = useGet({
+	const { data, loading, error, refetch } = useGet({
 		path: path,
 		resolve: data => {
 			if (!firstLoadCompleted) {
@@ -126,18 +137,6 @@ const TxList = () => {
 
 	let tableData;
 	if (pending && Array.isArray(data?.result?.txs)) {
-		// const data = {
-		// 	jsonrpc: "2.0",
-		// 	id: -1,
-		// 	result: {
-		// 		n_txs: "1",
-		// 		total: "1",
-		// 		total_bytes: "320",
-		// 		txs: [
-		// 			"Cp8BCpwBCjcvY29zbW9zLmRpc3RyaWJ1dGlvbi52MWJldGExLk1zZ1dpdGhkcmF3RGVsZWdhdG9yUmV3YXJkEmEKK29yYWkxMzBqc2w2NnJnc3M2ZXE3cXVyMDJ5ZnI2dHpwcGR2eGdrZzk2NDASMm9yYWl2YWxvcGVyMTMwanNsNjZyZ3NzNmVxN3F1cjAyeWZyNnR6cHBkdnhnbHo3bjdnEloKUgpGCh8vY29zbW9zLmNyeXB0by5zZWNwMjU2azEuUHViS2V5EiMKIQKJzoUdo6kFlyUrTtOQgNA6/NY+ulQeJGDc6eB42FbDmBIECgIIARihmAUSBBDAmgwaQGC03ZLQQEw4+rdP0PSRkt5iSbyVTKEQacDqcc4FsW24Fv0D0i3pS2IvMe4jLefO8nFFhYxz7GM4Zok2mIa1de8=",
-		// 		],
-		// 	},
-		// };
 		tableData = data.result.txs.map(tx => {
 			const decodedTx = decodeTx(tx);
 			return {
@@ -158,7 +157,11 @@ const TxList = () => {
 
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+			tableSection = isLargeScreen ? (
+				<TransactionTable txHashClick={pending} data={tableData} />
+			) : (
+				<TransactionCardList txHashClick={pending} data={tableData} />
+			);
 		} else {
 			tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 		}
@@ -196,9 +199,17 @@ const TxList = () => {
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+					tableSection = isLargeScreen ? (
+						<TransactionTable txHashClick={pending} data={mergedData} rowMotions={rowMotions} />
+					) : (
+						<TransactionCardList txHashClick={pending} data={tableData} />
+					);
 				} else {
-					tableSection = isLargeScreen ? <TransactionTable txHashClick={pending} data={tableData} /> : <TransactionCardList  txHashClick={pending} data={tableData} />;
+					tableSection = isLargeScreen ? (
+						<TransactionTable txHashClick={pending} data={tableData} />
+					) : (
+						<TransactionCardList txHashClick={pending} data={tableData} />
+					);
 				}
 				prevDataRef.current = [...tableData];
 			} else {
@@ -206,7 +217,11 @@ const TxList = () => {
 			}
 		}
 	}
-	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
+	paginationSection = totalPagesRef.current ? (
+		<Pagination disabled={loading} isCustomPaging={true} pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} />
+	) : (
+		<></>
+	);
 
 	return (
 		<>

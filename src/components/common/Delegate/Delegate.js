@@ -84,16 +84,13 @@ const displayBalance = balance => {
 	return result;
 };
 
-const Delegate = memo(({a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator"}) => {
+const Delegate = memo(({ a, openButtonText = "Delegate for this validator", operatorAddress, estAPR = 0, delegateText = "Delegate for this validator" }) => {
 	const [open, setOpen] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
-	const {address, account} = useSelector(state => state.wallet);
+	const { address } = useSelector(state => state.wallet);
 	const orai2usd = useSelector(state => state.blockchain.status?.price);
-	const minFee = useSelector(state => state.blockchain.minFee);
 	const [balanceInfo, , , , setUrl] = useFetch();
 	const [activeTabId, setActiveTabId] = useState(1);
-	const [fee, setFee] = useState(0);
-	const [gas, setGas] = useState(200000);
 	const [rewardCalculator, setRewardCalculator] = useState({
 		amount: 0,
 		monthlyORAI: 0,
@@ -105,7 +102,6 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 
 	const denom = consts.DENOM;
 	const balance = new BigNumber(balanceInfo?.data?.balances.find(balance => balance.denom === denom)?.amount ?? 0);
-	// const balance = new BigNumber("38172");
 	const formatUSD = (orai, divide = false) => {
 		if (divide) {
 			return new BigNumber(orai)
@@ -139,32 +135,25 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 	const methods = useForm({
 		resolver: yupResolver(validationSchemaForm),
 	});
-	const {handleSubmit, setValue, errors, setError, clearErrors, watch, getValues, register, trigger} = methods;
-	// let values = watch() || "";
+	const { setValue, errors, clearErrors, getValues, trigger } = methods;
 
 	const handleClickDelegate = async () => {
 		await trigger();
-		console.log(Object.values(errors), "ERRORRRRR");
 		if (Object.values(errors).length === 0) return onSubmit(getValues());
 		else return;
 	};
 
 	const onSubmit = async data => {
-		// if ((data && (parseFloat(data.sendAmount) <= 0 || parseFloat(data.sendAmount) > balance / 1000000)) || data.sendAmount === "") {
-		// 	return;
-		// }
-
-		// const minFee = (fee * 1000000 + "").split(".")[0];
 		try {
 			setLoadingTransaction(true);
 			const response = await walletStation.delegate(address, operatorAddress, {
 				denom: consts.DENOM,
-				amount: amountCoinDecimal(data.sendAmount)
+				amount: amountCoinDecimal(data.sendAmount),
 			});
 			handleTransactionResponse(response, notification, history, setLoadingTransaction);
 		} catch (error) {
 			setLoadingTransaction(false);
-			notification.error({message: handleErrorMessage(error)});
+			notification.error({ message: handleErrorMessage(error) });
 			console.log(error);
 		}
 	};
@@ -280,9 +269,6 @@ const Delegate = memo(({a, openButtonText = "Delegate for this validator", opera
 						<div className={cx("form-field")}>
 							<InputNumberOrai inputAmountValue={inputAmountValue} name='sendAmount' errorobj={errors} />
 						</div>
-						{/* <div className={cx("balance-title")}> Fee </div> */}
-						{/* <Fee handleChooseFee={setFee} minFee={minFee} className={cx("custom-fee")} />
-						<Gas gas={gas} onChangeGas={setGas} /> */}
 					</DialogContent>
 					<DialogActions>
 						<button type='button' className={cx("btn", "btn-outline-secondary")} onClick={closeDialog}>

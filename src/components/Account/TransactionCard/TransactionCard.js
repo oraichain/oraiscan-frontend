@@ -1,8 +1,8 @@
-import React, {memo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
@@ -13,11 +13,12 @@ import TransactionCardListSkeleton from "src/components/TxList/TransactionCardLi
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./TransactionCard.module.scss";
-import {loadReCaptcha} from "react-recaptcha-google";
+import { loadReCaptcha } from "react-recaptcha-google";
+import { typeExport } from "src/containers/Account/Account";
 
 const cx = classNames.bind(styles);
 
-const TransactionCard = memo(({account = "", royalty = false}) => {
+const TransactionCard = memo(({ account = "", royalty = false }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [status, setStatus] = useState("PROPOSAL_STATUS_ALL");
@@ -29,7 +30,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	};
 
 	useEffect(() => {
-		loadReCaptcha();    
+		loadReCaptcha();
 	});
 
 	let basePath = `${consts.API.TXS_ACCOUNT}/${account}?limit=${consts.REQUEST.LIMIT}`;
@@ -38,7 +39,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 	}
 
 	const path = `${basePath}&page_id=${pageId}`;
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
@@ -49,7 +50,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 		tableSection = isLargeScreen ? <TransactionTableSkeleton /> : <TransactionCardListSkeleton />;
 	} else {
 		if (error) {
-			totalPagesRef.current = null;
+			totalPagesRef.current = null; 
 			tableSection = <NoResult />;
 		} else {
 			if (!isNaN(data?.page?.total_page)) {
@@ -78,7 +79,7 @@ const TransactionCard = memo(({account = "", royalty = false}) => {
 			{paginationSection}
 			<span className={cx("text")}>
 				[ Download{" "}
-				<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${account}`}>
+				<NavLink className={cx("text-link", "align-right")} to={`${consts.PATH.EXPORT_DATA}/${account}?type=${typeExport.allTransaction}`}>
 					CSV Export
 				</NavLink>{" "}
 				]

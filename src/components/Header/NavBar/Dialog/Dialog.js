@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React, { useState, useEffect, memo } from "react";
-// import {useGet} from "restful-react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,7 +14,6 @@ import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import { showAlert } from "src/store/modules/global";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
@@ -56,8 +54,7 @@ const TABS = [
 	},
 ];
 
-const FormDialog = memo(({ show, handleClose, address, account, amount, amountAiri }) => {
-	const [isLoading, setIsLoading] = useState(false);
+const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => {
 	const [activeTabId, setActiveTabId] = useState(1);
 	const [multiSendData, handleInputMulti] = useState(null);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
@@ -78,7 +75,7 @@ const FormDialog = memo(({ show, handleClose, address, account, amount, amountAi
 		resolver: yupResolver(activeTabId === 1 ? validationSchemaForm1 : validationSchemaForm2),
 	});
 
-	const { handleSubmit, errors, register, setValue, getValues, setError, watch, trigger } = methods;
+	const { errors, setValue, getValues, trigger } = methods;
 	const handleBigNumber = (amount = "0") => new BigNumber(amount.toString().replaceAll(",", "")).multipliedBy(consts.NUM.COSMOS_DECIMAL).toFixed(0);
 	const onSubmit = async data => {
 		try {

@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const api = config.SCAN_API;
 const lcdApi = config.LCD_API;
+const rpcApi = config.RPC_API;
 const contractApi = config.CONTRACT_DEPLOY_API;
 
 export default Object.freeze({
@@ -14,9 +15,7 @@ export default Object.freeze({
 		TX: tx => `/tx/${tx}?format=json`,
 	},
 	API_COINGECKO: {
-		// BASE: "https://api.coingecko.com/api/v3",
-		// GET_MARKET_CHART_RANGE: (id = "BNB", from, to) => `/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
-		PRICE: (ids, currency) => `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${currency}`,
+		PRICE: (ids, currency) => `https://price.market.orai.io/simple/price?ids=${ids}&vs_currencies=${currency}`,
 	},
 	COIN_ID: "oraichain-token",
 	AIRI_ID: "airight",
@@ -55,6 +54,7 @@ export default Object.freeze({
 	API_BASE: api,
 	API_CONTRACT_DEPLOY: contractApi,
 	LCD_API_BASE: lcdApi,
+	RPC_API_BASE: rpcApi,
 	API: {
 		STATUS: "/status",
 		BLOCKLIST: "/blocks",
@@ -62,6 +62,7 @@ export default Object.freeze({
 		TXS_BLOCK: "/txs-block",
 		ACCOUNT: "/account",
 		ACCOUNTS: "/accounts",
+		TOPHOLDERS: "/token",
 		ACCOUNT_TXS: acc => `/account/txs/${acc}?page=1&rows=20`,
 		TXLIST: "/txs",
 		TX: "/txs",
@@ -118,16 +119,17 @@ export default Object.freeze({
 		ORACLE_REQUESTS: "/oracle_requests",
 		ORACLE_REPORT: "/oracle_report",
 		EXPORT_DATA: "/account/txs_csv",
+		EXPORT_CW20_TRANSACTION: "/ow20_smart_contracts/txs_csv",
 		IBC_TOKENS: "/ibc/tokens",
 		UPLOAD_IMAGES_VALIDATORS: "/validator/update-image",
 		GET_IMAGES_VALIDATORS: "/validator-detail",
-		IBC_RELAYERS: "/ibc/relayers",
-		IBC_RELAYERS_DETAIL: "/ibc/relayers/channel",
 		OW20_SMART_CONTRACTS: "/ow20_smart_contracts",
+		NFT_TXS: "/nft_transaction",
 		OW20_CONTRACT: "/ow20_contract",
 		OW20_TOKEN: "/ow20_tokens",
 		WASM_CODE: "/wasm_code",
 		WASM_CODE_BY_ID: "/smart_contracts_by_code_id",
+		UPLOAD_SCHEMA: "/upload-schema",
 	},
 	LCD_API: {
 		DATA_SOURCES: "/data_sources",
@@ -143,7 +145,7 @@ export default Object.freeze({
 		TXS: "/cosmos/tx/v1beta1/txs",
 		WASM: "/cosmwasm/wasm/v1/contract",
 		DENOM_TRACES: "ibc/applications/transfer/v1beta1/denom_traces",
-		COMMUNITY_POOL: '/cosmos/distribution/v1beta1/community_pool',
+		COMMUNITY_POOL: "/cosmos/distribution/v1beta1/community_pool",
 	},
 	NETWORK: {
 		COSMOS: "cosmoshub-3",
@@ -171,10 +173,12 @@ export default Object.freeze({
 		DEFAULT: "m/44'/118'/0'/0/0",
 		EXAMPLE: "44/118/0/0/0",
 		PRODUCTION: "",
-		STAGING: ""
+		STAGING: "",
 	},
 	PATH_CONTRACT: {
-		LIST: '/contracts'
+		LIST: "/contracts",
+		UPLOAD_SCHEMA: "/contracts/upload-schema",
+		GET_NONCE: "/contracts/nonce/",
 	},
 	MENU: [
 		{
@@ -218,7 +222,7 @@ export default Object.freeze({
 		WASM_CODE: "/wasm-code",
 		ORACLE_REQUEST: "/ai-request",
 		EXPORT_DATA: "/export-data",
-		VERIFIED_CONTRACT:"/verified-contract",
+		VERIFIED_CONTRACT: "/verified-contract",
 	},
 	ADDRESS_PREFIX: {
 		VALIDATOR: "oraivaloper1",
@@ -237,12 +241,13 @@ export default Object.freeze({
 	PROPOSALS_OPTIONS: {
 		UNBONDING_TIME: "UnbondingTime",
 		VOTING_PERIOD: "votingparams",
-		DEPOSIT_PARAMS: 'depositparams',
+		DEPOSIT_PARAMS: "depositparams",
 		COMMUNITY_TAX: "communitytax",
 		INFLATION_MIN: "InflationMin",
 		INFLATION_MAX: "InflationMax",
-		TEXT_PROPOSAL: 'TextProposal',
+		TEXT_PROPOSAL: "TextProposal",
 		UPDATE_ADMIN_PROPOSAL: "UpdateAdminProposal",
+		COMMUNITY_POOL_SPEND_PROPOSAL: "communityPoolSpendProposal",
 	},
 
 	VOTING_PERIOD_OPTIONS: {
@@ -253,7 +258,9 @@ export default Object.freeze({
 	RESULT_STATUS: {
 		SUCCESS: "success",
 		FAILURE: "failure",
-		PENDING: "pending"
+		PENDING: "pending",
 	},
 	INSTALL_KEPLR_FIRST: "You need to install OWallet or Keplr to continue.",
+	AIRI_CONTRACT_ADDRESS: "orai10ldgzued6zjp0mkqwsv2mux3ml50l97c74x8sg",
+	ORAIX_CONTRACT_ADDRESS: "orai1lus0f0rhx8s03gdllx2n6vhkmf0536dv57wfge",
 });

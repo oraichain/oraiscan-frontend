@@ -13,6 +13,7 @@ import { showAlert } from "src/store/modules/global";
 import { ORAI } from "src/lib/config/constants";
 import { Tooltip } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { updateBondedToken } from "src/store/modules/proposal";
 
 const StatusBox = memo(() => {
 	const cx = classNames.bind(styles);
@@ -22,7 +23,7 @@ const StatusBox = memo(() => {
 	const dispatch = useDispatch();
 	let timerID = useRef(null);
 
-	const { data, loading, refetch, error } = useGet({
+	const { data, refetch, error } = useGet({
 		path: consts.API.ORAICHAIN_INFO,
 		resolve: data => {
 			setLoadCompleted(true);
@@ -31,12 +32,12 @@ const StatusBox = memo(() => {
 		},
 	});
 
-	const { data: communityPool, loading: poolLoading, refetch: refetchPool, error: errorPool } = useGet({
+	const { data: communityPool, refetch: refetchPool, error: errorPool } = useGet({
 		path: `${consts.LCD_API_BASE}${consts.LCD_API.COMMUNITY_POOL}`,
 		resolve: ({ pool }) => {
 			const oraiPool = pool.find(pool => pool.denom === ORAI);
 			// fallback case if the api has any problem
-			if (!oraiPool) return { denom: ORAI.toUpperCase(), amount: "-1" }
+			if (!oraiPool) return { denom: ORAI.toUpperCase(), amount: "-1" };
 			setLoadCommunityPoolCompleted(true);
 			dispatch(setStatusBox(oraiPool));
 			return oraiPool;
@@ -81,11 +82,11 @@ const StatusBox = memo(() => {
 
 	useEffect(() => {
 		calculateInflationFromApr()
-			.then((inflation) => {
-				console.log("inflation rate: ", inflation)
-				setWantedInflationRate(inflation);
+			.then(inflation => {
+				setWantedInflationRate(inflation.inflationRate);
+				dispatch(updateBondedToken(inflation?.bonded_tokens));
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log("error getting wanted inflation rate: ", err.message);
 			});
 	}, []);
@@ -108,14 +109,14 @@ const StatusBox = memo(() => {
 				<div className={cx("header-cell", "align-right")}>
 					<span className={cx("status-label")}>Wanted Inflation: </span>
 					<span className={cx("status-value")}>{wantedInflationRate ? formatFloat(wantedInflationRate) + "%" : "--"}</span>
-					<Tooltip title='Infration rate needed to guarantee ~29% APR with 3% commission' className={cx("tooltip-header-cell")}>
+					<Tooltip title='Inflation rate needed to guarantee ~29% APR with 3% commission' className={cx("tooltip-header-cell")}>
 						<QuestionCircleOutlined />
 					</Tooltip>
 				</div>
 			</div>
 			<div className={cx("status-box-item")}>
-				<span className={cx("status-label")}>Community Pool: </span>
-				<span className={cx("status-value")}>{formatOrai(communityPool?.amount, 1000000, 2) + ' ' + communityPool?.denom.toUpperCase()}</span>
+				<span className={cx("status-label")}>DAO Treasury: </span>
+				<span className={cx("status-value")}>{formatOrai(communityPool?.amount, 1000000, 2) + " " + communityPool?.denom.toUpperCase()}</span>
 			</div>
 		</div>
 	);

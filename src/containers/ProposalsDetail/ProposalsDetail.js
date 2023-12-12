@@ -24,6 +24,10 @@ import ProposalDepositModal from "./ProposalDepositModal";
 import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
 import Depositors from "src/components/ProposalDetails/Depositors";
 import styles from "./ProposalsDetail.module.scss";
+import { queryStation } from "src/lib/queryStation";
+import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { calculateTallyProposal } from "src/helpers/helper";
+
 import moment from "moment";
 
 const cx = cn.bind(styles);
@@ -35,11 +39,41 @@ export default function(props) {
 	const history = useHistory();
 	const queryStringParse = queryString.parse(history.location.search) || {};
 	const { address, account } = useSelector(state => state.wallet);
+	const { bondTotal, proposals } = useSelector(state => state.proposal);
+	const [des, setDes] = useState({});
+	const [tally, setTally] = useState({});
 	const type = queryStringParse?.type ?? "";
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
 	const { data, loading, error } = useGet({
 		path: path,
 	});
+
+	async function getDescriptionProposal() {
+		const description = await queryStation.proposalId(proposalId);
+		setDes(TextProposal.decode(description.proposal.content.value));
+	}
+
+	async function getTallyProposal() {
+		const { tally } = await queryStation.tally(proposalId);
+		const totalVote = Object.values(tally).reduce((acc, cur) => acc + parseInt(cur), 0);
+		const tallyProposal = calculateTallyProposal({
+			bonded: bondTotal,
+			totalVote,
+			tally: tally,
+		});
+		setTally({
+			total_orai: totalVote,
+			...tallyProposal,
+		});
+	}
+
+	useEffect(() => {
+		if (proposalId) {
+			getDescriptionProposal();
+			getTallyProposal();
+		}
+	}, [data]);
+
 	const [showDepositModal, setShowDepositModal] = useState(false);
 	const handleCloseDepositModal = () => {
 		setShowDepositModal(false);
@@ -105,8 +139,14 @@ export default function(props) {
 			detailsCard = <DetailsCard data={{}} />;
 			chartCard = <ChartCard data={{}} />;
 		} else {
-			detailsCard = <DetailsCard data={data} />;
-			chartCard = <ChartCard data={data} />;
+			let dataDescription = {
+				...data,
+			};
+			if (!data.description) {
+				dataDescription.description = des?.description;
+			}
+			detailsCard = <DetailsCard data={dataDescription} />;
+			chartCard = <ChartCard data={tally} />;
 		}
 
 		// if (moment(data?.deposit_end_time).isValid()) {

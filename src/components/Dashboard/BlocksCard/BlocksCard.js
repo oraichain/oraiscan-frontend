@@ -17,10 +17,9 @@ import styles from "./BlocksCard.module.scss";
 
 const cx = cn.bind(styles);
 
-const BlocksCard = props => {
+const BlocksCard = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-	const basePath = `${consts.API.BLOCKLIST}?limit=${consts.REQUEST.LIMIT}`;
 	const [firstLoadCompleted, setFirstLoadCompleted] = useState(false);
 	const [loadCompleted, setLoadCompleted] = useState(false);
 	const [pageId, setPageId] = useState(1);
@@ -48,12 +47,12 @@ const BlocksCard = props => {
 		prevDataRef.current = null;
 	}
 
-	let path = basePath;
+	let path = `${consts.API.BLOCKLIST}?limit=${consts.REQUEST.LIMIT}`;
 	if (totalItemsRef.current) {
 		path += "&before=" + calculateBefore(totalItemsRef.current, consts.REQUEST.LIMIT, pageId);
 	}
 
-	const {data, loading, error, refetch} = useGet({
+	const { data: blocks, loading, error, refetch } = useGet({
 		path: path,
 		resolve: data => {
 			if (!firstLoadCompleted) {
@@ -82,9 +81,18 @@ const BlocksCard = props => {
 	let tableSection;
 	let paginationSection;
 
+	/** Render table section
+	 * b1: kiểm tra loading fetch data blocks
+		+ true: kiểm tra firstLoadCompleted (load lần đầu) đã thành công chưa
+			 	- true: thì trong lúc loading data mới sẽ render lại blocks data cũ.
+				- false: thì render ra phần loading.
+		+ false: kiểm tra có error không
+		 		- true: hiển thị table rỗng, reset totalItem, totalPage
+		 		- false: không lỗi, hiển thị table blocks data
+	 */
 	if (loading) {
 		if (firstLoadCompleted) {
-			tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+			tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
 		} else {
 			tableSection = isLargeScreen ? <BlockTableSkeleton /> : <BlockCardListSkeleton />;
 		}
@@ -94,10 +102,13 @@ const BlocksCard = props => {
 			totalPagesRef.current = null;
 			tableSection = <NoResult />;
 		} else {
-			if (!isNaN(data?.paging?.total)) {
-				if (totalItemsRef.current != data.paging.total) {
-					totalItemsRef.current = data.paging.total;
-					totalPagesRef.current = Math.ceil(data.paging.total / consts.REQUEST.LIMIT);
+			if (!isNaN(blocks?.paging?.total)) {
+				// kiểm tra tổng item hiện tại có bằng tổng item blocks get về không
+				//    + false: gán giá trị mới cho totalItemsRef, totalPagesRef
+				//    + true: refeth lại blocks data
+				if (totalItemsRef.current != blocks.paging.total) {
+					totalItemsRef.current = blocks.paging.total;
+					totalPagesRef.current = Math.ceil(blocks.paging.total / consts.REQUEST.LIMIT);
 					canRefetchRef.current = false;
 				} else {
 					canRefetchRef.current = true;
@@ -107,26 +118,32 @@ const BlocksCard = props => {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, data.data)) {
+			if (Array.isArray(blocks?.data) && blocks.data.length > 0) {
+				if (firstLoadCompleted && prevDataRef.current !== null && !arraysEqual(prevDataRef.current, blocks.data)) {
 					const key = "height";
-					const mergedData = mergeArrays(data.data, prevDataRef.current, key);
+					const mergedData = mergeArrays(blocks.data, prevDataRef.current, key);
+
+					// render status of blocks to add effect:
+					// effect = {
+					// 	OUT: -1,
+					// 	NONE: 0,
+					// 	IN: 1}
 					const rowMotions = mergedData.map((mergedItem, index) => {
-						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !data.data.find(item => mergedItem[key] == item[key])) {
+						if (prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && !blocks.data.find(item => mergedItem[key] == item[key])) {
 							return -1;
 						}
 
-						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && data.data.find(item => mergedItem[key] == item[key])) {
+						if (!prevDataRef.current.find(prevItem => mergedItem[key] == prevItem[key]) && blocks.data.find(item => mergedItem[key] == item[key])) {
 							return 1;
 						}
 
 						return 0;
 					});
-					tableSection = isLargeScreen ? <BlockTable data={mergedData} rowMotions={rowMotions} /> : <BlockCardList data={data?.data} />;
+					tableSection = isLargeScreen ? <BlockTable data={mergedData} rowMotions={rowMotions} /> : <BlockCardList data={blocks?.data} />;
 				} else {
-					tableSection = isLargeScreen ? <BlockTable data={data?.data} /> : <BlockCardList data={data?.data} />;
+					tableSection = isLargeScreen ? <BlockTable data={blocks?.data} /> : <BlockCardList data={blocks?.data} />;
 				}
-				prevDataRef.current = [...data.data];
+				prevDataRef.current = [...blocks.data];
 			} else {
 				tableSection = <NoResult />;
 			}

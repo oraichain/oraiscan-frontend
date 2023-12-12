@@ -37,18 +37,12 @@ const defaultValues = {
 const schema = yup.object().shape({
 	contract_address: yup.string().required("The Contract Address is required"),
 	github_commit: yup.string().required("The Github Commit is required"),
-	// wasm_file: yup
-	// 	.mixed()
-	// 	.nullable()
-	// 	.notRequired()
-	// 	.test("REQUIRED", "The Wasn File is required",
-	// 		value => value.length ? value : false)
-})
+});
 
 const useStyles = makeStyles({
 	root: {
-		'&:hover': {
-			backgroundColor: 'transparent',
+		"&:hover": {
+			backgroundColor: "transparent",
 		},
 	},
 	icon: {
@@ -186,23 +180,16 @@ const VerifiedContracts = () => {
 	const onSubmit = async data => {
 		try {
 			setLoadingTransaction(true);
-			// const formData = new FormData();
-			// formData.append("instantiate_msg_schema", data?.instantiate.length ? JSON.stringify(data?.instantiate) : data?.instantiate);
-			// formData.append("query_msg_schema", data?.query.length ? JSON.stringify(data?.query) : data?.query);
-			// formData.append("execute_msg_schema", data?.execute.length ? JSON.stringify(data?.execute) : data?.execute);
-			// formData.append("contract_address", data?.contract_address);
-			// formData.append("wasm_file", data?.wasm_file?.[0]);
-
-
 			const verified = await api.axiosCall({
-				method: 'post',
+				method: "post",
 				url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.LIST}/verify`,
 				data: {
 					contract_address: data?.contract_address,
 					github_commit: data?.github_commit,
 					github_org: data?.github_org,
 					github_repo: data?.github_repo,
-					compiler_version: data?.compiler_version
+					compiler_version: data?.compiler_version,
+					contract_name: data?.contract_name
 				},
 				headers: {},
 			});
@@ -253,88 +240,49 @@ const VerifiedContracts = () => {
 						</div>
 					</div>
 					<div className={cx("dialog-body")}>
-						<div className={cx("field")}>
-						</div>
+						<div className={cx("field")}></div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Contract Address
 							</label>
-							<input type='text' className={cx("text-field")} name='contract_address' ref={register} />
+							<input type='text' className={cx("text-field")} placeholder="orai1wgclpy30tv7300xu0rtwjs930n73h8qv5qk522" name='contract_address' ref={register} />
 							<ErrorMessage errors={errors} name='contract_address' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
+						</div>
+						<div className={cx("field")}>
+							<label className={cx("label")} htmlFor='title'>
+								Contract Name
+							</label>
+							<input type='text' className={cx("text-field")} name='contract_name' placeholder="oraichain-token" ref={register} />
+							<ErrorMessage errors={errors} name='contract_name' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Commit
 							</label>
-							<input type='text' className={cx("text-field")} name='github_commit' ref={register} />
+							<input type='text' className={cx("text-field")} placeholder="572ddabe691bb1d2fd927830e2f455e66d44cda1" name='github_commit' ref={register} />
 							<ErrorMessage errors={errors} name='github_commit' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Org
 							</label>
-							<input type='text' className={cx("text-field")} name='github_org' ref={register} />
+							<input type='text' className={cx("text-field")} name='github_org' placeholder="oraichain" ref={register} />
 							<ErrorMessage errors={errors} name='github_org' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Github Repo
 							</label>
-							<input type='text' className={cx("text-field")} name='github_repo' ref={register} />
+							<input type='text' className={cx("text-field")} name='github_repo' placeholder="oraiscan-frontend" ref={register} />
 							<ErrorMessage errors={errors} name='github_repo' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
 						<div className={cx("field")}>
 							<label className={cx("label")} htmlFor='title'>
 								Compiler Version
 							</label>
-							<input type='text' className={cx("text-field")} name='compiler_version' ref={register} />
+							<input type='text' className={cx("text-field")} name='compiler_version' placeholder="cosmwasm/workspace-optimizer:0.12.10" ref={register} />
 							<ErrorMessage errors={errors} name='compiler_version' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
 						</div>
-						{/* <div className={cx("field")}>
-							<label className={cx("label")} htmlFor='title'>
-								Wasm File
-							</label>
-							<input type='file' className={cx("text-field-file")} name='wasm_file' ref={register} />
-							<ErrorMessage errors={errors} name='wasm_file' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
-						<div className={cx("field")}>
-							<FormControlLabel
-								name="optimization"
-								value="optimization"
-								control={<Checkbox
-									className={classes.root}
-									disableRipple
-									color="default"
-									checkedIcon={<span className={cx(classes.icon, classes.checkedIcon)} />}
-									icon={<span className={classes.icon} />}
-									inputProps={{ 'aria-label': 'decorative checkbox' }}
-								/>}
-								label="Optimization"
-								labelPlacement="end"
-							/>
-							<ErrorMessage errors={errors} name='instantiate' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div> */}
-						{/* <div className={cx("field")}>
-							<label className={cx("label")} htmlFor='title'>
-								Instantiate Msg Schema
-							</label>
-							<textarea className={cx("text-field")} name='instantiate' ref={register}></textarea>
-							<ErrorMessage errors={errors} name='instantiate' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
-						<div className={cx("field")}>
-							<label className={cx("label")} htmlFor='title'>
-								Query Msg Schema
-							</label>
-							<textarea className={cx("text-field")} name='query' ref={register} ></textarea>
-							<ErrorMessage errors={errors} name='query' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div>
-						<div className={cx("field")}>
-							<label className={cx("label")} htmlFor='title'>
-								Execute Msg Schema
-							</label>
-							<textarea className={cx("text-field")} name='execute' ref={register} ></textarea>
-							<ErrorMessage errors={errors} name='execute' render={({ message }) => <p className={cx("error-message")}>{message}</p>} />
-						</div> */}
 					</div>
 					<div className={cx("dialog-footer")}>
 						<button type='submit' className={cx("submit-button")}>

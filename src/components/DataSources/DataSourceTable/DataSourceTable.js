@@ -1,15 +1,14 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {NavLink} from "react-router-dom";
+import { Tooltip } from "@material-ui/core";
 import classNames from "classnames/bind";
-import consts from "src/constants/consts";
-import {logoBrand} from "src/constants/logoBrand";
-import {tableThemes} from "src/constants/tableThemes";
-import {formatOrai} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { memo, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import ThemedTable from "src/components/common/ThemedTable";
-import {Tooltip} from "@material-ui/core";
+import consts from "src/constants/consts";
+import { tableThemes } from "src/constants/tableThemes";
+import { formatOrai } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import styles from "./DataSourceTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -36,14 +35,13 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TestCaseTable = memo(({data = []}) => {
+const TestCaseTable = memo(({ data = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
 		}
 
 		return data.map(item => {
-			console.log(item);
 			const testCaseDataCell = _.isNil(item?.data_source) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -72,21 +70,6 @@ const TestCaseTable = memo(({data = []}) => {
 			) : (
 				<div className={cx("request-data-cell", "align-left")}>{item.requests}</div>
 			);
-
-			// const matchedLogoItem = logoBrand.find(logoBrandItem => item?.owner === logoBrandItem.operatorAddress);
-			// let ownerName;
-			// if (matchedLogoItem) {
-			// 	ownerName = matchedLogoItem?.name ?? "-";
-			// }
-			// const ownerDataCell = _.isNil(ownerName) ? (
-			// 	<div className={cx("align-left")}>-</div>
-			// ) : (
-			// 	<div className={cx("owner-data-cell", "align-left")}>
-			// 		<NavLink className={cx("owner")} to={`${consts.PATH.VALIDATORS}/${item.owner}`}>
-			// 			{ownerName}
-			// 		</NavLink>
-			// 	</div>
-			// );
 
 			const ownerDataCell = (
 				<div className={cx("owner-data-cell", "align-left")}>

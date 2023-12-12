@@ -1,4 +1,24 @@
 .cw20 {
   overflow-x: auto;
   width: 100%;
+
+  .text {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: var(--common-textColor);
+    align-items: center;
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 150%;
+    margin-top: -16px;
+
+    &-link {
+      color: var(--common-linkColor);
+      margin: 4px;
+    }
+  }
+
 }

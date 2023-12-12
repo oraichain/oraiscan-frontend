@@ -22,8 +22,16 @@ export const getBasicData = (id, currency, cancelToken) => {
 	return axios.get(`${consts.API_BASE}/market?id=${id}`, { cancelToken });
 };
 
+export const buildCoinGeckoPricesURL = tokens =>
+	// `https://api.coingecko.com/api/v3/simple/price?ids=${tokens.join('%2C')}&vs_currencies=usd`;
+	`https://price.market.orai.io/simple/price?ids=${tokens.join("%2C")}&vs_currencies=usd`;
+
+export const getCoingeckoPrices = async (tokens, cancelToken) => {
+	const coingeckoPricesURL = buildCoinGeckoPricesURL(tokens);
+	return await axios.get(coingeckoPricesURL, { cancelToken });
+};
+
 export const getMarketChartRange = (id, currency, from, to, cancelToken) => {
-	// return axios.get(`${coinGeckoAPI}/coins/binancecoin/market_chart/range?id=${id}&vs_currency=${currency}&from=${from}&to=${to}`, {cancelToken});
 	return axios.get(`${consts.API_BASE}/market/chart?id=${id}`, { cancelToken });
 };
 
@@ -81,36 +89,43 @@ export const getListTxs = cancelToken => {
 };
 
 export const getListCwToken = (address, page) => {
-	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`
-}
+	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`;
+};
+
+export const getListTopHoldersToken = (contract_address, page) => {
+	return `${consts.API_BASE}/token/${contract_address}?limit=${page?.limit || 100}`;
+};
+
+export const getListNFTToken = (address, page) => {
+	return `${consts.API_BASE}${consts.API.NFT_TXS}/${address}?limit=${page?.limit || 10}&page_id=${page?.page_id || 1}`;
+};
 
 export const getListOWContract = (address, page) => {
-	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}${consts.API.OW20_CONTRACT}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`
-}
+	return `${consts.API_BASE}${consts.API.OW20_SMART_CONTRACTS}${consts.API.OW20_CONTRACT}/${address}?limit=${page?.limit || 1}&page_id=${page?.page_id || 1}`;
+};
 
-//  original api using coingecko
-// export const getGeckoMarketChartRange = (id = "binancecoin", currency = "USD", from, to, cancelToken) => {
-// 	return axios.get(`${consts.API_COINGECKO.BASE}${consts.API_COINGECKO.GET_MARKET_CHART_RANGE(id, from, to)}`, {cancelToken});
-// };
-
-export const getGeckoMarketBalance = async (ids = '', currency = 'usd') => {
+export const getGeckoMarketBalance = async (ids = "", currency = "usd") => {
 	// remove undefined
-	ids = ids.replace(new RegExp("\,undefined", "gm"), "");
+	ids = ids.replace(new RegExp(",undefined", "gm"), "");
 	return ids ? await axios(`${consts.API_COINGECKO.PRICE(ids, currency)}`) : { data: {} };
 };
 
-export const getImagesValidator = async (address) => {
+export const getImagesValidator = async address => {
 	return await axios.get(`${consts.API_BASE}${consts.API.GET_IMAGES_VALIDATORS}/${address}`);
-}
+};
 
 export const getListRequest = (aiOracle, aiRequest) => {
 	return axios.get(`${consts.LCD_API_BASE}${consts.LCD_API.WASM}/${aiOracle}/smart/${aiRequest}`);
 };
 
-export const uploadImagesValidator = async (data) => {
+export const uploadImagesValidator = async data => {
 	return await axios({ url: `${consts.API_BASE}${consts.API.UPLOAD_IMAGES_VALIDATORS}`, ...data });
 };
 
-export const axiosCall = async (data) => {
+export const uploadSchema = async data => {
+	return await axios({ url: `${consts.API_CONTRACT_DEPLOY}${consts.PATH_CONTRACT.UPLOAD_SCHEMA}`, ...data });
+};
+
+export const axiosCall = async data => {
 	return await axios({ ...data });
 };

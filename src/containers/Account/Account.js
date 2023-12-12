@@ -1,13 +1,13 @@
-import React, {useEffect, useMemo, useRef} from "react";
-import {useGet} from "restful-react";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useGet } from "restful-react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import copy from "copy-to-clipboard";
 import * as bech32 from "bech32-buffer";
-import {useTheme} from "@material-ui/core/styles";
-import {showAlert} from "src/store/modules/global";
+import { useTheme } from "@material-ui/core/styles";
+import { showAlert } from "src/store/modules/global";
 import consts from "src/constants/consts";
 import TitleWrapper from "src/components/common/TitleWrapper";
 import PageTitle from "src/components/common/PageTitle";
@@ -30,11 +30,17 @@ import Pagination from "src/components/common/Pagination";
 import AssetSearch from "src/components/Account/AssetSearch";
 import MobileSkeleton from "../RequestReportDetail/RequestContainer/MobileSkeleton";
 import AssetsTableSkeleton from "src/components/Account/AssetsTable/AssetsTableSkeleton";
-import {priceBalance} from "src/constants/priceBalance";
+import { priceBalance } from "src/constants/priceBalance";
 import * as api from "src/lib/api";
 import CwToken from "src/components/Wallet/CwToken";
-import {formatOrai} from "src/helpers/helper";
+import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
+import NFTToken from "../../components/Wallet/NFTToken";
+
+export const typeExport = {
+	cw20: "cw20",
+	allTransaction: "all-transaction",
+};
 
 const Account = props => {
 	const dispatch = useDispatch();
@@ -52,17 +58,17 @@ const Account = props => {
 	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}`;
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const totalPagesRef = useRef(null);
-	const {data: coinsData, loading: coinsLoading, error: coinsError} = useGet({
+	const { data: coinsData, loading: coinsLoading, error: coinsError } = useGet({
 		path: coinsPath,
 	});
-	const {data: balanceData, loading: balanceLoading, error: balanceError} = useGet({
+	const { data: balanceData, loading: balanceLoading, error: balanceError } = useGet({
 		path: balancePath,
 	});
-	const {data: nameTagData} = useGet({
+	const { data: nameTagData } = useGet({
 		path: nameTagPath,
 	});
 	const totalValPath = `${consts.API.ACCOUNT_BALANCE}/${account}/total-value`;
-	const {data: totalValData} = useGet({
+	const { data: totalValData } = useGet({
 		path: totalValPath,
 	});
 
@@ -73,7 +79,7 @@ const Account = props => {
 	}, [balanceData]);
 
 	const fetchData = async () => {
-		let arrayCoin = [];
+		let arrayCoin = "";
 		if (arrayAssetSearch[assetSearch] === "cw20") {
 			if (balanceData.length > 0) {
 				arrayCoin = balanceData.reduce((acc, cur) => {
@@ -267,9 +273,12 @@ const Account = props => {
 					<div className={cx("assets-card")}>
 						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
 						{assetSearch === 1 && coinsCard}
-						{assetSearch === 0 && tableSection}
-						{assetSearch === 2 && tableSection}
-						{(assetSearch === 0 || assetSearch === 2) && paginationSection}
+						{(assetSearch === 0 || assetSearch === 2) && (
+							<>
+								{tableSection}
+								{paginationSection}
+							</>
+						)}
 					</div>
 				</Grid>
 			</Grid>
@@ -287,6 +296,7 @@ const Account = props => {
 						{activeTab === 0 && <TransactionCard account={account} />}
 						{activeTab === 1 && <TransactionCard account={account} royalty={true} />}
 						{activeTab === 2 && <CwToken address={account} />}
+						{activeTab === 3 && <NFTToken address={account} />}
 					</div>
 				</Grid>
 			</Grid>
