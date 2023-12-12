@@ -23,7 +23,9 @@ const TransactionCard = memo(({ address = "", account = "" }) => {
 	const history = useHistory();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
-	const initActiveTab = window.location.search === "?cw20" ? 2 : 0;
+	const isCw20Tab = window.location.search === "?cw20";
+	const initActiveTab = isCw20Tab ? 2 : 0;
+	if (!isCw20Tab) history.replace(`/smart-contract/${address}`);
 	const [activeTab, setActiveTab] = useState(initActiveTab);
 	const totalPagesRef = useRef(null);
 
