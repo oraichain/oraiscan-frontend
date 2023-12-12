@@ -1,5 +1,6 @@
 import React, { memo, useState, useRef } from "react";
 import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
@@ -19,9 +20,11 @@ const cx = classNames.bind(styles);
 
 const TransactionCard = memo(({ address = "", account = "" }) => {
 	const theme = useTheme();
+	const history = useHistory();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
-	const [activeTab, setActiveTab] = useState(0);
+	const initActiveTab = window.location.search === "?cw20" ? 2 : 0;
+	const [activeTab, setActiveTab] = useState(initActiveTab);
 	const totalPagesRef = useRef(null);
 
 	const onPageChange = page => {
@@ -61,10 +64,17 @@ const TransactionCard = memo(({ address = "", account = "" }) => {
 
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
+	const handleSetActiveTab = tabId => {
+		let str = `/smart-contract/${address}`;
+		if (tabId) str += "?cw20";
+		history.replace(str);
+		setActiveTab(tabId);
+	};
+
 	return (
 		<div className={cx("transaction-card")}>
 			<div className={cx("transaction-card-header")}>
-				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} address={address} isTab />
+				<Tabs activeTab={activeTab} setActiveTab={handleSetActiveTab} address={address} isTab />
 			</div>
 			<div className={cx("transaction-card-body")}>
 				{activeTab === 0 && tableSection}
