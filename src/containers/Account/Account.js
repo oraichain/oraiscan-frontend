@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
@@ -45,14 +46,18 @@ export const typeExport = {
 const Account = props => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
+	const history = useHistory();
 	const cx = cn.bind(styles);
 	const arrayAssetSearch = ["", "orai", "cw20", "native"];
-	const [activeTab, setActiveTab] = React.useState(0);
-	const [assetSearch, setAssetSearch] = React.useState(0);
+	const [activeTab, setActiveTab] = useState(0);
 	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
-	const [pageId, setPageId] = React.useState(1);
-	const token_type = assetSearch === 0 ? "" : `token_type=${arrayAssetSearch[assetSearch]}&limit=5&page_id=${pageId}`;
+	const [pageId, setPageId] = useState(1);
 	const account = props?.match?.params?.account ?? 0;
+	const isCw20Assets = window.location.search === "?cw20";
+	const initAssetSearch = isCw20Assets ? 2 : 0;
+	if (!isCw20Assets && window.location.search) history.replace(`${consts.API.ACCOUNT}/${account}`);
+	const [assetSearch, setAssetSearch] = useState(initAssetSearch);
+	const token_type = assetSearch === 0 ? "" : `token_type=${arrayAssetSearch[assetSearch]}&limit=5&page_id=${pageId}`;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
 	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
 	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}`;
@@ -261,6 +266,13 @@ const Account = props => {
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 
+	const handleSetAssetSearch = assetId => {
+		let str = `${consts.API.ACCOUNT}/${account}`;
+		if (assetId === 2) str += "?cw20";
+		history.replace(str);
+		setAssetSearch(assetId);
+	};
+
 	return (
 		<Container fixed className={cx("account")}>
 			{titleSection}
@@ -271,7 +283,7 @@ const Account = props => {
 
 				<Grid item lg={7} xs={12}>
 					<div className={cx("assets-card")}>
-						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
+						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={handleSetAssetSearch} />
 						{assetSearch === 1 && coinsCard}
 						{(assetSearch === 0 || assetSearch === 2) && (
 							<>
