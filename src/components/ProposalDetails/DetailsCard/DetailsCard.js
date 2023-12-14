@@ -225,8 +225,10 @@ const DetailsCard = memo(({ data }) => {
 											</td>
 											<td>
 												<div className={cx("item-title")}>Infor</div>
-												<div
-													className={cx("item-link", "copy")}
+												<a href={data?.plan?.info ?? undefined} target='_blank' className={cx("item-link", "copy")}>
+													{data?.plan?.info?.length > 15 ? data?.plan?.info?.substring(0, 15) + "...." : data?.plan?.info || "-"}
+												</a>
+												<CopyIcon
 													onClick={() => {
 														copy(data?.plan?.info);
 														dispatch(
@@ -236,10 +238,8 @@ const DetailsCard = memo(({ data }) => {
 																autoHideDuration: 1500,
 															})
 														);
-													}}>
-													{data?.plan?.info?.length > 15 ? data?.plan?.info?.substring(0, 15) + "...." : data?.plan?.info || "-"}
-													<CopyIcon className={cx("copy-icon")}></CopyIcon>
-												</div>
+													}}
+													className={cx("copy-icon")}></CopyIcon>
 											</td>
 										</tr>
 									</>
