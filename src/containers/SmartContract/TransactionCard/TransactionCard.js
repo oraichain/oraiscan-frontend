@@ -25,7 +25,7 @@ const TransactionCard = memo(({ address = "", account = "" }) => {
 	const [pageId, setPageId] = useState(1);
 	const isCw20Tab = window.location.search === "?cw20";
 	const initActiveTab = isCw20Tab ? 2 : 0;
-	if (!isCw20Tab && window.location.search) history.replace(`${consts.API.SMART_CONTRACT}/${address}`);
+	if (!isCw20Tab && window.location.search) history.replace(`${consts.PATH.SMART_CONTRACT}/${address}`);
 	const [activeTab, setActiveTab] = useState(initActiveTab);
 	const totalPagesRef = useRef(null);
 
@@ -67,8 +67,8 @@ const TransactionCard = memo(({ address = "", account = "" }) => {
 	paginationSection = totalPagesRef.current ? <Pagination pages={totalPagesRef.current} page={pageId} onChange={(e, page) => onPageChange(page)} /> : <></>;
 
 	const handleSetActiveTab = tabId => {
-		let str = `${consts.API.SMART_CONTRACT}/${address}`;
-		if (tabId) str += "?cw20";
+		let str = `${consts.PATH.SMART_CONTRACT}/${address}`;
+		if (tabId === 2) str += "?cw20";
 		history.replace(str);
 		setActiveTab(tabId);
 	};
