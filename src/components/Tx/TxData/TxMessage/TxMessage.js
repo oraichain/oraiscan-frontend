@@ -312,7 +312,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			} catch (error) {
 				messageParse = [{ error: rawLog }];
 			} finally {
-				const { events } = messageParse?.[0] || [];
+				const { events } = messageParse?.[0] || { events: [] };
 				return (
 					<InfoRow label='RawLog'>
 						{!isLargeScreen ? (
