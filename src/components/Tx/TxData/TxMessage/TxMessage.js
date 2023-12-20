@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import ReactJson from "src/components/ReactJson";
+import ReactJson, { ValueItem } from "src/components/ReactJson";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
-import { Fade, Tooltip } from "@material-ui/core";
+import { Fade, Tooltip, useMediaQuery, useTheme } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -73,6 +73,8 @@ const tryParseMessageBinary = data => {
 };
 
 const TxMessage = ({ key, msg, data, ind }) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 	const dispatch = useDispatch();
 	const fees = useSelector(state => state.blockchain.fees);
 	const status = useSelector(state => state.blockchain.status);
@@ -80,10 +82,11 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
-	const value = msg;
 
+	const value = msg;
 	let type = msg["@type"] || "";
 	const { memo } = data;
+
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
 			const loadStoreCode = async () => {
@@ -309,17 +312,36 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			} catch (error) {
 				messageParse = [{ error: rawLog }];
 			} finally {
+				const { events } = messageParse?.[0] || [];
 				return (
 					<InfoRow label='RawLog'>
-						<ReactJson
-							style={{ backgroundColor: "transparent" }}
-							name={false}
-							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-							displayObjectSize={false}
-							displayDataTypes={false}
-							collapsed={4}
-							src={messageParse}
-						/>
+						{!isLargeScreen ? (
+							<ReactJson
+								style={{ backgroundColor: "transparent" }}
+								name={false}
+								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+								displayObjectSize={false}
+								displayDataTypes={false}
+								collapsed={4}
+								src={messageParse}
+							/>
+						) : (
+							events.map(event => (
+								<div className={cx("event")}>
+									<h2 className={cx("event-type")}>{event.type}</h2>
+									<table className={cx("event-attribute")}>
+										<tbody>
+											{event.attributes.map(attr => (
+												<tr>
+													<td>{attr.key}</td>
+													<td>{ValueItem(attr.value)}</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							))
+						)}
 					</InfoRow>
 				);
 			}
@@ -927,7 +949,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				/>
 			</>
 		);
-	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue]);
+	}, [type, value, storageData, activeThemeId, loadingStoreCode, status, storeCodeData, storeCodeError, memo, dispatch, data, loadMoreValue, isLargeScreen]);
 	return (
 		<div className={cx("card")}>
 			<div>{messageDetails}</div>
