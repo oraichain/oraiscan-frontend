@@ -226,6 +226,23 @@
 	}
 }
 
+.message {
+	&-title {
+		display: flex;
+		padding: 16px 0;
+		text-align: left;
+		font-weight: bold;
+		line-height: 150%;
+		color: var(--common-textColor);
+	}
+
+	&:first-of-type {
+		.message-title {
+			padding-top: 0;
+		}
+	}
+}
+
 .event {
 	margin-bottom: 20px;
 
