@@ -312,7 +312,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			} catch (error) {
 				messageParse = [{ error: rawLog }];
 			} finally {
-				const { events = [] } = messageParse?.[0] || { events: [] };
 				return (
 					<InfoRow label='RawLog'>
 						{!isLargeScreen ? (
@@ -326,21 +325,29 @@ const TxMessage = ({ key, msg, data, ind }) => {
 								src={messageParse}
 							/>
 						) : (
-							events.map(event => (
-								<div className={cx("event")}>
-									<h2 className={cx("event-type")}>{event.type}</h2>
-									<table className={cx("event-attribute")}>
-										<tbody>
-											{event.attributes.map(attr => (
-												<tr>
-													<td>{attr.key}</td>
-													<td>{ValueItem(attr.value)}</td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-								</div>
-							))
+							messageParse.map((msg, key) => {
+								const { events = [] } = msg || { events: [] };
+								return (
+									<div className={cx("message")}>
+										<span className={cx("message-title")}>Event {key + 1}:</span>
+										{events.map(event => (
+											<div className={cx("event")}>
+												<h2 className={cx("event-type")}>{event.type}</h2>
+												<table className={cx("event-attribute")}>
+													<tbody>
+														{event.attributes?.map(attr => (
+															<tr>
+																<td>{attr.key}</td>
+																<td>{ValueItem(attr.value)}</td>
+															</tr>
+														))}
+													</tbody>
+												</table>
+											</div>
+										))}
+									</div>
+								);
+							})
 						)}
 					</InfoRow>
 				);
