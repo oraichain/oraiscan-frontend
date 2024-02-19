@@ -1,15 +1,15 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import classNames from "classnames/bind";
-import {checkStatus} from "../CwTable/CwTable";
-import {NavLink} from "react-router-dom";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {formatOrai} from "src/helpers/helper";
+import { checkStatus } from "../CwTable/CwTable";
+import { NavLink } from "react-router-dom";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { formatOrai } from "src/helpers/helper";
 import consts from "src/constants/consts";
 import styles from "./CwCard.module.scss";
 
 const cx = classNames.bind(styles);
 
-const CwCard = memo(({data = [], address}) => {
+const CwCard = memo(({ data = [], address }) => {
 	if (!Array.isArray(data)) {
 		return <></>;
 	}
@@ -42,8 +42,8 @@ const CwCard = memo(({data = [], address}) => {
 						<table>
 							<tbody>
 								{reduceStringAdress("TxHash", item?.tx_hash, `${consts.PATH.TXLIST}/${item.tx_hash}`)}
-								{reduceStringAdress("From", item?.sender, `${consts.PATH.TXLIST}/${item.sender}`)}
-								{reduceStringAdress("To", item?.receiver, `${consts.PATH.TXLIST}/${item.receiver}`)}
+								{reduceStringAdress("From", item?.sender, `${consts.PATH.ACCOUNT}/${item.sender}`)}
+								{reduceStringAdress("To", item?.receiver, `${consts.PATH.ACCOUNT}/${item.receiver}`)}
 
 								<tr>
 									<td>
