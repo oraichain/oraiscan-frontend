@@ -271,6 +271,7 @@
 				line-height: 150%;
 				vertical-align: inherit;
 				border: 1px solid var(--common-themedTable-tableBorderColor);
+				min-width: 200px;
 
 				&:nth-child(odd) {
 					background: var(--common-themedTable-oddRowBackgroundColor);
