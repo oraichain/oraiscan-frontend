@@ -41,7 +41,12 @@ const AssetsTable = memo(({ data = [] }) => {
 			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
 			const tokenInOraichain = oraichainTokens.find(token => {
 				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
-				return arrIncludes.includes(validatorAddressSplit?.toLowerCase()) || arrIncludes.includes(token?.denom?.toLowerCase());
+				return (
+					arrIncludes.includes(item?.name?.toLowerCase()) ||
+					arrIncludes.includes(item?.denom?.toLowerCase()) ||
+					arrIncludes.includes(validatorAddressSplit?.toLowerCase()) ||
+					arrIncludes.includes(tokenInfo?.name)
+				);
 			});
 
 			const tokenUsd = priceTokens[tokenInOraichain?.coinGeckoId] || 0;
@@ -63,6 +68,7 @@ const AssetsTable = memo(({ data = [] }) => {
 					decimal: 18,
 				};
 			}
+			console.log({ tokenInfo, item, tokenUsd, tokenInOraichain });
 			const decimalOfToken = tokenInfo?.decimal || tokenInOraichain?.decimals || 6;
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
