@@ -2,9 +2,12 @@ import classNames from "classnames/bind";
 import { memo, useMemo } from "react";
 import ThemedTable from "src/components/common/ThemedTable";
 import { tableThemes } from "src/constants/tableThemes";
-import { amountDecimal18, formatOrai } from "src/helpers/helper";
+import { amountDecimal18, formatOrai, numberWithCommas, toFixedIfNecessary } from "src/helpers/helper";
 import { reduceStringAssets, _ } from "src/lib/scripts";
 import styles from "./AssetsTable.module.scss";
+import { useSelector } from "react-redux";
+import { oraichainTokens } from "@oraichain/oraidex-common/build/token";
+import { toDisplay } from "@oraichain/oraidex-common/build/helper";
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +30,7 @@ export const getHeaderRow = () => {
 };
 
 const AssetsTable = memo(({ data = [] }) => {
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -35,6 +39,12 @@ const AssetsTable = memo(({ data = [] }) => {
 		return data.map(item => {
 			const validatorAddressSplit = item?.validator_address?.split("/")?.[0] || item?.validator_address;
 			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
+			const tokenInOraichain = oraichainTokens.find(token => {
+				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
+				return arrIncludes.includes(validatorAddressSplit?.toLowerCase()) || arrIncludes.includes(token?.denom?.toLowerCase());
+			});
+
+			const tokenUsd = priceTokens[tokenInOraichain?.coinGeckoId] || 0;
 			if (!tokenInfo && item.validator_address.includes("erc20")) {
 				tokenInfo = {
 					name: "ERC20",
@@ -53,6 +63,7 @@ const AssetsTable = memo(({ data = [] }) => {
 					decimal: 18,
 				};
 			}
+			const decimalOfToken = tokenInfo?.decimal || tokenInOraichain?.decimals || 6;
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
@@ -65,7 +76,7 @@ const AssetsTable = memo(({ data = [] }) => {
 				) : (
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
-							<span className={cx("amount-value")}>{formatOrai(item.amount, Math.pow(10, tokenInfo ? tokenInfo.decimal : 6))}</span>
+							<span className={cx("amount-value")}>{formatOrai(item.amount, Math.pow(10, decimalOfToken))}</span>
 							<span className={cx("amount-denom")}>{tokenInfo ? tokenInfo?.name : reduceStringAssets(item.denom, 7, 3)}</span>
 						</div>
 					</div>
@@ -77,8 +88,9 @@ const AssetsTable = memo(({ data = [] }) => {
 				) : (
 					<div className={cx("reward-data-cell", "align-right")}>
 						<div className={cx("reward")}>
-							{/* <span className={cx("reward-value")}>{formatOrai(item.reward)}</span> */}
-							<span className={cx("reward-value")}>{formatOrai(item.reward, Math.pow(10, tokenInfo ? tokenInfo.decimal : 6))}</span>
+							<span className={cx("reward-value")}>
+								{numberWithCommas(toFixedIfNecessary((tokenUsd * toDisplay(item.amount, decimalOfToken)).toString(), 6))}
+							</span>
 							<span className={cx("reward-denom")}>{item.denom_reward}</span>
 						</div>
 					</div>
