@@ -68,7 +68,6 @@ const AssetsTable = memo(({ data = [] }) => {
 					decimal: 18,
 				};
 			}
-			console.log({ tokenInfo, item, tokenUsd, tokenInOraichain });
 			const decimalOfToken = tokenInfo?.decimal || tokenInOraichain?.decimals || 6;
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
