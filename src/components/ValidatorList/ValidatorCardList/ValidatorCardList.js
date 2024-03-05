@@ -55,7 +55,7 @@ const ValidatorCardList = memo(({data = []}) => {
 
 				const cumulativeShareDataCell = getCumulativeShareCell(previousVotingPower, currentVotingPower, totalVotingPower);
 				previousVotingPower += currentVotingPower;
-				const estAPR = (29 * (1 - parseFloat(item?.commission_rate || 0))).toFixed(2);
+				const estAPR = item?.apr.toFixed(2);
 
 				const logoItem = logoBrand.find(it => item.operator_address === it.operatorAddress);
 				const logo = item?.image ? item?.image : logoItem;
