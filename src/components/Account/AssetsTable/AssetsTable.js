@@ -39,9 +39,16 @@ const AssetsTable = memo(({ data = [] }) => {
 		return data.map(item => {
 			const validatorAddressSplit = item?.validator_address?.split("/")?.[0] || item?.validator_address;
 			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
-			const tokenInOraichain = oraichainTokens.find(token =>
-				[token?.denom?.toLowerCase(), token?.name?.toLowerCase()].includes(validatorAddressSplit?.toLowerCase())
-			);
+			const tokenInOraichain = oraichainTokens.find(token => {
+				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
+				return (
+					arrIncludes.includes(item?.name?.toLowerCase()) ||
+					arrIncludes.includes(item?.denom?.toLowerCase()) ||
+					arrIncludes.includes(validatorAddressSplit?.toLowerCase()) ||
+					arrIncludes.includes(tokenInfo?.name)
+				);
+			});
+
 			const tokenUsd = priceTokens[tokenInOraichain?.coinGeckoId] || 0;
 			if (!tokenInfo && item.validator_address.includes("erc20")) {
 				tokenInfo = {
