@@ -1,33 +1,33 @@
 // @ts-nocheck
-import React, {memo, useState, useEffect} from "react";
+import React, { memo, useState, useEffect } from "react";
 import cn from "classnames/bind";
-import {Tooltip} from "antd";
-import {QuestionCircleOutlined} from "@ant-design/icons";
-import {useForm, FormProvider} from "react-hook-form";
-import {withStyles} from "@material-ui/core/styles";
-import {useSelector} from "react-redux";
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { useForm, FormProvider } from "react-hook-form";
+import { withStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import {Divider, Input, Spin} from "antd";
+import { Divider, Input, Spin } from "antd";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import _ from "lodash";
 import BigNumber from "bignumber.js";
 
-import {InputNumberOrai} from "src/components/common/form-controls";
+import { InputNumberOrai } from "src/components/common/form-controls";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
-import {Fee, Gas} from "src/components/common/Fee";
-import {ReactComponent as ExchangeIconGrey} from "src/assets/icons/exchange-grey.svg";
+import { Fee, Gas } from "src/components/common/Fee";
+import { ReactComponent as ExchangeIconGrey } from "src/assets/icons/exchange-grey.svg";
 import consts from "src/constants/consts";
-import {useFetch, useHistory} from "src/hooks";
+import { useFetch, useHistory } from "src/hooks";
 import styles from "./Delegate.module.scss";
 import "./Delegate.css";
-import {formatOrai, formatPercentage , amountCoinDecimal} from "src/helpers/helper";
-import {walletStation} from "src/lib/walletStation";
-import {handleTransactionResponse} from "src/helpers/transaction";
-import {notification} from "antd";
-import {handleErrorMessage} from "../../../lib/scripts";
+import { formatOrai, formatPercentage, amountCoinDecimal } from "src/helpers/helper";
+import { walletStation } from "src/lib/walletStation";
+import { handleTransactionResponse } from "src/helpers/transaction";
+import { notification } from "antd";
+import { handleErrorMessage } from "../../../lib/scripts";
 
 const cx = cn.bind(styles);
 
@@ -283,7 +283,7 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 		}
 
 		if (id === 2) {
-			const {amount, monthlyORAI, yearlyORAI} = rewardCalculator;
+			const { amount, monthlyORAI, yearlyORAI } = rewardCalculator;
 			return (
 				<>
 					<DialogContent>
@@ -292,7 +292,7 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 							<div className={cx("left")}>Amount (ORAI)</div>
 							<div className={cx("right")}>
 								{" "}
-								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(amount)} </span>
+								<ExchangeIconGrey /> <span className={cx("dollar")}>$ {formatUSD(amount || 0)} </span>
 							</div>
 						</div>
 						<div className={cx("amount-reward")}>
@@ -334,9 +334,9 @@ const Delegate = memo(({ a, openButtonText = "Delegate for this validator", oper
 
 			<Dialog onClose={closeDialog} aria-labelledby='delegate-dialog' open={open} maxWidth='sm' fullWidth={true}>
 				<div className={cx("tab-wrapper")}>
-					{TABS.map(({id, name}, index) => {
+					{TABS.map(({ id, name }, index) => {
 						return (
-							<button className={cx({selected: id === activeTabId})} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
+							<button className={cx({ selected: id === activeTabId })} onClick={() => setActiveTabId(id)} key={"tab-" + index}>
 								<p> {name} </p>
 							</button>
 						);

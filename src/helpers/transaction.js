@@ -1,6 +1,7 @@
 import consts from "src/constants/consts";
 import { parseTxFee } from "./helper";
 import _ from "lodash";
+import typeSend from "src/constants/typeSend";
 
 export const payloadTransaction = (type, msg, minGasFee, gas, memo, props) => {
 	return {
@@ -42,7 +43,7 @@ export const minusFees = (fee = 0, amount = 0) => {
 
 export const handleTransactionResponse = (response, notification, history, setLoadingTransaction, typeSubmit) => {
 	setLoadingTransaction(false);
-	if (typeSubmit && typeSubmit == "send-cw20") return history.push(`/txs/${response?.transactionHash}`);
+	if (typeSubmit && (typeSubmit == typeSend.CW20 || typeSubmit === typeSend.MULTISENDCW20)) return history.push(`/txs/${response?.transactionHash}`);
 	if (response?.code === 0) {
 		notification.success({ message: "Transaction successful!" });
 		history.push(`/txs/${response?.transactionHash}`);

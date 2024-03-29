@@ -8,7 +8,8 @@
 // import { ReactComponent as AIRI } from 'assets/icons/airi.svg';
 import { network, NetworkKey } from "./networks";
 import _ from "lodash";
-import { AIRI_BSC_CONTRACT, BEP20_ORAI, BSC_CHAIN_ID, BSC_RPC, ERC20_ORAI, ETHEREUM_CHAIN_ID, ORAI_BSC_CONTRACT, ORAI_ETH_CONTRACT } from "./constants";
+import { BEP20_ORAI, BSC_CHAIN_ID, BSC_RPC, ERC20_ORAI, ETHEREUM_CHAIN_ID } from "./constants";
+import { WETH_CONTRACT, OCH_CONTRACT, NEUTARO_ORAICHAIN_DENOM, ORAI_ETH_CONTRACT, AIRI_BSC_CONTRACT, ORAI_BSC_CONTRACT } from "@oraichain/oraidex-common";
 
 const tokensMap = {
 	[NetworkKey.TESTNET]: [[], []],
@@ -237,6 +238,44 @@ const tokensMap = {
 				lcd: "https://lcd.orai.io",
 				cosmosBased: true,
 				// Icon: ORAI
+			},
+			{
+				name: "wETH",
+				org: "Oraichain",
+				prefix: "orai",
+				denom: "weth",
+				coinType: 118,
+				contractAddress: WETH_CONTRACT,
+				coingeckoId: "eth",
+				decimals: 6,
+				chainId: "Oraichain",
+				rpc: "https://rpc.orai.io",
+				lcd: "https://lcd.orai.io",
+				cosmosBased: true,
+			},
+			{
+				name: "OCH",
+				org: "Oraichain",
+				prefix: "orai",
+				denom: "och",
+				coinType: 118,
+				coingeckoId: "och",
+				contractAddress: OCH_CONTRACT,
+				rpc: "https://rpc.orai.io",
+				lcd: "https://lcd.orai.io",
+				coinDecimals: 6,
+			},
+			{
+				name: "NTMPI",
+				org: "Oraichain",
+				prefix: "orai",
+				denom: "ntmpi",
+				coinDenom: "NTMPI",
+				coinGeckoId: "neutaro",
+				coinMinimalDenom: NEUTARO_ORAICHAIN_DENOM,
+				rpc: "https://rpc.orai.io",
+				lcd: "https://lcd.orai.io",
+				coinDecimals: 6,
 			},
 		],
 	],

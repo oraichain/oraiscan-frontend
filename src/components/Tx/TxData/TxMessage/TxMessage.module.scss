@@ -2,7 +2,7 @@
 
 .header-cell {
 	color: var(--common-headerTextColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
@@ -11,7 +11,7 @@
 
 .address-data-cell {
 	color: var(--common-linkColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -20,7 +20,7 @@
 
 .amount-data-cell {
 	.amount {
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -54,7 +54,7 @@
 		align-items: center;
 		padding: 8px 16px;
 		border-bottom: 1px solid var(--common-borderColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
@@ -81,7 +81,7 @@
 .title {
 	display: inline-block;
 	color: #00fff0;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -93,7 +93,7 @@
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -120,7 +120,7 @@
 
 .text {
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -129,7 +129,7 @@
 
 .text-three-dots {
 	color: var(--common-textColor);
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: normal;
 	font-size: 16px;
@@ -219,9 +219,84 @@
 		border: 1px solid var(--common-activeTabColor);
 		box-sizing: border-box;
 		border-radius: 4px;
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 13px;
+	}
+}
+
+.message {
+	&-title {
+		display: flex;
+		padding: 16px 0;
+		text-align: left;
+		font-weight: bold;
+		line-height: 150%;
+		color: var(--common-textColor);
+	}
+
+	&:first-of-type {
+		.message-title {
+			padding-top: 0;
+		}
+	}
+}
+
+.event {
+	margin-bottom: 20px;
+
+	&-type {
+		padding: 16px;
+		text-align: left;
+		font-weight: bold;
+		line-height: 150%;
+		vertical-align: inherit;
+		background: var(--common-themedTable-headerBackgroundColor);
+		border: 1px solid var(--common-themedTable-tableBorderColor);
+		color: var(--common-textColor);
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+	}
+	&-attribute {
+		width: 100%;
+
+		tr {
+			td {
+				color: var(--common-textColor);
+				display: table-cell;
+				padding: 16px;
+				text-align: left;
+				font-weight: 400;
+				line-height: 150%;
+				vertical-align: inherit;
+				border: 1px solid var(--common-themedTable-tableBorderColor);
+				min-width: 200px;
+
+				&:nth-child(odd) {
+					background: var(--common-themedTable-oddRowBackgroundColor);
+				}
+
+				&:nth-child(even) {
+					background: var(--common-themedTable-evenRowBackgroundColor);
+				}
+
+				a {
+					color: var(--common-linkColor);
+				}
+			}
+
+			&:last-of-type {
+				td {
+					&:first-of-type {
+						border-bottom-left-radius: 8px;
+					}
+
+					&:last-of-type {
+						border-bottom-right-radius: 8px;
+					}
+				}
+			}
+		}
 	}
 }

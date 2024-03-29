@@ -37,6 +37,7 @@ import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
 import NFTToken from "../../components/Wallet/NFTToken";
+import { flattenTokens } from "@oraichain/oraidex-common/build/token";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -84,22 +85,7 @@ const Account = props => {
 	}, [balanceData]);
 
 	const fetchData = async () => {
-		let arrayCoin = "";
-		if (arrayAssetSearch[assetSearch] === "cw20") {
-			if (balanceData.length > 0) {
-				arrayCoin = balanceData.reduce((acc, cur) => {
-					const denomName = cur?.base_denom?.toLowerCase();
-					const token = priceBalance[denomName];
-					return acc === "" ? token : acc + "," + token;
-				}, "");
-			}
-		} else {
-			arrayCoin = balanceData?.balances?.reduce((acc, cur) => {
-				const denom = cur?.denom?.split("/");
-				let coin = denom?.[0]?.slice(0, 1) === "u" ? priceBalance[denom?.[0]?.slice(1, denom?.[0]?.length)] : priceBalance[denom?.[0]];
-				return acc === "" ? coin : acc + "," + coin;
-			}, "");
-		}
+		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
 		let price = await api.getGeckoMarketBalance(arrayCoin);
 		setArrayPriceBalance(price?.data);
 	};
