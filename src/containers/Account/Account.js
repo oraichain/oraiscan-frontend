@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useGet } from "restful-react";
+import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
@@ -36,6 +37,7 @@ import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
 import NFTToken from "../../components/Wallet/NFTToken";
+import { flattenTokens } from "@oraichain/oraidex-common/build/token";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -45,14 +47,18 @@ export const typeExport = {
 const Account = props => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
+	const history = useHistory();
 	const cx = cn.bind(styles);
 	const arrayAssetSearch = ["", "orai", "cw20", "native"];
-	const [activeTab, setActiveTab] = React.useState(0);
-	const [assetSearch, setAssetSearch] = React.useState(0);
+	const [activeTab, setActiveTab] = useState(0);
 	const [arrayPriceBalance, setArrayPriceBalance] = React.useState({});
-	const [pageId, setPageId] = React.useState(1);
-	const token_type = assetSearch === 0 ? "" : `token_type=${arrayAssetSearch[assetSearch]}&limit=5&page_id=${pageId}`;
+	const [pageId, setPageId] = useState(1);
 	const account = props?.match?.params?.account ?? 0;
+	const isCw20Assets = window.location.search === "?cw20";
+	const initAssetSearch = isCw20Assets ? 2 : 0;
+	if (!isCw20Assets && window.location.search) history.replace(`${consts.API.ACCOUNT}/${account}`);
+	const [assetSearch, setAssetSearch] = useState(initAssetSearch);
+	const token_type = assetSearch === 0 ? "" : `token_type=${arrayAssetSearch[assetSearch]}&limit=5&page_id=${pageId}`;
 	const coinsPath = `${consts.API.ACCOUNT_COINS}/${account}`;
 	const nameTagPath = `${consts.API.ACCOUNT}/name_tag/${account}`;
 	const balancePath = `${consts.API.ACCOUNT_BALANCE}/${account}?${token_type}`;
@@ -79,22 +85,7 @@ const Account = props => {
 	}, [balanceData]);
 
 	const fetchData = async () => {
-		let arrayCoin = "";
-		if (arrayAssetSearch[assetSearch] === "cw20") {
-			if (balanceData.length > 0) {
-				arrayCoin = balanceData.reduce((acc, cur) => {
-					const denomName = cur?.base_denom?.toLowerCase();
-					const token = priceBalance[denomName];
-					return acc === "" ? token : acc + "," + token;
-				}, "");
-			}
-		} else {
-			arrayCoin = balanceData?.balances?.reduce((acc, cur) => {
-				const denom = cur?.denom?.split("/");
-				let coin = denom?.[0]?.slice(0, 1) === "u" ? priceBalance[denom?.[0]?.slice(1, denom?.[0]?.length)] : priceBalance[denom?.[0]];
-				return acc === "" ? coin : acc + "," + coin;
-			}, "");
-		}
+		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
 		let price = await api.getGeckoMarketBalance(arrayCoin);
 		setArrayPriceBalance(price?.data);
 	};
@@ -261,6 +252,13 @@ const Account = props => {
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 
+	const handleSetAssetSearch = assetId => {
+		let str = `${consts.API.ACCOUNT}/${account}`;
+		if (assetId === 2) str += "?cw20";
+		history.replace(str);
+		setAssetSearch(assetId);
+	};
+
 	return (
 		<Container fixed className={cx("account")}>
 			{titleSection}
@@ -271,7 +269,7 @@ const Account = props => {
 
 				<Grid item lg={7} xs={12}>
 					<div className={cx("assets-card")}>
-						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={setAssetSearch} />
+						<AssetSearch totalValue={totalValueToken} assetSearch={assetSearch} setAssetSearch={handleSetAssetSearch} />
 						{assetSearch === 1 && coinsCard}
 						{(assetSearch === 0 || assetSearch === 2) && (
 							<>

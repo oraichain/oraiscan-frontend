@@ -55,7 +55,7 @@
 
 	.tx-hash-data-cell {
 		color: var(--common-linkColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
@@ -171,7 +171,7 @@
 	.item-new-admin {
 		color: var(--common-textColor);
 	}
-	
+
 	.item-text {
 		color: var(--common-textColor);
 		font-family: "IBM Plex Sans";
@@ -193,14 +193,15 @@
 		@media screen and (min-width: 1280px) {
 			max-width: 80%;
 		}
-		.copy-icon {
-			margin-left: 15px;
-			display: inline-flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-		}
+	}
+
+	.copy-icon {
+		margin-left: 15px;
+		display: inline-flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
 	}
 
 	.amount {
@@ -279,5 +280,3 @@
 .skeleton {
 	display: inline-block;
 }
-
-

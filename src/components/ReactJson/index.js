@@ -6,7 +6,22 @@ import styles from "./ReactJson.module.scss";
 
 const cx = cn.bind(styles);
 
-const ValueItem = raw => {
+export const formatAmountWithCurrency = inputString => {
+	const matches = inputString.match(/^(\d+)(.*)$/);
+
+	if (matches) {
+		const numberPart = matches[1];
+		const unitPart = matches[2];
+
+		const resultString = numberPart + " " + unitPart;
+
+		return resultString;
+	} else {
+		return inputString;
+	}
+};
+
+export const ValueItem = raw => {
 	if (typeof raw === "string") {
 		if (raw.match(/^https?:\/\//)) {
 			return (
@@ -25,7 +40,9 @@ const ValueItem = raw => {
 					</a>
 				);
 			}
-		} catch {}
+		} catch {
+			return formatAmountWithCurrency(raw);
+		}
 	}
 	return raw;
 };
