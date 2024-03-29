@@ -215,6 +215,7 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 				<SendCw20
 					setCw20TokenAddress={setCw20TokenAddress}
 					address={address}
+					cw20TokenAddress={cw20TokenAddress}
 					inputAmountValue={inputAmountValue}
 					status={status}
 					methods={methods}
