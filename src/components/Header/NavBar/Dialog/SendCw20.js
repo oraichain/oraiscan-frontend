@@ -85,14 +85,15 @@ export default function FormDialog({ address, status, methods, handleInputMulti,
 			value: "ORAIX",
 			address: ORAIX_CONTRACT,
 		},
-		// {
-		// 	label: "AIRI",
-		// 	value: "AIRI",
-		// 	address: AIRI_CONTRACT,
-		// },
+		{
+			label: "OCH",
+			value: "OCH",
+			// OCH_CONTRACT
+			address: "orai1hn8w33cqvysun2aujk5sv33tku4pgcxhhnsxmvnkfvdxagcx0p8qa4l98q",
+		},
 	];
 
-	const cw20Token = fields.find(e => (e.value = fieldValue));
+	const cw20Token = fields.find(e => e.value == fieldValue);
 
 	const renderSwitchBtn = () => {
 		return (
@@ -202,14 +203,15 @@ export default function FormDialog({ address, status, methods, handleInputMulti,
 							value={fieldValue}
 							data={fields}
 							onChange={e => {
-								setFieldValue(e.target.value);
-								setCw20TokenAddress(e.target.value);
+								const token = fields.find(t => t.value == e);
+								setFieldValue(token.value);
+								setCw20TokenAddress(token.address);
 							}}
 						/>
 					</div>
 					<div className={cx("left")}>
 						<div className={cx("title")}>contractAddress</div>
-						<div className={cx("value")}>{reduceString(cw20Token?.address, 8, 8)} </div>
+						<div className={cx("value")}>{reduceString(cw20Token?.address || "", 8, 8)} </div>
 					</div>
 				</div>
 			</Grid>
