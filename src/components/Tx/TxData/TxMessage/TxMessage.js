@@ -305,13 +305,15 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return !data ? null : getInfoPriceRow(label, data.value, denom);
 		};
 
-		const getRawLog = rawLog => {
+		const getRawLog = (rawLog, index) => {
 			let messageParse = [];
 			try {
 				messageParse = tryParseMessage(JSON.parse(rawLog));
 			} catch (error) {
 				messageParse = [{ error: rawLog }];
 			} finally {
+				if (!index) messageParse = [messageParse[0]];
+				else messageParse = messageParse.filter(msg => msg.msg_index === index);
 				return (
 					<InfoRow label='RawLog'>
 						{!isLargeScreen ? (
@@ -499,6 +501,15 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 		const getNameByAddress = address => {
 			return storageData?.[address]?.name;
+		};
+
+		const getTotalTransfer = (label, msg) => {
+			const totalAmount = msg.reduce((acc, cur) => acc + +cur.msg.transfer.amount, 0);
+			return (
+				<InfoRow label={label}>
+					<span className={cx("text")}>{_.isNil(totalAmount) ? "-" : formatOrai(totalAmount)}</span> <span className={cx("text")}>{}</span>
+				</InfoRow>
+			);
 		};
 
 		const getAddressRow = (label, address, name, isSmartContract = false) => (
@@ -925,6 +936,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					value={value}
 					memo={memo}
 					getTxTypeNew={getTxTypeNew}
+					getTotalTransfer={getTotalTransfer}
 					getAddressRow={getAddressRow}
 					getCurrencyRowFromObject={getCurrencyRowFromObject}
 					getCurrencyRowFromString={getCurrencyRowFromString}
