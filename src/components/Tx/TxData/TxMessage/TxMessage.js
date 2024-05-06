@@ -504,7 +504,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		const getTotalTransfer = (label, msg) => {
-			const totalAmount = msg.reduce((acc, cur) => acc + +cur.msg.transfer.amount, 0);
+			const totalAmount = msg.reduce((acc, cur) => acc + +cur?.msg?.transfer?.amount ?? 0, 0);
 			return (
 				<InfoRow label={label}>
 					<span className={cx("text")}>{_.isNil(totalAmount) ? "-" : formatOrai(totalAmount)}</span> <span className={cx("text")}>{}</span>
