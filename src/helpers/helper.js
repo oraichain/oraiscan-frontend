@@ -90,6 +90,18 @@ export const checkTokenCW20 = value => {
 	};
 };
 
+export const toFixedIfNecessary = (value, dp) => {
+	return +parseFloat(value).toFixed(dp);
+};
+
+// add `,` when split thounsand value.
+export const numberWithCommas = (x, locales = undefined, options = {}) => {
+	if (isNegative(x)) return "0";
+	return x.toLocaleString(locales, options);
+};
+
+export const isNegative = number => number <= 0;
+
 /* Add commas after every 3 digits in large numbers */
 export const commafy = num => {
 	var str = num.toString().split(".");
