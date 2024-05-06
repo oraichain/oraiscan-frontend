@@ -6,7 +6,7 @@ import { Input, Switch } from "antd";
 import Grid from "@material-ui/core/Grid";
 import { EditOutlined } from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
-import { AIRI_CONTRACT, ORAIX_CONTRACT } from "@oraichain/oraidex-common";
+import { AIRI_CONTRACT, ORAIX_CONTRACT, USDT_CONTRACT } from "@oraichain/oraidex-common";
 import consts from "src/constants/consts";
 import { reduceString } from "src/lib/scripts";
 import { formatOrai } from "src/helpers/helper";
@@ -88,8 +88,12 @@ export default function FormDialog({ address, status, methods, handleInputMulti,
 		{
 			label: "OCH",
 			value: "OCH",
-			// OCH_CONTRACT
 			address: "orai1hn8w33cqvysun2aujk5sv33tku4pgcxhhnsxmvnkfvdxagcx0p8qa4l98q",
+		},
+		{
+			label: "USDT",
+			value: "USDT",
+			address: USDT_CONTRACT,
 		},
 	];
 
