@@ -1357,22 +1357,7 @@
   dependencies:
     xstream "^11.14.0"
 
-"@cosmjs/tendermint-rpc@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@cosmjs/tendermint-rpc/-/tendermint-rpc-0.24.1.tgz#625b650c774cb507f48b582b95727d0d26436db9"
-  integrity sha512-2s7SmoLjLY9Bq6D4/CkOnwm4WZBSHo6T3oTTKE6NLD+2A8BLcjdDnA49eLe3XzkMtVyfLvfrmoEXkCadfDFPOw==
-  dependencies:
-    "@cosmjs/crypto" "^0.24.1"
-    "@cosmjs/encoding" "^0.24.1"
-    "@cosmjs/json-rpc" "^0.24.1"
-    "@cosmjs/math" "^0.24.1"
-    "@cosmjs/socket" "^0.24.1"
-    "@cosmjs/stream" "^0.24.1"
-    axios "^0.21.1"
-    readonly-date "^1.0.0"
-    xstream "^11.14.0"
-
-"@cosmjs/tendermint-rpc@^0.31.0":
+"@cosmjs/tendermint-rpc@0.31.0", "@cosmjs/tendermint-rpc@^0.31.0":
   version "0.31.0"
   resolved "https://registry.yarnpkg.com/@cosmjs/tendermint-rpc/-/tendermint-rpc-0.31.0.tgz#df82f634ff08fc377dfdccea43a31d92b5b0eaf1"
   integrity sha512-yo9xbeuI6UoEKIhFZ9g0dvUKLqnBzwdpEc/uldQygQc51j38gQVwFko+6sjmhieJqRYYvrYumcbJMiV6GFM9aA==
@@ -1385,6 +1370,21 @@
     "@cosmjs/stream" "^0.31.0"
     "@cosmjs/utils" "^0.31.0"
     axios "^0.21.2"
+    readonly-date "^1.0.0"
+    xstream "^11.14.0"
+
+"@cosmjs/tendermint-rpc@^0.24.1":
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/tendermint-rpc/-/tendermint-rpc-0.24.1.tgz#625b650c774cb507f48b582b95727d0d26436db9"
+  integrity sha512-2s7SmoLjLY9Bq6D4/CkOnwm4WZBSHo6T3oTTKE6NLD+2A8BLcjdDnA49eLe3XzkMtVyfLvfrmoEXkCadfDFPOw==
+  dependencies:
+    "@cosmjs/crypto" "^0.24.1"
+    "@cosmjs/encoding" "^0.24.1"
+    "@cosmjs/json-rpc" "^0.24.1"
+    "@cosmjs/math" "^0.24.1"
+    "@cosmjs/socket" "^0.24.1"
+    "@cosmjs/stream" "^0.24.1"
+    axios "^0.21.1"
     readonly-date "^1.0.0"
     xstream "^11.14.0"
 
@@ -3217,14 +3217,28 @@
     protobufjs "^6.10.2"
     secp256k1 "^4.0.2"
 
-"@oraichain/oraidex-common@^1.0.43":
-  version "1.0.43"
-  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-common/-/oraidex-common-1.0.43.tgz#3ce40dfd1cc33c129253fd59c8e227c05837c7fa"
-  integrity sha512-Xtp00JnVUl1Z4QarJE+Gw02TrHcxUmXzuynGN9g/x7HVL5NymzbB//PShlJ2VFhJfZXHCBaSBqDniIBLPoQ+GQ==
+"@oraichain/oraidex-common@1.0.72":
+  version "1.0.72"
+  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-common/-/oraidex-common-1.0.72.tgz#289a54139b30e575cb8688dac87a5370e058dad7"
+  integrity sha512-dgElO9TWCSFh4Z2yMWNAIX3NZR/zbikkFNXS+Y7dIn5T1KeMPp8JWBFol5L3BpJoFDd5cbG99Y6nv2P6pin/DQ==
   dependencies:
+    "@cosmjs/amino" "^0.31.0"
+    "@cosmjs/cosmwasm-stargate" "^0.31.0"
+    "@cosmjs/crypto" "^0.31.0"
+    "@cosmjs/proto-signing" "^0.31.0"
+    "@cosmjs/stargate" "^0.31.0"
+    "@cosmjs/tendermint-rpc" "0.31.0"
     "@ethersproject/providers" "^5.0.10"
     "@keplr-wallet/types" "^0.11.38"
+    "@oraichain/oraidex-contracts-sdk" "^1.0.30"
+    bignumber.js "^9.0.1"
+    cosmjs-types "^0.8.0"
     ethers "^5.0.15"
+
+"@oraichain/oraidex-contracts-sdk@^1.0.30":
+  version "1.0.44"
+  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-contracts-sdk/-/oraidex-contracts-sdk-1.0.44.tgz#9ff41ec388dd92ba112c2eef545d11fd6e18c684"
+  integrity sha512-fMY/QOzO/afPlAVkLGH1bcpJTs6V/URrJju2r4UoE9f5HUWC/6OC6+H5dWuIgq26frp8wjH23mNCQAlmHzji8g==
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.8"
