@@ -33,6 +33,7 @@ const TxMessageContent = ({
 	getMultiRoyaltyRow,
 	getSubmitProposalContent,
 	getInfoRowThreeDots,
+	getTotalTransfer,
 	tryParseMessageBinary,
 	activeThemeId,
 	themeIds,
@@ -355,12 +356,12 @@ const TxMessageContent = ({
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
-
 				{/* update 23/3/2023: add IBC progress for MsgExecute */}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.EXECUTE_CONTRACT, txTypes.COSMOS_SDK_NEW_VERSION.EXECUTE_CONTRACT]) && (
 					<>
 						{getAddressRow("Contract", value?.contract, "", true)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
+						{getTotalTransfer("Total Amount", data?.messages)}
 						{getInfoRowFromRawData(wasmAttributes, "pair", "Pair")}
 						{getPriceInfoFromRawData(wasmAttributes, "take_profit", "Take profit", quote)}
 						{getPriceInfoFromRawData(wasmAttributes, "stop_loss", "Stop loss", quote)}
@@ -382,9 +383,7 @@ const TxMessageContent = ({
 						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
 				)}
-
 				{/* add IBC Progress */}
-
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_TRANSFER, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_TRANSFER]) && (
 					<>
 						{getInfoRow("Source Port", value?.source_port)}
@@ -623,7 +622,7 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
-				{getRawLog(data?.raw_log)}
+				{getRawLog(data?.raw_log, ind)}
 			</div>
 		</>
 	);
