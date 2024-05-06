@@ -25,7 +25,7 @@
 	background: var(--common-containerBackgroundColor);
 	color: var(--common-textColor);
 	border: none;
-	font-family: 'IBM Plex Sans';
+	font-family: "IBM Plex Sans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
@@ -53,6 +53,7 @@
 	top: 60px;
 	width: 200px;
 	border-radius: 8px;
+	border: 1px solid var(--common-borderColor);
 	background: var(--common-containerBackgroundColor);
 	z-index: 10;
 	box-shadow: 0px 2px 8px var(--common-boxShadowColor);
@@ -61,7 +62,7 @@
 		padding: 15px 20px;
 		border-bottom: 1px solid var(--common-borderColor);
 		color: var(--common-textColor);
-		font-family: 'IBM Plex Sans';
+		font-family: "IBM Plex Sans";
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;

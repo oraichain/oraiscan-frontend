@@ -3217,10 +3217,10 @@
     protobufjs "^6.10.2"
     secp256k1 "^4.0.2"
 
-"@oraichain/oraidex-common@^1.0.43":
-  version "1.0.70"
-  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-common/-/oraidex-common-1.0.70.tgz#ec68f38b43b25affcec684183bc6514e86520aa1"
-  integrity sha512-DZY5M/4JGwhEZJULHE+rfoET7dAw8FpnS/M3404xZ/GV1q9t6935M0qSzNiy2yk4PHJaWq+DxN8hPAYiiSTe9Q==
+"@oraichain/oraidex-common@1.0.72":
+  version "1.0.72"
+  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-common/-/oraidex-common-1.0.72.tgz#289a54139b30e575cb8688dac87a5370e058dad7"
+  integrity sha512-dgElO9TWCSFh4Z2yMWNAIX3NZR/zbikkFNXS+Y7dIn5T1KeMPp8JWBFol5L3BpJoFDd5cbG99Y6nv2P6pin/DQ==
   dependencies:
     "@cosmjs/amino" "^0.31.0"
     "@cosmjs/cosmwasm-stargate" "^0.31.0"
@@ -3236,9 +3236,9 @@
     ethers "^5.0.15"
 
 "@oraichain/oraidex-contracts-sdk@^1.0.30":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-contracts-sdk/-/oraidex-contracts-sdk-1.0.35.tgz#d8231d3af62172bd488d364c7ced238393f26695"
-  integrity sha512-c4qyt6CUEdI4+NgX4vWmVVctcQqEle0S6ExKp+d94C5UsRBELxvmJWkCZczvtTtLEvSsydv+7PKwrPoROgV2BA==
+  version "1.0.44"
+  resolved "https://registry.yarnpkg.com/@oraichain/oraidex-contracts-sdk/-/oraidex-contracts-sdk-1.0.44.tgz#9ff41ec388dd92ba112c2eef545d11fd6e18c684"
+  integrity sha512-fMY/QOzO/afPlAVkLGH1bcpJTs6V/URrJju2r4UoE9f5HUWC/6OC6+H5dWuIgq26frp8wjH23mNCQAlmHzji8g==
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.8"
