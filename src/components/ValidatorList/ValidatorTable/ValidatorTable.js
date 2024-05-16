@@ -67,9 +67,10 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({ data = [] }) => {
-	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
+	const [sortField, setSortField] = useState(sortFields.UPTIME);
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 	const [canSort, setCanSort] = useState(false);
+	const [isFirstSort, setIsFirstSort] = useState(true);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 
@@ -88,6 +89,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 	const sortBy = field => {
 		// trigger can sort to true so the list can be sorted
 		if (!canSort) setCanSort(true);
+		if (isFirstSort) setIsFirstSort(false);
 		if (field === sortField) {
 			setSortDirection(toggleDirection(sortDirection));
 		} else {
@@ -211,8 +213,20 @@ const ValidatorTable = memo(({ data = [] }) => {
 	};
 
 	const sortData = (data, extraSortField = sortFields.RANK) => {
-		if (!data) {
-			return [];
+		if (!data) return [];
+
+		if (isFirstSort) {
+			return [...data]
+				.map(e => {
+					return { ...e, votingPowerMixUpTime: e.voting_power * e.uptime };
+				})
+				.sort(function(a, b) {
+					if (a["votingPowerMixUpTime"] === b["votingPowerMixUpTime"]) {
+						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], toggleDirection(sortDirection));
+					} else {
+						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], sortDirection);
+					}
+				});
 		}
 
 		if (canSort) {
