@@ -9,7 +9,7 @@ import { _ } from "src/lib/scripts";
 import { tableThemes } from "src/constants/tableThemes";
 import { sortDirections } from "src/constants/sortDirections";
 import consts from "src/constants/consts";
-import { formatPercentage, formatInteger, formatOrai } from "src/helpers/helper";
+import { formatPercentage, formatInteger, formatOrai, groupAndShuffle } from "src/helpers/helper";
 import { compareTwoValues } from "src/helpers/compare";
 import Delegate from "src/components/common/Delegate";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -67,7 +67,7 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({ data = [] }) => {
-	const [sortField, setSortField] = useState(sortFields.UPTIME);
+	const [sortField, setSortField] = useState();
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 	const [canSort, setCanSort] = useState(false);
 	const [isFirstSort, setIsFirstSort] = useState(true);
@@ -214,19 +214,9 @@ const ValidatorTable = memo(({ data = [] }) => {
 
 	const sortData = (data, extraSortField = sortFields.RANK) => {
 		if (!data) return [];
-
 		if (isFirstSort) {
-			return [...data]
-				.map(e => {
-					return { ...e, votingPowerMixUpTime: e.voting_power * e.uptime };
-				})
-				.sort(function(a, b) {
-					if (a["votingPowerMixUpTime"] === b["votingPowerMixUpTime"]) {
-						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], toggleDirection(sortDirection));
-					} else {
-						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], sortDirection);
-					}
-				});
+			const groupSize = 10;
+			return groupAndShuffle(data, groupSize).flat();
 		}
 
 		if (canSort) {
