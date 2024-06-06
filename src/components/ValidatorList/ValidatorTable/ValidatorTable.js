@@ -216,11 +216,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 		if (!data) return [];
 
 		if (isFirstSort) {
-			return [...data]
-				.map(e => {
-					return { ...e, votingPowerMixUpTime: e.voting_power * e.uptime };
-				})
-				.sort((a, b) => 0.5 - Math.random());
+			return [...data].sort((a, b) => 0.5 - Math.random());
 		}
 
 		if (canSort) {
