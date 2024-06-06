@@ -67,7 +67,7 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({ data = [] }) => {
-	const [sortField, setSortField] = useState(sortFields.UPTIME);
+	const [sortField, setSortField] = useState();
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 	const [canSort, setCanSort] = useState(false);
 	const [isFirstSort, setIsFirstSort] = useState(true);
@@ -220,13 +220,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 				.map(e => {
 					return { ...e, votingPowerMixUpTime: e.voting_power * e.uptime };
 				})
-				.sort(function(a, b) {
-					if (a["votingPowerMixUpTime"] === b["votingPowerMixUpTime"]) {
-						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], toggleDirection(sortDirection));
-					} else {
-						return compareTwoValues(a["votingPowerMixUpTime"], b["votingPowerMixUpTime"], sortDirection);
-					}
-				});
+				.sort((a, b) => 0.5 - Math.random());
 		}
 
 		if (canSort) {
