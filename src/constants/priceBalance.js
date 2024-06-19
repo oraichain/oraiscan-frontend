@@ -9997,7 +9997,7 @@ export const priceBalance = {
 	urub: "urubit",
 	urus: "urus-token",
 	usdb: "usd-bancor",
-	usdc: "usd-coin-avalanche-bridged-usdc-e",
+	usdc: "usd-coin",
 	usdcpo: "usd-coin-pos-wormhole",
 	usdcso: "usd-coin-wormhole",
 	usdcav: "usd-coin-wormhole-from-avalanche",
