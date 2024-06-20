@@ -193,6 +193,12 @@ const initialNavLinks = [
 						icon: null,
 						target: "_blank",
 					},
+					{
+						title: "DeFi Lens",
+						link: "https://defilens.ai/",
+						icon: null,
+						target: "_blank",
+					},
 					// {
 					// 	title: "yAI.Finance",
 					// 	link: "https://yai.finance",
@@ -207,29 +213,29 @@ const initialNavLinks = [
 					},
 				],
 			},
-			// {
-			// 	name: "WEB 3.0",
-			// 	list: [
-			// 		{
-			// 			title: "DINO Hub",
-			// 			link: "https://dinohub.io/",
-			// 			icon: null,
-			// 			target: "_blank",
-			// 		},
-			// 		{
-			// 			title: "AI Marketplace",
-			// 			link: "https://ai.dinohub.io/",
-			// 			icon: null,
-			// 			target: "_blank",
-			// 		},
-			// 		{
-			// 			title: "Data Marketplace (Coming soon)",
-			// 			link: "",
-			// 			icon: null,
-			// 			target: "_blank",
-			// 		},
-			// 	],
-			// },
+			{
+				name: "WEB 3.0",
+				list: [
+					{
+						title: "Cupiee",
+						link: "https://cupiee.com/",
+						icon: null,
+						target: "_blank",
+					},
+					// {
+					// 	title: "AI Marketplace",
+					// 	link: "https://ai.dinohub.io/",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
+					// {
+					// 	title: "Data Marketplace (Coming soon)",
+					// 	link: "",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
+				],
+			},
 			{
 				name: "INCUBATOR",
 				list: [
