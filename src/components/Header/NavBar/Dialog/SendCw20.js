@@ -6,7 +6,7 @@ import { Input, Switch } from "antd";
 import Grid from "@material-ui/core/Grid";
 import { EditOutlined } from "@material-ui/icons";
 import "react-input-range/lib/css/index.css";
-import { AIRI_CONTRACT, ORAIX_CONTRACT } from "@oraichain/oraidex-common";
+import { AIRI_CONTRACT, ORAIX_CONTRACT, USDT_CONTRACT, oraichainTokens } from "@oraichain/oraidex-common";
 import consts from "src/constants/consts";
 import { reduceString } from "src/lib/scripts";
 import { formatOrai } from "src/helpers/helper";
@@ -79,19 +79,20 @@ export default function FormDialog({ address, status, methods, handleInputMulti,
 	};
 
 	const [fieldValue, setFieldValue] = useState("ORAIX");
-	const fields = [
-		{
-			label: "ORAIX",
-			value: "ORAIX",
-			address: ORAIX_CONTRACT,
-		},
-		{
-			label: "OCH",
-			value: "OCH",
-			// OCH_CONTRACT
-			address: "orai1hn8w33cqvysun2aujk5sv33tku4pgcxhhnsxmvnkfvdxagcx0p8qa4l98q",
-		},
-	];
+	const fields = oraichainTokens.reduce(
+		(acc, cur) =>
+			cur.contractAddress
+				? [
+						...acc,
+						{
+							label: cur.name,
+							value: cur.name,
+							address: cur.contractAddress,
+						},
+				  ]
+				: acc,
+		[]
+	);
 
 	const cw20Token = fields.find(e => e.value == fieldValue);
 
@@ -199,15 +200,22 @@ export default function FormDialog({ address, status, methods, handleInputMulti,
 				<div className={cx("row-balance")}>
 					<div className={cx("left")}>
 						<div className={cx("title")}> Token CW20</div>
-						<SelectBox
-							value={fieldValue}
-							data={fields}
-							onChange={e => {
-								const token = fields.find(t => t.value == e);
-								setFieldValue(token.value);
-								setCw20TokenAddress(token.address);
-							}}
-						/>
+						<div>
+							<SelectBox
+								style={{
+									height: 260,
+									zIndex: 1,
+									overflow: "auto",
+								}}
+								value={fieldValue}
+								data={fields}
+								onChange={e => {
+									const token = fields.find(t => t.value == e);
+									setFieldValue(token.value);
+									setCw20TokenAddress(token.address);
+								}}
+							/>
+						</div>
 					</div>
 					<div className={cx("left")}>
 						<div className={cx("title")}>contractAddress</div>

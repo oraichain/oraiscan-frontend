@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -8,7 +8,7 @@ import styles from "./SelectBox.module.scss";
 
 const cx = classNames.bind(styles);
 
-const SelectBox = ({value, data, onChange}) => {
+const SelectBox = ({ value, data, onChange, style }) => {
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	const selectedItem = data.find(item => item.value.toString() === value.toString());
@@ -27,7 +27,7 @@ const SelectBox = ({value, data, onChange}) => {
 					<DownAngleIcon className={cx("arrow")} />
 				</div>
 				{showDropdown && (
-					<div className={cx("list")}>
+					<div style={style} className={cx("list")}>
 						{data.map((item, index) => (
 							<div
 								key={"list-item-" + index}

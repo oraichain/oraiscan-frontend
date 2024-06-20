@@ -9,7 +9,7 @@ import { _ } from "src/lib/scripts";
 import { tableThemes } from "src/constants/tableThemes";
 import { sortDirections } from "src/constants/sortDirections";
 import consts from "src/constants/consts";
-import { formatPercentage, formatInteger, formatOrai } from "src/helpers/helper";
+import { formatPercentage, formatInteger, formatOrai, groupAndShuffle } from "src/helpers/helper";
 import { compareTwoValues } from "src/helpers/compare";
 import Delegate from "src/components/common/Delegate";
 import ThemedTable from "src/components/common/ThemedTable";
@@ -67,9 +67,10 @@ const toggleDirection = direction => {
 };
 
 const ValidatorTable = memo(({ data = [] }) => {
-	const [sortField, setSortField] = useState(sortFields.SELFBONDED);
+	const [sortField, setSortField] = useState();
 	const [sortDirection, setSortDirection] = useState(sortDirections.DESC);
 	const [canSort, setCanSort] = useState(false);
+	const [isFirstSort, setIsFirstSort] = useState(true);
 
 	const totalVotingPower = useMemo(() => computeTotalVotingPower(data), [data]);
 
@@ -88,6 +89,7 @@ const ValidatorTable = memo(({ data = [] }) => {
 	const sortBy = field => {
 		// trigger can sort to true so the list can be sorted
 		if (!canSort) setCanSort(true);
+		if (isFirstSort) setIsFirstSort(false);
 		if (field === sortField) {
 			setSortDirection(toggleDirection(sortDirection));
 		} else {
@@ -211,8 +213,10 @@ const ValidatorTable = memo(({ data = [] }) => {
 	};
 
 	const sortData = (data, extraSortField = sortFields.RANK) => {
-		if (!data) {
-			return [];
+		if (!data) return [];
+		if (isFirstSort) {
+			const groupSize = 10;
+			return groupAndShuffle(data, groupSize).flat();
 		}
 
 		if (canSort) {
