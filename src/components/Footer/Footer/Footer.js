@@ -116,22 +116,6 @@ const Footer = memo(() => {
 											Oraichain VRF 2.0
 										</a>
 									</li>
-									{/* <li className={cx("nav-item")}>
-										<a
-											className={cx("nav-link")}
-											href='https://blog.orai.io/oraichain-data-hub-the-fundamental-hub-to-empower-data-economy-4b560bdc4752'
-											target='_blank'>
-											Data Hub
-										</a>
-									</li>
-									<li className={cx("nav-item")}>
-										<a
-											className={cx("nav-link")}
-											href='https://oraichain.cloudflareaccess.com/cdn-cgi/access/login/market.orai.io?kid=ad5fbc341766f2257f65061abedbdbaad4c14402b576d0ce269e6dbdc78ee7ca&redirect_url=%2F&meta=eyJraWQiOiI5MGJjNWNiOTMyZGYxYTlkYzEzMjk5ZDdhOTc1MDEwMWQwYzFhNzAzZDE1OTRiMzQ2YjQwOGFmZjFlOTZjYzBmIiwiYWxnIjoiUlMyNTYiLCJ0eXAiOiJKV1QifQ.eyJzZXJ2aWNlX3Rva2VuX3N0YXR1cyI6ZmFsc2UsImlhdCI6MTY0Nzk0NDY4Miwic2VydmljZV90b2tlbl9pZCI6IiIsImF1ZCI6ImFkNWZiYzM0MTc2NmYyMjU3ZjY1MDYxYWJlZGJkYmFhZDRjMTQ0MDJiNTc2ZDBjZTI2OWU2ZGJkYzc4ZWU3Y2EiLCJob3N0bmFtZSI6Im1hcmtldC5vcmFpLmlvIiwidHlwZSI6Im1ldGEiLCJuYmYiOjE2NDc5NDQ2ODIsInJlZGlyZWN0X3VybCI6IlwvIiwiaXNfZ2F0ZXdheSI6ZmFsc2UsImlzX3dhcnAiOmZhbHNlLCJhdXRoX3N0YXR1cyI6Ik5PTkUifQ.WI5uqxIJbpn9XPnDiu25v8p92vI70xR7b9UxOKnIr8Q9atb7eq9G1XU6P3IWwIKMB-ZXZoS5aZ9EJl3EKDNXp59qKrfuoLdguxV4ixRIpMy6mYJxlyoM5wSAlE-QkuId7I0XQWzNCNFUDI3ye4nIhh63dQwGzZcUx3sk8cfN-b6Tp7IiSu8xNzBzZtq0iTxWye6Y2wYRr8t15ADO_Hf_4dfDymwpEg3xxyP9TtXmGAwz8S4Bc9P5o7IAUv6c0SLawAvu16128CgTA_BSAbMbfmoG4JNpGS1BrsdzTQgO6PNp11JDv24UJgh35myTC-h_8FjhTHNwSIPDamZQOi2kYQ'
-											target='_blank'>
-											AI Marketplace
-										</a>
-									</li> */}
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://airight.io/' target='_blank'>
 											aiRight
