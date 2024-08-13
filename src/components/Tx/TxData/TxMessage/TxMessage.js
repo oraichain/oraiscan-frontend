@@ -410,8 +410,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		const handleCurrencyData = ({ label, denom, denom_name, amount, keepOriginValue }) => {
-			console.log("params: ", label, denom, denom_name, amount, keepOriginValue);
-
 			let finalDenom = denom;
 			if (denom !== consts.DENOM) {
 				var logs;
@@ -434,7 +432,6 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
-			console.log("denomCheck: ", denomCheck);
 
 			if (keepOriginValue) {
 				calculatedValue = amount;

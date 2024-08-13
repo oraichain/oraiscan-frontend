@@ -8,6 +8,7 @@ import styles from "./AssetsTable.module.scss";
 import { useSelector } from "react-redux";
 import { oraichainTokens } from "@oraichain/oraidex-common/build/token";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
+import consts from "src/constants/consts";
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +40,7 @@ const AssetsTable = memo(({ data = [] }) => {
 		return data.map(item => {
 			const validatorAddressSplit = item?.validator_address?.split("/")?.[0] || item?.validator_address;
 			let tokenInfo = amountDecimal18.find(e => e.address?.toLowerCase() == validatorAddressSplit?.toLowerCase());
+
 			const tokenInOraichain = oraichainTokens.find(token => {
 				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
 				return (
@@ -68,11 +70,17 @@ const AssetsTable = memo(({ data = [] }) => {
 					decimal: 18,
 				};
 			}
-			const decimalOfToken = tokenInfo?.decimal || tokenInOraichain?.decimals || 6;
+			const decimalOfToken = item.base_denom === consts.TON_TOKENFACTORY_DENOM ? 9 : tokenInfo?.decimal || tokenInOraichain?.decimals || 6;
 			const validatorDataCell = _.isNil(item?.validator_address) ? (
 				<div className={cx("align-left")}>-</div>
 			) : (
-				<div className={cx("denom-data-cell", "align-left")}>{tokenInfo ? tokenInfo.name : reduceStringAssets(item.validator_address, 30, 0)}</div>
+				<div className={cx("denom-data-cell", "align-left")}>
+					{tokenInfo
+						? tokenInfo.name
+						: item.base_denom === consts.TON_TOKENFACTORY_DENOM
+						? reduceStringAssets(item.validator_address, 15, 15)
+						: reduceStringAssets(item.validator_address, 30, 0)}
+				</div>
 			);
 
 			const amountDataCell =
@@ -82,7 +90,13 @@ const AssetsTable = memo(({ data = [] }) => {
 					<div className={cx("amount-data-cell", "align-right")}>
 						<div className={cx("amount")}>
 							<span className={cx("amount-value")}>{formatOrai(item.amount, Math.pow(10, decimalOfToken))}</span>
-							<span className={cx("amount-denom")}>{tokenInfo ? tokenInfo?.name : reduceStringAssets(item.denom, 7, 3)}</span>
+							<span className={cx("amount-denom")}>
+								{tokenInfo
+									? tokenInfo?.name
+									: item.base_denom === consts.TON_TOKENFACTORY_DENOM
+									? item.base_denom.split("/")[2]
+									: reduceStringAssets(item.denom, 7, 3)}
+							</span>
 						</div>
 					</div>
 				);
