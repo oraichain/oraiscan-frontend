@@ -410,12 +410,16 @@ const TxMessage = ({ key, msg, data, ind }) => {
 		};
 
 		const handleCurrencyData = ({ label, denom, denom_name, amount, keepOriginValue }) => {
+			console.log("params: ", label, denom, denom_name, amount, keepOriginValue);
+
 			let finalDenom = denom;
 			if (denom !== consts.DENOM) {
 				var logs;
 				try {
 					const logs = JSON.parse(data.raw_log);
+
 					const ibcTransferEvent = parseRawEvents(logs[0].events, "send_packet");
+
 					// process denom for msg transfer case
 					if (ibcTransferEvent) {
 						const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === "packet_data").value).denom;
@@ -430,17 +434,32 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
+			console.log("denomCheck: ", denomCheck);
+
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount, 1);
 			} else {
-				calculatedValue = amount / 1000000;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
+				calculatedValue = denom === consts.TON_TOKENFACTORY_DENOM ? amount / 1000000000 : amount / 1000000;
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount);
 			}
+
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
 				<span className={cx("amount-denom")}>
-					{denomCheck?.denom || denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}
+					{denomCheck?.denom ||
+						denom_name ||
+						(finalDenom && (String(finalDenom).toLowerCase() === consts.DENOM || String(finalDenom).toLowerCase() === consts.TON_TOKENFACTORY_DENOM)
+							? finalDenom
+							: consts.MORE)}
 				</span>
 			);
 			const amountUsd = (
@@ -450,6 +469,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					)}
 				</>
 			);
+
 			return { amountValue, amountDenom, amountUsd };
 		};
 
@@ -489,6 +509,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			if (!inputObject || inputObject?.length <= 0) {
 				return null;
 			}
+
 			const amountData = handleConditionAmount(label, inputObject, keepOriginValue);
 			return <InfoRow label={label}>{amountData}</InfoRow>;
 		};
