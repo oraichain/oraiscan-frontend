@@ -743,6 +743,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let msgTransfer = [];
 			if (result === "Success") {
 				let rawLogArr = JSON.parse(rawLog);
+
 				for (let event of rawLogArr[key].events) {
 					if (event["type"] === "transfer") {
 						checkTransfer = true;
@@ -762,15 +763,20 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 							if (start && att["key"] === "amount") {
 								const value = att["value"]?.split(",") || [];
+
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
 									let splitValue = e.split("/");
 									let splitTextNumber = processText(splitValue?.[0]);
+									const tokenfactoryDenom = splitTextNumber?.[0]?.[1] + `/${splitValue?.[1]}/${splitValue?.[2]}`;
 									obj = {
 										...obj,
-										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
-										demon: splitTextNumber?.[0]?.[1],
-										txs: splitValue?.[1],
+										amount:
+											tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM
+												? +splitTextNumber?.[0]?.[0] / Math.pow(10, 9)
+												: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
+										demon: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? reduceStringAssets(tokenfactoryDenom, 8, 7) : splitTextNumber?.[0]?.[1],
+										txs: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? "" : splitValue?.[1],
 									};
 									msgTransfer.push(obj);
 								}

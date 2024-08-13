@@ -48,7 +48,6 @@ const TxMessageContent = ({
 }) => {
 	const { base, quote, wasmAttributes } = getWasmDataJson(data?.raw_log) || {};
 
-
 	return (
 		<>
 			<div className={cx("card-header")}>
