@@ -37,7 +37,7 @@ import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
 import NFTToken from "../../components/Wallet/NFTToken";
-import { flattenTokens } from "@oraichain/oraidex-common/build/token";
+import { flattenTokens } from "@oraichain/oraidex-common";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -86,6 +86,7 @@ const Account = props => {
 
 	const fetchData = async () => {
 		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
+		console.log({ arrayCoin });
 		let price = await api.getGeckoMarketBalance(arrayCoin);
 		setArrayPriceBalance(price?.data);
 	};

@@ -3,12 +3,12 @@ import React from "react";
 import classNames from "classnames/bind";
 
 import LeftArrowIcon from "src/icons/LeftArrowIcon";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./NavigateBackBar.module.scss";
 
 const cx = classNames.bind(styles);
 
-const NavigateBackBar = ({type, id = ""}) => {
+const NavigateBackBar = ({ type, id = "" }) => {
 	const renderIcon = () => {
 		switch (type) {
 			case "validators": {
