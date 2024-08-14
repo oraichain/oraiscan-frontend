@@ -87,7 +87,7 @@ const Account = props => {
 	const fetchData = async () => {
 		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
 
-		let price = await api.getGeckoMarketBalance(arrayCoin);
+		let price = await api.getGeckoMarketBalance(`${arrayCoin},the-open-network`);
 
 		setArrayPriceBalance(price?.data);
 	};
@@ -217,6 +217,7 @@ const Account = props => {
 						let coin = ids?.slice(0, 1) === "u" ? ids?.slice(1, ids?.length) : ids;
 
 						let reward = arrayPriceBalance?.[priceBalance[coin]]?.["usd"] * e?.amount;
+
 						return {
 							...e,
 							validator_address: e?.denom,
@@ -252,7 +253,11 @@ const Account = props => {
 				return formatOrai(totalValue);
 			}
 		}
-		totalValue = totalValData?.totalBalances * 1000000;
+
+		const tonTokenFactory = data.find(token => token.denom === consts.TON_TOKENFACTORY_DENOM);
+		const tonValue = tonTokenFactory ? tonTokenFactory.reward / 1000 : 0;
+
+		totalValue = totalValData?.totalBalances * 1000000 + tonValue;
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 
