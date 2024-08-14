@@ -86,8 +86,9 @@ const Account = props => {
 
 	const fetchData = async () => {
 		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
-		console.log({ arrayCoin });
+
 		let price = await api.getGeckoMarketBalance(arrayCoin);
+
 		setArrayPriceBalance(price?.data);
 	};
 
@@ -211,9 +212,10 @@ const Account = props => {
 				if (Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) {
 					let totalList = balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
 					data = totalList?.map((e, i) => {
-						const denom = e?.denom?.split("/");
-						const ids = denom?.[0];
+						const denom = e?.denom === consts.TON_TOKENFACTORY_DENOM ? e?.denom : e?.denom?.split("/");
+						const ids = denom === consts.TON_TOKENFACTORY_DENOM ? denom : denom?.[0];
 						let coin = ids?.slice(0, 1) === "u" ? ids?.slice(1, ids?.length) : ids;
+
 						let reward = arrayPriceBalance?.[priceBalance[coin]]?.["usd"] * e?.amount;
 						return {
 							...e,
@@ -223,6 +225,7 @@ const Account = props => {
 							denom_reward: "usd",
 						};
 					});
+
 					tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
 				} else {
 					tableSection = <NoResult />;
