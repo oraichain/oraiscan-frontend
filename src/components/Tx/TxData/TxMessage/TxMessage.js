@@ -415,7 +415,9 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				var logs;
 				try {
 					const logs = JSON.parse(data.raw_log);
+
 					const ibcTransferEvent = parseRawEvents(logs[0].events, "send_packet");
+
 					// process denom for msg transfer case
 					if (ibcTransferEvent) {
 						const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === "packet_data").value).denom;
@@ -430,17 +432,31 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
+
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount, 1);
 			} else {
-				calculatedValue = amount / 1000000;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
+				calculatedValue = denom === consts.TON_TOKENFACTORY_DENOM ? amount / 1000000000 : amount / 1000000;
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount);
 			}
+
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
 				<span className={cx("amount-denom")}>
-					{denomCheck?.denom || denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}
+					{denomCheck?.denom ||
+						denom_name ||
+						(finalDenom && (String(finalDenom).toLowerCase() === consts.DENOM || String(finalDenom).toLowerCase() === consts.TON_TOKENFACTORY_DENOM)
+							? finalDenom
+							: consts.MORE)}
 				</span>
 			);
 			const amountUsd = (
@@ -450,6 +466,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					)}
 				</>
 			);
+
 			return { amountValue, amountDenom, amountUsd };
 		};
 
@@ -489,6 +506,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			if (!inputObject || inputObject?.length <= 0) {
 				return null;
 			}
+
 			const amountData = handleConditionAmount(label, inputObject, keepOriginValue);
 			return <InfoRow label={label}>{amountData}</InfoRow>;
 		};
@@ -725,6 +743,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let msgTransfer = [];
 			if (result === "Success") {
 				let rawLogArr = JSON.parse(rawLog);
+
 				for (let event of rawLogArr[key].events) {
 					if (event["type"] === "transfer") {
 						checkTransfer = true;
@@ -744,15 +763,20 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 							if (start && att["key"] === "amount") {
 								const value = att["value"]?.split(",") || [];
+
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
 									let splitValue = e.split("/");
 									let splitTextNumber = processText(splitValue?.[0]);
+									const tokenfactoryDenom = splitTextNumber?.[0]?.[1] + `/${splitValue?.[1]}/${splitValue?.[2]}`;
 									obj = {
 										...obj,
-										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
-										demon: splitTextNumber?.[0]?.[1],
-										txs: splitValue?.[1],
+										amount:
+											tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM
+												? +splitTextNumber?.[0]?.[0] / Math.pow(10, 9)
+												: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
+										demon: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? reduceStringAssets(tokenfactoryDenom, 8, 7) : splitTextNumber?.[0]?.[1],
+										txs: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? "" : splitValue?.[1],
 									};
 									msgTransfer.push(obj);
 								}

@@ -1,4 +1,4 @@
-  import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -7,8 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
-import {memo} from "react";
-import {tableThemes} from "src/constants/tableThemes";
+import { memo } from "react";
+import { tableThemes } from "src/constants/tableThemes";
 import styles from "./ThemedTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -26,8 +26,8 @@ const ThemedTable = memo(
 			<div>
 				<TableContainer className={isLargeScreen ? cx("table-container", customClassNames) : {}}>
 					<Table className={isLargeScreen ? cx("table", "table-theme") : {}}>
-						{
-							isLargeScreen && <TableHead>
+						{isLargeScreen && (
+							<TableHead>
 								<TableRow className={cx("header-row")}>
 									{Array.isArray(headerCells) && (
 										<>
@@ -43,14 +43,17 @@ const ThemedTable = memo(
 									)}
 								</TableRow>
 							</TableHead>
-						}
+						)}
 						<TableBody>
 							{Array.isArray(dataRows) &&
 								dataRows.map((dataRow, rowIndex) => {
-									const tableCells = dataRow.map((dataCell, cellIndex) => (
-										isLargeScreen ? <TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} /> :
+									const tableCells = dataRow.map((dataCell, cellIndex) =>
+										isLargeScreen ? (
+											<TableCell key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} />
+										) : (
 											<div key={"data-cell-" + rowIndex + "-" + cellIndex} className={cx("data-cell", dataCellStyles)} children={dataCell} />
-									));
+										)
+									);
 									let effectIn;
 									switch (rowMotions?.[rowIndex]) {
 										case effect.IN:
