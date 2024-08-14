@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import copy from "copy-to-clipboard";
 import * as bech32 from "bech32-buffer";
 import { useTheme } from "@material-ui/core/styles";
@@ -37,7 +37,8 @@ import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
 import NFTToken from "../../components/Wallet/NFTToken";
-import { flattenTokens } from "@oraichain/oraidex-common";
+import { flattenTokens, oraichainTokens } from "@oraichain/oraidex-common/build/token";
+import { toDisplay } from "@oraichain/oraidex-common";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -78,6 +79,8 @@ const Account = props => {
 		path: totalValPath,
 	});
 
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
+
 	let data = [];
 
 	useEffect(() => {
@@ -87,7 +90,7 @@ const Account = props => {
 	const fetchData = async () => {
 		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
 
-		let price = await api.getGeckoMarketBalance(`${arrayCoin},the-open-network`);
+		let price = await api.getGeckoMarketBalance(arrayCoin);
 
 		setArrayPriceBalance(price?.data);
 	};
@@ -254,10 +257,19 @@ const Account = props => {
 			}
 		}
 
-		const tonTokenFactory = data.find(token => token.denom === consts.TON_TOKENFACTORY_DENOM);
-		const tonValue = tonTokenFactory ? tonTokenFactory.reward / 1000 : 0;
+		const tonTokenFactory = balanceData?.balances?.find(token => token.denom === consts.TON_TOKENFACTORY_DENOM);
+		let tonValue = 0;
 
-		totalValue = totalValData?.totalBalances * 1000000 + tonValue;
+		if (tonTokenFactory) {
+			const tonInOraichain = oraichainTokens.find(token => {
+				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
+				return arrIncludes.includes(tonTokenFactory.denom.toLowerCase()) || arrIncludes.includes(tonTokenFactory.base_denom.toLowerCase());
+			});
+			const tonUsd = priceTokens[tonInOraichain?.coinGeckoId] || 0;
+			tonValue = tonUsd * toDisplay(tonTokenFactory.amount, 9);
+		}
+
+		totalValue = (totalValData?.totalBalances + tonValue) * 1000000;
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 
