@@ -16,6 +16,8 @@ import BigNumber from "bignumber.js";
 import LoadingOverlay from "src/components/common/LoadingOverlay";
 import SendOraiTab from "./SendOraiTab";
 import SendAiriTab from "./SendAiriTab";
+import SendCw20 from "./SendCw20";
+import { ORAIX_CONTRACT } from "@oraichain/oraidex-common";
 import { ReactComponent as CloseIcon } from "src/assets/icons/close.svg";
 import config from "src/config";
 import "./Dialog.css";
@@ -29,7 +31,7 @@ import { handleErrorMessage } from "../../../../lib/scripts";
 import styles from "./Dialog.module.scss";
 const cx = cn.bind(styles);
 
-yup.addMethod(yup.string, "lessThanNumber", function (amount) {
+yup.addMethod(yup.string, "lessThanNumber", function(amount) {
 	return this.test({
 		name: "test-name",
 		exclusive: false,
@@ -52,6 +54,10 @@ const TABS = [
 		name: "Send AIRI",
 		id: 3,
 	},
+	{
+		name: "Multisend CW20",
+		id: 4,
+	},
 ];
 
 const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => {
@@ -59,6 +65,7 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 	const [multiSendData, handleInputMulti] = useState(null);
 	const [loadingTransaction, setLoadingTransaction] = useState(false);
 	const [inputAmountValue, setInputAmountValue] = useState("");
+	const [cw20TokenAddress, setCw20TokenAddress] = useState(ORAIX_CONTRACT);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const status = useSelector(state => state.blockchain.status);
@@ -86,7 +93,7 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 			if (activeTabId === 1) {
 				let msg = [];
 				if (multiSendData) {
-					typeSubmit = typeSend.MULTISEND
+					typeSubmit = typeSend.MULTISEND;
 					msg = multiSendData.map(v => {
 						total_amount = +v.amount * Math.pow(10, 6) + total_amount;
 						return {
@@ -107,11 +114,10 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 				} else {
 					msg = {
 						amount: handleBigNumber(data.sendAmount),
-						denom: consts.DENOM
-					}
-					payload = { msg, type: typeSubmit, fromAddress: address, toAddress: data.recipientAddress }
+						denom: consts.DENOM,
+					};
+					payload = { msg, type: typeSubmit, fromAddress: address, toAddress: data.recipientAddress };
 				}
-
 			} else if (activeTabId === 3) {
 				typeSubmit = typeSend.CW20;
 				const parseTransferAiri = (address, amount) => {
@@ -126,7 +132,32 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 				} else {
 					msgs = parseTransferAiri(data.recipientAddress, data.sendAmount);
 				}
-				payload = args({ msg: msgs, type: typeSend.CW20, fromAddress: address, contractAddress: config.AIRI_ADDR, });
+				payload = args({ msg: msgs, type: typeSend.CW20, fromAddress: address, contractAddress: config.AIRI_ADDR });
+			} else if (activeTabId === 4) {
+				typeSubmit = typeSend.MULTISENDCW20;
+				let msgs = {};
+				if (multiSendData) {
+					let transferInfos = multiSendData.map(v => {
+						return {
+							contractAddress: cw20TokenAddress,
+							msg: {
+								transfer: {
+									recipient: v.address,
+									amount: handleBigNumber(v.amount),
+								},
+							},
+						};
+					});
+					console.log({ transferInfos });
+
+					msgs = transferInfos;
+				}
+				payload = {
+					type: typeSend.MULTISENDCW20,
+					fromAddress: address,
+					contractAddress: cw20TokenAddress,
+					msg: msgs,
+				};
 			}
 			const response = await walletStation.sendCoin(payload);
 			handleClose();
@@ -139,7 +170,7 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 	};
 
 	useEffect(() => {
-		const callBack = function (e) {
+		const callBack = function(e) {
 			if (e && e.data === "deny") {
 				return handleClose();
 			}
@@ -171,6 +202,20 @@ const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => 
 				<SendAiriTab
 					address={address}
 					amount={amountAiri}
+					inputAmountValue={inputAmountValue}
+					status={status}
+					methods={methods}
+					handleInputMulti={handleInputMulti}
+				/>
+			);
+		}
+
+		if (id === 4) {
+			return (
+				<SendCw20
+					setCw20TokenAddress={setCw20TokenAddress}
+					address={address}
+					cw20TokenAddress={cw20TokenAddress}
 					inputAmountValue={inputAmountValue}
 					status={status}
 					methods={methods}
