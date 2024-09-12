@@ -23,6 +23,7 @@ export default Object.freeze({
 	GRAVITY: "gravity",
 	ORAIB: "oraib",
 	DENOM_ORAI: "orai",
+	TON_TOKENFACTORY_DENOM: "factory/orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9/ton",
 	MORE: "more",
 	TABLE: {
 		PAGE_SIZE: 20,

@@ -17,12 +17,14 @@ const gravityCheck = (str = "-") => {
 //  planning on recreating this with css and components in the future(already mostly done)
 export const reduceString = (str, from, end) => {
 	let strCustom = gravityCheck(str);
+
 	if (!from) return strCustom;
 	return strCustom ? strCustom.substring(0, from) + " ... " + strCustom.substring(str.length - end) : "-";
 };
 
 export const reduceStringAssets = (str, from, end) => {
 	let strCustom = gravityCheck(str);
+
 	if (!from) return strCustom && strCustom.length > 15 ? strCustom.substring(0, 8) + "..." + strCustom.substring(strCustom.length - 8) : strCustom;
 	return strCustom ? strCustom.substring(0, from) + (strCustom.length > from ? "..." + strCustom.substring(strCustom.length - end) : "") : "-";
 };
@@ -34,7 +36,6 @@ export const parseIbcMsgTransfer = (rawLog, type = "send_packet", key = "packet_
 	return ibcDemonObj;
 };
 
-
 export const isJsonString = str => {
 	try {
 		JSON.parse(str);
@@ -42,12 +43,12 @@ export const isJsonString = str => {
 		return false;
 	}
 	return true;
-}
+};
 
 export const processText = inputText => {
 	var output = [];
 	var json = inputText.split(" ");
-	json.forEach(function (item) {
+	json.forEach(function(item) {
 		output.push(
 			item
 				.replace(/\'/g, "")
@@ -188,7 +189,7 @@ export const tryParseMessage = obj => {
 			if (obj[key].msg && typeof obj[key].msg === "string") {
 				try {
 					obj[key].msg = JSON.parse(atob(obj[key].msg));
-				} catch { }
+				} catch {}
 			}
 		}
 		return obj;
@@ -197,10 +198,10 @@ export const tryParseMessage = obj => {
 	}
 };
 
-export const parseNumberToCurrency = (number) => {
-	const currencyData = new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: 'USD',
+export const parseNumberToCurrency = number => {
+	const currencyData = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
 
 		// These options are needed to round to whole numbers if that's what you want.
 		//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -208,17 +209,18 @@ export const parseNumberToCurrency = (number) => {
 	}).format(number);
 	if (isNaN(+currencyData)) return `$${number}`; // fallback case. If number is already in currency or other form string => get raw number
 	return currencyData;
-}
+};
 
-export const handleErrorMessage = (error) => {
+export const handleErrorMessage = error => {
 	const messageError = "Transaction failed with message:";
 	if (_.isEmpty(JSON.parse(JSON.stringify(error)))) return `${messageError} ${error}`;
 	// handle special message
-	if (error.message && error.message.includes('rpc error: code = NotFound desc')) return `Account does not exist on chain. Send some tokens there before trying to query sequence.`
+	if (error.message && error.message.includes("rpc error: code = NotFound desc"))
+		return `Account does not exist on chain. Send some tokens there before trying to query sequence.`;
 	return `${messageError} ${JSON.stringify(error)}`;
-}
+};
 
 export const compareTypeMessage = (str, arr) => {
 	if (!str) return false;
 	return arr.includes(str);
-}
+};

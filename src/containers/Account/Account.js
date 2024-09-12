@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import cn from "classnames/bind";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import copy from "copy-to-clipboard";
 import * as bech32 from "bech32-buffer";
 import { useTheme } from "@material-ui/core/styles";
@@ -37,7 +37,8 @@ import CwToken from "src/components/Wallet/CwToken";
 import { formatOrai } from "src/helpers/helper";
 import styles from "./Account.module.scss";
 import NFTToken from "../../components/Wallet/NFTToken";
-import { flattenTokens } from "@oraichain/oraidex-common/build/token";
+import { flattenTokens, oraichainTokens } from "@oraichain/oraidex-common/build/token";
+import { toDisplay } from "@oraichain/oraidex-common";
 
 export const typeExport = {
 	cw20: "cw20",
@@ -78,6 +79,8 @@ const Account = props => {
 		path: totalValPath,
 	});
 
+	const priceTokens = useSelector(state => state.blockchain.priceTokens);
+
 	let data = [];
 
 	useEffect(() => {
@@ -86,7 +89,9 @@ const Account = props => {
 
 	const fetchData = async () => {
 		const arrayCoin = flattenTokens.map(e => e.coinGeckoId).join(",");
+
 		let price = await api.getGeckoMarketBalance(arrayCoin);
+
 		setArrayPriceBalance(price?.data);
 	};
 
@@ -210,10 +215,12 @@ const Account = props => {
 				if (Array.isArray(balanceData?.balances) && balanceData?.balances?.length > 0) {
 					let totalList = balanceData?.balances?.slice((pageId - 1) * 5, pageId * 5);
 					data = totalList?.map((e, i) => {
-						const denom = e?.denom?.split("/");
-						const ids = denom?.[0];
+						const denom = e?.denom === consts.TON_TOKENFACTORY_DENOM ? e?.denom : e?.denom?.split("/");
+						const ids = denom === consts.TON_TOKENFACTORY_DENOM ? denom : denom?.[0];
 						let coin = ids?.slice(0, 1) === "u" ? ids?.slice(1, ids?.length) : ids;
+
 						let reward = arrayPriceBalance?.[priceBalance[coin]]?.["usd"] * e?.amount;
+
 						return {
 							...e,
 							validator_address: e?.denom,
@@ -222,6 +229,7 @@ const Account = props => {
 							denom_reward: "usd",
 						};
 					});
+
 					tableSection = isLargeScreen ? <AssetsTable data={data} /> : <AssetsTableCardList data={data} />;
 				} else {
 					tableSection = <NoResult />;
@@ -248,7 +256,20 @@ const Account = props => {
 				return formatOrai(totalValue);
 			}
 		}
-		totalValue = totalValData?.totalBalances * 1000000;
+
+		const tonTokenFactory = balanceData?.balances?.find(token => token.denom === consts.TON_TOKENFACTORY_DENOM);
+		let tonValue = 0;
+
+		if (tonTokenFactory) {
+			const tonInOraichain = oraichainTokens.find(token => {
+				const arrIncludes = [token?.denom?.toLowerCase(), token?.name?.toLowerCase()];
+				return arrIncludes.includes(tonTokenFactory.denom.toLowerCase()) || arrIncludes.includes(tonTokenFactory.base_denom.toLowerCase());
+			});
+			const tonUsd = priceTokens[tonInOraichain?.coinGeckoId] || 0;
+			tonValue = tonUsd * toDisplay(tonTokenFactory.amount, 9);
+		}
+
+		totalValue = (totalValData?.totalBalances + tonValue) * 1000000;
 		return formatOrai(totalValue);
 	}, [arrayAssetSearch[assetSearch], totalValData, data]);
 

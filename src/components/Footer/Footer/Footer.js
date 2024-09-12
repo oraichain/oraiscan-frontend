@@ -114,14 +114,30 @@ const Footer = memo(() => {
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://docs.orai.io/vrf/introduction' target='_blank'>
 											Oraichain VRF 2.0
+
+										</a>
+									</li>
+									{/* <li className={cx("nav-item")}>
+										<a
+											className={cx("nav-link")}
+											href='https://blog.orai.io/oraichain-data-hub-the-fundamental-hub-to-empower-data-economy-4b560bdc4752'
+											target='_blank'>
+											Data Hub
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://airight.io/' target='_blank'>
 											aiRight
 										</a>
-									</li>
+									</li> */}
 									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://kawaii.global/' target='_blank'>
+											Kawaiiverse
+										</a>
+									</li>
+
+									<li className={cx("nav-item")}>
+
 										<a className={cx("nav-link")} href='https://kawaii.global/' target='_blank'>
 											Kawaiiverse
 										</a>
