@@ -27,7 +27,8 @@ export const buildCoinGeckoPricesURL = tokens =>
 	`https://price.market.orai.io/simple/price?ids=${tokens.join("%2C")}&vs_currencies=usd`;
 
 export const getCoingeckoPrices = async (tokens, cancelToken) => {
-	const coingeckoPricesURL = buildCoinGeckoPricesURL(tokens);
+	const uniqueTokens = [...new Set(tokens)];
+	const coingeckoPricesURL = buildCoinGeckoPricesURL(uniqueTokens);
 	return await axios.get(coingeckoPricesURL, { cancelToken });
 };
 
@@ -106,8 +107,9 @@ export const getListOWContract = (address, page) => {
 
 export const getGeckoMarketBalance = async (ids = "", currency = "usd") => {
 	// remove undefined
-	ids = ids.replace(new RegExp(",undefined", "gm"), "");
-	return ids ? await axios(`${consts.API_COINGECKO.PRICE(ids, currency)}`) : { data: {} };
+	let coingeckoIds = ids.replace(new RegExp(",undefined", "gm"), "");
+	coingeckoIds = [...new Set(coingeckoIds.split(","))].join(",");
+	return ids ? await axios(`${consts.API_COINGECKO.PRICE(coingeckoIds, currency)}`) : { data: {} };
 };
 
 export const getImagesValidator = async address => {
