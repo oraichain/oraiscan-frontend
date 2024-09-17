@@ -31,7 +31,7 @@ const HeaderCardSkeleton = ({ data }) => {
 	const [copied, setCopied] = React.useState(false);
 	const classes = useStyles();
 	return (
-		<Grid item lg={6} xs={12}>
+		<Grid item lg={7} xs={12}>
 			<div className={cx("contract-preview")}>
 				<table>
 					<thead>
