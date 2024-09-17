@@ -94,4 +94,26 @@
 			-webkit-box-orient: vertical;
 		}
 	}
+
+	.contract-address {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		.item-text {
+			flex: 1;
+		}
+
+		.copy-btn {
+			width: 20px;
+
+			cursor: pointer;
+
+			&:hover {
+				path {
+					fill: #5555ff;
+				}
+			}
+		}
+	}
 }
