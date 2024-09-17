@@ -51,7 +51,7 @@ const HeaderCardSkeleton = ({ data }) => {
 								{
 									data?.address ? (
 										copied ? (
-											<Tooltip title="Copied" classes={{ tooltip: classes.customWidth }}>
+											<Tooltip title="Copied" classes={{ tooltip: classes.customWidth }} enterTouchDelay={0}>
 												<CheckIcon />
 											</Tooltip>
 										) : (
