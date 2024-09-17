@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import cn from "classnames/bind";
 import { isNil } from "lodash-es";
@@ -11,7 +12,8 @@ import copy from "copy-to-clipboard";
 
 import InfoRow from "src/components/common/InfoRow";
 import consts from "src/constants/consts";
-import { ReactComponent as CopyIcon } from 'src/assets/icons/copy.svg';
+import { showAlert } from "src/store/modules/global";
+import { ReactComponent as CopyIcon } from 'src/assets/common/copy_ic.svg';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check.svg';
 import styles from "./ContractPreview.module.scss";
 
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HeaderCardSkeleton = ({ data }) => {
+	const dispatch = useDispatch();
 	const [copied, setCopied] = React.useState(false);
 	const classes = useStyles();
 	return (
@@ -40,32 +43,34 @@ const HeaderCardSkeleton = ({ data }) => {
 					</thead>
 					<tbody>
 						<tr>
-							<td>
-								<div className={cx("item-title")}>Address</div>
-							</td>
 							<td className={cx('contract-address')}>
-								<Tooltip title={data?.address} classes={{ tooltip: classes.customWidth }} className={cx("item-text")}>
-									<div >{isNil(data?.address) ? "-" : data?.address}</div>
-								</Tooltip>
-
-								{
+								<div className={cx("item-title")}><span>Address&nbsp;</span>{
 									data?.address ? (
 										copied ? (
-											<Tooltip title="Copied" classes={{ tooltip: classes.customWidth }} enterTouchDelay={0}>
-												<CheckIcon />
-											</Tooltip>
+											<CheckIcon />
 										) : (
-											<Tooltip title="Copy Address" classes={{ tooltip: classes.customWidth }} enterTouchDelay={0}>
-												<CopyIcon className={cx('copy-btn')} onClick={() => {
-													copy(data?.address);
-													setCopied(true);
-													setTimeout(() => setCopied(false), 1500);
-												}} />
-											</Tooltip>
+											<CopyIcon className={cx('copy-btn')} onClick={() => {
+												copy(data?.address);
+												dispatch(
+													showAlert({
+														show: true,
+														message: "Copied",
+														autoHideDuration: 1500,
+													})
+												);
+												setCopied(true);
+												setTimeout(() => setCopied(false), 1500);
+											}} />
 										)
 									) : (
 										''
-									)}
+									)
+								}</div>
+							</td>
+							<td>
+								<Tooltip title={data?.address} classes={{ tooltip: classes.customWidth }} className={cx("item-text")}>
+									<div >{isNil(data?.address) ? "-" : data?.address}</div>
+								</Tooltip>
 							</td>
 						</tr>
 
