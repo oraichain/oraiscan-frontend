@@ -1,4 +1,5 @@
 export const priceBalance = {
+	"factory/orai1wuvhex9xqs3r539mvc6mtm7n20fcj3qr2m0y9khx6n5vtlngfzes3k0rq9/ton": "the-open-network",
 	"42": "42-coin",
 	"300": "spartan",
 	"404": "404",

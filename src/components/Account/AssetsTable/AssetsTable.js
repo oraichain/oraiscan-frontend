@@ -32,6 +32,7 @@ export const getHeaderRow = () => {
 
 const AssetsTable = memo(({ data = [] }) => {
 	const priceTokens = useSelector(state => state.blockchain.priceTokens);
+
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];
@@ -52,6 +53,7 @@ const AssetsTable = memo(({ data = [] }) => {
 			});
 
 			const tokenUsd = priceTokens[tokenInOraichain?.coinGeckoId] || 0;
+
 			if (!tokenInfo && item.validator_address.includes("erc20")) {
 				tokenInfo = {
 					name: "ERC20",
