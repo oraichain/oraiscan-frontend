@@ -378,7 +378,7 @@ const TxMessageContent = ({
 								src={tryParseMessage(value?.msg)}
 							/>
 						</InfoRow>
-						{getTransferRow("Transfer", key, data?.raw_log, data?.result)}
+						{getTransferRow("Transfer", key, data?.events, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
 					</>
