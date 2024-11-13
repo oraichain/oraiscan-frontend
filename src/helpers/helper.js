@@ -332,11 +332,10 @@ export const getDecimals = (denom = "") => {
 	return denom.includes("0x") ? decimalsEthBsc : decimalsCosmos;
 };
 
-export const checkAttributeEvents = (rawLog = "[]", key = "send_packet") => {
+export const checkAttributeEvents = (events, key = "send_packet") => {
 	try {
-		if (!rawLog) return false;
-		const parseRawLog = JSON.parse(rawLog);
-		const findSendPack = parseRawLog?.[0]?.events?.find(e => e.type == key);
+		if (!events) return false;
+		const findSendPack = events?.find(e => e.type == key);
 		if (!findSendPack) return false;
 		return true;
 	} catch (error) {

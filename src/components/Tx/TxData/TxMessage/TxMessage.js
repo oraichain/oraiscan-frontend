@@ -738,13 +738,11 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			};
 		};
 
-		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
+		const getTransfer = (key = 0, events, result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
 			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-
-				for (let event of rawLogArr[key].events) {
+				for (let event of events) {
 					if (event["type"] === "transfer") {
 						checkTransfer = true;
 						let start = false;
@@ -805,8 +803,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return output;
 		};
 
-		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
-			const transfer = getTransfer(key, rawLog, result);
+		const getTransferRow = (label, key = 0, events = [], result = "") => {
+			const transfer = getTransfer(key, events, result);
 
 			return (
 				transfer.checkTransfer && (
@@ -902,13 +900,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			});
 		};
 
-		const getRoyaltyDetail = (key = 0, rawLog = "[]", result = "") => {
+		const getRoyaltyDetail = (key = 0, events, result = "") => {
 			let royaltys = [];
 			let checkRoyaltyAmount = false;
 			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-				for (let index = rawLogArr[key].events.length - 1; index > -1; index--) {
-					const event = rawLogArr[key].events[index];
+				for (let index = events.length - 1; index > -1; index--) {
+					const event = events[index];
 					if (event["type"] === "wasm") {
 						for (let att of event["attributes"]) {
 							if (att["key"] === "action" && att["value"] === "pay_royalty") {

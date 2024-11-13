@@ -1,39 +1,39 @@
 // @ts-nocheck
-import React, {memo} from "react";
-import {NavLink} from "react-router-dom";
+import React, { memo } from "react";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {useSelector} from "react-redux";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { useSelector } from "react-redux";
 import styles from "./TransactionCardList.module.scss";
 
 const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
 	let typeMsg = typeArr[typeArr.length - 1];
-	if (typeMsg === "MsgExecuteContract" && result === "Success") {
-		let rawLogArr = JSON.parse(rawLog);
-		for (let event of rawLogArr[0].events) {
-			if (event["type"] === "wasm") {
-				for (let att of event["attributes"]) {
-					if (att["key"] === "action") {
-						let attValue = att["value"]
-							.split("_")
-							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-							.join("");
-						typeMsg += "/" + attValue;
-						break;
-					}
-				}
+	// if (typeMsg === "MsgExecuteContract" && result === "Success") {
+	// 	let rawLogArr = JSON.parse(rawLog);
+	// 	for (let event of rawLogArr[0].events) {
+	// 		if (event["type"] === "wasm") {
+	// 			for (let att of event["attributes"]) {
+	// 				if (att["key"] === "action") {
+	// 					let attValue = att["value"]
+	// 						.split("_")
+	// 						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+	// 						.join("");
+	// 					typeMsg += "/" + attValue;
+	// 					break;
+	// 				}
+	// 			}
 
-				break;
-			}
-		}
-	}
+	// 			break;
+	// 		}
+	// 	}
+	// }
 
 	return typeMsg;
 };
 
-const TransactionCardList = memo(({data = [], account}) => {
+const TransactionCardList = memo(({ data = [], account }) => {
 	const cx = classNames.bind(styles);
 	const status = useSelector(state => state.blockchain.status);
 
