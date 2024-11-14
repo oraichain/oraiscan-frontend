@@ -305,55 +305,54 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return !data ? null : getInfoPriceRow(label, data.value, denom);
 		};
 
-		const getRawLog = (rawLog, index) => {
-			let messageParse = [];
-			try {
-				messageParse = tryParseMessage(JSON.parse(rawLog));
-			} catch (error) {
-				messageParse = [{ error: rawLog }];
-			} finally {
-				if (!index) messageParse = [messageParse[0]];
-				else messageParse = messageParse.filter(msg => msg.msg_index === index);
-				return (
-					<InfoRow label='RawLog'>
-						{!isLargeScreen ? (
-							<ReactJson
-								style={{ backgroundColor: "transparent" }}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								collapsed={4}
-								src={messageParse}
-							/>
-						) : (
-							messageParse.map((msg, key) => {
-								const { events = [] } = msg || { events: [] };
-								return (
-									<div className={cx("message")}>
-										<span className={cx("message-title")}>Event {key + 1}:</span>
-										{events.map(event => (
-											<div className={cx("event")}>
-												<h2 className={cx("event-type")}>{event.type}</h2>
-												<table className={cx("event-attribute")}>
-													<tbody>
-														{event.attributes?.map(attr => (
-															<tr>
-																<td>{attr.key}</td>
-																<td>{ValueItem(attr.value)}</td>
-															</tr>
-														))}
-													</tbody>
-												</table>
-											</div>
-										))}
-									</div>
-								);
-							})
-						)}
-					</InfoRow>
-				);
-			}
+		const getRawLog = (data, value, index) => {
+			let messageParse = data.messages;
+			console.log({
+				messageParse,
+				index,
+			});
+
+			if (!index) messageParse = [messageParse[0]];
+			else messageParse = messageParse.filter(msg => msg.msg_index === index);
+			return (
+				<InfoRow label='RawLog'>
+					{!isLargeScreen ? (
+						<ReactJson
+							style={{ backgroundColor: "transparent" }}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							collapsed={4}
+							src={messageParse}
+						/>
+					) : (
+						messageParse.map((msg, key) => {
+							const { events = [] } = msg || { events: [] };
+							return (
+								<di1v className={cx("message")}>
+									<span className={cx("message-title")}>Event {key + 1}:</span>
+									{events.map(event => (
+										<div className={cx("event")}>
+											<h2 className={cx("event-type")}>{event.type}</h2>
+											<table className={cx("event-attribute")}>
+												<tbody>
+													{event.attributes?.map(attr => (
+														<tr>
+															<td>{attr.key}</td>
+															<td>{ValueItem(attr.value)}</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									))}
+								</di1v>
+							);
+						})
+					)}
+				</InfoRow>
+			);
 		};
 
 		const getInfoRowSummary = (label, value) => (
