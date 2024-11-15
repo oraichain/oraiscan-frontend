@@ -56,7 +56,8 @@ export default function(props) {
 			const proposal = result.proposal;
 			if(!!proposal){
 				const type = proposal.content['@type'];
-				const title = proposal.content?.title || proposal.content?.authority;
+				const title = proposal.content?.title;
+				const proposer = proposal.content?.authority;
 				const deposit_end_time = proposal.deposit_end_time;
 				const description = proposal.content?.description;
 				const voting_start = proposal.voting_start_time;
@@ -77,6 +78,7 @@ export default function(props) {
 					status,
 					total_deposit,
 					proposal_id,
+					proposer
 				});
 			}
 		}

@@ -15,7 +15,6 @@ export default function useFetchLCD(url) {
 				const response = await axios.get(`${lcdApi}/${url}`);
 				if (!!response) {
 					const data = response.data;
-                    console.log({ useFetchLCD: data });
 					setResult(data);
 				}
 			} catch (error) {
