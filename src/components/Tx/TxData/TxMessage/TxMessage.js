@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson, { ValueItem } from "src/components/ReactJson";
@@ -36,7 +36,11 @@ import { tryParseMessage } from "src/lib/scripts";
 import IBCProgress from "./IBCProgress";
 import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
+import config from "src/config";
+import axios from "axios";
 const cx = cn.bind(styles);
+
+const rpcApi = config.RPC_API
 
 const getTxTypeNew = (type, result = "", value) => {
 	const typeArr = type.split(".");
@@ -82,10 +86,24 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
+	const [events, setEvents] = useState([])
 
 	const value = msg;
 	let type = msg["@type"] || "";
 	const { memo } = data;
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const response = await axios.get(`${rpcApi}/tx?hash=0x${data.tx_hash}`);
+				const events = response?.data?.result?.tx_result?.events;
+				setEvents(events)
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		fetchData();
+	}, []);
 
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
@@ -327,29 +345,47 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							src={messageParse}
 						/>
 					) : (
-						messageParse.map((msg, key) => {
-							const { events = [] } = msg || { events: [] };
-							return (
-								<di1v className={cx("message")}>
-									<span className={cx("message-title")}>Event {key + 1}:</span>
-									{events.map(event => (
-										<div className={cx("event")}>
-											<h2 className={cx("event-type")}>{event.type}</h2>
-											<table className={cx("event-attribute")}>
-												<tbody>
-													{event.attributes?.map(attr => (
-														<tr>
-															<td>{attr.key}</td>
-															<td>{ValueItem(attr.value)}</td>
-														</tr>
-													))}
-												</tbody>
-											</table>
-										</div>
-									))}
-								</di1v>
-							);
-						})
+						// messageParse.map((msg, key) => {
+						// 	const { events = [] } = msg || { events: [] };
+						// 	return (
+						// 		<div className={cx("message")}>
+						// 			<span className={cx("message-title")}>Event {key + 1}:</span>
+						// 			{events.map(event => (
+						// 				<div className={cx("event")}>
+						// 					<h2 className={cx("event-type")}>{event.type}</h2>
+						// 					<table className={cx("event-attribute")}>
+						// 						<tbody>
+						// 							{event.attributes?.map(attr => (
+						// 								<tr>
+						// 									<td>{attr.key}</td>
+						// 									<td>{ValueItem(attr.value)}</td>
+						// 								</tr>
+						// 							))}
+						// 						</tbody>
+						// 					</table>
+						// 				</div>
+						// 			))}
+						// 		</div>
+						// 	);
+						// })
+						events.map((event, key) => (
+							<div className={cx("message")} key={key}>
+								<span className={cx("message-title")}>Event {key + 1}:</span>
+								<div className={cx("event")}>
+									<h2 className={cx("event-type")}>{event.type}</h2>
+									<table className={cx("event-attribute")}>
+										<tbody>
+											{event.attributes?.map(attr => (
+												<tr>
+													<td>{attr.key}</td>
+													<td>{ValueItem(attr.value)}</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						))
 					)}
 				</InfoRow>
 			);
