@@ -340,7 +340,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							<div className={cx("message")} key={ind}>
 								<div className={cx("event")}>
 									<h2 className={cx("event-type")} onClick={() => toggleCollapse(ind)}>
-										{event.type}
+										{ind + 1}. {event.type}
 									</h2>
 									<table className={cx("event-attribute")} style={{ display: "none" }} ref={el => (contentRefs.current[ind] = el)}>
 										{event.attributes?.map(attr => (
