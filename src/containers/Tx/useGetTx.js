@@ -69,7 +69,10 @@ const useGetTx = txHash => {
 				const getTxScan = async () => {
 					const tx = await getDataAsync(path);
 					if (tx?.data?.height && parseInt(tx?.data?.height) > 0) {
-						setData(tx?.data);
+						setData({
+							...tx?.data,
+							tx_result: txRpc?.data?.result?.tx_result,
+						});
 						setLoading(false);
 						return;
 					}
