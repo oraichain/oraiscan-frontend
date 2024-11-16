@@ -37,11 +37,8 @@ import IBCProgress from "./IBCProgress";
 import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
 import config from "src/config";
-import { Collapse } from "@material-ui/core";
 
 const cx = cn.bind(styles);
-
-const rpcApi = config.RPC_API;
 
 const getTxTypeNew = (type, result = "", value) => {
 	const typeArr = type.split(".");
