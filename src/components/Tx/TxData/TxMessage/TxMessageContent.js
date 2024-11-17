@@ -343,7 +343,7 @@ const TxMessageContent = ({
 						{getInfoRow("Label", value?.label)}
 						{getAddressRow("Sender", value?.sender, value?.sender_tag)}
 						{getCurrencyRowFromObject("Init funds", value?.init_funds ?? value?.funds)}
-						{/* <InfoRow label='Message'>
+						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
 								name={false}
@@ -352,7 +352,7 @@ const TxMessageContent = ({
 								displayDataTypes={false}
 								src={tryParseMessage(value?.init_msg ?? value?.msg)}
 							/>
-						</InfoRow> */}
+						</InfoRow>
 						{getInfoRow("Contract Address", getContractAddress(data?.raw_log))}
 					</>
 				)}
@@ -368,7 +368,7 @@ const TxMessageContent = ({
 						{getPriceInfoFromRawData(wasmAttributes, "pnl", "Pnl", quote)}
 						{getPriceInfoFromRawData(wasmAttributes, "withdraw_amount", "Withdraw amount", quote)}
 						{getFundsRow("Sent funds", key, data?.messages?.[ind]?.sent_funds, data?.result, data?.amount)}
-						{/* <InfoRow label='Message'>
+						<InfoRow label='Message'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
 								name={false}
@@ -377,7 +377,7 @@ const TxMessageContent = ({
 								displayDataTypes={false}
 								src={tryParseMessage(value?.msg)}
 							/>
-						</InfoRow> */}
+						</InfoRow>
 						{getTransferRow("Transfer", key, data?.events, data?.result)}
 						{getMultiRoyaltyRow("Royalty", key, data?.raw_log, data?.result)}
 						{checkAttributeEvents(data?.raw_log, "send_packet") && getIBCProgressRow("IBC Progress", data)}
@@ -610,7 +610,7 @@ const TxMessageContent = ({
 						{getInfoRow("Code ID", value?.code_id)}
 						{getAddressRow("Contract", value?.contract)}
 						{getAddressRow("Sender", value?.sender)}
-						{/* <InfoRow label='Migrate Msg'>
+						<InfoRow label='Migrate Msg'>
 							<ReactJson
 								style={{ backgroundColor: "transparent" }}
 								name={false}
@@ -619,10 +619,10 @@ const TxMessageContent = ({
 								displayDataTypes={false}
 								src={value?.migrate_msg}
 							/>
-						</InfoRow> */}
+						</InfoRow>
 					</>
 				)}
-				{getRawLog(data, value, ind)}
+				{getRawLog(data, ind)}
 			</div>
 		</>
 	);

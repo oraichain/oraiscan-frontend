@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson, { ValueItem } from "src/components/ReactJson";
@@ -37,10 +37,8 @@ import IBCProgress from "./IBCProgress";
 import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
 import config from "src/config";
-import axios from "axios";
-const cx = cn.bind(styles);
 
-const rpcApi = config.RPC_API
+const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
 	const typeArr = type.split(".");
@@ -86,24 +84,18 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
-	const [events, setEvents] = useState([])
+	const contentRefs = useRef([]);
+
+	const toggleCollapse = index => {
+		if (contentRefs.current[index]) {
+			const isHidden = contentRefs.current[index].style.display === "none";
+			contentRefs.current[index].style.display = isHidden ? "inline-table" : "none";
+		}
+	};
 
 	const value = msg;
 	let type = msg["@type"] || "";
 	const { memo } = data;
-
-	useEffect(() => {
-		async function fetchData() {
-			try {
-				const response = await axios.get(`${rpcApi}/tx?hash=0x${data.tx_hash}`);
-				const events = response?.data?.result?.tx_result?.events;
-				setEvents(events)
-			} catch (error) {
-				console.log(error);
-			}
-		}
-		fetchData();
-	}, []);
 
 	useEffect(() => {
 		if (type === txTypes.COSMOS_SDK.STORE_CODE || type === txTypes.COSMOS_SDK_NEW_VERSION.STORE_CODE) {
@@ -323,17 +315,13 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return !data ? null : getInfoPriceRow(label, data.value, denom);
 		};
 
-		const getRawLog = (data, value, index) => {
+		const getRawLog = (data, index) => {
 			let messageParse = data.messages;
-			console.log({
-				messageParse,
-				index,
-			});
 
 			if (!index) messageParse = [messageParse[0]];
 			else messageParse = messageParse.filter(msg => msg.msg_index === index);
 			return (
-				<InfoRow label='RawLog'>
+				<InfoRow label='Events'>
 					{!isLargeScreen ? (
 						<ReactJson
 							style={{ backgroundColor: "transparent" }}
@@ -341,47 +329,23 @@ const TxMessage = ({ key, msg, data, ind }) => {
 							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
 							displayObjectSize={false}
 							displayDataTypes={false}
-							collapsed={4}
-							src={messageParse}
+							collapsed={3}
+							src={data?.tx_result?.events}
 						/>
 					) : (
-						// messageParse.map((msg, key) => {
-						// 	const { events = [] } = msg || { events: [] };
-						// 	return (
-						// 		<div className={cx("message")}>
-						// 			<span className={cx("message-title")}>Event {key + 1}:</span>
-						// 			{events.map(event => (
-						// 				<div className={cx("event")}>
-						// 					<h2 className={cx("event-type")}>{event.type}</h2>
-						// 					<table className={cx("event-attribute")}>
-						// 						<tbody>
-						// 							{event.attributes?.map(attr => (
-						// 								<tr>
-						// 									<td>{attr.key}</td>
-						// 									<td>{ValueItem(attr.value)}</td>
-						// 								</tr>
-						// 							))}
-						// 						</tbody>
-						// 					</table>
-						// 				</div>
-						// 			))}
-						// 		</div>
-						// 	);
-						// })
-						events.map((event, key) => (
-							<div className={cx("message")} key={key}>
-								<span className={cx("message-title")}>Event {key + 1}:</span>
+						data?.tx_result?.events.map((event, ind) => (
+							<div className={cx("message")} key={ind}>
 								<div className={cx("event")}>
-									<h2 className={cx("event-type")}>{event.type}</h2>
-									<table className={cx("event-attribute")}>
-										<tbody>
-											{event.attributes?.map(attr => (
-												<tr>
-													<td>{attr.key}</td>
-													<td>{ValueItem(attr.value)}</td>
-												</tr>
-											))}
-										</tbody>
+									<h2 className={cx("event-type")} onClick={() => toggleCollapse(ind)}>
+										{ind + 1}. {event.type}
+									</h2>
+									<table className={cx("event-attribute")} style={{ display: "none" }} ref={el => (contentRefs.current[ind] = el)}>
+										{event.attributes?.map(attr => (
+											<tr>
+												<td>{attr.key}</td>
+												<td>{ValueItem(attr.value)}</td>
+											</tr>
+										))}
 									</table>
 								</div>
 							</div>
@@ -558,6 +522,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 		const getTotalTransfer = (label, msg) => {
 			const totalAmount = msg.reduce((acc, cur) => acc + +cur?.msg?.transfer?.amount ?? 0, 0);
+			if (!totalAmount) return null;
 			return (
 				<InfoRow label={label}>
 					<span className={cx("text")}>{_.isNil(totalAmount) ? "-" : formatOrai(totalAmount)}</span> <span className={cx("text")}>{}</span>
