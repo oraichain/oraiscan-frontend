@@ -24,10 +24,10 @@
 		"ctc": "all-contributors check"
 	},
 	"dependencies": {
-		"@cosmjs/cosmwasm-stargate": "^0.31.0",
-		"@cosmjs/math": "^0.31.0",
-		"@cosmjs/proto-signing": "^0.31.0",
-		"@cosmjs/stargate": "^0.31.0",
+		"@cosmjs/cosmwasm-stargate": "^0.32.4",
+		"@cosmjs/math": "^0.32.4",
+		"@cosmjs/proto-signing": "^0.32.4",
+		"@cosmjs/stargate": "^0.32.4",
 		"@hookform/error-message": "0.0.5",
 		"@hookform/resolvers": "^1.2.0",
 		"@keplr-wallet/cosmos": "^0.9.12",
