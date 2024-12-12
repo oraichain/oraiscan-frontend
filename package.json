@@ -24,10 +24,6 @@
 		"ctc": "all-contributors check"
 	},
 	"dependencies": {
-		"@cosmjs/cosmwasm-stargate": "^0.31.0",
-		"@cosmjs/math": "^0.31.0",
-		"@cosmjs/proto-signing": "^0.31.0",
-		"@cosmjs/stargate": "^0.31.0",
 		"@hookform/error-message": "0.0.5",
 		"@hookform/resolvers": "^1.2.0",
 		"@keplr-wallet/cosmos": "^0.9.12",
@@ -135,7 +131,13 @@
 		"extends": "react-app"
 	},
 	"resolutions": {
-		"@injectivelabs/sdk-ts": "1.12.1"
+		"@injectivelabs/sdk-ts": "1.12.1",
+		"@cosmjs/cosmwasm-stargate": "^0.32.4",
+		"@cosmjs/math": "^0.32.4",
+		"@cosmjs/proto-signing": "^0.32.4",
+		"@cosmjs/tendermint-rpc": "^0.32.4",
+		"@cosmjs/stargate": "^0.32.4",
+		"cosmjs-types": "0.9.0"
 	},
 	"browserslist": {
 		"production": [
