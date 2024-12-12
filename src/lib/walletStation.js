@@ -20,6 +20,7 @@ import { createStakingAminoConverters } from "@cosmjs/stargate/build/modules/sta
 import { createDistributionAminoConverters } from "@cosmjs/stargate/build/modules/distribution/aminomessages";
 import { createBankAminoConverters } from "@cosmjs/stargate/build/modules/bank/aminomessages";
 import { createGovAminoConverters } from "@cosmjs/stargate/build/modules/gov/aminomessages";
+import { Tendermint37Client } from "@cosmjs/tendermint-rpc";
 
 export const broadcastModeObj = {
 	BROADCAST_MODE_BLOCK: "BROADCAST_MODE_BLOCK",
@@ -46,18 +47,19 @@ export default class WalletStation {
 			...createWasmAminoConverters(),
 			...createGovAminoConverters(),
 		});
-		return await cosmwasm.SigningCosmWasmClient.connectWithSigner(network.rpc, wallet, {
-			gasPrice: new GasPrice(Decimal.fromUserInput("0", 6), network.denom),
-			prefix: network.denom,
+
+		const tmClient = await Tendermint37Client.connect(network.rpc);
+		return await cosmwasm.SigningCosmWasmClient.createWithSigner(tmClient, wallet, {
+			gasPrice: GasPrice.fromString(network.fee.gasPrice + network.denom),
+			broadcastPollIntervalMs: 600,
 			aminoTypes,
 		});
 	};
 
-	signAndBroadCast = async (address, messages, gas = "auto") => {
+	signAndBroadCast = async (address, messages, gas = 2) => {
 		try {
 			const wallet = await this.collectWallet();
 			const client = await this.signerClient(wallet);
-			console.log({ messages });
 			return await client.signAndBroadcast(address, messages, gas);
 		} catch (ex) {
 			console.log("signAndBroadcast msg error: ", ex);
@@ -68,7 +70,7 @@ export default class WalletStation {
 	signBroadcast = async props => {
 		const wallet = await this.collectWallet();
 		const client = await this.signerClient(wallet);
-		const { fromAddress, toAddress, contractAddress, msg, type = typeSign.SEND, gas = "auto", delegator_address, validator_address, amount } = props;
+		const { fromAddress, toAddress, contractAddress, msg, type = typeSign.SEND, gas = 2, delegator_address, validator_address, amount } = props;
 		try {
 			switch (type) {
 				case typeSign.SEND:

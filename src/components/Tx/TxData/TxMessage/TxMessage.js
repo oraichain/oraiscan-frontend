@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson, { ValueItem } from "src/components/ReactJson";
@@ -36,6 +36,8 @@ import { tryParseMessage } from "src/lib/scripts";
 import IBCProgress from "./IBCProgress";
 import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
+import config from "src/config";
+
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -82,6 +84,14 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
+	const contentRefs = useRef([]);
+
+	const toggleCollapse = index => {
+		if (contentRefs.current[index]) {
+			const isHidden = contentRefs.current[index].style.display === "none";
+			contentRefs.current[index].style.display = isHidden ? "inline-table" : "none";
+		}
+	};
 
 	const value = msg;
 	let type = msg["@type"] || "";
@@ -305,55 +315,44 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return !data ? null : getInfoPriceRow(label, data.value, denom);
 		};
 
-		const getRawLog = (rawLog, index) => {
-			let messageParse = [];
-			try {
-				messageParse = tryParseMessage(JSON.parse(rawLog));
-			} catch (error) {
-				messageParse = [{ error: rawLog }];
-			} finally {
-				if (!index) messageParse = [messageParse[0]];
-				else messageParse = messageParse.filter(msg => msg.msg_index === index);
-				return (
-					<InfoRow label='RawLog'>
-						{!isLargeScreen ? (
-							<ReactJson
-								style={{ backgroundColor: "transparent" }}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								collapsed={4}
-								src={messageParse}
-							/>
-						) : (
-							messageParse.map((msg, key) => {
-								const { events = [] } = msg || { events: [] };
-								return (
-									<div className={cx("message")}>
-										<span className={cx("message-title")}>Event {key + 1}:</span>
-										{events.map(event => (
-											<div className={cx("event")}>
-												<h2 className={cx("event-type")}>{event.type}</h2>
-												<table className={cx("event-attribute")}>
-													<tbody>
-														{event.attributes?.map(attr => (
-															<tr>
-																<td>{attr.key}</td>
-																<td>{ValueItem(attr.value)}</td>
-															</tr>
-														))}
-													</tbody>
-												</table>
-											</div>
+		const getRawLog = (data, index) => {
+			let messageParse = data.messages;
+
+			if (!index) messageParse = [messageParse[0]];
+			else messageParse = messageParse.filter(msg => msg.msg_index === index);
+			return (
+				<InfoRow label='Events'>
+					{!isLargeScreen ? (
+						<ReactJson
+							style={{ backgroundColor: "transparent" }}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							collapsed={3}
+							src={data?.tx_result?.events}
+						/>
+					) : (
+						data?.tx_result?.events.map((event, ind) => (
+							<div className={cx("message")} key={ind}>
+								<div className={cx("event")}>
+									<h2 className={cx("event-type")} onClick={() => toggleCollapse(ind)}>
+										{ind + 1}. {event.type}
+									</h2>
+									<table className={cx("event-attribute")} style={{ display: "none" }} ref={el => (contentRefs.current[ind] = el)}>
+										{event.attributes?.map(attr => (
+											<tr>
+												<td>{attr.key}</td>
+												<td>{ValueItem(attr.value)}</td>
+											</tr>
 										))}
-									</div>
-								);
-							})
-						)}
-					</InfoRow>
-				);
-			}
+									</table>
+								</div>
+							</div>
+						))
+					)}
+				</InfoRow>
+			);
 		};
 
 		const getInfoRowSummary = (label, value) => (
@@ -523,6 +522,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 		const getTotalTransfer = (label, msg) => {
 			const totalAmount = msg.reduce((acc, cur) => acc + +cur?.msg?.transfer?.amount ?? 0, 0);
+			if (!totalAmount) return null;
 			return (
 				<InfoRow label={label}>
 					<span className={cx("text")}>{_.isNil(totalAmount) ? "-" : formatOrai(totalAmount)}</span> <span className={cx("text")}>{}</span>

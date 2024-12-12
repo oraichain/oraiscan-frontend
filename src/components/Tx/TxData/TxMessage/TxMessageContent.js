@@ -258,7 +258,7 @@ const TxMessageContent = ({
 										<div className={cx("card")} key={"card-index"}>
 											<div className={cx("card-body")}>
 												{getInfoRow("Data Source", item?.name)}
-												<InfoRow label='Result'>
+												{/* <InfoRow label='Result'>
 													<ReactJson
 														style={{ backgroundColor: "transparent" }}
 														name={false}
@@ -269,7 +269,7 @@ const TxMessageContent = ({
 														// src={tryParseMessage(JSON.parse(atob(item?.result)))}
 														src={tryParseMessageBinary(item?.result)}
 													/>
-												</InfoRow>
+												</InfoRow> */}
 												{getInfoRow("Result Status", item?.status)}
 											</div>
 										</div>
@@ -289,7 +289,7 @@ const TxMessageContent = ({
 														<div className={cx("card")} key={"card-index"}>
 															<div className={cx("card-body")}>
 																{getInfoRow("Data Source", item?.name)}
-																<InfoRow label='Result'>
+																{/* <InfoRow label='Result'>
 																	<ReactJson
 																		style={{ backgroundColor: "transparent" }}
 																		name={false}
@@ -300,7 +300,7 @@ const TxMessageContent = ({
 																		// src={tryParseMessage(JSON.parse(atob(item?.result)))}
 																		src={tryParseMessageBinary(item?.result)}
 																	/>
-																</InfoRow>
+																</InfoRow> */}
 																{getInfoRow("Result Status", item?.status)}
 															</div>
 														</div>
@@ -401,20 +401,20 @@ const TxMessageContent = ({
 					<>
 						{getAddressRow("Signer", value?.signer)}
 						{getInfoRow("Client ID", value?.client_id)}
-						{getInfoRow("Block", value?.header.signed_header.header.version.block)}
-						{getInfoRow("App", value?.header.signed_header.header.version.app)}
-						{getInfoRow("Chain ID", value?.header.signed_header.header.chain_id)}
-						{getInfoRow("Height", value?.header.signed_header.header.height)}
-						{getInfoRow("Time", value?.header.signed_header.header.time)}
-						{getInfoRow("Last Commit Hash", value?.header.signed_header.header.last_commit_hash)}
-						{getInfoRow("Data Hash", value?.header.signed_header.header.data_hash)}
-						{getInfoRow("Validators Hash", value?.header.signed_header.header.validators_hash)}
-						{getInfoRow("Next Validators Hash", value?.header.signed_header.header.next_validators_hash)}
-						{getInfoRow("Consensus Hash", value?.header.signed_header.header.consensus_hash)}
-						{getInfoRow("App Hash", value?.header.signed_header.header.app_hash)}
-						{getInfoRow("Last Results Hash", value?.header.signed_header.header.last_results_hash)}
-						{getInfoRow("Evidence Hash", value?.header.signed_header.header.evidence_hash)}
-						{getInfoRow("Proposer Address", value?.header.signed_header.header.proposer_address)}
+						{getInfoRow("Block", value?.client_message?.signed_header.header.version.block)}
+						{getInfoRow("App", value?.client_message?.signed_header.header.version.app)}
+						{getInfoRow("Chain ID", value?.client_message?.signed_header.header.chain_id)}
+						{getInfoRow("Height", value?.client_message?.signed_header.header.height)}
+						{getInfoRow("Time", value?.client_message?.signed_header.header.time)}
+						{getInfoRow("Last Commit Hash", value?.client_message?.signed_header.header.last_commit_hash)}
+						{getInfoRow("Data Hash", value?.client_message?.signed_header.header.data_hash)}
+						{getInfoRow("Validators Hash", value?.client_message?.signed_header.header.validators_hash)}
+						{getInfoRow("Next Validators Hash", value?.client_message?.signed_header.header.next_validators_hash)}
+						{getInfoRow("Consensus Hash", value?.client_message?.signed_header.header.consensus_hash)}
+						{getInfoRow("App Hash", value?.client_message?.signed_header.header.app_hash)}
+						{getInfoRow("Last Results Hash", value?.client_message?.signed_header.header.last_results_hash)}
+						{getInfoRow("Evidence Hash", value?.client_message?.signed_header.header.evidence_hash)}
+						{getInfoRow("Proposer Address", value?.client_message?.signed_header.header.proposer_address)}
 					</>
 				)}
 				{compareTypeMessage(type, [txTypes.COSMOS_SDK.MSG_IBC_RECV_PACKET, txTypes.COSMOS_SDK_NEW_VERSION.MSG_IBC_RECV_PACKET]) && (
@@ -622,7 +622,7 @@ const TxMessageContent = ({
 						</InfoRow>
 					</>
 				)}
-				{getRawLog(data?.raw_log, ind)}
+				{getRawLog(data, ind)}
 			</div>
 		</>
 	);
