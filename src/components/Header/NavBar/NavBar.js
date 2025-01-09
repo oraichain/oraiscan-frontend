@@ -188,6 +188,12 @@ const initialNavLinks = [
 				name: "DEX & DEFI",
 				list: [
 					{
+						title: "Agents.Land",
+						link: "https://agents.land",
+						icon: null,
+						target: "_blank",
+					},
+					{
 						title: "OraiDEX",
 						link: "https://oraidex.io",
 						icon: null,
@@ -254,17 +260,6 @@ const initialNavLinks = [
 					{
 						title: "Oraichain Labs US",
 						link: "https://orai.us/",
-						icon: null,
-						target: "_blank",
-					},
-				],
-			},
-			{
-				name: "GAMEFI",
-				list: [
-					{
-						title: "Kawaii Islands",
-						link: "https://kawaii.global",
 						icon: null,
 						target: "_blank",
 					},
