@@ -32,7 +32,7 @@ const ExportData = props => {
 	const params = useParams();
 	const location = useLocation();
 	const account = params?.["account"];
-	const [disabledSubmit, setDisabledSubmit] = useState(true);
+	const [disabledSubmit, setDisabledSubmit] = useState(false);
 
 	const searchParams = new URLSearchParams(location.search);
 	const type = searchParams.get("type");
@@ -110,7 +110,7 @@ const ExportData = props => {
 								<CalendarIcon className={cx("calendar-icon")} />
 							</div>
 						</div>
-						<div className={cx("captcha-wrapper")}>
+						{/* <div className={cx("captcha-wrapper")}>
 							<ReCaptcha
 								size='normal'
 								data-theme='dark'
@@ -121,10 +121,24 @@ const ExportData = props => {
 									setDisabledSubmit(false);
 								}}
 							/>
-						</div>
+						</div> */}
 						<>
 							<div className={cx("random")}>
-								<button className={cx("button-random", disabledSubmit && "button-random-disabled")} onClick={disabledSubmit || download}>
+								<button
+									disabled={disabledSubmit}
+									className={cx("button-random", disabledSubmit && "button-random-disabled")}
+									onClick={async () => {
+										setDisabledSubmit(true);
+										try {
+											await download();
+										} catch (error) {
+											console.log({ error });
+										} finally {
+											setTimeout(() => {
+												setDisabledSubmit(false);
+											}, 3000);
+										}
+									}}>
 									Download
 								</button>
 							</div>
