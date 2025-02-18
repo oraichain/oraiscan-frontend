@@ -102,6 +102,11 @@ const Footer = memo(() => {
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://agents.land/' target='_blank'>
+											Agents.Land
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://cupiee.com/' target='_blank'>
 											Cupiee
 										</a>
@@ -135,14 +140,6 @@ const Footer = memo(() => {
 											Kawaiiverse
 										</a>
 									</li>
-
-									<li className={cx("nav-item")}>
-
-										<a className={cx("nav-link")} href='https://kawaii.global/' target='_blank'>
-											Kawaiiverse
-										</a>
-									</li>
-
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://docs.orai.io/readme/tokenomics' target='_blank'>
 											Other DApps
