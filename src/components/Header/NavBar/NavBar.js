@@ -156,7 +156,7 @@ const initialNavLinks = [
 		title: "Ecosystem",
 		children: [
 			{
-				name: "AI ORACLES",
+				name: "AI BLOCKCHAIN ORACLES",
 				list: [
 					{
 						title: "Price Feed",

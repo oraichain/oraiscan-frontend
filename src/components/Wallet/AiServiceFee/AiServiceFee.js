@@ -328,7 +328,7 @@ const AiServiceFee = memo(({moniker, address, pubkey}) => {
 	) : !isNil(executorData) && executorData?.data?.is_active ? (
 		<FormProvider {...methods}>
 			<div className={cx("your-validator-card")}>
-				<div className={cx("your-validator-card-header")}>Your AI Oracle service fees</div>
+				<div className={cx("your-validator-card-header")}>Your AI blockchain oracle service fees</div>
 				<div className={cx("your-validator-card-body")}>
 					{isLargeScreen ? (
 						<Grid container spacing={0}>
@@ -404,7 +404,7 @@ const AiServiceFee = memo(({moniker, address, pubkey}) => {
 		</FormProvider>
 	) : (
 		<div className={cx("your-validator-card")}>
-			<div className={cx("your-validator-card-header")}>Your AI Oracle service fees</div>
+			<div className={cx("your-validator-card-header")}>Your AI blockchain oracle service fees</div>
 			<div className={cx("your-validator-card-body")}>
 				<Grid container spacing={0}>
 					<Grid item xs={6} className={cx("validator-detail")}>

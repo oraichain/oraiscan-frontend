@@ -79,7 +79,7 @@ const NavigateBackBar = ({ type, id = "" }) => {
 				return (
 					<NavLink className={cx("title")} to={"/oracle-scripts"}>
 						{" "}
-						<LeftArrowIcon className={cx("title-icon")} /> Oracle script details
+						<LeftArrowIcon className={cx("title-icon")} /> Blockchain oracle script details
 					</NavLink>
 				);
 			}

@@ -25,7 +25,7 @@ export default function({blockData = {}}) {
 				</div>
 			</div>
 			<div className={cx("block-row", "block-row-desc")}>
-				<div className={cx("left")}> Oracle Script </div>
+				<div className={cx("left")}> Blockchain oracle Script </div>
 				<div className={cx("right-desc")}> #03 Band Standard Dataset (Crypto) </div>
 			</div>
 			<div className={cx("block-row", "block-row-desc")}>

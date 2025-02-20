@@ -99,7 +99,7 @@ const TogglePageBar = ({type}) => {
 				return (
 					<div className={cx("title")}>
 						{" "}
-						<OracleScriptsTabIcon className={cx("title-icon")} /> Oracle Scripts
+						<OracleScriptsTabIcon className={cx("title-icon")} /> Blockchain oracle Scripts
 					</div>
 				);
 			}
