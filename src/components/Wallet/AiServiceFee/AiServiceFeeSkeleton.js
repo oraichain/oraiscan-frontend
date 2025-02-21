@@ -83,7 +83,7 @@ const AiServiceFeeSkeleton = memo(({isLargeScreen}) => {
 
 	return (
 		<div className={cx("your-validator-card")}>
-			<div className={cx("your-validator-card-header")}>Your AI Oracle service fees</div>
+			<div className={cx("your-validator-card-header")}>Your AI blockchain oracle service fees</div>
 			<div className={cx("your-validator-card-body")}>
 				{isLargeScreen ? (
 					<Grid container spacing={0}>

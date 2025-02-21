@@ -34,7 +34,7 @@ const Footer = memo(() => {
 								<div className={cx("intro")}>
 									<OraiLogo className={cx("intro-logo")} />
 									<div className={cx("intro-description")}>
-										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and oracle Services
+										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and blockchain oracle Services
 									</div>
 								</div>
 
