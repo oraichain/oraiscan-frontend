@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson, { ValueItem } from "src/components/ReactJson";
@@ -36,6 +36,8 @@ import { tryParseMessage } from "src/lib/scripts";
 import IBCProgress from "./IBCProgress";
 import { CW20_DECIMALS } from "@oraichain/oraidex-common/build/constant";
 import { toDisplay } from "@oraichain/oraidex-common/build/helper";
+import config from "src/config";
+
 const cx = cn.bind(styles);
 
 const getTxTypeNew = (type, result = "", value) => {
@@ -82,6 +84,14 @@ const TxMessage = ({ key, msg, data, ind }) => {
 	const activeThemeId = useSelector(state => state.activeThemeId);
 	const loadMoreValue = useSelector(state => state.txs.loadMore);
 	const { data: storeCodeData, loading: loadingStoreCode, error: storeCodeError, fetch: fetchStoreCode } = useGithubSource();
+	const contentRefs = useRef([]);
+
+	const toggleCollapse = index => {
+		if (contentRefs.current[index]) {
+			const isHidden = contentRefs.current[index].style.display === "none";
+			contentRefs.current[index].style.display = isHidden ? "inline-table" : "none";
+		}
+	};
 
 	const value = msg;
 	let type = msg["@type"] || "";
@@ -305,55 +315,44 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return !data ? null : getInfoPriceRow(label, data.value, denom);
 		};
 
-		const getRawLog = (rawLog, index) => {
-			let messageParse = [];
-			try {
-				messageParse = tryParseMessage(JSON.parse(rawLog));
-			} catch (error) {
-				messageParse = [{ error: rawLog }];
-			} finally {
-				if (!index) messageParse = [messageParse[0]];
-				else messageParse = messageParse.filter(msg => msg.msg_index === index);
-				return (
-					<InfoRow label='RawLog'>
-						{!isLargeScreen ? (
-							<ReactJson
-								style={{ backgroundColor: "transparent" }}
-								name={false}
-								theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
-								displayObjectSize={false}
-								displayDataTypes={false}
-								collapsed={4}
-								src={messageParse}
-							/>
-						) : (
-							messageParse.map((msg, key) => {
-								const { events = [] } = msg || { events: [] };
-								return (
-									<div className={cx("message")}>
-										<span className={cx("message-title")}>Event {key + 1}:</span>
-										{events.map(event => (
-											<div className={cx("event")}>
-												<h2 className={cx("event-type")}>{event.type}</h2>
-												<table className={cx("event-attribute")}>
-													<tbody>
-														{event.attributes?.map(attr => (
-															<tr>
-																<td>{attr.key}</td>
-																<td>{ValueItem(attr.value)}</td>
-															</tr>
-														))}
-													</tbody>
-												</table>
-											</div>
+		const getRawLog = (data, index) => {
+			let messageParse = data.messages;
+
+			if (!index) messageParse = [messageParse[0]];
+			else messageParse = messageParse.filter(msg => msg.msg_index === index);
+			return (
+				<InfoRow label='Events'>
+					{!isLargeScreen ? (
+						<ReactJson
+							style={{ backgroundColor: "transparent" }}
+							name={false}
+							theme={activeThemeId === themeIds.DARK ? "monokai" : "rjv-default"}
+							displayObjectSize={false}
+							displayDataTypes={false}
+							collapsed={3}
+							src={data?.tx_result?.events}
+						/>
+					) : (
+						data?.tx_result?.events.map((event, ind) => (
+							<div className={cx("message")} key={ind}>
+								<div className={cx("event")}>
+									<h2 className={cx("event-type")} onClick={() => toggleCollapse(ind)}>
+										{ind + 1}. {event.type}
+									</h2>
+									<table className={cx("event-attribute")} style={{ display: "none" }} ref={el => (contentRefs.current[ind] = el)}>
+										{event.attributes?.map(attr => (
+											<tr>
+												<td>{attr.key}</td>
+												<td>{ValueItem(attr.value)}</td>
+											</tr>
 										))}
-									</div>
-								);
-							})
-						)}
-					</InfoRow>
-				);
-			}
+									</table>
+								</div>
+							</div>
+						))
+					)}
+				</InfoRow>
+			);
 		};
 
 		const getInfoRowSummary = (label, value) => (
@@ -415,7 +414,9 @@ const TxMessage = ({ key, msg, data, ind }) => {
 				var logs;
 				try {
 					const logs = JSON.parse(data.raw_log);
+
 					const ibcTransferEvent = parseRawEvents(logs[0].events, "send_packet");
+
 					// process denom for msg transfer case
 					if (ibcTransferEvent) {
 						const packetData = JSON.parse(ibcTransferEvent.attributes.find(attr => attr.key === "packet_data").value).denom;
@@ -430,17 +431,31 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			let formatedAmount;
 			let calculatedValue;
 			const denomCheck = checkTokenCW20(denom_name);
+
 			if (keepOriginValue) {
 				calculatedValue = amount;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount, 1);
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount, 1);
 			} else {
-				calculatedValue = amount / 1000000;
-				formatedAmount = denomCheck?.denom ? formatOrai(amount, Math.pow(10, denomCheck?.decimal)) : formatOrai(amount);
+				calculatedValue = denom === consts.TON_TOKENFACTORY_DENOM ? amount / 1000000000 : amount / 1000000;
+				formatedAmount = denomCheck?.denom
+					? formatOrai(amount, Math.pow(10, denomCheck?.decimal))
+					: denom === consts.TON_TOKENFACTORY_DENOM
+					? formatOrai(amount, Math.pow(10, 9))
+					: formatOrai(amount);
 			}
+
 			const amountValue = <span className={cx("amount-value")}>{formatedAmount + " "}</span>;
 			const amountDenom = (
 				<span className={cx("amount-denom")}>
-					{denomCheck?.denom || denom_name || (finalDenom && String(finalDenom).toLowerCase() === consts.DENOM ? finalDenom : consts.MORE)}
+					{denomCheck?.denom ||
+						denom_name ||
+						(finalDenom && (String(finalDenom).toLowerCase() === consts.DENOM || String(finalDenom).toLowerCase() === consts.TON_TOKENFACTORY_DENOM)
+							? finalDenom
+							: consts.MORE)}
 				</span>
 			);
 			const amountUsd = (
@@ -450,6 +465,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 					)}
 				</>
 			);
+
 			return { amountValue, amountDenom, amountUsd };
 		};
 
@@ -489,6 +505,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			if (!inputObject || inputObject?.length <= 0) {
 				return null;
 			}
+
 			const amountData = handleConditionAmount(label, inputObject, keepOriginValue);
 			return <InfoRow label={label}>{amountData}</InfoRow>;
 		};
@@ -505,6 +522,7 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 		const getTotalTransfer = (label, msg) => {
 			const totalAmount = msg.reduce((acc, cur) => acc + +cur?.msg?.transfer?.amount ?? 0, 0);
+			if (!totalAmount) return null;
 			return (
 				<InfoRow label={label}>
 					<span className={cx("text")}>{_.isNil(totalAmount) ? "-" : formatOrai(totalAmount)}</span> <span className={cx("text")}>{}</span>
@@ -720,12 +738,11 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			};
 		};
 
-		const getTransfer = (key = 0, rawLog = "[]", result = "") => {
+		const getTransfer = (key = 0, events, result = "") => {
 			let checkTransfer = false;
 			let msgTransfer = [];
 			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-				for (let event of rawLogArr[key].events) {
+				for (let event of events) {
 					if (event["type"] === "transfer") {
 						checkTransfer = true;
 						let start = false;
@@ -744,15 +761,20 @@ const TxMessage = ({ key, msg, data, ind }) => {
 
 							if (start && att["key"] === "amount") {
 								const value = att["value"]?.split(",") || [];
+
 								for (let i = 0; i < value.length; i++) {
 									const e = value[i];
 									let splitValue = e.split("/");
 									let splitTextNumber = processText(splitValue?.[0]);
+									const tokenfactoryDenom = splitTextNumber?.[0]?.[1] + `/${splitValue?.[1]}/${splitValue?.[2]}`;
 									obj = {
 										...obj,
-										amount: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
-										demon: splitTextNumber?.[0]?.[1],
-										txs: splitValue?.[1],
+										amount:
+											tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM
+												? +splitTextNumber?.[0]?.[0] / Math.pow(10, 9)
+												: +splitTextNumber?.[0]?.[0] / Math.pow(10, 6),
+										demon: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? reduceStringAssets(tokenfactoryDenom, 8, 7) : splitTextNumber?.[0]?.[1],
+										txs: tokenfactoryDenom === consts.TON_TOKENFACTORY_DENOM ? "" : splitValue?.[1],
 									};
 									msgTransfer.push(obj);
 								}
@@ -781,8 +803,8 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			return output;
 		};
 
-		const getTransferRow = (label, key = 0, rawLog = "[]", result = "") => {
-			const transfer = getTransfer(key, rawLog, result);
+		const getTransferRow = (label, key = 0, events = [], result = "") => {
+			const transfer = getTransfer(key, events, result);
 
 			return (
 				transfer.checkTransfer && (
@@ -878,13 +900,12 @@ const TxMessage = ({ key, msg, data, ind }) => {
 			});
 		};
 
-		const getRoyaltyDetail = (key = 0, rawLog = "[]", result = "") => {
+		const getRoyaltyDetail = (key = 0, events, result = "") => {
 			let royaltys = [];
 			let checkRoyaltyAmount = false;
 			if (result === "Success") {
-				let rawLogArr = JSON.parse(rawLog);
-				for (let index = rawLogArr[key].events.length - 1; index > -1; index--) {
-					const event = rawLogArr[key].events[index];
+				for (let index = events.length - 1; index > -1; index--) {
+					const event = events[index];
 					if (event["type"] === "wasm") {
 						for (let att of event["attributes"]) {
 							if (att["key"] === "action" && att["value"] === "pay_royalty") {

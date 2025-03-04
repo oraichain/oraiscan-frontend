@@ -1,12 +1,12 @@
 // @ts-nocheck
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo} from "react";
-import {useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {_, reduceString, setAgoTime} from "src/lib/scripts";
-import {tableThemes} from "src/constants/tableThemes";
+import { _, reduceString, setAgoTime } from "src/lib/scripts";
+import { tableThemes } from "src/constants/tableThemes";
 import ThemedTable from "src/components/common/ThemedTable";
 import styles from "./TransactionTable.module.scss";
 
@@ -15,25 +15,25 @@ const cx = classNames.bind(styles);
 const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
 	let typeMsg = typeArr[typeArr.length - 1];
-	if (typeMsg === "MsgExecuteContract" && result === "Success") {
-		let rawLogArr = JSON.parse(rawLog);
-		for (let event of rawLogArr[0].events) {
-			if (event["type"] === "wasm") {
-				for (let att of event["attributes"]) {
-					if (att["key"] === "action") {
-						let attValue = att["value"]
-							.split("_")
-							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-							.join("");
-						typeMsg += "/" + attValue;
-						break;
-					}
-				}
+	// if (typeMsg === "MsgExecuteContract" && result === "Success") {
+	// 	let rawLogArr = JSON.parse(rawLog);
+	// 	for (let event of rawLogArr[0].events) {
+	// 		if (event["type"] === "wasm") {
+	// 			for (let att of event["attributes"]) {
+	// 				if (att["key"] === "action") {
+	// 					let attValue = att["value"]
+	// 						.split("_")
+	// 						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+	// 						.join("");
+	// 					typeMsg += "/" + attValue;
+	// 					break;
+	// 				}
+	// 			}
 
-				break;
-			}
-		}
-	}
+	// 			break;
+	// 		}
+	// 	}
+	// }
 
 	return typeMsg;
 };
@@ -46,10 +46,10 @@ export const getHeaderRow = () => {
 	const headerCells = [txHashHeaderCell, typeHeaderCell, heightHeaderCell, timeHeaderCell];
 	const headerCellStyles = [
 		// change width to % to fixed location.
-		{width: "23.4%"}, // TxHash
-		{width: "46%"}, // Type
-		{width: "17.8%"}, // Height
-		{width: "12.8%"}, // Time
+		{ width: "23.4%" }, // TxHash
+		{ width: "46%" }, // Type
+		{ width: "17.8%" }, // Height
+		{ width: "12.8%" }, // Time
 	];
 	return {
 		headerCells,
@@ -57,7 +57,7 @@ export const getHeaderRow = () => {
 	};
 };
 
-const TransactionTable = memo(({data = [], rowMotions = []}) => {
+const TransactionTable = memo(({ data = [], rowMotions = [] }) => {
 	const getDataRows = data => {
 		if (!Array.isArray(data)) {
 			return [];

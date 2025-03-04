@@ -34,7 +34,7 @@ const Footer = memo(() => {
 								<div className={cx("intro")}>
 									<OraiLogo className={cx("intro-logo")} />
 									<div className={cx("intro-description")}>
-										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and oracle Services
+										A search engine for data and service information within Oraichain network - AI Layer 1 for Data Economy and blockchain oracle Services
 									</div>
 								</div>
 
@@ -55,7 +55,12 @@ const Footer = memo(() => {
 										<span className={cx("nav-title")}>Token</span>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://www.kucoin.com/trade/ORAI-USDT' target='_blank'>
+										<a className={cx("nav-link")} href='https://docs.orai.io/readme/tokenomics' target='_blank'>
+											Contracts
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://orai.io/control-center' target='_blank'>
 											Get ORAI
 										</a>
 									</li>
@@ -65,8 +70,18 @@ const Footer = memo(() => {
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://blog.orai.io/introduction-to-oraichain-mobile-wallet-3e4f7cf4d331' target='_blank'>
-											Oraichain Wallet
+										<a className={cx("nav-link")} href='https://orai.io/ecosystem' target='_blank'>
+											OWallet
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://oraidex.io/' target='_blank'>
+											OraiDex
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://oraidex.io/bridge' target='_blank'>
+											OraiBridge
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
@@ -82,21 +97,32 @@ const Footer = memo(() => {
 										<span className={cx("nav-title")}>Ecosystem</span>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://docs.orai.io/readme/system-overview' target='_blank'>
-											Network
+										<a className={cx("nav-link")} href='https://scan.orai.io/' target='_blank'>
+											Mainnet
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://agents.land/' target='_blank'>
+											Agents.Land
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://cupiee.com/' target='_blank'>
+											Cupiee
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://defilens.ai/' target='_blank'>
+											DeFi Lens
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://docs.orai.io/vrf/introduction' target='_blank'>
 											Oraichain VRF 2.0
+
 										</a>
 									</li>
-									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://blog.orai.io/-eb20ca5c93fe' target='_blank'>
-											OraiDEX
-										</a>
-									</li>
-									<li className={cx("nav-item")}>
+									{/* <li className={cx("nav-item")}>
 										<a
 											className={cx("nav-link")}
 											href='https://blog.orai.io/oraichain-data-hub-the-fundamental-hub-to-empower-data-economy-4b560bdc4752'
@@ -105,20 +131,17 @@ const Footer = memo(() => {
 										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a
-											className={cx("nav-link")}
-											href='https://oraichain.cloudflareaccess.com/cdn-cgi/access/login/market.orai.io?kid=ad5fbc341766f2257f65061abedbdbaad4c14402b576d0ce269e6dbdc78ee7ca&redirect_url=%2F&meta=eyJraWQiOiI5MGJjNWNiOTMyZGYxYTlkYzEzMjk5ZDdhOTc1MDEwMWQwYzFhNzAzZDE1OTRiMzQ2YjQwOGFmZjFlOTZjYzBmIiwiYWxnIjoiUlMyNTYiLCJ0eXAiOiJKV1QifQ.eyJzZXJ2aWNlX3Rva2VuX3N0YXR1cyI6ZmFsc2UsImlhdCI6MTY0Nzk0NDY4Miwic2VydmljZV90b2tlbl9pZCI6IiIsImF1ZCI6ImFkNWZiYzM0MTc2NmYyMjU3ZjY1MDYxYWJlZGJkYmFhZDRjMTQ0MDJiNTc2ZDBjZTI2OWU2ZGJkYzc4ZWU3Y2EiLCJob3N0bmFtZSI6Im1hcmtldC5vcmFpLmlvIiwidHlwZSI6Im1ldGEiLCJuYmYiOjE2NDc5NDQ2ODIsInJlZGlyZWN0X3VybCI6IlwvIiwiaXNfZ2F0ZXdheSI6ZmFsc2UsImlzX3dhcnAiOmZhbHNlLCJhdXRoX3N0YXR1cyI6Ik5PTkUifQ.WI5uqxIJbpn9XPnDiu25v8p92vI70xR7b9UxOKnIr8Q9atb7eq9G1XU6P3IWwIKMB-ZXZoS5aZ9EJl3EKDNXp59qKrfuoLdguxV4ixRIpMy6mYJxlyoM5wSAlE-QkuId7I0XQWzNCNFUDI3ye4nIhh63dQwGzZcUx3sk8cfN-b6Tp7IiSu8xNzBzZtq0iTxWye6Y2wYRr8t15ADO_Hf_4dfDymwpEg3xxyP9TtXmGAwz8S4Bc9P5o7IAUv6c0SLawAvu16128CgTA_BSAbMbfmoG4JNpGS1BrsdzTQgO6PNp11JDv24UJgh35myTC-h_8FjhTHNwSIPDamZQOi2kYQ'
-											target='_blank'>
-											AI Marketplace
-										</a>
-									</li>
-									<li className={cx("nav-item")}>
 										<a className={cx("nav-link")} href='https://airight.io/' target='_blank'>
 											aiRight
 										</a>
+									</li> */}
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://kawaii.global/' target='_blank'>
+											Kawaiiverse
+										</a>
 									</li>
 									<li className={cx("nav-item")}>
-										<a className={cx("nav-link")} href='https://blog.orai.io/oraichain-roadmap-for-2022-3a6fca7ace86' target='_blank'>
+										<a className={cx("nav-link")} href='https://docs.orai.io/readme/tokenomics' target='_blank'>
 											Other DApps
 										</a>
 									</li>
@@ -150,6 +173,16 @@ const Footer = memo(() => {
 											Blog
 										</a>
 									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://t.me/SamORAI_bot' target='_blank'>
+											Support
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a className={cx("nav-link")} href='https://oraichainlabs.org/' target='_blank'>
+											Team
+										</a>
+									</li>
 								</ul>
 							</Grid>
 							<Grid item lg={3} xs={6}>
@@ -173,6 +206,22 @@ const Footer = memo(() => {
 											href='https://blog.orai.io/oraichain-x-cosmwasm-building-open-source-ide-for-developers-of-cosmos-sdk-chains-793311f2f4be'
 											target='_blank'>
 											CosmWasm IDE
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a
+											className={cx("nav-link")}
+											href='https://blog.orai.io/introducing-oraichain-for-dapps-accelerator-program-9612c0d28c16'
+											target='_blank'>
+											Accelerator Program
+										</a>
+									</li>
+									<li className={cx("nav-item")}>
+										<a
+											className={cx("nav-link")}
+											href='https://oraichain.notion.site/Oraichain-Labs-Careers-b14d9467f9604b3d9cf9a3282730cec5'
+											target='_blank'>
+											Careers
 										</a>
 									</li>
 								</ul>
@@ -201,7 +250,7 @@ const Footer = memo(() => {
 							</a>
 						</div>
 						<div className={cx("social-section-text")}>
-							©️ 2020 - 2023 Oraichain Foundation. All rights reserved.{" "}
+							©️ 2020 - {new Date().getFullYear()} Oraichain Foundation. All rights reserved.{" "}
 							<span
 								style={{
 									textDecoration: "underline",

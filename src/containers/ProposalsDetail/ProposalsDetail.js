@@ -29,6 +29,7 @@ import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { calculateTallyProposal } from "src/helpers/helper";
 
 import moment from "moment";
+import useFetchLCD from "../../hooks/useFetchLCD";
 
 const cx = cn.bind(styles);
 
@@ -44,9 +45,44 @@ export default function(props) {
 	const [tally, setTally] = useState({});
 	const type = queryStringParse?.type ?? "";
 	const path = `${consts.API.PROPOSALS}/${proposalId}`;
-	const { data, loading, error } = useGet({
+	const { data: dataDetail, loading, error } = useGet({
 		path: path,
 	});
+	const [data, setData] = useState({});
+	const { result } = useFetchLCD(`cosmos/gov/v1/proposals/${proposalId}`);
+
+	useEffect(() => {
+		if (!!result) {
+			const proposal = result.proposal;
+
+			if (!!proposal) {
+				const type = proposal?.messages?.[0]["@type"];
+				const title = proposal?.title || proposal?.authority;
+				const deposit_end_time = proposal.deposit_end_time;
+				const description = proposal?.description;
+				const voting_start = proposal.voting_start_time;
+				const voting_end = proposal.voting_end_time;
+				const submit_time = proposal.submit_time;
+				const status = proposal.status;
+				const total_deposit = Array.isArray(proposal.total_deposit) ? proposal.total_deposit[0]?.amount : null;
+				const proposal_id = proposal.proposer;
+				setData({
+					...dataDetail,
+					type,
+					title,
+					deposit_end_time,
+					description,
+					voting_start,
+					voting_end,
+					submit_time,
+					status,
+					total_deposit,
+					proposal_id: proposal.id,
+					proposer: proposal_id,
+				});
+			}
+		}
+	}, [result, dataDetail]);
 
 	async function getDescriptionProposal() {
 		const description = await queryStation.proposalId(proposalId);
@@ -145,6 +181,7 @@ export default function(props) {
 			if (!data.description) {
 				dataDescription.description = des?.description;
 			}
+
 			detailsCard = <DetailsCard data={dataDescription} />;
 			chartCard = <ChartCard data={tally} />;
 		}

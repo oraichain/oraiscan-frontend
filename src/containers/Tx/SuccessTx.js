@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@material-ui/core/Container";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cn from "classnames/bind";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavigateBackBar from "src/components/common/NavigateBackBar";
 import NotFound from "src/components/common/NotFound";
 import PageTitle from "src/components/common/PageTitle";
@@ -15,7 +15,7 @@ import TxDataSkeleton from "src/components/Tx/TxData/TxDataSkeleton";
 import TxInfo from "src/components/Tx/TxInfo";
 import TxInfoSkeleton from "src/components/Tx/TxInfo/TxInfoSkeleton";
 import styles from "./Tx.module.scss";
-import {useGetTx} from "./useGetTx";
+import { useGetTx } from "./useGetTx";
 
 const cx = cn.bind(styles);
 
@@ -25,7 +25,7 @@ const SuccessTx = () => {
 	const params = useParams();
 	const txHash = params?.["tx"];
 
-	const {loading, data} = useGetTx(txHash);
+	const { loading, data } = useGetTx(txHash);
 
 	let titleSection;
 	let txInfo;

@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {memo, useMemo, useState, useRef, useEffect} from "react";
-import {useGet} from "restful-react";
-import {useTheme} from "@material-ui/core/styles";
+import React, { memo, useMemo, useState, useRef, useEffect } from "react";
+import { useGet } from "restful-react";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import classNames from "classnames/bind";
 import consts from "src/constants/consts";
-import {arraysEqual, mergeArrays} from "src/helpers/helper";
-import {formatInteger} from "src/helpers/helper";
-import {_} from "src/lib/scripts";
+import { arraysEqual, mergeArrays } from "src/helpers/helper";
+import { formatInteger } from "src/helpers/helper";
+import { _ } from "src/lib/scripts";
 import FilterSection from "src/components/common/FilterSection";
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
@@ -19,10 +19,14 @@ import DepositorsTable from "./DepositorsTable";
 import DepositorsSkeleton from "./DepositorsSkeleton";
 import DepositorsCard from "./DepositorsCard";
 import styles from "./Depositors.module.scss";
+import useFetchLCD from "../../../hooks/useFetchLCD";
+import axios from "axios";
+import config from "../../../config";
 
 const cx = classNames.bind(styles);
+const lcdApi = config.LCD_API;
 
-const Depositors = memo(({proposalId}) => {
+const Depositors = memo(({ proposalId }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -33,9 +37,35 @@ const Depositors = memo(({proposalId}) => {
 	};
 
 	const despositorPath = `${consts.API.PROPOSALS}/${proposalId}/depositors?page_id=${pageId}`;
-	const {data: despositorData, loading: despositorLoading} = useGet({
+	const { data, loading: despositorLoading } = useGet({
 		path: despositorPath,
 	});
+
+	const [despositorData, setDespositorData] = useState();
+
+	useEffect(() => {
+		async function fetchData() {
+			if (data?.depositors?.length) {
+				setDespositorData(data);
+			} else {
+				const depositsPathLCD = `cosmos/gov/v1beta1/proposals/${proposalId}/deposits?pagination.offset=${(pageId - 1) * 10}&pagination.limit=10`;
+				const response = await axios.get(`${lcdApi}/${depositsPathLCD}`);
+				const data = response?.data;
+				setDespositorData({
+					page: {
+						total_page: data?.pagination?.total,
+					},
+					depositors: data?.deposits?.map(item => ({
+						account_address: item?.depositor,
+						amount: Array.isArray(item?.amount) ? `${item.amount[0]?.amount}${item.amount[0]?.denom}` : "-",
+						time_deposit: item?.time_deposit,
+						tx_hash: item?.tx_hash
+					})),
+				});
+			}
+		}
+		fetchData();
+	}, [data]);
 
 	let headerSection;
 	let tableSection;

@@ -60,7 +60,7 @@ const OracleScripts = () => {
 		titleSection = (
 			<Container fixed>
 				<TitleWrapper>
-					<PageTitle title={"Oracle Scripts"} />
+					<PageTitle title={"Blockchain oracle scripts"} />
 					<StatusBox />
 				</TitleWrapper>
 			</Container>

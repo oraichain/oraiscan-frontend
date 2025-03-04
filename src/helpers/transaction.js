@@ -93,25 +93,25 @@ export const getAmountDenomInfo = (item, account) => {
 export const getTxTypeNew = (type, rawLog = "[]", result = "") => {
 	const typeArr = type.split(".");
 	let typeMsg = typeArr[typeArr.length - 1];
-	if (typeMsg === "MsgExecuteContract" && result === "Success") {
-		let rawLogArr = JSON.parse(rawLog);
-		for (let event of rawLogArr[0].events) {
-			if (event["type"] === "wasm") {
-				for (let att of event["attributes"]) {
-					if (att["key"] === "action") {
-						let attValue = att["value"]
-							.split("_")
-							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-							.join("");
-						typeMsg += "/" + attValue;
-						break;
-					}
-				}
+	// if (typeMsg === "MsgExecuteContract" && result === "Success") {
+	// 	let rawLogArr = JSON.parse(rawLog);
+	// 	for (let event of rawLogArr[0].events) {
+	// 		if (event["type"] === "wasm") {
+	// 			for (let att of event["attributes"]) {
+	// 				if (att["key"] === "action") {
+	// 					let attValue = att["value"]
+	// 						.split("_")
+	// 						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+	// 						.join("");
+	// 					typeMsg += "/" + attValue;
+	// 					break;
+	// 				}
+	// 			}
 
-				break;
-			}
-		}
-	}
+	// 			break;
+	// 		}
+	// 	}
+	// }
 	return typeMsg;
 };
 
@@ -134,18 +134,17 @@ const handleRoyaltyPercentage = royalty => {
 	return royalty;
 };
 
-export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
+export const getNewRoyalty = (account, events, result = "") => {
 	let newRoyalty = "-";
 	if (result === "Failure") {
 		return newRoyalty;
 	}
 
-	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyalty = false;
 	let checkAccount = false;
 
-	if (rawLogArr && rawLogArr.length > 0) {
-		for (let event of rawLogArr[0]?.events) {
+	if (events && events.length > 0) {
+		for (let event of events) {
 			if (event["type"] === "wasm") {
 				for (let att of event["attributes"]) {
 					if (att["key"] === "action" && att["value"] === "update_ai_royalty") {
@@ -172,16 +171,15 @@ export const getNewRoyalty = (account, rawLog = "[]", result = "") => {
 	return handleRoyaltyPercentage(newRoyalty);
 };
 
-export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
+export const getRoyaltyAmount = (account, events, result = "") => {
 	let royaltyAmount = "0";
 	if (result === "Failure") {
 		return royaltyAmount;
 	}
 
-	let rawLogArr = JSON.parse(rawLog);
 	let checkRoyaltyAmount = false;
-	for (let index = rawLogArr[0]?.events?.length - 1; index > -1; index--) {
-		const event = rawLogArr[0]?.events[index];
+	for (let index = events?.length - 1; index > -1; index--) {
+		const event = events[index];
 		if (event["type"] === "wasm") {
 			for (let att of event["attributes"]) {
 				if (att["key"] === "action" && att["value"] === "pay_royalty") {
@@ -207,14 +205,13 @@ export const getRoyaltyAmount = (account, rawLog = "[]", result = "") => {
 	return obj;
 };
 
-export const getTokenId = (rawLog = "[]", result = "") => {
+export const getTokenId = (events, result = "") => {
 	let tokenId = "";
 	if (result === "Failure") {
 		return tokenId;
 	}
 
-	let rawLogArr = JSON.parse(rawLog);
-	for (let event of rawLogArr[0].events) {
+	for (let event of events) {
 		if (event["type"] === "wasm") {
 			for (let att of event["attributes"]) {
 				if (att["key"] === "token_id") {

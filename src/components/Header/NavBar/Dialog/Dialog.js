@@ -54,10 +54,10 @@ const TABS = [
 		name: "Send AIRI",
 		id: 3,
 	},
-	{
-		name: "Multisend CW20",
-		id: 4,
-	},
+	// {
+	// 	name: "Multisend CW20",
+	// 	id: 4,
+	// },
 ];
 
 const FormDialog = memo(({ show, handleClose, address, amount, amountAiri }) => {

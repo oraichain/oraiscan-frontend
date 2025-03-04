@@ -1,7 +1,7 @@
-import React, {memo, useState, useRef} from "react";
-import {useGet} from "restful-react";
+import React, { memo, useState, useRef } from "react";
+import { useGet } from "restful-react";
 import classNames from "classnames/bind";
-import {useTheme} from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import consts from "src/constants/consts";
 import DelegationTable from "src/components/Account/DelegationTable";
@@ -11,10 +11,11 @@ import DelegationCardListSkeleton from "src/components/Account/DelegationCardLis
 import Pagination from "src/components/common/Pagination";
 import NoResult from "src/components/common/NoResult";
 import styles from "./DelegationCard.module.scss";
+import { formatOrai } from "src/helpers/helper";
 
 const cx = classNames.bind(styles);
 
-const DelegationCard = memo(({account = ""}) => {
+const DelegationCard = memo(({ account = "" }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 	const [pageId, setPageId] = useState(1);
@@ -25,7 +26,7 @@ const DelegationCard = memo(({account = ""}) => {
 	};
 
 	const path = `${consts.API.DELEGATIONS}/${account}`;
-	const {data, loading, error} = useGet({
+	const { data, loading, error } = useGet({
 		path: path,
 	});
 
@@ -45,8 +46,13 @@ const DelegationCard = memo(({account = ""}) => {
 				totalPagesRef.current = null;
 			}
 
-			if (Array.isArray(data?.data) && data.data.length > 0) {
-				tableSection = isLargeScreen ? <DelegationTable data={data.data} /> : <DelegationCardList data={data.data} />;
+			const delegateData =
+				Array.isArray(data?.data) && data.data.length > 0
+					? data?.data.filter(delegate => parseInt(delegate.amount) > 0 || parseFloat(formatOrai(delegate.reward)) >= parseFloat(formatOrai(1)))
+					: [];
+
+			if (delegateData.length > 0) {
+				tableSection = isLargeScreen ? <DelegationTable data={delegateData} /> : <DelegationCardList data={delegateData} />;
 			} else {
 				tableSection = <NoResult />;
 			}

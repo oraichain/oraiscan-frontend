@@ -42,12 +42,12 @@ const initialNavLinks = [
 						icon: null,
 						target: "_blank",
 					},
-					{
-						title: "Decentralized Data and AI platform",
-						link: "https://docs.orai.io/white-paper/system-overview/decentralized-data-and-ai-platform",
-						icon: null,
-						target: "_blank",
-					},
+					// {
+					// 	title: "Decentralized Data and AI platform",
+					// 	link: "https://docs.orai.io/white-paper/system-overview/decentralized-data-and-ai-platform",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 					{
 						title: "IBC Communication",
 						link: "https://docs.orai.io/white-paper/system-overview/ibc-integration",
@@ -59,12 +59,12 @@ const initialNavLinks = [
 			{
 				name: "TOKEN",
 				list: [
-					{
-						title: "Utilities",
-						link: "https://docs.orai.io/white-paper/token-economics",
-						icon: null,
-						target: "_blank",
-					},
+					// {
+					// 	title: "Utilities",
+					// 	link: "https://docs.orai.io/white-paper/token-economics",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 					{
 						title: "Tokenomics",
 						link: "https://docs.orai.io/white-paper/token-economics",
@@ -93,7 +93,8 @@ const initialNavLinks = [
 				name: "VALIDATORS",
 				list: [
 					{
-						title: "Secure the Oraichain Mainnet 2.0",
+						// title: "Secure the Oraichain Mainnet 2.0",
+						title: "Become validator of Oraichain Mainnet 2.0",
 						link: "https://docs.orai.io/developers/networks/mainnet/become-a-validator",
 						icon: null,
 						target: "_blank",
@@ -155,7 +156,7 @@ const initialNavLinks = [
 		title: "Ecosystem",
 		children: [
 			{
-				name: "AI ORACLES",
+				name: "AI BLOCKCHAIN ORACLES",
 				list: [
 					{
 						title: "Price Feed",
@@ -175,17 +176,23 @@ const initialNavLinks = [
 						icon: null,
 						target: "_blank",
 					},
-					{
-						title: "Originality Check",
-						link: "https://airight.io/original-check",
-						icon: null,
-						target: "_blank",
-					},
+					// {
+					// 	title: "Originality Check",
+					// 	link: "https://airight.io/original-check",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 				],
 			},
 			{
 				name: "DEX & DEFI",
 				list: [
+					{
+						title: "Agents.Land",
+						link: "https://agents.land",
+						icon: null,
+						target: "_blank",
+					},
 					{
 						title: "OraiDEX",
 						link: "https://oraidex.io",
@@ -193,11 +200,17 @@ const initialNavLinks = [
 						target: "_blank",
 					},
 					{
-						title: "yAI.Finance",
-						link: "https://yai.finance",
+						title: "DeFi Lens",
+						link: "https://defilens.ai/",
 						icon: null,
 						target: "_blank",
 					},
+					// {
+					// 	title: "yAI.Finance",
+					// 	link: "https://yai.finance",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 					{
 						title: "Trava",
 						link: "https://trava.finance",
@@ -210,23 +223,23 @@ const initialNavLinks = [
 				name: "WEB 3.0",
 				list: [
 					{
-						title: "DINO Hub",
-						link: "https://dinohub.io/",
+						title: "Cupiee",
+						link: "https://cupiee.com/",
 						icon: null,
 						target: "_blank",
 					},
-					{
-						title: "AI Marketplace",
-						link: "https://ai.dinohub.io/",
-						icon: null,
-						target: "_blank",
-					},
-					{
-						title: "Data Marketplace (Coming soon)",
-						link: "",
-						icon: null,
-						target: "_blank",
-					},
+					// {
+					// 	title: "AI Marketplace",
+					// 	link: "https://ai.dinohub.io/",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
+					// {
+					// 	title: "Data Marketplace (Coming soon)",
+					// 	link: "",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 				],
 			},
 			{
@@ -253,17 +266,6 @@ const initialNavLinks = [
 				],
 			},
 			{
-				name: "GAMEFI",
-				list: [
-					{
-						title: "Kawaii Islands",
-						link: "https://kawaii.global",
-						icon: null,
-						target: "_blank",
-					},
-				],
-			},
-			{
 				name: "NFT",
 				list: [
 					{
@@ -279,16 +281,16 @@ const initialNavLinks = [
 				list: [
 					{
 						title: "OWallet",
-						link: "https://docs.orai.io/wallets/wallets",
+						link: "https://orai.io/ecosystem",
 						icon: null,
 						target: "_blank",
 					},
-					{
-						title: "Oraichain Wallet",
-						link: "https://docs.orai.io/wallets/wallets",
-						icon: null,
-						target: "_blank",
-					},
+					// {
+					// 	title: "Oraichain Wallet",
+					// 	link: "https://docs.orai.io/wallets/wallets",
+					// 	icon: null,
+					// 	target: "_blank",
+					// },
 				],
 			},
 			{
