@@ -49,22 +49,23 @@ export default function(props) {
 		path: path,
 	});
 	const [data, setData] = useState({});
-	const { result } = useFetchLCD(`cosmos/gov/v1beta1/proposals/${proposalId}`);
+	const { result } = useFetchLCD(`cosmos/gov/v1/proposals/${proposalId}`);
 
 	useEffect(() => {
-		if(!!result){
+		if (!!result) {
 			const proposal = result.proposal;
-			if(!!proposal){
-				const type = proposal.content['@type'];
-				const title = proposal.content?.title || proposal.content?.authority;
+
+			if (!!proposal) {
+				const type = proposal?.messages?.[0]["@type"];
+				const title = proposal?.title || proposal?.authority;
 				const deposit_end_time = proposal.deposit_end_time;
-				const description = proposal.content?.description;
+				const description = proposal?.description;
 				const voting_start = proposal.voting_start_time;
 				const voting_end = proposal.voting_end_time;
 				const submit_time = proposal.submit_time;
 				const status = proposal.status;
 				const total_deposit = Array.isArray(proposal.total_deposit) ? proposal.total_deposit[0]?.amount : null;
-				const proposal_id = proposalId;
+				const proposal_id = proposal.proposer;
 				setData({
 					...dataDetail,
 					type,
@@ -76,7 +77,8 @@ export default function(props) {
 					submit_time,
 					status,
 					total_deposit,
-					proposal_id,
+					proposal_id: proposal.id,
+					proposer: proposal_id,
 				});
 			}
 		}
@@ -179,6 +181,7 @@ export default function(props) {
 			if (!data.description) {
 				dataDescription.description = des?.description;
 			}
+
 			detailsCard = <DetailsCard data={dataDescription} />;
 			chartCard = <ChartCard data={tally} />;
 		}
