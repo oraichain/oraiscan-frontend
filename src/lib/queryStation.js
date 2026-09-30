@@ -1,7 +1,10 @@
 // @ts-nocheck
 import { network } from "src/lib/config/networks";
-import { QueryClient, setupGovExtension } from "@cosmjs/stargate";
+import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import Long from "long";
+import { PageRequest } from "cosmjs-types/cosmos/base/query/v1beta1/pagination";
+import { QueryClientImpl as GovQueryClient } from "cosmjs-types/cosmos/gov/v1/query";
 import * as cosmwasm from "@cosmjs/cosmwasm-stargate";
 
 export default class QueryStation {
@@ -9,9 +12,10 @@ export default class QueryStation {
 	queryClientTendermint = async () => {
 		const tendermint = await Tendermint34Client.connect(network.rpc);
 		// const tendermint = await Tendermint34Client.connect("http://3.134.19.98:26657");
-		const queryClient = QueryClient.withExtensions(tendermint, setupGovExtension);
-		return queryClient;
+		return new QueryClient(tendermint);
 	};
+
+	govQueryClient = queryClient => new GovQueryClient(createProtobufRpcClient(queryClient));
 
 	queryClient = async () => {
 		const client = await cosmwasm.CosmWasmClient.connect(network.rpc);
@@ -22,7 +26,7 @@ export default class QueryStation {
 	proposalId = async proposalId => {
 		try {
 			const queryClient = await this.queryClientTendermint();
-			return await queryClient.gov.proposal(proposalId);
+			return await this.govQueryClient(queryClient).Proposal({ proposalId: Long.fromValue(proposalId) });
 		} catch (ex) {
 			console.log("proposalId msg error: ", ex);
 			throw ex;
@@ -32,9 +36,12 @@ export default class QueryStation {
 	deposits = async (proposalId, paginationKey = undefined) => {
 		try {
 			const queryClient = await this.queryClientTendermint();
-			return await queryClient.gov.deposits(proposalId, paginationKey);
+			return await this.govQueryClient(queryClient).Deposits({
+				proposalId: Long.fromValue(proposalId),
+				pagination: PageRequest.fromPartial({ key: paginationKey }),
+			});
 		} catch (ex) {
-			console.log("proposalId msg error: ", ex);
+			console.log("proposalId deposits error: ", ex);
 			throw ex;
 		}
 	};
@@ -42,19 +49,28 @@ export default class QueryStation {
 	tally = async proposalId => {
 		try {
 			const queryClient = await this.queryClientTendermint();
-			return await queryClient.gov.tally(proposalId);
+			return await this.govQueryClient(queryClient).TallyResult({ proposalId: Long.fromValue(proposalId) });
 		} catch (ex) {
-			console.log("proposalId msg error: ", ex);
+			console.log("proposalId tally error: ", ex);
 			throw ex;
 		}
 	};
 
-	proposalList = async (proposalStatus, depositor = "", voter = "", paginationKey = undefined, offset, limit) => {
+	proposalList = async (proposalStatus, depositor = "", voter = "", paginationKey = undefined, limit = 100) => {
 		try {
 			const queryClient = await this.queryClientTendermint();
-			return await queryClient.gov.proposals(proposalStatus, depositor, voter, paginationKey, offset, limit);
+			return await this.govQueryClient(queryClient).Proposals({
+				proposalStatus,
+				depositor,
+				voter,
+				pagination: PageRequest.fromPartial({
+					key: paginationKey,
+					limit,
+					countTotal: !paginationKey,
+				}),
+			});
 		} catch (ex) {
-			console.log("proposalId msg error: ", ex);
+			console.log("proposalId proposalList error: ", ex);
 			throw ex;
 		}
 	};
@@ -62,9 +78,12 @@ export default class QueryStation {
 	votes = async (proposalId, paginationKey = undefined) => {
 		try {
 			const queryClient = await this.queryClientTendermint();
-			return await queryClient.gov.votes(proposalId, paginationKey);
+			return await this.govQueryClient(queryClient).Votes({
+				proposalId: Long.fromValue(proposalId),
+				pagination: PageRequest.fromPartial({ key: paginationKey }),
+			});
 		} catch (ex) {
-			console.log("proposalId msg error: ", ex);
+			console.log("proposalId votes error: ", ex);
 			throw ex;
 		}
 	};

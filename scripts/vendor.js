@@ -1,4 +1,7 @@
 // Do this as the first thing so that any code reading it knows the right env.
+// `react-scripts/config/env` requires NODE_ENV. Keep an inherited value from
+// `start`/`build`, and make `yarn vendor` usable on its own as well.
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.BABEL_ENV = 'production';
 
 // Makes the script crash on unhandled rejections instead of silently

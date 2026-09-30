@@ -25,7 +25,6 @@ import ValidatorVotes from "src/components/ProposalDetails/ValidatorVotes";
 import Depositors from "src/components/ProposalDetails/Depositors";
 import styles from "./ProposalsDetail.module.scss";
 import { queryStation } from "src/lib/queryStation";
-import { TextProposal } from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import { calculateTallyProposal } from "src/helpers/helper";
 
 import moment from "moment";
@@ -86,7 +85,7 @@ export default function(props) {
 
 	async function getDescriptionProposal() {
 		const description = await queryStation.proposalId(proposalId);
-		setDes(TextProposal.decode(description.proposal.content.value));
+		setDes({ description: description.proposal?.summary });
 	}
 
 	async function getTallyProposal() {
