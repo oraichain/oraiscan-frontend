@@ -129,7 +129,17 @@ module.exports = {
 
                     // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
                     // and needs the `project:releases` and `org:read` scopes
-                    authToken: process.env.SENTRY_AUTH_TOKEN
+                    authToken: process.env.SENTRY_AUTH_TOKEN,
+
+                    // Keep deployments available if Sentry is temporarily unavailable or the
+                    // organization rejects the token (for example, due to a member limit).
+                    errorHandler: (error, invokeErr, compilation) => {
+                        if (process.env.SENTRY_ALLOW_FAILURE === "true") {
+                            compilation.warnings.push(new Error(`Sentry upload skipped: ${error.message}`));
+                            return;
+                        }
+                        invokeErr();
+                    }
 
                     // Optionally uncomment the line below to override automatic release name detection
                     // release: process.env.RELEASE,
