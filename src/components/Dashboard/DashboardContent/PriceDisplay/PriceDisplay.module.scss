@@ -201,4 +201,21 @@
 			}
 		}
 	}
+
+	.last-updated,
+	.stale-cache {
+		font-size: 11px;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	.last-updated {
+		margin-top: 2px;
+		color: var(--dashboard-iconBlockTimesColor);
+	}
+
+	.stale-cache {
+		margin-top: 4px;
+		color: #d97706;
+	}
 }

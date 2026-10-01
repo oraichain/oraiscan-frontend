@@ -11,9 +11,19 @@ import OraiIcon from "src/icons/OraiIcon";
 import styles from "./PriceDisplay.module.scss";
 
 const cx = cn.bind(styles);
+const STALE_CACHE_MS = 10 * 60 * 1000;
 
 export default function() {
 	const status = useSelector(state => state.blockchain.status);
+	const [now, setNow] = React.useState(Date.now());
+	const cachedAt = Number(status?.cachedAt);
+	const hasCachedAt = Number.isFinite(cachedAt) && cachedAt > 0;
+	const isStaleCache = hasCachedAt && now - cachedAt > STALE_CACHE_MS;
+
+	React.useEffect(() => {
+		const interval = setInterval(() => setNow(Date.now()), 60 * 1000);
+		return () => clearInterval(interval);
+	}, []);
 
 	return React.useMemo(
 		() => (
@@ -54,8 +64,10 @@ export default function() {
 						<li>{status.vol_24h ? `$${formatNumber(status.vol_24h)}` : <Skeleton width={"134px"} />}</li>
 					</ul>
 				</div>
+				{/* {hasCachedAt && <div className={cx("last-updated")}>Latest update: {new Date(cachedAt).toLocaleString("vi-VN")}</div>} */}
+				{isStaleCache && <div className={cx("stale-cache")}>Cached data is over 10 minutes old. Fresh data is being updated.</div>}
 			</div>
 		),
-		[status]
+		[status, cachedAt, hasCachedAt, isStaleCache]
 	);
 }
