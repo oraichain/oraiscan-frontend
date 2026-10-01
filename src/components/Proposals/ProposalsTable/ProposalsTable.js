@@ -151,13 +151,13 @@ const ProposalsTable = memo(({ data = [], type = null }) => {
 				</div>
 			);
 
-			const voteDataCell = _.isNil(item.yes_percentage) ? (
+			const voteDataCell = _.isNil(item.vote_percentage) ? (
 				<div className={cx("align-right")}>-</div>
 			) : (
 				<div className={cx("total-deposit-data-cell", "align-right")}>
 					<div className={cx("amount")}>
 						<span className={cx("amount-value")}>YES</span>
-						<span className={cx("amount-denom")}>{item.yes_percentage}%</span>
+						<span className={cx("amount-denom")}>{item.vote_percentage}%</span>
 					</div>
 				</div>
 			);

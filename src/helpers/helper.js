@@ -353,7 +353,21 @@ export const isJsonString = str => {
 };
 
 export const calculateTallyProposal = ({ totalVote, bonded, tally }) => {
-	if (!totalVote) {
+	const toFiniteNumber = value => {
+		const number = Number(value);
+		return Number.isFinite(number) ? number : 0;
+	};
+	const yes = toFiniteNumber(tally?.yes ?? tally?.yesCount);
+	const abstain = toFiniteNumber(tally?.abstain ?? tally?.abstainCount);
+	const no = toFiniteNumber(tally?.no ?? tally?.noCount);
+	const noWithVeto = toFiniteNumber(tally?.noWithVeto ?? tally?.noWithVetoCount);
+	const tallyTotal = yes + abstain + no + noWithVeto;
+	console.log({tally, yes , abstain , no ,noWithVeto});
+
+	const votes = tallyTotal || toFiniteNumber(totalVote);
+	const bondedTokens = toFiniteNumber(bonded);
+
+	if (!votes) {
 		return {
 			yes_percentage: 0,
 			abstain_percentage: 0,
@@ -362,11 +376,11 @@ export const calculateTallyProposal = ({ totalVote, bonded, tally }) => {
 			vote_percentage: 0,
 		};
 	}
-	const yes_percentage = Math.round((parseInt(tally?.yes) / totalVote) * 10000) / 100;
-	const abstain_percentage = Math.round((parseInt(tally?.abstain) / totalVote) * 10000) / 100;
-	const noPercentage = Math.round((parseInt(tally?.no) / totalVote) * 10000) / 100;
-	const noWithVetoPercentage = Math.round((parseInt(tally?.noWithVeto) / totalVote) * 10000) / 100;
-	const votePercentage = Math.round((totalVote / parseInt(bonded || 0)) * 10000) / 100;
+	const yes_percentage = Math.round((yes / votes) * 10000) / 100;
+	const abstain_percentage = Math.round((abstain / votes) * 10000) / 100;
+	const noPercentage = Math.round((no / votes) * 10000) / 100;
+	const noWithVetoPercentage = Math.round((noWithVeto / votes) * 10000) / 100;
+	const votePercentage = bondedTokens ? Math.round((votes / bondedTokens) * 10000) / 100 : 0;
 	return {
 		yes_percentage,
 		abstain_percentage,

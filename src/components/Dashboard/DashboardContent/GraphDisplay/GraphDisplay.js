@@ -1,10 +1,12 @@
 import axios from "axios";
 import cn from "classnames/bind";
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import consts from "src/constants/consts";
 import { getMarketChartRange } from "src/lib/api";
 import { empty, getUnixTimes, _ } from "src/lib/scripts";
+import { setMarketChart } from "src/store/modules/blockchain";
 
 import Chart from "src/components/common/Chart";
 import ErrorPage from "src/components/common/ErrorPage";
@@ -14,12 +16,19 @@ const cx = cn.bind(styles);
 
 const TWO_HOURS_IN_MINUTES = 24 * 60;
 const DATA_COUNT_DENOM = 4;
+const STALE_CACHE_MS = 10 * 60 * 1000;
 
 export default function() {
-	const [data, setData] = React.useState(null);
+	const dispatch = useDispatch();
+	const marketChart = useSelector(state => state.blockchain.marketChart);
+	const data = marketChart?.data;
 	const [showPrice, setShowPrice] = React.useState(true);
+	const [now, setNow] = React.useState(Date.now());
 	const [graphWrapperWidth, setGraphWrapperWidth] = React.useState(100);
 	const graphWrapperRef = React.useRef();
+	const cachedAt = Number(marketChart?.cachedAt);
+	const hasCachedAt = Number.isFinite(cachedAt) && cachedAt > 0;
+	const isStaleCache = hasCachedAt && now - cachedAt > STALE_CACHE_MS;
 
 	const transformData = data => {
 		if (Array.isArray(data)) {
@@ -38,7 +47,12 @@ export default function() {
 		getMarketChartRange(consts.COIN_ID, "usd", times[0], times[1], source.token)
 			.then(res => {
 				if (_.isObject(res.data)) {
-					setData([transformData(res?.data?.prices), transformData(res?.data?.total_volumes)]);
+					dispatch(
+						setMarketChart({
+							data: [transformData(res?.data?.prices), transformData(res?.data?.total_volumes)],
+							cachedAt: Date.now(),
+						})
+					);
 				}
 			})
 			.catch(ex => {
@@ -48,6 +62,11 @@ export default function() {
 		return () => {
 			source.cancel("cleanup cancel");
 		};
+	}, [dispatch]);
+
+	React.useEffect(() => {
+		const interval = setInterval(() => setNow(Date.now()), 60 * 1000);
+		return () => clearInterval(interval);
 	}, []);
 
 	const clickTab = () => setShowPrice(v => !v);
@@ -73,6 +92,7 @@ export default function() {
 					<Chart key={showPrice} options={options} data={data?.[showPrice ? 0 : 1]} wrapperWidth={graphWrapperWidth} />
 				)}
 			</div>
+			{isStaleCache && <div className={cx("stale-cache")}>Cached chart data is over 10 minutes old. Fresh data is being updated.</div>}
 		</div>
 	);
 }

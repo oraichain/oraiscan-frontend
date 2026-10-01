@@ -23,7 +23,7 @@ import TopProposalCardListSkeleton from "src/components/Proposals/TopProposalCar
 import styles from "./Proposals.module.scss";
 import { LIMIT, arrFilterType, PROPOSAL_STATUS } from "./constant";
 import { handleListProposal, getDataProposal } from "./helper";
-import { changeProposal, updateProposal } from "../../store/modules/proposal";
+import { changeProposal } from "../../store/modules/proposal";
 
 const CreateProposal = lazy(() => import(`./CreateProposal`));
 const cx = cn.bind(styles);
@@ -60,12 +60,16 @@ export default function() {
 	const getListProposal = async () => {
 		try {
 			if (!proposals.length) setLoading(true);
-			const { pagination } = await getDataProposal({ offset: 0, limit: undefined, isFlag: false, bondTotal });
-			const total = pagination.total.toNumber();
-			const checkCacheDuplicate = total < proposals.length;
-			const { list, type } = await handleListProposal({ total, proposals, bondTotal, isNullProposal: checkCacheDuplicate });
-			if (type === "changeProposal") dispatch(changeProposal(list));
-			if (type === "updateProposal") dispatch(updateProposal(list));
+			const { pagination } = await getDataProposal({ isFlag: false, bondTotal });
+			const total = Number(pagination.total);
+			const { list, type } = await handleListProposal({ total, bondTotal });
+			const sortedList = [...list].sort((a, b) => {
+				const proposalIdA = BigInt(a.proposal_id);
+				const proposalIdB = BigInt(b.proposal_id);
+				return proposalIdA === proposalIdB ? 0 : proposalIdA > proposalIdB ? -1 : 1;
+			});
+
+			if (type === "changeProposal") dispatch(changeProposal(sortedList));
 		} catch (error) {
 			console.log({ error });
 		} finally {

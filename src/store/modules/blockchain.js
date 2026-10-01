@@ -1,6 +1,8 @@
 import consts from "src/constants/consts";
 import { createAction, handleActions } from "redux-actions";
 import { pender } from "redux-pender";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import * as api from "src/lib/api";
 import { _, compareProperty } from "src/lib/scripts";
 import { multiply } from "src/lib/Big";
@@ -18,6 +20,7 @@ const [
 	GET_FASTEST_NODE,
 	GET_MIN_FEE,
 	SET_STATUS_BOX,
+	SET_MARKET_CHART,
 ] = [
 	"GET_PRICE_TOKEN",
 	"GET_BASIC_DATA",
@@ -29,6 +32,7 @@ const [
 	"GET_FASTEST_NODE",
 	"GET_MIN_FEE",
 	"SET_STATUS_BOX",
+	"SET_MARKET_CHART",
 ];
 
 export const getCyptoAcceleratedNode = createAction(GET_FASTEST_NODE, () => api.getFastestNode(consts.API_BINANCE_ACCELERATED));
@@ -38,6 +42,7 @@ export const getCryptoStatus = createAction(GET_STATUS, cancelToken => api.getSt
 export const getCryptoFees = createAction(GET_FEES, cancelToken => api.getFees(cancelToken));
 export const getCryptoValidators = createAction(GET_VALIDATORS, cancelToken => api.getValidators(cancelToken));
 export const setStatusBox = createAction(SET_STATUS_BOX);
+export const setMarketChart = createAction(SET_MARKET_CHART);
 export const getMinFee = createAction(GET_MIN_FEE, cancelToken => api.getMinFee(cancelToken));
 export const getPriceTokens = createAction(GET_PRICE_TOKEN, cancelToken =>
 	api.getCoingeckoPrices(
@@ -56,6 +61,7 @@ const initState = {
 		change_24h: null,
 		last_updated_at: null,
 		blockTime: null,
+		cachedAt: null,
 	},
 	statusAiri: {
 		id: consts.AIRI_ID,
@@ -68,10 +74,20 @@ const initState = {
 		blockTime: null,
 	},
 	priceTokens: {},
+	marketChart: {
+		data: null,
+		cachedAt: null,
+	},
 	acceleratedNode: consts.API_BINANCE_ACCELERATED[0],
 	validators: [],
 	fees: [],
 	txFees: [],
+};
+
+const persistConfig = {
+	key: "blockchain-status",
+	storage,
+	whitelist: ["status", "marketChart"],
 };
 const round = v => Math.round(100 * v) / 100;
 
@@ -156,6 +172,7 @@ const handlers = {
 					vol_24h: round(data.total_volume),
 					change_24h: round(data.percent_change_24h),
 					last_updated_at: data.last_updated_at,
+					cachedAt: Date.now(),
 				},
 			};
 		},
@@ -173,6 +190,7 @@ const handlers = {
 				status: {
 					...state.status,
 					...data,
+					cachedAt: Date.now(),
 				},
 			};
 		},
@@ -199,6 +217,10 @@ const handlers = {
 		state.statusBox = action.payload;
 		return { ...state };
 	},
+	SET_MARKET_CHART: (state, action) => ({
+		...state,
+		marketChart: action.payload,
+	}),
 	...pender({
 		type: GET_MIN_FEE,
 		onSuccess: (state, action) => {
@@ -245,4 +267,4 @@ const assignFee = (obj, fee) => {
 
 const compareAsset = (a, b) => compareProperty(a, b, "marketCap");
 
-export default handleActions(handlers, initState);
+export default persistReducer(persistConfig, handleActions(handlers, initState));

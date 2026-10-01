@@ -24,6 +24,8 @@
 		"ctc": "all-contributors check"
 	},
 	"dependencies": {
+		"@cosmjs/encoding": "0.32.4",
+		"@cosmjs/proto-signing": "0.32.4",
 		"@hookform/error-message": "0.0.5",
 		"@hookform/resolvers": "^1.2.0",
 		"@keplr-wallet/cosmos": "^0.9.12",
@@ -116,12 +118,12 @@
 		"jest": "24.9.0",
 		"jest-environment-jsdom-fourteen": "0.1.0",
 		"lint-staged": "^10.5.2",
-		"node-sass": "^7.0.1",
 		"patch-package": "^7.0.0",
 		"prettier": "^1.19.1",
 		"react-app-rewired": "^2.2.1",
 		"react-dev-utils": "12.0.1",
 		"react-scripts": "^5.0.1",
+		"sass": "^1.104.0",
 		"source-map-explorer": "^2.2.2",
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
